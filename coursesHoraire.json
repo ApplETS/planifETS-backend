@@ -1,0 +1,3388 @@
+[
+  {
+    "code": "ATE075",
+    "title": "NEUROFOCUS : STRATÉGIES D'ÉTUDES OPTIMALES",
+    "description": " ",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "09:00 - 12:30",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "E-4026"
+        }
+      ]
+    }
+  },
+  {
+    "code": "ATE085",
+    "title": "NEUROFOCUS : ÉQUILIBRE DE VIE AUX ÉTUDES",
+    "description": " ",
+    "prerequisites": "",
+    "groups": {
+      "02": [
+        {
+          "day": "Mer",
+          "time": "13:30 - 17:00",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "D-4010"
+        }
+      ]
+    }
+  },
+  {
+    "code": "ATE100",
+    "title": "INTÉGRITÉ INTELLECTUELLE",
+    "description": " La formation ATE100 est offerte sur la plateforme de cours en ligne Moodle. La durée de la formation est estimée à environ 4 heures. Afin de respecter les différents rythmes d'apprentissage et les diverses plages horaires où les étudiant (es) sont disponibles, une période de 5 semaines sera accordée pour compléter la formation.",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "M.K. Daoust",
+          "dateRange": "15 janvier au 19 février 2024"
+        }
+      ],
+      "02": [
+        {
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "M.K. Daoust",
+          "dateRange": "15 janvier au 19 février 2024"
+        }
+      ],
+      "03": [
+        {
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "M.K. Daoust",
+          "dateRange": "26 février au 1er avril 2024"
+        }
+      ]
+    }
+  },
+  {
+    "code": "ATE800",
+    "title": "INTÉGRITÉ INTELLECTUELLE : UN SAVOIR-ÊTRE ET UN",
+    "description": " SAVOIR-FAIRE La formation ATE800 est offerte sur la plateforme de cours en ligne Moodle. La durée de la formation est estimée à environ 4 heures. Afin de respecter les différents rythmes d'apprentissage et les diverses plages horaires où les étudiant(e)s sont disponibles, une période de 5 semaines est accordée pour compléter la formation.",
+    "prerequisites": "",
+    "groups": {
+      "55": [
+        {
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "M.K. Daoust",
+          "dateRange": "26 février au 1er avril 2024"
+        }
+      ],
+      "01": [
+        {
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "M.K. Daoust",
+          "dateRange": "15 janvier au 19 février 2024"
+        }
+      ],
+      "02": [
+        {
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "M.K. Daoust",
+          "dateRange": "26 février au 1er avril 2024"
+        }
+      ]
+    }
+  },
+  {
+    "code": "CHM131",
+    "title": "CHIMIE ET MATÉRIAUX",
+    "description": "",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1720",
+          "teacher": "M. Fraser"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1720",
+          "teacher": "M. Fraser"
+        }
+      ],
+      "03": [
+        {
+          "day": "Mer",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1720",
+          "teacher": "J. Bissou Billong"
+        }
+      ],
+      "04": [
+        {
+          "day": "Lun",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1720",
+          "teacher": "J. Bissou Billong"
+        }
+      ],
+      "05": [
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1404",
+          "teacher": "Z. Hamoudi"
+        }
+      ],
+      "06": [
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1720",
+          "teacher": "J. Bissou Billong"
+        }
+      ],
+      "07": [
+        {
+          "day": "Jeu",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1720",
+          "teacher": "Z. Hamoudi"
+        }
+      ],
+      "08": [
+        {
+          "day": "Jeu",
+          "time": "13:30 - 17:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1404",
+          "teacher": "Z. Hamoudi"
+        }
+      ],
+      "09": [
+        {
+          "day": "Ven",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1720",
+          "teacher": "X. Lavocat-Dubuis"
+        }
+      ]
+    }
+  },
+  {
+    "code": "COM120",
+    "title": "MÉTHODES DE COMMUNICATION",
+    "description": " L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Jeu",
+          "time": "08:30 - 12:30",
+          "activity": "TP A+B",
+          "teachingMethod": "P",
+          "local": "B-3404",
+          "teacher": "M. Claveau"
+        },
+        {
+          "day": "Jeu",
+          "time": "08:30 - 12:30",
+          "activity": "TP A+B",
+          "teachingMethod": "P",
+          "local": "B-3404",
+          "teacher": "M. Claveau"
+        }
+      ],
+      "02": [
+        {
+          "day": "Lun",
+          "time": "08:30 - 12:30",
+          "activity": "TP A+B",
+          "teachingMethod": "P",
+          "local": "B-3404",
+          "teacher": "K. Dufault"
+        },
+        {
+          "day": "Lun",
+          "time": "08:30 - 12:30",
+          "activity": "TP A+B",
+          "teachingMethod": "P",
+          "local": "B-3404",
+          "teacher": "K. Dufault"
+        }
+      ],
+      "03": [
+        {
+          "day": "Ven",
+          "time": "18:00 - 22:00",
+          "activity": "TP A+B",
+          "teachingMethod": "P",
+          "local": "B-3404",
+          "teacher": "J. Vianou",
+          "other": "Date : 2024-02-15 12:31:27"
+        },
+        {
+          "day": "Ven",
+          "time": "18:00 - 22:00",
+          "activity": "TP A+B",
+          "teachingMethod": "P",
+          "local": "B-3404",
+          "teacher": "J. Vianou",
+          "other": "En savoir plus sur les modes d'enseignement"
+        },
+        {
+          "day": "Ven",
+          "time": "18:00 - 22:00",
+          "activity": "TP A+B",
+          "teachingMethod": "P",
+          "local": "B-3404",
+          "teacher": "J. Vianou",
+          "other": "Date : 2024-02-15 12:31:27"
+        },
+        {
+          "day": "Ven",
+          "time": "18:00 - 22:00",
+          "activity": "TP A+B",
+          "teachingMethod": "P",
+          "local": "B-3404",
+          "teacher": "J. Vianou",
+          "other": "En savoir plus sur les modes d'enseignement"
+        }
+      ]
+    }
+  },
+  {
+    "code": "ELE747",
+    "title": "ANALYSE ET TRAITEMENT D'IMAGES",
+    "description": " ",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Mar",
+          "time": "18:00 - 22:00",
+          "activity": "Labo/2",
+          "teachingMethod": "P",
+          "local": "A-2500",
+          "teacher": "F. Cardinal"
+        }
+      ]
+    }
+  },
+  {
+    "code": "ENT201",
+    "title": "GESTION FINANCIÈRE D'ENTREPRISE",
+    "description": " ",
+    "prerequisites": "GIA400 ou GIA410",
+    "groups": {
+      "01": [
+        {
+          "day": "Jeu",
+          "time": "10:30 - 12:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-5009",
+          "teacher": "H. Smidi"
+        }
+      ]
+    }
+  },
+  {
+    "code": "ENT202",
+    "title": "INTRODUCTION À L'ENTREPRENEURSHIP",
+    "description": " ",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "18:00 - 20:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-5025",
+          "teacher": "P. d'Astous"
+        }
+      ]
+    }
+  },
+  {
+    "code": "ENT301",
+    "title": "PROJETS SPÉCIAUX EN ENTREPRENEURIAT I",
+    "description": " ",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "activity": "Projets",
+          "teachingMethod": "P"
+        }
+      ]
+    }
+  },
+  {
+    "code": "ENT302",
+    "title": "PROJETS SPÉCIAUX EN ENTREPRENEURIAT II",
+    "description": " ",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "activity": "Projets",
+          "teachingMethod": "P"
+        }
+      ]
+    }
+  },
+  {
+    "code": "ENT303",
+    "title": "PROJETS SPÉCIAUX EN ENTREPRENEURIAT III",
+    "description": " ",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "activity": "Projets",
+          "teachingMethod": "P"
+        }
+      ]
+    }
+  },
+  {
+    "code": "ENT304",
+    "title": "PROJETS SPÉCIAUX EN ENTREPRENEURIAT IV",
+    "description": " ",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "activity": "Projets",
+          "teachingMethod": "P"
+        }
+      ]
+    }
+  },
+  {
+    "code": "ENT601",
+    "title": "MARKETING ET VENTES",
+    "description": "",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Ven",
+          "time": "13:30 - 15:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-3416",
+          "teacher": "F.G. Duprat"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GIA400",
+    "title": "ANALYSE DE RENTABILITÉ DE PROJETS",
+    "description": "  L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Mar",
+          "time": "13:30 - 15:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3018",
+          "teacher": "K. Lagacé"
+        },
+        {
+          "day": "Mar",
+          "time": "13:30 - 15:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3018",
+          "teacher": "K. Lagacé"
+        }
+      ],
+      "02": [
+        {
+          "day": "Ven",
+          "time": "15:30 - 17:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "A. Beaudoin"
+        },
+        {
+          "day": "Ven",
+          "time": "15:30 - 17:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "A. Beaudoin"
+        }
+      ],
+      "03": [
+        {
+          "day": "Ven",
+          "time": "08:30 - 10:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "E-4026",
+          "teacher": "A. Beaudoin"
+        },
+        {
+          "day": "Ven",
+          "time": "08:30 - 10:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "E-4026",
+          "teacher": "A. Beaudoin"
+        }
+      ],
+      "04": [
+        {
+          "day": "Lun",
+          "time": "15:30 - 17:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1514",
+          "teacher": "F. Gravel"
+        },
+        {
+          "day": "Lun",
+          "time": "15:30 - 17:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1514",
+          "teacher": "F. Gravel"
+        }
+      ],
+      "05": [
+        {
+          "day": "Ven",
+          "time": "13:30 - 15:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-5019",
+          "teacher": "F. Gagnon"
+        },
+        {
+          "day": "Ven",
+          "time": "13:30 - 15:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-5019",
+          "teacher": "F. Gagnon"
+        }
+      ],
+      "06": [
+        {
+          "day": "Mar",
+          "time": "18:00 - 20:00",
+          "activity": "TP",
+          "teachingMethod": "H",
+          "teacher": "B.L. Agba"
+        },
+        {
+          "day": "Mar",
+          "time": "18:00 - 20:00",
+          "activity": "TP",
+          "teachingMethod": "H",
+          "teacher": "B.L. Agba"
+        }
+      ],
+      "08": [
+        {
+          "day": "Ven",
+          "time": "18:00 - 20:00",
+          "activity": "TP",
+          "teachingMethod": "H",
+          "teacher": "K. Lagacé",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Ven",
+          "time": "18:00 - 20:00",
+          "activity": "TP",
+          "teachingMethod": "H",
+          "teacher": "K. Lagacé",
+          "other": "En savoir plus sur les modes d'enseignement"
+        },
+        {
+          "day": "Ven",
+          "time": "18:00 - 20:00",
+          "activity": "TP",
+          "teachingMethod": "H",
+          "teacher": "K. Lagacé",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Ven",
+          "time": "18:00 - 20:00",
+          "activity": "TP",
+          "teachingMethod": "H",
+          "teacher": "K. Lagacé",
+          "other": "En savoir plus sur les modes d'enseignement"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GIA602",
+    "title": "ERGONOMIE ET SÉCURITÉ EN MILIEU INDUSTRIEL",
+    "description": " ",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Ven",
+          "time": "08:30 - 12:30",
+          "activity": "Labo A+B",
+          "teachingMethod": "P",
+          "local": "A-2230",
+          "teacher": "V. Ngô"
+        }
+      ],
+      "02": [
+        {
+          "day": "Ven",
+          "time": "18:00 - 22:00",
+          "activity": "Labo A+B",
+          "teachingMethod": "P",
+          "local": "A-2230",
+          "teacher": "C. Tiaya Tedonchio"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GPA659",
+    "title": "VISION ARTIFICIELLE",
+    "description": "",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Lun",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3728",
+          "teacher": "G. Baklouti"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GPE450",
+    "title": "GESTION DU PERSONNEL ET RELATIONS",
+    "description": " INDUSTRIELLES",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Ven",
+          "time": "10:30 - 12:30",
+          "activity": "C",
+          "local": "D-4018",
+          "teacher": "S. Tétreault"
+        }
+      ],
+      "02": [
+        {
+          "day": "Jeu",
+          "time": "18:00 - 20:00",
+          "activity": "C",
+          "local": "D-5008",
+          "teacher": "S. Tétreault"
+        }
+      ],
+      "03": [
+        {
+          "day": "Ven",
+          "time": "13:30 - 15:30",
+          "activity": "C",
+          "local": "D-4018",
+          "teacher": "S. Tétreault"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GTI320",
+    "title": "PROGRAMMATION MATHÉMATIQUE : PATRONS ET",
+    "description": " ALGORITHMES EFFICACES",
+    "prerequisites": "MAT472, LOG121",
+    "groups": {
+      "01": [
+        {
+          "day": "Jeu",
+          "time": "10:30 - 12:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3446",
+          "teacher": "K.W. Agbeto"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GTI350",
+    "title": "CONCEPTION ET ÉVALUATION DES INTERFACES",
+    "description": " UTILISATEURS",
+    "prerequisites": "LOG210",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3412, A-3450",
+          "teacher": "B. Alchalabi / F. Cardinal"
+        }
+      ],
+      "02": [
+        {
+          "day": "Lun",
+          "time": "18:00 - 21:00",
+          "activity": "Labo",
+          "teachingMethod": "D",
+          "teacher": "E. Soucy / F. Cardinal",
+          "local": "A-3412"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GTI510",
+    "title": "GESTION DE PROJETS ET ASSURANCE DE LA QUALITÉ",
+    "description": " ",
+    "prerequisites": "LOG: STA204 ou STA206",
+    "groups": {
+      "01": [
+        {
+          "day": "Lun",
+          "time": "10:30 - 12:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3220",
+          "teacher": "N. Hammami"
+        }
+      ],
+      "02": [
+        {
+          "day": "Ven",
+          "time": "18:00 - 20:00",
+          "activity": "Labo",
+          "teachingMethod": "D",
+          "teacher": "A. Ait-Ouarab"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GTI525",
+    "title": "TECHNOLOGIES DE DÉVELOPPEMENT INTERNET",
+    "description": " ",
+    "prerequisites": "LOG210 / Minimum 47 Cr",
+    "groups": {
+      "01": [
+        {
+          "day": "Mar",
+          "time": "18:00 - 20:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3220, A-3230",
+          "teacher": "T. Fokou Toukam"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GTI611",
+    "title": "RÉSEAUX DE COMMUNICATION IP",
+    "description": " L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "prerequisites": "LOG121",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "18:00 - 21:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3346",
+          "teacher": "I. Mzougui"
+        },
+        {
+          "day": "Mer",
+          "time": "18:00 - 21:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3346",
+          "teacher": "I. Mzougui"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mar",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3346",
+          "teacher": "I. Mzougui",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Mar",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3346",
+          "teacher": "I. Mzougui",
+          "other": "En savoir plus sur les modes d'enseignement"
+        },
+        {
+          "day": "Mar",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3346",
+          "teacher": "I. Mzougui",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Mar",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3346",
+          "teacher": "I. Mzougui",
+          "other": "En savoir plus sur les modes d'enseignement"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GTI619",
+    "title": "SÉCURITÉ DES SYSTÈMES",
+    "description": "",
+    "prerequisites": "GTI611 / LOG121",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "10:30 - 12:30",
+          "activity": "TP-Labo B",
+          "teachingMethod": "P",
+          "local": "A-3446",
+          "teacher": "L.A. Caron"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mar",
+          "time": "18:00 - 20:00",
+          "activity": "TP/Labo",
+          "teachingMethod": "D",
+          "teacher": "M. St-Jean / P. Siffre",
+          "local": "A-3340"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GTI650",
+    "title": "INTRODUCTION À L",
+    "description": " ’ INFORMATION QUANTIQUE ",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Lun",
+          "time": "10:30 - 12:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-3428",
+          "teacher": "O. Landon-Cardinal"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GTI700",
+    "title": "PRINCIPES ET FONDEMENTS DE L",
+    "description": " ’ INTERNET DES OBJETS (IDO)",
+    "prerequisites": "Min. 60 crédits",
+    "groups": {
+      "01": [
+        {
+          "day": "Lun",
+          "time": "18:00 - 20:00",
+          "activity": "Labo",
+          "teachingMethod": "H",
+          "teacher": "S. Bouhoula",
+          "local": "A-3446"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GTI723",
+    "title": "TEST D",
+    "description": " ’ INTRUSION",
+    "prerequisites": "GTI619",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "18:00 - 20:00",
+          "activity": "Labo",
+          "teachingMethod": "D",
+          "teacher": "H. Zouahi"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GTI745",
+    "title": "INTERFACES UTILISATEURS AVANCÉES",
+    "description": " ",
+    "prerequisites": "GTI350; MAT472",
+    "groups": {
+      "01": [
+        {
+          "day": "Mar",
+          "time": "10:30 - 12:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3230",
+          "teacher": "F. Cardinal"
+        }
+      ],
+      "02": [
+        {
+          "day": "Jeu",
+          "time": "10:30 - 12:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3230",
+          "teacher": "B. Alchalabi"
+        }
+      ]
+    }
+  },
+  {
+    "code": "GTI755",
+    "title": "APPRENTISSAGE MACHINE QUANTIQUE",
+    "description": " ",
+    "prerequisites": "GTI650",
+    "groups": {
+      "01": [
+        {
+          "day": "Mar",
+          "time": "15:30 - 17:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3220",
+          "teacher": "C. Pere"
+        }
+      ]
+    }
+  },
+  {
+    "code": "INF111",
+    "title": "PROGRAMMATION ORIENTÉE-OBJET (HORS",
+    "description": " PROGRAMME) INFTEST ACCUEIL EN INFORMATIQUE L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-3008",
+          "teacher": "E.H. Alikacem / Y. El Fellah"
+        },
+        {
+          "day": "Mer",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-3008",
+          "teacher": "E.H. Alikacem / Y. El Fellah"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-5025",
+          "teacher": "S. Duval"
+        },
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "other": "En savoir plus sur les modes d'enseignement"
+        },
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-5025",
+          "teacher": "S. Duval"
+        },
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "other": "En savoir plus sur les modes d'enseignement"
+        }
+      ],
+      "03": [
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "E-4026",
+          "teacher": "I. Legrene"
+        },
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "E-4026",
+          "teacher": "I. Legrene"
+        }
+      ],
+      "04": [
+        {
+          "day": "Jeu",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-3025",
+          "teacher": "S. Duval"
+        },
+        {
+          "day": "Jeu",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-3025",
+          "teacher": "S. Duval"
+        }
+      ],
+      "05": [
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-4025",
+          "teacher": "S. Velasco"
+        },
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-4025",
+          "teacher": "S. Velasco"
+        }
+      ],
+      "06": [
+        {
+          "day": "Mer",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-4009",
+          "teacher": "F. Simard / C. Larose"
+        },
+        {
+          "day": "Mer",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-4009",
+          "teacher": "F. Simard / C. Larose"
+        }
+      ]
+    }
+  },
+  {
+    "code": "ING150",
+    "title": "STATIQUE ET DYNAMIQUE",
+    "description": "",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1516",
+          "teacher": "D. Benhachmi"
+        }
+      ],
+      "02": [
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1514",
+          "teacher": "C. Alinot"
+        }
+      ],
+      "03": [
+        {
+          "day": "Mer",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1516",
+          "teacher": "A. Hénault"
+        }
+      ],
+      "04": [
+        {
+          "day": "Lun",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1514",
+          "teacher": "G. Paquin"
+        }
+      ],
+      "05": [
+        {
+          "day": "Lun",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1516",
+          "teacher": "A. Benmassaoud"
+        }
+      ],
+      "06": [
+        {
+          "day": "Jeu",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1514",
+          "teacher": "J. Kouam"
+        }
+      ]
+    }
+  },
+  {
+    "code": "ING160",
+    "title": "THERMODYNAMIQUE ET MÉCANIQUE DES FLUIDES",
+    "description": " ",
+    "prerequisites": "ING150",
+    "groups": {
+      "01": [
+        {
+          "day": "Jeu",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "E-4025",
+          "teacher": "A. Bordeleau"
+        }
+      ],
+      "02": [
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1518",
+          "teacher": "A. Bordeleau"
+        }
+      ],
+      "03": [
+        {
+          "day": "Mar",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1720",
+          "teacher": "D. Benhachmi"
+        }
+      ]
+    }
+  },
+  {
+    "code": "ING500",
+    "title": "OUTILS DE DÉVELOPPEMENT DURABLE POUR",
+    "description": " L'INGÉNIEUR",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "08:30 - 12:30",
+          "activity": "TP/Labo",
+          "teachingMethod": "P",
+          "local": "E-4023",
+          "teacher": "P. Terrier"
+        }
+      ],
+      "02": [
+        {
+          "day": "Lun",
+          "time": "18:00 - 22:00",
+          "activity": "TP/Labo",
+          "teachingMethod": "P",
+          "local": "B-2622",
+          "teacher": "A. Cherifi"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG100",
+    "title": "PROGRAMMATION ET RÉSEAUTIQUE EN GÉNIE",
+    "description": " LOGICIEL",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3450",
+          "teacher": "I. Mzougui / N. Hammami"
+        }
+      ],
+      "02": [
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3450",
+          "teacher": "G.O. Djuikom Foka"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG121",
+    "title": "CONCEPTION ORIENTÉE OBJET",
+    "description": " L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "prerequisites": "GTI100 (G.TI) ; LOG100 (G.Log)",
+    "groups": {
+      "01": [
+        {
+          "day": "Mar",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "H",
+          "local": "A-3412",
+          "teacher": "P. Robitaille"
+        },
+        {
+          "day": "Mar",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "H",
+          "local": "A-3412",
+          "teacher": "P. Robitaille"
+        }
+      ],
+      "02": [
+        {
+          "day": "Ven",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3344",
+          "teacher": "B. Alchalabi"
+        },
+        {
+          "day": "Ven",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3344",
+          "teacher": "B. Alchalabi"
+        }
+      ],
+      "03": [
+        {
+          "day": "Jeu",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3450",
+          "teacher": "S. Aissat"
+        },
+        {
+          "day": "Jeu",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3450",
+          "teacher": "S. Aissat"
+        }
+      ],
+      "04": [
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "H",
+          "local": "A-3344",
+          "teacher": "P. Robitaille"
+        },
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "H",
+          "local": "A-3344",
+          "teacher": "P. Robitaille"
+        }
+      ],
+      "05": [
+        {
+          "day": "Mar",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3450",
+          "teacher": "S. Aissat"
+        },
+        {
+          "day": "Mar",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3450",
+          "teacher": "S. Aissat"
+        }
+      ],
+      "06": [
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-3420, A-3346",
+          "teacher": "T. Fokou Toukam",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-3420, A-3346",
+          "teacher": "T. Fokou Toukam",
+          "other": "En savoir plus sur les modes d'enseignement"
+        },
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-3420, A-3346",
+          "teacher": "T. Fokou Toukam",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-3420, A-3346",
+          "teacher": "T. Fokou Toukam",
+          "other": "En savoir plus sur les modes d'enseignement"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG210",
+    "title": "ANALYSE ET CONCEPTION DE LOGICIELS",
+    "description": " ",
+    "prerequisites": "LOG121",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3346",
+          "teacher": "P. Siffre / N. Beaulieu"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mar",
+          "time": "18:00 - 21:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3346",
+          "teacher": "A. Handan / T. Brault Ouellette"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG240",
+    "title": "TESTS ET MAINTENANCE",
+    "description": "",
+    "prerequisites": "LOG100",
+    "groups": {
+      "01": [
+        {
+          "day": "Ven",
+          "time": "15:30 - 17:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3220",
+          "teacher": "B. Alchalabi"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mar",
+          "time": "10:30 - 12:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3446",
+          "teacher": "B. Alchalabi"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG320",
+    "title": "STRUCTURES DE DONNÉES ET ALGORITHMES",
+    "description": " ",
+    "prerequisites": "MAT210, LOG121",
+    "groups": {
+      "01": [
+        {
+          "day": "Jeu",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3220, A-3230",
+          "teacher": "P. Dumouchel"
+        }
+      ],
+      "02": [
+        {
+          "day": "Lun",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3346",
+          "teacher": "S. Hadjres / F. Cardinal"
+        }
+      ],
+      "03": [
+        {
+          "day": "Mar",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3412",
+          "teacher": "A. Fortier",
+          "other": "Groupe destiné uniquement aux étudiants du baccalauréat en IND."
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG410",
+    "title": "ANALYSE DE BESOINS ET SPÉCIFICATIONS",
+    "description": " ",
+    "prerequisites": "LOG240",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "15:30 - 17:30",
+          "activity": "TP-Labo B",
+          "teachingMethod": "H",
+          "local": "A-3230",
+          "teacher": "D. Mercier"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mar",
+          "time": "18:00 - 22:00",
+          "activity": "Labo",
+          "teachingMethod": "H",
+          "local": "A-3412",
+          "teacher": "O. De Guise"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG430",
+    "title": "ARCHITECTURE LOGICIELLE",
+    "description": "",
+    "prerequisites": "LOG210",
+    "groups": {
+      "01": [
+        {
+          "day": "Ven",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3220, A-3230",
+          "teacher": "K. Aubin / P. Siffre"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mar",
+          "time": "08:30 - 11:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "A-3344, A-3450",
+          "teacher": "P. Siffre / D. Vermette-Nadeau"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG450",
+    "title": "CONCEPTION D",
+    "description": " ’ APPLICATIONS MOBILES ",
+    "prerequisites": "GTI350 / GTI350, LOG121",
+    "groups": {
+      "01": [
+        {
+          "day": "Lun",
+          "time": "10:30 - 12:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3344",
+          "teacher": "B. Alchalabi"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG460",
+    "title": "SÉCURITÉ DES LOGICIELS",
+    "description": "",
+    "prerequisites": "LOG121",
+    "groups": {
+      "01": [
+        {
+          "day": "Jeu",
+          "time": "18:00 - 20:00",
+          "activity": "Labo B",
+          "teachingMethod": "D",
+          "teacher": "H. Zouahi"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG530",
+    "title": "RÉINGÉNIERIE DU LOGICIEL",
+    "description": " L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "prerequisites": "LOG210",
+    "groups": {
+      "01": [
+        {
+          "day": "Jeu",
+          "time": "15:30 - 17:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3344",
+          "teacher": "N. Bessghaier",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Jeu",
+          "time": "15:30 - 17:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3344",
+          "teacher": "N. Bessghaier",
+          "other": "En savoir plus sur les modes d'enseignement"
+        },
+        {
+          "day": "Jeu",
+          "time": "15:30 - 17:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3344",
+          "teacher": "N. Bessghaier",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Jeu",
+          "time": "15:30 - 17:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3344",
+          "teacher": "N. Bessghaier",
+          "other": "En savoir plus sur les modes d'enseignement"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG550",
+    "title": "CONCEPTION DE SYSTÈMES INFORMATIQUES EN",
+    "description": " TEMPS RÉEL",
+    "prerequisites": "LOG210",
+    "groups": {
+      "01": [
+        {
+          "day": "Lun",
+          "time": "18:00 - 20:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "teacher": "V.H. Gandji",
+          "local": "A-3344"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG635",
+    "title": "SYSTÈMES INTELLIGENTS ET ALGORITHMES",
+    "description": " ",
+    "prerequisites": "LOG320",
+    "groups": {
+      "01": [
+        {
+          "day": "Jeu",
+          "time": "15:30 - 17:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3446",
+          "teacher": "A. Meftah"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG645",
+    "title": "ARCHITECTURES DE CALCULS PARALLÈLES",
+    "description": " ",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "10:30 - 12:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3230",
+          "teacher": "K.W. Agbeto"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG660",
+    "title": "BASES DE DONNÉES DE HAUTE PERFORMANCE",
+    "description": " ",
+    "prerequisites": "LOG320",
+    "groups": {
+      "01": [
+        {
+          "day": "Lun",
+          "time": "18:00 - 20:00",
+          "activity": "Labo",
+          "teachingMethod": "D",
+          "teacher": "B. Alchalabi"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mar",
+          "time": "18:00 - 20:00",
+          "activity": "Labo",
+          "teachingMethod": "D",
+          "teacher": "B. Alchalabi",
+          "local": "A-3450"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG680",
+    "title": "INTRODUCTION À L'APPROCHE DEVOPS",
+    "description": " ",
+    "prerequisites": "STA204 ou STA206",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "15:30 - 17:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3220",
+          "teacher": "D. Desvent"
+        }
+      ],
+      "02": [
+        {
+          "day": "Lun",
+          "time": "15:30 - 17:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3220",
+          "teacher": "S. Kansab"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG710",
+    "title": "PRINCIPES SYSTÈMES D'EXPL. ET PROGRAMMATION",
+    "description": " SYSTÈME",
+    "prerequisites": "GTI310 (G.TI) ; LOG320 (G.Log)",
+    "groups": {
+      "01": [
+        {
+          "day": "Mar",
+          "time": "18:00 - 20:00",
+          "activity": "Labo B",
+          "teachingMethod": "D",
+          "teacher": "A. Brodeur"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG725",
+    "title": "INGÉNIERIE ET CONCEPTION DE JEUX VIDÉO",
+    "description": " ",
+    "prerequisites": "GTI320",
+    "groups": {
+      "01": [
+        {
+          "day": "Jeu",
+          "time": "15:30 - 17:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3346",
+          "teacher": "G. Cavalheiro Ullmann"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG750",
+    "title": "INFOGRAPHIE",
+    "description": "",
+    "prerequisites": "GTI320 / MAT472",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "15:30 - 17:30",
+          "activity": "Labo B",
+          "teachingMethod": "P",
+          "local": "A-3344",
+          "teacher": "A.F. Gruson"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG791",
+    "title": "PROJETS SPÉCIAUX",
+    "description": "",
+    "prerequisites": "département",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "22:00 - 23:00",
+          "activity": "Projet",
+          "teachingMethod": "P",
+          "local": "B-1402"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LOG795",
+    "title": "PROJET DE FIN D'ÉTUDES EN GÉNIE LOGICIEL",
+    "description": "  L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "prerequisites": "Min. 99 crédits",
+    "groups": {
+      "01": [
+        {
+          "day": "Sam",
+          "time": "09:00 - 12:30",
+          "activity": "C",
+          "teachingMethod": "P",
+          "local": "A-1302",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Sam",
+          "time": "09:00 - 12:30",
+          "activity": "C",
+          "teachingMethod": "P",
+          "local": "A-1302",
+          "other": "En savoir plus sur les modes d'enseignement"
+        },
+        {
+          "day": "Sam",
+          "time": "09:00 - 12:30",
+          "activity": "C",
+          "teachingMethod": "P",
+          "local": "A-1302",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Sam",
+          "time": "09:00 - 12:30",
+          "activity": "C",
+          "teachingMethod": "P",
+          "local": "A-1302",
+          "other": "En savoir plus sur les modes d'enseignement"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LRC105",
+    "title": "HOW TO CHANGE THE WORLD",
+    "description": " « Cours hors-programme offert en anglais et exigeant une approbation de votre candidature par l ’ organisme How to Change the World. Vous devez obligatoirement compléter le formulaire pour déposer votre candidature ici : https://www.programs.htctw.org/course/ets-engineering.",
+    "prerequisites": "Min. 70 crédits",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "18:00 - 19:00",
+          "activity": "TP",
+          "teachingMethod": "D"
+        }
+      ]
+    }
+  },
+  {
+    "code": "LRC110",
+    "title": "LEADERSHIP ET RESPONSABILITÉ COLLECTIVE",
+    "description": "  Hors-programme, sauf pour les programmes 7625 , 7694 , 7084 , 7684 et 7086 Pour plus d ’ informations : https://www.etsmtl.ca/etudes/leadership-et-responsabilite-collective.",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Jeu",
+          "time": "20:00 - 22:00",
+          "activity": "TP B",
+          "teachingMethod": "P",
+          "local": "A-1424",
+          "teacher": "M.K. Daoust"
+        }
+      ]
+    }
+  },
+  {
+    "code": "MAT144",
+    "title": "INTRODUCTION AUX MATHÉMATIQUES DU GÉNIE",
+    "description": " (HORS PROG.)",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-5025",
+          "teacher": "V. Gouaillier"
+        }
+      ],
+      "02": [
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3025",
+          "teacher": "I. Himmich"
+        }
+      ],
+      "03": [
+        {
+          "day": "Mar",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3009",
+          "teacher": "I. Himmich"
+        }
+      ],
+      "05": [
+        {
+          "day": "Jeu",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-4008",
+          "teacher": "A. Prud'Homme",
+          "dateRange": "La première séance de cours se déroulera le mardi 16 janvier 2024."
+        }
+      ]
+    }
+  },
+  {
+    "code": "MAT145",
+    "title": "CALCUL DIFFÉRENTIEL ET INTÉGRAL",
+    "description": " ",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-4010",
+          "teacher": "A. Lacasse"
+        }
+      ],
+      "02": [
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3018",
+          "teacher": "G. Savard / L.C. Navarro Campillo"
+        }
+      ],
+      "03": [
+        {
+          "day": "Mer",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3018",
+          "teacher": "G. Savard"
+        }
+      ],
+      "04": [
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-5025",
+          "teacher": "O. Foutlane"
+        }
+      ],
+      "05": [
+        {
+          "day": "Ven",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3009",
+          "teacher": "A. Lacasse"
+        }
+      ],
+      "06": [
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-5007",
+          "teacher": "G. Savard"
+        }
+      ],
+      "07": [
+        {
+          "day": "Mer",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3009",
+          "teacher": "R. Hassani"
+        }
+      ],
+      "08": [
+        {
+          "day": "Mar",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-4017",
+          "teacher": "P. Mbaraga"
+        }
+      ]
+    }
+  },
+  {
+    "code": "MAT210",
+    "title": "LOGIQUE ET MATHÉMATIQUES DISCRÈTES",
+    "description": "  L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "prerequisites": "MAT145",
+    "groups": {
+      "01": [
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-3017",
+          "teacher": "Z. Coulibaly"
+        },
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-3017",
+          "teacher": "Z. Coulibaly"
+        }
+      ],
+      "02": [
+        {
+          "day": "Lun",
+          "time": "18:00 - 21:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-5017",
+          "teacher": "X. Provençal"
+        },
+        {
+          "day": "Lun",
+          "time": "18:00 - 21:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-5017",
+          "teacher": "X. Provençal"
+        }
+      ],
+      "03": [
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-4008",
+          "teacher": "X. Provençal",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-4008",
+          "teacher": "X. Provençal",
+          "other": "En savoir plus sur les modes d'enseignement"
+        },
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-4008",
+          "teacher": "X. Provençal",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "D-4008",
+          "teacher": "X. Provençal",
+          "other": "En savoir plus sur les modes d'enseignement"
+        }
+      ]
+    }
+  },
+  {
+    "code": "MAT265",
+    "title": "ÉQUATIONS DIFFÉRENTIELLES",
+    "description": "",
+    "prerequisites": "MAT145",
+    "groups": {
+      "01": [
+        {
+          "day": "Mar",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-5017",
+          "teacher": "K. Dhouib"
+        }
+      ],
+      "02": [
+        {
+          "day": "Jeu",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3009",
+          "teacher": "R. Persechino"
+        }
+      ],
+      "03": [
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3017",
+          "teacher": "K. Dhouib"
+        }
+      ],
+      "04": [
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3009",
+          "teacher": "A. Madrane"
+        }
+      ],
+      "05": [
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1506",
+          "teacher": "A. Madrane"
+        }
+      ],
+      "06": [
+        {
+          "day": "Ven",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-5008",
+          "teacher": "G. Picard"
+        }
+      ],
+      "07": [
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-5017",
+          "teacher": "A. Madrane"
+        }
+      ],
+      "08": [
+        {
+          "day": "Lun",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3009",
+          "teacher": "R. Persechino"
+        }
+      ],
+      "09": [
+        {
+          "day": "Mer",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-4017",
+          "teacher": "M. Abdelhamit"
+        }
+      ]
+    }
+  },
+  {
+    "code": "MAT350",
+    "title": "PROBABILITÉS ET STATISTIQUES",
+    "description": "",
+    "prerequisites": "MAT145",
+    "groups": {
+      "01": [
+        {
+          "day": "Mar",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3007",
+          "teacher": "S. Lafrance"
+        }
+      ],
+      "02": [
+        {
+          "day": "Lun",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-5008",
+          "teacher": "O. Foutlane"
+        }
+      ],
+      "03": [
+        {
+          "day": "Mer",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3017",
+          "teacher": "J.P. Labbé"
+        }
+      ],
+      "04": [
+        {
+          "day": "Jeu",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3007",
+          "teacher": "S. Lafrance"
+        }
+      ],
+      "05": [
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-1502",
+          "teacher": "S. Lafrance"
+        }
+      ],
+      "06": [
+        {
+          "day": "Ven",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-5019",
+          "teacher": "S. Gervais"
+        }
+      ],
+      "07": [
+        {
+          "day": "Mer",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3009",
+          "teacher": "J.P. Labbé"
+        }
+      ],
+      "08": [
+        {
+          "day": "Mar",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-0904",
+          "teacher": "R. Hassani"
+        }
+      ],
+      "09": [
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "R. Maalaoui"
+        }
+      ]
+    }
+  },
+  {
+    "code": "MAT472",
+    "title": "ALGÈBRE LINÉAIRE ET GÉOMÉTRIE DE L'ESPACE",
+    "description": "  L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES MATEST ACCUEIL EN MATHÉMATIQUES",
+    "prerequisites": "MAT145",
+    "groups": {
+      "01": [
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-4408",
+          "teacher": "G. Roy-Fortin"
+        },
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P"
+        },
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-4408",
+          "teacher": "G. Roy-Fortin"
+        },
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mar",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-5008",
+          "teacher": "G. Roy-Fortin"
+        },
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P"
+        },
+        {
+          "day": "Mar",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-5008",
+          "teacher": "G. Roy-Fortin"
+        },
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P"
+        }
+      ],
+      "03": [
+        {
+          "day": "Jeu",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-0908",
+          "teacher": "F. Côté"
+        },
+        {
+          "day": "Mar",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P"
+        },
+        {
+          "day": "Jeu",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "B-0908",
+          "teacher": "F. Côté"
+        },
+        {
+          "day": "Mar",
+          "time": "18:00 - 21:00",
+          "activity": "TP",
+          "teachingMethod": "P"
+        }
+      ],
+      "04": [
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "M. Beaudin",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "M. Beaudin",
+          "other": "En savoir plus sur les modes d'enseignement"
+        },
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "M. Beaudin",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "TP",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "M. Beaudin",
+          "other": "En savoir plus sur les modes d'enseignement"
+        }
+      ]
+    }
+  },
+  {
+    "code": "PEP110",
+    "title": "ENCADREMENT DE LA PROFESSION ET ÉTHIQUE",
+    "description": " PROFESSIONNELLE Pour vous inscrire à ce cours en tant qu ’ étudiant libre pour satisfaire aux exigences de l ’ OIQ, suivez les instructions sur cette page : https://www.etsmtl.ca/etudiants/etudiants-libres . L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "prerequisites": "",
+    "groups": {
+      "10": [
+        {
+          "other": "2024"
+        },
+        {
+          "day": "Mer",
+          "time": "18:00 - 21:30",
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "L. Arel"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "day": "Mer",
+          "time": "18:00 - 21:30",
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "L. Arel"
+        }
+      ],
+      "11": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        }
+      ],
+      "12": [
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        },
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        }
+      ],
+      "13": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "/"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "other": "/"
+        }
+      ],
+      "14": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "2024"
+        }
+      ],
+      "16": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "/"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "other": "/"
+        }
+      ],
+      "17": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "/"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "other": "/"
+        }
+      ],
+      "18": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "2024"
+        }
+      ],
+      "19": [
+        {
+          "other": "/"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "other": "/"
+        },
+        {
+          "other": "2024"
+        }
+      ],
+      "20": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "/"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "other": "/"
+        }
+      ],
+      "21": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "2024"
+        }
+      ],
+      "22": [
+        {
+          "other": "/"
+        },
+        {
+          "other": "/"
+        }
+      ],
+      "23": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "/"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "other": "/"
+        }
+      ],
+      "24": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "2024"
+        }
+      ],
+      "25": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "/"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "other": "/"
+        }
+      ],
+      "26": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "2024"
+        }
+      ],
+      "27": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "other": "En savoir plus sur les modes d'enseignement"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "other": "En savoir plus sur les modes d'enseignement"
+        }
+      ],
+      "28": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        }
+      ],
+      "30": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "2024"
+        }
+      ],
+      "31": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        }
+      ],
+      "01": [
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:30",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "T. Mekhaël"
+        },
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        },
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:30",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "T. Mekhaël"
+        },
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        }
+      ],
+      "06": [
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        },
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:30",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "L. Arel"
+        },
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        },
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:30",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "L. Arel"
+        }
+      ],
+      "05": [
+        {
+          "other": "2024"
+        },
+        {
+          "day": "Mer",
+          "time": "18:00 - 21:30",
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "L. Arel"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "day": "Mer",
+          "time": "18:00 - 21:30",
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "L. Arel"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:30",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "L. Arel"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:30",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "L. Arel"
+        },
+        {
+          "other": "2024"
+        }
+      ],
+      "03": [
+        {
+          "day": "Mer",
+          "time": "13:30 - 17:00",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "D-3009",
+          "teacher": "C. Ebnoether"
+        },
+        {
+          "day": "Mer",
+          "time": "13:30 - 17:00",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "D-3009",
+          "teacher": "C. Ebnoether"
+        }
+      ],
+      "07": [
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        },
+        {
+          "other": "2024"
+        },
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        },
+        {
+          "other": "2024"
+        }
+      ],
+      "04": [
+        {
+          "day": "Jeu",
+          "time": "18:00 - 21:30",
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "L. Arel"
+        },
+        {
+          "day": "Jeu",
+          "time": "18:00 - 21:30",
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "L. Arel"
+        }
+      ],
+      "09": [
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        },
+        {
+          "day": "Jeu",
+          "time": "18:00 - 21:30",
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "L. Arel"
+        },
+        {
+          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
+        },
+        {
+          "day": "Jeu",
+          "time": "18:00 - 21:30",
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "L. Arel"
+        }
+      ],
+      "08": [
+        {
+          "other": "2024"
+        },
+        {
+          "other": "2024"
+        }
+      ]
+    }
+  },
+  {
+    "code": "PHY144",
+    "title": "INTRODUCTION À LA PHYSIQUE DU GÉNIE (HORS",
+    "description": " PROGRAMME)",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "TP/Labo",
+          "teachingMethod": "P",
+          "local": "B-1706",
+          "teacher": "A. Benmassaoud"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mer",
+          "time": "13:30 - 16:30",
+          "activity": "TP/Labo",
+          "teachingMethod": "P",
+          "local": "B-3406",
+          "teacher": "C. Alinot"
+        }
+      ],
+      "03": [
+        {
+          "day": "Lun",
+          "time": "18:00 - 21:00",
+          "activity": "TP/Labo",
+          "teachingMethod": "P",
+          "local": "B-3406",
+          "teacher": "Y. Kolomatski"
+        }
+      ],
+      "05": [
+        {
+          "day": "Jeu",
+          "time": "18:00 - 21:00",
+          "activity": "TP/Labo",
+          "teachingMethod": "P",
+          "local": "B-3402",
+          "teacher": "C. Liu"
+        }
+      ]
+    }
+  },
+  {
+    "code": "PHY332",
+    "title": "ÉLECTRICITÉ ET MAGNÉTISME",
+    "description": "",
+    "prerequisites": "CTN248 / ING150",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1708",
+          "teacher": "T. Ait Ahcene"
+        }
+      ],
+      "02": [
+        {
+          "day": "Jeu",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1706",
+          "teacher": "M. Boulé"
+        }
+      ],
+      "03": [
+        {
+          "day": "Mar",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1518",
+          "teacher": "A. Hénault"
+        }
+      ],
+      "04": [
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1516",
+          "teacher": "T. Ait Ahcene"
+        }
+      ],
+      "05": [
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1706",
+          "teacher": "N. Dabin-Voix"
+        }
+      ],
+      "06": [
+        {
+          "day": "Ven",
+          "time": "18:00 - 21:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1514",
+          "teacher": "J. Kouam"
+        }
+      ]
+    }
+  },
+  {
+    "code": "PHY335",
+    "title": "PHYSIQUE DES ONDES",
+    "description": " PHYEST ACCUEIL EN PHYSIQUE L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "prerequisites": "CTN248 / ING150",
+    "groups": {
+      "01": [
+        {
+          "day": "Jeu",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1514",
+          "teacher": "G. Paquin"
+        },
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "TP/Labo",
+          "teachingMethod": "P"
+        },
+        {
+          "day": "Jeu",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1514",
+          "teacher": "G. Paquin"
+        },
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "TP/Labo",
+          "teachingMethod": "P"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mar",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1514",
+          "teacher": "X. Daxhelet"
+        },
+        {
+          "day": "Mer",
+          "time": "13:30 - 16:30",
+          "activity": "TP/Labo",
+          "teachingMethod": "P"
+        },
+        {
+          "day": "Mar",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1514",
+          "teacher": "X. Daxhelet"
+        },
+        {
+          "day": "Mer",
+          "time": "13:30 - 16:30",
+          "activity": "TP/Labo",
+          "teachingMethod": "P"
+        }
+      ],
+      "03": [
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1518",
+          "teacher": "G. Paquin"
+        },
+        {
+          "day": "Lun",
+          "time": "18:00 - 21:00",
+          "activity": "TP/Labo",
+          "teachingMethod": "P",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Lun",
+          "time": "18:00 - 21:00",
+          "activity": "TP/Labo",
+          "teachingMethod": "P",
+          "other": "En savoir plus sur les modes d'enseignement"
+        },
+        {
+          "day": "Jeu",
+          "time": "09:00 - 12:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1518",
+          "teacher": "G. Paquin"
+        },
+        {
+          "day": "Lun",
+          "time": "18:00 - 21:00",
+          "activity": "TP/Labo",
+          "teachingMethod": "P",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Lun",
+          "time": "18:00 - 21:00",
+          "activity": "TP/Labo",
+          "teachingMethod": "P",
+          "other": "En savoir plus sur les modes d'enseignement"
+        }
+      ],
+      "04": [
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1708",
+          "teacher": "X. Daxhelet"
+        },
+        {
+          "day": "Mar",
+          "time": "09:00 - 12:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1708",
+          "teacher": "X. Daxhelet"
+        }
+      ],
+      "05": [
+        {
+          "day": "Mar",
+          "time": "18:00 - 21:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1502",
+          "teacher": "A.S. Bajamgnigni Gbambie"
+        },
+        {
+          "day": "Mar",
+          "time": "18:00 - 21:00",
+          "activity": "Labo",
+          "teachingMethod": "P",
+          "local": "B-1502",
+          "teacher": "A.S. Bajamgnigni Gbambie"
+        }
+      ]
+    }
+  },
+  {
+    "code": "PRE011",
+    "title": "DÉVELOPPEMENT PROFESSIONNEL ET INITIATION À LA",
+    "description": " SANTÉ ET SÉCURITÉ Volet stages - activité à compléter en ligne. Volet intensif santé sécurité 15 h - aux dates spécifiques indiquées pour chaque groupe. • Modalités des ateliers PRE 011 - VOLET INTENSIF SANTÉ-SÉCURITÉ : Obligatoire pour tous les étudiants sauf ceux détenant une carte ASP. Pour les étudiants du programme 7625 en génie de la construction ou tout autre étudiant ayant suivi la formation ASP (vous serez exempté du volet santé-sécurité en suivant les consignes indiquées dans le module 1 du volet STAGES - DÉVELOPPEMENT PROFESSIONNEL). • VOLET STAGES (DÉVELOPPEMENT PROFESSIONNEL): obligatoire pour tous les étudiants, cette activité doit être complétée en ligne, le Service de l'enseignement coopératif vous informera de la procédure à suivre par courriel. Les étudiants du programme 7625 doivent s'inscrire dans le groupe réservé. Le groupe 04 est réservé aux étudiants.es en génie de la construction.",
+    "prerequisites": "",
+    "groups": {
+      "12": [
+        {
+          "other": "2024"
+        }
+      ],
+      "13": [
+        {
+          "other": "2024"
+        }
+      ],
+      "14": [
+        {
+          "other": "2024"
+        }
+      ],
+      "15": [
+        {
+          "other": "2024"
+        }
+      ],
+      "16": [
+        {
+          "other": "2024"
+        }
+      ],
+      "17": [
+        {
+          "other": "2024"
+        }
+      ],
+      "20": [
+        {
+          "other": "2024"
+        }
+      ],
+      "21": [
+        {
+          "other": "2024"
+        }
+      ],
+      "22": [
+        {
+          "other": "2024"
+        }
+      ],
+      "23": [
+        {
+          "other": "2024"
+        }
+      ],
+      "24": [
+        {
+          "other": "2024"
+        }
+      ],
+      "26": [
+        {
+          "other": "2024"
+        }
+      ],
+      "27": [
+        {
+          "other": "2024"
+        }
+      ],
+      "28": [
+        {
+          "other": "2024"
+        }
+      ],
+      "29": [
+        {
+          "other": "2024"
+        }
+      ],
+      "30": [
+        {
+          "other": "2024"
+        }
+      ],
+      "31": [
+        {
+          "other": "2024"
+        }
+      ],
+      "01": [
+        {
+          "day": "Mar",
+          "time": "13:30 - 17:00",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "B-1504",
+          "teacher": "D. Lapointe"
+        }
+      ],
+      "06": [
+        {
+          "other": "2024"
+        }
+      ],
+      "02": [
+        {
+          "day": "Lun",
+          "time": "18:00 - 21:30",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "B-0908",
+          "teacher": "H. Ntoumaleu"
+        }
+      ],
+      "05": [
+        {
+          "other": "2024"
+        },
+        {
+          "day": "Sam",
+          "time": "09:00 - 17:00",
+          "activity": "C",
+          "teachingMethod": "P",
+          "local": "B-1518",
+          "teacher": "S. Demers"
+        }
+      ],
+      "03": [
+        {
+          "day": "Mer",
+          "time": "18:00 - 21:30",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "B-1506",
+          "teacher": "D. Lapointe"
+        },
+        {
+          "other": "2024"
+        }
+      ],
+      "07": [
+        {
+          "other": "2024"
+        }
+      ],
+      "04": [
+        {
+          "day": "Mer",
+          "time": "18:00 - 21:30",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "B-0908",
+          "teacher": "H. Ntoumaleu"
+        }
+      ],
+      "08": [
+        {
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "B-0906"
+        }
+      ]
+    }
+  },
+  {
+    "code": "TIN503",
+    "title": "ENVIRONNEMENT, TECHNOLOGIE ET SOCIÉTÉ",
+    "description": " ",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Mar",
+          "time": "08:30 - 12:30",
+          "activity": "TP A+B",
+          "teachingMethod": "P",
+          "local": "B-1506",
+          "other": "É. Francoeur"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mer",
+          "time": "08:30 - 12:30",
+          "activity": "TP A+B",
+          "teachingMethod": "P",
+          "local": "D-3012",
+          "other": "É. Francoeur"
+        }
+      ],
+      "03": [
+        {
+          "day": "Jeu",
+          "time": "13:30 - 17:30",
+          "activity": "TP A+B",
+          "teachingMethod": "P",
+          "local": "B-1506",
+          "teacher": "M. Monette"
+        }
+      ],
+      "04": [
+        {
+          "day": "Lun",
+          "time": "13:30 - 17:30",
+          "activity": "TP A+B",
+          "teachingMethod": "P",
+          "local": "B-4408",
+          "teacher": "L. Arel"
+        }
+      ],
+      "05": [
+        {
+          "day": "Ven",
+          "time": "13:30 - 17:30",
+          "activity": "TP A+B",
+          "teachingMethod": "P",
+          "local": "D-5012",
+          "teacher": "M. Monette"
+        }
+      ],
+      "07": [
+        {
+          "day": "Jeu",
+          "time": "18:00 - 22:00",
+          "activity": "TP A+B",
+          "teachingMethod": "H",
+          "teacher": "M. Monette"
+        }
+      ],
+      "08": [
+        {
+          "day": "Lun",
+          "time": "18:00 - 22:00",
+          "activity": "TP A+B",
+          "teachingMethod": "H",
+          "teacher": "V. Babin"
+        }
+      ]
+    }
+  },
+  {
+    "code": "TIN504",
+    "title": "SANTÉ, TECHNOLOGIE ET SOCIÉTÉ",
+    "description": " L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Mer",
+          "time": "18:00 - 21:30",
+          "activity": "C",
+          "teachingMethod": "P",
+          "local": "B-1502",
+          "teacher": "M.K. Daoust",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Mer",
+          "time": "18:00 - 21:30",
+          "activity": "C",
+          "teachingMethod": "P",
+          "local": "B-1502",
+          "teacher": "M.K. Daoust",
+          "other": "En savoir plus sur les modes d'enseignement"
+        },
+        {
+          "day": "Mer",
+          "time": "18:00 - 21:30",
+          "activity": "C",
+          "teachingMethod": "P",
+          "local": "B-1502",
+          "teacher": "M.K. Daoust",
+          "other": "Date : 2024-02-15 12:31:28"
+        },
+        {
+          "day": "Mer",
+          "time": "18:00 - 21:30",
+          "activity": "C",
+          "teachingMethod": "P",
+          "local": "B-1502",
+          "teacher": "M.K. Daoust",
+          "other": "En savoir plus sur les modes d'enseignement"
+        },
+        {
+          "day": "Lun",
+          "time": "18:00 - 22:00",
+          "activity": "pratiques (TP).",
+          "teachingMethod": "P",
+          "local": "B-1502",
+          "teacher": "M.K. Daoust",
+          "other": "Date : 2024-02-15 12:31:28"
+        }
+      ]
+    }
+  }
+]
