@@ -8,15 +8,15 @@ import { CourseCodeValidationPipe } from '../pipes/course-code-validation-pipe';
 interface Course {
   code: string;
   title: string;
-  available: any[];
+  available: Availability[];
 }
 
-// type Availability = {
-//   J: boolean;
-//   S: boolean;
-//   I: boolean;
-//   other?: string;
-// };
+type Availability = {
+  J: boolean;
+  S: boolean;
+  I: boolean;
+  other?: string;
+};
 
 class Column {
   id: any;
@@ -25,18 +25,22 @@ class Column {
   endX: any;
   startY: any;
   endY: any;
-  constructor(id, headerName, startX, endX, startY, endY) {
+  constructor(id, headerName, startX, endX) {
     this.id = id;
     this.headerName = headerName;
-    this.startX = startX;
-    this.endX = endX;
-    this.startY = startY;
-    this.endY = endY;
+    this.startX = this.roundToLowerNumber(startX);
+    this.endX = this.roundToLowerNumber(endX);
+  }
+
+  private roundToLowerNumber(num) {
+    return Math.floor(num * 100000) / 100000;
   }
 }
+
 @Injectable()
 export class PlanificationCoursService {
   private readonly COURS_X_AXIS = 1.648;
+  private readonly BORDER_OFFSET = 0.124;
 
   courseCodeValidationPipe = new CourseCodeValidationPipe();
 
@@ -70,6 +74,7 @@ export class PlanificationCoursService {
           await writeDataToFile(courses, 'coursesPlanification.json');
           resolve(courses);
         } catch (error) {
+          console.error('Error parsing pdf data: ' + error.stack);
           reject(error);
         }
       });
@@ -86,7 +91,7 @@ export class PlanificationCoursService {
 
     pdfData.Pages.forEach((page: any) => {
       page.Texts.forEach((textItem: any) => {
-        const { textContent, xPos, yPos } = this.extractTextDetails(textItem);
+        const { textContent, xPos, yPos } = this.extractTextDetails(textItem); //? Check yPos later
 
         // Process course code
         if (
@@ -101,16 +106,24 @@ export class PlanificationCoursService {
           currentCourse.code = textContent;
         } else {
           // Process other columns
-          const currentColumn = this.getColumnDetails(headerCells, xPos, yPos);
+          const currentColumn = this.getColumnDetails(
+            headerCells,
+            xPos,
+            textContent,
+          ); //TEMPO PASSING TEXT
           if (currentColumn) {
             if (currentColumn.id === 1) {
               // Append to temporary title
               tempTitle += textContent + ' ';
             } else if (this.isSession(currentColumn.headerName)) {
               // Check and add availability
-              let availabilityKey = currentColumn.headerName; // Assuming headers like 'E23', 'A23'
+              const availabilityKey = currentColumn.headerName; // Assuming headers like 'E23', 'A23'
+              console.log('availabilityKey ' + availabilityKey);
               currentCourse.available.push({
-                [availabilityKey]: true, // Assuming availability is boolean
+                [availabilityKey]: true,
+                J: false,
+                S: false,
+                I: false,
               });
             }
           }
@@ -153,37 +166,44 @@ export class PlanificationCoursService {
 
     headerFills.forEach(
       (fill: { x: any; w: any; y: any; h: any }, index: any) => {
-        const startX = fill.x;
+        const startX = fill.x - this.BORDER_OFFSET;
         const endX = fill.x + fill.w;
         const startY = fill.y;
         const endY = fill.y + fill.h;
         let headerName = '';
-
+        //todo Fix pour avoir tt les pages
         pdfData.Pages[0].Texts.forEach(
           (text: {
             R: { TS: [number, number, number, number]; T: string }[];
           }) => {
-            // if (this.isTextInCell(text, { startX, endX, startY, endY })) {
-            headerName += text.R.map((r) => decodeURIComponent(r.T)).join(' ');
-            // }
+            if (this.isTextInCell(text, { startX, endX, startY, endY })) {
+              headerName += text.R.map((r) => decodeURIComponent(r.T)).join(
+                ' ',
+              );
+            }
           },
         );
 
         headerName = headerName.trim();
-        columns.push(new Column(index, headerName, startX, endX, startY, endY));
+        columns.push(new Column(index, headerName, startX, endX));
       },
     );
-
+    console.log('columns ' + columns.length);
+    console.log(columns);
     return columns;
   }
 
-  private getColumnDetails(columns: Column[], x: any, y: any) {
+  private getColumnDetails(columns: Column[], x: any, text: any) {
     const column = columns.find(
-      (column) =>
-        x >= column.startX &&
-        x <= column.endX &&
-        y >= column.startY &&
-        y <= column.endY,
+      (column) => x >= column.startX && x <= column.endX,
+    );
+    console.log(
+      'getColumnDetails, column ' +
+        column?.headerName +
+        ' ' +
+        column?.id +
+        'for text: ' +
+        text,
     );
     return column;
   }
@@ -210,8 +230,11 @@ export class PlanificationCoursService {
   private isCourseCode(textContent: string, xPos: number): boolean {
     console.log(textContent);
     console.log(
-      textContent + this.courseCodeValidationPipe.transform(textContent) &&
-        xPos == this.COURS_X_AXIS,
+      'isCourseCode: ' +
+        textContent +
+        'After transform : ' +
+        this.courseCodeValidationPipe.transform(textContent) +
+        xPos,
     );
     return (
       this.courseCodeValidationPipe.transform(textContent) &&

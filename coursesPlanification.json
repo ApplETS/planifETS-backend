@@ -2,26 +2,115 @@
   {
     "code": "MAT321",
     "title": "",
-    "available": []
+    "available": [
+      {
+        "A23": true,
+        "J": false,
+        "S": false,
+        "I": false
+      },
+      {
+        "H24": true,
+        "J": false,
+        "S": false,
+        "I": false
+      },
+      {
+        "A24": true,
+        "J": false,
+        "S": false,
+        "I": false
+      }
+    ]
   },
   {
     "code": "QUA121",
     "title": "",
-    "available": []
+    "available": [
+      {
+        "H24": true,
+        "J": false,
+        "S": false,
+        "I": false
+      }
+    ]
   },
   {
     "code": "QUA142",
     "title": "",
-    "available": []
+    "available": [
+      {
+        "A23": true,
+        "J": false,
+        "S": false,
+        "I": false
+      },
+      {
+        "A24": true,
+        "J": false,
+        "S": false,
+        "I": false
+      }
+    ]
   },
   {
     "code": "QUA165",
-    "title": "",
-    "available": []
+    "title": "’ expériences (DOE) et",
+    "available": [
+      {
+        "A23": true,
+        "J": false,
+        "S": false,
+        "I": false
+      },
+      {
+        "E24": true,
+        "J": false,
+        "S": false,
+        "I": false
+      }
+    ]
   },
   {
     "code": "QUA202",
-    "title": "",
-    "available": []
+    "title": "’ expériences (DOE) et PLANIFICATION DES COURS Prog. court de 1er cycle en amélioration continue L'École se réserve un droit de modifier la planification sans préavis",
+    "available": [
+      {
+        "E23": true,
+        "J": false,
+        "S": false,
+        "I": false
+      },
+      {
+        "A23": true,
+        "J": false,
+        "S": false,
+        "I": false
+      },
+      {
+        "H24": true,
+        "J": false,
+        "S": false,
+        "I": false
+      },
+      {
+        "E24": true,
+        "J": false,
+        "S": false,
+        "I": false
+      },
+      {
+        "A24": true,
+        "J": false,
+        "S": false,
+        "I": false
+      },
+      {
+        "E24": true,
+        "J": false,
+        "S": false,
+        "I": false
+      }
+    ]
   }
 ]

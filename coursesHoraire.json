@@ -245,7 +245,7 @@
           "teachingMethod": "P",
           "local": "B-3404",
           "teacher": "J. Vianou",
-          "other": "Date : 2024-02-15 12:31:27"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Ven",
@@ -263,7 +263,7 @@
           "teachingMethod": "P",
           "local": "B-3404",
           "teacher": "J. Vianou",
-          "other": "Date : 2024-02-15 12:31:27"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Ven",
@@ -524,7 +524,7 @@
           "activity": "TP",
           "teachingMethod": "H",
           "teacher": "K. Lagacé",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Ven",
@@ -540,7 +540,7 @@
           "activity": "TP",
           "teachingMethod": "H",
           "teacher": "K. Lagacé",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Ven",
@@ -757,7 +757,7 @@
           "teachingMethod": "P",
           "local": "A-3346",
           "teacher": "I. Mzougui",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Mar",
@@ -775,7 +775,7 @@
           "teachingMethod": "P",
           "local": "A-3346",
           "teacher": "I. Mzougui",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Mar",
@@ -954,7 +954,7 @@
           "time": "13:30 - 16:30",
           "activity": "Labo",
           "teachingMethod": "P",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Ven",
@@ -976,7 +976,7 @@
           "time": "13:30 - 16:30",
           "activity": "Labo",
           "teachingMethod": "P",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Ven",
@@ -1217,7 +1217,7 @@
           "activity": "Labo",
           "teachingMethod": "P",
           "local": "A-3450",
-          "teacher": "G.O. Djuikom Foka"
+          "teacher": "G.O. Djuikom Foka / Y. El Fellah"
         }
       ]
     }
@@ -1326,7 +1326,7 @@
           "teachingMethod": "P",
           "local": "B-3420, A-3346",
           "teacher": "T. Fokou Toukam",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Lun",
@@ -1344,7 +1344,7 @@
           "teachingMethod": "P",
           "local": "B-3420, A-3346",
           "teacher": "T. Fokou Toukam",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Lun",
@@ -1558,7 +1558,7 @@
           "teachingMethod": "P",
           "local": "A-3344",
           "teacher": "N. Bessghaier",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Jeu",
@@ -1576,7 +1576,7 @@
           "teachingMethod": "P",
           "local": "A-3344",
           "teacher": "N. Bessghaier",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Jeu",
@@ -1782,7 +1782,7 @@
           "activity": "C",
           "teachingMethod": "P",
           "local": "A-1302",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Sam",
@@ -1798,7 +1798,7 @@
           "activity": "C",
           "teachingMethod": "P",
           "local": "A-1302",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Sam",
@@ -2032,7 +2032,7 @@
           "teachingMethod": "P",
           "local": "D-4008",
           "teacher": "X. Provençal",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Jeu",
@@ -2050,7 +2050,7 @@
           "teachingMethod": "P",
           "local": "D-4008",
           "teacher": "X. Provençal",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Jeu",
@@ -2364,7 +2364,7 @@
           "teachingMethod": "P",
           "local": "D-3010",
           "teacher": "M. Beaudin",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Jeu",
@@ -2382,7 +2382,7 @@
           "teachingMethod": "P",
           "local": "D-3010",
           "teacher": "M. Beaudin",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Jeu",
@@ -2597,7 +2597,7 @@
           "other": "2024"
         },
         {
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "other": "En savoir plus sur les modes d'enseignement"
@@ -2606,7 +2606,7 @@
           "other": "2024"
         },
         {
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "other": "En savoir plus sur les modes d'enseignement"
@@ -3018,7 +3018,7 @@
           "time": "18:00 - 21:00",
           "activity": "TP/Labo",
           "teachingMethod": "P",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Lun",
@@ -3040,7 +3040,7 @@
           "time": "18:00 - 21:00",
           "activity": "TP/Labo",
           "teachingMethod": "P",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Lun",
@@ -3267,7 +3267,8 @@
           "activity": "TP A+B",
           "teachingMethod": "P",
           "local": "B-1506",
-          "other": "É. Francoeur"
+          "other": "É. Francoeur",
+          "teacher": "É. Francoeur / P. Truong"
         }
       ],
       "02": [
@@ -3277,7 +3278,8 @@
           "activity": "TP A+B",
           "teachingMethod": "P",
           "local": "D-3012",
-          "other": "É. Francoeur"
+          "other": "É. Francoeur",
+          "teacher": "É. Francoeur / P. Truong"
         }
       ],
       "03": [
@@ -3344,7 +3346,7 @@
           "teachingMethod": "P",
           "local": "B-1502",
           "teacher": "M.K. Daoust",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Mer",
@@ -3362,7 +3364,7 @@
           "teachingMethod": "P",
           "local": "B-1502",
           "teacher": "M.K. Daoust",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         },
         {
           "day": "Mer",
@@ -3380,7 +3382,7 @@
           "teachingMethod": "P",
           "local": "B-1502",
           "teacher": "M.K. Daoust",
-          "other": "Date : 2024-02-15 12:31:28"
+          "other": "Date : 2024-02-24 12:31:21"
         }
       ]
     }

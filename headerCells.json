@@ -1,58 +1,44 @@
 [
   {
     "id": 0,
-    "headerName": "E23A23H24E24A24MAT321  Informatique et statistiques appliquéesSSSQUA121  Contrôle statistique de la qualitéSQUA142  Gestion et amélioration de la qualitéSSQUA165  Plans d’expériences (DOE) et optimisation des procédésSSQUA202  Projet synthèse amélio continue optimi productivitéSSSSSPLANIFICATION DES COURSProg. court de 1er cycle en amélioration continueJ : Cours disponible de jourS : Cours disponible de soirI : Cours disponible en formule intensive7/17/2023L'École se réserve un droit de modifier la planification sans préavis",
-    "startX": 1.772,
-    "endX": 5.592,
-    "startY": 7.445,
-    "endY": 9.116
+    "headerName": "",
+    "startX": 1.648,
+    "endX": 5.592
   },
   {
     "id": 1,
-    "headerName": "E23A23H24E24A24MAT321  Informatique et statistiques appliquéesSSSQUA121  Contrôle statistique de la qualitéSQUA142  Gestion et amélioration de la qualitéSSQUA165  Plans d’expériences (DOE) et optimisation des procédésSSQUA202  Projet synthèse amélio continue optimi productivitéSSSSSPLANIFICATION DES COURSProg. court de 1er cycle en amélioration continueJ : Cours disponible de jourS : Cours disponible de soirI : Cours disponible en formule intensive7/17/2023L'École se réserve un droit de modifier la planification sans préavis",
-    "startX": 5.591,
-    "endX": 15.809999999999999,
-    "startY": 7.445,
-    "endY": 9.116
+    "headerName": "",
+    "startX": 5.467,
+    "endX": 15.80999
   },
   {
     "id": 2,
-    "headerName": "E23A23H24E24A24MAT321  Informatique et statistiques appliquéesSSSQUA121  Contrôle statistique de la qualitéSQUA142  Gestion et amélioration de la qualitéSSQUA165  Plans d’expériences (DOE) et optimisation des procédésSSQUA202  Projet synthèse amélio continue optimi productivitéSSSSSPLANIFICATION DES COURSProg. court de 1er cycle en amélioration continueJ : Cours disponible de jourS : Cours disponible de soirI : Cours disponible en formule intensive7/17/2023L'École se réserve un droit de modifier la planification sans préavis",
-    "startX": 15.81,
-    "endX": 19.864,
-    "startY": 7.445,
-    "endY": 9.116
+    "headerName": "E23",
+    "startX": 15.686,
+    "endX": 19.864
   },
   {
     "id": 3,
-    "headerName": "E23A23H24E24A24MAT321  Informatique et statistiques appliquéesSSSQUA121  Contrôle statistique de la qualitéSQUA142  Gestion et amélioration de la qualitéSSQUA165  Plans d’expériences (DOE) et optimisation des procédésSSQUA202  Projet synthèse amélio continue optimi productivitéSSSSSPLANIFICATION DES COURSProg. court de 1er cycle en amélioration continueJ : Cours disponible de jourS : Cours disponible de soirI : Cours disponible en formule intensive7/17/2023L'École se réserve un droit de modifier la planification sans préavis",
-    "startX": 19.864,
-    "endX": 23.918,
-    "startY": 7.445,
-    "endY": 9.116
+    "headerName": "A23",
+    "startX": 19.74,
+    "endX": 23.918
   },
   {
     "id": 4,
-    "headerName": "E23A23H24E24A24MAT321  Informatique et statistiques appliquéesSSSQUA121  Contrôle statistique de la qualitéSQUA142  Gestion et amélioration de la qualitéSSQUA165  Plans d’expériences (DOE) et optimisation des procédésSSQUA202  Projet synthèse amélio continue optimi productivitéSSSSSPLANIFICATION DES COURSProg. court de 1er cycle en amélioration continueJ : Cours disponible de jourS : Cours disponible de soirI : Cours disponible en formule intensive7/17/2023L'École se réserve un droit de modifier la planification sans préavis",
-    "startX": 23.918,
-    "endX": 27.972,
-    "startY": 7.445,
-    "endY": 9.116
+    "headerName": "H24",
+    "startX": 23.794,
+    "endX": 27.972
   },
   {
     "id": 5,
-    "headerName": "E23A23H24E24A24MAT321  Informatique et statistiques appliquéesSSSQUA121  Contrôle statistique de la qualitéSQUA142  Gestion et amélioration de la qualitéSSQUA165  Plans d’expériences (DOE) et optimisation des procédésSSQUA202  Projet synthèse amélio continue optimi productivitéSSSSSPLANIFICATION DES COURSProg. court de 1er cycle en amélioration continueJ : Cours disponible de jourS : Cours disponible de soirI : Cours disponible en formule intensive7/17/2023L'École se réserve un droit de modifier la planification sans préavis",
-    "startX": 27.973,
-    "endX": 32.027,
-    "startY": 7.445,
-    "endY": 9.116
+    "headerName": "E24",
+    "startX": 27.849,
+    "endX": 32.027
   },
   {
     "id": 6,
-    "headerName": "E23A23H24E24A24MAT321  Informatique et statistiques appliquéesSSSQUA121  Contrôle statistique de la qualitéSQUA142  Gestion et amélioration de la qualitéSSQUA165  Plans d’expériences (DOE) et optimisation des procédésSSQUA202  Projet synthèse amélio continue optimi productivitéSSSSSPLANIFICATION DES COURSProg. court de 1er cycle en amélioration continueJ : Cours disponible de jourS : Cours disponible de soirI : Cours disponible en formule intensive7/17/2023L'École se réserve un droit de modifier la planification sans préavis",
-    "startX": 32.027,
-    "endX": 36.081,
-    "startY": 7.445,
-    "endY": 9.116
+    "headerName": "A24",
+    "startX": 31.903,
+    "endX": 36.081
   }
 ]
