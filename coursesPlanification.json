@@ -1,116 +1,915 @@
 [
   {
-    "code": "MAT321",
-    "title": "",
-    "available": [
-      {
-        "A23": true,
-        "J": false,
-        "S": false,
-        "I": false
-      },
-      {
-        "H24": true,
-        "J": false,
-        "S": false,
-        "I": false
-      },
-      {
-        "A24": true,
-        "J": false,
-        "S": false,
-        "I": false
-      }
-    ]
+    "code": "AER600",
+    "title": "’ aérospatiale",
+    "available": {
+      "A24": "J"
+    }
   },
   {
-    "code": "QUA121",
-    "title": "",
-    "available": [
-      {
-        "H24": true,
-        "J": false,
-        "S": false,
-        "I": false
-      }
-    ]
+    "code": "ATE029",
+    "title": "’ aérospatiale",
+    "available": {
+      "H24": "I",
+      "E24": "I",
+      "A24": "I",
+      "H25": "I",
+      "E25": "I"
+    }
   },
   {
-    "code": "QUA142",
-    "title": "",
-    "available": [
-      {
-        "A23": true,
-        "J": false,
-        "S": false,
-        "I": false
-      },
-      {
-        "A24": true,
-        "J": false,
-        "S": false,
-        "I": false
-      }
-    ]
+    "code": "ATE050",
+    "title": "’ aérospatiale",
+    "available": {}
   },
   {
-    "code": "QUA165",
-    "title": "’ expériences (DOE) et",
-    "available": [
-      {
-        "A23": true,
-        "J": false,
-        "S": false,
-        "I": false
-      },
-      {
-        "E24": true,
-        "J": false,
-        "S": false,
-        "I": false
-      }
-    ]
+    "code": "ATE070",
+    "title": "’ aérospatiale Cours retiré",
+    "available": {
+      "H24": "(Remplacé par ATE075) Cours retiré",
+      "E24": "(Remplacé par ATE075) Cours retiré",
+      "A24": "(Remplacé par ATE075) Cours retiré",
+      "H25": "(Remplacé par ATE075) Cours retiré",
+      "E25": "(Remplacé par ATE075)"
+    }
   },
   {
-    "code": "QUA202",
-    "title": "’ expériences (DOE) et PLANIFICATION DES COURS Prog. court de 1er cycle en amélioration continue L'École se réserve un droit de modifier la planification sans préavis",
-    "available": [
-      {
-        "E23": true,
-        "J": false,
-        "S": false,
-        "I": false
-      },
-      {
-        "A23": true,
-        "J": false,
-        "S": false,
-        "I": false
-      },
-      {
-        "H24": true,
-        "J": false,
-        "S": false,
-        "I": false
-      },
-      {
-        "E24": true,
-        "J": false,
-        "S": false,
-        "I": false
-      },
-      {
-        "A24": true,
-        "J": false,
-        "S": false,
-        "I": false
-      },
-      {
-        "E24": true,
-        "J": false,
-        "S": false,
-        "I": false
-      }
-    ]
+    "code": "ATE075",
+    "title": "’ aérospatiale Cours retiré",
+    "available": {}
+  },
+  {
+    "code": "ATE085",
+    "title": "’ aérospatiale Cours retiré",
+    "available": {}
+  },
+  {
+    "code": "ATE100",
+    "title": "’ aérospatiale Cours retiré",
+    "available": {
+      "H24": "I",
+      "E24": "I",
+      "A24": "I",
+      "H25": "I",
+      "E25": "I"
+    }
+  },
+  {
+    "code": "ATE800",
+    "title": "’ aérospatiale Cours retiré",
+    "available": {
+      "H24": "I",
+      "E24": "I",
+      "A24": "I",
+      "H25": "I"
+    }
+  },
+  {
+    "code": "CHM131",
+    "title": "’ aérospatiale Cours retiré",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "COM129",
+    "title": "’ aérospatiale Cours retiré Cours retiré",
+    "available": {
+      "H24": "Cours retiré",
+      "E24": "Cours retiré",
+      "A24": "Cours retiré",
+      "H25": "Cours retiré"
+    }
+  },
+  {
+    "code": "COM130",
+    "title": "’ aérospatiale Cours retiré Cours retiré",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "ENT201",
+    "title": "’ aérospatiale Cours retiré Cours retiré",
+    "available": {
+      "H24": "J",
+      "E24": "J",
+      "A24": "J",
+      "H25": "J",
+      "E25": "J"
+    }
+  },
+  {
+    "code": "ENT202",
+    "title": "’ aérospatiale Cours retiré Cours retiré",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "ENT601",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "A24": "J A24",
+      "H25": "2/21/2024 H25",
+      "H24": "H24",
+      "E24": "E24",
+      "E25": "E25"
+    }
+  },
+  {
+    "code": "ESP010",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {}
+  },
+  {
+    "code": "FRA151",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {}
+  },
+  {
+    "code": "GIA410",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "GIA602",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "GPE450",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "GPO602",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie",
+    "available": {
+      "H25": "J"
+    }
+  },
+  {
+    "code": "GPO661",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie",
+    "available": {}
+  },
+  {
+    "code": "GTS501",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie",
+    "available": {
+      "A24": "J"
+    }
+  },
+  {
+    "code": "GTS502",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie",
+    "available": {
+      "A24": "S"
+    }
+  },
+  {
+    "code": "GTS503",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie",
+    "available": {
+      "H24": "J",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "GTS504",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie",
+    "available": {
+      "A24": "J"
+    }
+  },
+  {
+    "code": "GTS601",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie",
+    "available": {
+      "A24": "J",
+      "E25": "J"
+    }
+  },
+  {
+    "code": "GTS602",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie",
+    "available": {
+      "H24": "J",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "GTS615",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie",
+    "available": {
+      "H24": "J",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "GTS620",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie",
+    "available": {
+      "H24": "J",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "GTS640",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "E24": "J E24",
+      "E25": "J E25",
+      "H25": "2/21/2024 H25",
+      "H24": "H24",
+      "A24": "A24"
+    }
+  },
+  {
+    "code": "INF136",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "ING500",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "S",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "S"
+    }
+  },
+  {
+    "code": "LRC105",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J"
+    }
+  },
+  {
+    "code": "LRC110",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "I"
+    }
+  },
+  {
+    "code": "MAT144",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MAT145",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MAT165",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MAT265",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MAT350",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS JS",
+      "E24": "JS",
+      "A24": "JS JS",
+      "H25": "JS JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MEC029",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J",
+      "A24": "JS",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "MEC111",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "J",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "J"
+    }
+  },
+  {
+    "code": "MEC129",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MEC200",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MEC222",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MEC240",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS H24",
+      "E24": "JS E24",
+      "A24": "JS A24",
+      "H25": "JS 2/21/2024 H25",
+      "E25": "JS E25"
+    }
+  },
+  {
+    "code": "MEC300",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MEC329",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MEC335",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MEC402",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J",
+      "E24": "J",
+      "A24": "J",
+      "H25": "J",
+      "E25": "J"
+    }
+  },
+  {
+    "code": "MEC423",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MEC525",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MEC528",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MEC532",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MEC546",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MEC555",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "A24": "J"
+    }
+  },
+  {
+    "code": "MEC556",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "A24": "J"
+    }
+  },
+  {
+    "code": "MEC557",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {}
+  },
+  {
+    "code": "MEC558",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "E24": "S",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "MEC592",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MEC602",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "MEC619",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "S H24",
+      "A24": "J A24",
+      "H25": "S 2/21/2024 H25",
+      "E24": "E24",
+      "E25": "E25"
+    }
+  },
+  {
+    "code": "MEC625",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J",
+      "A24": "J",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "MEC627",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "E24": "J",
+      "A24": "J"
+    }
+  },
+  {
+    "code": "MEC628",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "E24": "S",
+      "E25": "S"
+    }
+  },
+  {
+    "code": "MEC630",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "S",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "MEC634",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "MEC636",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J",
+      "A24": "J",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "MEC652",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J",
+      "A24": "S",
+      "E25": "J"
+    }
+  },
+  {
+    "code": "MEC664",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "S",
+      "A24": "S",
+      "E25": "S"
+    }
+  },
+  {
+    "code": "MEC671",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "S",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "S"
+    }
+  },
+  {
+    "code": "MEC702",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "S",
+      "H25": "S"
+    }
+  },
+  {
+    "code": "MEC723",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "A24": "S"
+    }
+  },
+  {
+    "code": "MEC727",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J",
+      "A24": "J",
+      "E25": "J"
+    }
+  },
+  {
+    "code": "MEC729",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J",
+      "A24": "J",
+      "E25": "J"
+    }
+  },
+  {
+    "code": "MEC730",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J",
+      "A24": "J",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "MEC733",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "MEC735",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H25": "J 2/21/2024 H25",
+      "H24": "H24",
+      "E24": "E24",
+      "A24": "A24",
+      "E25": "E25"
+    }
+  },
+  {
+    "code": "MEC737",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J",
+      "E24": "J",
+      "H25": "J",
+      "E25": "J"
+    }
+  },
+  {
+    "code": "MEC738",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "A24": "J"
+    }
+  },
+  {
+    "code": "MEC743",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "E24": "J",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "MEC744",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "E24": "J",
+      "E25": "J"
+    }
+  },
+  {
+    "code": "MEC745",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "MEC754",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "E24": "S",
+      "E25": "J"
+    }
+  },
+  {
+    "code": "MEC755",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "S",
+      "E24": "S",
+      "H25": "S",
+      "E25": "S"
+    }
+  },
+  {
+    "code": "MEC757",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique",
+    "available": {
+      "E24": "J",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "MEC758",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique",
+    "available": {
+      "H24": "S",
+      "H25": "S"
+    }
+  },
+  {
+    "code": "MEC761",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique",
+    "available": {
+      "E24": "J",
+      "H25": "J"
+    }
+  },
+  {
+    "code": "MEC781",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique",
+    "available": {
+      "H24": "S",
+      "H25": "S"
+    }
+  },
+  {
+    "code": "MEC785",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique",
+    "available": {
+      "E24": "S",
+      "A24": "S",
+      "E25": "S"
+    }
+  },
+  {
+    "code": "MEC786",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique",
+    "available": {
+      "E24": "J",
+      "A24": "J",
+      "E25": "J"
+    }
+  },
+  {
+    "code": "MEC788",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "MEC791",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique",
+    "available": {
+      "H24": "J",
+      "E24": "J",
+      "A24": "S",
+      "H25": "J",
+      "E25": "J"
+    }
+  },
+  {
+    "code": "MEC795",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "J H24",
+      "E24": "J E24",
+      "A24": "J A24",
+      "H25": "J 2/21/2024 H25",
+      "E25": "J E25"
+    }
+  },
+  {
+    "code": "PEP110",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "PHY144",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "PHY332",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS JS",
+      "E24": "JS",
+      "A24": "JS JS",
+      "H25": "JS JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "PRE011",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "I",
+      "E24": "I",
+      "A24": "I",
+      "H25": "I",
+      "E25": "I"
+    }
+  },
+  {
+    "code": "TIN503",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
+    }
+  },
+  {
+    "code": "TIN504",
+    "title": "’ aérospatiale Cours retiré Cours retiré PLANIFICATION DES COURS Baccalauréat en génie mécanique L'École se réserve un droit de modifier la planification sans préavis ’ ingénierie L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis ’ aérodynamique L'École se réserve un droit de modifier la planification sans préavis L'École se réserve un droit de modifier la planification sans préavis",
+    "available": {
+      "H24": "S",
+      "H25": "S 2/21/2024"
+    }
   }
 ]

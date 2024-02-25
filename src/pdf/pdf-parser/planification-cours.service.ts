@@ -8,15 +8,8 @@ import { CourseCodeValidationPipe } from '../pipes/course-code-validation-pipe';
 interface Course {
   code: string;
   title: string;
-  available: Availability[];
+  available: Record<string, string>;
 }
-
-type Availability = {
-  J: boolean;
-  S: boolean;
-  I: boolean;
-  other?: string;
-};
 
 class Column {
   id: any;
@@ -119,12 +112,14 @@ export class PlanificationCoursService {
               // Check and add availability
               const availabilityKey = currentColumn.headerName; // Assuming headers like 'E23', 'A23'
               console.log('availabilityKey ' + availabilityKey);
-              currentCourse.available.push({
-                [availabilityKey]: true,
-                J: false,
-                S: false,
-                I: false,
-              });
+              //Get the text of the cell
+              if (currentCourse.available[availabilityKey]) {
+                // Append the text to the existing entry
+                currentCourse.available[availabilityKey] += ` ${textContent}`;
+              } else {
+                // Create a new entry for this session
+                currentCourse.available[availabilityKey] = textContent;
+              }
             }
           }
         }
@@ -223,7 +218,7 @@ export class PlanificationCoursService {
     return {
       code: '',
       title: '',
-      available: [],
+      available: {},
     };
   }
 
