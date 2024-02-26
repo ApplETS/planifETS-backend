@@ -6,7 +6,8 @@ import { firstValueFrom } from 'rxjs';
 import { CourseCodeValidationPipe } from '../pipes/course-code-validation-pipe';
 import { Column, PlanificationCourse } from './types/pdf-parser.types';
 
-//FIXME: Enforce availability parsing (J, S or I)
+//TODO Add title to the course (cycles superieurs ont plusieurs cours avec le meme code)
+//https://horaire.etsmtl.ca/Horairepublication/Planification-CyclesSuperieurs.pdf
 
 @Injectable()
 export class PlanificationCoursService {
@@ -67,10 +68,11 @@ export class PlanificationCoursService {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { textContent, xPos, yPos } = this.extractTextDetails(textItem); //TODO Check yPos later
 
+        const currentColumn = this.getColumnHeaderName(headerCells, xPos);
         // Process course code
         if (
-          xPos === this.COURS_X_AXIS &&
-          this.isCourseCode(textContent, xPos)
+          currentColumn.headerName === 'code' &&
+          this.isCourseCode(textContent)
         ) {
           if (currentCourse.code) {
             courses.push(currentCourse);
@@ -79,7 +81,6 @@ export class PlanificationCoursService {
           currentCourse.code = textContent;
         } else {
           // Process other columns
-          const currentColumn = this.getColumnDetails(headerCells, xPos);
           if (currentColumn && this.isSession(currentColumn.headerName)) {
             // Check and add availability
             if (this.isAvailability(textContent)) {
@@ -89,9 +90,6 @@ export class PlanificationCoursService {
               } else {
                 currentCourse.available[availabilityKey] = textContent;
               }
-            } else {
-              //Display message if the text is not a valid availability
-              console.log('Invalid availability: ' + textContent);
             }
           }
         }
@@ -158,28 +156,22 @@ export class PlanificationCoursService {
     );
   }
 
-  private getColumnDetails(columns: Column[], x: any) {
+  private getColumnHeaderName(columns: Column[], x: any) {
     const column = columns.find(
       (column) => x >= column.startX && x <= column.endX,
     );
     return column;
   }
 
-  private isCourseCode(textContent: string, xPos: number): boolean {
-    return (
-      this.courseCodeValidationPipe.transform(textContent) &&
-      xPos == this.COURS_X_AXIS
-    );
+  private isCourseCode(textContent: string): boolean {
+    return this.courseCodeValidationPipe.transform(textContent);
   }
 
   private isAvailability(textContent: string): string {
-    const allowedCombinations = ['JS', 'JSI', 'J', 'S', 'I'];
+    const allowedCombinations = 'JSI';
+    const regex = new RegExp(`^(?!.*(.).*\\1)[${allowedCombinations}]+$`);
 
-    if (allowedCombinations.includes(textContent)) {
-      return textContent;
-    } else {
-      return '';
-    }
+    return regex.test(textContent) ? textContent : '';
   }
 
   private isSession(text: string): boolean {

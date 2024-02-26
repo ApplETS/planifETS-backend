@@ -47,6 +47,12 @@ export class Column {
     this.headerName = headerName;
     this.startX = this.roundToLowerNumber(startX);
     this.endX = this.roundToLowerNumber(endX);
+
+    if (id === 0) {
+      this.headerName = 'code';
+    } else if (id === 1) {
+      this.headerName = 'title';
+    }
   }
 
   private roundToLowerNumber(num) {
