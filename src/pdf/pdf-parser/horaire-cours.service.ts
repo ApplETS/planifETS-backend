@@ -13,14 +13,13 @@ import {
 //FIXME: Fix groups periods parsing. Some periods are missing.
 //fontsize? xPos? idk
 
-//FIXME: description is not accurate for multiple lines description.
 //TODO : Scrape any courses. that way we'll ensure the accuracy of the title
 
 @Injectable()
 export class HoraireCoursService {
   private readonly COURS_X_AXIS = 0.551;
   private readonly PREALABLE_X_AXIS = 29.86;
-  private readonly descriptionFontSize = 10.998999999999999;
+  private readonly titleFontSize = 10.998999999999999;
 
   courseCodeValidationPipe = new CourseCodeValidationPipe();
 
@@ -105,7 +104,6 @@ export class HoraireCoursService {
           currentCourse = {
             code: text,
             title: '',
-            description: '',
             prerequisites: '',
             groups: {},
           };
@@ -120,12 +118,10 @@ export class HoraireCoursService {
             dateRange: '',
           };
 
-          //Get the title and description based on font size
-        } else if (fontSize === this.descriptionFontSize) {
+          //Get the title based on font size
+        } else if (fontSize === this.titleFontSize) {
           if (!currentCourse.title) {
             currentCourse.title = text;
-          } else {
-            currentCourse.description += ` ${text}`;
           }
           //Get the prerequisites
         } else if (xPos === this.PREALABLE_X_AXIS) {
@@ -246,7 +242,6 @@ export class HoraireCoursService {
     return {
       code: '',
       title: '',
-      description: '',
       prerequisites: '',
       groups: {},
     };

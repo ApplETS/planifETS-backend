@@ -6,7 +6,6 @@ export interface Course {
 export interface HoraireCourse {
   code: string;
   title: string;
-  description: string;
   prerequisites: string;
   groups: Group;
 }

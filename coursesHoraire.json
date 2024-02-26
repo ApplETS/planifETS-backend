@@ -2,7 +2,6 @@
   {
     "code": "ATE075",
     "title": "NEUROFOCUS : STRATÉGIES D'ÉTUDES OPTIMALES",
-    "description": " ",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -19,7 +18,6 @@
   {
     "code": "ATE085",
     "title": "NEUROFOCUS : ÉQUILIBRE DE VIE AUX ÉTUDES",
-    "description": " ",
     "prerequisites": "",
     "groups": {
       "02": [
@@ -36,7 +34,6 @@
   {
     "code": "ATE100",
     "title": "INTÉGRITÉ INTELLECTUELLE",
-    "description": " La formation ATE100 est offerte sur la plateforme de cours en ligne Moodle. La durée de la formation est estimée à environ 4 heures. Afin de respecter les différents rythmes d'apprentissage et les diverses plages horaires où les étudiant (es) sont disponibles, une période de 5 semaines sera accordée pour compléter la formation.",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -68,7 +65,6 @@
   {
     "code": "ATE800",
     "title": "INTÉGRITÉ INTELLECTUELLE : UN SAVOIR-ÊTRE ET UN",
-    "description": " SAVOIR-FAIRE La formation ATE800 est offerte sur la plateforme de cours en ligne Moodle. La durée de la formation est estimée à environ 4 heures. Afin de respecter les différents rythmes d'apprentissage et les diverses plages horaires où les étudiant(e)s sont disponibles, une période de 5 semaines est accordée pour compléter la formation.",
     "prerequisites": "",
     "groups": {
       "55": [
@@ -100,7 +96,6 @@
   {
     "code": "CHM131",
     "title": "CHIMIE ET MATÉRIAUX",
-    "description": "",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -198,7 +193,6 @@
   {
     "code": "COM120",
     "title": "MÉTHODES DE COMMUNICATION",
-    "description": " L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -260,7 +254,6 @@
   {
     "code": "ELE747",
     "title": "ANALYSE ET TRAITEMENT D'IMAGES",
-    "description": " ",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -278,7 +271,6 @@
   {
     "code": "ENT201",
     "title": "GESTION FINANCIÈRE D'ENTREPRISE",
-    "description": " ",
     "prerequisites": "GIA400 ou GIA410",
     "groups": {
       "01": [
@@ -296,7 +288,6 @@
   {
     "code": "ENT202",
     "title": "INTRODUCTION À L'ENTREPRENEURSHIP",
-    "description": " ",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -314,7 +305,6 @@
   {
     "code": "ENT301",
     "title": "PROJETS SPÉCIAUX EN ENTREPRENEURIAT I",
-    "description": " ",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -328,7 +318,6 @@
   {
     "code": "ENT302",
     "title": "PROJETS SPÉCIAUX EN ENTREPRENEURIAT II",
-    "description": " ",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -342,7 +331,6 @@
   {
     "code": "ENT303",
     "title": "PROJETS SPÉCIAUX EN ENTREPRENEURIAT III",
-    "description": " ",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -356,7 +344,6 @@
   {
     "code": "ENT304",
     "title": "PROJETS SPÉCIAUX EN ENTREPRENEURIAT IV",
-    "description": " ",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -370,7 +357,6 @@
   {
     "code": "ENT601",
     "title": "MARKETING ET VENTES",
-    "description": "",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -388,7 +374,6 @@
   {
     "code": "GIA400",
     "title": "ANALYSE DE RENTABILITÉ DE PROJETS",
-    "description": "  L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -518,7 +503,6 @@
   {
     "code": "GIA602",
     "title": "ERGONOMIE ET SÉCURITÉ EN MILIEU INDUSTRIEL",
-    "description": " ",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -546,7 +530,6 @@
   {
     "code": "GPA659",
     "title": "VISION ARTIFICIELLE",
-    "description": "",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -564,7 +547,6 @@
   {
     "code": "GPE450",
     "title": "GESTION DU PERSONNEL ET RELATIONS",
-    "description": " INDUSTRIELLES",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -599,7 +581,6 @@
   {
     "code": "GTI320",
     "title": "PROGRAMMATION MATHÉMATIQUE : PATRONS ET",
-    "description": " ALGORITHMES EFFICACES",
     "prerequisites": "MAT472, LOG121",
     "groups": {
       "01": [
@@ -617,7 +598,6 @@
   {
     "code": "GTI350",
     "title": "CONCEPTION ET ÉVALUATION DES INTERFACES",
-    "description": " UTILISATEURS",
     "prerequisites": "LOG210",
     "groups": {
       "01": [
@@ -645,7 +625,6 @@
   {
     "code": "GTI510",
     "title": "GESTION DE PROJETS ET ASSURANCE DE LA QUALITÉ",
-    "description": " ",
     "prerequisites": "LOG: STA204 ou STA206",
     "groups": {
       "01": [
@@ -672,7 +651,6 @@
   {
     "code": "GTI525",
     "title": "TECHNOLOGIES DE DÉVELOPPEMENT INTERNET",
-    "description": " ",
     "prerequisites": "LOG210 / Minimum 47 Cr",
     "groups": {
       "01": [
@@ -690,7 +668,6 @@
   {
     "code": "GTI611",
     "title": "RÉSEAUX DE COMMUNICATION IP",
-    "description": " L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
     "prerequisites": "LOG121",
     "groups": {
       "01": [
@@ -734,7 +711,6 @@
   {
     "code": "GTI619",
     "title": "SÉCURITÉ DES SYSTÈMES",
-    "description": "",
     "prerequisites": "GTI611 / LOG121",
     "groups": {
       "01": [
@@ -762,7 +738,6 @@
   {
     "code": "GTI650",
     "title": "INTRODUCTION À L",
-    "description": " ’ INFORMATION QUANTIQUE ",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -780,7 +755,6 @@
   {
     "code": "GTI700",
     "title": "PRINCIPES ET FONDEMENTS DE L",
-    "description": " ’ INTERNET DES OBJETS (IDO)",
     "prerequisites": "Min. 60 crédits",
     "groups": {
       "01": [
@@ -798,7 +772,6 @@
   {
     "code": "GTI723",
     "title": "TEST D",
-    "description": " ’ INTRUSION",
     "prerequisites": "GTI619",
     "groups": {
       "01": [
@@ -815,7 +788,6 @@
   {
     "code": "GTI745",
     "title": "INTERFACES UTILISATEURS AVANCÉES",
-    "description": " ",
     "prerequisites": "GTI350; MAT472",
     "groups": {
       "01": [
@@ -843,7 +815,6 @@
   {
     "code": "GTI755",
     "title": "APPRENTISSAGE MACHINE QUANTIQUE",
-    "description": " ",
     "prerequisites": "GTI650",
     "groups": {
       "01": [
@@ -861,7 +832,6 @@
   {
     "code": "INF111",
     "title": "PROGRAMMATION ORIENTÉE-OBJET (HORS",
-    "description": " PROGRAMME)",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -929,7 +899,6 @@
   {
     "code": "INFTEST",
     "title": "ACCUEIL EN INFORMATIQUE",
-    "description": " L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
     "prerequisites": "",
     "groups": {
       "02": [
@@ -951,7 +920,6 @@
   {
     "code": "ING150",
     "title": "STATIQUE ET DYNAMIQUE",
-    "description": "",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -1019,7 +987,6 @@
   {
     "code": "ING160",
     "title": "THERMODYNAMIQUE ET MÉCANIQUE DES FLUIDES",
-    "description": " ",
     "prerequisites": "ING150",
     "groups": {
       "01": [
@@ -1057,7 +1024,6 @@
   {
     "code": "ING500",
     "title": "OUTILS DE DÉVELOPPEMENT DURABLE POUR",
-    "description": " L'INGÉNIEUR",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -1085,7 +1051,6 @@
   {
     "code": "LOG100",
     "title": "PROGRAMMATION ET RÉSEAUTIQUE EN GÉNIE",
-    "description": " LOGICIEL",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -1113,7 +1078,6 @@
   {
     "code": "LOG121",
     "title": "CONCEPTION ORIENTÉE OBJET",
-    "description": " L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
     "prerequisites": "GTI100 (G.TI) ; LOG100 (G.Log)",
     "groups": {
       "01": [
@@ -1229,7 +1193,6 @@
   {
     "code": "LOG210",
     "title": "ANALYSE ET CONCEPTION DE LOGICIELS",
-    "description": " ",
     "prerequisites": "LOG121",
     "groups": {
       "01": [
@@ -1257,7 +1220,6 @@
   {
     "code": "LOG240",
     "title": "TESTS ET MAINTENANCE",
-    "description": "",
     "prerequisites": "LOG100",
     "groups": {
       "01": [
@@ -1285,7 +1247,6 @@
   {
     "code": "LOG320",
     "title": "STRUCTURES DE DONNÉES ET ALGORITHMES",
-    "description": " ",
     "prerequisites": "MAT210, LOG121",
     "groups": {
       "01": [
@@ -1323,7 +1284,6 @@
   {
     "code": "LOG410",
     "title": "ANALYSE DE BESOINS ET SPÉCIFICATIONS",
-    "description": " ",
     "prerequisites": "LOG240",
     "groups": {
       "01": [
@@ -1351,7 +1311,6 @@
   {
     "code": "LOG430",
     "title": "ARCHITECTURE LOGICIELLE",
-    "description": "",
     "prerequisites": "LOG210",
     "groups": {
       "01": [
@@ -1379,7 +1338,6 @@
   {
     "code": "LOG450",
     "title": "CONCEPTION D",
-    "description": " ’ APPLICATIONS MOBILES ",
     "prerequisites": "GTI350 / GTI350, LOG121",
     "groups": {
       "01": [
@@ -1397,7 +1355,6 @@
   {
     "code": "LOG460",
     "title": "SÉCURITÉ DES LOGICIELS",
-    "description": "",
     "prerequisites": "LOG121",
     "groups": {
       "01": [
@@ -1414,7 +1371,6 @@
   {
     "code": "LOG530",
     "title": "RÉINGÉNIERIE DU LOGICIEL",
-    "description": " L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
     "prerequisites": "LOG210",
     "groups": {
       "01": [
@@ -1440,7 +1396,6 @@
   {
     "code": "LOG550",
     "title": "CONCEPTION DE SYSTÈMES INFORMATIQUES EN",
-    "description": " TEMPS RÉEL",
     "prerequisites": "LOG210",
     "groups": {
       "01": [
@@ -1458,7 +1413,6 @@
   {
     "code": "LOG635",
     "title": "SYSTÈMES INTELLIGENTS ET ALGORITHMES",
-    "description": " ",
     "prerequisites": "LOG320",
     "groups": {
       "01": [
@@ -1476,7 +1430,6 @@
   {
     "code": "LOG645",
     "title": "ARCHITECTURES DE CALCULS PARALLÈLES",
-    "description": " ",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -1494,7 +1447,6 @@
   {
     "code": "LOG660",
     "title": "BASES DE DONNÉES DE HAUTE PERFORMANCE",
-    "description": " ",
     "prerequisites": "LOG320",
     "groups": {
       "01": [
@@ -1521,7 +1473,6 @@
   {
     "code": "LOG680",
     "title": "INTRODUCTION À L'APPROCHE DEVOPS",
-    "description": " ",
     "prerequisites": "STA204 ou STA206",
     "groups": {
       "01": [
@@ -1549,7 +1500,6 @@
   {
     "code": "LOG710",
     "title": "PRINCIPES SYSTÈMES D'EXPL. ET PROGRAMMATION",
-    "description": " SYSTÈME",
     "prerequisites": "GTI310 (G.TI) ; LOG320 (G.Log)",
     "groups": {
       "01": [
@@ -1566,7 +1516,6 @@
   {
     "code": "LOG725",
     "title": "INGÉNIERIE ET CONCEPTION DE JEUX VIDÉO",
-    "description": " ",
     "prerequisites": "GTI320",
     "groups": {
       "01": [
@@ -1584,7 +1533,6 @@
   {
     "code": "LOG750",
     "title": "INFOGRAPHIE",
-    "description": "",
     "prerequisites": "GTI320 / MAT472",
     "groups": {
       "01": [
@@ -1602,7 +1550,6 @@
   {
     "code": "LOG791",
     "title": "PROJETS SPÉCIAUX",
-    "description": "",
     "prerequisites": "département",
     "groups": {
       "01": [
@@ -1619,7 +1566,6 @@
   {
     "code": "LOG795",
     "title": "PROJET DE FIN D'ÉTUDES EN GÉNIE LOGICIEL",
-    "description": "  L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
     "prerequisites": "Min. 99 crédits",
     "groups": {
       "01": [
@@ -1643,7 +1589,6 @@
   {
     "code": "LRC105",
     "title": "HOW TO CHANGE THE WORLD",
-    "description": " « Cours hors-programme offert en anglais et exigeant une approbation de votre candidature par l ’ organisme How to Change the World. Vous devez obligatoirement compléter le formulaire pour déposer votre candidature ici : https://www.programs.htctw.org/course/ets-engineering.",
     "prerequisites": "Min. 70 crédits",
     "groups": {
       "01": [
@@ -1659,7 +1604,6 @@
   {
     "code": "LRC110",
     "title": "LEADERSHIP ET RESPONSABILITÉ COLLECTIVE",
-    "description": "  Hors-programme, sauf pour les programmes 7625 , 7694 , 7084 , 7684 et 7086 Pour plus d ’ informations : https://www.etsmtl.ca/etudes/leadership-et-responsabilite-collective.",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -1677,7 +1621,6 @@
   {
     "code": "MAT144",
     "title": "INTRODUCTION AUX MATHÉMATIQUES DU GÉNIE",
-    "description": " (HORS PROG.)",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -1726,7 +1669,6 @@
   {
     "code": "MAT145",
     "title": "CALCUL DIFFÉRENTIEL ET INTÉGRAL",
-    "description": " ",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -1814,7 +1756,6 @@
   {
     "code": "MAT210",
     "title": "LOGIQUE ET MATHÉMATIQUES DISCRÈTES",
-    "description": "  L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
     "prerequisites": "MAT145",
     "groups": {
       "01": [
@@ -1876,7 +1817,6 @@
   {
     "code": "MAT265",
     "title": "ÉQUATIONS DIFFÉRENTIELLES",
-    "description": "",
     "prerequisites": "MAT145",
     "groups": {
       "01": [
@@ -1974,7 +1914,6 @@
   {
     "code": "MAT350",
     "title": "PROBABILITÉS ET STATISTIQUES",
-    "description": "",
     "prerequisites": "MAT145",
     "groups": {
       "01": [
@@ -2072,7 +2011,6 @@
   {
     "code": "MAT472",
     "title": "ALGÈBRE LINÉAIRE ET GÉOMÉTRIE DE L'ESPACE",
-    "description": "  L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
     "prerequisites": "MAT145",
     "groups": {
       "01": [
@@ -2152,7 +2090,6 @@
   {
     "code": "MATEST",
     "title": "ACCUEIL EN MATHÉMATIQUES",
-    "description": "",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -2184,7 +2121,6 @@
   {
     "code": "PEP110",
     "title": "ENCADREMENT DE LA PROFESSION ET ÉTHIQUE",
-    "description": " PROFESSIONNELLE Pour vous inscrire à ce cours en tant qu ’ étudiant libre pour satisfaire aux exigences de l ’ OIQ, suivez les instructions sur cette page : https://www.etsmtl.ca/etudiants/etudiants-libres . L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
     "prerequisites": "",
     "groups": {
       "10": [
@@ -2332,7 +2268,6 @@
   {
     "code": "PHY144",
     "title": "INTRODUCTION À LA PHYSIQUE DU GÉNIE (HORS",
-    "description": " PROGRAMME)",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -2380,7 +2315,6 @@
   {
     "code": "PHY332",
     "title": "ÉLECTRICITÉ ET MAGNÉTISME",
-    "description": "",
     "prerequisites": "CTN248 / ING150",
     "groups": {
       "01": [
@@ -2448,7 +2382,6 @@
   {
     "code": "PHY335",
     "title": "PHYSIQUE DES ONDES",
-    "description": "",
     "prerequisites": "CTN248 / ING150",
     "groups": {
       "01": [
@@ -2506,7 +2439,6 @@
   {
     "code": "PHYEST",
     "title": "ACCUEIL EN PHYSIQUE",
-    "description": " L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -2556,7 +2488,6 @@
   {
     "code": "PRE011",
     "title": "DÉVELOPPEMENT PROFESSIONNEL ET INITIATION À LA",
-    "description": " SANTÉ ET SÉCURITÉ Volet stages - activité à compléter en ligne. Volet intensif santé sécurité 15 h - aux dates spécifiques indiquées pour chaque groupe. • Modalités des ateliers PRE 011 - VOLET INTENSIF SANTÉ-SÉCURITÉ : Obligatoire pour tous les étudiants sauf ceux détenant une carte ASP. Pour les étudiants du programme 7625 en génie de la construction ou tout autre étudiant ayant suivi la formation ASP (vous serez exempté du volet santé-sécurité en suivant les consignes indiquées dans le module 1 du volet STAGES - DÉVELOPPEMENT PROFESSIONNEL). • VOLET STAGES (DÉVELOPPEMENT PROFESSIONNEL): obligatoire pour tous les étudiants, cette activité doit être complétée en ligne, le Service de l'enseignement coopératif vous informera de la procédure à suivre par courriel. Les étudiants du programme 7625 doivent s'inscrire dans le groupe réservé. Le groupe 04 est réservé aux étudiants.es en génie de la construction.",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -2621,7 +2552,6 @@
   {
     "code": "TIN503",
     "title": "ENVIRONNEMENT, TECHNOLOGIE ET SOCIÉTÉ",
-    "description": " ",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -2697,7 +2627,6 @@
   {
     "code": "TIN504",
     "title": "SANTÉ, TECHNOLOGIE ET SOCIÉTÉ",
-    "description": " L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
     "prerequisites": "",
     "groups": {
       "01": [
