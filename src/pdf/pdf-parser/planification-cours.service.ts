@@ -6,8 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import { CourseCodeValidationPipe } from '../pipes/course-code-validation-pipe';
 import { Column, PlanificationCourse } from './types/pdf-parser.types';
 
-//FIXME: Enforce availability parsing (J, S or I or custom message)
-//Prolly need to check yPos for each cell position
+//FIXME: Enforce availability parsing (J, S or I)
 
 @Injectable()
 export class PlanificationCoursService {
@@ -83,11 +82,16 @@ export class PlanificationCoursService {
           const currentColumn = this.getColumnDetails(headerCells, xPos);
           if (currentColumn && this.isSession(currentColumn.headerName)) {
             // Check and add availability
-            const availabilityKey = currentColumn.headerName; // Example: 'E23'
-            if (currentCourse.available[availabilityKey]) {
-              currentCourse.available[availabilityKey] += ` ${textContent}`;
+            if (this.isAvailability(textContent)) {
+              const availabilityKey = currentColumn.headerName; // Example: 'E23'
+              if (currentCourse.available[availabilityKey]) {
+                currentCourse.available[availabilityKey] += ` ${textContent}`;
+              } else {
+                currentCourse.available[availabilityKey] = textContent;
+              }
             } else {
-              currentCourse.available[availabilityKey] = textContent;
+              //Display message if the text is not a valid availability
+              console.log('Invalid availability: ' + textContent);
             }
           }
         }
@@ -97,55 +101,6 @@ export class PlanificationCoursService {
       courses.push(currentCourse);
     }
     return courses;
-  }
-
-  private isTextInCell(
-    text: any,
-    column: { startX: any; endX: any; startY: any; endY: any },
-  ) {
-    return (
-      text.x >= column.startX &&
-      text.x <= column.endX &&
-      text.y >= column.startY &&
-      text.y <= column.endY
-    );
-  }
-
-  private parseHeaderCells(pdfData: { Pages: Page[] }) {
-    const columns: Column[] = [];
-    const headerFills = pdfData.Pages[0].Fills.filter(
-      (fill: Fill) => fill.clr === 5,
-    );
-
-    headerFills.forEach((fill: Fill, index: number) => {
-      const startX = fill.x - this.BORDER_OFFSET;
-      const endX = fill.x + fill.w;
-      const startY = fill.y;
-      const endY = fill.y + fill.h;
-      let headerName = '';
-      pdfData.Pages[0].Texts.forEach(
-        (text: {
-          R: { TS: [number, number, number, number]; T: string }[];
-          x: number;
-          y: number;
-        }) => {
-          if (this.isTextInCell(text, { startX, endX, startY, endY })) {
-            headerName += decodeURIComponent(text.R[0].T).trim() + ' ';
-          }
-        },
-      );
-
-      headerName = headerName.trim();
-      columns.push(new Column(index, headerName, startX, endX));
-    });
-    return columns;
-  }
-
-  private getColumnDetails(columns: Column[], x: any) {
-    const column = columns.find(
-      (column) => x >= column.startX && x <= column.endX,
-    );
-    return column;
   }
 
   private extractTextDetails(textItem: Text): {
@@ -166,11 +121,65 @@ export class PlanificationCoursService {
     };
   }
 
+  // Example: [ , , H24, E24, A24, H25, E25]
+  private parseHeaderCells(pdfData: { Pages: Page[] }) {
+    const columns: Column[] = [];
+    const headerFills = pdfData.Pages[0].Fills.filter(
+      (fill: Fill) => fill.clr === 5,
+    );
+
+    headerFills.forEach((fill: Fill, index: number) => {
+      const startX = fill.x - this.BORDER_OFFSET;
+      const endX = fill.x + fill.w;
+      const startY = fill.y;
+      const endY = fill.y + fill.h;
+      let headerName = '';
+      pdfData.Pages[0].Texts.forEach((text: Text) => {
+        if (this.isTextInCell(text, { startX, endX, startY, endY })) {
+          headerName += decodeURIComponent(text.R[0].T).trim() + ' ';
+        }
+      });
+
+      headerName = headerName.trim();
+      columns.push(new Column(index, headerName, startX, endX));
+    });
+    return columns;
+  }
+
+  private isTextInCell(
+    text: Text,
+    column: { startX: number; endX: number; startY: number; endY: number },
+  ) {
+    return (
+      text.x >= column.startX &&
+      text.x <= column.endX &&
+      text.y >= column.startY &&
+      text.y <= column.endY
+    );
+  }
+
+  private getColumnDetails(columns: Column[], x: any) {
+    const column = columns.find(
+      (column) => x >= column.startX && x <= column.endX,
+    );
+    return column;
+  }
+
   private isCourseCode(textContent: string, xPos: number): boolean {
     return (
       this.courseCodeValidationPipe.transform(textContent) &&
       xPos == this.COURS_X_AXIS
     );
+  }
+
+  private isAvailability(textContent: string): string {
+    const allowedCombinations = ['JS', 'JSI', 'J', 'S', 'I'];
+
+    if (allowedCombinations.includes(textContent)) {
+      return textContent;
+    } else {
+      return '';
+    }
   }
 
   private isSession(text: string): boolean {

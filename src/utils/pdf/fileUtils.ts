@@ -1,6 +1,10 @@
 import fs from 'fs';
+import path from 'path';
 
 export function writeDataToFile(data: any, fileName: string): Promise<any> {
+  const outputPath = './test/pdf/output';
+  const filePath = path.join(outputPath, fileName);
+
   return new Promise((resolve, reject) => {
     const urlDecodeReplacer = (key: any, value: any) => {
       if (typeof value === 'string') {
@@ -17,7 +21,7 @@ export function writeDataToFile(data: any, fileName: string): Promise<any> {
     };
 
     fs.writeFile(
-      fileName,
+      filePath,
       JSON.stringify(data, urlDecodeReplacer, 2),
       (err) => {
         if (err) {

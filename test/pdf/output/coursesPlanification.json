@@ -21,13 +21,7 @@
   },
   {
     "code": "ATE070",
-    "available": {
-      "H24": "(Remplacé par ATE075) Cours retiré",
-      "E24": "(Remplacé par ATE075) Cours retiré",
-      "A24": "(Remplacé par ATE075) Cours retiré",
-      "H25": "(Remplacé par ATE075) Cours retiré",
-      "E25": "(Remplacé par ATE075)"
-    }
+    "available": {}
   },
   {
     "code": "ATE075",
@@ -68,12 +62,7 @@
   },
   {
     "code": "COM129",
-    "available": {
-      "H24": "Cours retiré",
-      "E24": "Cours retiré",
-      "A24": "Cours retiré",
-      "H25": "Cours retiré"
-    }
+    "available": {}
   },
   {
     "code": "COM130",
@@ -108,11 +97,7 @@
   {
     "code": "ENT601",
     "available": {
-      "A24": "J A24",
-      "H25": "2/21/2024 H25",
-      "H24": "H24",
-      "E24": "E24",
-      "E25": "E25"
+      "A24": "J"
     }
   },
   {
@@ -219,11 +204,8 @@
   {
     "code": "GTS640",
     "available": {
-      "E24": "J E24",
-      "E25": "J E25",
-      "H25": "2/21/2024 H25",
-      "H24": "H24",
-      "A24": "A24"
+      "E24": "J",
+      "E25": "J"
     }
   },
   {
@@ -367,11 +349,11 @@
   {
     "code": "MEC240",
     "available": {
-      "H24": "JS H24",
-      "E24": "JS E24",
-      "A24": "JS A24",
-      "H25": "JS 2/21/2024 H25",
-      "E25": "JS E25"
+      "H24": "JS",
+      "E24": "JS",
+      "A24": "JS",
+      "H25": "JS",
+      "E25": "JS"
     }
   },
   {
@@ -507,11 +489,9 @@
   {
     "code": "MEC619",
     "available": {
-      "H24": "S H24",
-      "A24": "J A24",
-      "H25": "S 2/21/2024 H25",
-      "E24": "E24",
-      "E25": "E25"
+      "H24": "S",
+      "A24": "J",
+      "H25": "S"
     }
   },
   {
@@ -631,11 +611,7 @@
   {
     "code": "MEC735",
     "available": {
-      "H25": "J 2/21/2024 H25",
-      "H24": "H24",
-      "E24": "E24",
-      "A24": "A24",
-      "E25": "E25"
+      "H25": "J"
     }
   },
   {
@@ -757,11 +733,11 @@
   {
     "code": "MEC795",
     "available": {
-      "H24": "J H24",
-      "E24": "J E24",
-      "A24": "J A24",
-      "H25": "J 2/21/2024 H25",
-      "E25": "J E25"
+      "H24": "J",
+      "E24": "J",
+      "A24": "J",
+      "H25": "J",
+      "E25": "J"
     }
   },
   {
@@ -826,7 +802,7 @@
     "code": "TIN504",
     "available": {
       "H24": "S",
-      "H25": "S 2/21/2024"
+      "H25": "S"
     }
   }
 ]
