@@ -301,11 +301,19 @@
   {
     "code": "MAT350",
     "available": {
-      "H24": "JS JS",
+      "H24": "JS",
       "E24": "JS",
-      "A24": "JS JS",
-      "H25": "JS JS",
+      "A24": "JS",
+      "H25": "JS",
       "E25": "JS"
+    }
+  },
+  {
+    "code": "MATEST",
+    "available": {
+      "H24": "JS",
+      "A24": "JS",
+      "H25": "JS"
     }
   },
   {
@@ -779,11 +787,19 @@
   {
     "code": "PHY332",
     "available": {
-      "H24": "JS JS",
+      "H24": "JS",
       "E24": "JS",
-      "A24": "JS JS",
-      "H25": "JS JS",
+      "A24": "JS",
+      "H25": "JS",
       "E25": "JS"
+    }
+  },
+  {
+    "code": "PHYEST",
+    "available": {
+      "H24": "JS",
+      "A24": "JS",
+      "H25": "JS"
     }
   },
   {
