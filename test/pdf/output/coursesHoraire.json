@@ -33,7 +33,7 @@
   },
   {
     "code": "ATE100",
-    "title": "INTÉGRITÉ INTELLECTUELLE",
+    "title": "INTÉGRITÉ INTELLECTUELLE La formation ATE100 est offerte sur la plateforme de cours en ligne Moodle. La durée de la formation est estimée à environ 4 heures. Afin de respecter les différents rythmes d'apprentissage et les diverses plages horaires où les étudiant (es) sont disponibles, une période de 5 semaines sera accordée pour compléter la formation.",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -64,7 +64,7 @@
   },
   {
     "code": "ATE800",
-    "title": "INTÉGRITÉ INTELLECTUELLE : UN SAVOIR-ÊTRE ET UN",
+    "title": "INTÉGRITÉ INTELLECTUELLE : UN SAVOIR-ÊTRE ET UN SAVOIR-FAIRE La formation ATE800 est offerte sur la plateforme de cours en ligne Moodle. La durée de la formation est estimée à environ 4 heures. Afin de respecter les différents rythmes d'apprentissage et les diverses plages horaires où les étudiant(e)s sont disponibles, une période de 5 semaines est accordée pour compléter la formation.",
     "prerequisites": "",
     "groups": {
       "55": [
@@ -546,7 +546,7 @@
   },
   {
     "code": "GPE450",
-    "title": "GESTION DU PERSONNEL ET RELATIONS",
+    "title": "GESTION DU PERSONNEL ET RELATIONS INDUSTRIELLES",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -580,7 +580,7 @@
   },
   {
     "code": "GTI320",
-    "title": "PROGRAMMATION MATHÉMATIQUE : PATRONS ET",
+    "title": "PROGRAMMATION MATHÉMATIQUE : PATRONS ET ALGORITHMES EFFICACES",
     "prerequisites": "MAT472, LOG121",
     "groups": {
       "01": [
@@ -597,7 +597,7 @@
   },
   {
     "code": "GTI350",
-    "title": "CONCEPTION ET ÉVALUATION DES INTERFACES",
+    "title": "CONCEPTION ET ÉVALUATION DES INTERFACES UTILISATEURS",
     "prerequisites": "LOG210",
     "groups": {
       "01": [
@@ -625,7 +625,7 @@
   {
     "code": "GTI510",
     "title": "GESTION DE PROJETS ET ASSURANCE DE LA QUALITÉ",
-    "prerequisites": "LOG: STA204 ou STA206",
+    "prerequisites": "GTI210 et STA204 / TI: STA204, LOG: STA204 ou STA206",
     "groups": {
       "01": [
         {
@@ -668,7 +668,7 @@
   {
     "code": "GTI611",
     "title": "RÉSEAUX DE COMMUNICATION IP",
-    "prerequisites": "LOG121",
+    "prerequisites": "LOG100 ou GTI100 et LOG121 / LOG121",
     "groups": {
       "01": [
         {
@@ -711,7 +711,7 @@
   {
     "code": "GTI619",
     "title": "SÉCURITÉ DES SYSTÈMES",
-    "prerequisites": "GTI611 / LOG121",
+    "prerequisites": "GTI610 / GTI610 ou GTI611 / GTI611 / LOG121",
     "groups": {
       "01": [
         {
@@ -737,7 +737,7 @@
   },
   {
     "code": "GTI650",
-    "title": "INTRODUCTION À L",
+    "title": "INTRODUCTION À L ’ INFORMATION QUANTIQUE",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -754,7 +754,7 @@
   },
   {
     "code": "GTI700",
-    "title": "PRINCIPES ET FONDEMENTS DE L",
+    "title": "PRINCIPES ET FONDEMENTS DE L ’ INTERNET DES OBJETS (IDO)",
     "prerequisites": "Min. 60 crédits",
     "groups": {
       "01": [
@@ -771,7 +771,7 @@
   },
   {
     "code": "GTI723",
-    "title": "TEST D",
+    "title": "TEST D ’ INTRUSION",
     "prerequisites": "GTI619",
     "groups": {
       "01": [
@@ -831,7 +831,7 @@
   },
   {
     "code": "INF111",
-    "title": "PROGRAMMATION ORIENTÉE-OBJET (HORS",
+    "title": "PROGRAMMATION ORIENTÉE-OBJET (HORS PROGRAMME)",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -1023,7 +1023,7 @@
   },
   {
     "code": "ING500",
-    "title": "OUTILS DE DÉVELOPPEMENT DURABLE POUR",
+    "title": "OUTILS DE DÉVELOPPEMENT DURABLE POUR L'INGÉNIEUR",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -1050,7 +1050,7 @@
   },
   {
     "code": "LOG100",
-    "title": "PROGRAMMATION ET RÉSEAUTIQUE EN GÉNIE",
+    "title": "PROGRAMMATION ET RÉSEAUTIQUE EN GÉNIE LOGICIEL",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -1337,7 +1337,7 @@
   },
   {
     "code": "LOG450",
-    "title": "CONCEPTION D",
+    "title": "CONCEPTION D ’ APPLICATIONS MOBILES",
     "prerequisites": "GTI350 / GTI350, LOG121",
     "groups": {
       "01": [
@@ -1395,7 +1395,7 @@
   },
   {
     "code": "LOG550",
-    "title": "CONCEPTION DE SYSTÈMES INFORMATIQUES EN",
+    "title": "CONCEPTION DE SYSTÈMES INFORMATIQUES EN TEMPS RÉEL",
     "prerequisites": "LOG210",
     "groups": {
       "01": [
@@ -1413,7 +1413,7 @@
   {
     "code": "LOG635",
     "title": "SYSTÈMES INTELLIGENTS ET ALGORITHMES",
-    "prerequisites": "LOG320",
+    "prerequisites": "LOG320 et MAT350 / MAT350, LOG320",
     "groups": {
       "01": [
         {
@@ -1499,7 +1499,7 @@
   },
   {
     "code": "LOG710",
-    "title": "PRINCIPES SYSTÈMES D'EXPL. ET PROGRAMMATION",
+    "title": "PRINCIPES SYSTÈMES D'EXPL. ET PROGRAMMATION SYSTÈME",
     "prerequisites": "GTI310 (G.TI) ; LOG320 (G.Log)",
     "groups": {
       "01": [
@@ -1550,7 +1550,7 @@
   {
     "code": "LOG791",
     "title": "PROJETS SPÉCIAUX",
-    "prerequisites": "département",
+    "prerequisites": "Autorisation du directeur de département",
     "groups": {
       "01": [
         {
@@ -1588,7 +1588,7 @@
   },
   {
     "code": "LRC105",
-    "title": "HOW TO CHANGE THE WORLD",
+    "title": "HOW TO CHANGE THE WORLD « Cours hors-programme offert en anglais et exigeant une approbation de votre candidature par l ’ organisme How to Change the World. Vous devez obligatoirement compléter le formulaire pour déposer votre candidature ici : https://www.programs.htctw.org/course/ets-engineering.",
     "prerequisites": "Min. 70 crédits",
     "groups": {
       "01": [
@@ -1603,7 +1603,7 @@
   },
   {
     "code": "LRC110",
-    "title": "LEADERSHIP ET RESPONSABILITÉ COLLECTIVE",
+    "title": "LEADERSHIP ET RESPONSABILITÉ COLLECTIVE Hors-programme, sauf pour les programmes 7625 , 7694 , 7084 , 7684 et 7086 Pour plus d ’ informations : https://www.etsmtl.ca/etudes/leadership-et-responsabilite-collective.",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -1620,7 +1620,7 @@
   },
   {
     "code": "MAT144",
-    "title": "INTRODUCTION AUX MATHÉMATIQUES DU GÉNIE",
+    "title": "INTRODUCTION AUX MATHÉMATIQUES DU GÉNIE (HORS PROG.)",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -2120,7 +2120,7 @@
   },
   {
     "code": "PEP110",
-    "title": "ENCADREMENT DE LA PROFESSION ET ÉTHIQUE",
+    "title": "ENCADREMENT DE LA PROFESSION ET ÉTHIQUE PROFESSIONNELLE Pour vous inscrire à ce cours en tant qu ’ étudiant libre pour satisfaire aux exigences de l ’ OIQ, suivez les instructions sur cette page : https://www.etsmtl.ca/etudiants/etudiants-libres .",
     "prerequisites": "",
     "groups": {
       "10": [
@@ -2267,7 +2267,7 @@
   },
   {
     "code": "PHY144",
-    "title": "INTRODUCTION À LA PHYSIQUE DU GÉNIE (HORS",
+    "title": "INTRODUCTION À LA PHYSIQUE DU GÉNIE (HORS PROGRAMME)",
     "prerequisites": "",
     "groups": {
       "01": [
@@ -2487,7 +2487,7 @@
   },
   {
     "code": "PRE011",
-    "title": "DÉVELOPPEMENT PROFESSIONNEL ET INITIATION À LA",
+    "title": "DÉVELOPPEMENT PROFESSIONNEL ET INITIATION À LA SANTÉ ET SÉCURITÉ Volet stages - activité à compléter en ligne. Volet intensif santé sécurité 15 h - aux dates spécifiques indiquées pour chaque groupe. • Modalités des ateliers PRE 011 - VOLET INTENSIF SANTÉ-SÉCURITÉ : Obligatoire pour tous les étudiants sauf ceux détenant une carte ASP. Pour les étudiants du programme 7625 en génie de la construction ou tout autre étudiant ayant suivi la formation ASP (vous serez exempté du volet santé-sécurité en suivant les consignes indiquées dans le module 1 du volet STAGES - DÉVELOPPEMENT PROFESSIONNEL). • VOLET STAGES (DÉVELOPPEMENT PROFESSIONNEL): obligatoire pour tous les étudiants, cette activité doit être complétée en ligne, le Service de l'enseignement coopératif vous informera de la procédure à suivre par courriel. Les étudiants du programme 7625 doivent s'inscrire dans le groupe réservé. Le groupe 04 est réservé aux étudiants.es en génie de la construction.",
     "prerequisites": "",
     "groups": {
       "01": [

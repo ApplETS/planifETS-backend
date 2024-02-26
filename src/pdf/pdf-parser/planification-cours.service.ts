@@ -119,7 +119,7 @@ export class PlanificationCoursService {
     };
   }
 
-  // Example: [ , , H24, E24, A24, H25, E25]
+  // Example: [ code, title, H24, E24, A24, H25, E25]
   private parseHeaderCells(pdfData: { Pages: Page[] }) {
     const columns: Column[] = [];
     const headerFills = pdfData.Pages[0].Fills.filter(

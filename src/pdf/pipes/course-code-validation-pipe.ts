@@ -2,7 +2,7 @@ import { PipeTransform, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CourseCodeValidationPipe implements PipeTransform {
-  private readonly whitelist = ['PHYEST', 'MATEST', 'INFTEST'];
+  private readonly whitelist = ['PHYEST', 'MATEST', 'INFTEST']; //FIXME:
 
   /**
    * Transforms the input value after validating it as a course code.

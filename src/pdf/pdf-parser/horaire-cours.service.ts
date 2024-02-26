@@ -19,7 +19,9 @@ import {
 export class HoraireCoursService {
   private readonly COURS_X_AXIS = 0.551;
   private readonly PREALABLE_X_AXIS = 29.86;
-  private readonly titleFontSize = 10.998999999999999;
+  private readonly TITLE_FONT_SIZE = 10.998999999999999;
+  private readonly START_PAGE_CONTENT_Y_AXIS = 14.019;
+  private readonly END_PAGE_CONTENT_Y_AXIS = 59;
 
   courseCodeValidationPipe = new CourseCodeValidationPipe();
 
@@ -85,8 +87,19 @@ export class HoraireCoursService {
         const {
           textContent: text,
           fontSize,
+          bold,
           xPos,
+          yPos,
         } = this.extractTextDetails(textItem);
+
+        if (
+          !text ||
+          // yPos < this.START_PAGE_CONTENT_Y_AXIS ||
+          yPos > this.END_PAGE_CONTENT_Y_AXIS ||
+          bold
+        ) {
+          return;
+        }
 
         if (this.isCourseCode(text, xPos)) {
           //Check if the course is already in the courses array
@@ -119,14 +132,20 @@ export class HoraireCoursService {
           };
 
           //Get the title based on font size
-        } else if (fontSize === this.titleFontSize) {
-          if (!currentCourse.title) {
+        } else if (this.isTitle(text, fontSize)) {
+          if (currentCourse.title) {
+            currentCourse.title += ' ' + text;
+          } else {
             currentCourse.title = text;
           }
           //Get the prerequisites
         } else if (xPos === this.PREALABLE_X_AXIS) {
           // Check if the text is a prerequisite
-          currentCourse.prerequisites = text;
+          if (currentCourse.prerequisites) {
+            currentCourse.prerequisites += ' ' + text; // Append the new prerequisites with a space
+          } else {
+            currentCourse.prerequisites = text;
+          }
         } else if (this.isGroupNumber(text)) {
           if (currentGroupNumber && Object.keys(currentPeriod).length > 0) {
             this.addPeriodToGroup(
@@ -162,9 +181,10 @@ export class HoraireCoursService {
   private extractTextDetails(textItem: Text) {
     const textContent = decodeURIComponent(textItem.R[0].T).trim();
     const fontSize = textItem.R[0].TS[1];
+    const bold = textItem.R[0].TS[2];
     const xPos = textItem.x;
-    // const yPos: number = textItem.y;
-    return { textContent, fontSize, xPos };
+    const yPos = textItem.y;
+    return { textContent, fontSize, bold, xPos, yPos };
   }
 
   private isCourseCode(textContent: string, xPos: number): boolean {
@@ -272,6 +292,10 @@ export class HoraireCoursService {
     if (!this.isPeriodInGroup(course.groups[groupNumber], period)) {
       course.groups[groupNumber].push({ ...period });
     }
+  }
+
+  private isTitle(text: string, fontSize: number): boolean {
+    return fontSize === this.TITLE_FONT_SIZE;
   }
 
   private isPeriodInGroup(group: GroupPeriod[], period: GroupPeriod): boolean {
