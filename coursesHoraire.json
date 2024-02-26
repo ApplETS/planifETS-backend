@@ -244,8 +244,7 @@
           "activity": "TP A+B",
           "teachingMethod": "P",
           "local": "B-3404",
-          "teacher": "J. Vianou",
-          "other": "Date : 2024-02-24 12:31:21"
+          "teacher": "J. Vianou"
         },
         {
           "day": "Ven",
@@ -253,26 +252,7 @@
           "activity": "TP A+B",
           "teachingMethod": "P",
           "local": "B-3404",
-          "teacher": "J. Vianou",
-          "other": "En savoir plus sur les modes d'enseignement"
-        },
-        {
-          "day": "Ven",
-          "time": "18:00 - 22:00",
-          "activity": "TP A+B",
-          "teachingMethod": "P",
-          "local": "B-3404",
-          "teacher": "J. Vianou",
-          "other": "Date : 2024-02-24 12:31:21"
-        },
-        {
-          "day": "Ven",
-          "time": "18:00 - 22:00",
-          "activity": "TP A+B",
-          "teachingMethod": "P",
-          "local": "B-3404",
-          "teacher": "J. Vianou",
-          "other": "En savoir plus sur les modes d'enseignement"
+          "teacher": "J. Vianou"
         }
       ]
     }
@@ -523,32 +503,14 @@
           "time": "18:00 - 20:00",
           "activity": "TP",
           "teachingMethod": "H",
-          "teacher": "K. Lagacé",
-          "other": "Date : 2024-02-24 12:31:21"
+          "teacher": "K. Lagacé"
         },
         {
           "day": "Ven",
           "time": "18:00 - 20:00",
           "activity": "TP",
           "teachingMethod": "H",
-          "teacher": "K. Lagacé",
-          "other": "En savoir plus sur les modes d'enseignement"
-        },
-        {
-          "day": "Ven",
-          "time": "18:00 - 20:00",
-          "activity": "TP",
-          "teachingMethod": "H",
-          "teacher": "K. Lagacé",
-          "other": "Date : 2024-02-24 12:31:21"
-        },
-        {
-          "day": "Ven",
-          "time": "18:00 - 20:00",
-          "activity": "TP",
-          "teachingMethod": "H",
-          "teacher": "K. Lagacé",
-          "other": "En savoir plus sur les modes d'enseignement"
+          "teacher": "K. Lagacé"
         }
       ]
     }
@@ -756,8 +718,7 @@
           "activity": "Labo",
           "teachingMethod": "P",
           "local": "A-3346",
-          "teacher": "I. Mzougui",
-          "other": "Date : 2024-02-24 12:31:21"
+          "teacher": "I. Mzougui"
         },
         {
           "day": "Mar",
@@ -765,26 +726,7 @@
           "activity": "Labo",
           "teachingMethod": "P",
           "local": "A-3346",
-          "teacher": "I. Mzougui",
-          "other": "En savoir plus sur les modes d'enseignement"
-        },
-        {
-          "day": "Mar",
-          "time": "08:30 - 11:30",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "A-3346",
-          "teacher": "I. Mzougui",
-          "other": "Date : 2024-02-24 12:31:21"
-        },
-        {
-          "day": "Mar",
-          "time": "08:30 - 11:30",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "A-3346",
-          "teacher": "I. Mzougui",
-          "other": "En savoir plus sur les modes d'enseignement"
+          "teacher": "I. Mzougui"
         }
       ]
     }
@@ -919,18 +861,10 @@
   {
     "code": "INF111",
     "title": "PROGRAMMATION ORIENTÉE-OBJET (HORS",
-    "description": " PROGRAMME) INFTEST ACCUEIL EN INFORMATIQUE L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "description": " PROGRAMME)",
     "prerequisites": "",
     "groups": {
       "01": [
-        {
-          "day": "Mer",
-          "time": "13:30 - 16:30",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "D-3008",
-          "teacher": "E.H. Alikacem / Y. El Fellah"
-        },
         {
           "day": "Mer",
           "time": "13:30 - 16:30",
@@ -948,53 +882,9 @@
           "teachingMethod": "P",
           "local": "D-5025",
           "teacher": "S. Duval"
-        },
-        {
-          "day": "Ven",
-          "time": "13:30 - 16:30",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "other": "Date : 2024-02-24 12:31:21"
-        },
-        {
-          "day": "Ven",
-          "time": "13:30 - 16:30",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "other": "En savoir plus sur les modes d'enseignement"
-        },
-        {
-          "day": "Mar",
-          "time": "09:00 - 12:00",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "D-5025",
-          "teacher": "S. Duval"
-        },
-        {
-          "day": "Ven",
-          "time": "13:30 - 16:30",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "other": "Date : 2024-02-24 12:31:21"
-        },
-        {
-          "day": "Ven",
-          "time": "13:30 - 16:30",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "other": "En savoir plus sur les modes d'enseignement"
         }
       ],
       "03": [
-        {
-          "day": "Ven",
-          "time": "13:30 - 16:30",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "E-4026",
-          "teacher": "I. Legrene"
-        },
         {
           "day": "Ven",
           "time": "13:30 - 16:30",
@@ -1012,25 +902,9 @@
           "teachingMethod": "P",
           "local": "D-3025",
           "teacher": "S. Duval"
-        },
-        {
-          "day": "Jeu",
-          "time": "13:30 - 16:30",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "D-3025",
-          "teacher": "S. Duval"
         }
       ],
       "05": [
-        {
-          "day": "Mar",
-          "time": "09:00 - 12:00",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "D-4025",
-          "teacher": "S. Velasco"
-        },
         {
           "day": "Mar",
           "time": "09:00 - 12:00",
@@ -1048,14 +922,28 @@
           "teachingMethod": "P",
           "local": "D-4009",
           "teacher": "F. Simard / C. Larose"
-        },
+        }
+      ]
+    }
+  },
+  {
+    "code": "INFTEST",
+    "title": "ACCUEIL EN INFORMATIQUE",
+    "description": " L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "prerequisites": "",
+    "groups": {
+      "02": [
         {
-          "day": "Mer",
+          "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "D-4009",
-          "teacher": "F. Simard / C. Larose"
+          "teachingMethod": "P"
+        },
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "Labo",
+          "teachingMethod": "P"
         }
       ]
     }
@@ -1325,8 +1213,7 @@
           "activity": "Labo",
           "teachingMethod": "P",
           "local": "B-3420, A-3346",
-          "teacher": "T. Fokou Toukam",
-          "other": "Date : 2024-02-24 12:31:21"
+          "teacher": "T. Fokou Toukam"
         },
         {
           "day": "Lun",
@@ -1334,26 +1221,7 @@
           "activity": "Labo",
           "teachingMethod": "P",
           "local": "B-3420, A-3346",
-          "teacher": "T. Fokou Toukam",
-          "other": "En savoir plus sur les modes d'enseignement"
-        },
-        {
-          "day": "Lun",
-          "time": "13:30 - 16:30",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "B-3420, A-3346",
-          "teacher": "T. Fokou Toukam",
-          "other": "Date : 2024-02-24 12:31:21"
-        },
-        {
-          "day": "Lun",
-          "time": "13:30 - 16:30",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "B-3420, A-3346",
-          "teacher": "T. Fokou Toukam",
-          "other": "En savoir plus sur les modes d'enseignement"
+          "teacher": "T. Fokou Toukam"
         }
       ]
     }
@@ -1447,8 +1315,7 @@
           "activity": "Labo",
           "teachingMethod": "P",
           "local": "A-3412",
-          "teacher": "A. Fortier",
-          "other": "Groupe destiné uniquement aux étudiants du baccalauréat en IND."
+          "teacher": "A. Fortier"
         }
       ]
     }
@@ -1557,8 +1424,7 @@
           "activity": "Labo B",
           "teachingMethod": "P",
           "local": "A-3344",
-          "teacher": "N. Bessghaier",
-          "other": "Date : 2024-02-24 12:31:21"
+          "teacher": "N. Bessghaier"
         },
         {
           "day": "Jeu",
@@ -1566,26 +1432,7 @@
           "activity": "Labo B",
           "teachingMethod": "P",
           "local": "A-3344",
-          "teacher": "N. Bessghaier",
-          "other": "En savoir plus sur les modes d'enseignement"
-        },
-        {
-          "day": "Jeu",
-          "time": "15:30 - 17:30",
-          "activity": "Labo B",
-          "teachingMethod": "P",
-          "local": "A-3344",
-          "teacher": "N. Bessghaier",
-          "other": "Date : 2024-02-24 12:31:21"
-        },
-        {
-          "day": "Jeu",
-          "time": "15:30 - 17:30",
-          "activity": "Labo B",
-          "teachingMethod": "P",
-          "local": "A-3344",
-          "teacher": "N. Bessghaier",
-          "other": "En savoir plus sur les modes d'enseignement"
+          "teacher": "N. Bessghaier"
         }
       ]
     }
@@ -1781,32 +1628,14 @@
           "time": "09:00 - 12:30",
           "activity": "C",
           "teachingMethod": "P",
-          "local": "A-1302",
-          "other": "Date : 2024-02-24 12:31:21"
+          "local": "A-1302"
         },
         {
           "day": "Sam",
           "time": "09:00 - 12:30",
           "activity": "C",
           "teachingMethod": "P",
-          "local": "A-1302",
-          "other": "En savoir plus sur les modes d'enseignement"
-        },
-        {
-          "day": "Sam",
-          "time": "09:00 - 12:30",
-          "activity": "C",
-          "teachingMethod": "P",
-          "local": "A-1302",
-          "other": "Date : 2024-02-24 12:31:21"
-        },
-        {
-          "day": "Sam",
-          "time": "09:00 - 12:30",
-          "activity": "C",
-          "teachingMethod": "P",
-          "local": "A-1302",
-          "other": "En savoir plus sur les modes d'enseignement"
+          "local": "A-1302"
         }
       ]
     }
@@ -2031,8 +1860,7 @@
           "activity": "Labo",
           "teachingMethod": "P",
           "local": "D-4008",
-          "teacher": "X. Provençal",
-          "other": "Date : 2024-02-24 12:31:21"
+          "teacher": "X. Provençal"
         },
         {
           "day": "Jeu",
@@ -2040,26 +1868,7 @@
           "activity": "Labo",
           "teachingMethod": "P",
           "local": "D-4008",
-          "teacher": "X. Provençal",
-          "other": "En savoir plus sur les modes d'enseignement"
-        },
-        {
-          "day": "Jeu",
-          "time": "09:00 - 12:00",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "D-4008",
-          "teacher": "X. Provençal",
-          "other": "Date : 2024-02-24 12:31:21"
-        },
-        {
-          "day": "Jeu",
-          "time": "09:00 - 12:00",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "D-4008",
-          "teacher": "X. Provençal",
-          "other": "En savoir plus sur les modes d'enseignement"
+          "teacher": "X. Provençal"
         }
       ]
     }
@@ -2263,7 +2072,7 @@
   {
     "code": "MAT472",
     "title": "ALGÈBRE LINÉAIRE ET GÉOMÉTRIE DE L'ESPACE",
-    "description": "  L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES MATEST ACCUEIL EN MATHÉMATIQUES",
+    "description": "  L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
     "prerequisites": "MAT145",
     "groups": {
       "01": [
@@ -2276,24 +2085,12 @@
           "teacher": "G. Roy-Fortin"
         },
         {
-          "day": "Lun",
-          "time": "13:30 - 16:30",
-          "activity": "TP",
-          "teachingMethod": "P"
-        },
-        {
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "TP",
           "teachingMethod": "P",
           "local": "B-4408",
           "teacher": "G. Roy-Fortin"
-        },
-        {
-          "day": "Lun",
-          "time": "13:30 - 16:30",
-          "activity": "TP",
-          "teachingMethod": "P"
         }
       ],
       "02": [
@@ -2306,24 +2103,12 @@
           "teacher": "G. Roy-Fortin"
         },
         {
-          "day": "Jeu",
-          "time": "09:00 - 12:00",
-          "activity": "TP",
-          "teachingMethod": "P"
-        },
-        {
           "day": "Mar",
           "time": "13:30 - 16:30",
           "activity": "TP",
           "teachingMethod": "P",
           "local": "D-5008",
           "teacher": "G. Roy-Fortin"
-        },
-        {
-          "day": "Jeu",
-          "time": "09:00 - 12:00",
-          "activity": "TP",
-          "teachingMethod": "P"
         }
       ],
       "03": [
@@ -2336,24 +2121,12 @@
           "teacher": "F. Côté"
         },
         {
-          "day": "Mar",
-          "time": "18:00 - 21:00",
-          "activity": "TP",
-          "teachingMethod": "P"
-        },
-        {
           "day": "Jeu",
           "time": "18:00 - 21:00",
           "activity": "TP",
           "teachingMethod": "P",
           "local": "B-0908",
           "teacher": "F. Côté"
-        },
-        {
-          "day": "Mar",
-          "time": "18:00 - 21:00",
-          "activity": "TP",
-          "teachingMethod": "P"
         }
       ],
       "04": [
@@ -2363,8 +2136,7 @@
           "activity": "TP",
           "teachingMethod": "P",
           "local": "D-3010",
-          "teacher": "M. Beaudin",
-          "other": "Date : 2024-02-24 12:31:21"
+          "teacher": "M. Beaudin"
         },
         {
           "day": "Jeu",
@@ -2372,26 +2144,39 @@
           "activity": "TP",
           "teachingMethod": "P",
           "local": "D-3010",
-          "teacher": "M. Beaudin",
-          "other": "En savoir plus sur les modes d'enseignement"
-        },
+          "teacher": "M. Beaudin"
+        }
+      ]
+    }
+  },
+  {
+    "code": "MATEST",
+    "title": "ACCUEIL EN MATHÉMATIQUES",
+    "description": "",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Lun",
+          "time": "13:30 - 16:30",
+          "activity": "TP",
+          "teachingMethod": "P"
+        }
+      ],
+      "02": [
         {
           "day": "Jeu",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
-          "local": "D-3010",
-          "teacher": "M. Beaudin",
-          "other": "Date : 2024-02-24 12:31:21"
-        },
+          "teachingMethod": "P"
+        }
+      ],
+      "03": [
         {
-          "day": "Jeu",
-          "time": "09:00 - 12:00",
+          "day": "Mar",
+          "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P",
-          "local": "D-3010",
-          "teacher": "M. Beaudin",
-          "other": "En savoir plus sur les modes d'enseignement"
+          "teachingMethod": "P"
         }
       ]
     }
@@ -2404,9 +2189,6 @@
     "groups": {
       "10": [
         {
-          "other": "2024"
-        },
-        {
           "day": "Mer",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
@@ -2414,239 +2196,16 @@
           "teacher": "L. Arel"
         },
         {
-          "other": "2024"
-        },
-        {
           "day": "Mer",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
           "teachingMethod": "D",
           "teacher": "L. Arel"
-        }
-      ],
-      "11": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        },
-        {
-          "other": "2024"
-        },
-        {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        }
-      ],
-      "12": [
-        {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        },
-        {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        }
-      ],
-      "13": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "/"
-        },
-        {
-          "other": "2024"
-        },
-        {
-          "other": "/"
-        }
-      ],
-      "14": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "2024"
-        }
-      ],
-      "16": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "/"
-        },
-        {
-          "other": "2024"
-        },
-        {
-          "other": "/"
-        }
-      ],
-      "17": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "/"
-        },
-        {
-          "other": "2024"
-        },
-        {
-          "other": "/"
-        }
-      ],
-      "18": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "2024"
-        }
-      ],
-      "19": [
-        {
-          "other": "/"
-        },
-        {
-          "other": "2024"
-        },
-        {
-          "other": "/"
-        },
-        {
-          "other": "2024"
-        }
-      ],
-      "20": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "/"
-        },
-        {
-          "other": "2024"
-        },
-        {
-          "other": "/"
-        }
-      ],
-      "21": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "2024"
-        }
-      ],
-      "22": [
-        {
-          "other": "/"
-        },
-        {
-          "other": "/"
-        }
-      ],
-      "23": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "/"
-        },
-        {
-          "other": "2024"
-        },
-        {
-          "other": "/"
-        }
-      ],
-      "24": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "2024"
-        }
-      ],
-      "25": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "/"
-        },
-        {
-          "other": "2024"
-        },
-        {
-          "other": "/"
-        }
-      ],
-      "26": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "2024"
         }
       ],
       "27": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "Date : 2024-02-24 12:31:21"
-        },
-        {
-          "other": "En savoir plus sur les modes d'enseignement"
-        },
-        {
-          "other": "2024"
-        },
-        {
-          "other": "Date : 2024-02-24 12:31:21"
-        },
-        {
-          "other": "En savoir plus sur les modes d'enseignement"
-        }
-      ],
-      "28": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        },
-        {
-          "other": "2024"
-        },
-        {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        }
-      ],
-      "30": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "2024"
-        }
-      ],
-      "31": [
-        {
-          "other": "2024"
-        },
-        {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        },
-        {
-          "other": "2024"
-        },
-        {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        }
+        {},
+        {}
       ],
       "01": [
         {
@@ -2658,64 +2217,12 @@
           "teacher": "T. Mekhaël"
         },
         {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        },
-        {
           "day": "Mar",
           "time": "09:00 - 12:30",
           "activity": "Atelier",
           "teachingMethod": "P",
           "local": "D-3010",
           "teacher": "T. Mekhaël"
-        },
-        {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        }
-      ],
-      "06": [
-        {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        },
-        {
-          "day": "Mar",
-          "time": "09:00 - 12:30",
-          "activity": "Atelier",
-          "teachingMethod": "P",
-          "local": "D-3010",
-          "teacher": "L. Arel"
-        },
-        {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        },
-        {
-          "day": "Mar",
-          "time": "09:00 - 12:30",
-          "activity": "Atelier",
-          "teachingMethod": "P",
-          "local": "D-3010",
-          "teacher": "L. Arel"
-        }
-      ],
-      "05": [
-        {
-          "other": "2024"
-        },
-        {
-          "day": "Mer",
-          "time": "18:00 - 21:30",
-          "activity": "Atelier",
-          "teachingMethod": "D",
-          "teacher": "L. Arel"
-        },
-        {
-          "other": "2024"
-        },
-        {
-          "day": "Mer",
-          "time": "18:00 - 21:30",
-          "activity": "Atelier",
-          "teachingMethod": "D",
-          "teacher": "L. Arel"
         }
       ],
       "02": [
@@ -2728,18 +2235,12 @@
           "teacher": "L. Arel"
         },
         {
-          "other": "2024"
-        },
-        {
           "day": "Mar",
           "time": "09:00 - 12:30",
           "activity": "Atelier",
           "teachingMethod": "P",
           "local": "D-3010",
           "teacher": "L. Arel"
-        },
-        {
-          "other": "2024"
         }
       ],
       "03": [
@@ -2760,20 +2261,6 @@
           "teacher": "C. Ebnoether"
         }
       ],
-      "07": [
-        {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        },
-        {
-          "other": "2024"
-        },
-        {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        },
-        {
-          "other": "2024"
-        }
-      ],
       "04": [
         {
           "day": "Jeu",
@@ -2790,34 +2277,54 @@
           "teacher": "L. Arel"
         }
       ],
-      "09": [
+      "05": [
         {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        },
-        {
-          "day": "Jeu",
+          "day": "Mer",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
           "teachingMethod": "D",
           "teacher": "L. Arel"
         },
         {
-          "other": "Dates limites d'abandon avec (AX) / sans (XX) remboursement :"
-        },
-        {
-          "day": "Jeu",
+          "day": "Mer",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
           "teachingMethod": "D",
           "teacher": "L. Arel"
         }
       ],
-      "08": [
+      "06": [
         {
-          "other": "2024"
+          "day": "Mar",
+          "time": "09:00 - 12:30",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "L. Arel"
         },
         {
-          "other": "2024"
+          "day": "Mar",
+          "time": "09:00 - 12:30",
+          "activity": "Atelier",
+          "teachingMethod": "P",
+          "local": "D-3010",
+          "teacher": "L. Arel"
+        }
+      ],
+      "09": [
+        {
+          "day": "Jeu",
+          "time": "18:00 - 21:30",
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "L. Arel"
+        },
+        {
+          "day": "Jeu",
+          "time": "18:00 - 21:30",
+          "activity": "Atelier",
+          "teachingMethod": "D",
+          "teacher": "L. Arel"
         }
       ]
     }
@@ -2941,7 +2448,7 @@
   {
     "code": "PHY335",
     "title": "PHYSIQUE DES ONDES",
-    "description": " PHYEST ACCUEIL EN PHYSIQUE L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "description": "",
     "prerequisites": "CTN248 / ING150",
     "groups": {
       "01": [
@@ -2952,26 +2459,6 @@
           "teachingMethod": "P",
           "local": "B-1514",
           "teacher": "G. Paquin"
-        },
-        {
-          "day": "Ven",
-          "time": "13:30 - 16:30",
-          "activity": "TP/Labo",
-          "teachingMethod": "P"
-        },
-        {
-          "day": "Jeu",
-          "time": "13:30 - 16:30",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "B-1514",
-          "teacher": "G. Paquin"
-        },
-        {
-          "day": "Ven",
-          "time": "13:30 - 16:30",
-          "activity": "TP/Labo",
-          "teachingMethod": "P"
         }
       ],
       "02": [
@@ -2982,26 +2469,6 @@
           "teachingMethod": "P",
           "local": "B-1514",
           "teacher": "X. Daxhelet"
-        },
-        {
-          "day": "Mer",
-          "time": "13:30 - 16:30",
-          "activity": "TP/Labo",
-          "teachingMethod": "P"
-        },
-        {
-          "day": "Mar",
-          "time": "13:30 - 16:30",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "B-1514",
-          "teacher": "X. Daxhelet"
-        },
-        {
-          "day": "Mer",
-          "time": "13:30 - 16:30",
-          "activity": "TP/Labo",
-          "teachingMethod": "P"
         }
       ],
       "03": [
@@ -3012,42 +2479,6 @@
           "teachingMethod": "P",
           "local": "B-1518",
           "teacher": "G. Paquin"
-        },
-        {
-          "day": "Lun",
-          "time": "18:00 - 21:00",
-          "activity": "TP/Labo",
-          "teachingMethod": "P",
-          "other": "Date : 2024-02-24 12:31:21"
-        },
-        {
-          "day": "Lun",
-          "time": "18:00 - 21:00",
-          "activity": "TP/Labo",
-          "teachingMethod": "P",
-          "other": "En savoir plus sur les modes d'enseignement"
-        },
-        {
-          "day": "Jeu",
-          "time": "09:00 - 12:00",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "B-1518",
-          "teacher": "G. Paquin"
-        },
-        {
-          "day": "Lun",
-          "time": "18:00 - 21:00",
-          "activity": "TP/Labo",
-          "teachingMethod": "P",
-          "other": "Date : 2024-02-24 12:31:21"
-        },
-        {
-          "day": "Lun",
-          "time": "18:00 - 21:00",
-          "activity": "TP/Labo",
-          "teachingMethod": "P",
-          "other": "En savoir plus sur les modes d'enseignement"
         }
       ],
       "04": [
@@ -3058,25 +2489,9 @@
           "teachingMethod": "P",
           "local": "B-1708",
           "teacher": "X. Daxhelet"
-        },
-        {
-          "day": "Mar",
-          "time": "09:00 - 12:00",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "B-1708",
-          "teacher": "X. Daxhelet"
         }
       ],
       "05": [
-        {
-          "day": "Mar",
-          "time": "18:00 - 21:00",
-          "activity": "Labo",
-          "teachingMethod": "P",
-          "local": "B-1502",
-          "teacher": "A.S. Bajamgnigni Gbambie"
-        },
         {
           "day": "Mar",
           "time": "18:00 - 21:00",
@@ -3089,96 +2504,61 @@
     }
   },
   {
+    "code": "PHYEST",
+    "title": "ACCUEIL EN PHYSIQUE",
+    "description": " L ’ École se réserve un droit de modifier l ’ horaire sans préavis COURS GR JOUR HEURE ACTIVITÉ Mode d'ens. LOCAL ENSEIGNANT PRÉALABLES",
+    "prerequisites": "",
+    "groups": {
+      "01": [
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "TP/Labo",
+          "teachingMethod": "P"
+        },
+        {
+          "day": "Ven",
+          "time": "13:30 - 16:30",
+          "activity": "TP/Labo",
+          "teachingMethod": "P"
+        }
+      ],
+      "02": [
+        {
+          "day": "Mer",
+          "time": "13:30 - 16:30",
+          "activity": "TP/Labo",
+          "teachingMethod": "P"
+        },
+        {
+          "day": "Mer",
+          "time": "13:30 - 16:30",
+          "activity": "TP/Labo",
+          "teachingMethod": "P"
+        }
+      ],
+      "03": [
+        {
+          "day": "Lun",
+          "time": "18:00 - 21:00",
+          "activity": "TP/Labo",
+          "teachingMethod": "P"
+        },
+        {
+          "day": "Lun",
+          "time": "18:00 - 21:00",
+          "activity": "TP/Labo",
+          "teachingMethod": "P"
+        }
+      ]
+    }
+  },
+  {
     "code": "PRE011",
     "title": "DÉVELOPPEMENT PROFESSIONNEL ET INITIATION À LA",
     "description": " SANTÉ ET SÉCURITÉ Volet stages - activité à compléter en ligne. Volet intensif santé sécurité 15 h - aux dates spécifiques indiquées pour chaque groupe. • Modalités des ateliers PRE 011 - VOLET INTENSIF SANTÉ-SÉCURITÉ : Obligatoire pour tous les étudiants sauf ceux détenant une carte ASP. Pour les étudiants du programme 7625 en génie de la construction ou tout autre étudiant ayant suivi la formation ASP (vous serez exempté du volet santé-sécurité en suivant les consignes indiquées dans le module 1 du volet STAGES - DÉVELOPPEMENT PROFESSIONNEL). • VOLET STAGES (DÉVELOPPEMENT PROFESSIONNEL): obligatoire pour tous les étudiants, cette activité doit être complétée en ligne, le Service de l'enseignement coopératif vous informera de la procédure à suivre par courriel. Les étudiants du programme 7625 doivent s'inscrire dans le groupe réservé. Le groupe 04 est réservé aux étudiants.es en génie de la construction.",
     "prerequisites": "",
     "groups": {
-      "12": [
-        {
-          "other": "2024"
-        }
-      ],
-      "13": [
-        {
-          "other": "2024"
-        }
-      ],
-      "14": [
-        {
-          "other": "2024"
-        }
-      ],
-      "15": [
-        {
-          "other": "2024"
-        }
-      ],
-      "16": [
-        {
-          "other": "2024"
-        }
-      ],
-      "17": [
-        {
-          "other": "2024"
-        }
-      ],
-      "20": [
-        {
-          "other": "2024"
-        }
-      ],
-      "21": [
-        {
-          "other": "2024"
-        }
-      ],
-      "22": [
-        {
-          "other": "2024"
-        }
-      ],
-      "23": [
-        {
-          "other": "2024"
-        }
-      ],
-      "24": [
-        {
-          "other": "2024"
-        }
-      ],
-      "26": [
-        {
-          "other": "2024"
-        }
-      ],
-      "27": [
-        {
-          "other": "2024"
-        }
-      ],
-      "28": [
-        {
-          "other": "2024"
-        }
-      ],
-      "29": [
-        {
-          "other": "2024"
-        }
-      ],
-      "30": [
-        {
-          "other": "2024"
-        }
-      ],
-      "31": [
-        {
-          "other": "2024"
-        }
-      ],
       "01": [
         {
           "day": "Mar",
@@ -3187,11 +2567,6 @@
           "teachingMethod": "P",
           "local": "B-1504",
           "teacher": "D. Lapointe"
-        }
-      ],
-      "06": [
-        {
-          "other": "2024"
         }
       ],
       "02": [
@@ -3204,19 +2579,6 @@
           "teacher": "H. Ntoumaleu"
         }
       ],
-      "05": [
-        {
-          "other": "2024"
-        },
-        {
-          "day": "Sam",
-          "time": "09:00 - 17:00",
-          "activity": "C",
-          "teachingMethod": "P",
-          "local": "B-1518",
-          "teacher": "S. Demers"
-        }
-      ],
       "03": [
         {
           "day": "Mer",
@@ -3225,14 +2587,6 @@
           "teachingMethod": "P",
           "local": "B-1506",
           "teacher": "D. Lapointe"
-        },
-        {
-          "other": "2024"
-        }
-      ],
-      "07": [
-        {
-          "other": "2024"
         }
       ],
       "04": [
@@ -3243,6 +2597,16 @@
           "teachingMethod": "P",
           "local": "B-0908",
           "teacher": "H. Ntoumaleu"
+        }
+      ],
+      "05": [
+        {
+          "day": "Sam",
+          "time": "09:00 - 17:00",
+          "activity": "C",
+          "teachingMethod": "P",
+          "local": "B-1518",
+          "teacher": "S. Demers"
         }
       ],
       "08": [
@@ -3267,7 +2631,6 @@
           "activity": "TP A+B",
           "teachingMethod": "P",
           "local": "B-1506",
-          "other": "É. Francoeur",
           "teacher": "É. Francoeur / P. Truong"
         }
       ],
@@ -3278,7 +2641,6 @@
           "activity": "TP A+B",
           "teachingMethod": "P",
           "local": "D-3012",
-          "other": "É. Francoeur",
           "teacher": "É. Francoeur / P. Truong"
         }
       ],
@@ -3345,8 +2707,7 @@
           "activity": "C",
           "teachingMethod": "P",
           "local": "B-1502",
-          "teacher": "M.K. Daoust",
-          "other": "Date : 2024-02-24 12:31:21"
+          "teacher": "M.K. Daoust"
         },
         {
           "day": "Mer",
@@ -3354,26 +2715,7 @@
           "activity": "C",
           "teachingMethod": "P",
           "local": "B-1502",
-          "teacher": "M.K. Daoust",
-          "other": "En savoir plus sur les modes d'enseignement"
-        },
-        {
-          "day": "Mer",
-          "time": "18:00 - 21:30",
-          "activity": "C",
-          "teachingMethod": "P",
-          "local": "B-1502",
-          "teacher": "M.K. Daoust",
-          "other": "Date : 2024-02-24 12:31:21"
-        },
-        {
-          "day": "Mer",
-          "time": "18:00 - 21:30",
-          "activity": "C",
-          "teachingMethod": "P",
-          "local": "B-1502",
-          "teacher": "M.K. Daoust",
-          "other": "En savoir plus sur les modes d'enseignement"
+          "teacher": "M.K. Daoust"
         },
         {
           "day": "Lun",
@@ -3381,8 +2723,7 @@
           "activity": "pratiques (TP).",
           "teachingMethod": "P",
           "local": "B-1502",
-          "teacher": "M.K. Daoust",
-          "other": "Date : 2024-02-24 12:31:21"
+          "teacher": "M.K. Daoust"
         }
       ]
     }

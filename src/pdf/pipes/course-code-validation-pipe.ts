@@ -2,6 +2,8 @@ import { PipeTransform, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CourseCodeValidationPipe implements PipeTransform {
+  private readonly whitelist = ['PHYEST', 'MATEST', 'INFTEST'];
+
   /**
    * Transforms the input value after validating it as a course code.
    *
@@ -25,6 +27,9 @@ export class CourseCodeValidationPipe implements PipeTransform {
    */
   private isValidCourseCode(courseCode: string): boolean {
     courseCode = courseCode.trim();
+    if (this.whitelist.includes(courseCode)) {
+      return true;
+    }
 
     // Updated length check to allow 6 or 7 characters
     if (courseCode.length < 6 || courseCode.length > 7) {
@@ -40,11 +45,11 @@ export class CourseCodeValidationPipe implements PipeTransform {
     const optionalLetter = courseCode.length === 7 ? courseCode.charAt(6) : '';
 
     // Validate each part of the course code
-    const isLettersValid = /^[A-Za-z]{3}$/.test(letters);
-    const isNumbersValid = /^\d{3}$/.test(numbers);
+    const isPrefixValid = /^[A-Za-z]{3}$/.test(letters);
+    const isSuffixValid = /^\d{3}$/.test(numbers);
     const isOptionalLetterValid =
       optionalLetter === '' || /^[A-Za-z]$/.test(optionalLetter);
 
-    return isLettersValid && isNumbersValid && isOptionalLetterValid;
+    return isPrefixValid && isSuffixValid && isOptionalLetterValid;
   }
 }

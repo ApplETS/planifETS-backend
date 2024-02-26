@@ -239,8 +239,6 @@ export class HoraireCoursService {
       )
     ) {
       return 'dateRange';
-    } else {
-      return 'other';
     }
   }
 
