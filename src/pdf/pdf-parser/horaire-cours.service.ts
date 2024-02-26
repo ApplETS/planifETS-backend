@@ -1,41 +1,20 @@
-import PDFParser from 'pdf2json';
+import PDFParser, { Page, Text } from 'pdf2json';
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { writeDataToFile } from '../../utils/pdf/fileUtils';
 import { firstValueFrom } from 'rxjs';
 import { CourseCodeValidationPipe } from '../pipes/course-code-validation-pipe';
+import {
+  HoraireCourse,
+  GroupPeriod,
+  HorairePeriod,
+} from './types/pdf-parser.types';
 
 //FIXME: Fix groups periods parsing. Some periods are missing.
 //fontsize? xPos? idk
 
 //FIXME: description is not accurate for multiple lines description.
 //TODO : Scrape any courses. that way we'll ensure the accuracy of the title
-
-interface Course {
-  code: string;
-  title: string;
-  description: string;
-  prerequisites: string;
-  groups: Group;
-}
-
-interface GroupPeriod {
-  day?: string;
-  time?: string;
-  activity?: string;
-  teachingMethod?: string;
-  teacher?: string;
-  dateRange?: string;
-  local?: string;
-}
-
-interface Group {
-  [groupNumber: string]: GroupPeriod[];
-}
-
-type Period = {
-  [key: string]: string;
-};
 
 @Injectable()
 export class HoraireCoursService {
@@ -85,12 +64,12 @@ export class HoraireCoursService {
   }
 
   // Processes the raw PDF data to extract course information
-  private processPdfData(err: null | Error, pdfData: any): Course[] {
-    const courses: Course[] = [];
-    let currentCourse: Course = this.initializeCourse();
+  private processPdfData(err: null | Error, pdfData: any): HoraireCourse[] {
+    const courses: HoraireCourse[] = [];
+    let currentCourse: HoraireCourse = this.initializeCourse();
 
     let currentGroupNumber = '';
-    let currentPeriod: Period = {
+    let currentPeriod: HorairePeriod = {
       day: '',
       time: '',
       activity: '',
@@ -100,82 +79,76 @@ export class HoraireCoursService {
       dateRange: '',
     };
 
-    pdfData.Pages.forEach((page: any) => {
+    pdfData.Pages.forEach((page: Page) => {
       const pageData = page.Texts;
 
-      pageData.forEach(
-        (textItem: {
-          R: { TS: [number, number, number, number]; T: string }[];
-          x: number;
-          y: number;
-        }) => {
-          const {
-            textContent: text,
-            fontSize,
-            xPos,
-          } = this.extractTextDetails(textItem);
+      pageData.forEach((textItem: Text) => {
+        const {
+          textContent: text,
+          fontSize,
+          xPos,
+        } = this.extractTextDetails(textItem);
 
-          if (this.isCourseCode(text, xPos)) {
-            //Check if the course is already in the courses array
-            if (currentCourse.code) {
-              if (currentGroupNumber) {
-                this.addPeriodToGroup(
-                  currentCourse,
-                  currentGroupNumber,
-                  currentPeriod,
-                );
-              }
-              if (xPos == this.COURS_X_AXIS)
-                this.addOrUpdateCourse(courses, currentCourse);
-            }
-            currentCourse = {
-              code: text,
-              title: '',
-              description: '',
-              prerequisites: '',
-              groups: {},
-            };
-            currentGroupNumber = '';
-            currentPeriod = {
-              day: '',
-              time: '',
-              activity: '',
-              teacher: '',
-              local: '',
-              teachingMethod: '',
-              dateRange: '',
-            };
-
-            //Get the title and description based on font size
-          } else if (fontSize === this.descriptionFontSize) {
-            if (!currentCourse.title) {
-              currentCourse.title = text;
-            } else {
-              currentCourse.description += ` ${text}`;
-            }
-            //Get the prerequisites
-          } else if (xPos === this.PREALABLE_X_AXIS) {
-            // Check if the text is a prerequisite
-            currentCourse.prerequisites = text;
-          } else if (this.isGroupNumber(text)) {
-            if (currentGroupNumber && Object.keys(currentPeriod).length > 0) {
+        if (this.isCourseCode(text, xPos)) {
+          //Check if the course is already in the courses array
+          if (currentCourse.code) {
+            if (currentGroupNumber) {
               this.addPeriodToGroup(
                 currentCourse,
                 currentGroupNumber,
                 currentPeriod,
               );
             }
-            currentGroupNumber = text;
-            currentPeriod = {};
-          } else if (currentGroupNumber) {
-            this.handleGroupDetails(text, currentPeriod);
-            const detailType = this.getDetailType(text);
-            if (detailType) {
-              currentPeriod[detailType] = text;
-            }
+            if (xPos == this.COURS_X_AXIS)
+              this.addOrUpdateCourse(courses, currentCourse);
           }
-        },
-      );
+          currentCourse = {
+            code: text,
+            title: '',
+            description: '',
+            prerequisites: '',
+            groups: {},
+          };
+          currentGroupNumber = '';
+          currentPeriod = {
+            day: '',
+            time: '',
+            activity: '',
+            teacher: '',
+            local: '',
+            teachingMethod: '',
+            dateRange: '',
+          };
+
+          //Get the title and description based on font size
+        } else if (fontSize === this.descriptionFontSize) {
+          if (!currentCourse.title) {
+            currentCourse.title = text;
+          } else {
+            currentCourse.description += ` ${text}`;
+          }
+          //Get the prerequisites
+        } else if (xPos === this.PREALABLE_X_AXIS) {
+          // Check if the text is a prerequisite
+          currentCourse.prerequisites = text;
+        } else if (this.isGroupNumber(text)) {
+          if (currentGroupNumber && Object.keys(currentPeriod).length > 0) {
+            this.addPeriodToGroup(
+              currentCourse,
+              currentGroupNumber,
+              currentPeriod,
+            );
+          }
+          currentGroupNumber = text;
+          currentPeriod = {};
+        } else if (currentGroupNumber) {
+          this.handleGroupDetails(text, currentPeriod);
+          const detailType = this.getDetailType(text);
+          if (detailType) {
+            currentPeriod[detailType] = text;
+          }
+        }
+      });
 
       // Handle the last course after processing all pages
       this.finalizeCourse(
@@ -190,7 +163,7 @@ export class HoraireCoursService {
     return courses;
   }
 
-  private extractTextDetails(textItem: any) {
+  private extractTextDetails(textItem: Text) {
     const textContent = decodeURIComponent(textItem.R[0].T).trim();
     const fontSize = textItem.R[0].TS[1];
     const xPos = textItem.x;
@@ -205,7 +178,10 @@ export class HoraireCoursService {
     );
   }
 
-  private addOrUpdateCourse(courses: Course[], newCourse: Course): void {
+  private addOrUpdateCourse(
+    courses: HoraireCourse[],
+    newCourse: HoraireCourse,
+  ): void {
     // Check if course already exists in the courses array
     const existingCourseIndex = courses.findIndex(
       (course) => course.code === newCourse.code,
@@ -229,7 +205,10 @@ export class HoraireCoursService {
     }
   }
 
-  private handleGroupDetails(textContent: string, currentPeriod: Period) {
+  private handleGroupDetails(
+    textContent: string,
+    currentPeriod: HorairePeriod,
+  ) {
     const detailType = this.getDetailType(textContent);
     if (detailType) {
       currentPeriod[detailType] = textContent;
@@ -265,7 +244,7 @@ export class HoraireCoursService {
     }
   }
 
-  private initializeCourse(): Course {
+  private initializeCourse(): HoraireCourse {
     return {
       code: '',
       title: '',
@@ -276,10 +255,10 @@ export class HoraireCoursService {
   }
 
   private finalizeCourse(
-    courses: Course[],
-    currentCourse: Course,
+    courses: HoraireCourse[],
+    currentCourse: HoraireCourse,
     currentGroupNumber: string,
-    currentPeriod: Period,
+    currentPeriod: HorairePeriod,
   ) {
     if (currentCourse.code) {
       if (currentGroupNumber) {
@@ -290,9 +269,9 @@ export class HoraireCoursService {
   }
 
   private addPeriodToGroup(
-    course: Course,
+    course: HoraireCourse,
     groupNumber: string,
-    period: Period,
+    period: HorairePeriod,
   ): void {
     if (!course.groups[groupNumber]) {
       course.groups[groupNumber] = [];

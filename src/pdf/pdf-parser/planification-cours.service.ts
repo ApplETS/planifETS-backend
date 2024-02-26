@@ -1,34 +1,13 @@
-import PDFParser from 'pdf2json';
+import PDFParser, { Fill, Page, Text } from 'pdf2json';
 import { HttpService } from '@nestjs/axios';
 import { writeDataToFile } from '../../utils/pdf/fileUtils';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { CourseCodeValidationPipe } from '../pipes/course-code-validation-pipe';
+import { Column, PlanificationCourse } from './types/pdf-parser.types';
 
-interface Course {
-  code: string;
-  title: string;
-  available: Record<string, string>;
-}
-
-class Column {
-  id: any;
-  headerName: any;
-  startX: any;
-  endX: any;
-  startY: any;
-  endY: any;
-  constructor(id, headerName, startX, endX) {
-    this.id = id;
-    this.headerName = headerName;
-    this.startX = this.roundToLowerNumber(startX);
-    this.endX = this.roundToLowerNumber(endX);
-  }
-
-  private roundToLowerNumber(num) {
-    return Math.floor(num * 100000) / 100000;
-  }
-}
+//FIXME: Enforce availability parsing (J, S or I or custom message)
+//Prolly need to check yPos for each cell position
 
 @Injectable()
 export class PlanificationCoursService {
@@ -75,69 +54,53 @@ export class PlanificationCoursService {
     });
   }
 
-  private processPdfData(err: null | Error, pdfData: any): Course[] {
+  private processPdfData(
+    err: null | Error,
+    pdfData: any,
+  ): PlanificationCourse[] {
     const headerCells: Column[] = this.parseHeaderCells(pdfData);
     writeDataToFile(headerCells, 'headerCells.json');
-    const courses: Course[] = [];
-    let currentCourse: Course = this.initializeCourse();
-    let tempTitle = '';
+    const courses: PlanificationCourse[] = [];
+    let currentCourse: PlanificationCourse = this.initializeCourse();
 
-    pdfData.Pages.forEach((page: any) => {
-      page.Texts.forEach((textItem: any) => {
-        const { textContent, xPos, yPos } = this.extractTextDetails(textItem); //? Check yPos later
+    pdfData.Pages.forEach((page: Page) => {
+      page.Texts.forEach((textItem: Text) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { textContent, xPos, yPos } = this.extractTextDetails(textItem); //TODO Check yPos later
 
         // Process course code
         if (
           xPos === this.COURS_X_AXIS &&
           this.isCourseCode(textContent, xPos)
         ) {
-          if (currentCourse.code !== '') {
-            currentCourse.title = tempTitle.trim();
+          if (currentCourse.code) {
             courses.push(currentCourse);
           }
           currentCourse = this.initializeCourse();
           currentCourse.code = textContent;
         } else {
           // Process other columns
-          const currentColumn = this.getColumnDetails(
-            headerCells,
-            xPos,
-            textContent,
-          ); //TEMPO PASSING TEXT
-          if (currentColumn) {
-            if (currentColumn.id === 1) {
-              // Append to temporary title
-              tempTitle += textContent + ' ';
-            } else if (this.isSession(currentColumn.headerName)) {
-              // Check and add availability
-              const availabilityKey = currentColumn.headerName; // Assuming headers like 'E23', 'A23'
-              console.log('availabilityKey ' + availabilityKey);
-              //Get the text of the cell
-              if (currentCourse.available[availabilityKey]) {
-                // Append the text to the existing entry
-                currentCourse.available[availabilityKey] += ` ${textContent}`;
-              } else {
-                // Create a new entry for this session
-                currentCourse.available[availabilityKey] = textContent;
-              }
+          const currentColumn = this.getColumnDetails(headerCells, xPos);
+          if (currentColumn && this.isSession(currentColumn.headerName)) {
+            // Check and add availability
+            const availabilityKey = currentColumn.headerName; // Example: 'E23'
+            if (currentCourse.available[availabilityKey]) {
+              currentCourse.available[availabilityKey] += ` ${textContent}`;
+            } else {
+              currentCourse.available[availabilityKey] = textContent;
             }
           }
         }
       });
     });
     if (currentCourse.code !== '') {
-      currentCourse.title = tempTitle.trim();
       courses.push(currentCourse);
     }
     return courses;
   }
 
   private isTextInCell(
-    text: {
-      R: { TS: [number, number, number, number]; T: string }[];
-      x: any;
-      y: any;
-    },
+    text: any,
     column: { startX: any; endX: any; startY: any; endY: any },
   ) {
     return (
@@ -148,89 +111,62 @@ export class PlanificationCoursService {
     );
   }
 
-  private parseHeaderCells(pdfData: {
-    Pages: {
-      Fills: any;
-      Texts: { R: { TS: [number, number, number, number]; T: string }[] }[];
-    }[];
-  }) {
+  private parseHeaderCells(pdfData: { Pages: Page[] }) {
     const columns: Column[] = [];
     const headerFills = pdfData.Pages[0].Fills.filter(
-      (fill: { clr: number }) => fill.clr === 5,
+      (fill: Fill) => fill.clr === 5,
     );
 
-    headerFills.forEach(
-      (fill: { x: any; w: any; y: any; h: any }, index: any) => {
-        const startX = fill.x - this.BORDER_OFFSET;
-        const endX = fill.x + fill.w;
-        const startY = fill.y;
-        const endY = fill.y + fill.h;
-        let headerName = '';
-        //todo Fix pour avoir tt les pages
-        pdfData.Pages[0].Texts.forEach(
-          (text: {
-            R: { TS: [number, number, number, number]; T: string }[];
-          }) => {
-            if (this.isTextInCell(text, { startX, endX, startY, endY })) {
-              headerName += text.R.map((r) => decodeURIComponent(r.T)).join(
-                ' ',
-              );
-            }
-          },
-        );
+    headerFills.forEach((fill: Fill, index: number) => {
+      const startX = fill.x - this.BORDER_OFFSET;
+      const endX = fill.x + fill.w;
+      const startY = fill.y;
+      const endY = fill.y + fill.h;
+      let headerName = '';
+      pdfData.Pages[0].Texts.forEach(
+        (text: {
+          R: { TS: [number, number, number, number]; T: string }[];
+          x: number;
+          y: number;
+        }) => {
+          if (this.isTextInCell(text, { startX, endX, startY, endY })) {
+            headerName += decodeURIComponent(text.R[0].T).trim() + ' ';
+          }
+        },
+      );
 
-        headerName = headerName.trim();
-        columns.push(new Column(index, headerName, startX, endX));
-      },
-    );
-    console.log('columns ' + columns.length);
-    console.log(columns);
+      headerName = headerName.trim();
+      columns.push(new Column(index, headerName, startX, endX));
+    });
     return columns;
   }
 
-  private getColumnDetails(columns: Column[], x: any, text: any) {
+  private getColumnDetails(columns: Column[], x: any) {
     const column = columns.find(
       (column) => x >= column.startX && x <= column.endX,
-    );
-    console.log(
-      'getColumnDetails, column ' +
-        column?.headerName +
-        ' ' +
-        column?.id +
-        'for text: ' +
-        text,
     );
     return column;
   }
 
-  private extractTextDetails(textItem: {
-    R: { TS: [number, number, number, number]; T: string }[];
-    x: number;
-    y: number;
-  }): { textContent: string; xPos: number; yPos: number } {
+  private extractTextDetails(textItem: Text): {
+    textContent: string;
+    xPos: number;
+    yPos: number;
+  } {
     const textContent = decodeURIComponent(textItem.R[0].T).trim();
     const xPos = textItem.x;
     const yPos: number = textItem.y;
     return { textContent, xPos, yPos };
   }
 
-  private initializeCourse(): Course {
+  private initializeCourse(): PlanificationCourse {
     return {
       code: '',
-      title: '',
       available: {},
     };
   }
 
   private isCourseCode(textContent: string, xPos: number): boolean {
-    console.log(textContent);
-    console.log(
-      'isCourseCode: ' +
-        textContent +
-        'After transform : ' +
-        this.courseCodeValidationPipe.transform(textContent) +
-        xPos,
-    );
     return (
       this.courseCodeValidationPipe.transform(textContent) &&
       xPos == this.COURS_X_AXIS

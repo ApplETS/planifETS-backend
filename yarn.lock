@@ -1486,7 +1486,7 @@
 
 "@xmldom/xmldom@^0.8.8":
   version "0.8.10"
-  resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.8.10.tgz#a1337ca426aa61cef9fe15b5b28e340a72f6fa99"
+  resolved "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.8.10.tgz"
   integrity sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==
 
 "@xtuc/ieee754@^1.2.0":
@@ -2919,7 +2919,7 @@ formidable@^2.1.2:
 
 formidable@^3.2.4:
   version "3.5.1"
-  resolved "https://registry.yarnpkg.com/formidable/-/formidable-3.5.1.tgz#9360a23a656f261207868b1484624c4c8d06ee1a"
+  resolved "https://registry.npmjs.org/formidable/-/formidable-3.5.1.tgz"
   integrity sha512-WJWKelbRHN41m5dumb0/k8TeAx7Id/y3a+Z7QfhxP/htI9Js5zYaEDtG8uMgG0vM0lOlqnmjE99/kfpOYi/0Og==
   dependencies:
     dezalgo "^1.0.4"
@@ -4212,7 +4212,7 @@ neo-async@^2.6.2:
 
 nestjs-soap@^3.0.2:
   version "3.0.2"
-  resolved "https://registry.yarnpkg.com/nestjs-soap/-/nestjs-soap-3.0.2.tgz#de245fe57bd191da8f07db735ffd94487cd46b12"
+  resolved "https://registry.npmjs.org/nestjs-soap/-/nestjs-soap-3.0.2.tgz"
   integrity sha512-aeoh9BnISVV3agy74Ni9OlbCmelatllUt8sHgZ5/MwsKYYXNEY71+BKBmz1Dn2XMYprmgyW3U+pMgGfb5Lfl6w==
   dependencies:
     soap "^1.0.0"
@@ -4455,7 +4455,7 @@ path-type@^4.0.0:
 
 pdf2json@^3.0.5:
   version "3.0.5"
-  resolved "https://registry.npmjs.org/pdf2json/-/pdf2json-3.0.5.tgz"
+  resolved "https://registry.yarnpkg.com/pdf2json/-/pdf2json-3.0.5.tgz#33fa61d58f8a655a14118311e0366a3f5530cb33"
   integrity sha512-Un1yLbSlk/zfwrltgguskExIioXZlFSFwsyXU0cnBorLywbTbcdzmJJEebh+U2cFCtR7y8nDs5lPHAe7ldxjZg==
   dependencies:
     "@xmldom/xmldom" "^0.8.8"
@@ -4971,7 +4971,7 @@ slash@3.0.0, slash@^3.0.0:
 
 soap@^1.0.0:
   version "1.0.0"
-  resolved "https://registry.yarnpkg.com/soap/-/soap-1.0.0.tgz#3273d8cb7bcbe99a69ad9a35fc6b087a9dc3a316"
+  resolved "https://registry.npmjs.org/soap/-/soap-1.0.0.tgz"
   integrity sha512-GB5GuKjWFtAPP0IaM4tKUvdF4dFlaz4iujLPg0DsCy9qAAgm5/g+SI+P9e6igWWwXZ74CC5Uo0VEEz8lte0CJA==
   dependencies:
     axios-ntlm "^1.2.0"
@@ -5631,7 +5631,7 @@ write-file-atomic@^4.0.2:
 
 xml-crypto@^3.0.0:
   version "3.2.0"
-  resolved "https://registry.yarnpkg.com/xml-crypto/-/xml-crypto-3.2.0.tgz#a9debab572c8e895cff5fb351a8d8be3f6e1962e"
+  resolved "https://registry.npmjs.org/xml-crypto/-/xml-crypto-3.2.0.tgz"
   integrity sha512-qVurBUOQrmvlgmZqIVBqmb06TD2a/PpEUfFPgD7BuBfjmoH4zgkqaWSIJrnymlCvM2GGt9x+XtJFA+ttoAufqg==
   dependencies:
     "@xmldom/xmldom" "^0.8.8"
