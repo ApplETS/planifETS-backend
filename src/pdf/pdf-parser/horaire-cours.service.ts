@@ -10,15 +10,15 @@ import { writeDataToFile } from '../../utils/pdf/fileUtils';
 import { firstValueFrom } from 'rxjs';
 import { CourseCodeValidationPipe } from '../pipes/course-code-validation-pipe';
 
-//FIXME: Fix groups periods parsing. Some periods are missing.
-//fontsize? xPos? idk
-
-//TODO : Scrape any courses. that way we'll ensure the accuracy of the title
+//TODO later: Scrape any courses. that way we'll ensure the accuracy of the title
 
 @Injectable()
 export class HoraireCoursService {
   private readonly COURS_X_AXIS = 0.551;
   private readonly PREALABLE_X_AXIS = 29.86;
+  private readonly JOUR_X_AXIS = 5.447;
+  private readonly GROUP_X_AXIS = 3.886;
+
   private readonly TITLE_FONT_SIZE = 10.998999999999999;
   private readonly START_PAGE_CONTENT_Y_AXIS = 14.019;
   private readonly END_PAGE_CONTENT_Y_AXIS = 59;
@@ -47,7 +47,7 @@ export class HoraireCoursService {
         try {
           this.processPdfData(err, null);
         } catch (err) {
-          console.log(err.stack);
+          console.error(err.stack);
         }
       });
       parser.on('pdfParser_dataReady', async (pdfData) => {
@@ -66,83 +66,103 @@ export class HoraireCoursService {
 
   // Processes the raw PDF data to extract course information
   private processPdfData(err: null | Error, pdfData: any): HoraireCourse[] {
-    const courses: HoraireCourse[] = [];
-    let currentCourse: HoraireCourse = this.initializeCourse();
-    let currentGroupNumber = '';
-    let currentPeriod: HorairePeriod = {
-      day: '',
-      time: '',
-      activity: '',
-      teacher: '',
-      local: '',
-      teachingMethod: '',
-      dateRange: '',
-    };
+    try {
+      const courses: HoraireCourse[] = [];
+      let currentCourse: HoraireCourse = this.initializeCourse();
+      let currentGroupNumber = '';
+      let periods: HorairePeriod[] = []; // To accumulate periods for the current group
 
-    pdfData.Pages.forEach((page: Page) => {
-      const pageData = page.Texts;
+      pdfData.Pages.forEach((page: Page) => {
+        const pageData = page.Texts;
 
-      pageData.forEach((textItem: Text) => {
-        const {
-          textContent: text,
-          fontSize,
-          bold,
-          xPos,
-          yPos,
-        } = this.extractTextDetails(textItem);
+        pageData.forEach((textItem: Text) => {
+          const {
+            textContent: text,
+            fontSize,
+            bold,
+            xPos,
+            yPos,
+          } = this.extractTextDetails(textItem);
 
-        if (!text || yPos > this.END_PAGE_CONTENT_Y_AXIS || bold) return;
+          if (!text || yPos > this.END_PAGE_CONTENT_Y_AXIS || bold) return; //Les cells du header (COURS, ...) sont en gras
 
-        if (this.isCourseCode(text, xPos)) {
-          //Check if the course is already in the courses array
-          if (currentCourse.code)
-            this.finalizeCurrentCourse(
-              courses,
-              currentCourse,
-              currentGroupNumber,
-              currentPeriod,
-            );
+          if (this.isCourseCode(text, xPos)) {
+            // Finalize the last group of the current course if necessary
+            if (
+              currentCourse.code &&
+              currentGroupNumber &&
+              !this.isPeriodEmpty(periods[periods.length - 1])
+            ) {
+              this.finalizeCurrentGroup(
+                currentCourse,
+                currentGroupNumber,
+                periods,
+              );
+              periods = [];
+            }
+            if (currentCourse.code) {
+              this.addOrUpdateCourse(courses, currentCourse);
+            }
+            currentCourse = this.initializeCourse();
+            currentCourse.code = text;
+            currentGroupNumber = '';
+          } else if (this.isTitle(text, fontSize)) {
+            currentCourse.title += currentCourse.title ? ' ' + text : text;
+          } else if (xPos === this.PREALABLE_X_AXIS) {
+            currentCourse.prerequisites += currentCourse.prerequisites
+              ? ' ' + text
+              : text;
+          } else if (this.isGroupNumber(text, xPos)) {
+            // Finalize the previous group if necessary
+            if (
+              currentGroupNumber &&
+              periods.length > 0 &&
+              !this.isPeriodEmpty(periods[periods.length - 1])
+            ) {
+              this.finalizeCurrentGroup(
+                currentCourse,
+                currentGroupNumber,
+                periods,
+              );
+              periods = [];
+            }
+            currentGroupNumber = text;
+          } else if (currentGroupNumber) {
+            if (
+              xPos === this.JOUR_X_AXIS &&
+              /^(Lun|Mar|Mer|Jeu|Ven|Sam|Dim)$/.test(text)
+            ) {
+              if (
+                periods.length === 0 ||
+                !this.isPeriodEmpty(periods[periods.length - 1])
+              ) {
+                periods.push(this.initializePeriod());
+              }
+            } else {
+              if (periods.length === 0) {
+                periods.push(this.initializePeriod());
+              }
+            }
+            this.handleGroupDetails(text, xPos, periods[periods.length - 1]);
+          }
+        });
 
-          //---- New course ---- //
-          currentCourse = this.initializeCourse();
-          currentCourse.code = text;
-          currentGroupNumber = '';
-          currentPeriod = this.initializePeriod();
-
-          //Get the title based on font size
-        } else if (this.isTitle(text, fontSize)) {
-          currentCourse.title += currentCourse.title ? ' ' + text : text;
-          //Get the prerequisites
-        } else if (xPos === this.PREALABLE_X_AXIS) {
-          // Check if the text is a prerequisite
-          currentCourse.prerequisites += currentCourse.prerequisites
-            ? ' ' + text
-            : text;
-        } else if (this.isGroupNumber(text)) {
-          this.finalizeCurrentGroup(
-            currentCourse,
-            currentGroupNumber,
-            currentPeriod,
-          );
-
-          currentGroupNumber = text;
-          currentPeriod = this.initializePeriod();
-        } else if (currentGroupNumber) {
-          this.handleGroupDetails(text, currentPeriod);
+        // Finalize the last group of the last course on the page
+        if (currentGroupNumber) {
+          this.finalizeCurrentGroup(currentCourse, currentGroupNumber, periods);
+          periods = [];
         }
       });
 
-      // Handle the last course after processing all pages
-      this.finalizeCurrentCourse(
-        courses,
-        currentCourse,
-        currentGroupNumber,
-        currentPeriod,
-      );
-    });
+      if (currentCourse.code) {
+        this.addOrUpdateCourse(courses, currentCourse);
+      }
 
-    console.log('Total courses: ' + courses.length);
-    return courses;
+      return courses;
+    } catch (error) {
+      console.error('An error occurred:', error);
+      throw new Error('Error processing PDF data');
+    }
   }
 
   private extractTextDetails(textItem: Text) {
@@ -154,10 +174,9 @@ export class HoraireCoursService {
     return { textContent, fontSize, bold, xPos, yPos };
   }
 
-  private isCourseCode(textContent: string, xPos: number): boolean {
+  private isCourseCode(text: string, xPos: number): boolean {
     return (
-      this.courseCodeValidationPipe.transform(textContent) &&
-      xPos == this.COURS_X_AXIS
+      this.courseCodeValidationPipe.transform(text) && xPos == this.COURS_X_AXIS
     );
   }
 
@@ -165,45 +184,42 @@ export class HoraireCoursService {
     courses: HoraireCourse[],
     newCourse: HoraireCourse,
   ): void {
-    // Check if course already exists in the courses array
     const existingCourseIndex = courses.findIndex(
       (course) => course.code === newCourse.code,
     );
-
     if (existingCourseIndex !== -1) {
-      // Merge groups for existing course
       const existingCourse = courses[existingCourseIndex];
-      for (const groupNumber in newCourse.groups) {
-        if (existingCourse.groups[groupNumber]) {
-          existingCourse.groups[groupNumber].push(
-            ...newCourse.groups[groupNumber],
-          );
-        } else {
-          existingCourse.groups[groupNumber] = newCourse.groups[groupNumber];
+      Object.entries(newCourse.groups).forEach(([groupNumber, periods]) => {
+        if (!existingCourse.groups[groupNumber]) {
+          existingCourse.groups[groupNumber] = [];
         }
-      }
+        existingCourse.groups[groupNumber].push(...periods);
+      });
     } else {
-      // Add new course to courses
       courses.push(newCourse);
     }
   }
 
   private handleGroupDetails(
-    textContent: string,
+    text: string,
+    xPos: number,
     currentPeriod: HorairePeriod,
   ) {
-    const detailType = this.getDetailType(textContent);
+    if (!currentPeriod) return;
+
+    const detailType = this.getPeriodDetailType(text);
+
     if (detailType) {
-      currentPeriod[detailType] = textContent;
+      currentPeriod[detailType] = text;
     }
   }
 
-  private getDetailType(text: string): string {
+  private getPeriodDetailType(text: string): string {
     if (/^(Lun|Mar|Mer|Jeu|Ven|Sam|Dim)$/.test(text)) {
       return 'day';
     } else if (/^\d{2}:\d{2} - \d{2}:\d{2}$/.test(text)) {
       return 'time';
-    } else if (/\b[A-Z]\.\s.+/.test(text)) {
+    } else if (/^(\p{L}\.)+\s.+$/u.test(text)) {
       return 'teacher';
     } else if (/[A-Z]-\d{4}/.test(text)) {
       return 'local';
@@ -214,7 +230,7 @@ export class HoraireCoursService {
     ) {
       return 'activity';
     } else if (/^(P|D|C|H)$/.test(text)) {
-      return 'teachingMethod'; //TODO: change for mode
+      return 'mode';
     } else if (
       //expects "19 septembre au 26 septembre 2022" OR "06 septembre 2022" OR "6 septembre 2022"
       /\b(?:1er|0?[1-9]|[12][0-9]|3[01])\s(?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\s\d{4}\b/.test(
@@ -241,22 +257,24 @@ export class HoraireCoursService {
       activity: '',
       teacher: '',
       local: '',
-      teachingMethod: '',
+      mode: '',
       dateRange: '',
     };
   }
 
   private finalizeCurrentGroup(
     course: HoraireCourse,
-    currentGroupNumber: string,
-    currentPeriod: HorairePeriod,
-  ) {
-    if (
-      currentGroupNumber &&
-      Object.keys(currentPeriod).filter((key) => currentPeriod[key] !== '')
-        .length > 0
-    ) {
-      this.addPeriodToGroup(course, currentGroupNumber, currentPeriod);
+    groupNumber: string,
+    periods: HorairePeriod[],
+  ): void {
+    if (!course.groups[groupNumber]) {
+      course.groups[groupNumber] = [];
+    }
+    //Check if the period is not empty
+    if (periods.length > 0) {
+      course.groups[groupNumber].push(...periods);
+    } else {
+      console.error('Periods are empty');
     }
   }
 
@@ -275,6 +293,12 @@ export class HoraireCoursService {
     }
   }
 
+  private isPeriodEmpty(period: HorairePeriod): boolean {
+    return !Object.values(period).some(
+      (value) => value !== '' && value != null,
+    );
+  }
+
   private addPeriodToGroup(
     course: HoraireCourse,
     groupNumber: string,
@@ -283,7 +307,11 @@ export class HoraireCoursService {
     if (!course.groups[groupNumber]) {
       course.groups[groupNumber] = [];
     }
-    if (!this.isPeriodExistsInGroup(course.groups[groupNumber], period)) {
+    if (
+      !this.isPeriodExistsInGroup(course.groups[groupNumber], period) &&
+      !this.isPeriodEmpty(period)
+    ) {
+      console.log('Adding period to group', period);
       course.groups[groupNumber].push({ ...period });
     }
   }
@@ -307,12 +335,12 @@ export class HoraireCoursService {
         existingPeriod.activity === period.activity &&
         existingPeriod.teacher === period.teacher &&
         existingPeriod.local === period.local &&
-        existingPeriod.teachingMethod === period.teachingMethod &&
+        existingPeriod.mode === period.mode &&
         existingPeriod.dateRange === period.dateRange,
     );
   }
 
-  private isGroupNumber(text: string) {
-    return /^\d{2}$/.test(text);
+  private isGroupNumber(text: string, xPos: number) {
+    return xPos === this.GROUP_X_AXIS && /^\d{2}$/.test(text);
   }
 }

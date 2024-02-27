@@ -18,7 +18,7 @@ export interface GroupPeriod {
   day?: string;
   time?: string;
   activity?: string;
-  teachingMethod?: string;
+  mode?: string;
   teacher?: string;
   dateRange?: string;
   local?: string;
