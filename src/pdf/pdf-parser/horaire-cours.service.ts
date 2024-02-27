@@ -68,7 +68,6 @@ export class HoraireCoursService {
   private processPdfData(err: null | Error, pdfData: any): HoraireCourse[] {
     const courses: HoraireCourse[] = [];
     let currentCourse: HoraireCourse = this.initializeCourse();
-
     let currentGroupNumber = '';
     let currentPeriod: HorairePeriod = {
       day: '',
@@ -92,81 +91,49 @@ export class HoraireCoursService {
           yPos,
         } = this.extractTextDetails(textItem);
 
-        if (
-          !text ||
-          // yPos < this.START_PAGE_CONTENT_Y_AXIS ||
-          yPos > this.END_PAGE_CONTENT_Y_AXIS ||
-          bold
-        ) {
-          return;
-        }
+        if (!text || yPos > this.END_PAGE_CONTENT_Y_AXIS || bold) return;
 
         if (this.isCourseCode(text, xPos)) {
           //Check if the course is already in the courses array
-          if (currentCourse.code) {
-            if (currentGroupNumber) {
-              this.addPeriodToGroup(
-                currentCourse,
-                currentGroupNumber,
-                currentPeriod,
-              );
-            }
-            if (xPos == this.COURS_X_AXIS)
-              this.addOrUpdateCourse(courses, currentCourse);
-          }
-          currentCourse = {
-            code: text,
-            title: '',
-            prerequisites: '',
-            groups: {},
-          };
-          currentGroupNumber = '';
-          currentPeriod = {
-            day: '',
-            time: '',
-            activity: '',
-            teacher: '',
-            local: '',
-            teachingMethod: '',
-            dateRange: '',
-          };
-
-          //Get the title based on font size
-        } else if (this.isTitle(text, fontSize)) {
-          if (currentCourse.title) {
-            currentCourse.title += ' ' + text;
-          } else {
-            currentCourse.title = text;
-          }
-          //Get the prerequisites
-        } else if (xPos === this.PREALABLE_X_AXIS) {
-          // Check if the text is a prerequisite
-          if (currentCourse.prerequisites) {
-            currentCourse.prerequisites += ' ' + text;
-          } else {
-            currentCourse.prerequisites = text;
-          }
-        } else if (this.isGroupNumber(text)) {
-          if (currentGroupNumber && Object.keys(currentPeriod).length > 0) {
-            this.addPeriodToGroup(
+          if (currentCourse.code)
+            this.finalizeCurrentCourse(
+              courses,
               currentCourse,
               currentGroupNumber,
               currentPeriod,
             );
-          }
+
+          //---- New course ---- //
+          currentCourse = this.initializeCourse();
+          currentCourse.code = text;
+          currentGroupNumber = '';
+          currentPeriod = this.initializePeriod();
+
+          //Get the title based on font size
+        } else if (this.isTitle(text, fontSize)) {
+          currentCourse.title += currentCourse.title ? ' ' + text : text;
+          //Get the prerequisites
+        } else if (xPos === this.PREALABLE_X_AXIS) {
+          // Check if the text is a prerequisite
+          currentCourse.prerequisites += currentCourse.prerequisites
+            ? ' ' + text
+            : text;
+        } else if (this.isGroupNumber(text)) {
+          this.finalizeCurrentGroup(
+            currentCourse,
+            currentGroupNumber,
+            currentPeriod,
+          );
+
           currentGroupNumber = text;
-          currentPeriod = {};
+          currentPeriod = this.initializePeriod();
         } else if (currentGroupNumber) {
           this.handleGroupDetails(text, currentPeriod);
-          const detailType = this.getDetailType(text);
-          if (detailType) {
-            currentPeriod[detailType] = text;
-          }
         }
       });
 
       // Handle the last course after processing all pages
-      this.finalizeCourse(
+      this.finalizeCurrentCourse(
         courses,
         currentCourse,
         currentGroupNumber,
@@ -247,7 +214,7 @@ export class HoraireCoursService {
     ) {
       return 'activity';
     } else if (/^(P|D|C|H)$/.test(text)) {
-      return 'teachingMethod';
+      return 'teachingMethod'; //TODO: change for mode
     } else if (
       //expects "19 septembre au 26 septembre 2022" OR "06 septembre 2022" OR "6 septembre 2022"
       /\b(?:1er|0?[1-9]|[12][0-9]|3[01])\s(?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\s\d{4}\b/.test(
@@ -267,7 +234,33 @@ export class HoraireCoursService {
     };
   }
 
-  private finalizeCourse(
+  private initializePeriod(): HorairePeriod {
+    return {
+      day: '',
+      time: '',
+      activity: '',
+      teacher: '',
+      local: '',
+      teachingMethod: '',
+      dateRange: '',
+    };
+  }
+
+  private finalizeCurrentGroup(
+    course: HoraireCourse,
+    currentGroupNumber: string,
+    currentPeriod: HorairePeriod,
+  ) {
+    if (
+      currentGroupNumber &&
+      Object.keys(currentPeriod).filter((key) => currentPeriod[key] !== '')
+        .length > 0
+    ) {
+      this.addPeriodToGroup(course, currentGroupNumber, currentPeriod);
+    }
+  }
+
+  private finalizeCurrentCourse(
     courses: HoraireCourse[],
     currentCourse: HoraireCourse,
     currentGroupNumber: string,
@@ -277,6 +270,7 @@ export class HoraireCoursService {
       if (currentGroupNumber) {
         this.addPeriodToGroup(currentCourse, currentGroupNumber, currentPeriod);
       }
+      //Add if (xPos == this.COURS_X_AXIS)
       this.addOrUpdateCourse(courses, currentCourse);
     }
   }
@@ -287,7 +281,6 @@ export class HoraireCoursService {
     period: HorairePeriod,
   ): void {
     if (!course.groups[groupNumber]) {
-      console.log(`!course.groups[groupNumber] ${groupNumber}: `, period);
       course.groups[groupNumber] = [];
     }
     if (!this.isPeriodExistsInGroup(course.groups[groupNumber], period)) {
@@ -308,7 +301,14 @@ export class HoraireCoursService {
     period: GroupPeriod,
   ): boolean {
     return group.some(
-      (groupPeriod) => JSON.stringify(groupPeriod) === JSON.stringify(period),
+      (existingPeriod) =>
+        existingPeriod.day === period.day &&
+        existingPeriod.time === period.time &&
+        existingPeriod.activity === period.activity &&
+        existingPeriod.teacher === period.teacher &&
+        existingPeriod.local === period.local &&
+        existingPeriod.teachingMethod === period.teachingMethod &&
+        existingPeriod.dateRange === period.dateRange,
     );
   }
 

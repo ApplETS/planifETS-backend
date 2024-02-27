@@ -9,8 +9,10 @@
           "day": "Mer",
           "time": "09:00 - 12:30",
           "activity": "Atelier",
+          "teacher": "",
+          "local": "E-4026",
           "teachingMethod": "P",
-          "local": "E-4026"
+          "dateRange": ""
         }
       ]
     }
@@ -25,8 +27,10 @@
           "day": "Mer",
           "time": "13:30 - 17:00",
           "activity": "Atelier",
+          "teacher": "",
+          "local": "D-4010",
           "teachingMethod": "P",
-          "local": "D-4010"
+          "dateRange": ""
         }
       ]
     }
@@ -38,25 +42,34 @@
     "groups": {
       "01": [
         {
+          "day": "",
+          "time": "",
           "activity": "Atelier",
-          "teachingMethod": "D",
           "teacher": "M.K. Daoust",
+          "local": "",
+          "teachingMethod": "D",
           "dateRange": "15 janvier au 19 février 2024"
         }
       ],
       "02": [
         {
+          "day": "",
+          "time": "",
           "activity": "Atelier",
-          "teachingMethod": "D",
           "teacher": "M.K. Daoust",
+          "local": "",
+          "teachingMethod": "D",
           "dateRange": "15 janvier au 19 février 2024"
         }
       ],
       "03": [
         {
+          "day": "",
+          "time": "",
           "activity": "Atelier",
-          "teachingMethod": "D",
           "teacher": "M.K. Daoust",
+          "local": "",
+          "teachingMethod": "D",
           "dateRange": "26 février au 1er avril 2024"
         }
       ]
@@ -69,25 +82,34 @@
     "groups": {
       "55": [
         {
+          "day": "",
+          "time": "",
           "activity": "Atelier",
-          "teachingMethod": "D",
           "teacher": "M.K. Daoust",
+          "local": "",
+          "teachingMethod": "D",
           "dateRange": "26 février au 1er avril 2024"
         }
       ],
       "01": [
         {
+          "day": "",
+          "time": "",
           "activity": "Atelier",
-          "teachingMethod": "D",
           "teacher": "M.K. Daoust",
+          "local": "",
+          "teachingMethod": "D",
           "dateRange": "15 janvier au 19 février 2024"
         }
       ],
       "02": [
         {
+          "day": "",
+          "time": "",
           "activity": "Atelier",
-          "teachingMethod": "D",
           "teacher": "M.K. Daoust",
+          "local": "",
+          "teachingMethod": "D",
           "dateRange": "26 février au 1er avril 2024"
         }
       ]
@@ -103,9 +125,10 @@
           "day": "Mer",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "M. Fraser",
           "local": "B-1720",
-          "teacher": "M. Fraser"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -113,9 +136,10 @@
           "day": "Mar",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "M. Fraser",
           "local": "B-1720",
-          "teacher": "M. Fraser"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -123,9 +147,10 @@
           "day": "Mer",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "J. Bissou Billong",
           "local": "B-1720",
-          "teacher": "J. Bissou Billong"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "04": [
@@ -133,9 +158,10 @@
           "day": "Lun",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "J. Bissou Billong",
           "local": "B-1720",
-          "teacher": "J. Bissou Billong"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "05": [
@@ -143,9 +169,10 @@
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "Z. Hamoudi",
           "local": "B-1404",
-          "teacher": "Z. Hamoudi"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "06": [
@@ -153,9 +180,10 @@
           "day": "Jeu",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "J. Bissou Billong",
           "local": "B-1720",
-          "teacher": "J. Bissou Billong"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "07": [
@@ -163,9 +191,10 @@
           "day": "Jeu",
           "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "Z. Hamoudi",
           "local": "B-1720",
-          "teacher": "Z. Hamoudi"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "08": [
@@ -173,9 +202,10 @@
           "day": "Jeu",
           "time": "13:30 - 17:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "Z. Hamoudi",
           "local": "B-1404",
-          "teacher": "Z. Hamoudi"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "09": [
@@ -183,9 +213,10 @@
           "day": "Ven",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "X. Lavocat-Dubuis",
           "local": "B-1720",
-          "teacher": "X. Lavocat-Dubuis"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -200,17 +231,19 @@
           "day": "Jeu",
           "time": "08:30 - 12:30",
           "activity": "TP A+B",
-          "teachingMethod": "P",
+          "teacher": "M. Claveau",
           "local": "B-3404",
-          "teacher": "M. Claveau"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Jeu",
           "time": "08:30 - 12:30",
           "activity": "TP A+B",
-          "teachingMethod": "P",
+          "teacher": "M. Claveau",
           "local": "B-3404",
-          "teacher": "M. Claveau"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -218,17 +251,19 @@
           "day": "Lun",
           "time": "08:30 - 12:30",
           "activity": "TP A+B",
-          "teachingMethod": "P",
+          "teacher": "K. Dufault",
           "local": "B-3404",
-          "teacher": "K. Dufault"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Lun",
           "time": "08:30 - 12:30",
           "activity": "TP A+B",
-          "teachingMethod": "P",
+          "teacher": "K. Dufault",
           "local": "B-3404",
-          "teacher": "K. Dufault"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -236,17 +271,19 @@
           "day": "Ven",
           "time": "18:00 - 22:00",
           "activity": "TP A+B",
-          "teachingMethod": "P",
+          "teacher": "J. Vianou",
           "local": "B-3404",
-          "teacher": "J. Vianou"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Ven",
           "time": "18:00 - 22:00",
           "activity": "TP A+B",
-          "teachingMethod": "P",
+          "teacher": "J. Vianou",
           "local": "B-3404",
-          "teacher": "J. Vianou"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -261,9 +298,10 @@
           "day": "Mar",
           "time": "18:00 - 22:00",
           "activity": "Labo/2",
-          "teachingMethod": "P",
+          "teacher": "F. Cardinal",
           "local": "A-2500",
-          "teacher": "F. Cardinal"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -278,9 +316,10 @@
           "day": "Jeu",
           "time": "10:30 - 12:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "H. Smidi",
           "local": "D-5009",
-          "teacher": "H. Smidi"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -295,9 +334,10 @@
           "day": "Mer",
           "time": "18:00 - 20:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "P. d'Astous",
           "local": "D-5025",
-          "teacher": "P. d'Astous"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -309,8 +349,13 @@
     "groups": {
       "01": [
         {
+          "day": "",
+          "time": "",
           "activity": "Projets",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -322,8 +367,13 @@
     "groups": {
       "01": [
         {
+          "day": "",
+          "time": "",
           "activity": "Projets",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -335,8 +385,13 @@
     "groups": {
       "01": [
         {
+          "day": "",
+          "time": "",
           "activity": "Projets",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -348,8 +403,13 @@
     "groups": {
       "01": [
         {
+          "day": "",
+          "time": "",
           "activity": "Projets",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -364,9 +424,10 @@
           "day": "Ven",
           "time": "13:30 - 15:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "F.G. Duprat",
           "local": "B-3416",
-          "teacher": "F.G. Duprat"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -381,17 +442,19 @@
           "day": "Mar",
           "time": "13:30 - 15:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "K. Lagacé",
           "local": "D-3018",
-          "teacher": "K. Lagacé"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Mar",
           "time": "13:30 - 15:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "K. Lagacé",
           "local": "D-3018",
-          "teacher": "K. Lagacé"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -399,17 +462,19 @@
           "day": "Ven",
           "time": "15:30 - 17:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "A. Beaudoin",
           "local": "D-3010",
-          "teacher": "A. Beaudoin"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Ven",
           "time": "15:30 - 17:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "A. Beaudoin",
           "local": "D-3010",
-          "teacher": "A. Beaudoin"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -417,17 +482,19 @@
           "day": "Ven",
           "time": "08:30 - 10:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "A. Beaudoin",
           "local": "E-4026",
-          "teacher": "A. Beaudoin"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Ven",
           "time": "08:30 - 10:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "A. Beaudoin",
           "local": "E-4026",
-          "teacher": "A. Beaudoin"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "04": [
@@ -435,17 +502,19 @@
           "day": "Lun",
           "time": "15:30 - 17:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "F. Gravel",
           "local": "B-1514",
-          "teacher": "F. Gravel"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Lun",
           "time": "15:30 - 17:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "F. Gravel",
           "local": "B-1514",
-          "teacher": "F. Gravel"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "05": [
@@ -453,17 +522,19 @@
           "day": "Ven",
           "time": "13:30 - 15:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "F. Gagnon",
           "local": "D-5019",
-          "teacher": "F. Gagnon"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Ven",
           "time": "13:30 - 15:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "F. Gagnon",
           "local": "D-5019",
-          "teacher": "F. Gagnon"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "06": [
@@ -471,15 +542,19 @@
           "day": "Mar",
           "time": "18:00 - 20:00",
           "activity": "TP",
+          "teacher": "B.L. Agba",
+          "local": "",
           "teachingMethod": "H",
-          "teacher": "B.L. Agba"
+          "dateRange": ""
         },
         {
           "day": "Mar",
           "time": "18:00 - 20:00",
           "activity": "TP",
+          "teacher": "B.L. Agba",
+          "local": "",
           "teachingMethod": "H",
-          "teacher": "B.L. Agba"
+          "dateRange": ""
         }
       ],
       "08": [
@@ -487,15 +562,19 @@
           "day": "Ven",
           "time": "18:00 - 20:00",
           "activity": "TP",
+          "teacher": "K. Lagacé",
+          "local": "",
           "teachingMethod": "H",
-          "teacher": "K. Lagacé"
+          "dateRange": ""
         },
         {
           "day": "Ven",
           "time": "18:00 - 20:00",
           "activity": "TP",
+          "teacher": "K. Lagacé",
+          "local": "",
           "teachingMethod": "H",
-          "teacher": "K. Lagacé"
+          "dateRange": ""
         }
       ]
     }
@@ -510,9 +589,10 @@
           "day": "Ven",
           "time": "08:30 - 12:30",
           "activity": "Labo A+B",
-          "teachingMethod": "P",
+          "teacher": "V. Ngô",
           "local": "A-2230",
-          "teacher": "V. Ngô"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -520,9 +600,10 @@
           "day": "Ven",
           "time": "18:00 - 22:00",
           "activity": "Labo A+B",
-          "teachingMethod": "P",
+          "teacher": "C. Tiaya Tedonchio",
           "local": "A-2230",
-          "teacher": "C. Tiaya Tedonchio"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -537,9 +618,10 @@
           "day": "Lun",
           "time": "08:30 - 11:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "G. Baklouti",
           "local": "A-3728",
-          "teacher": "G. Baklouti"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -554,8 +636,10 @@
           "day": "Ven",
           "time": "10:30 - 12:30",
           "activity": "C",
+          "teacher": "S. Tétreault",
           "local": "D-4018",
-          "teacher": "S. Tétreault"
+          "teachingMethod": "",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -563,8 +647,10 @@
           "day": "Jeu",
           "time": "18:00 - 20:00",
           "activity": "C",
+          "teacher": "S. Tétreault",
           "local": "D-5008",
-          "teacher": "S. Tétreault"
+          "teachingMethod": "",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -572,8 +658,10 @@
           "day": "Ven",
           "time": "13:30 - 15:30",
           "activity": "C",
+          "teacher": "S. Tétreault",
           "local": "D-4018",
-          "teacher": "S. Tétreault"
+          "teachingMethod": "",
+          "dateRange": ""
         }
       ]
     }
@@ -588,9 +676,10 @@
           "day": "Jeu",
           "time": "10:30 - 12:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "K.W. Agbeto",
           "local": "A-3446",
-          "teacher": "K.W. Agbeto"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -605,9 +694,10 @@
           "day": "Mer",
           "time": "08:30 - 11:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "B. Alchalabi / F. Cardinal",
           "local": "A-3412, A-3450",
-          "teacher": "B. Alchalabi / F. Cardinal"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -615,9 +705,10 @@
           "day": "Lun",
           "time": "18:00 - 21:00",
           "activity": "Labo",
-          "teachingMethod": "D",
           "teacher": "E. Soucy / F. Cardinal",
-          "local": "A-3412"
+          "local": "A-3412",
+          "teachingMethod": "D",
+          "dateRange": ""
         }
       ]
     }
@@ -632,9 +723,10 @@
           "day": "Lun",
           "time": "10:30 - 12:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "N. Hammami",
           "local": "A-3220",
-          "teacher": "N. Hammami"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -642,8 +734,10 @@
           "day": "Ven",
           "time": "18:00 - 20:00",
           "activity": "Labo",
+          "teacher": "A. Ait-Ouarab",
+          "local": "",
           "teachingMethod": "D",
-          "teacher": "A. Ait-Ouarab"
+          "dateRange": ""
         }
       ]
     }
@@ -658,9 +752,10 @@
           "day": "Mar",
           "time": "18:00 - 20:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "T. Fokou Toukam",
           "local": "A-3220, A-3230",
-          "teacher": "T. Fokou Toukam"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -675,17 +770,19 @@
           "day": "Mer",
           "time": "18:00 - 21:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "I. Mzougui",
           "local": "A-3346",
-          "teacher": "I. Mzougui"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Mer",
           "time": "18:00 - 21:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "I. Mzougui",
           "local": "A-3346",
-          "teacher": "I. Mzougui"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -693,17 +790,19 @@
           "day": "Mar",
           "time": "08:30 - 11:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "I. Mzougui",
           "local": "A-3346",
-          "teacher": "I. Mzougui"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Mar",
           "time": "08:30 - 11:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "I. Mzougui",
           "local": "A-3346",
-          "teacher": "I. Mzougui"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -718,9 +817,10 @@
           "day": "Mer",
           "time": "10:30 - 12:30",
           "activity": "TP-Labo B",
-          "teachingMethod": "P",
+          "teacher": "L.A. Caron",
           "local": "A-3446",
-          "teacher": "L.A. Caron"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -728,9 +828,10 @@
           "day": "Mar",
           "time": "18:00 - 20:00",
           "activity": "TP/Labo",
-          "teachingMethod": "D",
           "teacher": "M. St-Jean / P. Siffre",
-          "local": "A-3340"
+          "local": "A-3340",
+          "teachingMethod": "D",
+          "dateRange": ""
         }
       ]
     }
@@ -745,9 +846,10 @@
           "day": "Lun",
           "time": "10:30 - 12:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "O. Landon-Cardinal",
           "local": "B-3428",
-          "teacher": "O. Landon-Cardinal"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -762,9 +864,10 @@
           "day": "Lun",
           "time": "18:00 - 20:00",
           "activity": "Labo",
-          "teachingMethod": "H",
           "teacher": "S. Bouhoula",
-          "local": "A-3446"
+          "local": "A-3446",
+          "teachingMethod": "H",
+          "dateRange": ""
         }
       ]
     }
@@ -779,8 +882,10 @@
           "day": "Mer",
           "time": "18:00 - 20:00",
           "activity": "Labo",
+          "teacher": "H. Zouahi",
+          "local": "",
           "teachingMethod": "D",
-          "teacher": "H. Zouahi"
+          "dateRange": ""
         }
       ]
     }
@@ -795,9 +900,10 @@
           "day": "Mar",
           "time": "10:30 - 12:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "F. Cardinal",
           "local": "A-3230",
-          "teacher": "F. Cardinal"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -805,9 +911,10 @@
           "day": "Jeu",
           "time": "10:30 - 12:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "B. Alchalabi",
           "local": "A-3230",
-          "teacher": "B. Alchalabi"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -822,9 +929,10 @@
           "day": "Mar",
           "time": "15:30 - 17:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "C. Pere",
           "local": "A-3220",
-          "teacher": "C. Pere"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -839,9 +947,10 @@
           "day": "Mer",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "E.H. Alikacem / Y. El Fellah",
           "local": "D-3008",
-          "teacher": "E.H. Alikacem / Y. El Fellah"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -849,9 +958,10 @@
           "day": "Mar",
           "time": "09:00 - 12:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "S. Duval",
           "local": "D-5025",
-          "teacher": "S. Duval"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -859,9 +969,10 @@
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "I. Legrene",
           "local": "E-4026",
-          "teacher": "I. Legrene"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "04": [
@@ -869,9 +980,10 @@
           "day": "Jeu",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "S. Duval",
           "local": "D-3025",
-          "teacher": "S. Duval"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "05": [
@@ -879,9 +991,10 @@
           "day": "Mar",
           "time": "09:00 - 12:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "S. Velasco",
           "local": "D-4025",
-          "teacher": "S. Velasco"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "06": [
@@ -889,9 +1002,10 @@
           "day": "Mer",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "F. Simard / C. Larose",
           "local": "D-4009",
-          "teacher": "F. Simard / C. Larose"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -906,13 +1020,19 @@
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -927,9 +1047,10 @@
           "day": "Mar",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "D. Benhachmi",
           "local": "B-1516",
-          "teacher": "D. Benhachmi"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -937,9 +1058,10 @@
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "C. Alinot",
           "local": "B-1514",
-          "teacher": "C. Alinot"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -947,9 +1069,10 @@
           "day": "Mer",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "A. Hénault",
           "local": "B-1516",
-          "teacher": "A. Hénault"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "04": [
@@ -957,9 +1080,10 @@
           "day": "Lun",
           "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "G. Paquin",
           "local": "B-1514",
-          "teacher": "G. Paquin"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "05": [
@@ -967,9 +1091,10 @@
           "day": "Lun",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "A. Benmassaoud",
           "local": "B-1516",
-          "teacher": "A. Benmassaoud"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "06": [
@@ -977,9 +1102,10 @@
           "day": "Jeu",
           "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "J. Kouam",
           "local": "B-1514",
-          "teacher": "J. Kouam"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -994,9 +1120,10 @@
           "day": "Jeu",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "A. Bordeleau",
           "local": "E-4025",
-          "teacher": "A. Bordeleau"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1004,9 +1131,10 @@
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "A. Bordeleau",
           "local": "B-1518",
-          "teacher": "A. Bordeleau"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -1014,9 +1142,10 @@
           "day": "Mar",
           "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "D. Benhachmi",
           "local": "B-1720",
-          "teacher": "D. Benhachmi"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1031,9 +1160,10 @@
           "day": "Mer",
           "time": "08:30 - 12:30",
           "activity": "TP/Labo",
-          "teachingMethod": "P",
+          "teacher": "P. Terrier",
           "local": "E-4023",
-          "teacher": "P. Terrier"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1041,9 +1171,10 @@
           "day": "Lun",
           "time": "18:00 - 22:00",
           "activity": "TP/Labo",
-          "teachingMethod": "P",
+          "teacher": "A. Cherifi",
           "local": "B-2622",
-          "teacher": "A. Cherifi"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1058,9 +1189,10 @@
           "day": "Mer",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "I. Mzougui / N. Hammami",
           "local": "A-3450",
-          "teacher": "I. Mzougui / N. Hammami"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1068,9 +1200,10 @@
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "G.O. Djuikom Foka / Y. El Fellah",
           "local": "A-3450",
-          "teacher": "G.O. Djuikom Foka / Y. El Fellah"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1085,17 +1218,19 @@
           "day": "Mar",
           "time": "08:30 - 11:30",
           "activity": "Labo",
-          "teachingMethod": "H",
+          "teacher": "P. Robitaille",
           "local": "A-3412",
-          "teacher": "P. Robitaille"
+          "teachingMethod": "H",
+          "dateRange": ""
         },
         {
           "day": "Mar",
           "time": "08:30 - 11:30",
           "activity": "Labo",
-          "teachingMethod": "H",
+          "teacher": "P. Robitaille",
           "local": "A-3412",
-          "teacher": "P. Robitaille"
+          "teachingMethod": "H",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1103,17 +1238,19 @@
           "day": "Ven",
           "time": "08:30 - 11:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "B. Alchalabi",
           "local": "A-3344",
-          "teacher": "B. Alchalabi"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Ven",
           "time": "08:30 - 11:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "B. Alchalabi",
           "local": "A-3344",
-          "teacher": "B. Alchalabi"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -1121,17 +1258,19 @@
           "day": "Jeu",
           "time": "08:30 - 11:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "S. Aissat",
           "local": "A-3450",
-          "teacher": "S. Aissat"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Jeu",
           "time": "08:30 - 11:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "S. Aissat",
           "local": "A-3450",
-          "teacher": "S. Aissat"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "04": [
@@ -1139,17 +1278,19 @@
           "day": "Lun",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "H",
+          "teacher": "P. Robitaille",
           "local": "A-3344",
-          "teacher": "P. Robitaille"
+          "teachingMethod": "H",
+          "dateRange": ""
         },
         {
           "day": "Lun",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "H",
+          "teacher": "P. Robitaille",
           "local": "A-3344",
-          "teacher": "P. Robitaille"
+          "teachingMethod": "H",
+          "dateRange": ""
         }
       ],
       "05": [
@@ -1157,17 +1298,19 @@
           "day": "Mar",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "S. Aissat",
           "local": "A-3450",
-          "teacher": "S. Aissat"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Mar",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "S. Aissat",
           "local": "A-3450",
-          "teacher": "S. Aissat"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "06": [
@@ -1175,17 +1318,19 @@
           "day": "Lun",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "T. Fokou Toukam",
           "local": "B-3420, A-3346",
-          "teacher": "T. Fokou Toukam"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Lun",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "T. Fokou Toukam",
           "local": "B-3420, A-3346",
-          "teacher": "T. Fokou Toukam"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1200,9 +1345,10 @@
           "day": "Mer",
           "time": "08:30 - 11:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "P. Siffre / N. Beaulieu",
           "local": "A-3346",
-          "teacher": "P. Siffre / N. Beaulieu"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1210,9 +1356,10 @@
           "day": "Mar",
           "time": "18:00 - 21:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "A. Handan / T. Brault Ouellette",
           "local": "A-3346",
-          "teacher": "A. Handan / T. Brault Ouellette"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1227,9 +1374,10 @@
           "day": "Ven",
           "time": "15:30 - 17:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "B. Alchalabi",
           "local": "A-3220",
-          "teacher": "B. Alchalabi"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1237,9 +1385,10 @@
           "day": "Mar",
           "time": "10:30 - 12:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "B. Alchalabi",
           "local": "A-3446",
-          "teacher": "B. Alchalabi"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1254,9 +1403,10 @@
           "day": "Jeu",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "P. Dumouchel",
           "local": "A-3220, A-3230",
-          "teacher": "P. Dumouchel"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1264,9 +1414,10 @@
           "day": "Lun",
           "time": "08:30 - 11:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "S. Hadjres / F. Cardinal",
           "local": "A-3346",
-          "teacher": "S. Hadjres / F. Cardinal"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -1274,9 +1425,10 @@
           "day": "Mar",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "A. Fortier",
           "local": "A-3412",
-          "teacher": "A. Fortier"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1291,9 +1443,10 @@
           "day": "Mer",
           "time": "15:30 - 17:30",
           "activity": "TP-Labo B",
-          "teachingMethod": "H",
+          "teacher": "D. Mercier",
           "local": "A-3230",
-          "teacher": "D. Mercier"
+          "teachingMethod": "H",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1301,9 +1454,10 @@
           "day": "Mar",
           "time": "18:00 - 22:00",
           "activity": "Labo",
-          "teachingMethod": "H",
+          "teacher": "O. De Guise",
           "local": "A-3412",
-          "teacher": "O. De Guise"
+          "teachingMethod": "H",
+          "dateRange": ""
         }
       ]
     }
@@ -1318,9 +1472,10 @@
           "day": "Ven",
           "time": "08:30 - 11:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "K. Aubin / P. Siffre",
           "local": "A-3220, A-3230",
-          "teacher": "K. Aubin / P. Siffre"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1328,9 +1483,10 @@
           "day": "Mar",
           "time": "08:30 - 11:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "P. Siffre / D. Vermette-Nadeau",
           "local": "A-3344, A-3450",
-          "teacher": "P. Siffre / D. Vermette-Nadeau"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1345,9 +1501,10 @@
           "day": "Lun",
           "time": "10:30 - 12:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "B. Alchalabi",
           "local": "A-3344",
-          "teacher": "B. Alchalabi"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1362,8 +1519,10 @@
           "day": "Jeu",
           "time": "18:00 - 20:00",
           "activity": "Labo B",
+          "teacher": "H. Zouahi",
+          "local": "",
           "teachingMethod": "D",
-          "teacher": "H. Zouahi"
+          "dateRange": ""
         }
       ]
     }
@@ -1378,17 +1537,19 @@
           "day": "Jeu",
           "time": "15:30 - 17:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "N. Bessghaier",
           "local": "A-3344",
-          "teacher": "N. Bessghaier"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Jeu",
           "time": "15:30 - 17:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "N. Bessghaier",
           "local": "A-3344",
-          "teacher": "N. Bessghaier"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1403,9 +1564,10 @@
           "day": "Lun",
           "time": "18:00 - 20:00",
           "activity": "Labo",
-          "teachingMethod": "P",
           "teacher": "V.H. Gandji",
-          "local": "A-3344"
+          "local": "A-3344",
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1420,9 +1582,10 @@
           "day": "Jeu",
           "time": "15:30 - 17:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "A. Meftah",
           "local": "A-3446",
-          "teacher": "A. Meftah"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1437,9 +1600,10 @@
           "day": "Mer",
           "time": "10:30 - 12:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "K.W. Agbeto",
           "local": "A-3230",
-          "teacher": "K.W. Agbeto"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1454,8 +1618,10 @@
           "day": "Lun",
           "time": "18:00 - 20:00",
           "activity": "Labo",
+          "teacher": "B. Alchalabi",
+          "local": "",
           "teachingMethod": "D",
-          "teacher": "B. Alchalabi"
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1463,9 +1629,10 @@
           "day": "Mar",
           "time": "18:00 - 20:00",
           "activity": "Labo",
-          "teachingMethod": "D",
           "teacher": "B. Alchalabi",
-          "local": "A-3450"
+          "local": "A-3450",
+          "teachingMethod": "D",
+          "dateRange": ""
         }
       ]
     }
@@ -1480,9 +1647,10 @@
           "day": "Mer",
           "time": "15:30 - 17:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "D. Desvent",
           "local": "A-3220",
-          "teacher": "D. Desvent"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1490,9 +1658,10 @@
           "day": "Lun",
           "time": "15:30 - 17:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "S. Kansab",
           "local": "A-3220",
-          "teacher": "S. Kansab"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1507,8 +1676,10 @@
           "day": "Mar",
           "time": "18:00 - 20:00",
           "activity": "Labo B",
+          "teacher": "A. Brodeur",
+          "local": "",
           "teachingMethod": "D",
-          "teacher": "A. Brodeur"
+          "dateRange": ""
         }
       ]
     }
@@ -1523,9 +1694,10 @@
           "day": "Jeu",
           "time": "15:30 - 17:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "G. Cavalheiro Ullmann",
           "local": "A-3346",
-          "teacher": "G. Cavalheiro Ullmann"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1540,9 +1712,10 @@
           "day": "Mer",
           "time": "15:30 - 17:30",
           "activity": "Labo B",
-          "teachingMethod": "P",
+          "teacher": "A.F. Gruson",
           "local": "A-3344",
-          "teacher": "A.F. Gruson"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1557,8 +1730,10 @@
           "day": "Mer",
           "time": "22:00 - 23:00",
           "activity": "Projet",
+          "teacher": "",
+          "local": "B-1402",
           "teachingMethod": "P",
-          "local": "B-1402"
+          "dateRange": ""
         }
       ]
     }
@@ -1573,15 +1748,19 @@
           "day": "Sam",
           "time": "09:00 - 12:30",
           "activity": "C",
+          "teacher": "",
+          "local": "A-1302",
           "teachingMethod": "P",
-          "local": "A-1302"
+          "dateRange": ""
         },
         {
           "day": "Sam",
           "time": "09:00 - 12:30",
           "activity": "C",
+          "teacher": "",
+          "local": "A-1302",
           "teachingMethod": "P",
-          "local": "A-1302"
+          "dateRange": ""
         }
       ]
     }
@@ -1596,7 +1775,10 @@
           "day": "Mer",
           "time": "18:00 - 19:00",
           "activity": "TP",
-          "teachingMethod": "D"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "D",
+          "dateRange": ""
         }
       ]
     }
@@ -1611,9 +1793,10 @@
           "day": "Jeu",
           "time": "20:00 - 22:00",
           "activity": "TP B",
-          "teachingMethod": "P",
+          "teacher": "M.K. Daoust",
           "local": "A-1424",
-          "teacher": "M.K. Daoust"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1628,9 +1811,10 @@
           "day": "Lun",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "V. Gouaillier",
           "local": "D-5025",
-          "teacher": "V. Gouaillier"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1638,9 +1822,10 @@
           "day": "Jeu",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "I. Himmich",
           "local": "D-3025",
-          "teacher": "I. Himmich"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -1648,9 +1833,10 @@
           "day": "Mar",
           "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "I. Himmich",
           "local": "D-3009",
-          "teacher": "I. Himmich"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "05": [
@@ -1658,9 +1844,9 @@
           "day": "Jeu",
           "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P",
-          "local": "D-4008",
           "teacher": "A. Prud'Homme",
+          "local": "D-4008",
+          "teachingMethod": "P",
           "dateRange": "La première séance de cours se déroulera le mardi 16 janvier 2024."
         }
       ]
@@ -1676,9 +1862,10 @@
           "day": "Lun",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "A. Lacasse",
           "local": "D-4010",
-          "teacher": "A. Lacasse"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1686,9 +1873,10 @@
           "day": "Lun",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "G. Savard / L.C. Navarro Campillo",
           "local": "D-3018",
-          "teacher": "G. Savard / L.C. Navarro Campillo"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -1696,9 +1884,10 @@
           "day": "Mer",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "G. Savard",
           "local": "D-3018",
-          "teacher": "G. Savard"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "04": [
@@ -1706,9 +1895,10 @@
           "day": "Jeu",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "O. Foutlane",
           "local": "D-5025",
-          "teacher": "O. Foutlane"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "05": [
@@ -1716,9 +1906,10 @@
           "day": "Ven",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "A. Lacasse",
           "local": "D-3009",
-          "teacher": "A. Lacasse"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "06": [
@@ -1726,9 +1917,10 @@
           "day": "Mar",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "G. Savard",
           "local": "D-5007",
-          "teacher": "G. Savard"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "07": [
@@ -1736,9 +1928,10 @@
           "day": "Mer",
           "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "R. Hassani",
           "local": "D-3009",
-          "teacher": "R. Hassani"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "08": [
@@ -1746,9 +1939,10 @@
           "day": "Mar",
           "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "P. Mbaraga",
           "local": "D-4017",
-          "teacher": "P. Mbaraga"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1763,17 +1957,19 @@
           "day": "Lun",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "Z. Coulibaly",
           "local": "D-3017",
-          "teacher": "Z. Coulibaly"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Lun",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "Z. Coulibaly",
           "local": "D-3017",
-          "teacher": "Z. Coulibaly"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1781,17 +1977,19 @@
           "day": "Lun",
           "time": "18:00 - 21:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "X. Provençal",
           "local": "D-5017",
-          "teacher": "X. Provençal"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Lun",
           "time": "18:00 - 21:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "X. Provençal",
           "local": "D-5017",
-          "teacher": "X. Provençal"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -1799,17 +1997,19 @@
           "day": "Jeu",
           "time": "09:00 - 12:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "X. Provençal",
           "local": "D-4008",
-          "teacher": "X. Provençal"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Jeu",
           "time": "09:00 - 12:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "X. Provençal",
           "local": "D-4008",
-          "teacher": "X. Provençal"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1824,9 +2024,10 @@
           "day": "Mar",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "K. Dhouib",
           "local": "D-5017",
-          "teacher": "K. Dhouib"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1834,9 +2035,10 @@
           "day": "Jeu",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "R. Persechino",
           "local": "D-3009",
-          "teacher": "R. Persechino"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -1844,9 +2046,10 @@
           "day": "Mar",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "K. Dhouib",
           "local": "D-3017",
-          "teacher": "K. Dhouib"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "04": [
@@ -1854,9 +2057,10 @@
           "day": "Lun",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "A. Madrane",
           "local": "D-3009",
-          "teacher": "A. Madrane"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "05": [
@@ -1864,9 +2068,10 @@
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "A. Madrane",
           "local": "B-1506",
-          "teacher": "A. Madrane"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "06": [
@@ -1874,9 +2079,10 @@
           "day": "Ven",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "G. Picard",
           "local": "D-5008",
-          "teacher": "G. Picard"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "07": [
@@ -1884,9 +2090,10 @@
           "day": "Jeu",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "A. Madrane",
           "local": "D-5017",
-          "teacher": "A. Madrane"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "08": [
@@ -1894,9 +2101,10 @@
           "day": "Lun",
           "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "R. Persechino",
           "local": "D-3009",
-          "teacher": "R. Persechino"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "09": [
@@ -1904,9 +2112,10 @@
           "day": "Mer",
           "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "M. Abdelhamit",
           "local": "D-4017",
-          "teacher": "M. Abdelhamit"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -1921,9 +2130,10 @@
           "day": "Mar",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "S. Lafrance",
           "local": "D-3007",
-          "teacher": "S. Lafrance"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -1931,9 +2141,10 @@
           "day": "Lun",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "O. Foutlane",
           "local": "D-5008",
-          "teacher": "O. Foutlane"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -1941,9 +2152,10 @@
           "day": "Mer",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "J.P. Labbé",
           "local": "D-3017",
-          "teacher": "J.P. Labbé"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "04": [
@@ -1951,9 +2163,10 @@
           "day": "Jeu",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "S. Lafrance",
           "local": "D-3007",
-          "teacher": "S. Lafrance"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "05": [
@@ -1961,9 +2174,10 @@
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "S. Lafrance",
           "local": "B-1502",
-          "teacher": "S. Lafrance"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "06": [
@@ -1971,9 +2185,10 @@
           "day": "Ven",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "S. Gervais",
           "local": "D-5019",
-          "teacher": "S. Gervais"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "07": [
@@ -1981,9 +2196,10 @@
           "day": "Mer",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "J.P. Labbé",
           "local": "D-3009",
-          "teacher": "J.P. Labbé"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "08": [
@@ -1991,9 +2207,10 @@
           "day": "Mar",
           "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "R. Hassani",
           "local": "B-0904",
-          "teacher": "R. Hassani"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "09": [
@@ -2001,9 +2218,10 @@
           "day": "Lun",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "R. Maalaoui",
           "local": "D-3010",
-          "teacher": "R. Maalaoui"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -2018,17 +2236,19 @@
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "G. Roy-Fortin",
           "local": "B-4408",
-          "teacher": "G. Roy-Fortin"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "G. Roy-Fortin",
           "local": "B-4408",
-          "teacher": "G. Roy-Fortin"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -2036,17 +2256,19 @@
           "day": "Mar",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "G. Roy-Fortin",
           "local": "D-5008",
-          "teacher": "G. Roy-Fortin"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Mar",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "G. Roy-Fortin",
           "local": "D-5008",
-          "teacher": "G. Roy-Fortin"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -2054,17 +2276,19 @@
           "day": "Jeu",
           "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "F. Côté",
           "local": "B-0908",
-          "teacher": "F. Côté"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Jeu",
           "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "F. Côté",
           "local": "B-0908",
-          "teacher": "F. Côté"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "04": [
@@ -2072,17 +2296,19 @@
           "day": "Jeu",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "M. Beaudin",
           "local": "D-3010",
-          "teacher": "M. Beaudin"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Jeu",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P",
+          "teacher": "M. Beaudin",
           "local": "D-3010",
-          "teacher": "M. Beaudin"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -2097,7 +2323,10 @@
           "day": "Lun",
           "time": "13:30 - 16:30",
           "activity": "TP",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -2105,7 +2334,10 @@
           "day": "Jeu",
           "time": "09:00 - 12:00",
           "activity": "TP",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -2113,7 +2345,10 @@
           "day": "Mar",
           "time": "18:00 - 21:00",
           "activity": "TP",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -2128,37 +2363,59 @@
           "day": "Mer",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
+          "teacher": "L. Arel",
+          "local": "",
           "teachingMethod": "D",
-          "teacher": "L. Arel"
+          "dateRange": ""
         },
         {
           "day": "Mer",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
+          "teacher": "L. Arel",
+          "local": "",
           "teachingMethod": "D",
-          "teacher": "L. Arel"
+          "dateRange": ""
         }
       ],
       "27": [
-        {},
-        {}
+        {
+          "day": "",
+          "time": "",
+          "activity": "",
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "",
+          "dateRange": ""
+        },
+        {
+          "day": "",
+          "time": "",
+          "activity": "",
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "",
+          "dateRange": ""
+        }
       ],
       "01": [
         {
           "day": "Mar",
           "time": "09:00 - 12:30",
           "activity": "Atelier",
-          "teachingMethod": "P",
+          "teacher": "T. Mekhaël",
           "local": "D-3010",
-          "teacher": "T. Mekhaël"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Mar",
           "time": "09:00 - 12:30",
           "activity": "Atelier",
-          "teachingMethod": "P",
+          "teacher": "T. Mekhaël",
           "local": "D-3010",
-          "teacher": "T. Mekhaël"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -2166,17 +2423,19 @@
           "day": "Mar",
           "time": "09:00 - 12:30",
           "activity": "Atelier",
-          "teachingMethod": "P",
+          "teacher": "L. Arel",
           "local": "D-3010",
-          "teacher": "L. Arel"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Mar",
           "time": "09:00 - 12:30",
           "activity": "Atelier",
-          "teachingMethod": "P",
+          "teacher": "L. Arel",
           "local": "D-3010",
-          "teacher": "L. Arel"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -2184,17 +2443,19 @@
           "day": "Mer",
           "time": "13:30 - 17:00",
           "activity": "Atelier",
-          "teachingMethod": "P",
+          "teacher": "C. Ebnoether",
           "local": "D-3009",
-          "teacher": "C. Ebnoether"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Mer",
           "time": "13:30 - 17:00",
           "activity": "Atelier",
-          "teachingMethod": "P",
+          "teacher": "C. Ebnoether",
           "local": "D-3009",
-          "teacher": "C. Ebnoether"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "04": [
@@ -2202,15 +2463,19 @@
           "day": "Jeu",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
+          "teacher": "L. Arel",
+          "local": "",
           "teachingMethod": "D",
-          "teacher": "L. Arel"
+          "dateRange": ""
         },
         {
           "day": "Jeu",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
+          "teacher": "L. Arel",
+          "local": "",
           "teachingMethod": "D",
-          "teacher": "L. Arel"
+          "dateRange": ""
         }
       ],
       "05": [
@@ -2218,15 +2483,19 @@
           "day": "Mer",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
+          "teacher": "L. Arel",
+          "local": "",
           "teachingMethod": "D",
-          "teacher": "L. Arel"
+          "dateRange": ""
         },
         {
           "day": "Mer",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
+          "teacher": "L. Arel",
+          "local": "",
           "teachingMethod": "D",
-          "teacher": "L. Arel"
+          "dateRange": ""
         }
       ],
       "06": [
@@ -2234,17 +2503,19 @@
           "day": "Mar",
           "time": "09:00 - 12:30",
           "activity": "Atelier",
-          "teachingMethod": "P",
+          "teacher": "L. Arel",
           "local": "D-3010",
-          "teacher": "L. Arel"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Mar",
           "time": "09:00 - 12:30",
           "activity": "Atelier",
-          "teachingMethod": "P",
+          "teacher": "L. Arel",
           "local": "D-3010",
-          "teacher": "L. Arel"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "09": [
@@ -2252,15 +2523,19 @@
           "day": "Jeu",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
+          "teacher": "L. Arel",
+          "local": "",
           "teachingMethod": "D",
-          "teacher": "L. Arel"
+          "dateRange": ""
         },
         {
           "day": "Jeu",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
+          "teacher": "L. Arel",
+          "local": "",
           "teachingMethod": "D",
-          "teacher": "L. Arel"
+          "dateRange": ""
         }
       ]
     }
@@ -2275,9 +2550,10 @@
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "TP/Labo",
-          "teachingMethod": "P",
+          "teacher": "A. Benmassaoud",
           "local": "B-1706",
-          "teacher": "A. Benmassaoud"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -2285,9 +2561,10 @@
           "day": "Mer",
           "time": "13:30 - 16:30",
           "activity": "TP/Labo",
-          "teachingMethod": "P",
+          "teacher": "C. Alinot",
           "local": "B-3406",
-          "teacher": "C. Alinot"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -2295,9 +2572,10 @@
           "day": "Lun",
           "time": "18:00 - 21:00",
           "activity": "TP/Labo",
-          "teachingMethod": "P",
+          "teacher": "Y. Kolomatski",
           "local": "B-3406",
-          "teacher": "Y. Kolomatski"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "05": [
@@ -2305,9 +2583,10 @@
           "day": "Jeu",
           "time": "18:00 - 21:00",
           "activity": "TP/Labo",
-          "teachingMethod": "P",
+          "teacher": "C. Liu",
           "local": "B-3402",
-          "teacher": "C. Liu"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -2322,9 +2601,10 @@
           "day": "Mer",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "T. Ait Ahcene",
           "local": "B-1708",
-          "teacher": "T. Ait Ahcene"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -2332,9 +2612,10 @@
           "day": "Jeu",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "M. Boulé",
           "local": "B-1706",
-          "teacher": "M. Boulé"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -2342,9 +2623,10 @@
           "day": "Mar",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "A. Hénault",
           "local": "B-1518",
-          "teacher": "A. Hénault"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "04": [
@@ -2352,9 +2634,10 @@
           "day": "Jeu",
           "time": "09:00 - 12:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "T. Ait Ahcene",
           "local": "B-1516",
-          "teacher": "T. Ait Ahcene"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "05": [
@@ -2362,9 +2645,10 @@
           "day": "Mar",
           "time": "09:00 - 12:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "N. Dabin-Voix",
           "local": "B-1706",
-          "teacher": "N. Dabin-Voix"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "06": [
@@ -2372,9 +2656,10 @@
           "day": "Ven",
           "time": "18:00 - 21:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "J. Kouam",
           "local": "B-1514",
-          "teacher": "J. Kouam"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -2389,9 +2674,10 @@
           "day": "Jeu",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "G. Paquin",
           "local": "B-1514",
-          "teacher": "G. Paquin"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -2399,9 +2685,10 @@
           "day": "Mar",
           "time": "13:30 - 16:30",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "X. Daxhelet",
           "local": "B-1514",
-          "teacher": "X. Daxhelet"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -2409,9 +2696,10 @@
           "day": "Jeu",
           "time": "09:00 - 12:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "G. Paquin",
           "local": "B-1518",
-          "teacher": "G. Paquin"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "04": [
@@ -2419,9 +2707,10 @@
           "day": "Mar",
           "time": "09:00 - 12:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "X. Daxhelet",
           "local": "B-1708",
-          "teacher": "X. Daxhelet"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "05": [
@@ -2429,9 +2718,10 @@
           "day": "Mar",
           "time": "18:00 - 21:00",
           "activity": "Labo",
-          "teachingMethod": "P",
+          "teacher": "A.S. Bajamgnigni Gbambie",
           "local": "B-1502",
-          "teacher": "A.S. Bajamgnigni Gbambie"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -2446,13 +2736,19 @@
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "TP/Labo",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Ven",
           "time": "13:30 - 16:30",
           "activity": "TP/Labo",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -2460,13 +2756,19 @@
           "day": "Mer",
           "time": "13:30 - 16:30",
           "activity": "TP/Labo",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Mer",
           "time": "13:30 - 16:30",
           "activity": "TP/Labo",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -2474,13 +2776,19 @@
           "day": "Lun",
           "time": "18:00 - 21:00",
           "activity": "TP/Labo",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Lun",
           "time": "18:00 - 21:00",
           "activity": "TP/Labo",
-          "teachingMethod": "P"
+          "teacher": "",
+          "local": "",
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
@@ -2495,9 +2803,10 @@
           "day": "Mar",
           "time": "13:30 - 17:00",
           "activity": "Atelier",
-          "teachingMethod": "P",
+          "teacher": "D. Lapointe",
           "local": "B-1504",
-          "teacher": "D. Lapointe"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -2505,9 +2814,10 @@
           "day": "Lun",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
-          "teachingMethod": "P",
+          "teacher": "H. Ntoumaleu",
           "local": "B-0908",
-          "teacher": "H. Ntoumaleu"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -2515,9 +2825,10 @@
           "day": "Mer",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
-          "teachingMethod": "P",
+          "teacher": "D. Lapointe",
           "local": "B-1506",
-          "teacher": "D. Lapointe"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "04": [
@@ -2525,9 +2836,10 @@
           "day": "Mer",
           "time": "18:00 - 21:30",
           "activity": "Atelier",
-          "teachingMethod": "P",
+          "teacher": "H. Ntoumaleu",
           "local": "B-0908",
-          "teacher": "H. Ntoumaleu"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "05": [
@@ -2535,16 +2847,21 @@
           "day": "Sam",
           "time": "09:00 - 17:00",
           "activity": "C",
-          "teachingMethod": "P",
+          "teacher": "S. Demers",
           "local": "B-1518",
-          "teacher": "S. Demers"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "08": [
         {
+          "day": "",
+          "time": "",
           "activity": "Atelier",
+          "teacher": "",
+          "local": "B-0906",
           "teachingMethod": "P",
-          "local": "B-0906"
+          "dateRange": ""
         }
       ]
     }
@@ -2559,9 +2876,10 @@
           "day": "Mar",
           "time": "08:30 - 12:30",
           "activity": "TP A+B",
-          "teachingMethod": "P",
+          "teacher": "É. Francoeur / P. Truong",
           "local": "B-1506",
-          "teacher": "É. Francoeur / P. Truong"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "02": [
@@ -2569,9 +2887,10 @@
           "day": "Mer",
           "time": "08:30 - 12:30",
           "activity": "TP A+B",
-          "teachingMethod": "P",
+          "teacher": "É. Francoeur / P. Truong",
           "local": "D-3012",
-          "teacher": "É. Francoeur / P. Truong"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "03": [
@@ -2579,9 +2898,10 @@
           "day": "Jeu",
           "time": "13:30 - 17:30",
           "activity": "TP A+B",
-          "teachingMethod": "P",
+          "teacher": "M. Monette",
           "local": "B-1506",
-          "teacher": "M. Monette"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "04": [
@@ -2589,9 +2909,10 @@
           "day": "Lun",
           "time": "13:30 - 17:30",
           "activity": "TP A+B",
-          "teachingMethod": "P",
+          "teacher": "L. Arel",
           "local": "B-4408",
-          "teacher": "L. Arel"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "05": [
@@ -2599,9 +2920,10 @@
           "day": "Ven",
           "time": "13:30 - 17:30",
           "activity": "TP A+B",
-          "teachingMethod": "P",
+          "teacher": "M. Monette",
           "local": "D-5012",
-          "teacher": "M. Monette"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ],
       "07": [
@@ -2609,8 +2931,10 @@
           "day": "Jeu",
           "time": "18:00 - 22:00",
           "activity": "TP A+B",
+          "teacher": "M. Monette",
+          "local": "",
           "teachingMethod": "H",
-          "teacher": "M. Monette"
+          "dateRange": ""
         }
       ],
       "08": [
@@ -2618,8 +2942,10 @@
           "day": "Lun",
           "time": "18:00 - 22:00",
           "activity": "TP A+B",
+          "teacher": "V. Babin",
+          "local": "",
           "teachingMethod": "H",
-          "teacher": "V. Babin"
+          "dateRange": ""
         }
       ]
     }
@@ -2634,25 +2960,28 @@
           "day": "Mer",
           "time": "18:00 - 21:30",
           "activity": "C",
-          "teachingMethod": "P",
+          "teacher": "M.K. Daoust",
           "local": "B-1502",
-          "teacher": "M.K. Daoust"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Mer",
           "time": "18:00 - 21:30",
           "activity": "C",
-          "teachingMethod": "P",
+          "teacher": "M.K. Daoust",
           "local": "B-1502",
-          "teacher": "M.K. Daoust"
+          "teachingMethod": "P",
+          "dateRange": ""
         },
         {
           "day": "Lun",
           "time": "18:00 - 22:00",
           "activity": "pratiques (TP).",
-          "teachingMethod": "P",
+          "teacher": "M.K. Daoust",
           "local": "B-1502",
-          "teacher": "M.K. Daoust"
+          "teachingMethod": "P",
+          "dateRange": ""
         }
       ]
     }
