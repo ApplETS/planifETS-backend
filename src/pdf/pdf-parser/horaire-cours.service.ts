@@ -1,14 +1,14 @@
 import PDFParser, { Page, Text } from 'pdf2json';
-import { Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
-import { writeDataToFile } from '../../utils/pdf/fileUtils';
-import { firstValueFrom } from 'rxjs';
-import { CourseCodeValidationPipe } from '../pipes/course-code-validation-pipe';
 import {
   HoraireCourse,
   GroupPeriod,
   HorairePeriod,
 } from './types/pdf-parser.types';
+import { Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { writeDataToFile } from '../../utils/pdf/fileUtils';
+import { firstValueFrom } from 'rxjs';
+import { CourseCodeValidationPipe } from '../pipes/course-code-validation-pipe';
 
 //FIXME: Fix groups periods parsing. Some periods are missing.
 //fontsize? xPos? idk
@@ -142,7 +142,7 @@ export class HoraireCoursService {
         } else if (xPos === this.PREALABLE_X_AXIS) {
           // Check if the text is a prerequisite
           if (currentCourse.prerequisites) {
-            currentCourse.prerequisites += ' ' + text; // Append the new prerequisites with a space
+            currentCourse.prerequisites += ' ' + text;
           } else {
             currentCourse.prerequisites = text;
           }
@@ -287,18 +287,26 @@ export class HoraireCoursService {
     period: HorairePeriod,
   ): void {
     if (!course.groups[groupNumber]) {
+      console.log(`!course.groups[groupNumber] ${groupNumber}: `, period);
       course.groups[groupNumber] = [];
     }
-    if (!this.isPeriodInGroup(course.groups[groupNumber], period)) {
+    if (!this.isPeriodExistsInGroup(course.groups[groupNumber], period)) {
       course.groups[groupNumber].push({ ...period });
     }
   }
 
   private isTitle(text: string, fontSize: number): boolean {
-    return fontSize === this.TITLE_FONT_SIZE;
+    return (
+      fontSize === this.TITLE_FONT_SIZE &&
+      text == text.toUpperCase() &&
+      text != text.toLowerCase()
+    );
   }
 
-  private isPeriodInGroup(group: GroupPeriod[], period: GroupPeriod): boolean {
+  private isPeriodExistsInGroup(
+    group: GroupPeriod[],
+    period: GroupPeriod,
+  ): boolean {
     return group.some(
       (groupPeriod) => JSON.stringify(groupPeriod) === JSON.stringify(period),
     );
