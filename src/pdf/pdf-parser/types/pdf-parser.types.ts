@@ -45,8 +45,8 @@ export class Column {
   ) {
     this.id = id;
     this.headerName = headerName;
-    this.startX = this.roundToLowerNumber(startX);
-    this.endX = this.roundToLowerNumber(endX);
+    this.startX = this.truncateToFiveDecimals(startX);
+    this.endX = this.truncateToFiveDecimals(endX);
 
     if (id === 0) {
       this.headerName = 'code';
@@ -55,7 +55,7 @@ export class Column {
     }
   }
 
-  private roundToLowerNumber(num) {
+  private truncateToFiveDecimals(num) {
     return Math.floor(num * 100000) / 100000;
   }
 }
