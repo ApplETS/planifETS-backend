@@ -5,10 +5,11 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin'],
+  plugins: ['@typescript-eslint/eslint-plugin', "import", "simple-import-sort"],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
+    'airbnb-typescript/base'
   ],
   root: true,
   env: {
@@ -18,9 +19,12 @@ module.exports = {
   ignorePatterns: ['.eslintrc.js'],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
+    "@typescript-eslint/lines-between-class-members": "off",
+    "complexity": ["warn", { "max": 10 }],
+    "complexity": ["error", { "max": 15 }],
+    "@typescript-eslint/explicit-member-accessibility": "error",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
     'prettier/prettier': [
       'error',
       {
