@@ -1,10 +1,11 @@
-import PDFParser, { Fill, Page, Text } from 'pdf2json';
+import PDFParser, { Output, Fill, Page, Text } from 'pdf2json';
 import { HttpService } from '@nestjs/axios';
-import { writeDataToFile } from '../../utils/pdf/fileUtils';
+import { writeDataToFile } from '../../../utils/pdf/fileUtils';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
-import { CourseCodeValidationPipe } from '../pipes/course-code-validation-pipe';
-import { Column, PlanificationCourse } from './types/pdf-parser.types';
+import { CourseCodeValidationPipe } from '../../pipes/course-code-validation-pipe';
+import { Row } from './Row';
+import { PlanificationCours } from './planification-cours.types';
 
 //TODO Add title to the course (cycles superieurs ont plusieurs cours avec le meme code)
 //https://horaire.etsmtl.ca/Horairepublication/Planification-CyclesSuperieurs.pdf
@@ -18,7 +19,7 @@ export class PlanificationCoursService {
 
   constructor(private httpService: HttpService) {}
 
-  async parsePdfFromUrl(pdfUrl: string): Promise<any> {
+  async parsePdfFromUrl(pdfUrl: string): Promise<PlanificationCours[]> {
     try {
       const response = await firstValueFrom(
         this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),
@@ -28,21 +29,18 @@ export class PlanificationCoursService {
       throw new Error('Error fetching pdf from URL ' + error);
     }
   }
-  parsePlanificationCoursPdf(pdfBuffer: Buffer): Promise<any> {
+
+  parsePlanificationCoursPdf(pdfBuffer: Buffer): Promise<PlanificationCours[]> {
     const parser = new PDFParser(this, 1);
 
     return new Promise((resolve, reject) => {
-      parser.on('pdfParser_dataError', (err: any) => {
-        try {
-          this.processPdfData(err, null);
-        } catch (err) {
-          console.log(err.stack);
-        }
-      });
-      parser.on('pdfParser_dataReady', async (pdfData) => {
+      parser.on('pdfParser_dataError', (errData: string) =>
+        console.error(errData),
+      );
+      parser.on('pdfParser_dataReady', async (pdfData: Output) => {
         try {
           await writeDataToFile(pdfData, 'inputPlanification.json');
-          const courses = this.processPdfData(null, pdfData);
+          const courses = this.processPdfData(pdfData);
           await writeDataToFile(courses, 'coursesPlanification.json');
           resolve(courses);
         } catch (error) {
@@ -54,51 +52,54 @@ export class PlanificationCoursService {
     });
   }
 
-  private processPdfData(
-    err: null | Error,
-    pdfData: any,
-  ): PlanificationCourse[] {
-    const headerCells: Column[] = this.parseHeaderCells(pdfData);
-    writeDataToFile(headerCells, 'headerCells.json');
-    const courses: PlanificationCourse[] = [];
-    let currentCourse: PlanificationCourse = this.initializeCourse();
+  private processPdfData(pdfData: Output): PlanificationCours[] {
+    try {
+      const headerCells: Row[] = this.parseHeaderCells(pdfData);
+      writeDataToFile(headerCells, 'headerCells.json');
+      const courses: PlanificationCours[] = [];
+      let currentCourse: PlanificationCours = this.initializeCourse();
 
-    pdfData.Pages.forEach((page: Page) => {
-      page.Texts.forEach((textItem: Text) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { textContent, xPos, yPos } = this.extractTextDetails(textItem); //TODO Check yPos later
+      pdfData.Pages.forEach((page: Page) => {
+        page.Texts.forEach((textItem: Text) => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { textContent, xPos, yPos } = this.extractTextDetails(textItem); //TODO Check yPos later
 
-        const currentColumn = this.getColumnHeaderName(headerCells, xPos);
-        // Process course code
-        if (
-          currentColumn.headerName === 'code' &&
-          this.isCourseCode(textContent)
-        ) {
-          if (currentCourse.code) {
-            courses.push(currentCourse);
-          }
-          currentCourse = this.initializeCourse();
-          currentCourse.code = textContent;
-        } else {
-          // Process other columns
-          if (currentColumn && this.isSession(currentColumn.headerName)) {
-            // Check and add availability
-            if (this.isAvailability(textContent)) {
-              const availabilityKey = currentColumn.headerName; // Example: 'E23'
-              if (currentCourse.available[availabilityKey]) {
-                currentCourse.available[availabilityKey] += ` ${textContent}`;
-              } else {
-                currentCourse.available[availabilityKey] = textContent;
+          const currentColumn = Row.getColumnHeaderName(headerCells, xPos);
+          // Process course code
+          if (
+            currentColumn &&
+            currentColumn.headerName === 'code' &&
+            this.isCourseCode(textContent)
+          ) {
+            if (currentCourse.code) {
+              courses.push(currentCourse);
+            }
+            currentCourse = this.initializeCourse();
+            currentCourse.code = textContent;
+          } else {
+            // Process other columns
+            if (currentColumn && this.isSession(currentColumn.headerName)) {
+              // Check and add availability
+              if (this.isAvailability(textContent)) {
+                const availabilityKey = currentColumn.headerName; // Example: 'E23'
+                if (currentCourse.available[availabilityKey]) {
+                  currentCourse.available[availabilityKey] += ` ${textContent}`;
+                } else {
+                  currentCourse.available[availabilityKey] = textContent;
+                }
               }
             }
           }
-        }
+        });
       });
-    });
-    if (currentCourse.code !== '') {
-      courses.push(currentCourse);
+      if (currentCourse.code !== '') {
+        courses.push(currentCourse);
+      }
+      return courses;
+    } catch (err) {
+      console.error('Error parsing pdf data: ' + err);
+      throw new Error('Error processing PDF data');
     }
-    return courses;
   }
 
   private extractTextDetails(textItem: Text): {
@@ -107,12 +108,12 @@ export class PlanificationCoursService {
     yPos: number;
   } {
     const textContent = decodeURIComponent(textItem.R[0].T).trim();
-    const xPos = textItem.x;
+    const xPos: number = textItem.x;
     const yPos: number = textItem.y;
     return { textContent, xPos, yPos };
   }
 
-  private initializeCourse(): PlanificationCourse {
+  private initializeCourse(): PlanificationCours {
     return {
       code: '',
       available: {},
@@ -120,8 +121,8 @@ export class PlanificationCoursService {
   }
 
   // Example: [ code, title, H24, E24, A24, H25, E25]
-  private parseHeaderCells(pdfData: { Pages: Page[] }) {
-    const columns: Column[] = [];
+  private parseHeaderCells(pdfData: { Pages: Page[] }): Row[] {
+    const columns: Row[] = [];
     const headerFills = pdfData.Pages[0].Fills.filter(
       (fill: Fill) => fill.clr === 5,
     );
@@ -139,7 +140,7 @@ export class PlanificationCoursService {
       });
 
       headerName = headerName.trim();
-      columns.push(new Column(index, headerName, startX, endX));
+      columns.push(new Row(index, headerName, startX, endX));
     });
     return columns;
   }
@@ -147,7 +148,7 @@ export class PlanificationCoursService {
   private isTextInCell(
     text: Text,
     column: { startX: number; endX: number; startY: number; endY: number },
-  ) {
+  ): boolean {
     return (
       text.x >= column.startX &&
       text.x <= column.endX &&
@@ -156,22 +157,14 @@ export class PlanificationCoursService {
     );
   }
 
-  private getColumnHeaderName(columns: Column[], x: any) {
-    const column = columns.find(
-      (column) => x >= column.startX && x <= column.endX,
-    );
-    return column;
-  }
-
-  private isCourseCode(textContent: string): boolean {
+  private isCourseCode(textContent: string): string {
     return this.courseCodeValidationPipe.transform(textContent);
   }
 
-  private isAvailability(textContent: string): string {
+  private isAvailability(textContent: string): boolean {
     const allowedCombinations = 'JSI';
     const regex = new RegExp(`^(?!.*(.).*\\1)[${allowedCombinations}]+$`);
-
-    return regex.test(textContent) ? textContent : '';
+    return regex.test(textContent);
   }
 
   private isSession(text: string): boolean {

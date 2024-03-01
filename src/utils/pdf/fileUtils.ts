@@ -6,7 +6,7 @@ export function writeDataToFile(data: any, fileName: string): Promise<any> {
   const filePath = path.join(outputPath, fileName);
 
   return new Promise((resolve, reject) => {
-    const urlDecodeReplacer = (key: any, value: any) => {
+    const urlDecodeReplacer = (key: string, value: string) => {
       if (typeof value === 'string') {
         try {
           // Try to decode the value

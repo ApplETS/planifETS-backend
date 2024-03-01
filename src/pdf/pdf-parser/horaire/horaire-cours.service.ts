@@ -1,14 +1,10 @@
-import PDFParser, { Page, Text } from 'pdf2json';
-import {
-  HoraireCourse,
-  GroupPeriod,
-  HorairePeriod,
-} from './types/pdf-parser.types';
+import PDFParser, { Output, Page, Text } from 'pdf2json';
+import { HoraireCours, GroupPeriod, Period } from './horaire-cours.types';
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { writeDataToFile } from '../../utils/pdf/fileUtils';
+import { writeDataToFile } from '../../../utils/pdf/fileUtils';
 import { firstValueFrom } from 'rxjs';
-import { CourseCodeValidationPipe } from '../pipes/course-code-validation-pipe';
+import { CourseCodeValidationPipe } from '../../pipes/course-code-validation-pipe';
 
 //TODO later: Scrape any courses. that way we'll ensure the accuracy of the title
 
@@ -27,7 +23,7 @@ export class HoraireCoursService {
 
   constructor(private httpService: HttpService) {}
 
-  async parsePdfFromUrl(pdfUrl: string): Promise<any> {
+  async parsePdfFromUrl(pdfUrl: string) {
     try {
       const response = await firstValueFrom(
         this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),
@@ -39,21 +35,17 @@ export class HoraireCoursService {
   }
 
   // Parses the PDF buffer to extract course information
-  async parseHoraireCoursPdf(pdfBuffer: Buffer): Promise<any> {
+  async parseHoraireCoursPdf(pdfBuffer: Buffer): Promise<HoraireCours[]> {
     const parser = new PDFParser();
 
     return new Promise((resolve, reject) => {
-      parser.on('pdfParser_dataError', (err: any) => {
-        try {
-          this.processPdfData(err, null);
-        } catch (err) {
-          console.error(err.stack);
-        }
-      });
+      parser.on('pdfParser_dataError', (errData: string) =>
+        console.error(errData),
+      );
       parser.on('pdfParser_dataReady', async (pdfData) => {
         try {
           await writeDataToFile(pdfData, 'inputHoraire.json');
-          const courses = this.processPdfData(null, pdfData);
+          const courses = this.processPdfData(pdfData);
           await writeDataToFile(courses, 'coursesHoraire.json');
           resolve(courses);
         } catch (error) {
@@ -65,12 +57,12 @@ export class HoraireCoursService {
   }
 
   // Processes the raw PDF data to extract course information
-  private processPdfData(err: null | Error, pdfData: any): HoraireCourse[] {
+  private processPdfData(pdfData: Output): HoraireCours[] {
     try {
-      const courses: HoraireCourse[] = [];
-      let currentCourse: HoraireCourse = this.initializeCourse();
+      const courses: HoraireCours[] = [];
+      let currentCourse: HoraireCours = this.initializeCourse();
       let currentGroupNumber = '';
-      let periods: HorairePeriod[] = []; // To accumulate periods for the current group
+      let periods: Period[] = []; // To accumulate periods for the current group
 
       pdfData.Pages.forEach((page: Page) => {
         const pageData = page.Texts;
@@ -128,10 +120,7 @@ export class HoraireCoursService {
             }
             currentGroupNumber = text;
           } else if (currentGroupNumber) {
-            if (
-              xPos === this.JOUR_X_AXIS &&
-              /^(Lun|Mar|Mer|Jeu|Ven|Sam|Dim)$/.test(text)
-            ) {
+            if (xPos === this.JOUR_X_AXIS && this.isDay(text)) {
               if (
                 periods.length === 0 ||
                 !this.isPeriodEmpty(periods[periods.length - 1])
@@ -159,8 +148,8 @@ export class HoraireCoursService {
       }
 
       return courses;
-    } catch (error) {
-      console.error('An error occurred:', error);
+    } catch (err) {
+      console.error('Error parsing pdf data: ' + err);
       throw new Error('Error processing PDF data');
     }
   }
@@ -181,8 +170,8 @@ export class HoraireCoursService {
   }
 
   private addOrUpdateCourse(
-    courses: HoraireCourse[],
-    newCourse: HoraireCourse,
+    courses: HoraireCours[],
+    newCourse: HoraireCours,
   ): void {
     const existingCourseIndex = courses.findIndex(
       (course) => course.code === newCourse.code,
@@ -203,7 +192,7 @@ export class HoraireCoursService {
   private handleGroupDetails(
     text: string,
     xPos: number,
-    currentPeriod: HorairePeriod,
+    currentPeriod: Period,
   ) {
     if (!currentPeriod) return;
 
@@ -215,7 +204,7 @@ export class HoraireCoursService {
   }
 
   private getPeriodDetailType(text: string): string {
-    if (/^(Lun|Mar|Mer|Jeu|Ven|Sam|Dim)$/.test(text)) {
+    if (this.isDay(text)) {
       return 'day';
     } else if (/^\d{2}:\d{2} - \d{2}:\d{2}$/.test(text)) {
       return 'time';
@@ -241,7 +230,7 @@ export class HoraireCoursService {
     }
   }
 
-  private initializeCourse(): HoraireCourse {
+  private initializeCourse(): HoraireCours {
     return {
       code: '',
       title: '',
@@ -250,7 +239,7 @@ export class HoraireCoursService {
     };
   }
 
-  private initializePeriod(): HorairePeriod {
+  private initializePeriod(): Period {
     return {
       day: '',
       time: '',
@@ -263,9 +252,9 @@ export class HoraireCoursService {
   }
 
   private finalizeCurrentGroup(
-    course: HoraireCourse,
+    course: HoraireCours,
     groupNumber: string,
-    periods: HorairePeriod[],
+    periods: Period[],
   ): void {
     if (!course.groups[groupNumber]) {
       course.groups[groupNumber] = [];
@@ -279,10 +268,10 @@ export class HoraireCoursService {
   }
 
   private finalizeCurrentCourse(
-    courses: HoraireCourse[],
-    currentCourse: HoraireCourse,
+    courses: HoraireCours[],
+    currentCourse: HoraireCours,
     currentGroupNumber: string,
-    currentPeriod: HorairePeriod,
+    currentPeriod: Period,
   ) {
     if (currentCourse.code) {
       if (currentGroupNumber) {
@@ -293,16 +282,16 @@ export class HoraireCoursService {
     }
   }
 
-  private isPeriodEmpty(period: HorairePeriod): boolean {
+  private isPeriodEmpty(period: Period): boolean {
     return !Object.values(period).some(
       (value) => value !== '' && value != null,
     );
   }
 
   private addPeriodToGroup(
-    course: HoraireCourse,
+    course: HoraireCours,
     groupNumber: string,
-    period: HorairePeriod,
+    period: Period,
   ): void {
     if (!course.groups[groupNumber]) {
       course.groups[groupNumber] = [];
@@ -338,6 +327,9 @@ export class HoraireCoursService {
         existingPeriod.mode === period.mode &&
         existingPeriod.dateRange === period.dateRange,
     );
+  }
+  private isDay(text): boolean {
+    return /^(Lun|Mar|Mer|Jeu|Ven|Sam|Dim)$/.test(text);
   }
 
   private isGroupNumber(text: string, xPos: number) {

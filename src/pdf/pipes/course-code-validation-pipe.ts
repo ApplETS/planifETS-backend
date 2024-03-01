@@ -10,7 +10,7 @@ export class CourseCodeValidationPipe implements PipeTransform {
    * @param value The value to be transformed.
    * @returns The original value if valid, otherwise null.
    */
-  transform(value: any): any {
+  transform(value: string): string | null {
     // Check if the value is a string and a valid course code
     if (typeof value === 'string' && this.isValidCourseCode(value)) {
       return value;
