@@ -19,7 +19,7 @@ export class HoraireCoursService {
     private fileUtil: FileUtil,
   ) {}
 
-  async parsePdfFromUrl(pdfUrl: string) {
+  public async parsePdfFromUrl(pdfUrl: string) {
     try {
       const response = await firstValueFrom(
         this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),

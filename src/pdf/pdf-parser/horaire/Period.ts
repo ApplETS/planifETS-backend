@@ -37,7 +37,7 @@ export class Period implements IPeriod {
     }
   }
 
-  public getPeriodDetailType(text: string): string {
+  public getPeriodDetailType(text: string): string | undefined {
     if (Period.isDay(text)) {
       return 'day';
     } else if (/^\d{2}:\d{2} - \d{2}:\d{2}$/.test(text)) {

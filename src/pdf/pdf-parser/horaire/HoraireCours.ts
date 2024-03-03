@@ -57,7 +57,8 @@ export class HoraireCours implements IHoraireCours {
 
   public static isCourseCode(text: string, xPos: number): boolean {
     return (
-      this.courseCodeValidationPipe.transform(text) && xPos == this.COURS_X_AXIS
+      Boolean(this.courseCodeValidationPipe.transform(text)) &&
+      xPos === this.COURS_X_AXIS
     );
   }
 

@@ -8,8 +8,11 @@ export class FileUtil {
   constructor(private configService: ConfigService) {}
 
   writeDataToFile(data: any, fileName: string): Promise<string | null> {
-    const pdfOutputPath = this.configService.get<string>('pdfOutputPath');
+    const pdfOutputPath =
+      this.configService.get<string>('pdfOutputPath') ||
+      path.join(__dirname, fileName);
     const filePath = path.join(pdfOutputPath, fileName);
+
     return new Promise((resolve, reject) => {
       const urlDecodeReplacer = (key: string, value: string) => {
         if (typeof value === 'string') {
@@ -17,9 +20,7 @@ export class FileUtil {
             // Decode the value
             return decodeURIComponent(value);
           } catch (error) {
-            throw new Error(
-              `Code error ${error.code} while fetching PDF from URL: ${error.message}`,
-            );
+            throw new Error(`Code error while fetching PDF from URL: ${error}`);
           }
         }
         return value;

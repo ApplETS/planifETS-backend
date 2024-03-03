@@ -55,7 +55,7 @@ export class PlanificationCoursService {
           );
           resolve(courses);
         } catch (error) {
-          console.error('Error parsing pdf data: ' + error.stack);
+          console.error('Error parsing pdf data: ' + error);
           reject(error);
         }
       });
@@ -168,8 +168,8 @@ export class PlanificationCoursService {
     );
   }
 
-  private isCourseCode(textContent: string): string {
-    return this.courseCodeValidationPipe.transform(textContent);
+  private isCourseCode(textContent: string): boolean {
+    return Boolean(this.courseCodeValidationPipe.transform(textContent));
   }
 
   private isAvailability(textContent: string): boolean {
