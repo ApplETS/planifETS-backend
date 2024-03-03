@@ -22,7 +22,7 @@ export class PlanificationCoursService {
     private fileUtil: FileUtil,
   ) {}
 
-  async parsePdfFromUrl(pdfUrl: string): Promise<PlanificationCours[]> {
+  public async parsePdfFromUrl(pdfUrl: string): Promise<PlanificationCours[]> {
     try {
       const response = await firstValueFrom(
         this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),
@@ -33,7 +33,9 @@ export class PlanificationCoursService {
     }
   }
 
-  parsePlanificationCoursPdf(pdfBuffer: Buffer): Promise<PlanificationCours[]> {
+  private parsePlanificationCoursPdf(
+    pdfBuffer: Buffer,
+  ): Promise<PlanificationCours[]> {
     const parser = new PDFParser(this, 1);
 
     return new Promise((resolve, reject) => {

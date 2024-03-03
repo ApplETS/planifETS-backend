@@ -31,7 +31,9 @@ export class HoraireCoursService {
   }
 
   // Parses the PDF buffer to extract course information
-  async parseHoraireCoursPdf(pdfBuffer: Buffer): Promise<HoraireCours[]> {
+  private async parseHoraireCoursPdf(
+    pdfBuffer: Buffer,
+  ): Promise<HoraireCours[]> {
     const parser = new PDFParser();
     return new Promise((resolve, reject) => {
       parser.on('pdfParser_dataError', (errData: string) =>
