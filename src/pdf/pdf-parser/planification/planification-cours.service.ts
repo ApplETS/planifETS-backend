@@ -1,6 +1,6 @@
 import PDFParser, { Output, Fill, Page, Text } from 'pdf2json';
 import { HttpService } from '@nestjs/axios';
-import { writeDataToFile } from '../../../utils/pdf/fileUtils';
+import { FileUtil } from '../../../utils/pdf/fileUtils';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { CourseCodeValidationPipe } from '../../pipes/course-code-validation-pipe';
@@ -17,7 +17,10 @@ export class PlanificationCoursService {
 
   private courseCodeValidationPipe = new CourseCodeValidationPipe();
 
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    private fileUtil: FileUtil,
+  ) {}
 
   async parsePdfFromUrl(pdfUrl: string): Promise<PlanificationCours[]> {
     try {
@@ -39,9 +42,15 @@ export class PlanificationCoursService {
       );
       parser.on('pdfParser_dataReady', async (pdfData: Output) => {
         try {
-          await writeDataToFile(pdfData, 'inputPlanification.json');
+          await this.fileUtil.writeDataToFile(
+            pdfData,
+            'inputPlanification.json',
+          );
           const courses = this.processPdfData(pdfData);
-          await writeDataToFile(courses, 'coursesPlanification.json');
+          await this.fileUtil.writeDataToFile(
+            courses,
+            'coursesPlanification.json',
+          );
           resolve(courses);
         } catch (error) {
           console.error('Error parsing pdf data: ' + error.stack);
@@ -55,7 +64,7 @@ export class PlanificationCoursService {
   private processPdfData(pdfData: Output): PlanificationCours[] {
     try {
       const headerCells: Row[] = this.parseHeaderCells(pdfData);
-      writeDataToFile(headerCells, 'headerCells.json');
+      this.fileUtil.writeDataToFile(headerCells, 'headerCells.json');
       const courses: PlanificationCours[] = [];
       let currentCourse: PlanificationCours = this.initializeCourse();
 

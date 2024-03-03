@@ -1,7 +1,7 @@
 import PDFParser, { Output, Page, Text } from 'pdf2json';
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { writeDataToFile } from '../../../utils/pdf/fileUtils';
+import { FileUtil } from '../../../utils/pdf/fileUtils';
 import { firstValueFrom } from 'rxjs';
 import { HoraireCours } from './HoraireCours';
 import { Period } from './Period';
@@ -14,7 +14,10 @@ export class HoraireCoursService {
   private readonly START_PAGE_CONTENT_Y_AXIS = 14.019;
   private readonly END_PAGE_CONTENT_Y_AXIS = 59;
 
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    private fileUtil: FileUtil,
+  ) {}
 
   async parsePdfFromUrl(pdfUrl: string) {
     try {
@@ -37,9 +40,9 @@ export class HoraireCoursService {
       parser.on('pdfParser_dataReady', async (pdfData) => {
         try {
           console.info('Parsing PDF...');
-          await writeDataToFile(pdfData, 'inputHoraire.json');
+          await this.fileUtil.writeDataToFile(pdfData, 'inputHoraire.json');
           const courses = this.processPdfData(pdfData);
-          await writeDataToFile(courses, 'coursesHoraire.json');
+          await this.fileUtil.writeDataToFile(courses, 'coursesHoraire.json');
           resolve(courses);
         } catch (error) {
           reject(error);
