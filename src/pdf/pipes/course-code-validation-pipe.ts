@@ -2,16 +2,10 @@ import { PipeTransform, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CourseCodeValidationPipe implements PipeTransform {
-  private readonly whitelist = ['PHYEST', 'MATEST', 'INFTEST']; //FIXME:
-
   /**
    * Transforms the input value after validating it as a course code.
-   *
-   * @param value The value to be transformed.
-   * @returns The original value if valid, otherwise null.
    */
   transform(value: string): string | null {
-    // Check if the value is a string and a valid course code
     if (typeof value === 'string' && this.isValidCourseCode(value)) {
       return value;
     }
@@ -21,15 +15,9 @@ export class CourseCodeValidationPipe implements PipeTransform {
 
   /**
    * Validates the course code format.
-   *
-   * @param courseCode The course code to validate.
-   * @returns true if the course code is valid, false otherwise.
    */
   private isValidCourseCode(courseCode: string): boolean {
     courseCode = courseCode.trim();
-    if (this.whitelist.includes(courseCode)) {
-      return true;
-    }
 
     // Updated length check to allow 6 or 7 characters
     if (courseCode.length < 6 || courseCode.length > 7) {
@@ -38,18 +26,12 @@ export class CourseCodeValidationPipe implements PipeTransform {
 
     // Extract parts of the course code
     const letters = courseCode.substring(0, 3);
-    const numbers =
-      courseCode.length === 7
-        ? courseCode.substring(3, 6)
-        : courseCode.substring(3);
-    const optionalLetter = courseCode.length === 7 ? courseCode.charAt(6) : '';
+    const numbersOrSuffix = courseCode.substring(3);
 
     // Validate each part of the course code
-    const isPrefixValid = /^[A-Za-z]{3}$/.test(letters);
-    const isSuffixValid = /^\d{3}$/.test(numbers);
-    const isOptionalLetterValid =
-      optionalLetter === '' || /^[A-Za-z]$/.test(optionalLetter);
+    const isPrefixValid = /^[A-Z]{3}$/.test(letters);
+    const isSuffixValid = /^(?:\d{3}|EST?|TEST|\d{3})$/.test(numbersOrSuffix);
 
-    return isPrefixValid && isSuffixValid && isOptionalLetterValid;
+    return isPrefixValid && isSuffixValid;
   }
 }

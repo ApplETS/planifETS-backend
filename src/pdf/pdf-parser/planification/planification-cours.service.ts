@@ -15,7 +15,7 @@ export class PlanificationCoursService {
   private readonly COURS_X_AXIS = 1.648;
   private readonly BORDER_OFFSET = 0.124;
 
-  courseCodeValidationPipe = new CourseCodeValidationPipe();
+  private courseCodeValidationPipe = new CourseCodeValidationPipe();
 
   constructor(private httpService: HttpService) {}
 
