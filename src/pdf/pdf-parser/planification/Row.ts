@@ -11,7 +11,7 @@ export class Row {
     this.endX = this.truncateToFiveDecimals(endX);
   }
 
-  private truncateToFiveDecimals(num) {
+  private truncateToFiveDecimals(num: number) {
     return Math.floor(num * 100000) / 100000;
   }
 

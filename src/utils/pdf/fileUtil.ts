@@ -7,7 +7,7 @@ import { ConfigService } from '@nestjs/config';
 export class FileUtil {
   constructor(private configService: ConfigService) {}
 
-  writeDataToFile(data: any, fileName: string): Promise<string | null> {
+  public writeDataToFile(data: any, fileName: string): Promise<string | null> {
     const pdfOutputPath =
       this.configService.get<string>('pdfOutputPath') ||
       path.join(__dirname, fileName);
@@ -34,8 +34,10 @@ export class FileUtil {
             console.error('Error encountered while writing file: ', err);
             reject(err);
           } else {
-            console.log(`File "${fileName}" successfully written`);
-            resolve(data);
+            console.log(
+              `File "${fileName}" successfully written to "${filePath}"`,
+            );
+            resolve(filePath);
           }
         },
       );

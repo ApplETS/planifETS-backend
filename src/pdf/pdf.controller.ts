@@ -10,7 +10,7 @@ import { HoraireCoursService } from './pdf-parser/horaire/horaire-cours.service'
 import { PlanificationCoursService } from './pdf-parser/planification/planification-cours.service';
 import { isValidUrl } from '../utils/url/urlUtils';
 import { PlanificationCours } from './pdf-parser/planification/planification-cours.types';
-import { HoraireCours } from './pdf-parser/horaire/horaire-cours.types';
+import { IHoraireCours } from './pdf-parser/horaire/horaire-cours.types';
 
 @Controller('pdf')
 export class PdfController {
@@ -22,7 +22,7 @@ export class PdfController {
   @Get('parseHoraireCoursPdf')
   async parseHoraireCoursPdf(
     @Query('pdfUrl') pdfUrl: string,
-  ): Promise<HoraireCours[]> {
+  ): Promise<IHoraireCours[]> {
     try {
       console.log('Controller file', pdfUrl);
       if (!pdfUrl || !isValidUrl(pdfUrl)) {

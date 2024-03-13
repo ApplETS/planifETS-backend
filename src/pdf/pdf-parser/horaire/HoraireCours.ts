@@ -1,13 +1,7 @@
 import { CourseCodeValidationPipe } from '../../pipes/course-code-validation-pipe';
 import { Group } from './Group';
 import { Period } from './Period';
-
-interface IHoraireCours {
-  code: string;
-  title: string;
-  prerequisites: string;
-  groups: { [groupNumber: string]: Group };
-}
+import { IHoraireCours } from './horaire-cours.types';
 
 export class HoraireCours implements IHoraireCours {
   private static readonly TITLE_FONT_SIZE = 10.998999999999999;

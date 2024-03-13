@@ -1,11 +1,13 @@
 import PDFParser, { Output, Fill, Page, Text } from 'pdf2json';
 import { HttpService } from '@nestjs/axios';
-import { FileUtil } from '../../../utils/pdf/fileUtils';
+import { FileUtil } from '../../../utils/pdf/fileUtil';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { CourseCodeValidationPipe } from '../../pipes/course-code-validation-pipe';
 import { Row } from './Row';
 import { PlanificationCours } from './planification-cours.types';
+import { TextExtractor } from '../../../utils/pdf/parser/textExtractorUtil';
+import { PdfParserUtil } from '../../../utils/pdf/parser/pdfParserUtil';
 
 //TODO Add title to the course (cycles superieurs ont plusieurs cours avec le meme code)
 //https://horaire.etsmtl.ca/Horairepublication/Planification-CyclesSuperieurs.pdf
@@ -36,31 +38,10 @@ export class PlanificationCoursService {
   private parsePlanificationCoursPdf(
     pdfBuffer: Buffer,
   ): Promise<PlanificationCours[]> {
-    const parser = new PDFParser(this, 1);
-
-    return new Promise((resolve, reject) => {
-      parser.on('pdfParser_dataError', (errData: string) =>
-        console.error(errData),
-      );
-      parser.on('pdfParser_dataReady', async (pdfData: Output) => {
-        try {
-          await this.fileUtil.writeDataToFile(
-            pdfData,
-            'inputPlanification.json',
-          );
-          const courses = this.processPdfData(pdfData);
-          await this.fileUtil.writeDataToFile(
-            courses,
-            'coursesPlanification.json',
-          );
-          resolve(courses);
-        } catch (error) {
-          console.error('Error parsing pdf data: ' + error);
-          reject(error);
-        }
-      });
-      parser.parseBuffer(pdfBuffer);
-    });
+    return PdfParserUtil.parsePdfBuffer(
+      pdfBuffer,
+      this.processPdfData.bind(this),
+    );
   }
 
   private processPdfData(pdfData: Output): PlanificationCours[] {
@@ -73,7 +54,8 @@ export class PlanificationCoursService {
       pdfData.Pages.forEach((page: Page) => {
         page.Texts.forEach((textItem: Text) => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { textContent, xPos, yPos } = this.extractTextDetails(textItem); //TODO Check yPos later
+          const { textContent, xPos, yPos } =
+            TextExtractor.extractTextDetails(textItem); //TODO Check yPos later
 
           const currentColumn = Row.getColumnHeaderName(headerCells, xPos);
           // Process course code

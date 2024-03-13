@@ -1,11 +1,26 @@
-import PDFParser, { Output, Page, Text } from 'pdf2json';
+import { Output, Page, Text } from 'pdf2json';
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { FileUtil } from '../../../utils/pdf/fileUtils';
+import { FileUtil } from '../../../utils/pdf/fileUtil';
 import { firstValueFrom } from 'rxjs';
 import { HoraireCours } from './HoraireCours';
 import { Period } from './Period';
 import { Group } from './Group';
+import { TextExtractor } from '../../../utils/pdf/parser/textExtractorUtil';
+import { PdfParserUtil } from '../../../utils/pdf/parser/pdfParserUtil';
+
+/**
+ *   private processPdfData(
+    err: null | Error,
+    pdfData: any,
+  ): PlanificationCourse[] {
+ *
+ * Je penses que cette fonction pourrait être déplacé vers un fichier utilitaire qui serait appeler par le service,
+ * cela créerait un segregation du code en deux portions :
+ *
+ * 1. parsing du input data (le fichier util),
+ * 2. gestion et maintenance des données (dans le service)
+ */
 
 @Injectable()
 export class HoraireCoursService {
@@ -14,10 +29,7 @@ export class HoraireCoursService {
   private readonly START_PAGE_CONTENT_Y_AXIS = 14.019;
   private readonly END_PAGE_CONTENT_Y_AXIS = 59;
 
-  constructor(
-    private httpService: HttpService,
-    private fileUtil: FileUtil,
-  ) {}
+  constructor(private httpService: HttpService) {}
 
   public async parsePdfFromUrl(pdfUrl: string) {
     try {
@@ -34,24 +46,10 @@ export class HoraireCoursService {
   private async parseHoraireCoursPdf(
     pdfBuffer: Buffer,
   ): Promise<HoraireCours[]> {
-    const parser = new PDFParser();
-    return new Promise((resolve, reject) => {
-      parser.on('pdfParser_dataError', (errData: string) =>
-        console.error(errData),
-      );
-      parser.on('pdfParser_dataReady', async (pdfData) => {
-        try {
-          console.info('Parsing PDF...');
-          await this.fileUtil.writeDataToFile(pdfData, 'inputHoraire.json');
-          const courses = this.processPdfData(pdfData);
-          await this.fileUtil.writeDataToFile(courses, 'coursesHoraire.json');
-          resolve(courses);
-        } catch (error) {
-          reject(error);
-        }
-      });
-      parser.parseBuffer(pdfBuffer);
-    });
+    return PdfParserUtil.parsePdfBuffer(
+      pdfBuffer,
+      this.processPdfData.bind(this),
+    );
   }
 
   // Processes the raw PDF data to extract course information
@@ -69,12 +67,12 @@ export class HoraireCoursService {
           const {
             textContent: text,
             fontSize,
-            bold,
             xPos,
             yPos,
-          } = this.extractTextDetails(textItem);
+            bold,
+          } = TextExtractor.extractTextDetails(textItem);
 
-          if (!text || yPos > this.END_PAGE_CONTENT_Y_AXIS || bold) return; //Les cells du header (COURS, ...) sont en gras
+          if (!text || yPos > this.END_PAGE_CONTENT_Y_AXIS || bold) return;
 
           if (HoraireCours.isCourseCode(text, xPos)) {
             // Finalize the last group of the current course if necessary
@@ -142,14 +140,5 @@ export class HoraireCoursService {
       console.error('Error parsing pdf data: ' + err);
       throw new Error('Error processing PDF data');
     }
-  }
-
-  private extractTextDetails(textItem: Text) {
-    const textContent = decodeURIComponent(textItem.R[0].T).trim();
-    const fontSize = textItem.R[0].TS[1];
-    const bold = textItem.R[0].TS[2];
-    const xPos = textItem.x;
-    const yPos = textItem.y;
-    return { textContent, fontSize, bold, xPos, yPos };
   }
 }
