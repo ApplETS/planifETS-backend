@@ -1,7 +1,7 @@
 import { CourseCodeValidationPipe } from '../../pipes/course-code-validation-pipe';
 import { Group } from './Group';
-import { Period } from './Period';
 import { IHoraireCours } from './horaire-cours.types';
+import { Period } from './Period';
 
 export class HoraireCours implements IHoraireCours {
   private static readonly TITLE_FONT_SIZE = 10.998999999999999;
@@ -13,7 +13,7 @@ export class HoraireCours implements IHoraireCours {
     public code: string = '',
     public title: string = '',
     public prerequisites: string = '',
-    public groups: { [groupNumber: string]: Group } = {},
+    public groups: Map<string, Group> = new Map<string, Group>(),
   ) {}
 
   public addOrUpdateCourse(courses: HoraireCours[]): void {
@@ -23,10 +23,11 @@ export class HoraireCours implements IHoraireCours {
     if (existingCourseIndex !== -1) {
       const existingCourse = courses[existingCourseIndex];
       Object.entries(this.groups).forEach(([groupNumber, group]) => {
-        if (!existingCourse.groups[groupNumber]) {
-          existingCourse.groups[groupNumber] = new Group();
+        if (!existingCourse.groups.get(groupNumber)) {
+          existingCourse.groups.set(groupNumber, new Group());
+        } else {
+          existingCourse.groups.get(groupNumber)!.addPeriods(group.periods);
         }
-        existingCourse.groups[groupNumber].addPeriods(group.periods);
       });
     } else {
       courses.push(this);
@@ -34,11 +35,11 @@ export class HoraireCours implements IHoraireCours {
   }
 
   public finalizeGroup(groupNumber: string, periods: Period[]): void {
-    if (!this.groups[groupNumber]) {
-      this.groups[groupNumber] = new Group();
+    if (!this.groups.get(groupNumber)) {
+      this.groups.set(groupNumber, new Group());
     }
     if (periods.length > 0) {
-      this.groups[groupNumber].addPeriods(periods);
+      this.groups.get(groupNumber)!.addPeriods(periods);
     } else {
       console.error(
         'Periods are empty for course: ',

@@ -4,5 +4,5 @@ export interface IHoraireCours {
   code: string;
   title: string;
   prerequisites: string;
-  groups: { [groupNumber: string]: Group };
+  groups: Map<string, Group>;
 }

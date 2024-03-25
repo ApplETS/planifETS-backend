@@ -1,13 +1,13 @@
-import { Output, Page, Text } from 'pdf2json';
-import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { FileUtil } from '../../../utils/pdf/fileUtil';
+import { Injectable } from '@nestjs/common';
+import { Output, Page, Text } from 'pdf2json';
 import { firstValueFrom } from 'rxjs';
+
+import { PdfParserUtil } from '../../../utils/pdf/parser/pdfParserUtil';
+import { TextExtractor } from '../../../utils/pdf/parser/textExtractorUtil';
+import { Group } from './Group';
 import { HoraireCours } from './HoraireCours';
 import { Period } from './Period';
-import { Group } from './Group';
-import { TextExtractor } from '../../../utils/pdf/parser/textExtractorUtil';
-import { PdfParserUtil } from '../../../utils/pdf/parser/pdfParserUtil';
 
 /**
  *   private processPdfData(
@@ -36,7 +36,7 @@ export class HoraireCoursService {
       const response = await firstValueFrom(
         this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),
       );
-      return this.parseHoraireCoursPdf(Buffer.from(response.data));
+      return await this.parseHoraireCoursPdf(Buffer.from(response.data));
     } catch (error) {
       throw new Error('Error fetching PDF from URL ' + error);
     }

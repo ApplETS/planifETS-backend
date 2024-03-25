@@ -4,9 +4,6 @@ export class Group {
   private static readonly GROUP_X_AXIS = 3.886;
 
   public periods: Period[] = [];
-  [groupNumber: number]: Period[];
-
-  constructor() {}
 
   public addPeriods(newPeriods: Period[]): void {
     newPeriods.forEach((period) => {

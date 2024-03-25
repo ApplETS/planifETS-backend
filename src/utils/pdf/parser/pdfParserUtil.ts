@@ -1,11 +1,10 @@
 import PDFParser, { Output } from 'pdf2json';
-import { TextExtractor } from './textExtractorUtil';
 
 export class PdfParserUtil {
-  public static async parsePdfBuffer(
+  public static async parsePdfBuffer<T>(
     pdfBuffer: Buffer,
-    processData: (pdfData: Output) => any,
-  ): Promise<any> {
+    processData: (pdfData: Output) => T,
+  ): Promise<T> {
     const parser = new PDFParser();
 
     return new Promise((resolve, reject) => {

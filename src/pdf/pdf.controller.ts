@@ -1,16 +1,17 @@
 import {
-  Controller,
-  HttpStatus,
-  Get,
-  Query,
-  InternalServerErrorException,
   BadRequestException,
+  Controller,
+  Get,
+  HttpStatus,
+  InternalServerErrorException,
+  Query,
 } from '@nestjs/common';
-import { HoraireCoursService } from './pdf-parser/horaire/horaire-cours.service';
-import { PlanificationCoursService } from './pdf-parser/planification/planification-cours.service';
+
 import { isValidUrl } from '../utils/url/urlUtils';
-import { PlanificationCours } from './pdf-parser/planification/planification-cours.types';
+import { HoraireCoursService } from './pdf-parser/horaire/horaire-cours.service';
 import { IHoraireCours } from './pdf-parser/horaire/horaire-cours.types';
+import { PlanificationCoursService } from './pdf-parser/planification/planification-cours.service';
+import { PlanificationCours } from './pdf-parser/planification/planification-cours.types';
 
 @Controller('pdf')
 export class PdfController {
@@ -20,7 +21,7 @@ export class PdfController {
   ) {}
 
   @Get('parseHoraireCoursPdf')
-  async parseHoraireCoursPdf(
+  public async parseHoraireCoursPdf(
     @Query('pdfUrl') pdfUrl: string,
   ): Promise<IHoraireCours[]> {
     try {
@@ -35,7 +36,7 @@ export class PdfController {
   }
 
   @Get('parsePlanificationCoursPdf')
-  async parsePlanificationCoursPdf(
+  public async parsePlanificationCoursPdf(
     @Query('pdfUrl') pdfUrl: string,
   ): Promise<PlanificationCours[]> {
     try {
