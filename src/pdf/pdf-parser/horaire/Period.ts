@@ -32,12 +32,12 @@ export class Period implements IPeriod {
 
     const detailType = this.getPeriodDetailType(text);
 
-    if (detailType) {
-      this[detailType] = text;
-    }
+    if (!detailType) return;
+
+    this[detailType] = text as (typeof this)[typeof detailType];
   }
 
-  public getPeriodDetailType(text: string): string | undefined {
+  public getPeriodDetailType(text: string): keyof this | undefined {
     if (Period.isDay(text)) {
       return 'day';
     } else if (/^\d{2}:\d{2} - \d{2}:\d{2}$/.test(text)) {
@@ -63,7 +63,7 @@ export class Period implements IPeriod {
     }
   }
 
-  public static isDay(text): boolean {
+  public static isDay(text: string): boolean {
     return /^(Lun|Mar|Mer|Jeu|Ven|Sam|Dim)$/.test(text);
   }
 }

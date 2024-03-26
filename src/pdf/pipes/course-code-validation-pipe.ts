@@ -1,11 +1,11 @@
-import { PipeTransform, Injectable } from '@nestjs/common';
+import { Injectable, PipeTransform } from '@nestjs/common';
 
 @Injectable()
 export class CourseCodeValidationPipe implements PipeTransform {
   /**
    * Transforms the input value after validating it as a course code.
    */
-  transform(value: string): string | boolean {
+  public transform(value: string): string | boolean {
     if (typeof value === 'string' && this.isValidCourseCode(value)) {
       return value;
     }

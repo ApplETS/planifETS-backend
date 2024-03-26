@@ -1,13 +1,14 @@
-import PDFParser, { Output, Fill, Page, Text } from 'pdf2json';
 import { HttpService } from '@nestjs/axios';
-import { FileUtil } from '../../../utils/pdf/fileUtil';
 import { Injectable } from '@nestjs/common';
+import { Fill, Output, Page, Text } from 'pdf2json';
 import { firstValueFrom } from 'rxjs';
-import { CourseCodeValidationPipe } from '../../pipes/course-code-validation-pipe';
-import { Row } from './Row';
-import { PlanificationCours } from './planification-cours.types';
-import { TextExtractor } from '../../../utils/pdf/parser/textExtractorUtil';
+
+import { FileUtil } from '../../../utils/pdf/fileUtil';
 import { PdfParserUtil } from '../../../utils/pdf/parser/pdfParserUtil';
+import { TextExtractor } from '../../../utils/pdf/parser/textExtractorUtil';
+import { CourseCodeValidationPipe } from '../../pipes/course-code-validation-pipe';
+import { PlanificationCours } from './planification-cours.types';
+import { Row } from './Row';
 
 //TODO Add title to the course (cycles superieurs ont plusieurs cours avec le meme code)
 //https://horaire.etsmtl.ca/Horairepublication/Planification-CyclesSuperieurs.pdf
@@ -29,7 +30,7 @@ export class PlanificationCoursService {
       const response = await firstValueFrom(
         this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),
       );
-      return this.parsePlanificationCoursPdf(Buffer.from(response.data));
+      return await this.parsePlanificationCoursPdf(Buffer.from(response.data));
     } catch (error) {
       throw new Error('Error fetching pdf from URL ' + error);
     }

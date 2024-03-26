@@ -22,7 +22,14 @@ module.exports = {
     "@typescript-eslint/lines-between-class-members": "off",
     "complexity": ["warn", { "max": 10 }],
     "complexity": ["error", { "max": 15 }],
-    "@typescript-eslint/explicit-member-accessibility": "error",
+    "@typescript-eslint/explicit-member-accessibility": [
+      "error",
+      {
+        overrides: {
+          constructors: 'no-public',
+        },
+      },
+    ],
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     'prettier/prettier': [
