@@ -9,19 +9,6 @@ import { Group } from './Group';
 import { HoraireCours } from './HoraireCours';
 import { Period } from './Period';
 
-/**
- *   private processPdfData(
-    err: null | Error,
-    pdfData: any,
-  ): PlanificationCourse[] {
- *
- * Je penses que cette fonction pourrait être déplacé vers un fichier utilitaire qui serait appeler par le service,
- * cela créerait un segregation du code en deux portions :
- *
- * 1. parsing du input data (le fichier util),
- * 2. gestion et maintenance des données (dans le service)
- */
-
 @Injectable()
 export class HoraireCoursService {
   private readonly PREALABLE_X_AXIS = 29.86;
