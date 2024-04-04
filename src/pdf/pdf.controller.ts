@@ -20,7 +20,7 @@ export class PdfController {
     private planificationCoursService: PlanificationCoursService,
   ) {}
 
-  @Get('parseHoraireCoursPdf')
+  @Get('horaire-cours')
   public async parseHoraireCoursPdf(
     @Query('pdfUrl') pdfUrl: string,
   ): Promise<IHoraireCours[]> {
@@ -31,20 +31,25 @@ export class PdfController {
       }
       return await this.horaireCoursService.parsePdfFromUrl(pdfUrl);
     } catch (error) {
-      throw new InternalServerErrorException('Error parsing Horaire Cours PDF');
+      throw new InternalServerErrorException(
+        'Error parsing Horaire Cours PDF' + error,
+      );
     }
   }
 
-  @Get('parsePlanificationCoursPdf')
+  @Get('planification-cours')
   public async parsePlanificationCoursPdf(
     @Query('pdfUrl') pdfUrl: string,
   ): Promise<PlanificationCours[]> {
     try {
       console.log('Controller file', pdfUrl);
-      if (!pdfUrl || !isValidUrl(pdfUrl)) {
+      if (!pdfUrl) {
         console.log('PDF URL is required', HttpStatus.BAD_REQUEST, pdfUrl);
         throw new BadRequestException('pdfUrl attribute is required');
+      } else if (!isValidUrl(pdfUrl)) {
+        throw new BadRequestException('pdfUrl is not valid');
       }
+
       return await this.planificationCoursService.parsePdfFromUrl(pdfUrl);
     } catch (error) {
       throw new InternalServerErrorException(

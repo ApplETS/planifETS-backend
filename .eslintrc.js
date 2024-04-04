@@ -38,5 +38,7 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    "indent": "off",
+    "@typescript-eslint/indent": "error"
   },
 };

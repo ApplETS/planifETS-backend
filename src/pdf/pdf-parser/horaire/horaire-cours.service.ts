@@ -45,77 +45,17 @@ export class HoraireCoursService {
       const courses: HoraireCours[] = [];
       let currentCourse: HoraireCours = new HoraireCours();
       let currentGroupNumber = '';
-      let periods: Period[] = []; // To accumulate periods for the current group
+      let periods: Period[] = [];
 
       pdfData.Pages.forEach((page: Page) => {
         const pageData = page.Texts;
-
-        pageData.forEach((textItem: Text) => {
-          const {
-            textContent: text,
-            fontSize,
-            xPos,
-            yPos,
-            bold,
-          } = TextExtractor.extractTextDetails(textItem);
-
-          if (!text || yPos > this.END_PAGE_CONTENT_Y_AXIS || bold) return;
-
-          if (HoraireCours.isCourseCode(text, xPos)) {
-            // Finalize the last group of the current course if necessary
-            if (
-              currentCourse.code &&
-              currentGroupNumber &&
-              !Period.isPeriodEmpty(periods[periods.length - 1])
-            ) {
-              currentCourse.finalizeGroup(currentGroupNumber, periods);
-              periods = [];
-            }
-            if (currentCourse.code) {
-              currentCourse.addOrUpdateCourse(courses);
-            }
-            currentCourse = new HoraireCours();
-            currentCourse.code = text;
-            currentGroupNumber = '';
-          } else if (HoraireCours.isTitle(text, fontSize)) {
-            currentCourse.title += currentCourse.title ? ' ' + text : text;
-          } else if (xPos === this.PREALABLE_X_AXIS) {
-            currentCourse.prerequisites += currentCourse.prerequisites
-              ? ' ' + text
-              : text;
-          } else if (Group.isGroupNumber(text, xPos)) {
-            // Finalize the previous group if necessary
-            if (
-              currentGroupNumber &&
-              periods.length > 0 &&
-              !Period.isPeriodEmpty(periods[periods.length - 1])
-            ) {
-              currentCourse.finalizeGroup(currentGroupNumber, periods);
-              periods = [];
-            }
-            currentGroupNumber = text;
-          } else if (currentGroupNumber) {
-            if (xPos === Period.JOUR_X_AXIS && Period.isDay(text)) {
-              if (
-                periods.length === 0 ||
-                !Period.isPeriodEmpty(periods[periods.length - 1])
-              ) {
-                periods.push(new Period());
-              }
-            } else {
-              if (periods.length === 0) {
-                periods.push(new Period());
-              }
-            }
-            periods[periods.length - 1].handlePeriodDetailTypes(text);
-          }
-        });
-
-        // Finalize the last group of the last course on the page
-        if (currentGroupNumber) {
-          currentCourse.finalizeGroup(currentGroupNumber, periods);
-          periods = [];
-        }
+        ({ currentCourse, currentGroupNumber, periods } = this.processPageData(
+          pageData,
+          currentCourse,
+          currentGroupNumber,
+          periods,
+          courses,
+        ));
       });
 
       if (currentCourse.code) {
@@ -127,5 +67,113 @@ export class HoraireCoursService {
       console.error('Error parsing pdf data: ' + err);
       throw new Error('Error processing PDF data');
     }
+  }
+
+  private processPageData(
+    pageData: Text[],
+    currentCourse: HoraireCours,
+    currentGroupNumber: string,
+    periods: Period[],
+    courses: HoraireCours[],
+  ): {
+    currentCourse: HoraireCours;
+    currentGroupNumber: string;
+      periods: Period[];
+  } {
+    pageData.forEach((textItem: Text) => {
+      const {
+        textContent: text,
+        fontSize,
+        xPos,
+        yPos,
+        bold,
+      } = TextExtractor.extractTextDetails(textItem);
+
+      if (!text || yPos > this.END_PAGE_CONTENT_Y_AXIS || bold) return;
+
+      if (HoraireCours.isCourseCode(text, xPos)) {
+        this.finalizeAndResetCourseAndGroup(
+          currentCourse,
+          currentGroupNumber,
+          periods,
+          courses,
+        );
+        currentCourse = new HoraireCours();
+        currentCourse.code = text;
+        currentGroupNumber = '';
+      } else if (HoraireCours.isTitle(text, fontSize)) {
+        currentCourse.title += currentCourse.title ? ' ' + text : text;
+      } else if (xPos === this.PREALABLE_X_AXIS) {
+        currentCourse.prerequisites += currentCourse.prerequisites
+          ? ' ' + text
+          : text;
+      } else if (Group.isGroupNumber(text, xPos)) {
+        this.finalizeCurrentGroup(currentCourse, currentGroupNumber, periods);
+        currentGroupNumber = text;
+      } else {
+        periods = this.updatePeriods(currentGroupNumber, periods, xPos, text);
+      }
+    });
+
+    this.finalizeCurrentGroup(currentCourse, currentGroupNumber, periods);
+    return { currentCourse, currentGroupNumber, periods: [] };
+  }
+
+  private finalizeAndResetCourseAndGroup(
+    currentCourse: HoraireCours,
+    currentGroupNumber: string,
+    periods: Period[],
+    courses: HoraireCours[],
+  ) {
+    if (
+      currentCourse.code &&
+      currentGroupNumber &&
+      periods.length > 0 &&
+      !Period.isPeriodEmpty(periods[periods.length - 1])
+    ) {
+      currentCourse.finalizeGroup(currentGroupNumber, periods);
+    }
+    if (currentCourse.code) {
+      currentCourse.addOrUpdateCourse(courses);
+    }
+  }
+
+  private finalizeCurrentGroup(
+    currentCourse: HoraireCours,
+    currentGroupNumber: string,
+    periods: Period[],
+  ) {
+    if (
+      currentGroupNumber &&
+      periods.length > 0 &&
+      !Period.isPeriodEmpty(periods[periods.length - 1])
+    ) {
+      currentCourse.finalizeGroup(currentGroupNumber, periods);
+    }
+  }
+
+  private updatePeriods(
+    currentGroupNumber: string,
+    periods: Period[],
+    xPos: number,
+    text: string,
+  ): Period[] {
+    if (!currentGroupNumber) return periods;
+
+    if (xPos === Period.JOUR_X_AXIS && Period.isDay(text)) {
+      if (
+        periods.length === 0 ||
+        !Period.isPeriodEmpty(periods[periods.length - 1])
+      ) {
+        periods.push(new Period());
+      }
+    } else {
+      if (periods.length === 0) {
+        periods.push(new Period());
+      }
+    }
+
+    periods[periods.length - 1].handlePeriodDetailTypes(text);
+    return periods;
   }
 }
