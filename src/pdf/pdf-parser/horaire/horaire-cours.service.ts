@@ -78,7 +78,7 @@ export class HoraireCoursService {
   ): {
     currentCourse: HoraireCours;
     currentGroupNumber: string;
-      periods: Period[];
+    periods: Period[];
   } {
     pageData.forEach((textItem: Text) => {
       const {

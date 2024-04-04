@@ -35,10 +35,11 @@ module.exports = {
     'prettier/prettier': [
       'error',
       {
-        endOfLine: 'auto',
+        endOfLine: 'lf',
       },
     ],
     "indent": "off",
     "@typescript-eslint/indent": "error"
   },
+
 };
