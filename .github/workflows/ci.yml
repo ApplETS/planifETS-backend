@@ -1,10 +1,12 @@
 name: ci
 on:
+  push:
+    branches: [ main ]
   pull_request:
     branches: ['*']
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,11 +19,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          cache: 'npm'
           node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+          cache-dependency-path: 'yarn.lock'
 
       - name: Install dependencies
-        run: yarn ci
+        run: yarn install --frozen-lockfile
       
       - name: lint
         run: yarn run lint
@@ -31,7 +34,3 @@ jobs:
 
       - name: Build
         run: yarn run build
-
-      # - name: SonarCloud Scan
-      #   uses: sonarsource/sonarcloud-github-action@master
-      #   env:
