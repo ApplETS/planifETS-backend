@@ -27,7 +27,10 @@ export class PlanificationCoursService {
       const response = await firstValueFrom(
         this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),
       );
-      return await this.parsePlanificationCoursPdf(Buffer.from(response.data));
+      return await this.parsePlanificationCoursPdf(
+        Buffer.from(response.data),
+        pdfUrl,
+      );
     } catch (error) {
       throw new Error('Error fetching pdf from URL ' + error);
     }
@@ -35,14 +38,17 @@ export class PlanificationCoursService {
 
   private parsePlanificationCoursPdf(
     pdfBuffer: Buffer,
+    pdfUrl: string,
   ): Promise<PlanificationCours[]> {
-    return PdfParserUtil.parsePdfBuffer(
-      pdfBuffer,
-      this.processPdfData.bind(this),
+    return PdfParserUtil.parsePdfBuffer(pdfBuffer, (pdfData) =>
+      this.processPdfData(pdfData, pdfUrl),
     );
   }
 
-  private processPdfData(pdfData: Output): PlanificationCours[] {
+  private processPdfData(
+    pdfData: Output,
+    pdfUrl: string,
+  ): PlanificationCours[] {
     try {
       const headerCells: Row[] = this.parseHeaderCells(pdfData);
       this.fileUtil.writeDataToFile(headerCells, 'headerCells.json');
@@ -82,12 +88,16 @@ export class PlanificationCoursService {
           }
         });
       });
+
       if (currentCourse.code !== '') {
         courses.push(currentCourse);
       }
+
+      if (courses.length === 0)
+        throw new Error(`No courses found in the PDF located at ${pdfUrl}.`);
+
       return courses;
     } catch (err) {
-      console.error('Error parsing pdf data: ' + err);
       throw new Error('Error processing PDF data');
     }
   }
