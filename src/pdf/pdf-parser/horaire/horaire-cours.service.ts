@@ -11,10 +11,9 @@ import { Period } from './Period';
 
 @Injectable()
 export class HoraireCoursService {
-  private readonly PREALABLE_X_AXIS = 29.86;
-
-  private readonly START_PAGE_CONTENT_Y_AXIS = 14.019;
+  // private readonly START_PAGE_CONTENT_Y_AXIS = 14.019;
   private readonly END_PAGE_CONTENT_Y_AXIS = 59;
+  private readonly PREALABLE_X_AXIS = 29.86;
 
   constructor(private httpService: HttpService) {}
 

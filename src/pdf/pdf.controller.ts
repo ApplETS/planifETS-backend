@@ -1,12 +1,12 @@
 import {
-  BadRequestException,
   Controller,
   Get,
+  HttpException,
   HttpStatus,
-  InternalServerErrorException,
   Query,
 } from '@nestjs/common';
 
+import { ERROR_MESSAGES } from '../constants/error-messages';
 import { isValidUrl } from '../utils/url/urlUtils';
 import { HoraireCoursService } from './pdf-parser/horaire/horaire-cours.service';
 import { IHoraireCours } from './pdf-parser/horaire/horaire-cours.types';
@@ -24,15 +24,19 @@ export class PdfController {
   public async parseHoraireCoursPdf(
     @Query('pdfUrl') pdfUrl: string,
   ): Promise<IHoraireCours[]> {
+    if (!pdfUrl || !isValidUrl(pdfUrl)) {
+      throw new HttpException(
+        ERROR_MESSAGES.REQUIRED_PDF_URL,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     try {
-      console.log('Controller file', pdfUrl);
-      if (!pdfUrl || !isValidUrl(pdfUrl)) {
-        throw new BadRequestException('PDF URL is required');
-      }
       return await this.horaireCoursService.parsePdfFromUrl(pdfUrl);
     } catch (error) {
-      throw new InternalServerErrorException(
-        'Error parsing Horaire Cours PDF' + error,
+      throw new HttpException(
+        ERROR_MESSAGES.ERROR_PARSING_PDF,
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
@@ -41,19 +45,19 @@ export class PdfController {
   public async parsePlanificationCoursPdf(
     @Query('pdfUrl') pdfUrl: string,
   ): Promise<PlanificationCours[]> {
-    try {
-      console.log('Controller file', pdfUrl);
-      if (!pdfUrl) {
-        console.log('PDF URL is required', HttpStatus.BAD_REQUEST, pdfUrl);
-        throw new BadRequestException('pdfUrl attribute is required');
-      } else if (!isValidUrl(pdfUrl)) {
-        throw new BadRequestException('pdfUrl is not valid');
-      }
+    if (!pdfUrl || !isValidUrl(pdfUrl)) {
+      throw new HttpException(
+        ERROR_MESSAGES.REQUIRED_PDF_URL,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
 
+    try {
       return await this.planificationCoursService.parsePdfFromUrl(pdfUrl);
     } catch (error) {
-      throw new InternalServerErrorException(
-        'Error parsing Planification Cours PDF',
+      throw new HttpException(
+        ERROR_MESSAGES.ERROR_PARSING_PDF,
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
