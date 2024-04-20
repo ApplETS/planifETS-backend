@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 
 import { ERROR_MESSAGES } from '../constants/error-messages';
-import { isValidUrl } from '../utils/url/urlUtils';
 import { HoraireCoursService } from './pdf-parser/horaire/horaire-cours.service';
 import { IHoraireCours } from './pdf-parser/horaire/horaire-cours.types';
 import { PlanificationCoursService } from './pdf-parser/planification/planification-cours.service';
@@ -22,14 +21,17 @@ export class PdfController {
 
   @Get('horaire-cours')
   public async parseHoraireCoursPdf(
-    @Query('pdfUrl') pdfUrl: string,
+    @Query('sessionCode') sessionCode: string,
+    @Query('programCode') programCode: string,
   ): Promise<IHoraireCours[]> {
-    if (!pdfUrl || !isValidUrl(pdfUrl)) {
+    if (!sessionCode || !programCode) {
       throw new HttpException(
-        ERROR_MESSAGES.REQUIRED_PDF_URL,
+        ERROR_MESSAGES.REQUIRED_SESSION_AND_PROGRAM_CODE,
         HttpStatus.BAD_REQUEST,
       );
     }
+
+    const pdfUrl = `https://horaire.etsmtl.ca/HorairePublication/HorairePublication_${sessionCode}_${programCode}.pdf`;
 
     try {
       return await this.horaireCoursService.parsePdfFromUrl(pdfUrl);
@@ -43,14 +45,16 @@ export class PdfController {
 
   @Get('planification-cours')
   public async parsePlanificationCoursPdf(
-    @Query('pdfUrl') pdfUrl: string,
+    @Query('programCode') programCode: string,
   ): Promise<PlanificationCours[]> {
-    if (!pdfUrl || !isValidUrl(pdfUrl)) {
+    if (!programCode) {
       throw new HttpException(
         ERROR_MESSAGES.REQUIRED_PDF_URL,
         HttpStatus.BAD_REQUEST,
       );
     }
+
+    const pdfUrl = `https://horaire.etsmtl.ca/Horairepublication/Planification-${programCode}.pdf`;
 
     try {
       return await this.planificationCoursService.parsePdfFromUrl(pdfUrl);
