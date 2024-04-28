@@ -66,4 +66,16 @@ export class Period implements IPeriod {
   public static isDay(text: string): boolean {
     return /^(Lun|Mar|Mer|Jeu|Ven|Sam|Dim)$/.test(text);
   }
+
+  public serialize(): IPeriod {
+    return {
+      day: this.day,
+      time: this.time,
+      activity: this.activity,
+      teacher: this.teacher,
+      local: this.local,
+      mode: this.mode,
+      dateRange: this.dateRange,
+    };
+  }
 }

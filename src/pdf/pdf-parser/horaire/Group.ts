@@ -1,5 +1,4 @@
 import { Period } from './Period';
-
 export class Group {
   private static readonly GROUP_X_AXIS = 3.886;
 
@@ -22,5 +21,9 @@ export class Group {
 
   public static isGroupNumber(text: string, xPos: number) {
     return xPos === this.GROUP_X_AXIS && /^\d{2}$/.test(text);
+  }
+
+  public serialize(): Period[] {
+    return this.periods.map((period: Period) => period.serialize()) as Period[];
   }
 }

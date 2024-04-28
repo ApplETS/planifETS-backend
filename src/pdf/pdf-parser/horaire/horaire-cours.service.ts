@@ -62,10 +62,15 @@ export class HoraireCoursService {
         currentCourse.addOrUpdateCourse(courses);
       }
 
-      return courses;
+      const serializedCourses: HoraireCours[] = courses.map((course) =>
+        course.serialize(),
+      ) as unknown as HoraireCours[];
+
+      return serializedCourses;
     } catch (err) {
       console.error('Error parsing pdf data: ' + err);
-      throw new Error('Error processing PDF data');
+      console.log(err);
+      throw new Error('Error processing PDF data: ' + err);
     }
   }
 

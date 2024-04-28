@@ -22,7 +22,7 @@ export class HoraireCours implements IHoraireCours {
     );
     if (existingCourseIndex !== -1) {
       const existingCourse = courses[existingCourseIndex];
-      Object.entries(this.groups).forEach(([groupNumber, group]) => {
+      this.groups.forEach((group, groupNumber) => {
         if (!existingCourse.groups.get(groupNumber)) {
           existingCourse.groups.set(groupNumber, new Group());
         } else {
@@ -63,5 +63,20 @@ export class HoraireCours implements IHoraireCours {
       text == text.toUpperCase() &&
       text != text.toLowerCase()
     );
+  }
+
+  public serialize() {
+    return {
+      code: this.code,
+      title: this.title,
+      prerequisites: this.prerequisites,
+      groups: Array.from(this.groups).reduce(
+        (acc: { [key: string]: Period[] }, [key, value]) => {
+          acc[key] = value.serialize();
+          return acc;
+        },
+        {},
+      ),
+    };
   }
 }
