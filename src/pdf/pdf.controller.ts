@@ -21,8 +21,8 @@ export class PdfController {
 
   @Get('horaire-cours')
   public async parseHoraireCoursPdf(
-    @Query('sessionCode') sessionCode: string,
-    @Query('programCode') programCode: string,
+    @Query('session') sessionCode: string,
+    @Query('program') programCode: string,
   ): Promise<IHoraireCours[]> {
     if (!sessionCode || !programCode) {
       throw new HttpException(
