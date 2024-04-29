@@ -1,5 +1,5 @@
 import { CourseCodeValidationPipe } from '../../pipes/course-code-validation-pipe';
-import { Group } from './Group';
+import { Group, IGroup } from './Group';
 import { IHoraireCours } from './horaire-cours.types';
 import { Period } from './Period';
 
@@ -71,7 +71,7 @@ export class HoraireCours implements IHoraireCours {
       title: this.title,
       prerequisites: this.prerequisites,
       groups: Array.from(this.groups).reduce(
-        (acc: { [key: string]: Period[] }, [key, value]) => {
+        (acc: { [key: string]: IGroup }, [key, value]) => {
           acc[key] = value.serialize();
           return acc;
         },

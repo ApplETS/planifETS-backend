@@ -1,4 +1,4 @@
-interface IPeriod {
+export interface IPeriod {
   day: string;
   time: string;
   activity: string;

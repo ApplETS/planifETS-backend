@@ -1,8 +1,17 @@
-import { Period } from './Period';
-export class Group {
+import { IPeriod, Period } from './Period';
+
+export interface IGroup {
+  periods: IPeriod[];
+}
+
+export class Group implements IGroup {
   private static readonly GROUP_X_AXIS = 3.886;
 
   public periods: Period[] = [];
+
+  constructor() {
+    this.periods = [];
+  }
 
   public addPeriods(newPeriods: Period[]): void {
     newPeriods.forEach((period) => {
@@ -23,7 +32,9 @@ export class Group {
     return xPos === this.GROUP_X_AXIS && /^\d{2}$/.test(text);
   }
 
-  public serialize(): Period[] {
-    return this.periods.map((period: Period) => period.serialize()) as Period[];
+  public serialize(): IGroup {
+    return {
+      periods: this.periods.map((period: Period) => period.serialize()),
+    };
   }
 }
