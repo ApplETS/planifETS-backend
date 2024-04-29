@@ -45,7 +45,7 @@ export class PdfController {
 
   @Get('planification-cours')
   public async parsePlanificationCoursPdf(
-    @Query('programCode') programCode: string,
+    @Query('program') programCode: string,
   ): Promise<PlanificationCours[]> {
     if (!programCode) {
       throw new HttpException(
