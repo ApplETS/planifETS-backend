@@ -48,7 +48,6 @@ export class PlanificationCoursService {
   private processPdfData(pdfData: Output): PlanificationCours[] {
     try {
       const headerCells: Row[] = this.parseHeaderCells(pdfData);
-      this.fileUtil.writeDataToFile(headerCells, 'headerCells.json');
       const courses: PlanificationCours[] = [];
       let currentCourse: PlanificationCours = this.initializeCourse();
 

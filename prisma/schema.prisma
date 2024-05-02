@@ -9,3 +9,74 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Session {
+  id        String   @id @default(uuid())
+  name      String
+  year      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  courseInstances CourseInstance[]
+}
+
+model CourseInstance {
+  id        String   @id @default(uuid())
+  courseId  String
+  sessionId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  course  Course  @relation(fields: [courseId], references: [id])
+  session Session @relation(fields: [sessionId], references: [id])
+
+  @@unique([courseId, sessionId])
+  @@index([courseId, sessionId])
+}
+
+model Course {
+  id                        String           @id @default(uuid())
+  programId                 String
+  program                   Program          @relation(fields: [programId], references: [id])
+  code                      String           @unique
+  title                     String
+  description               String
+  credits                   Int
+  unstructuredPrerequisites String?
+  createdAt                 DateTime         @default(now())
+  updatedAt                 DateTime         @updatedAt
+  courseInstances           CourseInstance[]
+
+  prerequisites  CoursePrerequisite[] @relation("CourseToPrerequisite")
+  prerequisiteOf CoursePrerequisite[] @relation("PrerequisiteToCourse")
+
+  @@index([code, programId])
+}
+
+model CoursePrerequisite {
+  courseId       String
+  course         Course   @relation("CourseToPrerequisite", fields: [courseId], references: [id])
+  prerequisiteId String
+  prerequisite   Course   @relation("PrerequisiteToCourse", fields: [prerequisiteId], references: [id])
+  programId      String
+  program        Program  @relation(fields: [programId], references: [id])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@id([courseId, prerequisiteId])
+}
+
+model Program {
+  id                   String   @id @default(uuid())
+  code                 Int      @unique
+  abbreviation         String
+  label                String
+  credits              Int
+  horaireCoursPdfJson  Json?
+  planificationPdfJson Json?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  courses       Course[]
+  prerequisites CoursePrerequisite[]
+}
