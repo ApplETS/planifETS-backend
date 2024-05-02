@@ -16,6 +16,7 @@
     "lint": "eslint .",
     "refresh": "rm -rf dist && rm -rf node_modules && yarn cache clean && yarn install",
     "prisma:generate": "prisma generate",
+    "prisma:preview": "prisma migrate dev --create-only",
     "prisma:migrate": "prisma migrate dev",
     "test": "jest",
     "test:watch": "jest --watch",

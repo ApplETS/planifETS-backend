@@ -37,7 +37,6 @@ model CourseInstance {
 model Course {
   id                        String           @id @default(uuid())
   programId                 String
-  program                   Program          @relation(fields: [programId], references: [id])
   code                      String           @unique
   title                     String
   description               String
@@ -45,6 +44,7 @@ model Course {
   unstructuredPrerequisites String?
   createdAt                 DateTime         @default(now())
   updatedAt                 DateTime         @updatedAt
+  programs                  ProgramCourse[]
   courseInstances           CourseInstance[]
 
   prerequisites  CoursePrerequisite[] @relation("CourseToPrerequisite")
@@ -66,6 +66,17 @@ model CoursePrerequisite {
   @@id([courseId, prerequisiteId])
 }
 
+model ProgramCourse {
+  courseId  String
+  course    Course @relation(fields: [courseId], references: [id])
+  programId String
+  program   Program @relation(fields: [programId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([courseId, programId])
+}
+
 model Program {
   id                   String   @id @default(uuid())
   code                 Int      @unique
@@ -77,6 +88,6 @@ model Program {
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 
-  courses       Course[]
+  courses       ProgramCourse[]
   prerequisites CoursePrerequisite[]
 }
