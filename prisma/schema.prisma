@@ -80,9 +80,11 @@ model ProgramCourse {
 model Program {
   id                   String   @id @default(uuid())
   code                 Int      @unique
-  abbreviation         String
-  label                String
+  title                String
   credits              Int
+  type                 String
+  url                  String
+  abbreviation         String?
   horaireCoursPdfJson  Json?
   planificationPdfJson Json?
   createdAt            DateTime @default(now())
