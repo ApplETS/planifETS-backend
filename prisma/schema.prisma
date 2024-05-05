@@ -58,8 +58,6 @@ model CoursePrerequisite {
   course         Course   @relation("CourseToPrerequisite", fields: [courseId], references: [id])
   prerequisiteId String
   prerequisite   Course   @relation("PrerequisiteToCourse", fields: [prerequisiteId], references: [id])
-  programId      String
-  program        Program  @relation(fields: [programId], references: [id])
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
@@ -91,5 +89,4 @@ model Program {
   updatedAt            DateTime @updatedAt
 
   courses       ProgramCourse[]
-  prerequisites CoursePrerequisite[]
 }
