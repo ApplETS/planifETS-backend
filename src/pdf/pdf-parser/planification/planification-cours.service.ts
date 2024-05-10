@@ -12,7 +12,6 @@ import { Row } from './Row';
 
 @Injectable()
 export class PlanificationCoursService {
-  // private readonly COURS_X_AXIS = 1.648;
   private readonly BORDER_OFFSET = 0.124;
 
   private courseCodeValidationPipe = new CourseCodeValidationPipe();
