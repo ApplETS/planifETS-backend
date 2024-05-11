@@ -62,10 +62,15 @@ export class HoraireCoursService {
         currentCourse.addOrUpdateCourse(courses);
       }
 
-      return courses;
+      const serializedCourses: HoraireCours[] = courses.map((course) =>
+        course.serialize(),
+      ) as unknown as HoraireCours[];
+
+      return serializedCourses;
     } catch (err) {
       console.error('Error parsing pdf data: ' + err);
-      throw new Error('Error processing PDF data');
+      console.log(err);
+      throw new Error('Error processing PDF data: ' + err);
     }
   }
 
@@ -98,9 +103,12 @@ export class HoraireCoursService {
           periods,
           courses,
         );
+
+        //Reset course
         currentCourse = new HoraireCours();
         currentCourse.code = text;
         currentGroupNumber = '';
+        periods = [];
       } else if (HoraireCours.isTitle(text, fontSize)) {
         currentCourse.title += currentCourse.title ? ' ' + text : text;
       } else if (xPos === this.PREALABLE_X_AXIS) {
@@ -110,6 +118,9 @@ export class HoraireCoursService {
       } else if (Group.isGroupNumber(text, xPos)) {
         this.finalizeCurrentGroup(currentCourse, currentGroupNumber, periods);
         currentGroupNumber = text;
+
+        //Reset periods
+        periods = [];
       } else {
         periods = this.updatePeriods(currentGroupNumber, periods, xPos, text);
       }
@@ -167,10 +178,8 @@ export class HoraireCoursService {
       ) {
         periods.push(new Period());
       }
-    } else {
-      if (periods.length === 0) {
-        periods.push(new Period());
-      }
+    } else if (periods.length === 0) {
+      periods.push(new Period());
     }
 
     periods[periods.length - 1].handlePeriodDetailTypes(text);
