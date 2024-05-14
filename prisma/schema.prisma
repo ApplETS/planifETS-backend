@@ -9,3 +9,84 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Session {
+  id        String   @id @default(uuid())
+  name      String
+  year      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  courseInstances CourseInstance[]
+}
+
+model CourseInstance {
+  id        String   @id @default(uuid())
+  courseId  String
+  sessionId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  course  Course  @relation(fields: [courseId], references: [id])
+  session Session @relation(fields: [sessionId], references: [id])
+
+  @@unique([courseId, sessionId])
+  @@index([courseId, sessionId])
+}
+
+model Course {
+  id                        String           @id @default(uuid())
+  programId                 String
+  code                      String           @unique
+  title                     String
+  description               String
+  credits                   Int
+  unstructuredPrerequisites String?
+  createdAt                 DateTime         @default(now())
+  updatedAt                 DateTime         @updatedAt
+  programs                  ProgramCourse[]
+  courseInstances           CourseInstance[]
+
+  prerequisites  CoursePrerequisite[] @relation("CourseToPrerequisite")
+  prerequisiteOf CoursePrerequisite[] @relation("PrerequisiteToCourse")
+
+  @@index([code, programId])
+}
+
+model CoursePrerequisite {
+  courseId       String
+  course         Course   @relation("CourseToPrerequisite", fields: [courseId], references: [id])
+  prerequisiteId String
+  prerequisite   Course   @relation("PrerequisiteToCourse", fields: [prerequisiteId], references: [id])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@id([courseId, prerequisiteId])
+}
+
+model ProgramCourse {
+  courseId  String
+  course    Course @relation(fields: [courseId], references: [id])
+  programId String
+  program   Program @relation(fields: [programId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([courseId, programId])
+}
+
+model Program {
+  id                   String   @id @default(uuid())
+  code                 Int      @unique
+  title                String
+  credits              Int
+  type                 String
+  url                  String
+  abbreviation         String?
+  horaireCoursPdfJson  Json?
+  planificationPdfJson Json?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  courses       ProgramCourse[]
+}

@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 import { Fill, Output, Page, Text } from 'pdf2json';
 import { firstValueFrom } from 'rxjs';
 
-import { FileUtil } from '../../../utils/pdf/fileUtil';
 import { PdfParserUtil } from '../../../utils/pdf/parser/pdfParserUtil';
 import { TextExtractor } from '../../../utils/pdf/parser/textExtractorUtil';
 import { CourseCodeValidationPipe } from '../../pipes/course-code-validation-pipe';
@@ -16,10 +15,7 @@ export class PlanificationCoursService {
 
   private courseCodeValidationPipe = new CourseCodeValidationPipe();
 
-  constructor(
-    private httpService: HttpService,
-    private fileUtil: FileUtil,
-  ) {}
+  constructor(private httpService: HttpService) {}
 
   public async parsePdfFromUrl(pdfUrl: string): Promise<PlanificationCours[]> {
     try {
@@ -50,7 +46,6 @@ export class PlanificationCoursService {
   ): PlanificationCours[] {
     try {
       const headerCells: Row[] = this.parseHeaderCells(pdfData);
-      this.fileUtil.writeDataToFile(headerCells, 'headerCells.json');
       const courses: PlanificationCours[] = [];
       let currentCourse: PlanificationCours = this.initializeCourse();
 

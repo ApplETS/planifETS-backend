@@ -15,6 +15,11 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint .",
     "refresh": "rm -rf dist && rm -rf node_modules && yarn cache clean && yarn install",
+    "prisma:generate": "prisma generate",
+    "prisma:preview": "prisma migrate dev --create-only",
+    "prisma:seed": "prisma db seed",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate-prod": "prisma migrate deploy",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -22,7 +27,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"commonjs\"} prisma/seed.ts"
+    "schema": "prisma/schema.prisma",
+    "seed": "ts-node --compiler-options {\"module\":\"commonjs\"} prisma/seeds/seed.ts"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.1",
