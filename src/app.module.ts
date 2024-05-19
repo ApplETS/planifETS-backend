@@ -10,6 +10,7 @@ import { PdfController } from './pdf/pdf.controller';
 import { HoraireCoursService } from './pdf/pdf-parser/horaire/horaire-cours.service';
 import { PlanificationCoursService } from './pdf/pdf-parser/planification/planification-cours.service';
 import { ProgramModule } from './program/program.module';
+import { SessionModule } from './session/session.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ProgramModule } from './program/program.module';
     ProgramModule,
     CourseModule,
     CourseInstanceModule,
+    SessionModule,
   ],
   providers: [HoraireCoursService, PlanificationCoursService, FileUtil],
   controllers: [PdfController],
