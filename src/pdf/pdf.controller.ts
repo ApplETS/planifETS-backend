@@ -1,13 +1,12 @@
 import {
-  BadRequestException,
   Controller,
   Get,
+  HttpException,
   HttpStatus,
-  InternalServerErrorException,
   Query,
 } from '@nestjs/common';
 
-import { isValidUrl } from '../utils/url/urlUtils';
+import { ERROR_MESSAGES } from '../constants/error-messages';
 import { HoraireCoursService } from './pdf-parser/horaire/horaire-cours.service';
 import { IHoraireCours } from './pdf-parser/horaire/horaire-cours.types';
 import { PlanificationCoursService } from './pdf-parser/planification/planification-cours.service';
@@ -22,38 +21,47 @@ export class PdfController {
 
   @Get('horaire-cours')
   public async parseHoraireCoursPdf(
-    @Query('pdfUrl') pdfUrl: string,
+    @Query('session') sessionCode: string,
+    @Query('program') programCode: string,
   ): Promise<IHoraireCours[]> {
+    if (!sessionCode || !programCode) {
+      throw new HttpException(
+        ERROR_MESSAGES.REQUIRED_SESSION_AND_PROGRAM_CODE,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const pdfUrl = `https://horaire.etsmtl.ca/HorairePublication/HorairePublication_${sessionCode}_${programCode}.pdf`;
+
     try {
-      console.log('Controller file', pdfUrl);
-      if (!pdfUrl || !isValidUrl(pdfUrl)) {
-        throw new BadRequestException('PDF URL is required');
-      }
       return await this.horaireCoursService.parsePdfFromUrl(pdfUrl);
     } catch (error) {
-      throw new InternalServerErrorException(
-        'Error parsing Horaire Cours PDF' + error,
+      throw new HttpException(
+        ERROR_MESSAGES.ERROR_PARSING_PDF,
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
 
   @Get('planification-cours')
   public async parsePlanificationCoursPdf(
-    @Query('pdfUrl') pdfUrl: string,
+    @Query('program') programCode: string,
   ): Promise<PlanificationCours[]> {
-    try {
-      console.log('Controller file', pdfUrl);
-      if (!pdfUrl) {
-        console.log('PDF URL is required', HttpStatus.BAD_REQUEST, pdfUrl);
-        throw new BadRequestException('pdfUrl attribute is required');
-      } else if (!isValidUrl(pdfUrl)) {
-        throw new BadRequestException('pdfUrl is not valid');
-      }
+    if (!programCode) {
+      throw new HttpException(
+        ERROR_MESSAGES.REQUIRED_PDF_URL,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
 
+    const pdfUrl = `https://horaire.etsmtl.ca/Horairepublication/Planification-${programCode}.pdf`;
+
+    try {
       return await this.planificationCoursService.parsePdfFromUrl(pdfUrl);
     } catch (error) {
-      throw new InternalServerErrorException(
-        'Error parsing Planification Cours PDF',
+      throw new HttpException(
+        ERROR_MESSAGES.ERROR_PARSING_PDF,
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }

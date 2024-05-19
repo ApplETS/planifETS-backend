@@ -11,10 +11,8 @@ import { Period } from './Period';
 
 @Injectable()
 export class HoraireCoursService {
-  private readonly PREALABLE_X_AXIS = 29.86;
-
-  private readonly START_PAGE_CONTENT_Y_AXIS = 14.019;
   private readonly END_PAGE_CONTENT_Y_AXIS = 59;
+  private readonly PREALABLE_X_AXIS = 29.86;
 
   constructor(private httpService: HttpService) {}
 
@@ -23,7 +21,10 @@ export class HoraireCoursService {
       const response = await firstValueFrom(
         this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),
       );
-      return await this.parseHoraireCoursPdf(Buffer.from(response.data));
+      return await this.parseHoraireCoursPdf(
+        Buffer.from(response.data),
+        pdfUrl,
+      );
     } catch (error) {
       throw new Error('Error fetching PDF from URL ' + error);
     }
@@ -32,15 +33,15 @@ export class HoraireCoursService {
   // Parses the PDF buffer to extract course information
   private async parseHoraireCoursPdf(
     pdfBuffer: Buffer,
+    pdfUrl: string,
   ): Promise<HoraireCours[]> {
-    return PdfParserUtil.parsePdfBuffer(
-      pdfBuffer,
-      this.processPdfData.bind(this),
+    return PdfParserUtil.parsePdfBuffer(pdfBuffer, (pdfData) =>
+      this.processPdfData(pdfData, pdfUrl),
     );
   }
 
   // Processes the raw PDF data to extract course information
-  private processPdfData(pdfData: Output): HoraireCours[] {
+  private processPdfData(pdfData: Output, pdfUrl: string): HoraireCours[] {
     try {
       const courses: HoraireCours[] = [];
       let currentCourse: HoraireCours = new HoraireCours();
@@ -61,6 +62,9 @@ export class HoraireCoursService {
       if (currentCourse.code) {
         currentCourse.addOrUpdateCourse(courses);
       }
+
+      if (courses.length === 0)
+        throw new Error(`No courses found in the PDF located at ${pdfUrl}.`);
 
       const serializedCourses: HoraireCours[] = courses.map((course) =>
         course.serialize(),

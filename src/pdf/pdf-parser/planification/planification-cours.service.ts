@@ -9,12 +9,8 @@ import { CourseCodeValidationPipe } from '../../pipes/course-code-validation-pip
 import { PlanificationCours } from './planification-cours.types';
 import { Row } from './Row';
 
-//TODO Add title to the course (cycles superieurs ont plusieurs cours avec le meme code)
-//https://horaire.etsmtl.ca/Horairepublication/Planification-CyclesSuperieurs.pdf
-
 @Injectable()
 export class PlanificationCoursService {
-  private readonly COURS_X_AXIS = 1.648;
   private readonly BORDER_OFFSET = 0.124;
 
   private courseCodeValidationPipe = new CourseCodeValidationPipe();
@@ -26,7 +22,10 @@ export class PlanificationCoursService {
       const response = await firstValueFrom(
         this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),
       );
-      return await this.parsePlanificationCoursPdf(Buffer.from(response.data));
+      return await this.parsePlanificationCoursPdf(
+        Buffer.from(response.data),
+        pdfUrl,
+      );
     } catch (error) {
       throw new Error('Error fetching pdf from URL ' + error);
     }
@@ -34,14 +33,17 @@ export class PlanificationCoursService {
 
   private parsePlanificationCoursPdf(
     pdfBuffer: Buffer,
+    pdfUrl: string,
   ): Promise<PlanificationCours[]> {
-    return PdfParserUtil.parsePdfBuffer(
-      pdfBuffer,
-      this.processPdfData.bind(this),
+    return PdfParserUtil.parsePdfBuffer(pdfBuffer, (pdfData) =>
+      this.processPdfData(pdfData, pdfUrl),
     );
   }
 
-  private processPdfData(pdfData: Output): PlanificationCours[] {
+  private processPdfData(
+    pdfData: Output,
+    pdfUrl: string,
+  ): PlanificationCours[] {
     try {
       const headerCells: Row[] = this.parseHeaderCells(pdfData);
       const courses: PlanificationCours[] = [];
@@ -49,9 +51,8 @@ export class PlanificationCoursService {
 
       pdfData.Pages.forEach((page: Page) => {
         page.Texts.forEach((textItem: Text) => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { textContent, xPos, yPos } =
-            TextExtractor.extractTextDetails(textItem); //TODO Check yPos later
+          const { textContent, xPos } =
+            TextExtractor.extractTextDetails(textItem);
 
           const currentColumn = Row.getColumnHeaderName(headerCells, xPos);
           // Process course code
@@ -81,25 +82,18 @@ export class PlanificationCoursService {
           }
         });
       });
+
       if (currentCourse.code !== '') {
         courses.push(currentCourse);
       }
+
+      if (courses.length === 0)
+        throw new Error(`No courses found in the PDF located at ${pdfUrl}.`);
+
       return courses;
     } catch (err) {
-      console.error('Error parsing pdf data: ' + err);
       throw new Error('Error processing PDF data');
     }
-  }
-
-  private extractTextDetails(textItem: Text): {
-    textContent: string;
-    xPos: number;
-    yPos: number;
-  } {
-    const textContent = decodeURIComponent(textItem.R[0].T).trim();
-    const xPos: number = textItem.x;
-    const yPos: number = textItem.y;
-    return { textContent, xPos, yPos };
   }
 
   private initializeCourse(): PlanificationCours {
