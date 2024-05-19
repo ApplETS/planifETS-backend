@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { Output, Page, Text } from 'pdf2json';
 import { firstValueFrom } from 'rxjs';
 
-import { PdfParserUtil } from '../../../utils/pdf/parser/pdfParserUtil';
-import { TextExtractor } from '../../../utils/pdf/parser/textExtractorUtil';
+import { PdfParserUtil } from '../../../common/utils/pdf/parser/pdfParserUtil';
+import { TextExtractor } from '../../../common/utils/pdf/parser/textExtractorUtil';
 import { Group } from './Group';
 import { HoraireCours } from './HoraireCours';
 import { Period } from './Period';

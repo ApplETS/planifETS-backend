@@ -1,4 +1,4 @@
-import { CourseCodeValidationPipe } from '../../pipes/course-code-validation-pipe';
+import { CourseCodeValidationPipe } from '../../../common/pipes/models/course/course-code-validation-pipe';
 import { Group, IGroup } from './Group';
 import { IHoraireCours } from './horaire-cours.types';
 import { Period } from './Period';
