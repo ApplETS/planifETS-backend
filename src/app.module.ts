@@ -7,6 +7,7 @@ import config from './config/configuration';
 import { PdfController } from './pdf/pdf.controller';
 import { HoraireCoursService } from './pdf/pdf-parser/horaire/horaire-cours.service';
 import { PlanificationCoursService } from './pdf/pdf-parser/planification/planification-cours.service';
+import { ProgramModule } from './program/program.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { PlanificationCoursService } from './pdf/pdf-parser/planification/planif
       envFilePath: '.env',
     }),
     HttpModule,
+    ProgramModule,
   ],
   providers: [HoraireCoursService, PlanificationCoursService, FileUtil],
   controllers: [PdfController],

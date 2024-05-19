@@ -82,7 +82,6 @@ model Program {
   credits              Int
   type                 String
   url                  String
-  abbreviation         String?
   horaireCoursPdfJson  Json?
   planificationPdfJson Json?
   createdAt            DateTime @default(now())
