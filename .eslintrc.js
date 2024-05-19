@@ -5,7 +5,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin', 'import', 'simple-import-sort'],
+  plugins: ['@typescript-eslint', 'import', 'simple-import-sort'],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
@@ -20,8 +20,6 @@ module.exports = {
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/lines-between-class-members': 'off',
-    complexity: ['warn', { max: 10 }],
-    complexity: ['error', { max: 15 }],
     '@typescript-eslint/explicit-member-accessibility': [
       'error',
       {
@@ -41,4 +39,18 @@ module.exports = {
     indent: 'off',
     '@typescript-eslint/indent': 'off',
   },
+  overrides: [
+    {
+      files: ['*.ts'],
+      rules: {
+        complexity: ['warn', { max: 10 }],
+      },
+    },
+    {
+      files: ['*.ts'],
+      rules: {
+        complexity: ['error', { max: 15 }],
+      },
+    },
+  ],
 };
