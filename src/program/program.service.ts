@@ -1,27 +1,36 @@
-import { Injectable } from '@nestjs/common';
-
-import { CreateProgramDto } from './dto/create-program.dto';
-import { UpdateProgramDto } from './dto/update-program.dto';
+import { Injectable, Logger } from '@nestjs/common';
+import { PrismaService } from '../../prisma/prisma.service';
+import { Prisma, Program, Course } from '@prisma/client';
 
 @Injectable()
 export class ProgramService {
-  public create(createProgramDto: CreateProgramDto) {
-    return 'This action adds a new program';
+  constructor(private readonly prisma: PrismaService) {}
+
+  private logger = new Logger('Program service');
+
+  public async getProgram(
+    programWhereUniqueInput: Prisma.ProgramWhereUniqueInput,
+  ): Promise<Program | null> {
+    this.logger.log('programById');
+    const program = await this.prisma.program.findUnique({
+      where: programWhereUniqueInput,
+    });
+    return program;
   }
 
-  public findAll() {
-    return 'This action returns all program';
+  public async getAllPrograms() {
+    this.logger.log('getAllPrograms');
+    const programs = await this.prisma.program.findMany();
+    return programs;
   }
 
-  public findOne(id: number) {
-    return `This action returns a #${id} program`;
-  }
-
-  public update(id: number, updateProgramDto: UpdateProgramDto) {
-    return `This action updates a #${id} program`;
-  }
-
-  public remove(id: number) {
-    return `This action removes a #${id} program`;
+  public async createProgram(
+    data: Prisma.ProgramCreateInput,
+  ): Promise<Program> {
+    this.logger.log('createProgram', data);
+    const program = await this.prisma.program.create({
+      data,
+    });
+    return program;
   }
 }
