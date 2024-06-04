@@ -3,15 +3,16 @@ import { ProgramScraperService } from './services/program-page/program-scraper.s
 import { CourseScraperService } from './services/course-page/course-scraper.service';
 import { ScraperService } from './services/scraper.service';
 import { ScraperController } from './scraper.controller';
-
-const controllers = [];
-if (process.env.NODE_ENV === 'development') {
-  controllers.push(ScraperController);
-}
+import { CourseListScraperService } from './services/program-page/course-list-scraper.service';
 
 @Module({
-  controllers: controllers,
-  providers: [ProgramScraperService, CourseScraperService, ScraperService],
-  exports: [ScraperService],
+  imports: [],
+  controllers: [ScraperController],
+  providers: [
+    ProgramScraperService,
+    CourseScraperService,
+    ScraperService,
+    CourseListScraperService,
+  ],
 })
 export class ScraperModule {}
