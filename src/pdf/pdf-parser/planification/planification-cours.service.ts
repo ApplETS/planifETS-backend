@@ -66,20 +66,22 @@ export class PlanificationCoursService {
             }
             currentCourse = this.initializeCourse();
             currentCourse.code = textContent;
-          } else {
             // Process other columns
-            if (currentColumn && this.isSession(currentColumn.headerName)) {
-              // Check and add availability
-              if (this.isAvailability(textContent)) {
-                const availabilityKey = currentColumn.headerName; // Example: 'E23'
-                if (currentCourse.available[availabilityKey]) {
-                  currentCourse.available[availabilityKey] += ` ${textContent}`;
-                } else {
-                  currentCourse.available[availabilityKey] = textContent;
-                }
+          } else if (
+            currentColumn &&
+            this.isSession(currentColumn.headerName)
+          ) {
+            // Check and add availability
+            if (this.isAvailability(textContent)) {
+              const availabilityKey = currentColumn.headerName; // Example: 'E23'
+              if (currentCourse.available[availabilityKey]) {
+                currentCourse.available[availabilityKey] += ` ${textContent}`;
+              } else {
+                currentCourse.available[availabilityKey] = textContent;
               }
             }
           }
+          
         });
       });
 
