@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ProgramScraperService } from './program-page/program-scraper.service';
+
 import { CourseScraperService } from './course-page/course-scraper.service';
+import { ProgramScraperService } from './program-page/program-scraper.service';
 
 interface IProgram {}
 

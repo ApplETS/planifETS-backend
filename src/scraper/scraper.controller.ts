@@ -1,7 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { ProgramScraperService } from './services/program-page/program-scraper.service';
-import { CourseListScraperService } from './services/program-page/course-list-scraper.service';
+
 import { CourseScraperService } from './services/course-page/course-scraper.service';
+import { CourseListScraperService } from './services/program-page/course-list-scraper.service';
+import { ProgramScraperService } from './services/program-page/program-scraper.service';
 
 @Controller('scraper')
 export class ScraperController {
@@ -12,7 +13,7 @@ export class ScraperController {
   ) {}
 
   @Get('program/:id')
-  async scrapeProgram(@Param('id') id: string) {
+  async scrapeProgramPage(@Param('id') id: string) {
     return this.programScraperService.scrapePrograms();
   }
 }

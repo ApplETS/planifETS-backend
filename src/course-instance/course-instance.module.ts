@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 import { CourseInstanceController } from './course-instance.controller';
 import { CourseInstanceService } from './course-instance.service';
 
 @Module({
+  imports: [PrismaModule],
   controllers: [CourseInstanceController],
   providers: [CourseInstanceService],
 })

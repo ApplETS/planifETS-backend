@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 import { CourseController } from './course.controller';
 import { CourseService } from './course.service';
-import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
   imports: [PrismaModule],

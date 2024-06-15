@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '@prisma/client';
+
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class ProgramService {
@@ -8,18 +9,19 @@ export class ProgramService {
 
   private logger = new Logger('Program service');
 
-  public async getProgram(
+  public async program(
     programWhereUniqueInput: Prisma.ProgramWhereUniqueInput,
   ): Promise<Program | null> {
-    this.logger.log('programById');
+    this.logger.log('program', programWhereUniqueInput);
     const program = await this.prisma.program.findUnique({
       where: programWhereUniqueInput,
     });
+
     return program;
   }
 
-  public async getAllPrograms() {
-    this.logger.log('getAllPrograms');
+  public async programs(): Promise<Program[]> {
+    this.logger.log('programs');
     const programs = await this.prisma.program.findMany();
     return programs;
   }
@@ -29,6 +31,18 @@ export class ProgramService {
   ): Promise<Program> {
     this.logger.log('createProgram', data);
     const program = await this.prisma.program.create({
+      data,
+    });
+    return program;
+  }
+
+  public async updateProgram(
+    where: Prisma.ProgramWhereUniqueInput,
+    data: Prisma.ProgramUpdateInput,
+  ): Promise<Program> {
+    this.logger.log('updateProgram', data);
+    const program = await this.prisma.program.update({
+      where,
       data,
     });
     return program;

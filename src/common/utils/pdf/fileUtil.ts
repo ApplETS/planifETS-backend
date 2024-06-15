@@ -9,7 +9,7 @@ export class FileUtil {
 
   public writeDataToFile<T>(data: T, fileName: string): Promise<string | null> {
     const pdfOutputPath =
-      this.configService.get<string>('pdfOutputPath') ||
+      this.configService.get<string>('pdfOutputPath') ??
       path.join(__dirname, fileName);
     const filePath = path.join(pdfOutputPath, fileName);
 

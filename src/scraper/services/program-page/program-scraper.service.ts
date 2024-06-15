@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+
 import { CourseListScraperService } from './course-list-scraper.service';
 
 @Injectable()

@@ -1,6 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { ProgramService } from './program.service';
 import { Program as ProgramModel } from '@prisma/client';
+
+import { ProgramService } from './program.service';
 
 @Controller('program')
 export class ProgramController {
@@ -8,11 +9,11 @@ export class ProgramController {
 
   @Get(':id')
   async getProgram(@Param('id') id: string) {
-    return this.programService.getProgram({ id: id });
+    return this.programService.program({ id });
   }
 
   @Get()
   async getAllPrograms() {
-    return this.programService.getAllPrograms();
+    return this.programService.programs();
   }
 }
