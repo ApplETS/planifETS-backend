@@ -12,11 +12,11 @@ export class ScraperService {
     private readonly courseScraperService: CourseScraperService,
   ) {}
 
-  async scrapePrograms(): Promise<IProgram[]> {
+  public async scrapePrograms(): Promise<IProgram[]> {
     throw new Error('Method not implemented.');
   }
 
-  async scrapeCourseDetails(courseCode: string) {
+  public async scrapeCourseDetails(courseCode: string) {
     throw new Error('Method not implemented.');
   }
 }

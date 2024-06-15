@@ -48,7 +48,9 @@ export class CourseService {
     });
   }
 
-  async deleteCourse(where: Prisma.CourseWhereUniqueInput): Promise<Course> {
+  public async deleteCourse(
+    where: Prisma.CourseWhereUniqueInput,
+  ): Promise<Course> {
     return this.prisma.course.delete({
       where,
     });

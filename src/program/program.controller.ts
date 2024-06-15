@@ -8,12 +8,12 @@ export class ProgramController {
   constructor(private readonly programService: ProgramService) {}
 
   @Get(':id')
-  async getProgram(@Param('id') id: string) {
+  public async getProgram(@Param('id') id: string) {
     return this.programService.program({ id });
   }
 
   @Get()
-  async getAllPrograms() {
+  public async getAllPrograms() {
     return this.programService.programs();
   }
 }
