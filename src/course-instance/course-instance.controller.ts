@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 
 import { CourseInstanceService } from './course-instance.service';
 
