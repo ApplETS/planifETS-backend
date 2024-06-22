@@ -66,9 +66,9 @@ model CoursePrerequisite {
 
 model ProgramCourse {
   courseId  String
-  course    Course @relation(fields: [courseId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
   programId String
-  program   Program @relation(fields: [programId], references: [id])
+  program   Program  @relation(fields: [programId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -76,11 +76,10 @@ model ProgramCourse {
 }
 
 model Program {
-  id                   String   @id @default(uuid())
+  id                   String   @id
   code                 Int      @unique
   title                String
   credits              Int
-  type                 String
   url                  String
   horaireCoursPdfJson  Json?
   planificationPdfJson Json?
@@ -88,4 +87,12 @@ model Program {
   updatedAt            DateTime @updatedAt
 
   courses       ProgramCourse[]
+  types         Int[]
+
+  @@unique([code, title])
+}
+
+model ProgramType {
+  id       Int       @id
+  title    String
 }

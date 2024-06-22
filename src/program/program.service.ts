@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, Program, ProgramType } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -36,15 +36,44 @@ export class ProgramService {
     return program;
   }
 
-  public async updateProgram(
-    where: Prisma.ProgramWhereUniqueInput,
-    data: Prisma.ProgramUpdateInput,
+  public async upsertProgram(
+    data: Prisma.ProgramCreateInput,
   ): Promise<Program> {
-    this.logger.log('updateProgram', data);
-    const program = await this.prisma.program.update({
-      where,
-      data,
+    return this.prisma.program.upsert({
+      where: { id: data.id },
+      update: {
+        title: data.title,
+        code: data.code,
+        credits: data.credits,
+        url: data.url,
+        updatedAt: new Date(),
+        types: data.types,
+      },
+      create: {
+        id: data.id,
+        title: data.title,
+        code: data.code,
+        credits: data.credits,
+        url: data.url,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        types: data.types,
+      },
     });
-    return program;
+  }
+
+  public async createProgramTypes(types: ProgramType[]): Promise<void> {
+    await Promise.all(
+      types.map((type) =>
+        this.prisma.programType.upsert({
+          where: { id: type.id },
+          update: { title: type.title },
+          create: {
+            id: type.id,
+            title: type.title,
+          },
+        }),
+      ),
+    );
   }
 }
