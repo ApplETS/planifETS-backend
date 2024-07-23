@@ -1,4 +1,4 @@
-export const ETS_BASE_URL = 'http://www.etsmtl.ca/';
+export const ETS_BASE_URL = 'https://www.etsmtl.ca/';
 
 /*
  * ETS website

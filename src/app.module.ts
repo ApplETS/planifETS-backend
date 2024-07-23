@@ -14,6 +14,9 @@ import { CourseModule } from './course/course.module';
 import { CourseInstanceModule } from './course-instance/course-instance.module';
 import { CoursePrerequisiteController } from './course-prerequisite/course-prerequisite.controller';
 import { CoursePrerequisiteModule } from './course-prerequisite/course-prerequisite.module';
+import { CoursePrerequisiteService } from './course-prerequisite/course-prerequisite.service';
+import { PrismaModule } from './prisma/prisma.module';
+import { PrismaService } from './prisma/prisma.service';
 import { ProgramModule } from './program/program.module';
 import { SessionModule } from './session/session.module';
 
@@ -32,8 +35,15 @@ import { SessionModule } from './session/session.module';
     CoursePrerequisiteModule,
     ScraperModule,
     EtsModule,
+    PrismaModule,
   ],
-  providers: [HoraireCoursService, PlanificationCoursService, FileUtil],
+  providers: [
+    HoraireCoursService,
+    PlanificationCoursService,
+    FileUtil,
+    CoursePrerequisiteService,
+    PrismaService,
+  ],
   controllers: [PdfController, EtsController, CoursePrerequisiteController],
 })
 export class AppModule {}
