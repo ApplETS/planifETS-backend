@@ -2,7 +2,6 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { EtsCourseController } from './common/api-helper/ets/course/ets-course.controller';
 import { EtsController } from './common/api-helper/ets/ets.controller';
 import { EtsModule } from './common/api-helper/ets/ets.module';
 import { FileUtil } from './common/utils/pdf/fileUtil';
@@ -32,6 +31,6 @@ import { SessionModule } from './session/session.module';
     EtsModule,
   ],
   providers: [HoraireCoursService, PlanificationCoursService, FileUtil],
-  controllers: [PdfController, EtsController, EtsCourseController],
+  controllers: [PdfController, EtsController],
 })
 export class AppModule {}
