@@ -13,15 +13,16 @@ type Program = {
   url: string;
 };
 
-interface ProgramType {
+export interface ProgramType {
   id: number;
   title: string;
 }
+
 @Injectable()
 export class EtsProgramService {
   constructor(private readonly httpService: HttpService) {}
 
-  public async getAllPrograms(): Promise<{
+  public async fetchAllPrograms(): Promise<{
     types: ProgramType[];
     programs: Program[];
   }> {

@@ -1,27 +1,30 @@
 import { Injectable } from '@nestjs/common';
-
-import { CreateSessionDto } from './dto/create-session.dto';
-import { UpdateSessionDto } from './dto/update-session.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class SessionService {
-  public create(createSessionDto: CreateSessionDto) {
-    return 'This action adds a new session';
-  }
+  //TODO: Implement the following methods
 
-  public findAll() {
-    return 'This action returns all session';
-  }
-
-  public findOne(id: number) {
+  public session(id: number) {
     return 'This action returns a #${id} session';
   }
 
-  public update(id: number, updateSessionDto: UpdateSessionDto) {
+  public sessions() {
+    return 'This action returns all session';
+  }
+
+  public createSession(createSessionDto: Prisma.SessionCreateInput) {
+    return 'This action adds a new session';
+  }
+
+  public upsertSession(
+    id: number,
+    updateSessionDto: Prisma.SessionUpdateInput,
+  ) {
     return 'This action updates a #${id} session';
   }
 
-  public remove(id: number) {
+  public removeSession(id: number) {
     return 'This action removes a #${id} session';
   }
 }

@@ -7,40 +7,40 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 
-import { CreateSessionDto } from './dto/create-session.dto';
-import { UpdateSessionDto } from './dto/update-session.dto';
 import { SessionService } from './session.service';
 
 @Controller('session')
 export class SessionController {
+  //TODO: Fix the routes
   constructor(private readonly sessionService: SessionService) {}
 
-  @Post()
-  public create(@Body() createSessionDto: CreateSessionDto) {
-    return this.sessionService.create(createSessionDto);
-  }
-
   @Get()
-  public findAll() {
-    return this.sessionService.findAll();
+  public sessions() {
+    return this.sessionService.sessions();
   }
 
   @Get(':id')
-  public findOne(@Param('id') id: string) {
-    return this.sessionService.findOne(+id);
+  public session(@Param('id') id: string) {
+    return this.sessionService.session(+id);
+  }
+
+  @Post()
+  public create(@Body() createSessionDto: Prisma.SessionCreateInput) {
+    return this.sessionService.createSession(createSessionDto);
   }
 
   @Patch(':id')
-  public update(
+  public upsertSession(
     @Param('id') id: string,
-    @Body() updateSessionDto: UpdateSessionDto,
+    @Body() updateSessionDto: Prisma.SessionUpdateInput,
   ) {
-    return this.sessionService.update(+id, updateSessionDto);
+    return this.sessionService.upsertSession(+id, updateSessionDto);
   }
 
   @Delete(':id')
-  public remove(@Param('id') id: string) {
-    return this.sessionService.remove(+id);
+  public removeSession(@Param('id') id: string) {
+    return this.sessionService.removeSession(+id);
   }
 }

@@ -36,6 +36,7 @@ export class ProgramService {
     return program;
   }
 
+  //TODO: (Verif) Upsert function: receive an array of programs and update or create them
   public async upsertProgram(
     data: Prisma.ProgramCreateInput,
   ): Promise<Program> {

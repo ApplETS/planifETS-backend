@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Prisma, Course } from '@prisma/client';
+import { Course, Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -34,6 +34,11 @@ export class CourseService {
 
     return course;
   }
+
+  //TODO: Upsert function: receive an array of courses and update or create them
+  // 1. Fetch all existing courses
+  // 2. Compare with new data
+  // 3. Update only if data is different
 
   public async updateCourse(params: {
     where: Prisma.CourseWhereUniqueInput;

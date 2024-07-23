@@ -6,14 +6,14 @@ import {
   ETS_API_GET_COURSES_BY_IDS,
 } from 'src/common/constants/url';
 
-interface IEtsCoursesData {
+export interface IEtsCoursesData {
   id: number;
   title: string;
   code: string;
   cycle: string | null;
 }
 
-interface IEtsCourse extends IEtsCoursesData {
+export interface IEtsCourse extends IEtsCoursesData {
   credits: string;
 }
 
@@ -26,7 +26,9 @@ export class EtsCourseService {
     const response = await firstValueFrom(
       this.httpService.get(ETS_API_GET_ALL_COURSES),
     );
-    return response.data.map((course: IEtsCoursesData) => ({
+
+    const courses = response.data.results;
+    return courses.map((course: IEtsCoursesData) => ({
       id: course.id,
       title: course.title,
       code: course.code,
@@ -35,11 +37,14 @@ export class EtsCourseService {
   }
 
   // Fetches one or more courses by their ids
+  // The ids are passed as a string with comma-separated values, ex: "349682,349710"
   public async fetchCoursesById(ids: string): Promise<IEtsCourse[]> {
     const response = await firstValueFrom(
       this.httpService.get(`${ETS_API_GET_COURSES_BY_IDS}${ids}`),
     );
-    return response.data.map((course: IEtsCourse) => ({
+
+    const courses = response.data;
+    return courses.map((course: IEtsCourse) => ({
       id: course.id,
       title: course.title,
       code: course.code,
