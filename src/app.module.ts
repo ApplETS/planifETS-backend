@@ -8,6 +8,8 @@ import { FileUtil } from './common/utils/pdf/fileUtil';
 import config from './config/configuration';
 import { CourseModule } from './course/course.module';
 import { CourseInstanceModule } from './course-instance/course-instance.module';
+import { CoursePrerequisiteController } from './course-prerequisite/course-prerequisite.controller';
+import { CoursePrerequisiteModule } from './course-prerequisite/course-prerequisite.module';
 import { PdfController } from './pdf/pdf.controller';
 import { HoraireCoursService } from './pdf/pdf-parser/horaire/horaire-cours.service';
 import { PlanificationCoursService } from './pdf/pdf-parser/planification/planification-cours.service';
@@ -27,10 +29,11 @@ import { SessionModule } from './session/session.module';
     CourseModule,
     CourseInstanceModule,
     SessionModule,
+    CoursePrerequisiteModule,
     ScraperModule,
     EtsModule,
   ],
   providers: [HoraireCoursService, PlanificationCoursService, FileUtil],
-  controllers: [PdfController, EtsController],
+  controllers: [PdfController, EtsController, CoursePrerequisiteController],
 })
 export class AppModule {}

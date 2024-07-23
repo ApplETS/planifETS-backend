@@ -7,12 +7,12 @@ export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
   @Get(':id')
-  public getCourse(@Param('id') id: string) {
+  public course(@Param('id') id: string) {
     return this.courseService.course({ id });
   }
 
   @Get()
-  public getCourses() {
+  public courses() {
     return this.courseService.courses();
   }
 }
