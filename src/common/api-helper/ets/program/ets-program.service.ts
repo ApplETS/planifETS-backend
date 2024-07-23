@@ -1,7 +1,8 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
-import { ETS_API_GET_ALL_PROGRAMS } from 'src/common/constants/url';
+
+import { ETS_API_GET_ALL_PROGRAMS } from '../../../constants/url';
 
 type Program = {
   id: number;

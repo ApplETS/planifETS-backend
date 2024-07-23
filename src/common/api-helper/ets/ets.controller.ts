@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
 import { EtsProgramService } from './program/ets-program.service';
 

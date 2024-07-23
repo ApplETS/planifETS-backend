@@ -1,10 +1,11 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
+
 import {
   ETS_API_GET_ALL_COURSES,
   ETS_API_GET_COURSES_BY_IDS,
-} from 'src/common/constants/url';
+} from '../../../constants/url';
 
 export interface IEtsCoursesData {
   id: number;
