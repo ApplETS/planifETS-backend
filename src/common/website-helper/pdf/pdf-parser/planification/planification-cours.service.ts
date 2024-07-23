@@ -3,9 +3,9 @@ import { Injectable } from '@nestjs/common';
 import { Fill, Output, Page, Text } from 'pdf2json';
 import { firstValueFrom } from 'rxjs';
 
-import { CourseCodeValidationPipe } from '../../../common/pipes/models/course/course-code-validation-pipe';
-import { PdfParserUtil } from '../../../common/utils/pdf/parser/pdfParserUtil';
-import { TextExtractor } from '../../../common/utils/pdf/parser/textExtractorUtil';
+import { CourseCodeValidationPipe } from '../../../../pipes/models/course/course-code-validation-pipe';
+import { PdfParserUtil } from '../../../../utils/pdf/parser/pdfParserUtil';
+import { TextExtractor } from '../../../../utils/pdf/parser/textExtractorUtil';
 import { PlanificationCours } from './planification-cours.types';
 import { Row } from './Row';
 

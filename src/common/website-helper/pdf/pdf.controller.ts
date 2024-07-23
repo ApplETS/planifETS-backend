@@ -6,7 +6,7 @@ import {
   Query,
 } from '@nestjs/common';
 
-import { ERROR_MESSAGES } from '../common/constants/error-messages';
+import { ERROR_MESSAGES } from '../../constants/error-messages';
 import { HoraireCoursService } from './pdf-parser/horaire/horaire-cours.service';
 import { IHoraireCours } from './pdf-parser/horaire/horaire-cours.types';
 import { PlanificationCoursService } from './pdf-parser/planification/planification-cours.service';
