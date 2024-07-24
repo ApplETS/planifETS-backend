@@ -29,9 +29,6 @@ jobs:
       - name: lint
         run: yarn run lint
 
-      - name: Generate Prisma client and apply migrations
-        run: yarn pretest
-
       - name: Run tests
         run: yarn test
 

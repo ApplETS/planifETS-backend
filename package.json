@@ -20,7 +20,6 @@
     "prisma:seed": "prisma db seed",
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate-prod": "prisma migrate deploy",
-    "pretest": "yarn prisma:generate && yarn prisma:migrate",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
