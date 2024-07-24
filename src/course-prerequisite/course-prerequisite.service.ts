@@ -19,43 +19,63 @@ export class CoursePrerequisiteService {
   }
 
   public async getAllCoursePrerequisites() {
+    this.logger.log('getAllCoursePrerequisites');
+
     return this.prisma.coursePrerequisite.findMany({
       include: { prerequisite: true },
     });
   }
 
-  public async createCoursePrerequisite(
+  private async createCoursePrerequisite(
     data: Prisma.CoursePrerequisiteCreateInput,
   ): Promise<CoursePrerequisite> {
     this.logger.log('createCoursePrerequisite', data);
-    const coursePrerequisite = await this.prisma.coursePrerequisite.create({
+
+    const courseId = data.course.connect?.id;
+    const prerequisiteId = data.prerequisite.connect?.id;
+
+    if (!courseId || !prerequisiteId) {
+      throw new Error('courseId and prerequisiteId must be provided.');
+    }
+
+    const existingPrerequisite =
+      await this.prisma.coursePrerequisite.findUnique({
+        where: {
+          courseId_prerequisiteId: {
+            courseId,
+            prerequisiteId,
+          },
+        },
+      });
+
+    if (existingPrerequisite) {
+      return existingPrerequisite;
+    }
+
+    return this.prisma.coursePrerequisite.create({
       data,
     });
-
-    return coursePrerequisite;
   }
 
-  //TODO: Upsert function: receive an array of coursePrerequisites and update or create them
-  // 1. Fetch all existing coursePrerequisites
-  // 2. Compare with new data
-  // 3. Update only if data is different
+  public async createCoursePrerequisites(
+    data: Prisma.CoursePrerequisiteCreateInput[],
+  ): Promise<CoursePrerequisite[]> {
+    this.logger.log('ensurePrerequisitesExist', data);
 
-  public async updateCoursePrerequisite(params: {
-    where: Prisma.CoursePrerequisiteWhereUniqueInput;
-    data: Prisma.CoursePrerequisiteUpdateInput;
-  }): Promise<CoursePrerequisite> {
-    this.logger.log('updateCoursePrerequisite', params);
-    const { data, where } = params;
+    const ensuredPrerequisites = await Promise.all(
+      data.map((prerequisiteData) =>
+        this.createCoursePrerequisite(prerequisiteData),
+      ),
+    );
 
-    return this.prisma.coursePrerequisite.update({
-      data,
-      where,
-    });
+    return ensuredPrerequisites;
   }
 
   public async deleteCoursePrerequisite(
     where: Prisma.CoursePrerequisiteWhereUniqueInput,
   ): Promise<CoursePrerequisite> {
+    this.logger.log('deleteCoursePrerequisite', where);
+
     return this.prisma.coursePrerequisite.delete({
       where,
     });

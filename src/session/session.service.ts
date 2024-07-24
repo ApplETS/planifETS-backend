@@ -7,33 +7,33 @@ import { PrismaService } from '../prisma/prisma.service';
 export class SessionService {
   constructor(private readonly prisma: PrismaService) {}
 
-  public async session(id: string): Promise<Session | null> {
+  public async getSession(id: string): Promise<Session | null> {
     return this.prisma.session.findUnique({
       where: { id },
     });
   }
 
-  public async sessions(): Promise<Session[]> {
+  public async getSessions(): Promise<Session[]> {
     return this.prisma.session.findMany();
   }
 
   public async createSession(
-    createSessionDto: Prisma.SessionCreateInput,
+    data: Prisma.SessionCreateInput,
   ): Promise<Session> {
     return this.prisma.session.create({
-      data: createSessionDto,
+      data,
     });
   }
 
   public async upsertSession(
     id: string,
-    updateSessionDto: Prisma.SessionUpdateInput,
+    data: Prisma.SessionUpdateInput,
   ): Promise<Session> {
     const createSessionDto: Prisma.SessionCreateInput = {
-      ...updateSessionDto,
+      ...data,
       id,
-      trimester: updateSessionDto.trimester as Trimester,
-      year: updateSessionDto.year as number,
+      trimester: data.trimester as Trimester,
+      year: data.year as number,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -41,7 +41,7 @@ export class SessionService {
     return this.prisma.session.upsert({
       where: { id },
       update: {
-        ...updateSessionDto,
+        ...data,
         updatedAt: new Date(),
       },
       create: createSessionDto,

@@ -11,7 +11,7 @@ export class CourseInstanceController {
   public getCourseInstance(
     @Param('id') id: string,
   ): Promise<CourseInstance | null> {
-    return this.courseInstanceService.courseInstance({ id });
+    return this.courseInstanceService.getCourseInstance({ id });
   }
 
   @Get()

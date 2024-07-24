@@ -12,8 +12,10 @@ import { PlanificationCoursService } from './common/website-helper/pdf/pdf-parse
 import config from './config/configuration';
 import { CourseController } from './course/course.controller';
 import { CourseModule } from './course/course.module';
+import { CourseService } from './course/course.service';
 import { CourseInstanceController } from './course-instance/course-instance.controller';
 import { CourseInstanceModule } from './course-instance/course-instance.module';
+import { CourseInstanceService } from './course-instance/course-instance.service';
 import { CoursePrerequisiteController } from './course-prerequisite/course-prerequisite.controller';
 import { CoursePrerequisiteModule } from './course-prerequisite/course-prerequisite.module';
 import { CoursePrerequisiteService } from './course-prerequisite/course-prerequisite.service';
@@ -21,8 +23,10 @@ import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
 import { ProgramController } from './program/program.controller';
 import { ProgramModule } from './program/program.module';
+import { ProgramService } from './program/program.service';
 import { SessionController } from './session/session.controller';
 import { SessionModule } from './session/session.module';
+import { SessionService } from './session/session.service';
 
 @Module({
   imports: [
@@ -32,25 +36,32 @@ import { SessionModule } from './session/session.module';
       envFilePath: '.env',
     }),
     HttpModule,
-    ProgramModule,
+    PrismaModule,
+    EtsModule,
+
     CourseModule,
     CourseInstanceModule,
-    SessionModule,
     CoursePrerequisiteModule,
-    EtsModule,
-    PrismaModule,
+    SessionModule,
+    ProgramModule,
   ],
   providers: [
+    PrismaService,
+    FileUtil,
     HoraireCoursService,
     PlanificationCoursService,
-    FileUtil,
+
+    CourseService,
+    CourseInstanceService,
     CoursePrerequisiteService,
-    PrismaService,
+    ProgramService,
+    SessionService,
   ],
   controllers: [
     AppController,
     PdfController,
     EtsController,
+
     CourseController,
     CourseInstanceController,
     CoursePrerequisiteController,
