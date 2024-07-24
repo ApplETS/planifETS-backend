@@ -3,7 +3,7 @@ import { CourseInstance } from '@prisma/client';
 
 import { CourseInstanceService } from './course-instance.service';
 
-@Controller('course-instance')
+@Controller('course-instances')
 export class CourseInstanceController {
   constructor(private readonly courseInstanceService: CourseInstanceService) {}
 

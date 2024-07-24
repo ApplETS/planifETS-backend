@@ -20,7 +20,7 @@ export class EtsController {
   }
 
   @Get('courses/:id')
-  public fetchCoursesById(@Param('id') id: string): Promise<IEtsCourse[]> {
+  public fetchCoursesById(@Param() id: string): Promise<IEtsCourse[]> {
     if (!id) {
       throw new Error('The id parameter is required');
     }

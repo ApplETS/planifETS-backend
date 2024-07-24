@@ -13,7 +13,7 @@ export class SessionService {
     });
   }
 
-  public async getSessions(): Promise<Session[]> {
+  public async getAllSessions(): Promise<Session[]> {
     return this.prisma.session.findMany();
   }
 

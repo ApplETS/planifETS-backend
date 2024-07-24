@@ -2,7 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 
 import { CoursePrerequisiteService } from './course-prerequisite.service';
 
-@Controller('course-prerequisite')
+@Controller('course-prerequisites')
 export class CoursePrerequisiteController {
   constructor(
     private readonly coursePrerequisiteService: CoursePrerequisiteService,

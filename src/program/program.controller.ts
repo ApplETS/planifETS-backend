@@ -10,15 +10,13 @@ import { Program } from '@prisma/client';
 import { UuidDto } from '../common/exceptions/dtos/uuid.dto';
 import { ProgramService } from './program.service';
 
-@Controller('program')
+@Controller('programs')
 export class ProgramController {
   constructor(private readonly programService: ProgramService) {}
 
   @Get(':id')
   @UsePipes(new ValidationPipe({ transform: true }))
-  public async getProgram(
-    @Param('id') { id }: UuidDto,
-  ): Promise<Program | null> {
+  public async getProgram(@Param() { id }: UuidDto): Promise<Program | null> {
     return this.programService.getProgram({ id });
   }
 

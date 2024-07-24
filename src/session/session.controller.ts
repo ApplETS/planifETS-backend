@@ -16,12 +16,12 @@ export class SessionController {
 
   @Get(':id')
   @UsePipes(new ValidationPipe({ transform: true }))
-  public async session(@Param() { id }: UuidDto): Promise<Session | null> {
+  public async getSession(@Param() { id }: UuidDto): Promise<Session | null> {
     return this.sessionService.getSession(id);
   }
 
   @Get()
-  public async sessions(): Promise<Session[]> {
-    return this.sessionService.getSessions();
+  public async getAllSessions(): Promise<Session[]> {
+    return this.sessionService.getAllSessions();
   }
 }
