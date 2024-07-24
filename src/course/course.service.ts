@@ -9,7 +9,7 @@ export class CourseService {
 
   private logger = new Logger('Course service');
 
-  public async course(
+  public async getCourse(
     courseWhereUniqueInput: Prisma.CourseWhereUniqueInput,
   ): Promise<Course | null> {
     this.logger.log('courseById');
@@ -20,7 +20,7 @@ export class CourseService {
     return course;
   }
 
-  public async courses() {
+  public async getAllCourses() {
     this.logger.log('getAllCourses');
     const courses = await this.prisma.course.findMany();
 

@@ -9,7 +9,7 @@ export class ProgramService {
 
   private logger = new Logger('Program service');
 
-  public async program(
+  public async getProgram(
     programWhereUniqueInput: Prisma.ProgramWhereUniqueInput,
   ): Promise<Program | null> {
     this.logger.log('program', programWhereUniqueInput);
@@ -20,7 +20,7 @@ export class ProgramService {
     return program;
   }
 
-  public async programs(): Promise<Program[]> {
+  public async getAllPrograms(): Promise<Program[]> {
     this.logger.log('programs');
     const programs = await this.prisma.program.findMany();
     return programs;

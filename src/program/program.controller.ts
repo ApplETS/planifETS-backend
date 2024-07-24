@@ -19,11 +19,11 @@ export class ProgramController {
   public async getProgram(
     @Param('id') { id }: UuidDto,
   ): Promise<Program | null> {
-    return this.programService.program({ id });
+    return this.programService.getProgram({ id });
   }
 
   @Get()
   public async getAllPrograms(): Promise<Program[] | null> {
-    return this.programService.programs();
+    return this.programService.getAllPrograms();
   }
 }

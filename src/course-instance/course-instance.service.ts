@@ -19,7 +19,7 @@ export class CourseInstanceService {
     });
   }
 
-  public async courseInstances(): Promise<CourseInstance[]> {
+  public async getAllCourseInstances(): Promise<CourseInstance[]> {
     this.logger.log('courseInstances');
     const courseInstances = await this.prisma.courseInstance.findMany();
     return courseInstances;

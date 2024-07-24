@@ -16,6 +16,6 @@ export class CourseInstanceController {
 
   @Get()
   public getAllCourseInstances(): Promise<CourseInstance[] | null> {
-    return this.courseInstanceService.courseInstances();
+    return this.courseInstanceService.getAllCourseInstances();
   }
 }

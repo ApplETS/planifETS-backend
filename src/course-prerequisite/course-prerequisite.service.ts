@@ -18,7 +18,7 @@ export class CoursePrerequisiteService {
     });
   }
 
-  public async coursePrerequisites() {
+  public async getAllCoursePrerequisites() {
     return this.prisma.coursePrerequisite.findMany({
       include: { prerequisite: true },
     });

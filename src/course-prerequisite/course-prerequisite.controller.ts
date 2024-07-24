@@ -15,6 +15,6 @@ export class CoursePrerequisiteController {
 
   @Get()
   public async getAllCoursePrerequisites() {
-    return this.coursePrerequisiteService.coursePrerequisites();
+    return this.coursePrerequisiteService.getAllCoursePrerequisites();
   }
 }
