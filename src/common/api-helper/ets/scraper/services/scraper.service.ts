@@ -17,6 +17,6 @@ export class ScraperService {
   }
 
   public async scrapeCourseDetails(courseCode: string) {
-    throw new Error('Method not implemented.');
+    throw new Error('Method not implemented.' + courseCode);
   }
 }

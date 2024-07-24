@@ -10,12 +10,12 @@ export class CourseInstanceService {
   private logger = new Logger('CourseInstance service');
 
   public courseInstance(
-    courseWhereUniqueInput: Prisma.CourseInstanceWhereUniqueInput,
-  ): Promise<Course | null> {
+    courseInstanceWhereUniqueInput: Prisma.CourseInstanceWhereUniqueInput,
+  ): Promise<CourseInstance | null> {
     this.logger.log('courseInstanceById');
 
     return this.prisma.courseInstance.findUnique({
-      where: courseWhereUniqueInput,
+      where: courseInstanceWhereUniqueInput,
     });
   }
 

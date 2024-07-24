@@ -2,6 +2,7 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
+import { AppController } from './app.controller';
 import { EtsController } from './common/api-helper/ets/ets.controller';
 import { EtsModule } from './common/api-helper/ets/ets.module';
 import { ScraperModule } from './common/api-helper/ets/scraper/scraper.module';
@@ -44,6 +45,11 @@ import { SessionModule } from './session/session.module';
     CoursePrerequisiteService,
     PrismaService,
   ],
-  controllers: [PdfController, EtsController, CoursePrerequisiteController],
+  controllers: [
+    AppController,
+    PdfController,
+    EtsController,
+    CoursePrerequisiteController,
+  ],
 })
 export class AppModule {}

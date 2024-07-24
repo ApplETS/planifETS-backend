@@ -14,6 +14,6 @@ export class ScraperController {
 
   @Get('program/:id')
   public async scrapeProgramPage(@Param('id') id: string) {
-    return this.programScraperService.scrapePrograms();
+    return this.programScraperService.scrapePrograms(id);
   }
 }

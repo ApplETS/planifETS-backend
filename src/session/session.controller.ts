@@ -6,8 +6,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { Session } from '@prisma/client';
-import { UuidDto } from 'src/common/exceptions/dtos/uuid.dto';
 
+import { UuidDto } from '../common/exceptions/dtos/uuid.dto';
 import { SessionService } from './session.service';
 
 @Controller('sessions')

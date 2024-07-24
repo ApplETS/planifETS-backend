@@ -1,6 +1,13 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { Program as ProgramModel } from '@prisma/client';
+import {
+  Controller,
+  Get,
+  Param,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { Program } from '@prisma/client';
 
+import { UuidDto } from '../common/exceptions/dtos/uuid.dto';
 import { ProgramService } from './program.service';
 
 @Controller('program')
@@ -8,12 +15,15 @@ export class ProgramController {
   constructor(private readonly programService: ProgramService) {}
 
   @Get(':id')
-  public async getProgram(@Param('id') id: string) {
+  @UsePipes(new ValidationPipe({ transform: true }))
+  public async getProgram(
+    @Param('id') { id }: UuidDto,
+  ): Promise<Program | null> {
     return this.programService.program({ id });
   }
 
   @Get()
-  public async getAllPrograms() {
+  public async getAllPrograms(): Promise<Program[] | null> {
     return this.programService.programs();
   }
 }
