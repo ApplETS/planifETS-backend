@@ -25,21 +25,16 @@ export class ProgramService {
     return this.prisma.program.findMany();
   }
 
-  public async getProgramsByType(typeId: number): Promise<Program[]> {
-    this.logger.log(`getProgramsByType: ${typeId}`);
-
-    return this.prisma.program.findMany({
-      where: { programTypeId: typeId },
-    });
-  }
-
   public async createProgram(
     data: Prisma.ProgramCreateInput,
   ): Promise<Program> {
     this.logger.log('createProgram', data);
 
     return this.prisma.program.create({
-      data,
+      data: {
+        ...data,
+        programTypeIds: data.programTypeIds ?? '[]',
+      },
     });
   }
 
@@ -48,29 +43,18 @@ export class ProgramService {
   ): Promise<Program> {
     this.logger.log('upsertProgram', data);
 
-    const { id, title, code, credits, url, programType } = data;
-
     return this.prisma.program.upsert({
-      where: { id },
+      where: { id: data.id },
       update: {
-        title,
-        code,
-        credits,
-        url,
+        ...data,
         updatedAt: new Date(),
-        programType: {
-          connect: { id: programType.connect?.id },
-        },
+        programTypeIds: data.programTypeIds ?? '[]',
       },
       create: {
-        id,
-        title,
-        code,
-        credits,
-        url,
+        ...data,
         createdAt: new Date(),
         updatedAt: new Date(),
-        programType,
+        programTypeIds: data.programTypeIds ?? '[]',
       },
     });
   }

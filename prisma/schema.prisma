@@ -7,13 +7,18 @@ generator client {
 
 generator erd {
   provider = "prisma-erd-generator"
-  theme = "neutral"
+  theme    = "neutral"
 }
-
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum Trimester {
+  A
+  E
+  H
 }
 
 model Session {
@@ -24,12 +29,6 @@ model Session {
   updatedAt DateTime  @updatedAt
 
   courseInstances CourseInstance[]
-}
-
-enum Trimester {
-  A
-  E
-  H
 }
 
 model CourseInstance {
@@ -96,24 +95,21 @@ model Program {
   id                   String          @id
   code                 Int             @unique
   title                String
-  credits              Int
+  credits              String
+  cycle                Int
   url                  String
+  programTypeIds       Json
   horaireCoursPdfJson  Json?
   planificationPdfJson Json?
-  programTypeId        Int
   courses              ProgramCourse[]
-
-  programType ProgramType @relation(fields: [programTypeId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([code, title])
-  @@index([programTypeId])
 }
 
 model ProgramType {
-  id       Int       @id @default(autoincrement())
-  title    String
-  programs Program[]
+  id    Int    @id
+  title String
 }
