@@ -48,7 +48,7 @@ describe('EtsCourseService', () => {
           has: () => true,
           delete: () => true,
         },
-      } as any,
+      } as never,
     };
     jest.spyOn(httpService, 'get').mockReturnValue(of(mockResponse));
 
@@ -74,7 +74,7 @@ describe('EtsCourseService', () => {
           has: () => true,
           delete: () => true,
         },
-      } as any,
+      } as never,
     };
     jest.spyOn(httpService, 'get').mockReturnValue(of(mockResponse));
 

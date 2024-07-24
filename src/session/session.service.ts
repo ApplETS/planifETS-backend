@@ -1,30 +1,56 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, Session, Trimester } from '@prisma/client';
+
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class SessionService {
-  //TODO: Implement the following methods
+  constructor(private readonly prisma: PrismaService) {}
 
-  public session(id: number) {
-    return 'This action returns a #${id} session';
+  public async session(id: string): Promise<Session | null> {
+    return this.prisma.session.findUnique({
+      where: { id },
+    });
   }
 
-  public sessions() {
-    return 'This action returns all session';
+  public async sessions(): Promise<Session[]> {
+    return this.prisma.session.findMany();
   }
 
-  public createSession(createSessionDto: Prisma.SessionCreateInput) {
-    return 'This action adds a new session';
+  public async createSession(
+    createSessionDto: Prisma.SessionCreateInput,
+  ): Promise<Session> {
+    return this.prisma.session.create({
+      data: createSessionDto,
+    });
   }
 
-  public upsertSession(
-    id: number,
+  public async upsertSession(
+    id: string,
     updateSessionDto: Prisma.SessionUpdateInput,
-  ) {
-    return 'This action updates a #${id} session';
+  ): Promise<Session> {
+    const createSessionDto: Prisma.SessionCreateInput = {
+      ...updateSessionDto,
+      id,
+      trimester: updateSessionDto.trimester as Trimester,
+      year: updateSessionDto.year as number,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    return this.prisma.session.upsert({
+      where: { id },
+      update: {
+        ...updateSessionDto,
+        updatedAt: new Date(),
+      },
+      create: createSessionDto,
+    });
   }
 
-  public removeSession(id: number) {
-    return 'This action removes a #${id} session';
+  public async removeSession(id: string): Promise<Session> {
+    return this.prisma.session.delete({
+      where: { id },
+    });
   }
 }

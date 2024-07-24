@@ -1,46 +1,27 @@
 import {
-  Body,
   Controller,
-  Delete,
   Get,
   Param,
-  Patch,
-  Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Session } from '@prisma/client';
+import { UuidDto } from 'src/common/exceptions/dtos/uuid.dto';
 
 import { SessionService } from './session.service';
 
-@Controller('session')
+@Controller('sessions')
 export class SessionController {
-  //TODO: Fix the routes
   constructor(private readonly sessionService: SessionService) {}
 
-  @Get()
-  public sessions() {
-    return this.sessionService.sessions();
-  }
-
   @Get(':id')
-  public session(@Param('id') id: string) {
-    return this.sessionService.session(+id);
+  @UsePipes(new ValidationPipe({ transform: true }))
+  public async session(@Param() { id }: UuidDto): Promise<Session | null> {
+    return this.sessionService.session(id);
   }
 
-  @Post()
-  public create(@Body() createSessionDto: Prisma.SessionCreateInput) {
-    return this.sessionService.createSession(createSessionDto);
-  }
-
-  @Patch(':id')
-  public upsertSession(
-    @Param('id') id: string,
-    @Body() updateSessionDto: Prisma.SessionUpdateInput,
-  ) {
-    return this.sessionService.upsertSession(+id, updateSessionDto);
-  }
-
-  @Delete(':id')
-  public removeSession(@Param('id') id: string) {
-    return this.sessionService.removeSession(+id);
+  @Get()
+  public async sessions(): Promise<Session[]> {
+    return this.sessionService.sessions();
   }
 }

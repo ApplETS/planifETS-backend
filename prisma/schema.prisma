@@ -11,22 +11,28 @@ datasource db {
 }
 
 model Session {
-  id        String   @id @default(uuid())
-  name      String
+  id        String    @id @default(uuid())
+  trimester Trimester
   year      Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   courseInstances CourseInstance[]
 }
 
+enum Trimester {
+  A
+  E
+  H
+}
+
 model CourseInstance {
-  id        String   @id @default(uuid())
+  id        String @id @default(uuid())
   courseId  String
   sessionId String
 
-  course    Course   @relation(fields: [courseId], references: [id])
-  session   Session  @relation(fields: [sessionId], references: [id])
+  course  Course  @relation(fields: [courseId], references: [id])
+  session Session @relation(fields: [sessionId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -36,20 +42,20 @@ model CourseInstance {
 }
 
 model Course {
-  id                        String           @id
-  programId                 String
-  code                      String           @unique
-  title                     String
-  description               String
-  credits                   Int
-  programs                  ProgramCourse[]
-  courseInstances           CourseInstance[]
+  id              String           @id
+  programId       String
+  code            String           @unique
+  title           String
+  description     String
+  credits         Int
+  programs        ProgramCourse[]
+  courseInstances CourseInstance[]
 
   prerequisites  CoursePrerequisite[] @relation("CourseToPrerequisite")
   prerequisiteOf CoursePrerequisite[] @relation("PrerequisiteToCourse")
 
-  createdAt                 DateTime         @default(now())
-  updatedAt                 DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([code, programId])
 }
@@ -58,11 +64,11 @@ model CoursePrerequisite {
   courseId       String
   prerequisiteId String
 
-  course         Course   @relation("CourseToPrerequisite", fields: [courseId], references: [id])
-  prerequisite   Course   @relation("PrerequisiteToCourse", fields: [prerequisiteId], references: [id])
+  course       Course @relation("CourseToPrerequisite", fields: [courseId], references: [id])
+  prerequisite Course @relation("PrerequisiteToCourse", fields: [prerequisiteId], references: [id])
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@id([courseId, prerequisiteId])
 }
@@ -71,8 +77,8 @@ model ProgramCourse {
   courseId  String
   programId String
 
-  course    Course   @relation(fields: [courseId], references: [id])
-  program   Program  @relation(fields: [programId], references: [id])
+  course  Course  @relation(fields: [courseId], references: [id])
+  program Program @relation(fields: [programId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -81,8 +87,8 @@ model ProgramCourse {
 }
 
 model Program {
-  id                   String   @id
-  code                 Int      @unique
+  id                   String          @id
+  code                 Int             @unique
   title                String
   credits              Int
   url                  String
@@ -91,10 +97,10 @@ model Program {
   programTypeId        Int
   courses              ProgramCourse[]
 
-  programType   ProgramType @relation(fields: [programTypeId], references: [id])
+  programType ProgramType @relation(fields: [programTypeId], references: [id])
 
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([code, title])
   @@index([programTypeId])
