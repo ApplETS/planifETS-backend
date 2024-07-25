@@ -6,7 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import { CourseCodeValidationPipe } from '../../../../pipes/models/course/course-code-validation-pipe';
 import { PdfParserUtil } from '../../../../utils/pdf/parser/pdfParserUtil';
 import { TextExtractor } from '../../../../utils/pdf/parser/textExtractorUtil';
-import { PlanificationCours } from './planification-cours.types';
+import { IPlanificationCours } from './planification-cours.types';
 import { Row } from './Row';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class PlanificationCoursService {
 
   constructor(private httpService: HttpService) {}
 
-  public async parsePdfFromUrl(pdfUrl: string): Promise<PlanificationCours[]> {
+  public async parsePdfFromUrl(pdfUrl: string): Promise<IPlanificationCours[]> {
     try {
       const response = await firstValueFrom(
         this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),
@@ -31,23 +31,23 @@ export class PlanificationCoursService {
     }
   }
 
-  private parsePlanificationCoursPdf(
+  public parsePlanificationCoursPdf(
     pdfBuffer: Buffer,
     pdfUrl: string,
-  ): Promise<PlanificationCours[]> {
+  ): Promise<IPlanificationCours[]> {
     return PdfParserUtil.parsePdfBuffer(pdfBuffer, (pdfData) =>
       this.processPdfData(pdfData, pdfUrl),
     );
   }
 
-  private processPdfData(
+  public processPdfData(
     pdfData: Output,
     pdfUrl: string,
-  ): PlanificationCours[] {
+  ): IPlanificationCours[] {
     try {
       const headerCells: Row[] = this.parseHeaderCells(pdfData);
-      const courses: PlanificationCours[] = [];
-      let currentCourse: PlanificationCours = this.initializeCourse();
+      const courses: IPlanificationCours[] = [];
+      let currentCourse: IPlanificationCours = this.initializeCourse();
 
       pdfData.Pages.forEach((page: Page) => {
         page.Texts.forEach((textItem: Text) => {
@@ -97,7 +97,7 @@ export class PlanificationCoursService {
     }
   }
 
-  private initializeCourse(): PlanificationCours {
+  private initializeCourse(): IPlanificationCours {
     return {
       code: '',
       available: {},
@@ -105,7 +105,7 @@ export class PlanificationCoursService {
   }
 
   // Example: [ code, title, H24, E24, A24, H25, E25]
-  private parseHeaderCells(pdfData: { Pages: Page[] }): Row[] {
+  public parseHeaderCells(pdfData: { Pages: Page[] }): Row[] {
     const columns: Row[] = [];
     const headerFills = pdfData.Pages[0].Fills.filter(
       (fill: Fill) => fill.clr === 5,
