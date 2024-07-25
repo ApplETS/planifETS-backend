@@ -13,7 +13,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "lint": "eslint .",
+    "lint": "eslint src --ext .ts",
     "refresh": "rm -rf dist && rm -rf node_modules && yarn cache clean && yarn install",
     "prisma:generate": "prisma generate",
     "prisma:preview": "prisma migrate dev --create-only",
