@@ -7,7 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class CourseInstanceService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private logger = new Logger('CourseInstance service');
+  private logger = new Logger(CourseInstanceService.name);
 
   public getCourseInstance(
     courseInstanceWhereUniqueInput: Prisma.CourseInstanceWhereUniqueInput,
@@ -21,6 +21,7 @@ export class CourseInstanceService {
 
   public async getAllCourseInstances(): Promise<CourseInstance[]> {
     this.logger.log('courseInstances');
+
     const courseInstances = await this.prisma.courseInstance.findMany();
     return courseInstances;
   }
@@ -29,6 +30,7 @@ export class CourseInstanceService {
     sessionIds: string[],
   ): Promise<CourseInstance[]> {
     this.logger.log('getCourseInstancesBySessions', JSON.stringify(sessionIds));
+
     return this.prisma.courseInstance.findMany({
       where: {
         sessionId: {

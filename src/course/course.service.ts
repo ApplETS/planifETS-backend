@@ -7,12 +7,13 @@ import { PrismaService } from '../prisma/prisma.service';
 export class CourseService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private logger = new Logger('Course service');
+  private logger = new Logger(CourseService.name);
 
   public async getCourse(
     courseWhereUniqueInput: Prisma.CourseWhereUniqueInput,
   ): Promise<Course | null> {
     this.logger.log('courseById', courseWhereUniqueInput);
+
     const course = await this.prisma.course.findUnique({
       where: courseWhereUniqueInput,
     });

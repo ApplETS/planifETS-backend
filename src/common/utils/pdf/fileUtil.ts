@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import fs from 'fs';
 import path from 'path';
@@ -6,6 +6,8 @@ import path from 'path';
 @Injectable()
 export class FileUtil {
   constructor(private configService: ConfigService) {}
+
+  private logger = new Logger(FileUtil.name);
 
   public writeDataToFile<T>(data: T, fileName: string): Promise<string | null> {
     const pdfOutputPath =
@@ -31,12 +33,13 @@ export class FileUtil {
         JSON.stringify(data, urlDecodeReplacer, 2),
         (err) => {
           if (err) {
-            console.error('Error encountered while writing file: ', err);
+            this.logger.error('Error encountered while writing file: ', err);
             reject(err);
           } else {
-            console.log(
+            this.logger.log(
               `File "${fileName}" successfully written to "${filePath}"`,
             );
+
             resolve(filePath);
           }
         },

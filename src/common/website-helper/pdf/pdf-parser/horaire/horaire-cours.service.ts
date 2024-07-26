@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Output, Page, Text } from 'pdf2json';
 import { firstValueFrom } from 'rxjs';
 
@@ -15,6 +15,8 @@ export class HoraireCoursService {
   private readonly PREALABLE_X_AXIS = 29.86;
 
   constructor(private httpService: HttpService) {}
+
+  private logger = new Logger(HoraireCoursService.name);
 
   public async parsePdfFromUrl(pdfUrl: string) {
     try {
@@ -72,8 +74,7 @@ export class HoraireCoursService {
 
       return serializedCourses;
     } catch (err) {
-      console.error('Error parsing pdf data: ' + err);
-      console.log(err);
+      this.logger.error('Error parsing pdf data: ' + err);
       throw new Error('Error processing PDF data: ' + err);
     }
   }

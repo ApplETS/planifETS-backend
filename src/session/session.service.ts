@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, Session, Trimester } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
@@ -7,7 +7,11 @@ import { PrismaService } from '../prisma/prisma.service';
 export class SessionService {
   constructor(private readonly prisma: PrismaService) {}
 
+  private logger = new Logger(SessionService.name);
+
   public async getSession(id: string): Promise<Session | null> {
+    this.logger.log('getSession', id);
+
     return this.prisma.session.findUnique({
       where: { id },
     });

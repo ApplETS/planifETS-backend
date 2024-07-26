@@ -7,7 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class CoursePrerequisiteService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private logger = new Logger('CoursePrerequisite service');
+  private logger = new Logger(CoursePrerequisiteService.name);
 
   public async getPrerequisites(courseId: string) {
     this.logger.log('coursePrerequisiteById');
