@@ -6,7 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import { CourseCodeValidationPipe } from '../../../../pipes/models/course/course-code-validation-pipe';
 import { PdfParserUtil } from '../../../../utils/pdf/parser/pdfParserUtil';
 import { TextExtractor } from '../../../../utils/pdf/parser/textExtractorUtil';
-import { IPlanificationCours } from './planification-cours.types';
+import { ICoursePlanification } from './planification-cours.types';
 import { Row } from './Row';
 
 @Injectable()
@@ -17,7 +17,9 @@ export class PlanificationCoursService {
 
   constructor(private httpService: HttpService) {}
 
-  public async parsePdfFromUrl(pdfUrl: string): Promise<IPlanificationCours[]> {
+  public async parsePdfFromUrl(
+    pdfUrl: string,
+  ): Promise<ICoursePlanification[]> {
     try {
       const response = await firstValueFrom(
         this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),
@@ -34,7 +36,7 @@ export class PlanificationCoursService {
   public parsePlanificationCoursPdf(
     pdfBuffer: Buffer,
     pdfUrl: string,
-  ): Promise<IPlanificationCours[]> {
+  ): Promise<ICoursePlanification[]> {
     return PdfParserUtil.parsePdfBuffer(pdfBuffer, (pdfData) =>
       this.processPdfData(pdfData, pdfUrl),
     );
@@ -43,11 +45,11 @@ export class PlanificationCoursService {
   public processPdfData(
     pdfData: Output,
     pdfUrl: string,
-  ): IPlanificationCours[] {
+  ): ICoursePlanification[] {
     try {
       const headerCells: Row[] = this.parseHeaderCells(pdfData);
-      const courses: IPlanificationCours[] = [];
-      let currentCourse: IPlanificationCours = this.initializeCourse();
+      const courses: ICoursePlanification[] = [];
+      let currentCourse: ICoursePlanification = this.initializeCourse();
 
       pdfData.Pages.forEach((page: Page) => {
         page.Texts.forEach((textItem: Text) => {
@@ -97,7 +99,7 @@ export class PlanificationCoursService {
     }
   }
 
-  private initializeCourse(): IPlanificationCours {
+  private initializeCourse(): ICoursePlanification {
     return {
       code: '',
       available: {},

@@ -21,6 +21,6 @@ export class EtsCourseController {
       throw new Error('The id parameter is required');
     }
 
-    return this.etsCourseService.fetchCoursesById('349682,349710');
+    return this.etsCourseService.fetchCoursesById(id);
   }
 }

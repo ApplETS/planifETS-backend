@@ -1,4 +1,4 @@
-export interface IPlanificationCours {
+export interface ICoursePlanification {
   code: string;
   available: Record<string, string>;
 }

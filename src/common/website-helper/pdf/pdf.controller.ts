@@ -10,7 +10,7 @@ import { ERROR_MESSAGES } from '../../constants/error-messages';
 import { HoraireCoursService } from './pdf-parser/horaire/horaire-cours.service';
 import { IHoraireCours } from './pdf-parser/horaire/horaire-cours.types';
 import { PlanificationCoursService } from './pdf-parser/planification/planification-cours.service';
-import { IPlanificationCours } from './pdf-parser/planification/planification-cours.types';
+import { ICoursePlanification } from './pdf-parser/planification/planification-cours.types';
 
 @Controller('pdf')
 export class PdfController {
@@ -46,7 +46,7 @@ export class PdfController {
   @Get('planification-cours')
   public async parsePlanificationCoursPdf(
     @Query('program') programCode: string,
-  ): Promise<IPlanificationCours[]> {
+  ): Promise<ICoursePlanification[]> {
     if (!programCode) {
       throw new HttpException(
         ERROR_MESSAGES.REQUIRED_PDF_URL,
