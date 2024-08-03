@@ -16,9 +16,9 @@ datasource db {
 }
 
 enum Trimester {
-  A
-  E
-  H
+  AUTOMNE
+  ETE
+  HIVER
 }
 
 model Session {
