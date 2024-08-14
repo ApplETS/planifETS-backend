@@ -33,7 +33,7 @@ model Session {
 
 model CourseInstance {
   id        String @id @default(uuid())
-  courseId  String
+  courseId  Int
   sessionId String
 
   course  Course  @relation(fields: [courseId], references: [id])
@@ -47,8 +47,7 @@ model CourseInstance {
 }
 
 model Course {
-  id              String           @id
-  programId       String
+  id              Int              @id
   code            String           @unique
   title           String
   description     String
@@ -62,12 +61,12 @@ model Course {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([code, programId])
+  @@index([code])
 }
 
 model CoursePrerequisite {
-  courseId       String
-  prerequisiteId String
+  courseId       Int
+  prerequisiteId Int
 
   course       Course @relation("CourseToPrerequisite", fields: [courseId], references: [id])
   prerequisite Course @relation("PrerequisiteToCourse", fields: [prerequisiteId], references: [id])
@@ -79,9 +78,9 @@ model CoursePrerequisite {
 }
 
 model ProgramCourse {
-  courseId  String
-  programId String
-  typicalSession Int
+  courseId            Int
+  programId           Int
+  typicalSessionIndex Int
 
   course  Course  @relation(fields: [courseId], references: [id])
   program Program @relation(fields: [programId], references: [id])
@@ -93,13 +92,14 @@ model ProgramCourse {
 }
 
 model Program {
-  id                   String          @id
-  code                 Int             @unique
-  title                String
-  credits              String
-  cycle                Int
-  url                  String
-  programTypeIds       Json
+  id             Int    @id
+  code           String    @unique
+  title          String
+  credits        String
+  cycle          Int
+  url            String
+  programTypes         ProgramType[] 
+
   horaireCoursPdfJson  Json?
   planificationPdfJson Json?
   courses              ProgramCourse[]
@@ -113,4 +113,5 @@ model Program {
 model ProgramType {
   id    Int    @id
   title String
+  programs Program[]
 }

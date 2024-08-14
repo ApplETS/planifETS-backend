@@ -1,6 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
+import { IdDto } from '../common/exceptions/dtos/id.dto';
 import { CoursePrerequisiteService } from './course-prerequisite.service';
 
 @ApiTags('Course prerequisites')
@@ -11,9 +12,8 @@ export class CoursePrerequisiteController {
   ) {}
 
   @Get(':courseId')
-  public async getCoursePrerequisites(@Param('courseId') courseId: string) {
-    //TODO: Change to int IdDto? (Prisma update uuid to int)
-    return this.coursePrerequisiteService.getPrerequisites(courseId);
+  public async getCoursePrerequisites(@Param('courseId') { id }: IdDto) {
+    return this.coursePrerequisiteService.getPrerequisites({ courseId: id });
   }
 
   @Get()

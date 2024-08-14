@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsInt } from 'class-validator';
 
 export class IdDto {
   @ApiProperty()
-  @IsString()
+  @IsInt()
   public id!: number;
 }

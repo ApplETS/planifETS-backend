@@ -8,7 +8,7 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { Program } from '@prisma/client';
 
-import { UuidDto } from '../common/exceptions/dtos/uuid.dto';
+import { IdDto } from '../common/exceptions/dtos/id.dto';
 import { ProgramService } from './program.service';
 
 @ApiTags('Programs')
@@ -18,8 +18,7 @@ export class ProgramController {
 
   @Get(':id')
   @UsePipes(new ValidationPipe({ transform: true }))
-  //TODO: Change this to use IdDto when Prisma is updated (uuid to id)
-  public async getProgram(@Param() { id }: UuidDto): Promise<Program | null> {
+  public async getProgram(@Param() { id }: IdDto): Promise<Program | null> {
     return this.programService.getProgram({ id });
   }
 
