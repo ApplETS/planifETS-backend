@@ -5,11 +5,13 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Session } from '@prisma/client';
 
 import { UuidDto } from '../common/exceptions/dtos/uuid.dto';
 import { SessionService } from './session.service';
 
+@ApiTags('Sessions')
 @Controller('sessions')
 export class SessionController {
   constructor(private readonly sessionService: SessionService) {}

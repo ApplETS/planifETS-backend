@@ -81,6 +81,7 @@ model CoursePrerequisite {
 model ProgramCourse {
   courseId  String
   programId String
+  typicalSession Int
 
   course  Course  @relation(fields: [courseId], references: [id])
   program Program @relation(fields: [programId], references: [id])

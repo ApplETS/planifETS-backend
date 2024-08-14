@@ -109,6 +109,7 @@ export class CourseService {
   ): Promise<Course[]> {
     this.logger.log('upsertCourses', data);
 
+    //TODO: Use "findMany" instead of "findUnique". remove upsertCourse function and only use this function only
     const upsertedCourses = await Promise.all(
       data.map((courseData) => this.upsertCourse(courseData)),
     );
