@@ -47,7 +47,7 @@ describe('PlanificationCoursService', () => {
 
     // Parse the PDF once and store the result
     result = await service.parsePdfFromUrl(
-      'https://horaire.etsmt.ca/Horairepublication/Planification-7084.pdf',
+      'https://dummy.horaire.etsmt.ca/Horairepublication/Planification-7084.pdf',
     );
   });
 
