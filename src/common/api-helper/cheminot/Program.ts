@@ -1,12 +1,29 @@
 import { Course } from './Course';
 
 export class Program {
-  private id: number;
-  private courses: Course[];
+  constructor(
+    private id: number,
+    private courses: Course[],
+  ) {}
 
-  constructor(id: number, courses: Course[]) {
-    this.id = id;
-    this.courses = courses;
+  public static isProgramLine(line: string): boolean {
+    return line.startsWith('.PROGRAMME');
+  }
+
+  public static parseProgramLine(line: string): Program | null {
+    const regex = /\.PROGRAMME (\d+)/;
+    const parts = regex.exec(line);
+
+    if (!parts) {
+      return null;
+    }
+
+    const id = parseInt(parts[1], 10);
+    return new Program(id, []);
+  }
+
+  public getCourses(): Course[] {
+    return this.courses;
   }
 
   public addCourse(course: Course) {

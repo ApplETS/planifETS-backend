@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+import { FileUtil } from '../../utils/pdf/fileUtil';
 import { CheminotService } from './cheminot.service';
 import { FileExtractionService } from './file-extraction.service';
 
@@ -10,6 +11,7 @@ export class CheminotController {
   constructor(
     private readonly fileExtractionService: FileExtractionService,
     private readonly cheminotService: CheminotService,
+    private readonly fileUtil: FileUtil,
   ) {}
 
   @Get('cheminements-file')
@@ -24,6 +26,13 @@ export class CheminotController {
   })
   public async parseProgramsAndCoursesFromCheminotTxtFile() {
     await this.cheminotService.loadPrograms();
-    return this.cheminotService.getPrograms();
+    const data = this.cheminotService.getPrograms();
+
+    //Write data to file as a json
+    const fileName = 'parsed-programs-courses.json';
+
+    // Write data to a JSON file using FileUtil
+    await this.fileUtil.writeDataToFile(data, fileName);
+    return data;
   }
 }

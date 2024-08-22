@@ -20,71 +20,39 @@ export class CheminotService {
     const lines = data.split('\n');
     let currentProgram: Program | null = null;
 
-    for (const line of lines) {
-      if (line.startsWith('.PROGRAMME')) {
-        const program = this.parseProgramLine(line);
-        if (program) {
-          //TODO: Change this to add all programs
-          //if (currentProgram) this.programs.push(currentProgram);
-          if (currentProgram?.id === 7084) this.programs.push(currentProgram);
-          currentProgram = program;
-        }
-      } else if (line.startsWith('.COURS')) {
-        continue; // Skip the .COURS header
-      } else if (currentProgram && line.trim()) {
-        const course = this.parseCourseLine(line);
-        if (course) {
-          currentProgram.addCourse(course);
-        }
+    lines.forEach((line) => {
+      if (Program.isProgramLine(line)) {
+        currentProgram = this.handleProgramLine(line, currentProgram);
+      } else if (Course.isCourseLine(line) && currentProgram) {
+        this.handleCourseLine(line, currentProgram);
       }
-    }
+    });
 
-    //TODO: Change this to add all programs
-    //if (currentProgram) this.programs.push(currentProgram);
-    if (currentProgram?.id === 7084) this.programs.push(currentProgram);
+    this.addLastProgram(currentProgram);
   }
 
-  private parseProgramLine(line: string): Program | null {
-    const regex = /\.PROGRAMME (\d+),.*DEPARTEMENT=(\w+),.*STAGE=(OUI|NON)/;
-    const parts = RegExp(regex).exec(line);
-
-    if (!parts) {
-      //Program line did not match the expected format
-      return null;
+  private handleProgramLine(
+    line: string,
+    currentProgram: Program | null,
+  ): Program | null {
+    const program = Program.parseProgramLine(line);
+    if (program && currentProgram) {
+      this.programs.push(currentProgram);
     }
-
-    const id = parseInt(parts[1], 10);
-    return new Program(id, []);
+    return program || currentProgram;
   }
 
-  private parseCourseLine(line: string): Course | null {
-    const parts = line.split(',');
-    if (parts.length < 8) {
-      //Line does not have the expected number of parts
-      return null;
+  private handleCourseLine(line: string, currentProgram: Program) {
+    const course = Course.parseCourseLine(line);
+    if (course) {
+      currentProgram.addCourse(course);
     }
+  }
 
-    const type = parts[0]?.trim();
-    const session = parseInt(parts[1]?.trim(), 10);
-    const code = parts[3]?.trim();
-    const profile = parts[4]?.trim();
-    const concentration = parts[5]?.trim();
-    const category = parts[6]?.trim();
-    const level = parts[7]?.trim();
-    const mandatory = parts[8]?.trim() === 'B';
-    const prerequisites = Course.parsePrerequisites(parts[9]?.trim());
-
-    return new Course(
-      type,
-      session,
-      code,
-      profile,
-      concentration,
-      category,
-      level,
-      mandatory,
-      prerequisites,
-    );
+  private addLastProgram(currentProgram: Program | null) {
+    if (currentProgram) {
+      this.programs.push(currentProgram);
+    }
   }
 
   public getPrograms(): Program[] {
