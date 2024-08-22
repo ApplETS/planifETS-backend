@@ -36,7 +36,6 @@ async function bootstrap() {
   const bullBoardQueues = Object.values(QueuesEnum).map(
     (queueName) => new BullMQAdapter(new Queue(queueName)),
   );
-  console.log('bullBoardQueues:', bullBoardQueues);
   createBullBoard({
     queues: bullBoardQueues,
     serverAdapter,
