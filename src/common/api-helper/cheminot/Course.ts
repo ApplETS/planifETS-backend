@@ -45,7 +45,7 @@ export class Course {
 
     const type = parts[0];
     const session = parseInt(parts[1], 10);
-    const code = parts[3];
+    const code = parts[3].toUpperCase();
     //Validate the course code using the course code validation pipe
     if (this.courseCodeValidationPipe.transform(code) === false) {
       console.log('Invalid course code: ', code);
@@ -74,6 +74,6 @@ export class Course {
     if (!prerequisitesString) return [];
     return prerequisitesString
       .split(' & ')
-      .map((prerequisite) => prerequisite.trim());
+      .map((prerequisite) => prerequisite.trim().toUpperCase());
   }
 }

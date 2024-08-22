@@ -850,7 +850,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt350"
+          "MAT350"
         ]
       },
       {
@@ -863,7 +863,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt350"
+          "MAT350"
         ]
       },
       {
@@ -1069,7 +1069,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -1241,7 +1241,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gOL111"
+          "GOL111"
         ]
       },
       {
@@ -1254,7 +1254,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gOL111"
+          "GOL111"
         ]
       },
       {
@@ -1267,7 +1267,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gOL111"
+          "GOL111"
         ]
       },
       {
@@ -1320,7 +1320,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GOl471"
+          "GOL471"
         ]
       },
       {
@@ -1359,7 +1359,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -1385,7 +1385,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt350"
+          "MAT350"
         ]
       },
       {
@@ -1509,7 +1509,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -2658,7 +2658,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -2808,7 +2808,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gOL111"
+          "GOL111"
         ]
       },
       {
@@ -2821,7 +2821,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gOL111"
+          "GOL111"
         ]
       },
       {
@@ -2834,7 +2834,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gOL111"
+          "GOL111"
         ]
       },
       {
@@ -2887,7 +2887,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GOl471"
+          "GOL471"
         ]
       },
       {
@@ -2926,7 +2926,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -2952,7 +2952,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt350"
+          "MAT350"
         ]
       },
       {
@@ -2965,7 +2965,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt350"
+          "MAT350"
         ]
       },
       {
@@ -3059,7 +3059,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -4095,7 +4095,7 @@
         "level": "C",
         "mandatory": true,
         "prerequisites": [
-          "mAT321"
+          "MAT321"
         ]
       },
       {
@@ -4152,7 +4152,7 @@
         "level": "C",
         "mandatory": true,
         "prerequisites": [
-          "mAT321"
+          "MAT321"
         ]
       },
       {
@@ -4275,7 +4275,7 @@
         "level": "C",
         "mandatory": false,
         "prerequisites": [
-          "MAt321"
+          "MAT321"
         ]
       },
       {
@@ -4288,7 +4288,7 @@
         "level": "C",
         "mandatory": false,
         "prerequisites": [
-          "MAt321"
+          "MAT321"
         ]
       },
       {
@@ -4301,7 +4301,7 @@
         "level": "C",
         "mandatory": true,
         "prerequisites": [
-          "MAt321"
+          "MAT321"
         ]
       },
       {
@@ -4314,7 +4314,7 @@
         "level": "C",
         "mandatory": true,
         "prerequisites": [
-          "MAt321"
+          "MAT321"
         ]
       },
       {
@@ -4371,7 +4371,7 @@
         "level": "C",
         "mandatory": false,
         "prerequisites": [
-          "MAt321"
+          "MAT321"
         ]
       },
       {
@@ -5288,7 +5288,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -5314,7 +5314,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -5535,7 +5535,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -5548,7 +5548,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "INf147"
+          "INF147"
         ]
       },
       {
@@ -5561,7 +5561,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "INf147"
+          "INF147"
         ]
       },
       {
@@ -5600,7 +5600,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "iNF147"
+          "INF147"
         ]
       },
       {
@@ -5808,7 +5808,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLe413"
+          "ELE413"
         ]
       },
       {
@@ -5915,7 +5915,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE413"
+          "ELE413"
         ]
       },
       {
@@ -5941,7 +5941,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -5954,7 +5954,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -5967,7 +5967,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -5993,7 +5993,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -6151,7 +6151,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE550"
+          "ELE550"
         ]
       },
       {
@@ -6197,7 +6197,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe413"
+          "ELE413"
         ]
       },
       {
@@ -6210,7 +6210,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE462"
+          "ELE462"
         ]
       },
       {
@@ -6260,7 +6260,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE275"
+          "ELE275"
         ]
       },
       {
@@ -6273,7 +6273,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -6286,7 +6286,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE275"
+          "ELE275"
         ]
       },
       {
@@ -6299,7 +6299,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -6312,7 +6312,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -6325,7 +6325,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE275"
+          "ELE275"
         ]
       },
       {
@@ -6338,8 +6338,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE550",
-          "ELe355"
+          "ELE550",
+          "ELE355"
         ]
       },
       {
@@ -6365,7 +6365,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -6378,7 +6378,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -6446,7 +6446,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE413"
+          "ELE413"
         ]
       },
       {
@@ -6481,7 +6481,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE550",
+          "ELE550",
           "ELE355"
         ]
       },
@@ -6495,7 +6495,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE462"
+          "ELE462"
         ]
       },
       {
@@ -6586,7 +6586,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE275"
+          "ELE275"
         ]
       },
       {
@@ -6894,7 +6894,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe543"
+          "ELE543"
         ]
       },
       {
@@ -6907,7 +6907,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "ELe543"
+          "ELE543"
         ]
       },
       {
@@ -6920,7 +6920,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -6933,7 +6933,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe474&ELE452"
+          "ELE474&ELE452"
         ]
       },
       {
@@ -6959,7 +6959,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE344"
+          "ELE344"
         ]
       },
       {
@@ -6972,7 +6972,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -6985,7 +6985,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe452"
+          "ELE452"
         ]
       },
       {
@@ -7245,7 +7245,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -7271,7 +7271,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -7459,7 +7459,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "INf147"
+          "INF147"
         ]
       },
       {
@@ -7472,7 +7472,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "INf147"
+          "INF147"
         ]
       },
       {
@@ -7485,7 +7485,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -7524,7 +7524,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "iNF147"
+          "INF147"
         ]
       },
       {
@@ -7745,7 +7745,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLe413"
+          "ELE413"
         ]
       },
       {
@@ -7852,7 +7852,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE413"
+          "ELE413"
         ]
       },
       {
@@ -7878,7 +7878,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -7891,7 +7891,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -7904,7 +7904,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -7930,7 +7930,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -8022,7 +8022,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE550"
+          "ELE550"
         ]
       },
       {
@@ -8068,7 +8068,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe413"
+          "ELE413"
         ]
       },
       {
@@ -8081,7 +8081,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE462"
+          "ELE462"
         ]
       },
       {
@@ -8131,7 +8131,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE275"
+          "ELE275"
         ]
       },
       {
@@ -8144,7 +8144,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -8157,7 +8157,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE275"
+          "ELE275"
         ]
       },
       {
@@ -8170,7 +8170,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -8183,7 +8183,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -8196,7 +8196,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE275"
+          "ELE275"
         ]
       },
       {
@@ -8209,8 +8209,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE550",
-          "ELe355"
+          "ELE550",
+          "ELE355"
         ]
       },
       {
@@ -8236,7 +8236,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -8249,7 +8249,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -8317,7 +8317,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE413"
+          "ELE413"
         ]
       },
       {
@@ -8352,7 +8352,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE550",
+          "ELE550",
           "ELE355"
         ]
       },
@@ -8366,7 +8366,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE462"
+          "ELE462"
         ]
       },
       {
@@ -8457,7 +8457,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE275"
+          "ELE275"
         ]
       },
       {
@@ -8765,7 +8765,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe543"
+          "ELE543"
         ]
       },
       {
@@ -8778,7 +8778,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "ELe543"
+          "ELE543"
         ]
       },
       {
@@ -8791,7 +8791,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -8804,7 +8804,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe474&ELE452"
+          "ELE474&ELE452"
         ]
       },
       {
@@ -8830,7 +8830,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE344"
+          "ELE344"
         ]
       },
       {
@@ -8843,7 +8843,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -8856,7 +8856,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe452"
+          "ELE452"
         ]
       },
       {
@@ -9094,7 +9094,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -9107,7 +9107,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -9211,7 +9211,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "eLE105",
+          "ELE105",
           "(@ELE265)"
         ]
       },
@@ -9264,7 +9264,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt165",
+          "MAT165",
           "ING150"
         ]
       },
@@ -9470,7 +9470,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe413"
+          "ELE413"
         ]
       },
       {
@@ -9483,7 +9483,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe413"
+          "ELE413"
         ]
       },
       {
@@ -9496,7 +9496,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe413"
+          "ELE413"
         ]
       },
       {
@@ -9509,7 +9509,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe413"
+          "ELE413"
         ]
       },
       {
@@ -9522,7 +9522,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe413"
+          "ELE413"
         ]
       },
       {
@@ -9562,7 +9562,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe431"
+          "ELE431"
         ]
       },
       {
@@ -9610,7 +9610,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe543"
+          "ELE543"
         ]
       },
       {
@@ -9623,7 +9623,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe543"
+          "ELE543"
         ]
       },
       {
@@ -9647,7 +9647,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe543"
+          "ELE543"
         ]
       },
       {
@@ -9673,7 +9673,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe312"
+          "ELE312"
         ]
       },
       {
@@ -9686,7 +9686,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe312"
+          "ELE312"
         ]
       },
       {
@@ -9732,7 +9732,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE275"
+          "ELE275"
         ]
       },
       {
@@ -9825,7 +9825,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -9838,7 +9838,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -9851,7 +9851,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -9864,7 +9864,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -10058,7 +10058,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe216"
+          "ELE216"
         ]
       },
       {
@@ -10071,7 +10071,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe216"
+          "ELE216"
         ]
       },
       {
@@ -10084,7 +10084,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe216"
+          "ELE216"
         ]
       },
       {
@@ -10097,7 +10097,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe216"
+          "ELE216"
         ]
       },
       {
@@ -10110,7 +10110,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe216"
+          "ELE216"
         ]
       },
       {
@@ -10575,7 +10575,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mEC222"
+          "MEC222"
         ]
       },
       {
@@ -10672,7 +10672,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mEC222"
+          "MEC222"
         ]
       },
       {
@@ -10707,7 +10707,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MEc129",
+          "MEC129",
           "MEC300",
           "(@ MEC528)"
         ]
@@ -10722,7 +10722,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mEC423"
+          "MEC423"
         ]
       },
       {
@@ -10748,7 +10748,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "(@ mAT350)"
+          "(@ MAT350)"
         ]
       },
       {
@@ -10761,7 +10761,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "(@ mAT350)"
+          "(@ MAT350)"
         ]
       },
       {
@@ -10774,7 +10774,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "(@ mAT350)"
+          "(@ MAT350)"
         ]
       },
       {
@@ -10787,7 +10787,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "(@ mAT350)"
+          "(@ MAT350)"
         ]
       },
       {
@@ -10800,7 +10800,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "(@ mAT350)"
+          "(@ MAT350)"
         ]
       },
       {
@@ -10813,7 +10813,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "(@ mAT350)"
+          "(@ MAT350)"
         ]
       },
       {
@@ -10877,7 +10877,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc300"
+          "MEC300"
         ]
       },
       {
@@ -10891,7 +10891,7 @@
         "mandatory": false,
         "prerequisites": [
           "MEC329",
-          "mEC423"
+          "MEC423"
         ]
       },
       {
@@ -10904,7 +10904,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc329"
+          "MEC329"
         ]
       },
       {
@@ -10971,7 +10971,7 @@
         "mandatory": true,
         "prerequisites": [
           "MAT265",
-          "mEC222",
+          "MEC222",
           "MEC423"
         ]
       },
@@ -11123,7 +11123,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc200"
+          "MEC200"
         ]
       },
       {
@@ -11147,7 +11147,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mEC423"
+          "MEC423"
         ]
       },
       {
@@ -11160,7 +11160,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc329"
+          "MEC329"
         ]
       },
       {
@@ -11197,7 +11197,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MEc222",
+          "MEC222",
           "(@MEC546)"
         ]
       },
@@ -11211,7 +11211,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -11224,7 +11224,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -11237,7 +11237,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -11250,7 +11250,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -11263,7 +11263,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -11277,7 +11277,7 @@
         "mandatory": false,
         "prerequisites": [
           "MAT265",
-          "mEC222"
+          "MEC222"
         ]
       },
       {
@@ -11290,7 +11290,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt350"
+          "MAT350"
         ]
       },
       {
@@ -11303,7 +11303,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt350"
+          "MAT350"
         ]
       },
       {
@@ -11606,7 +11606,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mEC222"
+          "MEC222"
         ]
       },
       {
@@ -11619,7 +11619,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -11645,7 +11645,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -11737,8 +11737,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -11751,8 +11751,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -11765,8 +11765,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -11779,8 +11779,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -11793,8 +11793,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -11807,8 +11807,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -12220,7 +12220,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mEC222"
+          "MEC222"
         ]
       },
       {
@@ -12297,7 +12297,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mEC222"
+          "MEC222"
         ]
       },
       {
@@ -12323,7 +12323,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MEc129",
+          "MEC129",
           "MEC300",
           "(@ MEC528)"
         ]
@@ -12338,7 +12338,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mEC423"
+          "MEC423"
         ]
       },
       {
@@ -12351,7 +12351,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -12364,7 +12364,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -12377,7 +12377,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -12390,7 +12390,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -12403,7 +12403,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -12416,7 +12416,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -12477,7 +12477,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc300"
+          "MEC300"
         ]
       },
       {
@@ -12491,7 +12491,7 @@
         "mandatory": false,
         "prerequisites": [
           "MEC329",
-          "mEC423"
+          "MEC423"
         ]
       },
       {
@@ -12505,7 +12505,7 @@
         "mandatory": false,
         "prerequisites": [
           "MEC329",
-          "mEC423"
+          "MEC423"
         ]
       },
       {
@@ -12585,7 +12585,7 @@
         "mandatory": true,
         "prerequisites": [
           "MAT265",
-          "mEC222",
+          "MEC222",
           "MEC423"
         ]
       },
@@ -12599,7 +12599,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt350"
+          "MAT350"
         ]
       },
       {
@@ -12773,7 +12773,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc200"
+          "MEC200"
         ]
       },
       {
@@ -12797,7 +12797,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc329"
+          "MEC329"
         ]
       },
       {
@@ -12810,7 +12810,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mEC423"
+          "MEC423"
         ]
       },
       {
@@ -12847,7 +12847,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MEc222",
+          "MEC222",
           "(@MEC546)"
         ]
       },
@@ -12861,7 +12861,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -12874,7 +12874,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -12887,7 +12887,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -12900,7 +12900,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -12913,7 +12913,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -12927,7 +12927,7 @@
         "mandatory": false,
         "prerequisites": [
           "MAT265",
-          "mEC222"
+          "MEC222"
         ]
       },
       {
@@ -12953,7 +12953,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -13165,7 +13165,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mEC222"
+          "MEC222"
         ]
       },
       {
@@ -13178,7 +13178,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -13215,7 +13215,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -13318,8 +13318,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -13332,8 +13332,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -13346,8 +13346,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -13360,8 +13360,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -13374,8 +13374,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -13388,8 +13388,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -13783,7 +13783,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -13928,7 +13928,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -14004,7 +14004,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "iNG150"
+          "ING150"
         ]
       },
       {
@@ -14063,7 +14063,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "iNG150"
+          "ING150"
         ]
       },
       {
@@ -14089,7 +14089,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "iNF155 - I"
+          "INF155 - I"
         ]
       },
       {
@@ -14183,7 +14183,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "iNG150"
+          "ING150"
         ]
       },
       {
@@ -14229,7 +14229,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gPA445"
+          "GPA445"
         ]
       },
       {
@@ -14301,7 +14301,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -14314,7 +14314,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa325 - E"
+          "GPA325 - E"
         ]
       },
       {
@@ -14340,7 +14340,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gPA445"
+          "GPA445"
         ]
       },
       {
@@ -14353,7 +14353,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gPA445"
+          "GPA445"
         ]
       },
       {
@@ -14423,7 +14423,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa205",
+          "GPA205",
           "MAT350"
         ]
       },
@@ -14437,7 +14437,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa205",
+          "GPA205",
           "MAT350"
         ]
       },
@@ -14451,7 +14451,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa205",
+          "GPA205",
           "MAT350"
         ]
       },
@@ -14511,7 +14511,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gPA546"
+          "GPA546"
         ]
       },
       {
@@ -14563,7 +14563,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "GPa325 - E"
+          "GPA325 - E"
         ]
       },
       {
@@ -14782,7 +14782,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa325 - E"
+          "GPA325 - E"
         ]
       },
       {
@@ -14889,7 +14889,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gPA434"
+          "GPA434"
         ]
       },
       {
@@ -15182,7 +15182,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -15283,7 +15283,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -15359,7 +15359,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "iNG150"
+          "ING150"
         ]
       },
       {
@@ -15398,7 +15398,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "iNG150"
+          "ING150"
         ]
       },
       {
@@ -15516,7 +15516,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "iNG150"
+          "ING150"
         ]
       },
       {
@@ -15562,7 +15562,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gPA445"
+          "GPA445"
         ]
       },
       {
@@ -15634,7 +15634,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -15647,7 +15647,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa325 - E"
+          "GPA325 - E"
         ]
       },
       {
@@ -15673,7 +15673,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gPA445"
+          "GPA445"
         ]
       },
       {
@@ -15686,7 +15686,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gPA445"
+          "GPA445"
         ]
       },
       {
@@ -15725,7 +15725,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa205",
+          "GPA205",
           "MAT350"
         ]
       },
@@ -15739,7 +15739,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa205",
+          "GPA205",
           "MAT350"
         ]
       },
@@ -15753,7 +15753,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa205",
+          "GPA205",
           "MAT350"
         ]
       },
@@ -15802,7 +15802,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gPA546"
+          "GPA546"
         ]
       },
       {
@@ -15854,7 +15854,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "GPa325 - E"
+          "GPA325 - E"
         ]
       },
       {
@@ -16082,7 +16082,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa325 - E"
+          "GPA325 - E"
         ]
       },
       {
@@ -16458,7 +16458,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "cTN100",
+          "CTN100",
           "CTN112"
         ]
       },
@@ -16485,7 +16485,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "cTN100",
+          "CTN100",
           "CTN112"
         ]
       },
@@ -16510,7 +16510,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -16583,7 +16583,7 @@
         "mandatory": true,
         "prerequisites": [
           "CTN210",
-          "INf130"
+          "INF130"
         ]
       },
       {
@@ -16596,7 +16596,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -16772,8 +16772,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446",
-          "gIA400"
+          "CTN446",
+          "GIA400"
         ]
       },
       {
@@ -17073,7 +17073,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -17086,7 +17086,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -17099,7 +17099,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -17112,7 +17112,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN647"
+          "CTN647"
         ]
       },
       {
@@ -17125,7 +17125,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN647"
+          "CTN647"
         ]
       },
       {
@@ -17138,7 +17138,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN647"
+          "CTN647"
         ]
       },
       {
@@ -17164,7 +17164,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN647"
+          "CTN647"
         ]
       },
       {
@@ -17190,7 +17190,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN504"
+          "CTN504"
         ]
       },
       {
@@ -17203,7 +17203,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -17216,7 +17216,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -17229,7 +17229,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -17242,7 +17242,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -17255,7 +17255,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -17268,7 +17268,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -17338,7 +17338,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "CTn508"
+          "CTN508"
         ]
       },
       {
@@ -17685,7 +17685,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "cTN100",
+          "CTN100",
           "CTN112"
         ]
       },
@@ -17712,7 +17712,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "cTN100",
+          "CTN100",
           "CTN112"
         ]
       },
@@ -17737,7 +17737,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -17799,7 +17799,7 @@
         "mandatory": true,
         "prerequisites": [
           "CTN210",
-          "INf130"
+          "INF130"
         ]
       },
       {
@@ -17812,7 +17812,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -17957,8 +17957,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446",
-          "gIA400"
+          "CTN446",
+          "GIA400"
         ]
       },
       {
@@ -18181,7 +18181,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -18194,7 +18194,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -18207,7 +18207,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -18220,7 +18220,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN647"
+          "CTN647"
         ]
       },
       {
@@ -18233,7 +18233,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN647"
+          "CTN647"
         ]
       },
       {
@@ -18246,7 +18246,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN647"
+          "CTN647"
         ]
       },
       {
@@ -18272,7 +18272,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN647"
+          "CTN647"
         ]
       },
       {
@@ -18298,7 +18298,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN504"
+          "CTN504"
         ]
       },
       {
@@ -18311,7 +18311,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -18324,7 +18324,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -18337,7 +18337,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -18350,7 +18350,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -18363,7 +18363,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -18376,7 +18376,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -18446,7 +18446,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "CTn508"
+          "CTN508"
         ]
       },
       {
@@ -18658,7 +18658,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "pEP110"
+          "PEP110"
         ]
       },
       {
@@ -18937,7 +18937,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "cTN100",
+          "CTN100",
           "CTN112"
         ]
       },
@@ -18951,7 +18951,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "cTN100",
+          "CTN100",
           "CTN112"
         ]
       },
@@ -18991,7 +18991,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "cTN100",
+          "CTN100",
           "CTN112"
         ]
       },
@@ -19005,7 +19005,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "cTN100",
+          "CTN100",
           "CTN112"
         ]
       },
@@ -19030,7 +19030,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -19190,7 +19190,7 @@
         "mandatory": true,
         "prerequisites": [
           "CTN210",
-          "INf130"
+          "INF130"
         ]
       },
       {
@@ -19203,7 +19203,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -19429,7 +19429,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -19442,7 +19442,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -19456,7 +19456,7 @@
         "mandatory": true,
         "prerequisites": [
           "CTN446",
-          "gIA400"
+          "GIA400"
         ]
       },
       {
@@ -19497,7 +19497,7 @@
         "mandatory": true,
         "prerequisites": [
           "CTN114",
-          "cTN318",
+          "CTN318",
           "CTN336"
         ]
       },
@@ -19512,7 +19512,7 @@
         "mandatory": true,
         "prerequisites": [
           "CTN114",
-          "cTN318",
+          "CTN318",
           "CTN336"
         ]
       },
@@ -19527,7 +19527,7 @@
         "mandatory": true,
         "prerequisites": [
           "CTN114",
-          "cTN318",
+          "CTN318",
           "CTN336"
         ]
       },
@@ -19542,7 +19542,7 @@
         "mandatory": true,
         "prerequisites": [
           "CTN114",
-          "cTN318",
+          "CTN318",
           "CTN336"
         ]
       },
@@ -19621,7 +19621,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -19634,7 +19634,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -19647,7 +19647,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -19817,7 +19817,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -19830,7 +19830,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -19843,7 +19843,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -19856,7 +19856,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -19915,7 +19915,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "CTn647"
+          "CTN647"
         ]
       },
       {
@@ -19939,7 +19939,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN647"
+          "CTN647"
         ]
       },
       {
@@ -19952,7 +19952,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTn647"
+          "CTN647"
         ]
       },
       {
@@ -19987,7 +19987,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "CTn504"
+          "CTN504"
         ]
       },
       {
@@ -20013,7 +20013,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN504"
+          "CTN504"
         ]
       },
       {
@@ -20151,7 +20151,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "pEP110"
+          "PEP110"
         ]
       },
       {
@@ -20312,7 +20312,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG100"
+          "LOG100"
         ]
       },
       {
@@ -20325,7 +20325,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt145"
+          "MAT145"
         ]
       },
       {
@@ -20364,7 +20364,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log121"
+          "LOG121"
         ]
       },
       {
@@ -20377,7 +20377,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log121"
+          "LOG121"
         ]
       },
       {
@@ -20390,7 +20390,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log121"
+          "LOG121"
         ]
       },
       {
@@ -20403,7 +20403,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -20443,7 +20443,7 @@
         "mandatory": true,
         "prerequisites": [
           "MAT210",
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -20496,7 +20496,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt145"
+          "MAT145"
         ]
       },
       {
@@ -20509,7 +20509,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "lOG121",
+          "LOG121",
           "GTI350"
         ]
       },
@@ -20549,7 +20549,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -20562,7 +20562,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -20589,7 +20589,7 @@
         "mandatory": true,
         "prerequisites": [
           "PCL210",
-          "LOg240"
+          "LOG240"
         ]
       },
       {
@@ -20702,7 +20702,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -20715,7 +20715,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -20728,7 +20728,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -20763,8 +20763,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt472",
-          "LOg635"
+          "MAT472",
+          "LOG635"
         ]
       },
       {
@@ -20777,8 +20777,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt472",
-          "LOg635"
+          "MAT472",
+          "LOG635"
         ]
       },
       {
@@ -20843,7 +20843,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Gti619"
+          "GTI619"
         ]
       },
       {
@@ -20856,7 +20856,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Gti619"
+          "GTI619"
         ]
       },
       {
@@ -20869,7 +20869,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Gti619"
+          "GTI619"
         ]
       },
       {
@@ -20882,7 +20882,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Gti619"
+          "GTI619"
         ]
       },
       {
@@ -20941,7 +20941,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GTi350",
+          "GTI350",
           "MAT472"
         ]
       },
@@ -21068,7 +21068,7 @@
         "mandatory": false,
         "prerequisites": [
           "GTI350",
-          "MAt472"
+          "MAT472"
         ]
       },
       {
@@ -21420,7 +21420,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt145"
+          "MAT145"
         ]
       },
       {
@@ -21459,7 +21459,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log121"
+          "LOG121"
         ]
       },
       {
@@ -21472,7 +21472,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log121"
+          "LOG121"
         ]
       },
       {
@@ -21485,7 +21485,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log121"
+          "LOG121"
         ]
       },
       {
@@ -21498,7 +21498,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -21551,7 +21551,7 @@
         "mandatory": true,
         "prerequisites": [
           "MAT210",
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -21630,7 +21630,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt145"
+          "MAT145"
         ]
       },
       {
@@ -21721,7 +21721,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "lOG121",
+          "LOG121",
           "GTI350"
         ]
       },
@@ -21761,7 +21761,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -21774,7 +21774,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -21968,7 +21968,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -21981,7 +21981,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -21994,7 +21994,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -22029,7 +22029,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt472",
+          "MAT472",
           "LOG635"
         ]
       },
@@ -22043,7 +22043,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt472",
+          "MAT472",
           "LOG635"
         ]
       },
@@ -22109,7 +22109,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Gti619"
+          "GTI619"
         ]
       },
       {
@@ -22122,7 +22122,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Gti619"
+          "GTI619"
         ]
       },
       {
@@ -22135,7 +22135,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Gti619"
+          "GTI619"
         ]
       },
       {
@@ -22148,7 +22148,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Gti619"
+          "GTI619"
         ]
       },
       {
@@ -22174,7 +22174,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GTi350",
+          "GTI350",
           "MAT472"
         ]
       },
@@ -22323,7 +22323,7 @@
         "mandatory": false,
         "prerequisites": [
           "GTI350",
-          "MAt472"
+          "MAT472"
         ]
       },
       {
@@ -22622,7 +22622,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt145"
+          "MAT145"
         ]
       },
       {
@@ -22661,7 +22661,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -22687,7 +22687,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt145"
+          "MAT145"
         ]
       },
       {
@@ -22714,7 +22714,7 @@
         "mandatory": true,
         "prerequisites": [
           "MAT210",
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -22806,7 +22806,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt145"
+          "MAT145"
         ]
       },
       {
@@ -22909,7 +22909,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -23089,7 +23089,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -23419,7 +23419,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -23432,7 +23432,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -23491,7 +23491,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -23504,7 +23504,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -23517,7 +23517,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -23578,7 +23578,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT472"
+          "MAT472"
         ]
       },
       {
@@ -23591,7 +23591,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT472"
+          "MAT472"
         ]
       },
       {
@@ -23604,7 +23604,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT472"
+          "MAT472"
         ]
       },
       {
@@ -23631,7 +23631,7 @@
         "mandatory": true,
         "prerequisites": [
           "MAT210",
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -23644,7 +23644,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -23670,7 +23670,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "LOg121"
+          "LOG121"
         ]
       },
       {
@@ -23696,7 +23696,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt350",
+          "MAT350",
           "LOG320"
         ]
       },
@@ -23710,7 +23710,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt472",
+          "MAT472",
           "GTI350"
         ]
       },
@@ -23775,8 +23775,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Gti350",
-          "LOg121"
+          "GTI350",
+          "LOG121"
         ]
       },
       {
@@ -23889,7 +23889,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gTI515",
+          "GTI515",
           "LOG121"
         ]
       },
@@ -23980,8 +23980,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt472",
-          "LOg635"
+          "MAT472",
+          "LOG635"
         ]
       },
       {
@@ -24096,7 +24096,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log210"
+          "LOG210"
         ]
       },
       {
@@ -24122,7 +24122,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log210"
+          "LOG210"
         ]
       },
       {
@@ -24135,8 +24135,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GTi525",
-          "GTi515"
+          "GTI525",
+          "GTI515"
         ]
       },
       {
@@ -24149,8 +24149,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GTi525",
-          "GTi515"
+          "GTI525",
+          "GTI515"
         ]
       },
       {
@@ -24244,7 +24244,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gTI619"
+          "GTI619"
         ]
       },
       {
@@ -24270,7 +24270,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gTI619"
+          "GTI619"
         ]
       },
       {
@@ -24283,7 +24283,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log210"
+          "LOG210"
         ]
       },
       {
@@ -24510,7 +24510,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -24523,7 +24523,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -24571,7 +24571,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -24584,7 +24584,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -24597,7 +24597,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -24636,7 +24636,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT472"
+          "MAT472"
         ]
       },
       {
@@ -24649,7 +24649,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT472"
+          "MAT472"
         ]
       },
       {
@@ -24662,7 +24662,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT472"
+          "MAT472"
         ]
       },
       {
@@ -24675,7 +24675,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT472"
+          "MAT472"
         ]
       },
       {
@@ -24688,7 +24688,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT472"
+          "MAT472"
         ]
       },
       {
@@ -24701,7 +24701,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT472"
+          "MAT472"
         ]
       },
       {
@@ -24728,7 +24728,7 @@
         "mandatory": true,
         "prerequisites": [
           "MAT210",
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -24741,7 +24741,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -24767,7 +24767,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "LOg121"
+          "LOG121"
         ]
       },
       {
@@ -24806,7 +24806,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt350",
+          "MAT350",
           "LOG320"
         ]
       },
@@ -25005,8 +25005,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Gti350",
-          "LOg121"
+          "GTI350",
+          "LOG121"
         ]
       },
       {
@@ -25119,7 +25119,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gTI515",
+          "GTI515",
           "LOG121"
         ]
       },
@@ -25201,8 +25201,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt472",
-          "LOg635"
+          "MAT472",
+          "LOG635"
         ]
       },
       {
@@ -25215,7 +25215,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -25319,7 +25319,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log210"
+          "LOG210"
         ]
       },
       {
@@ -25345,7 +25345,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log210"
+          "LOG210"
         ]
       },
       {
@@ -25358,8 +25358,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GTi525",
-          "GTi515"
+          "GTI525",
+          "GTI515"
         ]
       },
       {
@@ -25372,8 +25372,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GTi525",
-          "GTi515"
+          "GTI525",
+          "GTI515"
         ]
       },
       {
@@ -25467,7 +25467,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gTI619"
+          "GTI619"
         ]
       },
       {
@@ -25493,7 +25493,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gTI619"
+          "GTI619"
         ]
       },
       {
@@ -25506,7 +25506,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log210"
+          "LOG210"
         ]
       },
       {
@@ -25745,7 +25745,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -25758,7 +25758,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -25795,7 +25795,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -25808,7 +25808,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -25821,7 +25821,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -25848,7 +25848,7 @@
         "mandatory": true,
         "prerequisites": [
           "MAT210",
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -25861,7 +25861,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -26017,7 +26017,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "LOg121"
+          "LOG121"
         ]
       },
       {
@@ -26232,7 +26232,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -27642,7 +27642,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -27655,7 +27655,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -27714,7 +27714,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -27727,7 +27727,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -27740,7 +27740,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -27779,7 +27779,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT472"
+          "MAT472"
         ]
       },
       {
@@ -27792,7 +27792,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT472"
+          "MAT472"
         ]
       },
       {
@@ -27805,7 +27805,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT472"
+          "MAT472"
         ]
       },
       {
@@ -27832,7 +27832,7 @@
         "mandatory": true,
         "prerequisites": [
           "MAT210",
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -27845,7 +27845,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -27871,7 +27871,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "LOg121"
+          "LOG121"
         ]
       },
       {
@@ -27908,7 +27908,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt350",
+          "MAT350",
           "LOG320"
         ]
       },
@@ -27987,8 +27987,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Gti350",
-          "LOg121"
+          "GTI350",
+          "LOG121"
         ]
       },
       {
@@ -28101,7 +28101,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gTI515",
+          "GTI515",
           "LOG121"
         ]
       },
@@ -28183,8 +28183,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt472",
-          "LOg635"
+          "MAT472",
+          "LOG635"
         ]
       },
       {
@@ -28299,7 +28299,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log210"
+          "LOG210"
         ]
       },
       {
@@ -28325,7 +28325,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log210"
+          "LOG210"
         ]
       },
       {
@@ -28338,8 +28338,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GTi525",
-          "GTi515"
+          "GTI525",
+          "GTI515"
         ]
       },
       {
@@ -28352,8 +28352,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GTi525",
-          "GTi515"
+          "GTI525",
+          "GTI515"
         ]
       },
       {
@@ -28447,7 +28447,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gTI619"
+          "GTI619"
         ]
       },
       {
@@ -28473,7 +28473,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gTI619"
+          "GTI619"
         ]
       },
       {
@@ -28486,7 +28486,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "Log210"
+          "LOG210"
         ]
       },
       {
@@ -28643,7 +28643,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -28656,7 +28656,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -28715,7 +28715,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -28728,7 +28728,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -28741,7 +28741,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -28768,7 +28768,7 @@
         "mandatory": true,
         "prerequisites": [
           "MAT210",
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -28781,7 +28781,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -28845,7 +28845,7 @@
         "mandatory": true,
         "prerequisites": [
           "LOG320",
-          "gTI311"
+          "GTI311"
         ]
       },
       {
@@ -28882,7 +28882,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "LOg121"
+          "LOG121"
         ]
       },
       {
@@ -29422,7 +29422,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "cTN100",
+          "CTN100",
           "CTN112"
         ]
       },
@@ -29449,7 +29449,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "cTN100",
+          "CTN100",
           "CTN112"
         ]
       },
@@ -29474,7 +29474,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -29547,7 +29547,7 @@
         "mandatory": true,
         "prerequisites": [
           "CTN210",
-          "INf130"
+          "INF130"
         ]
       },
       {
@@ -29560,7 +29560,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -29714,8 +29714,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446",
-          "gIA400"
+          "CTN446",
+          "GIA400"
         ]
       },
       {
@@ -29938,7 +29938,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -29951,7 +29951,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -29964,7 +29964,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -29988,7 +29988,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN647"
+          "CTN647"
         ]
       },
       {
@@ -30027,7 +30027,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN647"
+          "CTN647"
         ]
       },
       {
@@ -30053,7 +30053,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN504"
+          "CTN504"
         ]
       },
       {
@@ -30066,7 +30066,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -30079,7 +30079,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -30092,7 +30092,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -30105,7 +30105,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -30118,7 +30118,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -30131,7 +30131,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -30201,7 +30201,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "CTn508"
+          "CTN508"
         ]
       },
       {
@@ -30512,7 +30512,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "cTN100",
+          "CTN100",
           "CTN112"
         ]
       },
@@ -30539,7 +30539,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "cTN100",
+          "CTN100",
           "CTN112"
         ]
       },
@@ -30564,7 +30564,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -30637,7 +30637,7 @@
         "mandatory": true,
         "prerequisites": [
           "CTN210",
-          "INf130"
+          "INF130"
         ]
       },
       {
@@ -30650,7 +30650,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -30833,7 +30833,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -30846,7 +30846,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -30860,7 +30860,7 @@
         "mandatory": true,
         "prerequisites": [
           "CTN446",
-          "gIA400"
+          "GIA400"
         ]
       },
       {
@@ -30901,7 +30901,7 @@
         "mandatory": true,
         "prerequisites": [
           "CTN114",
-          "cTN318",
+          "CTN318",
           "CTN336"
         ]
       },
@@ -30916,7 +30916,7 @@
         "mandatory": true,
         "prerequisites": [
           "CTN114",
-          "cTN318",
+          "CTN318",
           "CTN336"
         ]
       },
@@ -30968,7 +30968,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -30981,7 +30981,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -30994,7 +30994,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN446"
+          "CTN446"
         ]
       },
       {
@@ -31155,7 +31155,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -31168,7 +31168,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -31181,7 +31181,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -31194,7 +31194,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN603"
+          "CTN603"
         ]
       },
       {
@@ -31253,7 +31253,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "CTn647"
+          "CTN647"
         ]
       },
       {
@@ -31277,7 +31277,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN647"
+          "CTN647"
         ]
       },
       {
@@ -31290,7 +31290,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTn647"
+          "CTN647"
         ]
       },
       {
@@ -31325,7 +31325,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "CTn504"
+          "CTN504"
         ]
       },
       {
@@ -31351,7 +31351,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "cTN504"
+          "CTN504"
         ]
       },
       {
@@ -31570,7 +31570,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt145"
+          "MAT145"
         ]
       },
       {
@@ -31609,7 +31609,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -31662,7 +31662,7 @@
         "mandatory": true,
         "prerequisites": [
           "MAT210",
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -31702,7 +31702,7 @@
         "mandatory": true,
         "prerequisites": [
           "STA206",
-          "LOg240"
+          "LOG240"
         ]
       },
       {
@@ -31739,7 +31739,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt145"
+          "MAT145"
         ]
       },
       {
@@ -31845,7 +31845,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -31891,8 +31891,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt472",
-          "LOg635"
+          "MAT472",
+          "LOG635"
         ]
       },
       {
@@ -31905,8 +31905,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt472",
-          "LOg635"
+          "MAT472",
+          "LOG635"
         ]
       },
       {
@@ -32028,7 +32028,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GTi350",
+          "GTI350",
           "MAT472"
         ]
       },
@@ -32120,7 +32120,7 @@
         "mandatory": false,
         "prerequisites": [
           "GTI350",
-          "MAt472"
+          "MAT472"
         ]
       },
       {
@@ -32328,7 +32328,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt145"
+          "MAT145"
         ]
       },
       {
@@ -32354,7 +32354,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -32407,7 +32407,7 @@
         "mandatory": true,
         "prerequisites": [
           "MAT210",
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -32484,7 +32484,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt145"
+          "MAT145"
         ]
       },
       {
@@ -32534,7 +32534,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -32971,7 +32971,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -32984,7 +32984,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -33088,7 +33088,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "eLE105",
+          "ELE105",
           "(@ELE265)"
         ]
       },
@@ -33139,7 +33139,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MAt165",
+          "MAT165",
           "ING150"
         ]
       },
@@ -33345,7 +33345,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe413"
+          "ELE413"
         ]
       },
       {
@@ -33358,7 +33358,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe413"
+          "ELE413"
         ]
       },
       {
@@ -33371,7 +33371,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe413"
+          "ELE413"
         ]
       },
       {
@@ -33384,7 +33384,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe413"
+          "ELE413"
         ]
       },
       {
@@ -33397,7 +33397,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe413"
+          "ELE413"
         ]
       },
       {
@@ -33437,7 +33437,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe431"
+          "ELE431"
         ]
       },
       {
@@ -33485,7 +33485,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe543"
+          "ELE543"
         ]
       },
       {
@@ -33498,7 +33498,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe543"
+          "ELE543"
         ]
       },
       {
@@ -33522,7 +33522,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe543"
+          "ELE543"
         ]
       },
       {
@@ -33548,7 +33548,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe312"
+          "ELE312"
         ]
       },
       {
@@ -33561,7 +33561,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe312"
+          "ELE312"
         ]
       },
       {
@@ -33607,7 +33607,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "eLE275"
+          "ELE275"
         ]
       },
       {
@@ -33700,7 +33700,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -33713,7 +33713,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -33726,7 +33726,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -33739,7 +33739,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe344"
+          "ELE344"
         ]
       },
       {
@@ -33933,7 +33933,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe216"
+          "ELE216"
         ]
       },
       {
@@ -33946,7 +33946,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe216"
+          "ELE216"
         ]
       },
       {
@@ -33959,7 +33959,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe216"
+          "ELE216"
         ]
       },
       {
@@ -33972,7 +33972,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe216"
+          "ELE216"
         ]
       },
       {
@@ -33985,7 +33985,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "ELe216"
+          "ELE216"
         ]
       },
       {
@@ -34425,7 +34425,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mEC222"
+          "MEC222"
         ]
       },
       {
@@ -34529,7 +34529,7 @@
         "mandatory": false,
         "prerequisites": [
           "MEC329",
-          "mEC423"
+          "MEC423"
         ]
       },
       {
@@ -34543,7 +34543,7 @@
         "mandatory": false,
         "prerequisites": [
           "MEC329",
-          "mEC423"
+          "MEC423"
         ]
       },
       {
@@ -34581,7 +34581,7 @@
         "mandatory": true,
         "prerequisites": [
           "MAT265",
-          "mEC222",
+          "MEC222",
           "MEC423"
         ]
       },
@@ -34608,7 +34608,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MEc129",
+          "MEC129",
           "MEC300",
           "(@ MEC528)"
         ]
@@ -34623,7 +34623,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mEC423"
+          "MEC423"
         ]
       },
       {
@@ -34697,7 +34697,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt350"
+          "MAT350"
         ]
       },
       {
@@ -34710,7 +34710,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mEC222"
+          "MEC222"
         ]
       },
       {
@@ -34734,7 +34734,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -34873,7 +34873,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -34886,7 +34886,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -34899,7 +34899,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mEC423"
+          "MEC423"
         ]
       },
       {
@@ -34912,7 +34912,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc329"
+          "MEC329"
         ]
       },
       {
@@ -34938,7 +34938,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "MEc222",
+          "MEC222",
           "(@MEC546)"
         ]
       },
@@ -35001,7 +35001,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc300"
+          "MEC300"
         ]
       },
       {
@@ -35014,7 +35014,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc200"
+          "MEC200"
         ]
       },
       {
@@ -35051,7 +35051,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -35064,7 +35064,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -35077,7 +35077,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -35232,8 +35232,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -35246,8 +35246,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -35260,8 +35260,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -35274,8 +35274,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -35288,8 +35288,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -35302,8 +35302,8 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350",
-          "MEc525"
+          "MAT350",
+          "MEC525"
         ]
       },
       {
@@ -35386,7 +35386,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mEC222"
+          "MEC222"
         ]
       },
       {
@@ -35465,7 +35465,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -35491,7 +35491,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MEc335"
+          "MEC335"
         ]
       },
       {
@@ -35796,7 +35796,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -35941,7 +35941,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -36017,7 +36017,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "iNG150"
+          "ING150"
         ]
       },
       {
@@ -36054,7 +36054,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "iNG150"
+          "ING150"
         ]
       },
       {
@@ -36172,7 +36172,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "iNG150"
+          "ING150"
         ]
       },
       {
@@ -36218,7 +36218,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gPA445"
+          "GPA445"
         ]
       },
       {
@@ -36290,7 +36290,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "mAT145"
+          "MAT145"
         ]
       },
       {
@@ -36303,7 +36303,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa325 - E"
+          "GPA325 - E"
         ]
       },
       {
@@ -36329,7 +36329,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gPA445"
+          "GPA445"
         ]
       },
       {
@@ -36342,7 +36342,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gPA445"
+          "GPA445"
         ]
       },
       {
@@ -36381,7 +36381,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa205",
+          "GPA205",
           "MAT350"
         ]
       },
@@ -36395,7 +36395,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa205",
+          "GPA205",
           "MAT350"
         ]
       },
@@ -36409,7 +36409,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa205",
+          "GPA205",
           "MAT350"
         ]
       },
@@ -36458,7 +36458,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gPA546"
+          "GPA546"
         ]
       },
       {
@@ -36510,7 +36510,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "GPa325 - E"
+          "GPA325 - E"
         ]
       },
       {
@@ -36740,7 +36740,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GPa325 - E"
+          "GPA325 - E"
         ]
       },
       {
@@ -37906,7 +37906,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -38056,7 +38056,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gOL111"
+          "GOL111"
         ]
       },
       {
@@ -38069,7 +38069,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gOL111"
+          "GOL111"
         ]
       },
       {
@@ -38082,7 +38082,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "gOL111"
+          "GOL111"
         ]
       },
       {
@@ -38135,7 +38135,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "GOl471"
+          "GOL471"
         ]
       },
       {
@@ -38174,7 +38174,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -38200,7 +38200,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt350"
+          "MAT350"
         ]
       },
       {
@@ -38213,7 +38213,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "MAt350"
+          "MAT350"
         ]
       },
       {
@@ -38313,7 +38313,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "mAT350"
+          "MAT350"
         ]
       },
       {
@@ -43998,7 +43998,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "PEp110"
+          "PEP110"
         ]
       },
       {
@@ -44118,7 +44118,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121"
+          "LOG121"
         ]
       },
       {
@@ -44155,7 +44155,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG121",
+          "LOG121",
           "MAT210"
         ]
       },
@@ -44202,7 +44202,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          ">=40 lOG121"
+          ">=40 LOG121"
         ]
       },
       {
@@ -44230,7 +44230,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG320",
+          "LOG320",
           "IND105"
         ]
       },
@@ -44257,7 +44257,7 @@
         "level": "B",
         "mandatory": true,
         "prerequisites": [
-          "lOG320"
+          "LOG320"
         ]
       },
       {
@@ -44322,7 +44322,7 @@
         "level": "B",
         "mandatory": false,
         "prerequisites": [
-          "INd220"
+          "IND220"
         ]
       },
       {
@@ -44386,7 +44386,7 @@
         "mandatory": false,
         "prerequisites": [
           "IND540",
-          "LOg635"
+          "LOG635"
         ]
       },
       {
