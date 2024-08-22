@@ -1624,6 +1624,14 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "PCO410,",
+      "MAT144,",
+      "PHY144,",
+      "ATE075,",
+      "ATE085,",
+      "LRC105,"
     ]
   },
   {
@@ -3188,6 +3196,13 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "MAT144,",
+      "PHY144,",
+      "LRC105,"
     ]
   },
   {
@@ -3369,6 +3384,10 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -3493,6 +3512,10 @@
           "GCI411"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -3615,6 +3638,11 @@
           "GCI411"
         ]
       }
+    ],
+    "horsProgramme": [
+      "GCI101,",
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -3825,6 +3853,11 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "GCI101,",
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -3955,6 +3988,10 @@
           ">= 21"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -4142,6 +4179,10 @@
           ">=12"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -4346,6 +4387,10 @@
           "QUA142"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -4476,6 +4521,11 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE012,"
     ]
   },
   {
@@ -4617,6 +4667,11 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE012,"
     ]
   },
   {
@@ -4742,6 +4797,10 @@
           "EEC404"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -4865,6 +4924,11 @@
           "EEC404"
         ]
       }
+    ],
+    "horsProgramme": [
+      "GCI101,",
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -5061,6 +5125,11 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "GCI101,",
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -5246,20 +5315,6 @@
         "mandatory": true,
         "prerequisites": [
           "mAT145"
-        ]
-      },
-      {
-        "type": "//TRONC",
-        "session": 2,
-        "code": "MAT265",
-        "profile": "T",
-        "concentration": "TC",
-        "category": "C",
-        "level": "B",
-        "mandatory": true,
-        "prerequisites": [
-          "mAT145",
-          "(@ELE105)"
         ]
       },
       {
@@ -6679,19 +6734,6 @@
         "prerequisites": []
       },
       {
-        "type": "//TRONC",
-        "session": 8,
-        "code": "ELE792",
-        "profile": "T",
-        "concentration": "TC",
-        "category": "S",
-        "level": "B",
-        "mandatory": true,
-        "prerequisites": [
-          "(PCE310 | PCS310)"
-        ]
-      },
-      {
         "type": "TRONC",
         "session": 7,
         "code": "ELE795",
@@ -6792,19 +6834,6 @@
         "mandatory": false,
         "prerequisites": [
           ">= 70"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "GTS792",
-        "profile": "T",
-        "concentration": "SA",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "PCS310"
         ]
       },
       {
@@ -7071,6 +7100,15 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "PCE410,",
+      "PCS410,",
+      "ATE075,",
+      "ATE085,",
+      "MAT144,",
+      "PHY144,",
+      "LRC105,"
     ]
   },
   {
@@ -8567,19 +8605,6 @@
         "prerequisites": []
       },
       {
-        "type": "//TRONC",
-        "session": 6,
-        "code": "ELE792",
-        "profile": "T",
-        "concentration": "TC",
-        "category": "S",
-        "level": "B",
-        "mandatory": true,
-        "prerequisites": [
-          "STA305"
-        ]
-      },
-      {
         "type": "TRONC",
         "session": 7,
         "code": "ELE795",
@@ -8680,19 +8705,6 @@
         "mandatory": false,
         "prerequisites": [
           ">= 64"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 6,
-        "code": "GTS792",
-        "profile": "T",
-        "concentration": "SA",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "STA350"
         ]
       },
       {
@@ -8983,6 +8995,13 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "MAT144,",
+      "PHY144,",
+      "LRC105,"
     ]
   },
   {
@@ -10269,335 +10288,6 @@
         ]
       },
       {
-        "type": "//CONCE",
-        "session": 4,
-        "code": "ELE543",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": true,
-        "prerequisites": [
-          "ELE216",
-          "ELE344"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 5,
-        "code": "ELE355",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE200"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 5,
-        "code": "ELE462",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": true,
-        "prerequisites": [
-          "ELE265"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 6,
-        "code": "ELE771",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": []
-      },
-      {
-        "type": "//CONCE",
-        "session": 6,
-        "code": "ELE735",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "MAT165"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 6,
-        "code": "ELE777",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE275",
-          "ELE474"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 6,
-        "code": "ELE674",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": []
-      },
-      {
-        "type": "//CONCE",
-        "session": 6,
-        "code": "ELE654",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": []
-      },
-      {
-        "type": "//CONCE",
-        "session": 7,
-        "code": "ELE889",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELe312"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 7,
-        "code": "ELE653",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": true,
-        "prerequisites": [
-          "ELe312"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 7,
-        "code": "ELE673",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELe275"
-        ]
-      },
-      {
-        "type": "////CONCE",
-        "session": 7,
-        "code": "ELE672",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE275",
-          "ELE265"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 7,
-        "code": "ELE672",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE275"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 7,
-        "code": "ELE773",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELe275"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 7,
-        "code": "ELE550",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": true,
-        "prerequisites": []
-      },
-      {
-        "type": "//CONCE",
-        "session": 7,
-        "code": "ELE795",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "S",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          ">= 99"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE756",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE653"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE757",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE653"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE759",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE653"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE760",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE653"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE784",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": []
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE791",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "S",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": []
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE656",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE355",
-          "ELE550"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE652",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE550"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE752",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE355",
-          "ELE550"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE767",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": []
-      },
-      {
         "type": "STAGE",
         "session": 1,
         "code": "STA105",
@@ -10698,6 +10388,13 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "MAT144,",
+      "PHY144,",
+      "LRC105,"
     ]
   },
   {
@@ -12281,6 +11978,16 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "PCM410,",
+      "PCS410,",
+      "ATE075,",
+      "ATE085,",
+      "COM115,",
+      "MAT144,",
+      "PHY144,",
+      "LRC105,"
     ]
   },
   {
@@ -13865,6 +13572,15 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE029,",
+      "ATE075,",
+      "ATE085,",
+      "COM115,",
+      "MAT144,",
+      "PHY144,",
+      "LRC105,"
     ]
   },
   {
@@ -15277,6 +14993,15 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "PCP410,",
+      "PCS410,",
+      "ATE075,",
+      "ATE085,",
+      "MAT144,",
+      "PHY144,",
+      "LRC105,"
     ]
   },
   {
@@ -16568,6 +16293,13 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "MAT144,",
+      "PHY144,",
+      "LRC105,"
     ]
   },
   {
@@ -17830,6 +17562,15 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "PCC410,",
+      "ATE075,",
+      "ATE085,",
+      "MAT144,",
+      "PHY144,",
+      "LRC110,",
+      "LRC105,"
     ]
   },
   {
@@ -18953,6 +18694,14 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "MAT144,",
+      "PHY144,",
+      "LRC110,",
+      "LRC105,"
     ]
   },
   {
@@ -20438,6 +20187,13 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "MAT144,",
+      "PHY144,",
+      "LRC105,"
     ]
   },
   {
@@ -21548,6 +21304,15 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "PCL410,",
+      "ATE075,",
+      "ATE085,",
+      "INF111,",
+      "MAT144,",
+      "PHY144,",
+      "LRC105,"
     ]
   },
   {
@@ -22741,6 +22506,15 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "PCL410,",
+      "ATE075,",
+      "ATE085,",
+      "INF111,",
+      "MAT144,",
+      "PHY144,",
+      "LRC105,"
     ]
   },
   {
@@ -23544,6 +23318,15 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "PCL410,",
+      "ATE075,",
+      "ATE085,",
+      "INF111,",
+      "MAT144,",
+      "PHY144,",
+      "LRC105,"
     ]
   },
   {
@@ -24648,6 +24431,15 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "PCT410,",
+      "ATE075,",
+      "ATE085,",
+      "INF111,",
+      "MAT144,",
+      "PHY144,",
+      "LRC105,"
     ]
   },
   {
@@ -25851,6 +25643,14 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "INF111,",
+      "MAT144,",
+      "PHY144,",
+      "LRC105,"
     ]
   },
   {
@@ -26672,7 +26472,8 @@
         "mandatory": false,
         "prerequisites": []
       }
-    ]
+    ],
+    "horsProgramme": []
   },
   {
     "id": 488,
@@ -26802,6 +26603,11 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE012,"
     ]
   },
   {
@@ -26943,6 +26749,11 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE012,"
     ]
   },
   {
@@ -27038,6 +26849,10 @@
           ">=7"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -27166,6 +26981,10 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -27241,6 +27060,10 @@
           ">= 9"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -27318,6 +27141,10 @@
           ">= 9"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -27400,6 +27227,10 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -27525,6 +27356,11 @@
           "EEC404"
         ]
       }
+    ],
+    "horsProgramme": [
+      "GCI101,",
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -27666,6 +27502,11 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "GCI101,",
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -27706,19 +27547,32 @@
           "ENT202"
         ]
       }
-    ]
+    ],
+    "horsProgramme": []
   },
   {
     "id": 469,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 4023,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 1234,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 8110,
@@ -28712,6 +28566,13 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "INF111,",
+      "MAT144,",
+      "PHY144,"
     ]
   },
   {
@@ -29424,7 +29285,8 @@
         "mandatory": true,
         "prerequisites": []
       }
-    ]
+    ],
+    "horsProgramme": []
   },
   {
     "id": 8122,
@@ -30508,6 +30370,12 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "MAT144,",
+      "PHY144,"
     ]
   },
   {
@@ -31578,6 +31446,12 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "MAT144,",
+      "PHY144,"
     ]
   },
   {
@@ -32328,6 +32202,14 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "PCL410,",
+      "ATE075,",
+      "ATE085,",
+      "INF111,",
+      "MAT144,",
+      "PHY144,"
     ]
   },
   {
@@ -33000,6 +32882,14 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "PCL410,",
+      "ATE075,",
+      "ATE085,",
+      "INF111,",
+      "MAT144,",
+      "PHY144,"
     ]
   },
   {
@@ -34273,335 +34163,6 @@
         ]
       },
       {
-        "type": "//CONCE",
-        "session": 4,
-        "code": "ELE543",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": true,
-        "prerequisites": [
-          "ELE216",
-          "ELE344"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 5,
-        "code": "ELE355",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE200"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 5,
-        "code": "ELE462",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": true,
-        "prerequisites": [
-          "ELE265"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 6,
-        "code": "ELE771",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": []
-      },
-      {
-        "type": "//CONCE",
-        "session": 6,
-        "code": "ELE735",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "MAT165"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 6,
-        "code": "ELE777",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE275",
-          "ELE474"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 6,
-        "code": "ELE674",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": []
-      },
-      {
-        "type": "//CONCE",
-        "session": 6,
-        "code": "ELE654",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": []
-      },
-      {
-        "type": "//CONCE",
-        "session": 7,
-        "code": "ELE889",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELe312"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 7,
-        "code": "ELE653",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": true,
-        "prerequisites": [
-          "ELe312"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 7,
-        "code": "ELE673",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELe275"
-        ]
-      },
-      {
-        "type": "////CONCE",
-        "session": 7,
-        "code": "ELE672",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE275",
-          "ELE265"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 7,
-        "code": "ELE672",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE275"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 7,
-        "code": "ELE773",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELe275"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 7,
-        "code": "ELE550",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": true,
-        "prerequisites": []
-      },
-      {
-        "type": "//CONCE",
-        "session": 7,
-        "code": "ELE795",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "S",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          ">= 99"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE756",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE653"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE757",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE653"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE759",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE653"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE760",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE653"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE784",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": []
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE791",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "S",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": []
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE656",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE355",
-          "ELE550"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE652",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE550"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE752",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": [
-          "ELE355",
-          "ELE550"
-        ]
-      },
-      {
-        "type": "//CONCE",
-        "session": 8,
-        "code": "ELE767",
-        "profile": "T",
-        "concentration": "CP",
-        "category": "C",
-        "level": "B",
-        "mandatory": false,
-        "prerequisites": []
-      },
-      {
         "type": "STAGE",
         "session": 1,
         "code": "STA105",
@@ -34612,6 +34173,12 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "MAT144,",
+      "PHY144,"
     ]
   },
   {
@@ -36041,6 +35608,14 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE029,",
+      "ATE075,",
+      "ATE085,",
+      "COM115,",
+      "MAT144,",
+      "PHY144,"
     ]
   },
   {
@@ -37286,6 +36861,12 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "MAT144,",
+      "PHY144,"
     ]
   },
   {
@@ -38790,6 +38371,12 @@
         "mandatory": true,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "MAT144,",
+      "PHY144,"
     ]
   },
   {
@@ -38808,6 +38395,10 @@
           "GES870"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -38839,6 +38430,10 @@
           "GES850"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -38868,11 +38463,19 @@
           "SYS856"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
     "id": 520,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 534,
@@ -38890,11 +38493,19 @@
           "SYS872"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
     "id": 552,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 845,
@@ -38912,15 +38523,27 @@
           "GES864"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
     "id": 856,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 553,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 857,
@@ -38938,6 +38561,10 @@
           "MGC854"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -38956,6 +38583,10 @@
           "MGC817"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -38974,6 +38605,10 @@
           "MGC840"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -38992,6 +38627,10 @@
           "MGC922"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39010,11 +38649,19 @@
           "GIU810"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
     "id": 557,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 560,
@@ -39032,6 +38679,10 @@
           "SYS861"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39050,6 +38701,10 @@
           "SYS864"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39068,6 +38723,10 @@
           "GES881"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39086,6 +38745,10 @@
           "ENR865"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39104,6 +38767,10 @@
           "ENR865"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39122,15 +38789,27 @@
           "SYS877"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
     "id": 569,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 579,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 9081,
@@ -39148,6 +38827,10 @@
           "GES895"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39190,15 +38873,27 @@
           "MTI870"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
     "id": 616,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 617,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 647,
@@ -39216,6 +38911,10 @@
           "MGR880"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39232,6 +38931,10 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39263,11 +38966,19 @@
           "SYS857"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
     "id": 681,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 682,
@@ -39285,19 +38996,35 @@
           "SST820"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
     "id": 628,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 866,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 1915,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 2043,
@@ -39313,6 +39040,10 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39357,6 +39088,10 @@
           "MTI870"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39375,6 +39110,10 @@
           "MGC870"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39393,6 +39132,10 @@
           "MGC846"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39411,6 +39154,10 @@
           "MGC830"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39429,6 +39176,10 @@
           "GES873"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39486,6 +39237,10 @@
           "GES886 GES892"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39504,6 +39259,10 @@
           "ENR850"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39548,6 +39307,10 @@
           "MGC856"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39592,6 +39355,10 @@
           "MGC866"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39610,11 +39377,20 @@
           "SST820"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
     "id": 3140,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "INF155,"
+    ]
   },
   {
     "id": 3209,
@@ -39632,6 +39408,10 @@
           "GPA771"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39663,6 +39443,10 @@
           "GES867"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39681,6 +39465,10 @@
           "GPA771"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39699,6 +39487,10 @@
           "GTS831"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39717,6 +39509,10 @@
           "MGR860"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39748,11 +39544,19 @@
           "MTR871"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
     "id": 3285,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 3286,
@@ -39779,15 +39583,27 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
     "id": 3287,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 3765,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
+    ]
   },
   {
     "id": 1567,
@@ -39804,20 +39620,13 @@
         "prerequisites": [
           "MTI870"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -39835,20 +39644,11 @@
         "prerequisites": [
           "MTI825"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39879,20 +39679,11 @@
         "prerequisites": [
           "SYS802"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39910,20 +39701,11 @@
         "prerequisites": [
           "MTR801"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -39954,20 +39736,13 @@
         "prerequisites": [
           "CTN765"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -39998,20 +39773,13 @@
         "prerequisites": [
           "SYS809"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -40029,20 +39797,13 @@
         "prerequisites": [
           "MTR871"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -40071,20 +39832,13 @@
         "level": "GES865",
         "mandatory": false,
         "prerequisites": []
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -40102,20 +39856,11 @@
         "prerequisites": [
           "MTI815"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -40146,20 +39891,13 @@
         "prerequisites": [
           "GES852"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -40177,20 +39915,13 @@
         "prerequisites": [
           "GES852"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -40362,20 +40093,13 @@
         "level": "SYS863",
         "mandatory": false,
         "prerequisites": []
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -40417,20 +40141,13 @@
         "prerequisites": [
           "MGA856"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -40461,20 +40178,13 @@
         "prerequisites": [
           "MGL870"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -40492,20 +40202,13 @@
         "prerequisites": [
           "GES852"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -40575,20 +40278,12 @@
         "prerequisites": [
           "SYS806"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,"
     ]
   },
   {
@@ -40619,20 +40314,13 @@
         "prerequisites": [
           "MGC863"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -40650,20 +40338,13 @@
         "prerequisites": [
           "SYS824"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -40681,20 +40362,13 @@
         "prerequisites": [
           "SYS816"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -40725,20 +40399,13 @@
         "prerequisites": [
           "GPA771"
         ]
-      },
-      {
-        "type": "3",
-        "session": 30,
-        "code": "MEM003",
-        "profile": "MEM006",
-        "concentration": "MEM009",
-        "category": "MEM012",
-        "level": "MEM015",
-        "mandatory": false,
-        "prerequisites": [
-          "MEM021"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,",
+      "LRC110,"
     ]
   },
   {
@@ -40848,6 +40515,12 @@
           "MGC867"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -40905,6 +40578,11 @@
           "MGC870"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,"
     ]
   },
   {
@@ -40999,6 +40677,12 @@
           "GPA771"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41078,6 +40762,12 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41146,6 +40836,12 @@
           "SYS816"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41229,6 +40925,12 @@
           "CTN765"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41286,6 +40988,12 @@
           "GES884"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41341,6 +41049,12 @@
           "GES885"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41383,6 +41097,12 @@
           "GES885"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41425,6 +41145,12 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41456,6 +41182,12 @@
           "MTI835"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41513,6 +41245,12 @@
           "GES868"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41570,6 +41308,12 @@
           "GES886"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41640,6 +41384,12 @@
           "GTS850"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41671,6 +41421,12 @@
           "GES836"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41726,6 +41482,12 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41796,6 +41558,12 @@
           "SST830"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41840,11 +41608,22 @@
           "SYS803"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
     "id": 3270,
-    "courses": []
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "INF155,"
+    ]
   },
   {
     "id": 3822,
@@ -41873,6 +41652,10 @@
           "MGL849"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -41902,6 +41685,12 @@
           "MGL849"
         ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "PRE811,",
+      "LRC110,"
     ]
   },
   {
@@ -41951,6 +41740,11 @@
         "mandatory": false,
         "prerequisites": []
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "ATE800,"
     ]
   },
   {
@@ -42055,38 +41849,20 @@
         "level": "SYS863",
         "mandatory": false,
         "prerequisites": []
-      },
-      {
-        "type": "3",
-        "session": 75,
-        "code": "RECHER3",
-        "profile": "RECHER6",
-        "concentration": "RECHER9",
-        "category": "RECHER12",
-        "level": "RECHER15",
-        "mandatory": false,
-        "prerequisites": [
-          "RECHER21"
-        ]
       }
+    ],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,",
+      "FRA800,"
     ]
   },
   {
     "id": 3813,
-    "courses": [
-      {
-        "type": "3",
-        "session": 60,
-        "code": "RECHER3",
-        "profile": "RECHER6",
-        "concentration": "RECHER9",
-        "category": "RECHER12",
-        "level": "RECHER15",
-        "mandatory": false,
-        "prerequisites": [
-          "RECHER21"
-        ]
-      }
+    "courses": [],
+    "horsProgramme": [
+      "ATE075,",
+      "ATE085,"
     ]
   },
   {
@@ -42879,7 +42655,8 @@
         "mandatory": false,
         "prerequisites": []
       }
-    ]
+    ],
+    "horsProgramme": []
   },
   {
     "id": 6557,
@@ -44246,7 +44023,8 @@
         "mandatory": false,
         "prerequisites": []
       }
-    ]
+    ],
+    "horsProgramme": []
   },
   {
     "id": 6646,
@@ -44722,6 +44500,7 @@
         "mandatory": true,
         "prerequisites": []
       }
-    ]
+    ],
+    "horsProgramme": []
   }
 ]

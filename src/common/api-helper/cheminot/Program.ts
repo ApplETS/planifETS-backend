@@ -1,6 +1,8 @@
 import { Course } from './Course';
 
 export class Program {
+  private horsProgramme: string[] = [];
+
   constructor(
     private id: number,
     private courses: Course[],
@@ -26,7 +28,15 @@ export class Program {
     return this.courses;
   }
 
+  public getHorsProgramme(): string[] {
+    return this.horsProgramme;
+  }
+
   public addCourse(course: Course) {
     this.courses.push(course);
+  }
+
+  public addHorsProgrammeCourse(courseCode: string) {
+    this.horsProgramme.push(courseCode);
   }
 }
