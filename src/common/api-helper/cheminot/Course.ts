@@ -16,6 +16,7 @@ export class Course {
     public level: string,
     public mandatory: boolean,
     public prerequisites: string[],
+    public alternatives?: string[],
   ) {}
 
   public static isCourseLine(line: string): boolean {
@@ -28,6 +29,25 @@ export class Course {
   public static parseCourseLine(line: string): Course | null {
     line = line.trim();
     const parts = line.split(',');
+
+    // Handle "CHOIX" type courses
+    if (parts[0] === 'CHOIX') {
+      const alternatives = parts[10]
+        .split(' ')
+        .map((course) => course.trim().toUpperCase());
+      return new Course(
+        parts[0],
+        parseInt(parts[1], 10),
+        parts[3].trim().toUpperCase(),
+        parts[4].trim(),
+        parts[5].trim(),
+        parts[6].trim(),
+        parts[7].trim(),
+        parts[8] === 'B',
+        Course.parsePrerequisites(parts[9]),
+        alternatives,
+      );
+    }
 
     // If the line has 12 parts, it's an internship, so shift the first part
     if (parts.length === this.INTERNSHIP_LINE_PARTS_COUNT) {
@@ -46,7 +66,7 @@ export class Course {
     const type = parts[0];
     const session = parseInt(parts[1], 10);
     const code = parts[3].toUpperCase();
-    //Validate the course code using the course code validation pipe
+    // Validate the course code using the course code validation pipe
     if (this.courseCodeValidationPipe.transform(code) === false) {
       console.log('Invalid course code: ', code);
     }

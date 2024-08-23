@@ -938,7 +938,12 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT202",
+          "ENT601",
+          "ING500"
+        ]
       },
       {
         "type": "TRONC",
@@ -2542,7 +2547,13 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT202",
+          "ENT601",
+          "GIA501",
+          "ING500"
+        ]
       },
       {
         "type": "TRONC",
@@ -5457,7 +5468,14 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT201",
+          "ENT202",
+          "GPE450",
+          "ING500",
+          "LRC110"
+        ]
       },
       {
         "type": "PROFI",
@@ -7381,7 +7399,15 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT201",
+          "ENT202",
+          "GPE450",
+          "ING500",
+          "LRC110",
+          "ETH610"
+        ]
       },
       {
         "type": "PROFI",
@@ -9433,7 +9459,16 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "",
+          "ENT202",
+          "ENT601",
+          "GPE450",
+          "ING500",
+          "LRC110",
+          "ETH610"
+        ]
       },
       {
         "type": "TRONC",
@@ -11135,7 +11170,16 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "GPO661",
+          "GPE450",
+          "ING500",
+          "LRC110"
+        ]
       },
       {
         "type": "CONCE",
@@ -12785,7 +12829,16 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "GPE450",
+          "GPO661",
+          "ING500",
+          "LRC110"
+        ]
       },
       {
         "type": "CONCE",
@@ -14488,7 +14541,13 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "GPE450"
+        ]
       },
       {
         "type": "CONCE",
@@ -16024,7 +16083,15 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "GPE450",
+          "GIA501",
+          "ETH610"
+        ]
       },
       {
         "type": "CONCE",
@@ -19733,7 +19800,15 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT202",
+          "ENT601",
+          "GPE450",
+          "GIA501",
+          "LRC110",
+          "ETH610"
+        ]
       },
       {
         "type": "CHOIX",
@@ -19744,7 +19819,15 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT201",
+          "ENT202",
+          "GPE450",
+          "GIA501",
+          "LRC110",
+          "ETH610"
+        ]
       },
       {
         "type": "CHOIX",
@@ -19755,7 +19838,15 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT201",
+          "ENT601",
+          "GPE450",
+          "GIA501",
+          "LRC110",
+          "ETH610"
+        ]
       },
       {
         "type": "CHOIX",
@@ -19766,7 +19857,15 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "GIA501",
+          "LRC110",
+          "ETH610"
+        ]
       },
       {
         "type": "CONCE",
@@ -20049,7 +20148,16 @@
         "category": "C",
         "level": "B",
         "mandatory": true,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "CTN761",
+          "CTN769",
+          "CTN772",
+          "CTN781",
+          "CTN783",
+          "CTN784",
+          "CTN785"
+        ]
       },
       {
         "type": "CONCE",
@@ -20740,7 +20848,16 @@
         "category": "C",
         "level": "B",
         "mandatory": true,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "GPE450",
+          "GPO602",
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "ING500",
+          "LRC110"
+        ]
       },
       {
         "type": "TRONC",
@@ -22006,7 +22123,17 @@
         "category": "C",
         "level": "B",
         "mandatory": true,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "GPE450",
+          "GPO602",
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "ING500",
+          "LRC110",
+          "ETH610"
+        ]
       },
       {
         "type": "TRONC",
@@ -22857,7 +22984,17 @@
         "category": "C",
         "level": "B",
         "mandatory": true,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "GPE450",
+          "GPO602",
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "ING500",
+          "LRC110",
+          "ETH610"
+        ]
       },
       {
         "type": "CONCE",
@@ -23853,7 +23990,16 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "GIA602",
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "GIA501",
+          "ING500",
+          "LRC110"
+        ]
       },
       {
         "type": "CONCE",
@@ -25083,7 +25229,17 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "GIA602",
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "GIA501",
+          "ING500",
+          "LRC110",
+          "ETH610"
+        ]
       },
       {
         "type": "CONCE",
@@ -25978,7 +26134,17 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "GIA602",
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "GIA501",
+          "ING500",
+          "LRC110",
+          "ETH610"
+        ]
       },
       {
         "type": "CONCE",
@@ -28065,7 +28231,15 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "GIA602",
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "GIA500",
+          "ING500"
+        ]
       },
       {
         "type": "CONCE",
@@ -28870,7 +29044,15 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "GIA602",
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "GIA500",
+          "ING500"
+        ]
       },
       {
         "type": "TRONC",
@@ -31080,7 +31262,13 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT202",
+          "ENT601",
+          "GPE450",
+          "GIA500"
+        ]
       },
       {
         "type": "CHOIX",
@@ -31091,7 +31279,13 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT201",
+          "ENT601",
+          "GPE450",
+          "GIA500"
+        ]
       },
       {
         "type": "TRONC",
@@ -31387,7 +31581,16 @@
         "category": "C",
         "level": "B",
         "mandatory": true,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "CTN761",
+          "CTN769",
+          "CTN772",
+          "CTN781",
+          "CTN783",
+          "CTN784",
+          "CTN785"
+        ]
       },
       {
         "type": "CONCE",
@@ -31868,7 +32071,15 @@
         "category": "C",
         "level": "B",
         "mandatory": true,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "GPE450",
+          "GPO602",
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "ING500"
+        ]
       },
       {
         "type": "TRONC",
@@ -32509,7 +32720,15 @@
         "category": "C",
         "level": "B",
         "mandatory": true,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "GPE450",
+          "GPO602",
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "ING500"
+        ]
       },
       {
         "type": "TRONC",
@@ -33308,7 +33527,14 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "",
+          "ENT202",
+          "ENT601",
+          "GPE450",
+          "ING500"
+        ]
       },
       {
         "type": "TRONC",
@@ -34746,7 +34972,15 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT201",
+          "ENT202",
+          "ENT601",
+          "GPO661",
+          "GPE450",
+          "ING500"
+        ]
       },
       {
         "type": "CONCE",
@@ -36682,7 +36916,12 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT201",
+          "ENT202",
+          "GPE450"
+        ]
       },
       {
         "type": "CONCE",
@@ -37786,7 +38025,13 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT201",
+          "ENT202",
+          "GIA500",
+          "ING500"
+        ]
       },
       {
         "type": "TRONC",
@@ -42482,7 +42727,14 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT202",
+          "ENT601",
+          "GIA501",
+          "ING500",
+          "ETH610"
+        ]
       },
       {
         "type": "CONCE",
@@ -43301,7 +43553,15 @@
         "category": "C",
         "level": "B",
         "mandatory": false,
-        "prerequisites": []
+        "prerequisites": [],
+        "alternatives": [
+          "ENT202",
+          "ENT601",
+          "GIA501",
+          "ING500",
+          "GPE450",
+          "ETH610"
+        ]
       },
       {
         "type": "TRONC",
