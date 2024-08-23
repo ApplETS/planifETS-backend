@@ -1,19 +1,18 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import fs from 'fs';
 import path from 'path';
 
 @Injectable()
 export class FileUtil {
-  constructor(private configService: ConfigService) {}
-
   private logger = new Logger(FileUtil.name);
 
-  public writeDataToFile<T>(data: T, fileName: string): Promise<string | null> {
-    const pdfOutputPath =
-      this.configService.get<string>('pdfOutputPath') ??
-      path.join(__dirname, fileName);
-    const filePath = path.join(pdfOutputPath, fileName);
+  public writeDataToFile<T>(
+    data: T,
+    fileName: string,
+    directory?: string,
+  ): Promise<string | null> {
+    const outputPath = directory ? path.resolve(directory) : __dirname;
+    const filePath = path.join(outputPath, fileName);
 
     return new Promise((resolve, reject) => {
       const urlDecodeReplacer = (key: string, value: string) => {
