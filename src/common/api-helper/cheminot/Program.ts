@@ -4,7 +4,7 @@ export class Program {
   private horsProgramme: string[] = [];
 
   constructor(
-    private id: number,
+    private code: number,
     private courses: Course[],
   ) {}
 
@@ -20,8 +20,8 @@ export class Program {
       return null;
     }
 
-    const id = parseInt(parts[1], 10);
-    return new Program(id, []);
+    const code = parseInt(parts[1], 10);
+    return new Program(code, []);
   }
 
   public getCourses(): Course[] {
