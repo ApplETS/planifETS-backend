@@ -13,6 +13,6 @@
     "incremental": true,
     "strict": true,
     "strictBindCallApply": false,
-    "typeRoots": ["node_modules/@types"],
+    "typeRoots": ["node_modules/@types"]
   }
 }

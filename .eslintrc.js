@@ -38,6 +38,7 @@ module.exports = {
         endOfLine: 'lf',
       },
     ],
+    '@typescript-eslint/brace-style': 'off',
     indent: 'off',
     '@typescript-eslint/indent': 'off',
   },

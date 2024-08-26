@@ -5,70 +5,86 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+  theme    = "neutral"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+enum Trimester {
+  AUTOMNE
+  ETE
+  HIVER
+}
+
 model Session {
-  id        String   @id @default(uuid())
-  name      String
+  id        String    @id @default(uuid())
+  trimester Trimester
   year      Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   courseInstances CourseInstance[]
 }
 
 model CourseInstance {
-  id        String   @id @default(uuid())
+  id        String @id @default(uuid())
   courseId  String
   sessionId String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   course  Course  @relation(fields: [courseId], references: [id])
   session Session @relation(fields: [sessionId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([courseId, sessionId])
   @@index([courseId, sessionId])
 }
 
 model Course {
-  id                        String           @id @default(uuid())
-  programId                 String
-  code                      String           @unique
-  title                     String
-  description               String
-  credits                   Int
-  unstructuredPrerequisites String?
-  createdAt                 DateTime         @default(now())
-  updatedAt                 DateTime         @updatedAt
-  programs                  ProgramCourse[]
-  courseInstances           CourseInstance[]
+  id              String           @id
+  programId       String
+  code            String           @unique
+  title           String
+  description     String
+  credits         Int
+  programs        ProgramCourse[]
+  courseInstances CourseInstance[]
 
   prerequisites  CoursePrerequisite[] @relation("CourseToPrerequisite")
   prerequisiteOf CoursePrerequisite[] @relation("PrerequisiteToCourse")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([code, programId])
 }
 
 model CoursePrerequisite {
   courseId       String
-  course         Course   @relation("CourseToPrerequisite", fields: [courseId], references: [id])
   prerequisiteId String
-  prerequisite   Course   @relation("PrerequisiteToCourse", fields: [prerequisiteId], references: [id])
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+
+  course       Course @relation("CourseToPrerequisite", fields: [courseId], references: [id])
+  prerequisite Course @relation("PrerequisiteToCourse", fields: [prerequisiteId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@id([courseId, prerequisiteId])
 }
 
 model ProgramCourse {
   courseId  String
-  course    Course @relation(fields: [courseId], references: [id])
   programId String
-  program   Program @relation(fields: [programId], references: [id])
+
+  course  Course  @relation(fields: [courseId], references: [id])
+  program Program @relation(fields: [programId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -76,17 +92,24 @@ model ProgramCourse {
 }
 
 model Program {
-  id                   String   @id @default(uuid())
-  code                 Int      @unique
+  id                   String          @id
+  code                 Int             @unique
   title                String
-  credits              Int
-  type                 String
+  credits              String
+  cycle                Int
   url                  String
-  abbreviation         String?
+  programTypeIds       Json
   horaireCoursPdfJson  Json?
   planificationPdfJson Json?
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
+  courses              ProgramCourse[]
 
-  courses       ProgramCourse[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([code, title])
+}
+
+model ProgramType {
+  id    Int    @id
+  title String
 }
