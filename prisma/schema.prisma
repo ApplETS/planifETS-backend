@@ -92,13 +92,13 @@ model ProgramCourse {
 }
 
 model Program {
-  id             Int    @id
-  code           String    @unique
-  title          String
-  credits        String
-  cycle          Int
-  url            String
-  programTypes         ProgramType[] 
+  id           Int           @id
+  code         String        @unique
+  title        String
+  credits      String
+  cycle        Int
+  url          String
+  programTypes ProgramType[]
 
   horaireCoursPdfJson  Json?
   planificationPdfJson Json?
@@ -111,7 +111,7 @@ model Program {
 }
 
 model ProgramType {
-  id    Int    @id
-  title String
+  id       Int       @id
+  title    String
   programs Program[]
 }

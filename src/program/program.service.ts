@@ -63,6 +63,8 @@ export class ProgramService {
   public async upsertPrograms(
     data: Prisma.ProgramCreateInput[],
   ): Promise<Program[]> {
+    this.logger.log('upsertPrograms', data);
+
     return Promise.all(
       data.map((programData) => this.upsertProgram(programData)),
     );

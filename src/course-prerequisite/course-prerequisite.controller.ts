@@ -11,9 +11,11 @@ export class CoursePrerequisiteController {
     private readonly coursePrerequisiteService: CoursePrerequisiteService,
   ) {}
 
-  @Get(':courseId')
-  public async getCoursePrerequisites(@Param('courseId') { id }: IdDto) {
-    return this.coursePrerequisiteService.getPrerequisites({ courseId: id });
+  @Get(':id')
+  public async getCoursePrerequisites(@Param() params: IdDto) {
+    return this.coursePrerequisiteService.getPrerequisites({
+      courseId: Number(params.id),
+    });
   }
 
   @Get()
