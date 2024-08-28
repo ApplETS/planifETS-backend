@@ -18,20 +18,33 @@ export class ProgramsProcessor extends WorkerHost {
   }
 
   public async process(job: Job): Promise<void> {
+    switch (job.name) {
+      case 'upsert-programs':
+        await this.processPrograms(job);
+        break;
+      default:
+        this.logger.error('Unknown job name: ' + job.name);
+    }
+  }
+
+  private async processPrograms(job: Job): Promise<void> {
     this.logger.log('Processing programs...');
 
     try {
       const { programs, types } =
         await this.etsProgramService.fetchAllProgramsFromEtsAPI();
 
-      if (!programs.length || !types.length) {
+      const programsLength = programs.length;
+      const typesLength = types.length;
+
+      if (!programsLength || !typesLength) {
         this.logger.error('No programs or types fetched.');
 
         throw new Error('No programs or types fetched.');
       }
 
       this.logger.log(
-        `${types.length} types of programs and ${programs.length} programs fetched.`,
+        `${typesLength} types of programs and ${programsLength} programs fetched.`,
       );
 
       await this.programService.createProgramTypes(types);
@@ -44,7 +57,13 @@ export class ProgramsProcessor extends WorkerHost {
         })),
       );
 
-      await job.updateData({ processed: true, programs, types });
+      job.updateProgress(100);
+
+      job.updateData({
+        processed: true,
+        programs: programsLength,
+        types: typesLength,
+      });
     } catch (error: unknown) {
       this.logger.error('Error processing programs: ', error);
       throw error;
