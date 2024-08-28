@@ -4,7 +4,7 @@ import { firstValueFrom } from 'rxjs';
 
 import { ETS_API_GET_ALL_PROGRAMS } from '../../../constants/url';
 
-interface ProgramETSAPI {
+interface IProgramEtsAPI {
   id: number;
   title: string;
   cycle: string;
@@ -14,46 +14,56 @@ interface ProgramETSAPI {
   url: string;
 }
 
-export type Program = {
-  id: number;
-  title: string;
-  cycle: string;
-  code: string;
-  credits: string;
-  programTypes: { id: number }[];
-  url: string;
-};
-
-export interface ProgramType {
+export interface IProgramTypeEtsAPI {
   id: number;
   title: string;
 }
+
+export type Program = {
+  id: number;
+  title: string;
+  cycle: number;
+  code: string;
+  credits: string;
+  programTypes: {
+    connect: { id: number }[];
+  };
+  url: string;
+};
 
 @Injectable()
 export class EtsProgramService {
   constructor(private readonly httpService: HttpService) {}
 
-  public async fetchAllPrograms(): Promise<{
-    types: ProgramType[];
+  public async fetchAllProgramsFromEtsAPI(): Promise<{
+    types: IProgramTypeEtsAPI[];
     programs: Program[];
   }> {
     const response = await firstValueFrom(
       this.httpService.get(ETS_API_GET_ALL_PROGRAMS),
     );
 
-    const types: ProgramType[] = response.data.types;
+    const types: IProgramTypeEtsAPI[] = response.data.types;
     const programs: Program[] = response.data.results.map(
-      (program: ProgramETSAPI) => ({
+      (program: IProgramEtsAPI) => ({
         id: program.id,
         title: program.title,
-        cycle: program.cycle,
+        cycle: this.extractCycleNumber(program.cycle),
         code: program.code,
         credits: program.credits,
-        programTypes: program.types.map((typeId) => ({ id: typeId })),
+        programTypes: {
+          connect: program.types.map((typeId) => ({ id: typeId })),
+        },
         url: program.url,
       }),
     );
 
     return { types, programs };
+  }
+
+  private extractCycleNumber(cycle: string): number {
+    const match = RegExp(/\d+/).exec(cycle);
+
+    return match ? parseInt(match[0], 10) : 0;
   }
 }

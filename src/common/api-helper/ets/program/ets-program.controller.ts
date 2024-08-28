@@ -10,6 +10,6 @@ export class EtsProgramController {
 
   @Get()
   public async fetchAllPrograms() {
-    return this.etsProgramService.fetchAllPrograms();
+    return this.etsProgramService.fetchAllProgramsFromEtsAPI();
   }
 }
