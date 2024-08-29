@@ -19,7 +19,7 @@ export class AppController {
   @ApiOperation({
     summary: 'Trigger the queue to process jobs',
   })
-  public async triggerProcessPrograms() {
+  public async triggerProcessJobs() {
     await this.queuesService.processJobs();
   }
 }
