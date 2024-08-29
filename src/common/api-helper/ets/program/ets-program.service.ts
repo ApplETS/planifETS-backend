@@ -4,13 +4,23 @@ import { firstValueFrom } from 'rxjs';
 
 import { ETS_API_GET_ALL_PROGRAMS } from '../../../constants/url';
 
-type Program = {
+interface ProgramETSAPI {
   id: number;
   title: string;
   cycle: string;
   code: string;
   credits: string;
   types: number[];
+  url: string;
+}
+
+export type Program = {
+  id: number;
+  title: string;
+  cycle: string;
+  code: string;
+  credits: string;
+  programTypes: { id: number }[];
   url: string;
 };
 
@@ -33,13 +43,13 @@ export class EtsProgramService {
 
     const types: ProgramType[] = response.data.types;
     const programs: Program[] = response.data.results.map(
-      (program: Program) => ({
+      (program: ProgramETSAPI) => ({
         id: program.id,
         title: program.title,
         cycle: program.cycle,
         code: program.code,
         credits: program.credits,
-        types: program.types,
+        programTypes: program.types.map((typeId) => ({ id: typeId })),
         url: program.url,
       }),
     );

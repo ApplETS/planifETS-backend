@@ -27,7 +27,7 @@ export class CourseService {
     return this.prisma.course.findMany();
   }
 
-  public async getCoursesByProgram(programId: string): Promise<Course[]> {
+  public async getCoursesByProgram(programId: number): Promise<Course[]> {
     this.logger.log('getCoursesByProgram', programId);
 
     return this.prisma.course.findMany({
@@ -42,7 +42,7 @@ export class CourseService {
   }
 
   public async getCourseAvailability(
-    courseId: string,
+    courseId: number,
   ): Promise<{ session: Session; available: boolean }[]> {
     this.logger.log('getCourseAvailability', courseId);
 
@@ -109,6 +109,7 @@ export class CourseService {
   ): Promise<Course[]> {
     this.logger.log('upsertCourses', data);
 
+    //TODO: Use "findMany" instead of "findUnique". remove upsertCourse function and only use this function only
     const upsertedCourses = await Promise.all(
       data.map((courseData) => this.upsertCourse(courseData)),
     );

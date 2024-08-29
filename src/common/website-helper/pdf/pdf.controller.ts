@@ -5,13 +5,16 @@ import {
   HttpStatus,
   Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { ERROR_MESSAGES } from '../../constants/error-messages';
+import { getHorairePdfUrl, getPlanificationPdfUrl } from '../../constants/url';
 import { HoraireCoursService } from './pdf-parser/horaire/horaire-cours.service';
 import { IHoraireCours } from './pdf-parser/horaire/horaire-cours.types';
 import { PlanificationCoursService } from './pdf-parser/planification/planification-cours.service';
 import { ICoursePlanification } from './pdf-parser/planification/planification-cours.types';
 
+@ApiTags('ÉTS API')
 @Controller('pdf')
 export class PdfController {
   constructor(
@@ -31,7 +34,7 @@ export class PdfController {
       );
     }
 
-    const pdfUrl = `https://horaire.etsmtl.ca/HorairePublication/HorairePublication_${sessionCode}_${programCode}.pdf`;
+    const pdfUrl = getHorairePdfUrl(sessionCode, programCode);
 
     try {
       return await this.horaireCoursService.parsePdfFromUrl(pdfUrl);
@@ -54,7 +57,7 @@ export class PdfController {
       );
     }
 
-    const pdfUrl = `https://horaire.etsmtl.ca/Horairepublication/Planification-${programCode}.pdf`;
+    const pdfUrl = getPlanificationPdfUrl(programCode);
 
     try {
       return await this.planificationCoursService.parsePdfFromUrl(pdfUrl);

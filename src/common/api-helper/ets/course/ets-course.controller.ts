@@ -1,4 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import {
   EtsCourseService,
@@ -6,6 +7,7 @@ import {
   IEtsCoursesData,
 } from './ets-course.service';
 
+@ApiTags('ÉTS API')
 @Controller('ets/courses')
 export class EtsCourseController {
   constructor(private readonly etsCourseService: EtsCourseService) {}

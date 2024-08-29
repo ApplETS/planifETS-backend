@@ -9,11 +9,11 @@ export class CoursePrerequisiteService {
 
   private logger = new Logger(CoursePrerequisiteService.name);
 
-  public async getPrerequisites(courseId: string) {
-    this.logger.log('coursePrerequisiteById');
+  public async getPrerequisites(data: Prisma.CoursePrerequisiteWhereInput) {
+    this.logger.log('coursePrerequisiteById', data);
 
     return this.prisma.coursePrerequisite.findMany({
-      where: { courseId },
+      where: data,
       include: { prerequisite: true },
     });
   }

@@ -31,10 +31,7 @@ export class ProgramService {
     this.logger.log('createProgram', data);
 
     return this.prisma.program.create({
-      data: {
-        ...data,
-        programTypeIds: data.programTypeIds ?? '[]',
-      },
+      data,
     });
   }
 
@@ -48,13 +45,17 @@ export class ProgramService {
       update: {
         ...data,
         updatedAt: new Date(),
-        programTypeIds: data.programTypeIds ?? '[]',
+        programTypes: {
+          set: data.programTypes?.connect || [], //clears all relations and set new ones
+        },
       },
       create: {
         ...data,
         createdAt: new Date(),
         updatedAt: new Date(),
-        programTypeIds: data.programTypeIds ?? '[]',
+        programTypes: {
+          connect: data.programTypes?.connect || [],
+        },
       },
     });
   }
@@ -63,6 +64,7 @@ export class ProgramService {
     data: Prisma.ProgramCreateInput[],
   ): Promise<Program[]> {
     this.logger.log('upsertPrograms', data);
+
     return Promise.all(
       data.map((programData) => this.upsertProgram(programData)),
     );
