@@ -49,7 +49,7 @@ export class QueuesService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async processCourses() {
-    const job = await this.coursesQueue.add('upsert-courses', {});
+    const job = await this.coursesQueue.add('courses-upsert', {});
     this.logger.log(
       'Courses job added to queue: ' + job.id + ' (' + job.name + ')',
     );

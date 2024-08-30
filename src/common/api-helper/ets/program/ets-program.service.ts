@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 
 import { ETS_API_GET_ALL_PROGRAMS } from '../../../constants/url';
+import { extractNumberFromString } from '../../../utils/stringUtil';
 
 interface IProgramEtsAPI {
   id: number;
@@ -48,7 +49,7 @@ export class EtsProgramService {
       (program: IProgramEtsAPI) => ({
         id: program.id,
         title: program.title,
-        cycle: this.extractCycleNumber(program.cycle),
+        cycle: extractNumberFromString(program.cycle),
         code: program.code,
         credits: program.credits,
         programTypes: {
@@ -59,11 +60,5 @@ export class EtsProgramService {
     );
 
     return { types, programs };
-  }
-
-  private extractCycleNumber(cycle: string): number {
-    const match = RegExp(/\d+/).exec(cycle);
-
-    return match ? parseInt(match[0], 10) : 0;
   }
 }
