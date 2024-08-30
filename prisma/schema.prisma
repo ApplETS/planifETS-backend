@@ -48,7 +48,7 @@ model CourseInstance {
 
 model Course {
   id              Int              @id
-  code            String           @unique
+  code            String?          @unique
   title           String
   description     String
   credits         Int
