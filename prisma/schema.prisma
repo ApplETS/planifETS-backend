@@ -56,9 +56,6 @@ model Course {
   programs        ProgramCourse[]
   courseInstances CourseInstance[]
 
-  prerequisites  CoursePrerequisite[] @relation("CourseToPrerequisite")
-  prerequisiteOf CoursePrerequisite[] @relation("PrerequisiteToCourse")
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -66,16 +63,18 @@ model Course {
 }
 
 model CoursePrerequisite {
-  courseId       Int
-  prerequisiteId Int
+  courseId                 Int
+  prerequisiteId           Int
+  unstructuredPrerequisite String?
+  programId                Int
 
-  course       Course @relation("CourseToPrerequisite", fields: [courseId], references: [id])
-  prerequisite Course @relation("PrerequisiteToCourse", fields: [prerequisiteId], references: [id])
+  programCourse ProgramCourse @relation("CourseToPrerequisites", fields: [courseId, programId], references: [courseId, programId])
+  prerequisite  ProgramCourse @relation("PrerequisiteToCourse", fields: [prerequisiteId, programId], references: [courseId, programId])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@id([courseId, prerequisiteId])
+  @@id([courseId, programId, prerequisiteId])
 }
 
 model ProgramCourse {
@@ -85,6 +84,9 @@ model ProgramCourse {
 
   course  Course  @relation(fields: [courseId], references: [id])
   program Program @relation(fields: [programId], references: [id])
+
+  prerequisites        CoursePrerequisite[] @relation("CourseToPrerequisites")
+  prerequisiteToCourse CoursePrerequisite[] @relation("PrerequisiteToCourse")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
