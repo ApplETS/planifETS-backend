@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { CourseInstance, Prisma } from '@prisma/client';
+import { CourseInstance, Prisma, Session } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -40,9 +40,26 @@ export class CourseInstanceService {
     });
   }
 
-  // This will be used to get all the infos about a course instance
+  public async getCourseAvailability(
+    courseId: number,
+  ): Promise<{ session: Session; available: boolean }[]> {
+    this.logger.verbose('getCourseAvailability', courseId);
+
+    const courseInstances = await this.prisma.courseInstance.findMany({
+      where: { courseId },
+      include: {
+        session: true,
+      },
+    });
+
+    return courseInstances.map((ci) => ({
+      session: ci.session,
+      available: true,
+    }));
+  }
+
   public async getCourseInstancesByCourse(
-    courseId: string,
+    courseId: number,
   ): Promise<CourseInstance[]> {
     this.logger.log('getCourseInstancesByCourse', courseId);
 

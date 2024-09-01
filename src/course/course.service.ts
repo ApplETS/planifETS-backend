@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Course, Prisma, Session } from '@prisma/client';
+import { Course, Prisma } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -49,37 +49,15 @@ export class CourseService {
     });
   }
 
-  public async getCourseAvailability(
-    courseId: number,
-  ): Promise<{ session: Session; available: boolean }[]> {
-    this.logger.verbose('getCourseAvailability', courseId);
-
-    const courseInstances = await this.prisma.courseInstance.findMany({
-      where: { courseId },
-      include: {
-        session: true,
-      },
-    });
-
-    const sessionAvailability = courseInstances.map((ci) => ({
-      session: ci.session,
-      available: true,
-    }));
-
-    return sessionAvailability;
-  }
-
   public async createCourse(data: Prisma.CourseCreateInput): Promise<Course> {
-    this.logger.verbose('Creating course: ' + data.code);
+    this.logger.verbose('Creating new course', data.code);
 
-    const course = await this.prisma.course.create({
+    return this.prisma.course.create({
       data: {
         ...data,
         createdAt: new Date(),
       },
     });
-
-    return course;
   }
 
   public async updateCourse(params: {
@@ -88,7 +66,7 @@ export class CourseService {
   }): Promise<Course> {
     const { data, where } = params;
 
-    this.logger.verbose('Updating course: ' + data.code);
+    this.logger.verbose('Updating course', data.code);
     return this.prisma.course.update({
       data: {
         ...data,
@@ -148,7 +126,6 @@ export class CourseService {
     existingCourse: Course,
     courseData: Prisma.CourseCreateInput,
   ): boolean {
-    //existing course data without the createdAt and updatedAt field
     const normalizedExistingCourse = {
       id: existingCourse.id,
       code: existingCourse.code,
