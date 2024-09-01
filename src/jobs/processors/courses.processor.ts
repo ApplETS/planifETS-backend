@@ -2,6 +2,7 @@ import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
 
+import { CheminotService } from '../../common/api-helper/cheminot/cheminot.service';
 import { EtsCourseService } from '../../common/api-helper/ets/course/ets-course.service';
 import { CourseService } from '../../course/course.service';
 import { QueuesEnum } from '../queues.enum';
@@ -13,6 +14,7 @@ export class CoursesProcessor extends WorkerHost {
   constructor(
     private readonly etsCourseService: EtsCourseService,
     private readonly courseService: CourseService,
+    private readonly cheminotService: CheminotService,
   ) {
     super();
   }
@@ -22,11 +24,11 @@ export class CoursesProcessor extends WorkerHost {
       case 'courses-upsert':
         await this.processCourses(job);
         break;
-      case 'course-availability':
+      case 'courses-availability':
         //TOOD: Implement
         break;
-      case 'course-prerequisites':
-        //TOOD: Implement
+      case 'courses-details-prerequisites':
+        await this.syncCourseDetailsWithCheminotData(job);
         break;
       default:
         this.logger.error('Unknown job name: ' + job.name);
@@ -60,5 +62,11 @@ export class CoursesProcessor extends WorkerHost {
       this.logger.error('Error processing courses: ', error);
       throw error;
     }
+  }
+
+  private async syncCourseDetailsWithCheminotData(job: Job): Promise<void> {
+    this.logger.log('Syncing course details with Cheminot data...');
+
+    //TODO: Implement
   }
 }
