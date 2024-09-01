@@ -44,6 +44,7 @@
     "@nestjs/schedule": "^4.1.0",
     "@nestjs/swagger": "^7.4.0",
     "@prisma/client": "^5.15.0",
+    "@types/unzipper": "^0.10.10",
     "axios": "^1.7.4",
     "bullmq": "^5.12.9",
     "class-transformer": "^0.5.1",
@@ -52,6 +53,7 @@
     "pdf2json": "^3.0.5",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
+    "unzipper": "^0.12.3",
     "uuid": "^9.0.1",
     "webpack": "^5.0.0"
   },
