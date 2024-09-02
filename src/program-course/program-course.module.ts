@@ -10,4 +10,4 @@ import { ProgramCourseService } from './program-course.service';
   providers: [ProgramCourseService],
   exports: [ProgramCourseService],
 })
-export class ProgramModule {}
+export class ProgramCourseModule {}

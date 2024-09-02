@@ -37,18 +37,22 @@ export class ProgramCourseService {
     return this.prisma.programCourse.findMany();
   }
 
+  //TODO: Instead of createProgramCourse, we should upsertProgramCourses (ex: upsertCourses in course.service.ts) to limit nb of requests to the db
   public async createProgramCourse(
     data: Prisma.ProgramCourseCreateInput,
-  ): Promise<ProgramCourse> {
-    this.logger.verbose('createProgramCourse', data);
+  ): Promise<ProgramCourse | undefined> {
+    try {
+      this.logger.verbose('createProgramCourse', data);
 
-    return this.prisma.programCourse.create({
-      data,
-    });
+      return await this.prisma.programCourse.create({
+        data,
+      });
+    } catch (error) {
+      this.logger.error('Error creating program course', error);
+    }
   }
 
-  //FIXME: Make it upsertProgramCourses to limit nb of requests to the db
-
+  //FIXME: Make it upsertProgramCourses
   public async upsertProgramCourse(
     courseId: number,
     programId: number,

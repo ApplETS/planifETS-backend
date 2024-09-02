@@ -17,6 +17,7 @@ import { QueuesEnum } from './jobs/queues.enum';
 import { QueuesService } from './jobs/queues.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProgramModule } from './program/program.module';
+import { ProgramCourseModule } from './program-course/program-course.module';
 import { SessionModule } from './session/session.module';
 
 @Module({
@@ -47,6 +48,7 @@ import { SessionModule } from './session/session.module';
     CoursePrerequisiteModule,
     SessionModule,
     ProgramModule,
+    ProgramCourseModule,
   ],
   providers: [ProgramsProcessor, CoursesProcessor, QueuesService],
   controllers: [AppController],

@@ -10,6 +10,11 @@ export class CheminotService {
 
   constructor(private readonly fileExtractionService: FileExtractionService) {}
 
+  public async parseProgramsAndCoursesCheminot() {
+    await this.loadPrograms();
+    return this.getPrograms();
+  }
+
   public async loadPrograms() {
     const fileContent =
       await this.fileExtractionService.extractCheminementsFile();
