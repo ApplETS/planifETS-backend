@@ -3,6 +3,17 @@ import { Prisma, Program, ProgramType } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 
+export type AllProgramIncludeCourseIdsAndPrerequisites = {
+  id: number;
+  code: string | null;
+  courses: {
+    course: {
+      id: number;
+      code: string;
+    };
+  }[];
+};
+
 @Injectable()
 export class ProgramService {
   constructor(private readonly prisma: PrismaService) {}
@@ -23,6 +34,29 @@ export class ProgramService {
     this.logger.verbose('getAllPrograms');
 
     return this.prisma.program.findMany();
+  }
+
+  public async getAllProgramsWithCourses(): Promise<
+    AllProgramIncludeCourseIdsAndPrerequisites[]
+  > {
+    this.logger.verbose('getAllProgramsWithCourses');
+
+    return this.prisma.program.findMany({
+      select: {
+        id: true,
+        code: true,
+        courses: {
+          select: {
+            course: {
+              select: {
+                id: true,
+                code: true,
+              },
+            },
+          },
+        },
+      },
+    });
   }
 
   public async createProgram(

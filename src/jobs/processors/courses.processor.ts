@@ -1,10 +1,18 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
+import { Course } from '@prisma/client';
 import { Job } from 'bullmq';
 
 import { CheminotService } from '../../common/api-helper/cheminot/cheminot.service';
+import { Course as CourseCheminot } from '../../common/api-helper/cheminot/Course';
+import { Program as ProgramCheminot } from '../../common/api-helper/cheminot/Program';
 import { EtsCourseService } from '../../common/api-helper/ets/course/ets-course.service';
 import { CourseService } from '../../course/course.service';
+import {
+  AllProgramIncludeCourseIdsAndPrerequisites,
+  ProgramService,
+} from '../../program/program.service';
+import { ProgramCourseService } from '../../program-course/program-course.service';
 import { QueuesEnum } from '../queues.enum';
 
 @Processor(QueuesEnum.COURSES)
@@ -14,6 +22,8 @@ export class CoursesProcessor extends WorkerHost {
   constructor(
     private readonly etsCourseService: EtsCourseService,
     private readonly courseService: CourseService,
+    private readonly programCourseService: ProgramCourseService,
+    private readonly programService: ProgramService,
     private readonly cheminotService: CheminotService,
   ) {
     super();
@@ -67,6 +77,93 @@ export class CoursesProcessor extends WorkerHost {
   private async syncCourseDetailsWithCheminotData(job: Job): Promise<void> {
     this.logger.log('Syncing course details with Cheminot data...');
 
-    //TODO: Implement
+    try {
+      const allProgramsDB =
+        await this.programService.getAllProgramsWithCourses();
+      const programsCheminot =
+        await this.cheminotService.parseProgramsAndCoursesCheminot();
+
+      console.debug(`Total programs from DB: ${allProgramsDB.length}`);
+      console.debug(`Total programs from Cheminot: ${programsCheminot.length}`);
+
+      for (const programDB of allProgramsDB) {
+        if (!programDB || programDB.courses.length === 0) {
+          this.logger.warn('ProgramDB does not have courses.');
+          continue;
+        } else {
+          await this.processProgram(programDB, programsCheminot);
+        }
+      }
+
+      job.updateProgress(100);
+      job.updateData({ processed: true, programs: allProgramsDB.length });
+    } catch (error: unknown) {
+      this.logger.error(
+        'Error syncing course details with Cheminot data: ',
+        error,
+      );
+      throw error;
+    }
+  }
+
+  private async processProgram(
+    programDB: AllProgramIncludeCourseIdsAndPrerequisites,
+    programsCheminot: ProgramCheminot[],
+  ): Promise<void> {
+    console.debug(`Processing program: ${programDB.code}`);
+    const programCheminot = programsCheminot.find(
+      (p) => p.code === programDB.code,
+    );
+
+    if (programCheminot) {
+      console.debug(
+        `Program in the db: ${programDB.code}\tCourses in DB: ${programDB.courses.length}`,
+      );
+      console.log(`Courses in Cheminot: ${programCheminot.courses.length}`);
+
+      await this.processCheminotCourses(programDB, programCheminot);
+    } else {
+      console.debug(`Program ${programDB.code} not found in Cheminot data`);
+    }
+  }
+
+  private async processCheminotCourses(
+    programDB: AllProgramIncludeCourseIdsAndPrerequisites,
+    programCheminot: ProgramCheminot,
+  ): Promise<void> {
+    for (const courseCheminot of programCheminot.courses) {
+      const existingCourse = await this.courseService.getCourse({
+        code: courseCheminot.code,
+      });
+
+      if (!existingCourse) {
+        this.logger.error(`Course code "${courseCheminot.code}" not found`);
+        continue;
+      }
+
+      await this.handleProgramCourse(programDB, existingCourse, courseCheminot);
+    }
+  }
+
+  private async handleProgramCourse(
+    programDB: AllProgramIncludeCourseIdsAndPrerequisites,
+    existingCourse: Course,
+    courseCheminot: CourseCheminot,
+  ): Promise<void> {
+    const programCourse = programDB.courses.find(
+      (pc) => pc.course.code === courseCheminot.code,
+    );
+
+    if (!programCourse) {
+      await this.programCourseService.createProgramCourse({
+        program: { connect: { id: programDB.id } },
+        course: { connect: { id: existingCourse.id } },
+        typicalSessionIndex: courseCheminot.session,
+        type: courseCheminot.type,
+      });
+    }
+
+    console.debug(`Updating prerequisites for ${courseCheminot.code}`);
+    //TODO: Update prerequisites
   }
 }

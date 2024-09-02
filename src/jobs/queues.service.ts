@@ -49,18 +49,28 @@ export class QueuesService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async processCourses() {
-    const job = await this.coursesQueue.add('courses-upsert', {});
-    this.logger.log(
-      'Courses job added to queue: ' + job.id + ' (' + job.name + ')',
-    );
+    try {
+      const upsertJob = await this.coursesQueue.add('courses-upsert', {});
+      await upsertJob.waitUntilFinished(this.coursesQueueEvents);
+      this.logger.log('Upsert courses job completed');
 
-    job
-      .waitUntilFinished(this.coursesQueueEvents)
-      .then(() => {
-        this.logger.log('Courses job finished processing.');
-      })
-      .catch((err) => {
-        this.logger.error('Error processing courses job:', err);
-      });
+      const availabilityJob = await this.coursesQueue.add(
+        'courses-availability',
+        {},
+      );
+      await availabilityJob.waitUntilFinished(this.coursesQueueEvents);
+      this.logger.log('Courses availability job completed');
+
+      const detailsJob = await this.coursesQueue.add(
+        'courses-details-prerequisites',
+        {},
+      );
+      await detailsJob.waitUntilFinished(this.coursesQueueEvents);
+      this.logger.log('Courses details and prerequisites job completed');
+
+      this.logger.log('All course jobs completed successfully!');
+    } catch (error) {
+      this.logger.error('Error processing course jobs:', error);
+    }
   }
 }

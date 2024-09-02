@@ -12,13 +12,20 @@ export class CourseService {
   public async getCourse(
     courseWhereUniqueInput: Prisma.CourseWhereUniqueInput,
   ): Promise<Course | null> {
-    this.logger.verbose('courseById', courseWhereUniqueInput);
+    this.logger.verbose('getCourse', courseWhereUniqueInput);
 
-    return this.prisma.course.findUnique({
+    const course = await this.prisma.course.findUnique({
       where: courseWhereUniqueInput,
     });
-  }
 
+    if (!course) {
+      this.logger.error(
+        `Course code "${courseWhereUniqueInput.code}" not found`,
+      );
+      return null;
+    }
+    return course;
+  }
   private async getCoursesByIds(
     courseIds: number[],
   ): Promise<Map<number, Course>> {
