@@ -11,6 +11,16 @@ export type AllProgramIncludeCourseIdsAndPrerequisites = {
       id: number;
       code: string;
     };
+    typicalSessionIndex: number | null;
+    type: string | null;
+    prerequisites: {
+      prerequisite: {
+        course: {
+          id: number;
+          code: string;
+        };
+      };
+    }[];
   }[];
 };
 
@@ -39,9 +49,7 @@ export class ProgramService {
   public async getAllProgramsWithCourses(): Promise<
     AllProgramIncludeCourseIdsAndPrerequisites[]
   > {
-    this.logger.verbose('getAllProgramsWithCourses');
-
-    return this.prisma.program.findMany({
+    const data = await this.prisma.program.findMany({
       select: {
         id: true,
         code: true,
@@ -53,10 +61,30 @@ export class ProgramService {
                 code: true,
               },
             },
+            typicalSessionIndex: true,
+            type: true,
+            prerequisites: {
+              select: {
+                prerequisite: {
+                  select: {
+                    course: {
+                      select: {
+                        id: true,
+                        code: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
         },
       },
     });
+
+    this.logger.verbose('getAllProgramsWithCourses', JSON.stringify(data));
+
+    return data;
   }
 
   public async createProgram(

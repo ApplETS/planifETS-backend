@@ -12,14 +12,12 @@ export class CourseService {
   public async getCourse(
     courseWhereUniqueInput: Prisma.CourseWhereUniqueInput,
   ): Promise<Course | null> {
-    this.logger.verbose('getCourse', courseWhereUniqueInput);
-
     const course = await this.prisma.course.findUnique({
       where: courseWhereUniqueInput,
     });
 
     if (!course) {
-      this.logger.error(
+      this.logger.warn(
         `Course code "${courseWhereUniqueInput.code}" not found`,
       );
       return null;

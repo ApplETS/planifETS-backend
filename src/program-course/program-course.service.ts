@@ -37,54 +37,29 @@ export class ProgramCourseService {
     return this.prisma.programCourse.findMany();
   }
 
-  //TODO: Instead of createProgramCourse, we should upsertProgramCourses (ex: upsertCourses in course.service.ts) to limit nb of requests to the db
   public async createProgramCourse(
     data: Prisma.ProgramCourseCreateInput,
   ): Promise<ProgramCourse | undefined> {
-    try {
-      this.logger.verbose('createProgramCourse', data);
+    this.logger.verbose('createProgramCourse', data);
 
-      return await this.prisma.programCourse.create({
-        data,
-      });
-    } catch (error) {
-      this.logger.error('Error creating program course', error);
-    }
+    return this.prisma.programCourse.create({
+      data,
+    });
   }
 
-  //FIXME: Make it upsertProgramCourses
-  public async upsertProgramCourse(
-    courseId: number,
-    programId: number,
-    typicalSessionIndex: number,
-    prerequisites: Prisma.CoursePrerequisiteCreateInput[],
-  ): Promise<ProgramCourse> {
-    this.logger.verbose(
-      `Upserting ProgramCourse for Course: ${courseId}, Program: ${programId}`,
-    );
+  public async updateProgramCourse(params: {
+    where: Prisma.ProgramCourseWhereUniqueInput;
+    data: Prisma.ProgramCourseUpdateInput;
+  }): Promise<ProgramCourse> {
+    const { data, where } = params;
 
-    return this.prisma.programCourse.upsert({
-      where: {
-        courseId_programId: {
-          courseId,
-          programId,
-        },
+    this.logger.verbose('Updating ProgramCourse', data, where);
+    return this.prisma.programCourse.update({
+      data: {
+        ...data,
+        updatedAt: new Date(),
       },
-      update: {
-        typicalSessionIndex,
-        prerequisites: {
-          deleteMany: {}, // Remove existing prerequisites to replace with updated ones
-          create: prerequisites,
-        },
-      },
-      create: {
-        course: { connect: { id: courseId } },
-        program: { connect: { id: programId } },
-        typicalSessionIndex,
-        prerequisites: {
-          create: prerequisites,
-        },
-      },
+      where,
     });
   }
 
@@ -95,5 +70,40 @@ export class ProgramCourseService {
     return this.prisma.programCourse.delete({
       where,
     });
+  }
+
+  public hasProgramCourseChanged(
+    newCourseData: {
+      typicalSessionIndex: number | null;
+      type: string | null;
+    },
+    existingProgramCourse: {
+      typicalSessionIndex: number | null;
+      type: string | null;
+    },
+    programId: number,
+    courseId: number,
+  ): boolean {
+    const normalizedExistingProgramCourse = {
+      typicalSessionIndex: existingProgramCourse.typicalSessionIndex,
+      type: existingProgramCourse.type,
+    };
+
+    const normalizedNewProgramCourseData = {
+      typicalSessionIndex: newCourseData.typicalSessionIndex,
+      type: newCourseData.type,
+    };
+
+    this.logger.verbose('hasProgramCourseChanged', {
+      cheminotData: normalizedExistingProgramCourse,
+      databaseData: normalizedNewProgramCourseData,
+      programId,
+      courseId,
+    });
+
+    return (
+      JSON.stringify(normalizedExistingProgramCourse) !==
+      JSON.stringify(normalizedNewProgramCourseData)
+    );
   }
 }

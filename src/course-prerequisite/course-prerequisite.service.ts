@@ -32,7 +32,7 @@ export class CoursePrerequisiteService {
     });
   }
 
-  private async createCoursePrerequisite(
+  private async createPrerequisite(
     data: Prisma.CoursePrerequisiteCreateInput,
   ): Promise<CoursePrerequisite> {
     this.logger.verbose('createCoursePrerequisite', data);
@@ -68,15 +68,13 @@ export class CoursePrerequisiteService {
     });
   }
 
-  public async createCoursePrerequisites(
+  public async createProgramCoursePrerequisites(
     data: Prisma.CoursePrerequisiteCreateInput[],
   ): Promise<CoursePrerequisite[]> {
     this.logger.verbose('ensurePrerequisitesExist', data);
 
     return Promise.all(
-      data.map((prerequisiteData) =>
-        this.createCoursePrerequisite(prerequisiteData),
-      ),
+      data.map((prerequisiteData) => this.createPrerequisite(prerequisiteData)),
     );
   }
 
@@ -89,4 +87,10 @@ export class CoursePrerequisiteService {
       where,
     });
   }
+  //FIXME: It should delete the prerequisites for a specific course in a program.
+  // public async deletePrerequisitesForProgramCourse(
+  //   programId: number,
+  // ): Promise<Prisma.BatchPayload> {
+  //   this.logger.verbose('deletePrerequisitesForProgramCourse', programId);
+  // }
 }

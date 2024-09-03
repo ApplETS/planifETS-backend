@@ -87,12 +87,12 @@ export class CoursesProcessor extends WorkerHost {
       console.debug(`Total programs from Cheminot: ${programsCheminot.length}`);
 
       for (const programDB of allProgramsDB) {
-        if (!programDB || programDB.courses.length === 0) {
-          this.logger.warn('ProgramDB does not have courses.');
+        if (!programDB) {
+          this.logger.warn('ProgramDB not found for program: ', programDB);
           continue;
-        } else {
-          await this.processProgram(programDB, programsCheminot);
         }
+
+        await this.processProgram(programDB, programsCheminot);
       }
 
       job.updateProgress(100);
@@ -115,16 +115,17 @@ export class CoursesProcessor extends WorkerHost {
       (p) => p.code === programDB.code,
     );
 
-    if (programCheminot) {
-      console.debug(
-        `Program in the db: ${programDB.code}\tCourses in DB: ${programDB.courses.length}`,
-      );
-      console.log(`Courses in Cheminot: ${programCheminot.courses.length}`);
-
-      await this.processCheminotCourses(programDB, programCheminot);
-    } else {
-      console.debug(`Program ${programDB.code} not found in Cheminot data`);
+    if (!programCheminot) {
+      this.logger.warn(`Program ${programDB.code} not found in Cheminot data`);
+      return;
     }
+
+    this.logger.log(
+      `Program in the db: ${programDB.code}\tCourses in DB: ${programDB.courses.length}`,
+    );
+    this.logger.log(`Courses in Cheminot: ${programCheminot.courses.length}`);
+
+    await this.processCheminotCourses(programDB, programCheminot);
   }
 
   private async processCheminotCourses(
@@ -137,7 +138,6 @@ export class CoursesProcessor extends WorkerHost {
       });
 
       if (!existingCourse) {
-        this.logger.error(`Course code "${courseCheminot.code}" not found`);
         continue;
       }
 
@@ -154,7 +154,38 @@ export class CoursesProcessor extends WorkerHost {
       (pc) => pc.course.code === courseCheminot.code,
     );
 
-    if (!programCourse) {
+    if (programCourse) {
+      const hasChanges = this.programCourseService.hasProgramCourseChanged(
+        {
+          typicalSessionIndex: courseCheminot.session,
+          type: courseCheminot.type,
+        },
+        {
+          typicalSessionIndex: programCourse.typicalSessionIndex,
+          type: programCourse.type,
+        },
+        programDB.id,
+        existingCourse.id,
+      );
+
+      if (hasChanges) {
+        programCourse.typicalSessionIndex = courseCheminot.session;
+        programCourse.type = courseCheminot.type;
+
+        await this.programCourseService.updateProgramCourse({
+          where: {
+            courseId_programId: {
+              courseId: existingCourse.id,
+              programId: programDB.id,
+            },
+          },
+          data: {
+            typicalSessionIndex: courseCheminot.session,
+            type: courseCheminot.type,
+          },
+        });
+      }
+    } else {
       await this.programCourseService.createProgramCourse({
         program: { connect: { id: programDB.id } },
         course: { connect: { id: existingCourse.id } },
@@ -162,8 +193,5 @@ export class CoursesProcessor extends WorkerHost {
         type: courseCheminot.type,
       });
     }
-
-    console.debug(`Updating prerequisites for ${courseCheminot.code}`);
-    //TODO: Update prerequisites
   }
 }
