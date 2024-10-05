@@ -4,6 +4,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
+import { CheminotModule } from './common/api-helper/cheminot/cheminot.module';
 import { EtsModule } from './common/api-helper/ets/ets.module';
 import { PdfModule } from './common/website-helper/pdf/pdf.module';
 import config from './config/configuration';
@@ -37,6 +38,7 @@ import { SessionModule } from './session/session.module';
     ),
     HttpModule,
     PrismaModule,
+    CheminotModule,
     EtsModule,
     PdfModule,
 

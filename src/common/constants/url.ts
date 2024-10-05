@@ -29,3 +29,9 @@ export const getHorairePdfUrl = (
 ): string => {
   return `https://horaire.etsmtl.ca/HorairePublication/HorairePublication_${sessionCode}_${programCode}.pdf`;
 };
+
+/*
+ * Cheminot
+ */
+export const CHEMINOT_JAR_URL = 'https://CheminotJWS.etsmtl.ca/ChemiNotC.jar';
+export const CHEMINEMENTS_TXT_PATH = 'ressources/Cheminements.txt';
