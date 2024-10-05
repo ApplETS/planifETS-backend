@@ -22,6 +22,9 @@ export class ProgramsProcessor extends WorkerHost {
       case 'upsert-programs':
         await this.processPrograms(job);
         break;
+      case 'courses-availability':
+        //TOOD: Implement
+        break;
       default:
         this.logger.error('Unknown job name: ' + job.name);
     }

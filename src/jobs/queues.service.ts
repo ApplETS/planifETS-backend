@@ -50,16 +50,9 @@ export class QueuesService implements OnModuleInit, OnModuleDestroy {
 
   private async processCourses() {
     try {
-      const upsertJob = await this.coursesQueue.add('courses-upsert', {});
+      const upsertJob = await this.coursesQueue.add('upsert-courses', {});
       await upsertJob.waitUntilFinished(this.coursesQueueEvents);
       this.logger.log('Upsert courses job completed');
-
-      const availabilityJob = await this.coursesQueue.add(
-        'courses-availability',
-        {},
-      );
-      await availabilityJob.waitUntilFinished(this.coursesQueueEvents);
-      this.logger.log('Courses availability job completed');
 
       const detailsJob = await this.coursesQueue.add(
         'courses-details-prerequisites',

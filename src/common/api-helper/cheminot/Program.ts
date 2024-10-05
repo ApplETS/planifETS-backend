@@ -1,7 +1,7 @@
 import { Course } from './Course';
 
 export class Program {
-  private horsProgramme: string[] = [];
+  private readonly horsProgramme: string[] = [];
 
   constructor(
     public code: string,

@@ -31,11 +31,8 @@ export class CoursesProcessor extends WorkerHost {
 
   public async process(job: Job): Promise<void> {
     switch (job.name) {
-      case 'courses-upsert':
+      case 'upsert-courses':
         await this.processCourses(job);
-        break;
-      case 'courses-availability':
-        //TOOD: Implement
         break;
       case 'courses-details-prerequisites':
         await this.syncCourseDetailsWithCheminotData(job);

@@ -13,9 +13,9 @@ import { Row } from './Row';
 export class PlanificationCoursService {
   private readonly BORDER_OFFSET = 0.124;
 
-  private courseCodeValidationPipe = new CourseCodeValidationPipe();
+  private readonly courseCodeValidationPipe = new CourseCodeValidationPipe();
 
-  constructor(private httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) {}
 
   public async parsePdfFromUrl(
     pdfUrl: string,

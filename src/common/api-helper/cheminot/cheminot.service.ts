@@ -6,7 +6,7 @@ import { Program } from './Program';
 
 @Injectable()
 export class CheminotService {
-  private programs: Program[] = [];
+  private readonly programs: Program[] = [];
 
   constructor(private readonly fileExtractionService: FileExtractionService) {}
 
