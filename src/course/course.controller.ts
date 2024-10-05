@@ -9,8 +9,8 @@ export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
   @Get(':id')
-  public getCourse(@Param() { id }: IdDto) {
-    return this.courseService.getCourse({ id: Number(id) });
+  public getCourse(@Param('id') { id }: IdDto) {
+    return this.courseService.getCourse({ id });
   }
 
   @Get()
