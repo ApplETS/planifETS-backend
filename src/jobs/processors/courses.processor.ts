@@ -17,7 +17,7 @@ import { QueuesEnum } from '../queues.enum';
 
 @Processor(QueuesEnum.COURSES)
 export class CoursesProcessor extends WorkerHost {
-  private logger = new Logger(CoursesProcessor.name);
+  private readonly logger = new Logger(CoursesProcessor.name);
 
   constructor(
     private readonly etsCourseService: EtsCourseService,

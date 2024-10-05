@@ -12,7 +12,7 @@ import { QueuesEnum } from './queues.enum';
 
 @Injectable()
 export class QueuesService implements OnModuleInit, OnModuleDestroy {
-  private logger = new Logger(QueuesService.name);
+  private readonly logger = new Logger(QueuesService.name);
 
   private programsQueueEvents!: QueueEvents;
   private coursesQueueEvents!: QueueEvents;

@@ -4,7 +4,7 @@ import path from 'path';
 
 @Injectable()
 export class FileUtil {
-  private logger = new Logger(FileUtil.name);
+  private readonly logger = new Logger(FileUtil.name);
 
   public writeDataToFile<T>(
     data: T,

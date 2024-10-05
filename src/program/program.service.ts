@@ -28,7 +28,7 @@ export type AllProgramIncludeCourseIdsAndPrerequisites = {
 export class ProgramService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private logger = new Logger(ProgramService.name);
+  private readonly logger = new Logger(ProgramService.name);
 
   public async getProgram(
     programWhereUniqueInput: Prisma.ProgramWhereUniqueInput,

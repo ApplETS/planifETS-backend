@@ -8,7 +8,7 @@ import { QueuesEnum } from '../queues.enum';
 
 @Processor(QueuesEnum.PROGRAMS)
 export class ProgramsProcessor extends WorkerHost {
-  private logger = new Logger(ProgramsProcessor.name);
+  private readonly logger = new Logger(ProgramsProcessor.name);
 
   constructor(
     private readonly etsProgramService: EtsProgramService,

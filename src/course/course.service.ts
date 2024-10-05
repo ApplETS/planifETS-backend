@@ -7,7 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class CourseService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private logger = new Logger(CourseService.name);
+  private readonly logger = new Logger(CourseService.name);
 
   public async getCourse(
     courseWhereUniqueInput: Prisma.CourseWhereUniqueInput,

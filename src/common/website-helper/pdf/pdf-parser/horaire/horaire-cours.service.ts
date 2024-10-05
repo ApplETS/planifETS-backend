@@ -16,7 +16,7 @@ export class HoraireCoursService {
 
   constructor(private httpService: HttpService) {}
 
-  private logger = new Logger(HoraireCoursService.name);
+  private readonly logger = new Logger(HoraireCoursService.name);
 
   public async parsePdfFromUrl(pdfUrl: string) {
     try {
