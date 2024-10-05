@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import PDFParser, { Output } from 'pdf2json';
 
 export class PdfParserUtil {
-  private static logger = new Logger(PdfParserUtil.name);
+  private static readonly logger = new Logger(PdfParserUtil.name);
 
   public static async parsePdfBuffer<T>(
     pdfBuffer: Buffer,

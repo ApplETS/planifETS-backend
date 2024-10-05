@@ -7,7 +7,8 @@ export class HoraireCours implements IHoraireCours {
   private static readonly TITLE_FONT_SIZE = 10.998999999999999;
   private static readonly COURS_X_AXIS = 0.551;
 
-  private static courseCodeValidationPipe = new CourseCodeValidationPipe();
+  private static readonly courseCodeValidationPipe =
+    new CourseCodeValidationPipe();
 
   constructor(
     public code: string = '',
