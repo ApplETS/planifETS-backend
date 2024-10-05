@@ -141,11 +141,15 @@ export class CoursesProcessor extends WorkerHost {
         continue;
       }
 
-      await this.handleProgramCourse(programDB, existingCourse, courseCheminot);
+      await this.handleProgramCourseUpsertion(
+        programDB,
+        existingCourse,
+        courseCheminot,
+      );
     }
   }
 
-  private async handleProgramCourse(
+  private async handleProgramCourseUpsertion(
     programDB: AllProgramIncludeCourseIdsAndPrerequisites,
     existingCourse: Course,
     courseCheminot: CourseCheminot,
@@ -169,9 +173,9 @@ export class CoursesProcessor extends WorkerHost {
       );
 
       if (hasChanges) {
-        programCourse.typicalSessionIndex = courseCheminot.session;
-        programCourse.type = courseCheminot.type;
-
+        this.logger.verbose(
+          `Updating ProgramCourse for courseId ${existingCourse.id} and programId ${programDB.id}`,
+        );
         await this.programCourseService.updateProgramCourse({
           where: {
             courseId_programId: {

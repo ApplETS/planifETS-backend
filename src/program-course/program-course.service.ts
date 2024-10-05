@@ -7,7 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ProgramCourseService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private logger = new Logger(ProgramCourseService.name);
+  private readonly logger = new Logger(ProgramCourseService.name);
 
   public async getProgramCourse(
     programCourseWhereUniqueInput: Prisma.ProgramCourseWhereUniqueInput,
@@ -40,6 +40,18 @@ export class ProgramCourseService {
   public async createProgramCourse(
     data: Prisma.ProgramCourseCreateInput,
   ): Promise<ProgramCourse | undefined> {
+    const existingProgramCourse = await this.prisma.programCourse.findFirst({
+      where: {
+        programId: data.program.connect?.id,
+        courseId: data.course.connect?.id,
+      },
+    });
+
+    if (existingProgramCourse) {
+      this.logger.error('ProgramCourse already exists', existingProgramCourse);
+      return undefined;
+    }
+
     this.logger.verbose('createProgramCourse', data);
 
     return this.prisma.programCourse.create({
@@ -50,15 +62,27 @@ export class ProgramCourseService {
   public async updateProgramCourse(params: {
     where: Prisma.ProgramCourseWhereUniqueInput;
     data: Prisma.ProgramCourseUpdateInput;
-  }): Promise<ProgramCourse> {
+  }): Promise<ProgramCourse | undefined> {
     const { data, where } = params;
+    const existingProgramCourse = await this.prisma.programCourse.findUnique({
+      where,
+    });
 
-    this.logger.verbose('Updating ProgramCourse', data, where);
+    if (!existingProgramCourse) {
+      this.logger.error(
+        'ProgramCourse not found!',
+        'Where: ',
+        where,
+        'Data: ',
+        data,
+      );
+      return undefined;
+    }
+
+    this.logger.verbose('Updating existing ProgramCourse', { data, where });
+
     return this.prisma.programCourse.update({
-      data: {
-        ...data,
-        updatedAt: new Date(),
-      },
+      data,
       where,
     });
   }
@@ -84,26 +108,29 @@ export class ProgramCourseService {
     programId: number,
     courseId: number,
   ): boolean {
-    const normalizedExistingProgramCourse = {
-      typicalSessionIndex: existingProgramCourse.typicalSessionIndex,
-      type: existingProgramCourse.type,
-    };
+    const hasTypicalSessionIndexChanged =
+      newCourseData.typicalSessionIndex !==
+      existingProgramCourse.typicalSessionIndex;
 
-    const normalizedNewProgramCourseData = {
-      typicalSessionIndex: newCourseData.typicalSessionIndex,
-      type: newCourseData.type,
-    };
+    const hasTypeChanged = newCourseData.type !== existingProgramCourse.type;
 
-    this.logger.verbose('hasProgramCourseChanged', {
-      cheminotData: normalizedExistingProgramCourse,
-      databaseData: normalizedNewProgramCourseData,
-      programId,
-      courseId,
-    });
+    const hasChanged = hasTypicalSessionIndexChanged || hasTypeChanged;
 
-    return (
-      JSON.stringify(normalizedExistingProgramCourse) !==
-      JSON.stringify(normalizedNewProgramCourseData)
-    );
+    if (hasChanged) {
+      this.logger.verbose('ProgramCourse has changed', {
+        existingData: existingProgramCourse,
+        newData: newCourseData,
+        changes: {
+          typicalSessionIndex: hasTypicalSessionIndexChanged
+            ? 'has changed'
+            : 'no changes',
+          type: hasTypeChanged ? 'has changed' : 'no changes',
+        },
+        programId,
+        courseId,
+      });
+    }
+
+    return hasChanged;
   }
 }

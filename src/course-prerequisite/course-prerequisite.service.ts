@@ -78,19 +78,20 @@ export class CoursePrerequisiteService {
     );
   }
 
-  public async deleteCoursePrerequisite(
-    where: Prisma.CoursePrerequisiteWhereUniqueInput,
-  ): Promise<CoursePrerequisite> {
-    this.logger.verbose('deleteCoursePrerequisite', where);
+  public async deletePrerequisitesForProgramCourse(
+    programId: number,
+    courseId: number,
+  ): Promise<Prisma.BatchPayload> {
+    this.logger.verbose('deletePrerequisitesForProgramCourse', {
+      programId,
+      courseId,
+    });
 
-    return this.prisma.coursePrerequisite.delete({
-      where,
+    return this.prisma.coursePrerequisite.deleteMany({
+      where: {
+        programId: programId,
+        courseId: courseId,
+      },
     });
   }
-  //FIXME: It should delete the prerequisites for a specific course in a program.
-  // public async deletePrerequisitesForProgramCourse(
-  //   programId: number,
-  // ): Promise<Prisma.BatchPayload> {
-  //   this.logger.verbose('deletePrerequisitesForProgramCourse', programId);
-  // }
 }
