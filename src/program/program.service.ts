@@ -12,7 +12,7 @@ export class ProgramService {
   public async getProgram(
     programWhereUniqueInput: Prisma.ProgramWhereUniqueInput,
   ): Promise<Program | null> {
-    this.logger.log('getProgram', programWhereUniqueInput);
+    this.logger.verbose('getProgram', programWhereUniqueInput);
 
     return this.prisma.program.findUnique({
       where: programWhereUniqueInput,
@@ -20,7 +20,7 @@ export class ProgramService {
   }
 
   public async getAllPrograms(): Promise<Program[]> {
-    this.logger.log('getAllPrograms');
+    this.logger.verbose('getAllPrograms');
 
     return this.prisma.program.findMany();
   }
@@ -28,7 +28,7 @@ export class ProgramService {
   public async createProgram(
     data: Prisma.ProgramCreateInput,
   ): Promise<Program> {
-    this.logger.log('createProgram', data);
+    this.logger.verbose('createProgram', data);
 
     return this.prisma.program.create({
       data,
@@ -38,7 +38,7 @@ export class ProgramService {
   public async upsertProgram(
     data: Prisma.ProgramCreateInput,
   ): Promise<Program> {
-    this.logger.log('upsertProgram', data);
+    this.logger.verbose('upsertProgram: ' + data.code);
 
     return this.prisma.program.upsert({
       where: { id: data.id },
@@ -69,7 +69,7 @@ export class ProgramService {
   }
 
   public async createProgramTypes(types: ProgramType[]): Promise<void> {
-    this.logger.log('createProgramTypes', types);
+    this.logger.verbose('createProgramTypes', types);
 
     await Promise.all(
       types.map((type) =>
@@ -88,7 +88,7 @@ export class ProgramService {
   public async deleteProgram(
     where: Prisma.ProgramWhereUniqueInput,
   ): Promise<Program> {
-    this.logger.log('deleteProgram', JSON.stringify(where));
+    this.logger.verbose('deleteProgram', JSON.stringify(where));
     return this.prisma.program.delete({
       where,
     });

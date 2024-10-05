@@ -1,6 +1,7 @@
 import { createBullBoard } from '@bull-board/api';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 import { ExpressAdapter } from '@bull-board/express';
+import { LogLevel } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Queue } from 'bullmq';
@@ -13,6 +14,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalFilters(new HttpExceptionFilter());
+
+  //Log levels
+  if (process.env.LOG_LEVELS) {
+    app.useLogger(process.env.LOG_LEVELS.split(',') as LogLevel[]);
+  } else {
+    app.useLogger(['error', 'warn', 'log']);
+  }
 
   //Swagger
   const swaggerConfig = new DocumentBuilder()
