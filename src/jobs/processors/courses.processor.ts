@@ -9,7 +9,7 @@ import { Program as ProgramCheminot } from '../../common/api-helper/cheminot/Pro
 import { EtsCourseService } from '../../common/api-helper/ets/course/ets-course.service';
 import { CourseService } from '../../course/course.service';
 import {
-  AllProgramIncludeCourseIdsAndPrerequisites,
+  ProgramIncludeCourseIdsAndPrerequisitesType,
   ProgramService,
 } from '../../program/program.service';
 import { ProgramCourseService } from '../../program-course/program-course.service';
@@ -104,7 +104,7 @@ export class CoursesProcessor extends WorkerHost {
   }
 
   private async processProgram(
-    programDB: AllProgramIncludeCourseIdsAndPrerequisites,
+    programDB: ProgramIncludeCourseIdsAndPrerequisitesType,
     programsCheminot: ProgramCheminot[],
   ): Promise<void> {
     console.debug(`Processing program: ${programDB.code}`);
@@ -126,7 +126,7 @@ export class CoursesProcessor extends WorkerHost {
   }
 
   private async processCheminotCourses(
-    programDB: AllProgramIncludeCourseIdsAndPrerequisites,
+    programDB: ProgramIncludeCourseIdsAndPrerequisitesType,
     programCheminot: ProgramCheminot,
   ): Promise<void> {
     for (const courseCheminot of programCheminot.courses) {
@@ -147,7 +147,7 @@ export class CoursesProcessor extends WorkerHost {
   }
 
   private async handleProgramCourseUpsertion(
-    programDB: AllProgramIncludeCourseIdsAndPrerequisites,
+    programDB: ProgramIncludeCourseIdsAndPrerequisitesType,
     existingCourse: Course,
     courseCheminot: CourseCheminot,
   ): Promise<void> {

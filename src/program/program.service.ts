@@ -3,7 +3,7 @@ import { Prisma, Program, ProgramType } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 
-export type AllProgramIncludeCourseIdsAndPrerequisites = {
+export type ProgramIncludeCourseIdsAndPrerequisitesType = {
   id: number;
   code: string | null;
   courses: {
@@ -47,7 +47,7 @@ export class ProgramService {
   }
 
   public async getAllProgramsWithCourses(): Promise<
-    AllProgramIncludeCourseIdsAndPrerequisites[]
+    ProgramIncludeCourseIdsAndPrerequisitesType[]
   > {
     const data = await this.prisma.program.findMany({
       select: {
