@@ -1,11 +1,11 @@
 import { Course } from './Course';
 
 export class Program {
-  private horsProgramme: string[] = [];
+  private readonly horsProgramme: string[] = [];
 
   constructor(
-    private code: number,
-    private courses: Course[],
+    public code: string,
+    public courses: Course[],
   ) {}
 
   public static isProgramLine(line: string): boolean {
@@ -20,7 +20,7 @@ export class Program {
       return null;
     }
 
-    const code = parseInt(parts[1], 10);
+    const code = parts[1];
     return new Program(code, []);
   }
 

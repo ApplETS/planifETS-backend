@@ -14,9 +14,9 @@ export class HoraireCoursService {
   private readonly END_PAGE_CONTENT_Y_AXIS = 59;
   private readonly PREALABLE_X_AXIS = 29.86;
 
-  constructor(private httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) {}
 
-  private logger = new Logger(HoraireCoursService.name);
+  private readonly logger = new Logger(HoraireCoursService.name);
 
   public async parsePdfFromUrl(pdfUrl: string) {
     try {

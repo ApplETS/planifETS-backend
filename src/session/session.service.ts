@@ -7,7 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class SessionService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private logger = new Logger(SessionService.name);
+  private readonly logger = new Logger(SessionService.name);
 
   public async getSession(id: string): Promise<Session | null> {
     this.logger.log('getSession', id);

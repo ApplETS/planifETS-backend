@@ -18,8 +18,8 @@ import { ICoursePlanification } from './pdf-parser/planification/planification-c
 @Controller('pdf')
 export class PdfController {
   constructor(
-    private horaireCoursService: HoraireCoursService,
-    private planificationCoursService: PlanificationCoursService,
+    private readonly horaireCoursService: HoraireCoursService,
+    private readonly planificationCoursService: PlanificationCoursService,
   ) {}
 
   @Get('horaire-cours')

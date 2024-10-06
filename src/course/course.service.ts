@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Course, Prisma, Session } from '@prisma/client';
+import { Course, Prisma } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -7,28 +7,41 @@ import { PrismaService } from '../prisma/prisma.service';
 export class CourseService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private logger = new Logger(CourseService.name);
+  private readonly logger = new Logger(CourseService.name);
 
   public async getCourse(
     courseWhereUniqueInput: Prisma.CourseWhereUniqueInput,
   ): Promise<Course | null> {
-    this.logger.log('courseById', courseWhereUniqueInput);
-
     const course = await this.prisma.course.findUnique({
       where: courseWhereUniqueInput,
     });
 
+    if (!course) {
+      this.logger.warn(
+        `Course code "${courseWhereUniqueInput.code}" not found`,
+      );
+      return null;
+    }
     return course;
+  }
+  private async getCoursesByIds(
+    courseIds: number[],
+  ): Promise<Map<number, Course>> {
+    const existingCourses = await this.prisma.course.findMany({
+      where: { id: { in: courseIds } },
+    });
+
+    return new Map(existingCourses.map((course) => [course.id, course]));
   }
 
   public async getAllCourses() {
-    this.logger.log('getAllCourses');
+    this.logger.verbose('getAllCourses');
 
     return this.prisma.course.findMany();
   }
 
   public async getCoursesByProgram(programId: number): Promise<Course[]> {
-    this.logger.log('getCoursesByProgram', programId);
+    this.logger.verbose('getCoursesByProgram', programId);
 
     return this.prisma.course.findMany({
       where: {
@@ -41,86 +54,111 @@ export class CourseService {
     });
   }
 
-  public async getCourseAvailability(
-    courseId: number,
-  ): Promise<{ session: Session; available: boolean }[]> {
-    this.logger.log('getCourseAvailability', courseId);
+  public async createCourse(data: Prisma.CourseCreateInput): Promise<Course> {
+    this.logger.verbose('Creating new course', data.code);
 
-    const courseInstances = await this.prisma.courseInstance.findMany({
-      where: { courseId },
-      include: {
-        session: true,
+    return this.prisma.course.create({
+      data: {
+        ...data,
+        createdAt: new Date(),
       },
     });
-
-    const sessionAvailability = courseInstances.map((instance) => ({
-      session: instance.session,
-      available: true,
-    }));
-
-    return sessionAvailability;
-  }
-
-  public async createCourse(data: Prisma.CourseCreateInput): Promise<Course> {
-    this.logger.log('createCourse', data);
-
-    const course = await this.prisma.course.create({
-      data,
-    });
-
-    return course;
   }
 
   public async updateCourse(params: {
     where: Prisma.CourseWhereUniqueInput;
     data: Prisma.CourseUpdateInput;
   }): Promise<Course> {
-    this.logger.log('updateCourse', params);
-
     const { data, where } = params;
+
+    this.logger.verbose('Updating course', data.code);
     return this.prisma.course.update({
-      data,
+      data: {
+        ...data,
+        updatedAt: new Date(),
+      },
       where,
     });
-  }
-
-  private async upsertCourse(
-    courseData: Prisma.CourseCreateInput,
-  ): Promise<Course> {
-    const existingCourse = await this.prisma.course.findUnique({
-      where: { id: courseData.id },
-    });
-
-    if (existingCourse) {
-      if (JSON.stringify(existingCourse) !== JSON.stringify(courseData)) {
-        return this.updateCourse({
-          where: { id: courseData.id },
-          data: courseData,
-        });
-      }
-
-      return existingCourse;
-    }
-    return this.createCourse(courseData);
   }
 
   public async upsertCourses(
     data: Prisma.CourseCreateInput[],
   ): Promise<Course[]> {
-    this.logger.log('upsertCourses', data);
+    this.logger.verbose('upsertCourses');
 
-    //TODO: Use "findMany" instead of "findUnique". remove upsertCourse function and only use this function only
-    const upsertedCourses = await Promise.all(
-      data.map((courseData) => this.upsertCourse(courseData)),
+    const existingCourses = await this.getCoursesByIds(
+      data.map((course) => course.id),
     );
+    const operations = this.prepareUpsertCourses(data, existingCourses);
 
-    return upsertedCourses;
+    return Promise.all([...operations.updates, ...operations.creations]);
+  }
+
+  private prepareUpsertCourses(
+    data: Prisma.CourseCreateInput[],
+    existingCourses: Map<number, Course>,
+  ): {
+    updates: Array<Promise<Course>>;
+    creations: Array<Promise<Course>>;
+  } {
+    const updates: Array<Promise<Course>> = [];
+    const creations: Array<Promise<Course>> = [];
+
+    data.forEach((courseData) => {
+      const existingCourse = existingCourses.get(courseData.id);
+
+      if (existingCourse) {
+        const hasChanges = this.hasCourseChanged(existingCourse, courseData);
+        if (hasChanges) {
+          updates.push(
+            this.updateCourse({
+              where: { id: courseData.id },
+              data: courseData,
+            }),
+          );
+        } else {
+          updates.push(Promise.resolve(existingCourse));
+        }
+      } else {
+        creations.push(this.createCourse(courseData));
+      }
+    });
+
+    return { updates, creations };
+  }
+
+  private hasCourseChanged(
+    existingCourse: Course,
+    courseData: Prisma.CourseCreateInput,
+  ): boolean {
+    const normalizedExistingCourse = {
+      id: existingCourse.id,
+      code: existingCourse.code,
+      title: existingCourse.title,
+      description: existingCourse.description,
+      credits: existingCourse.credits,
+      cycle: existingCourse.cycle,
+    };
+
+    const normalizedCourseData = {
+      id: courseData.id,
+      code: courseData.code,
+      title: courseData.title,
+      description: courseData.description,
+      credits: courseData.credits,
+      cycle: courseData.cycle,
+    };
+
+    return (
+      JSON.stringify(normalizedExistingCourse) !==
+      JSON.stringify(normalizedCourseData)
+    );
   }
 
   public async deleteCourse(
     where: Prisma.CourseWhereUniqueInput,
   ): Promise<Course> {
-    this.logger.log('deleteCourse', where);
+    this.logger.verbose('deleteCourse', where);
 
     return this.prisma.course.delete({
       where,

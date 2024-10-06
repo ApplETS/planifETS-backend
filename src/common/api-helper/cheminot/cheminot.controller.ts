@@ -23,9 +23,6 @@ export class CheminotController {
     summary: 'Parse the programs and courses from the cheminements.txt file',
   })
   public async parseProgramsAndCoursesFromCheminotTxtFile() {
-    await this.cheminotService.loadPrograms();
-    const data = this.cheminotService.getPrograms();
-
-    return data;
+    return this.cheminotService.parseProgramsAndCoursesCheminot();
   }
 }

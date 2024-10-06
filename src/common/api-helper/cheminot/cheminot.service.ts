@@ -6,9 +6,14 @@ import { Program } from './Program';
 
 @Injectable()
 export class CheminotService {
-  private programs: Program[] = [];
+  private readonly programs: Program[] = [];
 
   constructor(private readonly fileExtractionService: FileExtractionService) {}
+
+  public async parseProgramsAndCoursesCheminot() {
+    await this.loadPrograms();
+    return this.getPrograms();
+  }
 
   public async loadPrograms() {
     const fileContent =

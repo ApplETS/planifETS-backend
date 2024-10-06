@@ -3,8 +3,8 @@ import { ApiTags } from '@nestjs/swagger';
 
 import {
   EtsCourseService,
-  IEtsCourse,
-  IEtsCoursesData,
+  ICourseEtsAPI,
+  ICourseWithCredits,
 } from './ets-course.service';
 
 @ApiTags('ÉTS API')
@@ -13,12 +13,12 @@ export class EtsCourseController {
   constructor(private readonly etsCourseService: EtsCourseService) {}
 
   @Get()
-  public fetchAllCourses(): Promise<IEtsCoursesData[]> {
-    return this.etsCourseService.fetchAllCourses();
+  public fetchAllCourses(): Promise<ICourseWithCredits[]> {
+    return this.etsCourseService.fetchAllCoursesWithCredits();
   }
 
   @Get(':id')
-  public fetchCoursesById(@Param('id') id: string): Promise<IEtsCourse[]> {
+  public fetchCoursesById(@Param('id') id: string): Promise<ICourseEtsAPI[]> {
     if (!id) {
       throw new Error('The id parameter is required');
     }

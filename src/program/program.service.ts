@@ -3,11 +3,32 @@ import { Prisma, Program, ProgramType } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 
+export type ProgramIncludeCourseIdsAndPrerequisitesType = {
+  id: number;
+  code: string | null;
+  courses: {
+    course: {
+      id: number;
+      code: string;
+    };
+    typicalSessionIndex: number | null;
+    type: string | null;
+    prerequisites: {
+      prerequisite: {
+        course: {
+          id: number;
+          code: string;
+        };
+      };
+    }[];
+  }[];
+};
+
 @Injectable()
 export class ProgramService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private logger = new Logger(ProgramService.name);
+  private readonly logger = new Logger(ProgramService.name);
 
   public async getProgram(
     programWhereUniqueInput: Prisma.ProgramWhereUniqueInput,
@@ -23,6 +44,47 @@ export class ProgramService {
     this.logger.verbose('getAllPrograms');
 
     return this.prisma.program.findMany();
+  }
+
+  public async getAllProgramsWithCourses(): Promise<
+    ProgramIncludeCourseIdsAndPrerequisitesType[]
+  > {
+    const data = await this.prisma.program.findMany({
+      select: {
+        id: true,
+        code: true,
+        courses: {
+          select: {
+            course: {
+              select: {
+                id: true,
+                code: true,
+              },
+            },
+            typicalSessionIndex: true,
+            type: true,
+            prerequisites: {
+              select: {
+                prerequisite: {
+                  select: {
+                    course: {
+                      select: {
+                        id: true,
+                        code: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    this.logger.verbose('getAllProgramsWithCourses', JSON.stringify(data));
+
+    return data;
   }
 
   public async createProgram(

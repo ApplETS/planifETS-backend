@@ -8,7 +8,7 @@ import { QueuesEnum } from '../queues.enum';
 
 @Processor(QueuesEnum.PROGRAMS)
 export class ProgramsProcessor extends WorkerHost {
-  private logger = new Logger(ProgramsProcessor.name);
+  private readonly logger = new Logger(ProgramsProcessor.name);
 
   constructor(
     private readonly etsProgramService: EtsProgramService,
@@ -21,6 +21,9 @@ export class ProgramsProcessor extends WorkerHost {
     switch (job.name) {
       case 'upsert-programs':
         await this.processPrograms(job);
+        break;
+      case 'courses-availability':
+        //TOOD: Implement
         break;
       default:
         this.logger.error('Unknown job name: ' + job.name);

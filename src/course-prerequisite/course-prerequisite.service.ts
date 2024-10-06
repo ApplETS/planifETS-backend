@@ -7,48 +7,59 @@ import { PrismaService } from '../prisma/prisma.service';
 export class CoursePrerequisiteService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private logger = new Logger(CoursePrerequisiteService.name);
+  private readonly logger = new Logger(CoursePrerequisiteService.name);
 
   public async getPrerequisites(data: Prisma.CoursePrerequisiteWhereInput) {
-    this.logger.log('coursePrerequisiteById', data);
+    this.logger.verbose('Fetching course prerequisites', data);
 
     return this.prisma.coursePrerequisite.findMany({
       where: data,
-      include: { prerequisite: true },
+      include: {
+        programCourse: true,
+        prerequisite: true,
+      },
     });
   }
 
   public async getAllCoursePrerequisites() {
-    this.logger.log('getAllCoursePrerequisites');
+    this.logger.verbose('Fetching all course prerequisites');
 
     return this.prisma.coursePrerequisite.findMany({
-      include: { prerequisite: true },
+      include: {
+        programCourse: true,
+        prerequisite: true,
+      },
     });
   }
 
-  private async createCoursePrerequisite(
+  private async createPrerequisite(
     data: Prisma.CoursePrerequisiteCreateInput,
   ): Promise<CoursePrerequisite> {
-    this.logger.log('createCoursePrerequisite', data);
+    this.logger.verbose('createCoursePrerequisite', data);
 
-    const courseId = data.course.connect?.id;
-    const prerequisiteId = data.prerequisite.connect?.id;
+    const courseId = data.programCourse.connect?.courseId as number;
+    const programId = data.programCourse.connect?.programId as number;
+    const prerequisiteId = data.prerequisite.connect?.courseId as number;
 
-    if (!courseId || !prerequisiteId) {
-      throw new Error('courseId and prerequisiteId must be provided.');
+    if (!courseId || !programId || !prerequisiteId) {
+      this.logger.error(
+        'courseId, programId, and prerequisiteId must be provided.',
+      );
     }
 
     const existingPrerequisite =
       await this.prisma.coursePrerequisite.findUnique({
         where: {
-          courseId_prerequisiteId: {
+          courseId_programId_prerequisiteId: {
             courseId,
+            programId,
             prerequisiteId,
           },
         },
       });
 
     if (existingPrerequisite) {
+      this.logger.verbose('Prerequisite already exists', existingPrerequisite);
       return existingPrerequisite;
     }
 
@@ -57,27 +68,30 @@ export class CoursePrerequisiteService {
     });
   }
 
-  public async createCoursePrerequisites(
+  public async createProgramCoursePrerequisites(
     data: Prisma.CoursePrerequisiteCreateInput[],
   ): Promise<CoursePrerequisite[]> {
-    this.logger.log('ensurePrerequisitesExist', data);
+    this.logger.verbose('ensurePrerequisitesExist', data);
 
-    const ensuredPrerequisites = await Promise.all(
-      data.map((prerequisiteData) =>
-        this.createCoursePrerequisite(prerequisiteData),
-      ),
+    return Promise.all(
+      data.map((prerequisiteData) => this.createPrerequisite(prerequisiteData)),
     );
-
-    return ensuredPrerequisites;
   }
 
-  public async deleteCoursePrerequisite(
-    where: Prisma.CoursePrerequisiteWhereUniqueInput,
-  ): Promise<CoursePrerequisite> {
-    this.logger.log('deleteCoursePrerequisite', where);
+  public async deletePrerequisitesForProgramCourse(
+    programId: number,
+    courseId: number,
+  ): Promise<Prisma.BatchPayload> {
+    this.logger.verbose('deletePrerequisitesForProgramCourse', {
+      programId,
+      courseId,
+    });
 
-    return this.prisma.coursePrerequisite.delete({
-      where,
+    return this.prisma.coursePrerequisite.deleteMany({
+      where: {
+        programId: programId,
+        courseId: courseId,
+      },
     });
   }
 }
