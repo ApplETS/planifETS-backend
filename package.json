@@ -103,7 +103,11 @@
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s",
-      "!dist/**"
+      "!dist/**",
+      "!test/**",
+      "!coverage/**",
+      "!src/**/dto/*.ts",
+      "!./.eslintrc.js"
     ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node"
