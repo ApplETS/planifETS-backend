@@ -33,26 +33,31 @@ export class Course {
 
     // Handle "CHOIX" type courses
     if (parts[0] === 'CHOIX') {
+      const mainCourseCode = parts[3].trim().toUpperCase();
       const alternatives = parts[10]
         .split(' ')
         .map((course) => course.trim().toUpperCase());
+
+      // Include the main course in the alternatives list
+      const allAlternatives = [mainCourseCode, ...alternatives];
+
       return new Course(
         parts[0],
         parseInt(parts[1], 10),
-        parts[3].trim().toUpperCase(),
+        mainCourseCode, // Main course code
         parts[4].trim(),
         parts[5].trim(),
         parts[6].trim(),
         parts[7].trim(),
         parts[8] === 'B',
         Course.parsePrerequisites(parts[9]),
-        alternatives,
+        allAlternatives,
       );
     }
 
-    // If the line has 12 parts, it's an internship, so shift the first part
+    // Handle regular courses (non-CHOIX)
     if (parts.length === this.INTERNSHIP_LINE_PARTS_COUNT) {
-      parts.shift();
+      parts.shift(); // If the line has 12 parts, it's an internship
     }
 
     if (parts.length < this.COURSE_LINE_PARTS_COUNT - 1) {

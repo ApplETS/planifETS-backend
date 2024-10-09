@@ -6,6 +6,7 @@ export class Program {
   constructor(
     public code: string,
     public courses: Course[],
+    public choix?: Course[],
   ) {}
 
   public static isProgramLine(line: string): boolean {
@@ -33,7 +34,18 @@ export class Program {
   }
 
   public addCourse(course: Course) {
-    this.courses.push(course);
+    if (course.type === 'CHOIX') {
+      this.addChoixCourse(course);
+    } else {
+      this.courses.push(course);
+    }
+  }
+
+  private addChoixCourse(course: Course) {
+    if (!this.choix) {
+      this.choix = [];
+    }
+    this.choix.push(course);
   }
 
   public addHorsProgrammeCourse(courseCode: string) {

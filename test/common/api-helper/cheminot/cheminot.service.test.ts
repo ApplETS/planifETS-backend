@@ -101,10 +101,11 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     await service.parseProgramsAndCoursesCheminot();
 
     const programs = service.getPrograms();
-    const firstProgram: Program = programs[0]; //GOL program 7095
+    const firstProgram: Program = programs[0]; // GOL program 7095
 
-    const choixCourse = firstProgram.courses.find(
-      (course) => course.code === 'ENT201',
+    // Assuming the 'CHOIX' courses are stored in the 'choix' array
+    const choixCourse = firstProgram.choix?.find(
+      (course) => course.code === 'ENT201', // Find the main course from CHOIX
     );
 
     expect(choixCourse).toBeDefined();
@@ -117,7 +118,11 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     expect(choixCourse?.level).toBe('B');
     expect(choixCourse?.mandatory).toBe(false);
     expect(choixCourse?.prerequisites).toEqual([]);
-    expect(choixCourse?.alternatives).toEqual(['ENT202', 'ENT601', 'ING500']);
+
+    // Now the alternatives should include the main course code as well
+    const expectedAlternatives = ['ENT201', 'ENT202', 'ENT601', 'ING500'];
+
+    expect(choixCourse?.alternatives).toEqual(expectedAlternatives);
   });
 
   it('should correctly parse the last program', async () => {
