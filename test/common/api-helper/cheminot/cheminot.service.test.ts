@@ -153,15 +153,13 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     // ATE075,
     // ATE085,
 
-    //FIXME: This test should be fixed to match the actual courses in the last program (need to fix this for all non-BAC programs)
-    //See issue: https://github.com/ApplETS/planifETS-backend/issues/41
     expect(lastProgram.code).toBe('9159');
-    // expect(lastProgram.courses.length).toBeGreaterThan(0);
+    expect(lastProgram.courses.length).toBeGreaterThan(0);
 
-    // expect(expectedCourses).toEqual(parsedCourses);
+    expect(expectedCourses).toEqual(parsedCourses);
 
-    // const horsProgrammeCourses = lastProgram.getHorsProgramme();
-    // expect(horsProgrammeCourses).toEqual(['ATE075,', 'ATE085,']);
+    const horsProgrammeCourses = lastProgram.getHorsProgramme();
+    expect(horsProgrammeCourses).toEqual(['ATE075,', 'ATE085,']);
   });
 
   it('should correctly parse courses with prerequisites', async () => {

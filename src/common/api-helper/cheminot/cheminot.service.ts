@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
+import { CourseCodeValidationPipe } from '../../pipes/models/course/course-code-validation-pipe';
 import { Course } from './Course';
 import { FileExtractionService } from './file-extraction.service';
 import { Program } from './Program';
@@ -7,6 +8,7 @@ import { Program } from './Program';
 @Injectable()
 export class CheminotService {
   private readonly programs: Program[] = [];
+  private readonly courseCodeValidationPipe = new CourseCodeValidationPipe();
 
   constructor(private readonly fileExtractionService: FileExtractionService) {}
 
@@ -42,6 +44,8 @@ export class CheminotService {
         }
         currentProgram = this.handleProgramLine(line, currentProgram);
         skipSection = false; // Reset skip section when a new program starts
+      } else if (this.isCourseList(line) && currentProgram) {
+        this.handleNonBacCourseList(line, currentProgram);
       } else if (this.isSectionToSkip(line)) {
         skipSection = true; // Start skipping section
       } else if (line.startsWith('.HORS-PROGRAMME')) {
@@ -63,6 +67,24 @@ export class CheminotService {
       line.startsWith('.PROJETS') ||
       line.startsWith('.PROFILS')
     );
+  }
+
+  private isCourseList(line: string): boolean {
+    const courseCodes = line.split(',').map((code) => code.trim());
+
+    return courseCodes.every((code) =>
+      this.courseCodeValidationPipe.transform(code),
+    );
+  }
+
+  // Example of a non-BAC course line: "ATE800, GES815, GES816, GES817"
+  private handleNonBacCourseList(line: string, currentProgram: Program) {
+    const courseCodes = line.split(',').map((code) => code.trim());
+
+    courseCodes.forEach((code) => {
+      const newCourse = new Course('', 1, code, '', '', '', true);
+      currentProgram.addCourse(newCourse);
+    });
   }
 
   private handleProgramLine(
