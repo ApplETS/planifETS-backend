@@ -121,7 +121,7 @@ export class CheminotService {
         continue;
       }
 
-      currentProgram.addHorsProgrammeCourse(line);
+      currentProgram.addHorsProgrammeCourse(line.replace(/,$/, '').trim());
     }
   }
 

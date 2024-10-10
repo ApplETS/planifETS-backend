@@ -159,7 +159,7 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     expect(expectedCourses).toEqual(parsedCourses);
 
     const horsProgrammeCourses = lastProgram.getHorsProgramme();
-    expect(horsProgrammeCourses).toEqual(['ATE075,', 'ATE085,']);
+    expect(horsProgrammeCourses).toEqual(['ATE075', 'ATE085']);
   });
 
   it('should correctly parse courses with prerequisites', async () => {
