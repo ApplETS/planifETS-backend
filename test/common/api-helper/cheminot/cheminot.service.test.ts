@@ -223,7 +223,7 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     await service.parseProgramsAndCoursesCheminot();
 
     const programs = service.getPrograms();
-    const firstProgram = programs[0]; //GOL Program 7095
+    const firstProgram = programs[0]; // GOL Program 7095
 
     const courseWithoutPrerequisites = firstProgram.courses.find(
       (course) => course.code === 'PRE011',
@@ -236,9 +236,7 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     await service.parseProgramsAndCoursesCheminot();
 
     const programs = service.getPrograms();
-    const firstProgram: Program = programs[0]; // Assume MAT215 is in the first program
-
-    // Find the merged course (example: MAT215)
+    const firstProgram: Program = programs[0]; // GOL program 7095
     const mergedCourse = firstProgram.courses.find(
       (course) => course.code === 'MAT215',
     );
@@ -248,7 +246,6 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     expect(mergedCourse?.session).toBe(4);
     expect(mergedCourse?.code).toBe('MAT215');
 
-    // Define the expected prerequisites with profiles
     const expectedPrerequisites = [
       {
         profile: 'AD',
@@ -268,15 +265,57 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
       },
     ];
 
-    // Check that the course prerequisites match the expected structure
     expect(mergedCourse?.prerequisites).toEqual(
       expect.arrayContaining(expectedPrerequisites),
     );
-
-    // Check additional course properties
     expect(mergedCourse?.concentration).toBe('TC');
     expect(mergedCourse?.category).toBe('C');
     expect(mergedCourse?.level).toBe('B');
     expect(mergedCourse?.mandatory).toBe(true);
+  });
+
+  it('should merge duplicate course lines that have the same prerequisites', async () => {
+    // Parse the programs from the cheminot file
+    await service.parseProgramsAndCoursesCheminot();
+    const programs = service.getPrograms();
+
+    const firstProgram = programs[0]; // GOL program 7095
+
+    const mergedCourse = firstProgram.courses.find(
+      (course) => course.code === 'GOL301',
+    );
+
+    // Ensure the course exists
+    expect(mergedCourse).toBeDefined();
+    expect(mergedCourse?.type).toBe('TRONC');
+    expect(mergedCourse?.session).toBe(3);
+    expect(mergedCourse?.code).toBe('GOL301');
+    expect(mergedCourse?.concentration).toBe('TC');
+    expect(mergedCourse?.category).toBe('C');
+    expect(mergedCourse?.level).toBe('B');
+    expect(mergedCourse?.mandatory).toBe(true);
+
+    const expectedPrerequisites = [
+      {
+        profile: 'AD',
+        prerequisites: ['GOL201'],
+      },
+      {
+        profile: 'I',
+        prerequisites: ['GOL201'],
+      },
+      {
+        profile: 'R',
+        prerequisites: ['GOL201'],
+      },
+      {
+        profile: 'P',
+        prerequisites: ['GOL201'],
+      },
+    ];
+
+    expect(mergedCourse?.prerequisites).toEqual(
+      expect.arrayContaining(expectedPrerequisites),
+    );
   });
 });
