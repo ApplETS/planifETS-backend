@@ -11,13 +11,12 @@ export class Course {
     public type: string,
     public session: number,
     public code: string,
-    public profile: string,
     public concentration: string,
     public category: string,
     public level: string,
     public mandatory: boolean,
-    public prerequisites: string[],
-    public alternatives?: string[],
+    public prerequisites: { profile: string; prerequisites: string[] }[] = [],
+    public alternatives?: string[], // For CHOIX courses
   ) {}
 
   public static isCourseLine(line: string): boolean {
@@ -33,56 +32,47 @@ export class Course {
 
     // Handle "CHOIX" type courses
     if (parts[0] === 'CHOIX') {
+      const mainCourseCode = parts[3].trim().toUpperCase();
       const alternatives = parts[10]
         .split(' ')
         .map((course) => course.trim().toUpperCase());
+
       return new Course(
         parts[0],
         parseInt(parts[1], 10),
-        parts[3].trim().toUpperCase(),
-        parts[4].trim(),
+        mainCourseCode,
         parts[5].trim(),
         parts[6].trim(),
         parts[7].trim(),
         parts[8] === 'B',
-        Course.parsePrerequisites(parts[9]),
-        alternatives,
+        [], // CHOIX courses have no prerequisites
+        [mainCourseCode, ...alternatives],
       );
     }
 
-    // If the line has 12 parts, it's an internship, so shift the first part
-    if (parts.length === this.INTERNSHIP_LINE_PARTS_COUNT) {
-      parts.shift();
+    // Handle regular courses (PROFI, TRONC, etc.)
+    if (parts.length < this.COURSE_LINE_PARTS_COUNT) {
+      return null;
     }
-
-    if (parts.length < this.COURSE_LINE_PARTS_COUNT - 1) {
-      return null; // Not enough parts to form a valid course
-    }
-
-    // Trim all the parts
-    parts.forEach((part, i) => {
-      parts[i] = part.trim();
-    });
 
     const type = parts[0];
     const session = parseInt(parts[1], 10);
     const code = parts[3].toUpperCase();
-    // Validate the course code using the course code validation pipe
-    if (this.courseCodeValidationPipe.transform(code) === false) {
-      console.log('Invalid course code: ', code);
-    }
-    const profile = parts[4];
-    const concentration = parts[5];
-    const category = parts[6];
-    const level = parts[7];
+    const profile = parts[4].trim();
+    const concentration = parts[5].trim();
+    const category = parts[6].trim();
+    const level = parts[7].trim();
     const mandatory = parts[8] === 'B';
-    const prerequisites = Course.parsePrerequisites(parts[9]);
+    const prereqList = Course.parsePrerequisites(parts[9]);
+
+    // Only add non-empty prerequisites for the profile
+    const prerequisites =
+      prereqList.length > 0 ? [{ profile, prerequisites: prereqList }] : [];
 
     return new Course(
       type,
       session,
       code,
-      profile,
       concentration,
       category,
       level,
