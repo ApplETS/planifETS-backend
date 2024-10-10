@@ -34,7 +34,12 @@ export class CheminotService {
         continue;
       }
 
+      // Handle the start of a new program
       if (Program.isProgramLine(line)) {
+        if (currentProgram) {
+          // Push the current program before starting a new one
+          this.programs.push(currentProgram);
+        }
         currentProgram = this.handleProgramLine(line, currentProgram);
         skipSection = false; // Reset skip section when a new program starts
       } else if (this.isSectionToSkip(line)) {
@@ -65,9 +70,6 @@ export class CheminotService {
     currentProgram: Program | null,
   ): Program | null {
     const program = Program.parseProgramLine(line);
-    if (program && currentProgram) {
-      this.programs.push(currentProgram);
-    }
     return program || currentProgram;
   }
 
