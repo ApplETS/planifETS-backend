@@ -1,14 +1,17 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Worker, isMainThread } from 'worker_threads';
 import { join } from 'path';
-import { Cron, CronExpression  } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class JobsService {
   private readonly logger = new Logger(JobsService.name);
 
   private checkMainThread() {
-    this.logger.debug('Are we on the main thread?', isMainThread ? 'Yes' : 'No');
+    this.logger.debug(
+      'Are we on the main thread?',
+      isMainThread ? 'Yes' : 'No',
+    );
   }
 
   private runWorker(serviceName: string, methodName: string): Promise<any> {
@@ -45,7 +48,10 @@ export class JobsService {
       await Promise.all([
         this.runWorker('ProgramsJobService', 'processPrograms'),
         this.runWorker('CoursesJobService', 'processCourses'),
-        this.runWorker('CoursesJobService', 'syncCourseDetailsWithCheminotData'),
+        this.runWorker(
+          'CoursesJobService',
+          'syncCourseDetailsWithCheminotData',
+        ),
       ]);
       this.logger.log('All jobs completed successfully!');
     } catch (error) {

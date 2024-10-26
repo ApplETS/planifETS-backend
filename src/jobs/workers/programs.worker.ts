@@ -13,13 +13,16 @@ export class ProgramsJobService {
 
   public async processPrograms(): Promise<void> {
     this.logger.log('Processing programs...');
-    const { programs, types } = await this.etsProgramService.fetchAllProgramsFromEtsAPI();
+    const { programs, types } =
+      await this.etsProgramService.fetchAllProgramsFromEtsAPI();
 
     if (!programs.length || !types.length) {
       throw new Error('No programs or types fetched.');
     }
 
-    this.logger.log(`${types.length} types of programs and ${programs.length} programs fetched.`);
+    this.logger.log(
+      `${types.length} types of programs and ${programs.length} programs fetched.`,
+    );
     await this.programService.createProgramTypes(types);
     await this.programService.upsertPrograms(programs);
   }

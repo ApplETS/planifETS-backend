@@ -38,7 +38,9 @@ interface ServiceInstance {
     const serviceInstance = appContext.get(ServiceClass) as ServiceInstance;
 
     if (!serviceInstance || typeof serviceInstance[methodName] !== 'function') {
-      throw new Error(`Method ${methodName} not found on service ${serviceName}`);
+      throw new Error(
+        `Method ${methodName} not found on service ${serviceName}`,
+      );
     }
 
     // Execute the specified method
@@ -48,17 +50,16 @@ interface ServiceInstance {
 
     await appContext.close();
     process.exit(0);
+  } catch (error) {
+    if (error instanceof Error) {
+      logger.error(`Error in JobRunnerWorker: ${error.message}`, error.stack);
+      parentPort?.postMessage(`Error: ${error.message}`);
+    } else {
+      logger.error(`Error in JobRunnerWorker: ${error}`);
+      parentPort?.postMessage(`Error: ${error}`);
+    }
 
-} catch (error) {
-  if (error instanceof Error) {
-    logger.error(`Error in JobRunnerWorker: ${error.message}`, error.stack);
-    parentPort?.postMessage(`Error: ${error.message}`);
-  } else {
-    logger.error(`Error in JobRunnerWorker: ${error}`);
-    parentPort?.postMessage(`Error: ${error}`);
+    await appContext?.close();
+    process.exit(1);
   }
-
-  await appContext?.close();
-  process.exit(1);
-}
 })();

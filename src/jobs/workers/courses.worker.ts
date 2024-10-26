@@ -5,7 +5,10 @@ import { Course as CourseCheminot } from '../../common/api-helper/cheminot/Cours
 import { Program as ProgramCheminot } from '../../common/api-helper/cheminot/Program';
 import { EtsCourseService } from '../../common/api-helper/ets/course/ets-course.service';
 import { CourseService } from '../../course/course.service';
-import { ProgramIncludeCourseIdsAndPrerequisitesType, ProgramService } from '../../program/program.service';
+import {
+  ProgramIncludeCourseIdsAndPrerequisitesType,
+  ProgramService,
+} from '../../program/program.service';
 import { ProgramCourseService } from '../../program-course/program-course.service';
 
 @Injectable()
@@ -18,7 +21,7 @@ export class CoursesJobService {
     private readonly programCourseService: ProgramCourseService,
     private readonly programService: ProgramService,
     private readonly cheminotService: CheminotService,
-  ) { }
+  ) {}
 
   public async processCourses(): Promise<void> {
     this.logger.log('Processing courses...');
@@ -32,7 +35,8 @@ export class CoursesJobService {
   public async syncCourseDetailsWithCheminotData(): Promise<void> {
     this.logger.log('Syncing course details with Cheminot data...');
     const allProgramsDB = await this.programService.getAllProgramsWithCourses();
-    const programsCheminot = await this.cheminotService.parseProgramsAndCoursesCheminot();
+    const programsCheminot =
+      await this.cheminotService.parseProgramsAndCoursesCheminot();
 
     for (const programDB of allProgramsDB) {
       if (!programDB) {
@@ -47,7 +51,9 @@ export class CoursesJobService {
     programDB: ProgramIncludeCourseIdsAndPrerequisitesType,
     programsCheminot: ProgramCheminot[],
   ): Promise<void> {
-    const programCheminot = programsCheminot.find((p) => p.code === programDB.code);
+    const programCheminot = programsCheminot.find(
+      (p) => p.code === programDB.code,
+    );
     if (!programCheminot) {
       this.logger.warn(`Program ${programDB.code} not found in Cheminot data`);
       return;
@@ -60,9 +66,15 @@ export class CoursesJobService {
     programCheminot: ProgramCheminot,
   ): Promise<void> {
     for (const courseCheminot of programCheminot.courses) {
-      const existingCourse = await this.courseService.getCourse({ code: courseCheminot.code });
+      const existingCourse = await this.courseService.getCourse({
+        code: courseCheminot.code,
+      });
       if (!existingCourse) continue;
-      await this.handleProgramCourseUpsertion(programDB, existingCourse, courseCheminot);
+      await this.handleProgramCourseUpsertion(
+        programDB,
+        existingCourse,
+        courseCheminot,
+      );
     }
   }
 
@@ -71,18 +83,34 @@ export class CoursesJobService {
     existingCourse: Course,
     courseCheminot: CourseCheminot,
   ): Promise<void> {
-    const programCourse = programDB.courses.find((pc) => pc.course.code === courseCheminot.code);
+    const programCourse = programDB.courses.find(
+      (pc) => pc.course.code === courseCheminot.code,
+    );
     if (programCourse) {
       const hasChanges = this.programCourseService.hasProgramCourseChanged(
-        { typicalSessionIndex: courseCheminot.session, type: courseCheminot.type },
-        { typicalSessionIndex: programCourse.typicalSessionIndex, type: programCourse.type },
+        {
+          typicalSessionIndex: courseCheminot.session,
+          type: courseCheminot.type,
+        },
+        {
+          typicalSessionIndex: programCourse.typicalSessionIndex,
+          type: programCourse.type,
+        },
         programDB.id,
         existingCourse.id,
       );
       if (hasChanges) {
         await this.programCourseService.updateProgramCourse({
-          where: { courseId_programId: { courseId: existingCourse.id, programId: programDB.id } },
-          data: { typicalSessionIndex: courseCheminot.session, type: courseCheminot.type },
+          where: {
+            courseId_programId: {
+              courseId: existingCourse.id,
+              programId: programDB.id,
+            },
+          },
+          data: {
+            typicalSessionIndex: courseCheminot.session,
+            type: courseCheminot.type,
+          },
         });
       }
     } else {

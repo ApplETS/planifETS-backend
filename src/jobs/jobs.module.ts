@@ -11,7 +11,14 @@ import { ProgramCourseModule } from '../program-course/program-course.module';
 import { CheminotModule } from '../common/api-helper/cheminot/cheminot.module';
 
 @Module({
-  imports: [ScheduleModule.forRoot(), EtsModule, ProgramModule, CourseModule, ProgramCourseModule, CheminotModule],
+  imports: [
+    ScheduleModule.forRoot(),
+    EtsModule,
+    ProgramModule,
+    CourseModule,
+    ProgramCourseModule,
+    CheminotModule,
+  ],
   providers: [JobsService, ProgramsJobService, CoursesJobService],
   controllers: process.env.NODE_ENV === 'development' ? [JobsController] : [],
 })
