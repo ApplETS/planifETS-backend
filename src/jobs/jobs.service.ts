@@ -1,25 +1,52 @@
-// src/jobs/jobs.service.ts
 import { Injectable, Logger } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
-import { ProgramsJobService } from './workers/programs.worker';
-import { CoursesJobService } from './workers/courses.worker';
+import { Worker, isMainThread } from 'worker_threads';
+import { join } from 'path';
+import { Cron, CronExpression  } from '@nestjs/schedule';
 
 @Injectable()
 export class JobsService {
   private readonly logger = new Logger(JobsService.name);
 
-  constructor(
-    private readonly programsJobService: ProgramsJobService,
-    private readonly coursesJobService: CoursesJobService,
-  ) {}
+  private checkMainThread() {
+    this.logger.debug('Are we on the main thread?', isMainThread ? 'Yes' : 'No');
+  }
+
+  private runWorker(serviceName: string, methodName: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const workerScript = join(__dirname, 'workers', 'jobRunner.worker.js');
+      const workerData = { serviceName, methodName };
+      const worker = new Worker(workerScript, { workerData });
+
+      worker.on('message', (message) => {
+        this.logger.verbose('Worker message:', message);
+        resolve(message);
+      });
+
+      worker.on('error', (error) => {
+        this.logger.error('Worker error:', error);
+        reject(error);
+      });
+
+      worker.on('exit', (code) => {
+        if (code !== 0) {
+          this.logger.error(`Worker stopped with exit code ${code}`);
+          reject(new Error(`Worker stopped with exit code ${code}`));
+        }
+      });
+    });
+  }
 
   @Cron(CronExpression.EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT)
   public async processJobs(): Promise<void> {
-    this.logger.log('Starting monthly job processing...');
+    this.logger.log('Starting job processing...');
+    this.checkMainThread();
+
     try {
-      await this.programsJobService.processPrograms();
-      await this.coursesJobService.processCourses();
-      await this.coursesJobService.syncCourseDetailsWithCheminotData();
+      await Promise.all([
+        this.runWorker('ProgramsJobService', 'processPrograms'),
+        this.runWorker('CoursesJobService', 'processCourses'),
+        this.runWorker('CoursesJobService', 'syncCourseDetailsWithCheminotData'),
+      ]);
       this.logger.log('All jobs completed successfully!');
     } catch (error) {
       this.logger.error('Job processing error:', error);

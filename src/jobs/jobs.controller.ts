@@ -7,6 +7,7 @@ export class JobsController {
 
   @Get('run-workers')
   async runWorkers() {
-    return await this.jobsService.processJobs();
+    await this.jobsService.processJobs();
+    return { status: 'Jobs have been triggered' };
   }
 }
