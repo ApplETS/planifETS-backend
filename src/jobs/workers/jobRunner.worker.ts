@@ -1,9 +1,10 @@
-import { NestFactory } from '@nestjs/core';
-import { workerData, parentPort, isMainThread } from 'worker_threads';
-import { AppModule } from '../../app.module';
 import { Logger } from '@nestjs/common';
-import { ProgramsJobService } from './programs.worker';
+import { NestFactory } from '@nestjs/core';
+import { isMainThread, parentPort, workerData } from 'worker_threads';
+
+import { AppModule } from '../../app.module';
 import { CoursesJobService } from './courses.worker';
+import { ProgramsJobService } from './programs.worker';
 
 const serviceMapping = {
   ProgramsJobService,

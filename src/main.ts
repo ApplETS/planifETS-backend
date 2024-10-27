@@ -1,6 +1,7 @@
 import { LogLevel } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 
@@ -33,5 +34,6 @@ async function bootstrap() {
 
   //Start the app
   await app.listen(process.env.PORT ? parseInt(process.env.PORT) : 3000);
+  console.log(`Swagger is running on http://localhost:${process.env.PORT}/api`);
 }
 bootstrap();

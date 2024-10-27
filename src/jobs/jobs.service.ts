@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Worker, isMainThread } from 'worker_threads';
-import { join } from 'path';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { join } from 'path';
+import { isMainThread, Worker } from 'worker_threads';
 
 @Injectable()
 export class JobsService {
@@ -14,8 +14,8 @@ export class JobsService {
     );
   }
 
-  private runWorker(serviceName: string, methodName: string): Promise<any> {
-    return new Promise((resolve, reject) => {
+  private runWorker<T>(serviceName: string, methodName: string): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
       const workerScript = join(__dirname, 'workers', 'jobRunner.worker.js');
       const workerData = { serviceName, methodName };
       const worker = new Worker(workerScript, { workerData });
@@ -27,7 +27,10 @@ export class JobsService {
 
       worker.on('error', (error) => {
         this.logger.error('Worker error:', error);
-        reject(error);
+
+        const rejectionError =
+          error instanceof Error ? error : new Error(String(error));
+        reject(rejectionError);
       });
 
       worker.on('exit', (code) => {

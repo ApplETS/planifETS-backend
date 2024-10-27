@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Course } from '@prisma/client';
+
 import { CheminotService } from '../../common/api-helper/cheminot/cheminot.service';
 import { Course as CourseCheminot } from '../../common/api-helper/cheminot/Course';
 import { Program as ProgramCheminot } from '../../common/api-helper/cheminot/Program';
@@ -92,7 +93,7 @@ export class CoursesJobService {
         {
           typicalSessionIndex: courseCheminot.session,
           type: courseCheminot.type,
-        },  
+        },
         {
           typicalSessionIndex: programCourse.typicalSessionIndex,
           type: programCourse.type,
