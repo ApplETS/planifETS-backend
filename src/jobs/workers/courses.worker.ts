@@ -27,6 +27,7 @@ export class CoursesJobService {
     this.logger.log('Processing courses...');
     const courses = await this.etsCourseService.fetchAllCoursesWithCredits();
     if (!courses.length) {
+      this.logger.error('No courses fetched.');
       throw new Error('No courses fetched.');
     }
     await this.courseService.upsertCourses(courses);
@@ -91,7 +92,7 @@ export class CoursesJobService {
         {
           typicalSessionIndex: courseCheminot.session,
           type: courseCheminot.type,
-        },
+        },  
         {
           typicalSessionIndex: programCourse.typicalSessionIndex,
           type: programCourse.type,
