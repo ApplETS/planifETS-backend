@@ -36,44 +36,47 @@ export class CoursesJobService {
 
   public async syncCourseDetailsWithCheminotData(): Promise<void> {
     this.logger.log('Syncing course details with Cheminot data...');
-    const allProgramsDB = await this.programService.getAllProgramsWithCourses();
-    const programsCheminot =
+    const existingAllPrograms =
+      await this.programService.getAllProgramsWithCourses();
+    const cheminotPrograms =
       await this.cheminotService.parseProgramsAndCoursesCheminot();
 
-    for (const programDB of allProgramsDB) {
-      if (!programDB) {
-        this.logger.warn('ProgramDB not found for program:', programDB);
+    for (const existingProgram of existingAllPrograms) {
+      if (!existingProgram) {
+        this.logger.warn('ExistingProgram not found:', existingProgram);
         continue;
       }
-      await this.processProgram(programDB, programsCheminot);
+      await this.processProgram(existingProgram, cheminotPrograms);
     }
   }
 
   private async processProgram(
-    programDB: ProgramIncludeCourseIdsAndPrerequisitesType,
-    programsCheminot: ProgramCheminot[],
+    exisitingProgram: ProgramIncludeCourseIdsAndPrerequisitesType,
+    cheminotPrograms: ProgramCheminot[],
   ): Promise<void> {
-    const programCheminot = programsCheminot.find(
-      (p) => p.code === programDB.code,
+    const programCheminot = cheminotPrograms.find(
+      (p) => p.code === exisitingProgram.code,
     );
     if (!programCheminot) {
-      this.logger.warn(`Program ${programDB.code} not found in Cheminot data`);
+      this.logger.warn(
+        `Program ${exisitingProgram.code} not found in Cheminot data`,
+      );
       return;
     }
-    await this.processCheminotCourses(programDB, programCheminot);
+    await this.processCheminotCourses(exisitingProgram, programCheminot);
   }
 
   private async processCheminotCourses(
-    programDB: ProgramIncludeCourseIdsAndPrerequisitesType,
-    programCheminot: ProgramCheminot,
+    existingProgram: ProgramIncludeCourseIdsAndPrerequisitesType,
+    cheminotProgram: ProgramCheminot,
   ): Promise<void> {
-    for (const courseCheminot of programCheminot.courses) {
+    for (const courseCheminot of cheminotProgram.courses) {
       const existingCourse = await this.courseService.getCourse({
         code: courseCheminot.code,
       });
       if (!existingCourse) continue;
       await this.handleProgramCourseUpsertion(
-        programDB,
+        existingProgram,
         existingCourse,
         courseCheminot,
       );
@@ -81,24 +84,24 @@ export class CoursesJobService {
   }
 
   private async handleProgramCourseUpsertion(
-    programDB: ProgramIncludeCourseIdsAndPrerequisitesType,
+    existingProgram: ProgramIncludeCourseIdsAndPrerequisitesType,
     existingCourse: Course,
-    courseCheminot: CourseCheminot,
+    cheminotCourse: CourseCheminot,
   ): Promise<void> {
-    const programCourse = programDB.courses.find(
-      (pc) => pc.course.code === courseCheminot.code,
+    const existingProgramCourse = existingProgram.courses.find(
+      (pc) => pc.course.code === cheminotCourse.code,
     );
-    if (programCourse) {
+    if (existingProgramCourse) {
       const hasChanges = this.programCourseService.hasProgramCourseChanged(
         {
-          typicalSessionIndex: courseCheminot.session,
-          type: courseCheminot.type,
+          typicalSessionIndex: cheminotCourse.session,
+          type: cheminotCourse.type,
         },
         {
-          typicalSessionIndex: programCourse.typicalSessionIndex,
-          type: programCourse.type,
+          typicalSessionIndex: existingProgramCourse.typicalSessionIndex,
+          type: existingProgramCourse.type,
         },
-        programDB.id,
+        existingProgram.id,
         existingCourse.id,
       );
       if (hasChanges) {
@@ -106,21 +109,21 @@ export class CoursesJobService {
           where: {
             courseId_programId: {
               courseId: existingCourse.id,
-              programId: programDB.id,
+              programId: existingProgram.id,
             },
           },
           data: {
-            typicalSessionIndex: courseCheminot.session,
-            type: courseCheminot.type,
+            typicalSessionIndex: cheminotCourse.session,
+            type: cheminotCourse.type,
           },
         });
       }
     } else {
       await this.programCourseService.createProgramCourse({
-        program: { connect: { id: programDB.id } },
+        program: { connect: { id: existingProgram.id } },
         course: { connect: { id: existingCourse.id } },
-        typicalSessionIndex: courseCheminot.session,
-        type: courseCheminot.type,
+        typicalSessionIndex: cheminotCourse.session,
+        type: cheminotCourse.type,
       });
     }
   }
