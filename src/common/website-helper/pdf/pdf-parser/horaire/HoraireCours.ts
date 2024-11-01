@@ -1,3 +1,5 @@
+import { Logger } from '@nestjs/common';
+
 import { CourseCodeValidationPipe } from '../../../../pipes/models/course/course-code-validation-pipe';
 import { Group, IGroup } from './Group';
 import { IHoraireCours } from './horaire-cours.types';
@@ -9,6 +11,7 @@ export class HoraireCours implements IHoraireCours {
 
   private static readonly courseCodeValidationPipe =
     new CourseCodeValidationPipe();
+  private readonly logger = new Logger(HoraireCours.name);
 
   constructor(
     public code: string = '',
@@ -42,11 +45,8 @@ export class HoraireCours implements IHoraireCours {
     if (periods.length > 0) {
       this.groups.get(groupNumber)!.addPeriods(periods);
     } else {
-      console.error(
-        'Periods are empty for course: ',
-        this.code,
-        ', group number: ',
-        groupNumber,
+      this.logger.warn(
+        `Periods are empty for course: ${this.code}, group number: ${groupNumber}`,
       );
     }
   }
