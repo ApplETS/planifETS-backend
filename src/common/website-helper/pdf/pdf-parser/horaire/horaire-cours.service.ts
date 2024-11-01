@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { Output, Page, Text } from 'pdf2json';
 import { firstValueFrom } from 'rxjs';
 
@@ -23,6 +23,15 @@ export class HoraireCoursService {
       const response = await firstValueFrom(
         this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),
       );
+
+      this.logger.debug(`Fetched PDF from URL ${pdfUrl}`);
+      this.logger.debug(`Status code: ${response.status}`);
+      if (response.status !== HttpStatus.OK) {
+        this.logger.error(
+          `Failed to fetch PDF from URL ${pdfUrl}. Status code: ${response.status}`,
+        );
+      }
+
       return await this.parseHoraireCoursPdf(
         Buffer.from(response.data),
         pdfUrl,
@@ -33,7 +42,7 @@ export class HoraireCoursService {
   }
 
   // Parses the PDF buffer to extract course information
-  private async parseHoraireCoursPdf(
+  public async parseHoraireCoursPdf(
     pdfBuffer: Buffer,
     pdfUrl: string,
   ): Promise<HoraireCours[]> {

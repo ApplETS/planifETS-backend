@@ -3,6 +3,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Logger,
   Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -17,6 +18,8 @@ import { ICoursePlanification } from './pdf-parser/planification/planification-c
 @ApiTags('ÉTS API')
 @Controller('pdf')
 export class PdfController {
+  private readonly logger = new Logger(PdfController.name);
+
   constructor(
     private readonly horaireCoursService: HoraireCoursService,
     private readonly planificationCoursService: PlanificationCoursService,
@@ -39,8 +42,12 @@ export class PdfController {
     try {
       return await this.horaireCoursService.parsePdfFromUrl(pdfUrl);
     } catch (error) {
+      this.logger.error(
+        `${ERROR_MESSAGES.ERROR_PARSING_HORAIRE_PDF} from URL ${pdfUrl}: `,
+        error,
+      );
       throw new HttpException(
-        ERROR_MESSAGES.ERROR_PARSING_PDF,
+        ERROR_MESSAGES.ERROR_PARSING_HORAIRE_PDF,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
@@ -51,6 +58,8 @@ export class PdfController {
     @Query('program') programCode: string,
   ): Promise<ICoursePlanification[]> {
     if (!programCode) {
+      this.logger.error(ERROR_MESSAGES.REQUIRED_PDF_URL);
+
       throw new HttpException(
         ERROR_MESSAGES.REQUIRED_PDF_URL,
         HttpStatus.BAD_REQUEST,
@@ -62,8 +71,12 @@ export class PdfController {
     try {
       return await this.planificationCoursService.parsePdfFromUrl(pdfUrl);
     } catch (error) {
+      this.logger.error(
+        `${ERROR_MESSAGES.ERROR_PARSING_PLANIFICATION_PDF} from URL ${pdfUrl}: `,
+        error,
+      );
       throw new HttpException(
-        ERROR_MESSAGES.ERROR_PARSING_PDF,
+        ERROR_MESSAGES.ERROR_PARSING_PLANIFICATION_PDF,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

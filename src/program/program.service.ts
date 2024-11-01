@@ -82,8 +82,6 @@ export class ProgramService {
       },
     });
 
-    this.logger.verbose('getAllProgramsWithCourses', JSON.stringify(data));
-
     return data;
   }
 
@@ -131,20 +129,37 @@ export class ProgramService {
   }
 
   public async createProgramTypes(types: ProgramType[]): Promise<void> {
-    this.logger.verbose('createProgramTypes', types);
+    try {
+      // Fetch existing program types by their IDs
+      const existingProgramTypes = await this.prisma.programType.findMany({
+        where: {
+          id: { in: types.map((type) => type.id) },
+        },
+        select: { id: true },
+      });
 
-    await Promise.all(
-      types.map((type) =>
-        this.prisma.programType.upsert({
-          where: { id: type.id },
-          update: { title: type.title },
-          create: {
+      // Create a Set of existing IDs for efficient lookup
+      const existingIds = new Set(existingProgramTypes.map((type) => type.id));
+
+      // Filter out types that already exist
+      const newTypes = types.filter((type) => !existingIds.has(type.id));
+
+      // Bulk create only the new program types
+      if (newTypes.length > 0) {
+        await this.prisma.programType.createMany({
+          data: newTypes.map((type) => ({
             id: type.id,
             title: type.title,
-          },
-        }),
-      ),
-    );
+          })),
+        });
+        this.logger.log(`Created ${newTypes.length} new program types.`);
+        this.logger.verbose('New program types:', newTypes);
+      } else {
+        this.logger.log('No new program types to create.');
+      }
+    } catch (error) {
+      this.logger.error('Error in createProgramTypes:', error);
+    }
   }
 
   public async deleteProgram(
