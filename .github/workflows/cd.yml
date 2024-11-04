@@ -6,8 +6,6 @@ on:
       - main
     tags:
       - 'v*'
-  pull_request:
-    branches: ['main']
 
 env:
   REGISTRY: ghcr.io
@@ -47,6 +45,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Docker meta
+        if: github.event_name != 'pull_request'
         id: meta
         uses: docker/metadata-action@v5
         with:
