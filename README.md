@@ -1,43 +1,42 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+<div align="center" style="font-family: Arial, sans-serif; font-size: 48px; font-weight: bold; color: #F0F4FF; margin: 60px;">
+    Planif<span style="color: #ff0000;">ETS</span>
+</div>
 
-   <br />
-   <strong>PlanifÉTS Project</strong>
+<p align="center">
+  <a href="https://github.com/PlanifETS/planifets-backend/actions" target="_blank">
+  </a>
+  <a href="https://github.com/ApplETS/planifETS-backend/actions/workflows/ci.yml/badge.svg" target="_blank">
+    <img src="https://github.com/ApplETS/planifETS-backend/actions/workflows/ci.yml/badge.svg" alt="CI Status" style="height: 20px; margin-right: 5px;">
+  </a>
+  <a href="https://www.notion.so/PlanifETS-29cdf43623ec4c749dc5280dcaa3dba4" target="_blank">
+    <img src="https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white" alt="CI Status" style="height: 20px; margin-right: 5px;">
+  </a>
 </p>
 
 
-## Description
+> _Session planner for students at the École de technologie supérieure_
 
-This project is built on top of the Angular CLI. It uses the Dgeni documentation generator to compile source documentation in markdown format into the published format. The Repository contains docs.nestjs.com/first-steps source code, the official Nest documentation.
+This backend provides an API to support academic session planning at ÉTS. 
 
-## Installation
+It fetches and synchronizes course and program data directly from ÉTS servers, giving students up-to-date information for planning their academic paths.
 
-```bash
-$ yarn install
-```
+---
 
-## Running the app
+## 🚀 Technologies used
 
-```bash
-# development
-$ yarn run start
+- [NestJS](https://docs.nestjs.com/)
+- [Prisma](https://www.prisma.io/nestjs)
+- [PostgreSQL](https://www.postgresql.org/) (version 16+)
+- [Docker](https://www.docker.com/)
 
-# watch mode
-$ yarn run start:dev
+---
 
-# production mode
-$ yarn run start:prod
-```
+## 🛠️ Onboarding
 
-## Test
+For onboarding instructions, please refer to our detailed documentation on [Notion](https://www.notion.so/Onboarding-662062ca7e0e421eb59baf3a63dad2e6).
 
-```bash
-# unit tests
-$ yarn run test
+---
 
-# e2e tests
-$ yarn run test:e2e
+## ⚖️ License
 
-# test coverage
-$ yarn run test:cov
-```
+This projet is licensed under the Apache License V2.0. See the [LICENSE](https://github.com/ApplETS/Notre-Dame/blob/master/LICENSE) file for more info.
