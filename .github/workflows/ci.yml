@@ -1,4 +1,5 @@
-name: ci
+name: CI
+
 on:
   push:
     branches: [main]
@@ -13,7 +14,7 @@ jobs:
         node-version: [18.x]
 
     steps:
-      - name: Checkout to code
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -26,11 +27,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: lint
+      - name: Lint code
         run: yarn run lint
 
       - name: Run tests
-        run: yarn test
+        run: yarn run test
 
-      - name: Build
+      - name: Build project
         run: yarn run build

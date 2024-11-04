@@ -33,7 +33,7 @@ It fetches and synchronizes course and program data directly from ÉTS servers, 
 
 ## 🛠️ Onboarding
 
-For onboarding instructions, please refer to our detailed documentation on [Notion](https://www.notion.so/Onboarding-662062ca7e0e421eb59baf3a63dad2e6).
+For onboarding instructions, please refer to our documentation on [Notion](https://www.notion.so/Onboarding-662062ca7e0e421eb59baf3a63dad2e6).
 
 ---
 
