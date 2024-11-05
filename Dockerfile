@@ -11,9 +11,7 @@ FROM base AS development
 WORKDIR /app
 COPY . ./
 
-RUN yarn install --frozen-lockfile
-RUN yarn global add @nestjs/cli
-RUN yarn prisma:generate
+RUN yarn install --frozen-lockfile && yarn global add @nestjs/cli && yarn prisma:generate
 
 ENV NODE_ENV=development
 # Required for hot-reloading

@@ -2,16 +2,21 @@ services:
   app:
     build:
       context: .
-      target: production
+      target: ${TARGET:-development}
     ports:
       - "${PORT:-3000}:${PORT:-3000}"
     environment:
       DATABASE_URL: ${DATABASE_URL}
-      NODE_ENV: production
-      PORT: ${PORT:-3000}
+      NODE_ENV: development
+      PORT: ${PORT} 
+    env_file:
+      - .env
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
     networks:
       - app-network
     restart: unless-stopped
