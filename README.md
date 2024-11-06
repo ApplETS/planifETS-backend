@@ -1,43 +1,33 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 
-   <br />
-   <strong>PlanifÉTS Project</strong>
+# <p align="center">PlanifETS</p>
+
+<p align="center">
+    <img src="https://github.com/ApplETS/planifETS-backend/actions/workflows/ci.yml/badge.svg" alt="CI Status" style="height: 20px; margin-right: 5px;">
+  <a href="https://www.notion.so/PlanifETS-29cdf43623ec4c749dc5280dcaa3dba4" target="_blank">
+    <img src="https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white" alt="Notion" style="height: 20px; margin-right: 5px;">
+  </a>
 </p>
 
+> _Session planner for students at the École de technologie supérieure_
 
-## Description
+This backend provides an API to support academic session planning at ÉTS. 
 
-This project is built on top of the Angular CLI. It uses the Dgeni documentation generator to compile source documentation in markdown format into the published format. The Repository contains docs.nestjs.com/first-steps source code, the official Nest documentation.
+It fetches and synchronizes course and program data directly from ÉTS servers, giving students up-to-date information for planning their academic paths.
 
-## Installation
 
-```bash
-$ yarn install
-```
+## 🚀 Technologies used
 
-## Running the app
+- [NestJS](https://docs.nestjs.com/)
+- [Prisma](https://www.prisma.io/nestjs)
+- [PostgreSQL](https://www.postgresql.org/) (version 16+)
+- [Docker](https://www.docker.com/)
 
-```bash
-# development
-$ yarn run start
 
-# watch mode
-$ yarn run start:dev
+## 🛠️ Onboarding
 
-# production mode
-$ yarn run start:prod
-```
+For onboarding instructions, please refer to our documentation on [Notion](https://www.notion.so/Onboarding-662062ca7e0e421eb59baf3a63dad2e6).
 
-## Test
 
-```bash
-# unit tests
-$ yarn run test
+## ⚖️ License
 
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
+This projet is licensed under the Apache License V2.0. See the [LICENSE](https://github.com/ApplETS/Notre-Dame/blob/master/LICENSE) file for more info.
