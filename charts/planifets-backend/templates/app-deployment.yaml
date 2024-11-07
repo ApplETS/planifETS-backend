@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-{{ .Chart.Name }}
+  name: "{{ .Release.Name }}-{{ .Chart.Name }}"
   labels:
-    app: {{ .Chart.Name }}
+    app: "{{ .Chart.Name }}"
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}
+      app: "{{ .Chart.Name }}"
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}
+        app: "{{ .Chart.Name }}"
     spec:
       containers:
         - name: app
@@ -23,7 +23,7 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.postgresSecretName }}
+                  name: "{{ .Values.postgresSecretName }}"
                   key: DATABASE_URL
             - name: NODE_ENV
               value: production
@@ -45,10 +45,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-{{ .Chart.Name }}-service
+  name: "{{ .Release.Name }}-{{ .Chart.Name }}-service"
 spec:
   selector:
-    app: {{ .Chart.Name }}
+    app: "{{ .Chart.Name }}"
   ports:
     - protocol: TCP
       port: {{ .Values.service.port }}
