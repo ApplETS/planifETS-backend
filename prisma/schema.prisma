@@ -96,7 +96,7 @@ model Program {
   id           Int           @id
   code         String?
   title        String
-  credits      String
+  credits      String?
   cycle        Int
   url          String
   programTypes ProgramType[]
