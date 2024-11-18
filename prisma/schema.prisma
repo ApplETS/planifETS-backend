@@ -101,9 +101,11 @@ model Program {
   url          String
   programTypes ProgramType[]
 
-  horaireCoursPdfJson  Json?
-  planificationPdfJson Json?
-  courses              ProgramCourse[]
+  isHorairePdfParsable       Boolean         @default(false)
+  isPlanificationPdfParsable Boolean         @default(false)
+  horaireCoursPdfJson      Json?
+  planificationPdfJson     Json?
+  courses                  ProgramCourse[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

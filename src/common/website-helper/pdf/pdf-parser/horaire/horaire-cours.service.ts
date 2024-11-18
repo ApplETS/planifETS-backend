@@ -25,7 +25,6 @@ export class HoraireCoursService {
       );
 
       this.logger.debug(`Fetched PDF from URL ${pdfUrl}`);
-      this.logger.debug(`Status code: ${response.status}`);
       if (response.status !== HttpStatus.OK) {
         this.logger.error(
           `Failed to fetch PDF from URL ${pdfUrl}. Status code: ${response.status}`,

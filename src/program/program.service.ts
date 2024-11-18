@@ -162,6 +162,38 @@ export class ProgramService {
     }
   }
 
+  public async updateProgramsByCodes(
+    codes: string[],
+    data: Prisma.ProgramUpdateInput,
+  ): Promise<number> {
+    this.logger.verbose('Starting updateProgramsByCodes', { codes, data });
+
+    const result = await this.prisma.program.updateMany({
+      where: { code: { in: codes } },
+      data,
+    });
+
+    if (result.count === 0) {
+      this.logger.error(`No programs found with codes: "${codes.join(', ')}"`);
+    } else if (result.count < codes.length) {
+      // Identify which codes were not found
+      const existingPrograms = await this.prisma.program.findMany({
+        where: { code: { in: codes } },
+        select: { code: true },
+      });
+      const existingCodes = existingPrograms.map((p) => p.code);
+      const missingCodes = codes.filter(
+        (code) => !existingCodes.includes(code),
+      );
+
+      this.logger.warn(
+        `Some programs were not found and thus not updated: "${missingCodes.join(', ')}"`,
+      );
+    }
+
+    return result.count;
+  }
+
   public async deleteProgram(
     where: Prisma.ProgramWhereUniqueInput,
   ): Promise<Program> {
