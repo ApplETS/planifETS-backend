@@ -85,6 +85,24 @@ export class ProgramService {
     return data;
   }
 
+  public async getProgramsByHoraireParsablePDF(): Promise<Program[]> {
+    this.logger.verbose('Fetching programs with isHorairePdfParsable = true');
+    const programs = await this.prisma.program.findMany({
+      where: {
+        isHorairePdfParsable: true,
+      },
+    });
+
+    if (programs.length === 0 || programs == null) {
+      this.logger.error('No programs found with isHorairePdfParsable = true');
+    } else {
+      this.logger.verbose(
+        `Found ${programs.length} programs with isHorairePdfParsable = true.`,
+      );
+    }
+    return programs;
+  }
+
   public async createProgram(
     data: Prisma.ProgramCreateInput,
   ): Promise<Program> {

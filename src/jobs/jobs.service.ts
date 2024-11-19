@@ -49,12 +49,13 @@ export class JobsService {
 
     try {
       await Promise.all([
-        this.runWorker('ProgramsJobService', 'processPrograms'),
-        this.runWorker('CoursesJobService', 'processCourses'),
-        this.runWorker(
-          'CoursesJobService',
-          'syncCourseDetailsWithCheminotData',
-        ),
+        // this.runWorker('ProgramsJobService', 'processPrograms'),
+        // this.runWorker('CoursesJobService', 'processCourses'),
+        // this.runWorker(
+        //   'CoursesJobService',
+        //   'syncCourseDetailsWithCheminotData',
+        // ),
+        this.runWorker('SessionsJobService', 'processSessions'),
       ]);
       this.logger.log('All jobs completed successfully!');
     } catch (error) {

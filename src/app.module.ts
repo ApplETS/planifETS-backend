@@ -12,8 +12,6 @@ import { CourseInstanceModule } from './course-instance/course-instance.module';
 import { CoursePrerequisiteModule } from './course-prerequisite/course-prerequisite.module';
 import { JobsModule } from './jobs/jobs.module';
 import { JobsService } from './jobs/jobs.service';
-import { CoursesJobService } from './jobs/workers/courses.worker';
-import { ProgramsJobService } from './jobs/workers/programs.worker';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProgramModule } from './program/program.module';
 import { ProgramCourseModule } from './program-course/program-course.module';
@@ -40,7 +38,7 @@ import { SessionModule } from './session/session.module';
     ProgramModule,
     ProgramCourseModule,
   ],
-  providers: [ProgramsJobService, CoursesJobService, JobsService],
+  providers: [JobsService],
   controllers: [AppController],
   exports: [HttpModule, JobsService],
 })

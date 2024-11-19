@@ -5,10 +5,12 @@ import { isMainThread, parentPort, workerData } from 'worker_threads';
 import { AppModule } from '../../app.module';
 import { CoursesJobService } from './courses.worker';
 import { ProgramsJobService } from './programs.worker';
+import { SessionsJobService } from './sessions.worker';
 
 const serviceMapping = {
   ProgramsJobService,
   CoursesJobService,
+  SessionsJobService,
 };
 
 interface WorkerData {

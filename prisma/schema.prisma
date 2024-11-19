@@ -24,6 +24,8 @@ model Session {
   updatedAt DateTime  @updatedAt
 
   courseInstances CourseInstance[]
+
+  @@unique([year, trimester])
 }
 
 model CourseInstance {
@@ -103,9 +105,9 @@ model Program {
 
   isHorairePdfParsable       Boolean         @default(false)
   isPlanificationPdfParsable Boolean         @default(false)
-  horaireCoursPdfJson      Json?
-  planificationPdfJson     Json?
-  courses                  ProgramCourse[]
+  horaireCoursPdfJson        Json?
+  planificationPdfJson       Json?
+  courses                    ProgramCourse[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
