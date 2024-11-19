@@ -1,12 +1,7 @@
-// src/jobs/workers/sessions.worker.ts
-
 import { Injectable, Logger } from '@nestjs/common';
 import { Program, Session } from '@prisma/client';
 
-import {
-  getHorairePdfUrl,
-  getPlanificationPdfUrl,
-} from '../../common/constants/url';
+import { getHorairePdfUrl } from '../../common/constants/url';
 import { getTrimesterIndexBySession } from '../../common/utils/session/sessionUtil';
 import { HoraireCoursService } from '../../common/website-helper/pdf/pdf-parser/horaire/horaire-cours.service';
 import { ProgramService } from '../../program/program.service';

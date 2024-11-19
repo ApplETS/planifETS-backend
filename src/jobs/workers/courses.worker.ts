@@ -6,10 +6,8 @@ import { Course as CourseCheminot } from '../../common/api-helper/cheminot/Cours
 import { Program as ProgramCheminot } from '../../common/api-helper/cheminot/Program';
 import { EtsCourseService } from '../../common/api-helper/ets/course/ets-course.service';
 import { CourseService } from '../../course/course.service';
-import {
-  ProgramIncludeCourseIdsAndPrerequisitesType,
-  ProgramService,
-} from '../../program/program.service';
+import { ProgramService } from '../../program/program.service';
+import { ProgramIncludeCourseIdsAndPrerequisitesType } from '../../program/program.types';
 import { ProgramCourseService } from '../../program-course/program-course.service';
 
 @Injectable()

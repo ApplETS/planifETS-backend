@@ -2,27 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, Program, ProgramType } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
-
-export type ProgramIncludeCourseIdsAndPrerequisitesType = {
-  id: number;
-  code: string | null;
-  courses: {
-    course: {
-      id: number;
-      code: string;
-    };
-    typicalSessionIndex: number | null;
-    type: string | null;
-    prerequisites: {
-      prerequisite: {
-        course: {
-          id: number;
-          code: string;
-        };
-      };
-    }[];
-  }[];
-};
+import { ProgramIncludeCourseIdsAndPrerequisitesType } from './program.types';
 
 @Injectable()
 export class ProgramService {
@@ -83,6 +63,56 @@ export class ProgramService {
     });
 
     return data;
+  }
+
+  public async getProgramCoursesByCode(code: string): Promise<Program | null> {
+    return this.prisma.program.findFirst({
+      where: { code },
+      include: {
+        courses: {
+          orderBy: {
+            typicalSessionIndex: 'asc',
+          },
+          include: {
+            course: {
+              select: {
+                code: true,
+                title: true,
+                credits: true,
+                cycle: true,
+              },
+            },
+            prerequisites: {
+              select: {
+                prerequisite: {
+                  select: {
+                    course: {
+                      select: {
+                        code: true,
+                        title: true,
+                        description: true,
+                        credits: true,
+                        cycle: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  public async getProgramByCode(code: string): Promise<Program | null> {
+    this.logger.verbose('getProgramByCode', code);
+
+    return this.prisma.program.findFirst({
+      where: {
+        code,
+      },
+    });
   }
 
   public async getProgramsByHoraireParsablePDF(): Promise<Program[]> {
