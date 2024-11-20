@@ -103,7 +103,9 @@ export class SessionsJobService {
     coursePdf: IHoraireCours,
     program: Program,
   ): Promise<void> {
-    const existingCourse = await this.getExisitingCourse(coursePdf.code);
+    const existingCourse = await this.courseService.getCourseByCode(
+      coursePdf.code,
+    );
     if (!existingCourse) {
       this.logger.error(`Course not found in database: ${coursePdf.code}`);
       return;
@@ -132,18 +134,17 @@ export class SessionsJobService {
       coursePdf.prerequisites,
     );
 
+    this.logger.debug(
+      `Unstructured prerequisites for course ${coursePdf.code}: "${coursePdf.prerequisites}"`,
+    );
+    await this.updateUnstructuredPrerequisite(
+      programCourse,
+      coursePdf.prerequisites,
+    );
+
     if (!parsedPrerequisites) {
-      this.logger.debug(
-        `Unstructured prerequisites for course ${coursePdf.code}: "${coursePdf.prerequisites}"`,
-      );
-      await this.updateUnstructuredPrerequisite(
-        programCourse,
-        coursePdf.prerequisites,
-      );
       return;
     }
-
-    await this.updateUnstructuredPrerequisite(programCourse, null);
 
     for (const prerequisiteCode of parsedPrerequisites) {
       await this.addPrerequisiteIfNotExists(
@@ -154,11 +155,7 @@ export class SessionsJobService {
     }
   }
 
-  private async getExisitingCourse(courseCode: string): Promise<Course | null> {
-    return this.courseService.getCourseByCode(courseCode);
-  }
-
-  //add to utils
+  //TODO: add to utils
   private parsePrerequisiteString(prerequisiteString: string): string[] | null {
     const trimmedPrerequisite = prerequisiteString.trim();
 
@@ -233,7 +230,8 @@ export class SessionsJobService {
       return;
     }
 
-    const prerequisiteCourse = await this.getExisitingCourse(prerequisiteCode);
+    const prerequisiteCourse =
+      await this.courseService.getCourseByCode(prerequisiteCode);
     if (!prerequisiteCourse) {
       this.logger.error(
         `Prerequisite course not found in database: ${prerequisiteCode}`,
