@@ -96,12 +96,12 @@ export class PrerequisiteService {
     programCourse: ProgramCourseWithPrerequisites,
     prerequisiteCode: string,
     program: Program,
-  ): Promise<void> {
+  ): Promise<boolean> {
     const existingPrerequisiteCodes =
       programCourse.prerequisites?.map((p) => p.prerequisite.course.code) ?? [];
 
     if (existingPrerequisiteCodes.includes(prerequisiteCode)) {
-      return;
+      return false; // Prerequisite already exists
     }
 
     const prerequisiteCourse =
@@ -110,7 +110,7 @@ export class PrerequisiteService {
       this.logger.error(
         `Prerequisite course not found in database: ${prerequisiteCode}`,
       );
-      return;
+      return false;
     }
 
     const prerequisiteProgramCourse =
@@ -125,7 +125,7 @@ export class PrerequisiteService {
       this.logger.error(
         `ProgramCourse not found for prerequisite course ${prerequisiteCode} and program ${program.code}`,
       );
-      return;
+      return false;
     }
 
     await this.createPrerequisite({
@@ -146,6 +146,8 @@ export class PrerequisiteService {
         },
       },
     });
+
+    return true; // Prerequisite was added
   }
 
   public async deletePrerequisitesForProgramCourse(

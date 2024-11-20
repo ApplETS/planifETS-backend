@@ -17,6 +17,9 @@ import { SessionService } from '../../session/session.service';
 export class SessionsJobService {
   private readonly logger = new Logger(SessionsJobService.name);
 
+  private unstructuredPrerequisitesUpdated = 0;
+  private prerequisitesAdded = 0;
+
   constructor(
     private readonly sessionService: SessionService,
     private readonly programService: ProgramService,
@@ -49,6 +52,12 @@ export class SessionsJobService {
       for (const program of eligiblePrograms) {
         await this.processProgram(currentSession, program);
       }
+
+      // Log total counts
+      this.logger.log(
+        `Total unstructured prerequisites updated: ${this.unstructuredPrerequisitesUpdated}`,
+      );
+      this.logger.log(`Total prerequisites added: ${this.prerequisitesAdded}`);
     } catch (error) {
       this.logger.error('Error in processSessions job:', error);
     }
@@ -144,11 +153,15 @@ export class SessionsJobService {
     }
 
     for (const prerequisiteCode of parsedPrerequisites) {
-      await this.prerequisiteService.addPrerequisiteIfNotExists(
-        programCourse,
-        prerequisiteCode,
-        program,
-      );
+      const wasAdded =
+        await this.prerequisiteService.addPrerequisiteIfNotExists(
+          programCourse,
+          prerequisiteCode,
+          program,
+        );
+      if (wasAdded) {
+        this.prerequisitesAdded += 1;
+      }
     }
   }
 
@@ -170,6 +183,7 @@ export class SessionsJobService {
           unstructuredPrerequisite: newUnstructuredPrerequisite,
         },
       });
+      this.unstructuredPrerequisitesUpdated += 1;
     }
   }
 }
