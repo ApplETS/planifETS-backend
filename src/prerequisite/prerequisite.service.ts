@@ -34,21 +34,27 @@ export class PrerequisiteService {
     });
   }
 
-  private async createPrerequisite(
+  public async createPrerequisite(
     data: Prisma.ProgramCoursePrerequisiteCreateInput,
   ): Promise<ProgramCoursePrerequisite> {
     this.logger.verbose('createProgramCoursePrerequisite', data);
 
-    const courseId = data.programCourse.connect?.courseId as number;
-    const programId = data.programCourse.connect?.programId as number;
-    const prerequisiteId = data.prerequisite.connect?.courseId as number;
+    const courseId = data.programCourse.connect?.courseId_programId
+      ?.courseId as number;
+    const programId = data.programCourse.connect?.courseId_programId
+      ?.programId as number;
+    const prerequisiteId = data.prerequisite.connect?.courseId_programId
+      ?.courseId as number;
 
-    if (!courseId || !programId || !prerequisiteId) {
-      this.logger.error(
-        'courseId, programId, and prerequisiteId must be provided.',
-      );
+    if (!courseId) {
+      this.logger.error('courseId must be provided.');
     }
-
+    if (!programId) {
+      this.logger.error('programId must be provided.');
+    }
+    if (!prerequisiteId) {
+      this.logger.error('prerequisiteId must be provided.');
+    }
     const existingPrerequisite =
       await this.prisma.programCoursePrerequisite.findUnique({
         where: {
@@ -65,6 +71,7 @@ export class PrerequisiteService {
       return existingPrerequisite;
     }
 
+    this.logger.verbose('Creating new prerequisite', data);
     return this.prisma.programCoursePrerequisite.create({
       data,
     });

@@ -19,6 +19,14 @@ export class CourseService {
     return course;
   }
 
+  public async getCourseByCode(code: string): Promise<Course | null> {
+    const course = await this.prisma.course.findFirst({
+      where: { code },
+    });
+
+    return course;
+  }
+
   private async getCoursesByIds(
     courseIds: number[],
   ): Promise<Map<number, Course>> {

@@ -44,22 +44,42 @@ export class JobsService {
 
   @Cron(CronExpression.EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT)
   public async processJobs(): Promise<void> {
-    this.logger.log('Starting job processing...');
+    this.logger.log('Starting sequential job processing...');
     this.checkMainThread();
 
-    try {
-      await Promise.all([
-        // this.runWorker('ProgramsJobService', 'processPrograms'), //FIXME: Uncomment this line later
-        // this.runWorker('CoursesJobService', 'processCourses'),
-        // this.runWorker(
-        //   'CoursesJobService',
-        //   'syncCourseDetailsWithCheminotData',
-        // ),
-        this.runWorker('SessionsJobService', 'processSessions'),
-      ]);
-      this.logger.log('All jobs completed successfully!');
-    } catch (error) {
-      this.logger.error('Job processing error:', error);
+    const jobs = [
+      { service: 'ProgramsJobService', method: 'processPrograms' },
+      { service: 'CoursesJobService', method: 'processCourses' },
+      {
+        service: 'CoursesJobService',
+        method: 'syncCourseDetailsWithCheminotData',
+      },
+      { service: 'SessionsJobService', method: 'processSessions' },
+    ];
+
+    for (const [index, job] of jobs.entries()) {
+      const { service, method } = job;
+      this.logger.log(`Starting job ${index + 1}: ${service}.${method}`);
+
+      try {
+        const result = await this.runWorker(service, method);
+        this.logger.log(
+          `Job ${index + 1} (${service}.${method}) completed successfully: ${JSON.stringify(result)}`,
+        );
+      } catch (error) {
+        if (error instanceof Error) {
+          this.logger.error(
+            `Job ${index + 1} (${service}.${method}) failed: ${error.message}`,
+            error.stack,
+          );
+        } else {
+          this.logger.error(
+            `Job ${index + 1} (${service}.${method}) failed: ${error}`,
+          );
+        }
+      }
     }
+
+    this.logger.log('Job processing completed.');
   }
 }
