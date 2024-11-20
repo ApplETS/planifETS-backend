@@ -8,6 +8,7 @@ import * as programData from './data/programs-to-seed.json';
 
 export async function seedProgramPdfParserFlags() {
   const horairePdfPrograms = programData.horairePdfPrograms;
+
   const prismaService = new PrismaService();
   const programService = new ProgramService(prismaService);
 

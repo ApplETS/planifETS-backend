@@ -1,11 +1,18 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Prisma, ProgramCoursePrerequisite } from '@prisma/client';
+import { Prisma, Program, ProgramCoursePrerequisite } from '@prisma/client';
 
+import { CourseService } from '../course/course.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { ProgramCourseService } from '../program-course/program-course.service';
+import { ProgramCourseWithPrerequisites } from '../program-course/program-course.types';
 
 @Injectable()
 export class PrerequisiteService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly programCourseService: ProgramCourseService,
+    private readonly courseService: CourseService,
+  ) {}
 
   private readonly logger = new Logger(PrerequisiteService.name);
 
@@ -83,6 +90,62 @@ export class PrerequisiteService {
     return Promise.all(
       data.map((prerequisiteData) => this.createPrerequisite(prerequisiteData)),
     );
+  }
+
+  public async addPrerequisiteIfNotExists(
+    programCourse: ProgramCourseWithPrerequisites,
+    prerequisiteCode: string,
+    program: Program,
+  ): Promise<void> {
+    const existingPrerequisiteCodes =
+      programCourse.prerequisites?.map((p) => p.prerequisite.course.code) ?? [];
+
+    if (existingPrerequisiteCodes.includes(prerequisiteCode)) {
+      return;
+    }
+
+    const prerequisiteCourse =
+      await this.courseService.getCourseByCode(prerequisiteCode);
+    if (!prerequisiteCourse) {
+      this.logger.error(
+        `Prerequisite course not found in database: ${prerequisiteCode}`,
+      );
+      return;
+    }
+
+    const prerequisiteProgramCourse =
+      await this.programCourseService.getProgramCourseWithPrerequisites({
+        courseId_programId: {
+          courseId: prerequisiteCourse.id,
+          programId: program.id,
+        },
+      });
+
+    if (!prerequisiteProgramCourse) {
+      this.logger.error(
+        `ProgramCourse not found for prerequisite course ${prerequisiteCode} and program ${program.code}`,
+      );
+      return;
+    }
+
+    await this.createPrerequisite({
+      programCourse: {
+        connect: {
+          courseId_programId: {
+            courseId: programCourse.courseId,
+            programId: programCourse.programId,
+          },
+        },
+      },
+      prerequisite: {
+        connect: {
+          courseId_programId: {
+            courseId: prerequisiteProgramCourse.courseId,
+            programId: prerequisiteProgramCourse.programId,
+          },
+        },
+      },
+    });
   }
 
   public async deletePrerequisitesForProgramCourse(

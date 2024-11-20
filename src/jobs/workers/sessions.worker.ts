@@ -3,6 +3,7 @@ import { Program, ProgramCourse, Session } from '@prisma/client';
 
 import { getHorairePdfUrl } from '../../common/constants/url';
 import { CourseCodeValidationPipe } from '../../common/pipes/models/course/course-code-validation-pipe';
+import { parsePrerequisiteString } from '../../common/utils/prerequisite/prerequisiteUtil';
 import { getTrimesterIndexBySession } from '../../common/utils/session/sessionUtil';
 import { HoraireCoursService } from '../../common/website-helper/pdf/pdf-parser/horaire/horaire-cours.service';
 import { IHoraireCours } from '../../common/website-helper/pdf/pdf-parser/horaire/horaire-cours.types';
@@ -10,7 +11,6 @@ import { CourseService } from '../../course/course.service';
 import { PrerequisiteService } from '../../prerequisite/prerequisite.service';
 import { ProgramService } from '../../program/program.service';
 import { ProgramCourseService } from '../../program-course/program-course.service';
-import { ProgramCourseWithPrerequisites } from '../../program-course/program-course.types';
 import { SessionService } from '../../session/session.service';
 
 @Injectable()
@@ -28,8 +28,7 @@ export class SessionsJobService {
   ) {}
 
   /**
-   * Main method to process prerequisites in the
-   * current session using Horaire-cours PDF.
+   * Main method to process prerequisites, using the current session data in Horaire-cours PDF.
    */
   public async processSessions(): Promise<void> {
     this.logger.log('Starting processSessions job.');
@@ -120,9 +119,6 @@ export class SessionsJobService {
       });
 
     if (!programCourse) {
-      //this.logger.error(
-      //  `ProgramCourse not found for course ${coursePdf.code} and program ${program.code}`,
-      //);
       return;
     }
 
@@ -130,8 +126,9 @@ export class SessionsJobService {
       return;
     }
 
-    const parsedPrerequisites = this.parsePrerequisiteString(
+    const parsedPrerequisites = parsePrerequisiteString(
       coursePdf.prerequisites,
+      this.courseCodeValidationPipe,
     );
 
     this.logger.debug(
@@ -147,45 +144,12 @@ export class SessionsJobService {
     }
 
     for (const prerequisiteCode of parsedPrerequisites) {
-      await this.addPrerequisiteIfNotExists(
+      await this.prerequisiteService.addPrerequisiteIfNotExists(
         programCourse,
         prerequisiteCode,
         program,
       );
     }
-  }
-
-  //TODO: add to utils
-  private parsePrerequisiteString(prerequisiteString: string): string[] | null {
-    const trimmedPrerequisite = prerequisiteString.trim();
-
-    if (!trimmedPrerequisite) {
-      return null;
-    }
-
-    // Attempt to validate the entire string as a single course code
-    const singleValidation =
-      this.courseCodeValidationPipe.transform(trimmedPrerequisite);
-    if (singleValidation !== false) {
-      return typeof singleValidation === 'string' ? [singleValidation] : null;
-    }
-
-    // If single validation fails, attempt to split and validate multiple course codes
-    const courseCodes = trimmedPrerequisite.split(',').map((s) => s.trim());
-
-    const validCourseCodes: string[] = [];
-    for (const code of courseCodes) {
-      const validatedCode = this.courseCodeValidationPipe.transform(code);
-      if (validatedCode === false) {
-        // If any code is invalid, treat the entire prerequisite string as unstructured
-        return null;
-      }
-      if (typeof validatedCode === 'string') {
-        validCourseCodes.push(validatedCode);
-      }
-    }
-
-    return validCourseCodes;
   }
 
   private async updateUnstructuredPrerequisite(
@@ -207,61 +171,5 @@ export class SessionsJobService {
         },
       });
     }
-  }
-
-  private async addPrerequisiteIfNotExists(
-    programCourse: ProgramCourseWithPrerequisites,
-    prerequisiteCode: string,
-    program: Program,
-  ): Promise<void> {
-    const existingPrerequisiteCodes =
-      programCourse.prerequisites?.map((p) => p.prerequisite.course.code) ?? [];
-
-    if (existingPrerequisiteCodes.includes(prerequisiteCode)) {
-      return;
-    }
-
-    const prerequisiteCourse =
-      await this.courseService.getCourseByCode(prerequisiteCode);
-    if (!prerequisiteCourse) {
-      this.logger.error(
-        `Prerequisite course not found in database: ${prerequisiteCode}`,
-      );
-      return;
-    }
-
-    const prerequisiteProgramCourse =
-      await this.programCourseService.getProgramCourseWithPrerequisites({
-        courseId_programId: {
-          courseId: prerequisiteCourse.id,
-          programId: program.id,
-        },
-      });
-
-    if (!prerequisiteProgramCourse) {
-      this.logger.error(
-        `ProgramCourse not found for prerequisite course ${prerequisiteCode} and program ${program.code}`,
-      );
-      return;
-    }
-
-    await this.prerequisiteService.createPrerequisite({
-      programCourse: {
-        connect: {
-          courseId_programId: {
-            courseId: programCourse.courseId,
-            programId: programCourse.programId,
-          },
-        },
-      },
-      prerequisite: {
-        connect: {
-          courseId_programId: {
-            courseId: prerequisiteProgramCourse.courseId,
-            programId: prerequisiteProgramCourse.programId,
-          },
-        },
-      },
-    });
   }
 }
