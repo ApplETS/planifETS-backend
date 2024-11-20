@@ -241,13 +241,4 @@ export class ProgramService {
 
     return result.count;
   }
-
-  public async deleteProgram(
-    where: Prisma.ProgramWhereUniqueInput,
-  ): Promise<Program> {
-    this.logger.verbose('deleteProgram', JSON.stringify(where));
-    return this.prisma.program.delete({
-      where,
-    });
-  }
 }

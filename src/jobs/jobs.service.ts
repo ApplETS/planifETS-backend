@@ -49,7 +49,7 @@ export class JobsService {
 
     try {
       await Promise.all([
-        // this.runWorker('ProgramsJobService', 'processPrograms'),
+        // this.runWorker('ProgramsJobService', 'processPrograms'), //FIXME: Uncomment this line later
         // this.runWorker('CoursesJobService', 'processCourses'),
         // this.runWorker(
         //   'CoursesJobService',

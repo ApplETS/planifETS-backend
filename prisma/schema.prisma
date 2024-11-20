@@ -72,7 +72,7 @@ model ProgramCoursePrerequisite {
 
   @@id([courseId, programId, prerequisiteId])
   @@index([courseId, programId])
-  @@map("CoursePrerequisite")
+  @@map("Prerequisite")
 }
 
 model ProgramCourse {

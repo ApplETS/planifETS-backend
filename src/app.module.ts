@@ -9,9 +9,9 @@ import { PdfModule } from './common/website-helper/pdf/pdf.module';
 import config from './config/configuration';
 import { CourseModule } from './course/course.module';
 import { CourseInstanceModule } from './course-instance/course-instance.module';
-import { CoursePrerequisiteModule } from './course-prerequisite/course-prerequisite.module';
 import { JobsModule } from './jobs/jobs.module';
 import { JobsService } from './jobs/jobs.service';
+import { PrerequisiteModule } from './prerequisite/prerequisite.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProgramModule } from './program/program.module';
 import { ProgramCourseModule } from './program-course/program-course.module';
@@ -33,7 +33,7 @@ import { SessionModule } from './session/session.module';
 
     CourseModule,
     CourseInstanceModule,
-    CoursePrerequisiteModule,
+    PrerequisiteModule,
     SessionModule,
     ProgramModule,
     ProgramCourseModule,

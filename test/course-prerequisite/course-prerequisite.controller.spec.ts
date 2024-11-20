@@ -1,17 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { CoursePrerequisiteController } from '../../src/course-prerequisite/course-prerequisite.controller';
-import { CoursePrerequisiteService } from '../../src/course-prerequisite/course-prerequisite.service';
+import { PrerequisiteController } from '../../src/prerequisite/prerequisite.controller';
+import { PrerequisiteService } from '../../src/prerequisite/prerequisite.service';
 import { PrismaService } from '../../src/prisma/prisma.service';
 
 describe('CoursePrerequisiteController', () => {
-  let controller: CoursePrerequisiteController;
+  let controller: PrerequisiteController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [CoursePrerequisiteController],
+      controllers: [PrerequisiteController],
       providers: [
-        CoursePrerequisiteService,
+        PrerequisiteService,
         {
           provide: PrismaService,
           useValue: {
@@ -24,9 +24,7 @@ describe('CoursePrerequisiteController', () => {
       ],
     }).compile();
 
-    controller = module.get<CoursePrerequisiteController>(
-      CoursePrerequisiteController,
-    );
+    controller = module.get<PrerequisiteController>(PrerequisiteController);
   });
 
   it('should be defined', () => {

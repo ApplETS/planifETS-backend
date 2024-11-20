@@ -21,9 +21,7 @@ export class SessionService {
           trimester,
         },
       },
-      update: {
-        updatedAt: new Date(),
-      },
+      update: {},
       create: {
         year,
         trimester,
@@ -52,9 +50,7 @@ export class SessionService {
           trimester,
         },
       },
-      update: {
-        updatedAt: new Date(),
-      },
+      update: {},
       create: {
         year,
         trimester,

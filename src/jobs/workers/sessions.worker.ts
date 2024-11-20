@@ -4,6 +4,7 @@ import { Program, Session } from '@prisma/client';
 import { getHorairePdfUrl } from '../../common/constants/url';
 import { getTrimesterIndexBySession } from '../../common/utils/session/sessionUtil';
 import { HoraireCoursService } from '../../common/website-helper/pdf/pdf-parser/horaire/horaire-cours.service';
+import { IHoraireCours } from '../../common/website-helper/pdf/pdf-parser/horaire/horaire-cours.types';
 import { ProgramService } from '../../program/program.service';
 import { SessionService } from '../../session/session.service';
 
@@ -83,7 +84,7 @@ export class SessionsJobService {
 
   private async handleParsedCourses(
     programCode: string,
-    courses: any[],
+    courses: IHoraireCours[],
   ): Promise<void> {
     //TODO: implement, create programs utils to handle prerequisites.
   }
