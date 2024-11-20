@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Logger, LogLevel } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { isMainThread, parentPort, workerData } from 'worker_threads';
 
@@ -27,7 +27,11 @@ interface ServiceInstance {
   logger.debug('Are we on the main thread?', isMainThread ? 'Yes' : 'No');
 
   const { serviceName, methodName } = workerData as WorkerData;
-  const appContext = await NestFactory.createApplicationContext(AppModule);
+  const appContext = await NestFactory.createApplicationContext(AppModule, {
+    logger: process.env.LOG_LEVELS
+      ? (process.env.LOG_LEVELS.split(',') as LogLevel[])
+      : ['error', 'warn', 'log'],
+  });
 
   try {
     // Get the Service Class from the mapping

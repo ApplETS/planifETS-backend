@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Course, Program, ProgramCourse, Session } from '@prisma/client';
+import { Program, ProgramCourse, Session } from '@prisma/client';
 
 import { getHorairePdfUrl } from '../../common/constants/url';
 import { CourseCodeValidationPipe } from '../../common/pipes/models/course/course-code-validation-pipe';
@@ -160,7 +160,6 @@ export class SessionsJobService {
     const trimmedPrerequisite = prerequisiteString.trim();
 
     if (!trimmedPrerequisite) {
-      console.log('Empty string for ', trimmedPrerequisite);
       return null;
     }
 
@@ -168,13 +167,6 @@ export class SessionsJobService {
     const singleValidation =
       this.courseCodeValidationPipe.transform(trimmedPrerequisite);
     if (singleValidation !== false) {
-      console.log(
-        'Single validation',
-        singleValidation,
-        'typeof',
-        typeof singleValidation,
-      );
-
       return typeof singleValidation === 'string' ? [singleValidation] : null;
     }
 
@@ -184,7 +176,6 @@ export class SessionsJobService {
     const validCourseCodes: string[] = [];
     for (const code of courseCodes) {
       const validatedCode = this.courseCodeValidationPipe.transform(code);
-      console.log('Code', code, '   =', validatedCode);
       if (validatedCode === false) {
         // If any code is invalid, treat the entire prerequisite string as unstructured
         return null;
