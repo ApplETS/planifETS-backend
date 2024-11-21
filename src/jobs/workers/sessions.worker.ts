@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Program, ProgramCourse, Session } from '@prisma/client';
+import { Program, Session } from '@prisma/client';
 
 import { getHorairePdfUrl } from '../../common/constants/url';
 import { CourseCodeValidationPipe } from '../../common/pipes/models/course/course-code-validation-pipe';
@@ -143,10 +143,13 @@ export class SessionsJobService {
     this.logger.debug(
       `Unstructured prerequisites for course ${coursePdf.code}: "${coursePdf.prerequisites}"`,
     );
-    await this.updateUnstructuredPrerequisite(
-      programCourse,
-      coursePdf.prerequisites,
-    );
+    const updatedUnstructPrereqCount =
+      await this.prerequisiteService.updateUnstructuredPrerequisite(
+        programCourse,
+        coursePdf.prerequisites,
+      );
+
+    this.unstructuredPrerequisitesUpdated += updatedUnstructPrereqCount;
 
     if (!parsedPrerequisites) {
       return;
@@ -162,28 +165,6 @@ export class SessionsJobService {
       if (wasAdded) {
         this.prerequisitesAdded += 1;
       }
-    }
-  }
-
-  private async updateUnstructuredPrerequisite(
-    programCourse: ProgramCourse,
-    newUnstructuredPrerequisite: string | null,
-  ): Promise<void> {
-    if (
-      programCourse.unstructuredPrerequisite !== newUnstructuredPrerequisite
-    ) {
-      await this.programCourseService.updateProgramCourse({
-        where: {
-          courseId_programId: {
-            courseId: programCourse.courseId,
-            programId: programCourse.programId,
-          },
-        },
-        data: {
-          unstructuredPrerequisite: newUnstructuredPrerequisite,
-        },
-      });
-      this.unstructuredPrerequisitesUpdated += 1;
     }
   }
 }

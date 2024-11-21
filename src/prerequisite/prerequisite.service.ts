@@ -1,5 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Prisma, Program, ProgramCoursePrerequisite } from '@prisma/client';
+import {
+  Prisma,
+  Program,
+  ProgramCourse,
+  ProgramCoursePrerequisite,
+} from '@prisma/client';
 
 import { CourseService } from '../course/course.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -148,6 +153,29 @@ export class PrerequisiteService {
     });
 
     return true; // Prerequisite was added
+  }
+
+  public async updateUnstructuredPrerequisite(
+    programCourse: ProgramCourse,
+    newUnstructuredPrerequisite: string | null,
+  ): Promise<number> {
+    if (
+      programCourse.unstructuredPrerequisite !== newUnstructuredPrerequisite
+    ) {
+      await this.programCourseService.updateProgramCourse({
+        where: {
+          courseId_programId: {
+            courseId: programCourse.courseId,
+            programId: programCourse.programId,
+          },
+        },
+        data: {
+          unstructuredPrerequisite: newUnstructuredPrerequisite,
+        },
+      });
+      return 1;
+    }
+    return 0;
   }
 
   public async deletePrerequisitesForProgramCourse(
