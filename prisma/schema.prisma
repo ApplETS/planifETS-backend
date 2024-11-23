@@ -17,7 +17,6 @@ enum Trimester {
 }
 
 model Session {
-  id        String    @id @default(uuid())
   trimester Trimester
   year      Int
   createdAt DateTime  @default(now())
@@ -25,22 +24,22 @@ model Session {
 
   courseInstances CourseInstance[]
 
-  @@unique([year, trimester])
+  @@id([year, trimester])
 }
 
 model CourseInstance {
-  id        String @id @default(uuid())
-  courseId  Int
-  sessionId String
+  courseId         Int
+  sessionYear      Int
+  sessionTrimester Trimester
 
   course  Course  @relation(fields: [courseId], references: [id])
-  session Session @relation(fields: [sessionId], references: [id])
+  session Session @relation(fields: [sessionYear, sessionTrimester], references: [year, trimester])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([courseId, sessionId])
-  @@index([courseId, sessionId])
+  @@id([courseId, sessionYear, sessionTrimester])
+  @@index([courseId, sessionYear, sessionTrimester])
 }
 
 model Course {
