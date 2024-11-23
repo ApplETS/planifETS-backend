@@ -178,20 +178,50 @@ export class PrerequisiteService {
     return 0;
   }
 
+  public async deletePrerequisiteForProgramCourse(
+    programId: number,
+    courseId: number,
+    prerequisiteId: number,
+  ): Promise<number> {
+    this.logger.verbose('deletePrerequisiteForProgramCourse', {
+      programId,
+      courseId,
+      prerequisiteId,
+    });
+
+    try {
+      await this.prisma.programCoursePrerequisite.delete({
+        where: {
+          courseId_programId_prerequisiteId: {
+            programId,
+            courseId,
+            prerequisiteId,
+          },
+        },
+      });
+      return 1;
+    } catch (error) {
+      this.logger.error('Error deleting prerequisite:', error);
+      return 0;
+    }
+  }
+
   public async deletePrerequisitesForProgramCourse(
     programId: number,
     courseId: number,
-  ): Promise<Prisma.BatchPayload> {
+  ): Promise<number> {
     this.logger.verbose('deletePrerequisitesForProgramCourse', {
       programId,
       courseId,
     });
 
-    return this.prisma.programCoursePrerequisite.deleteMany({
-      where: {
-        programId: programId,
-        courseId: courseId,
-      },
-    });
+    return (
+      await this.prisma.programCoursePrerequisite.deleteMany({
+        where: {
+          programId: programId,
+          courseId: courseId,
+        },
+      })
+    ).count;
   }
 }

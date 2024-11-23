@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Program, Session } from '@prisma/client';
+import { Course, Program, Session } from '@prisma/client';
 
 import { getHorairePdfUrl } from '../../common/constants/url';
 import { CourseCodeValidationPipe } from '../../common/pipes/models/course/course-code-validation-pipe';
@@ -11,6 +11,7 @@ import { CourseService } from '../../course/course.service';
 import { PrerequisiteService } from '../../prerequisite/prerequisite.service';
 import { ProgramService } from '../../program/program.service';
 import { ProgramCourseService } from '../../program-course/program-course.service';
+import { ProgramCourseWithPrerequisites } from '../../program-course/program-course.types';
 import { SessionService } from '../../session/session.service';
 
 @Injectable()
@@ -19,6 +20,7 @@ export class SessionsJobService {
 
   private unstructuredPrerequisitesUpdated = 0;
   private prerequisitesAdded = 0;
+  private prerequisitesDeleted = 0;
 
   constructor(
     private readonly sessionService: SessionService,
@@ -58,6 +60,9 @@ export class SessionsJobService {
         `Total unstructured prerequisites updated: ${this.unstructuredPrerequisitesUpdated}`,
       );
       this.logger.log(`Total prerequisites added: ${this.prerequisitesAdded}`);
+      this.logger.log(
+        `Total prerequisites deleted: ${this.prerequisitesDeleted}`,
+      );
     } catch (error) {
       this.logger.error('Error in processSessions job:', error);
     }
@@ -111,30 +116,73 @@ export class SessionsJobService {
     coursePdf: IHoraireCours,
     program: Program,
   ): Promise<void> {
-    const existingCourse = await this.courseService.getCourseByCode(
-      coursePdf.code,
-    );
+    const existingCourse = await this.getExistingCourse(coursePdf.code);
     if (!existingCourse) {
-      this.logger.error(`Course not found in database: ${coursePdf.code}`);
       return;
     }
 
-    const programCourse =
-      await this.programCourseService.getProgramCourseWithPrerequisites({
-        courseId_programId: {
-          courseId: existingCourse.id,
-          programId: program.id,
-        },
-      });
-
+    const programCourse = await this.getProgramCourseWithPrerequisites(
+      existingCourse.id,
+      program.id,
+    );
     if (!programCourse) {
       return;
     }
 
-    if (!coursePdf.prerequisites || coursePdf.prerequisites.trim() === '') {
+    const parsedPrerequisites = this.parsePrerequisites(coursePdf);
+
+    // a. Update unstructured prerequisite if changed
+    await this.updateUnstructuredPrerequisiteIfChanged(
+      programCourse,
+      coursePdf.prerequisites,
+    );
+
+    // If no valid parsed prerequisites exist, delete all existing prerequisites and return.
+    if (!parsedPrerequisites) {
+      await this.deleteAllPrerequisites(program.id, existingCourse.id);
       return;
     }
 
+    // b. Delete unmatched prerequisites
+    await this.deleteUnmatchedPrerequisites(
+      program,
+      existingCourse,
+      programCourse,
+      parsedPrerequisites,
+    );
+
+    // c. Add new prerequisites if they don’t already exist
+    await this.addNewPrerequisites(program, programCourse, parsedPrerequisites);
+  }
+
+  private async getExistingCourse(courseCode: string) {
+    const existingCourse = await this.courseService.getCourseByCode(courseCode);
+    if (!existingCourse) {
+      this.logger.error(`Course not found in database: ${courseCode}`);
+    }
+    return existingCourse;
+  }
+
+  private async getProgramCourseWithPrerequisites(
+    courseId: number,
+    programId: number,
+  ): Promise<ProgramCourseWithPrerequisites | null> {
+    const programCourse =
+      await this.programCourseService.getProgramCourseWithPrerequisites({
+        courseId_programId: {
+          courseId,
+          programId,
+        },
+      });
+    if (!programCourse) {
+      this.logger.warn(
+        `ProgramCourse not found for courseId: ${courseId}, programId: ${programId}`,
+      );
+    }
+    return programCourse;
+  }
+
+  private parsePrerequisites(coursePdf: IHoraireCours): string[] | null {
     const parsedPrerequisites = parsePrerequisiteString(
       coursePdf.prerequisites,
       this.courseCodeValidationPipe,
@@ -143,18 +191,72 @@ export class SessionsJobService {
     this.logger.debug(
       `Unstructured prerequisites for course ${coursePdf.code}: "${coursePdf.prerequisites}"`,
     );
+
+    return parsedPrerequisites;
+  }
+
+  private async updateUnstructuredPrerequisiteIfChanged(
+    programCourse: ProgramCourseWithPrerequisites,
+    newUnstructuredPrerequisite: string | null,
+  ) {
     const updatedUnstructPrereqCount =
       await this.prerequisiteService.updateUnstructuredPrerequisite(
         programCourse,
-        coursePdf.prerequisites,
+        newUnstructuredPrerequisite,
+      );
+    this.unstructuredPrerequisitesUpdated += updatedUnstructPrereqCount;
+  }
+
+  private async deleteAllPrerequisites(programId: number, courseId: number) {
+    const wasDeletedCount =
+      await this.prerequisiteService.deletePrerequisitesForProgramCourse(
+        programId,
+        courseId,
       );
 
-    this.unstructuredPrerequisitesUpdated += updatedUnstructPrereqCount;
-
-    if (!parsedPrerequisites) {
-      return;
+    if (wasDeletedCount) {
+      this.prerequisitesDeleted += wasDeletedCount;
     }
+  }
 
+  private async deleteUnmatchedPrerequisites(
+    program: Program,
+    existingCourse: Course,
+    programCourse: ProgramCourseWithPrerequisites,
+    parsedPrerequisites: string[],
+  ) {
+    const existingPrerequisites =
+      programCourse.prerequisites?.map((p) => p.prerequisite.course.code) ?? [];
+    const prerequisitesToDelete = existingPrerequisites.filter(
+      (code) => !parsedPrerequisites.includes(code),
+    );
+
+    for (const prerequisiteCode of prerequisitesToDelete) {
+      const prerequisiteCourse =
+        await this.courseService.getCourseByCode(prerequisiteCode);
+      if (!prerequisiteCourse) {
+        this.logger.error(`Prerequisite course not found: ${prerequisiteCode}`);
+        continue;
+      }
+
+      const wasDeletedCount =
+        await this.prerequisiteService.deletePrerequisiteForProgramCourse(
+          program.id,
+          existingCourse.id,
+          prerequisiteCourse.id,
+        );
+
+      if (wasDeletedCount) {
+        this.prerequisitesDeleted += wasDeletedCount;
+      }
+    }
+  }
+
+  private async addNewPrerequisites(
+    program: Program,
+    programCourse: ProgramCourseWithPrerequisites,
+    parsedPrerequisites: string[],
+  ) {
     for (const prerequisiteCode of parsedPrerequisites) {
       const wasAdded =
         await this.prerequisiteService.addPrerequisiteIfNotExists(
