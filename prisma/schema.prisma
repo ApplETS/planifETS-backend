@@ -27,10 +27,17 @@ model Session {
   @@id([year, trimester])
 }
 
+enum Availability {
+  JOUR
+  SOIR
+  INTENSIF
+}
+
 model CourseInstance {
   courseId         Int
   sessionYear      Int
   sessionTrimester Trimester
+  availability     Availability
 
   course  Course  @relation(fields: [courseId], references: [id])
   session Session @relation(fields: [sessionYear, sessionTrimester], references: [year, trimester])
