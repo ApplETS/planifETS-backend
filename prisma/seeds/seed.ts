@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 
 import { PrismaService } from '../../src/prisma/prisma.service';
-import { seedProgramPdfParserFlags } from './programs.seeder';
+import { seedProgramPdfParserFlags } from '../../src/prisma/programs.seeder';
 
 const prismaService = new PrismaService();
 

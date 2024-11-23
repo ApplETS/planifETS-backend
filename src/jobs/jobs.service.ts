@@ -56,6 +56,9 @@ export class JobsService {
       // Data source: ETS API
       { service: 'CoursesJobService', method: 'processCourses' },
 
+      //Creates and updates Course instance entities.
+      // Data source: Planification PDF
+
       // Creates and updates ProgramCourse entities.
       // Data source: Cheminot (Cheminements.txt)
       {
