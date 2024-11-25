@@ -1,11 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import {
-  Availability,
-  Course,
-  CourseInstance,
-  Program,
-  Session,
-} from '@prisma/client';
+import { CourseInstance, Program } from '@prisma/client';
 
 import { AvailabilityUtil } from '../../common/utils/course-instance/courseInstanceUtil';
 import { PlanificationCoursService } from '../../common/website-helper/pdf/pdf-parser/planification/planification-cours.service';
@@ -120,14 +114,18 @@ export class CourseInstancesJobService {
           this.logger.debug(
             `Updating availability for session ${sessionCode}.`,
           );
-          await this.updateCourseInstance(existingInstance, parsedAvailability);
+          await this.courseInstanceService.updateCourseInstanceAvailability(
+            existingInstance,
+            parsedAvailability,
+          );
         }
       } else {
-        const newInstance = await this.createCourseInstance(
-          course,
-          session,
-          parsedAvailability,
-        );
+        const newInstance =
+          await this.courseInstanceService.createCourseInstance(
+            course,
+            session,
+            parsedAvailability,
+          );
         addedInstances.push(newInstance);
       }
     }
@@ -139,41 +137,6 @@ export class CourseInstancesJobService {
     );
   }
 
-  private async createCourseInstance(
-    course: Course,
-    session: Session,
-    availability: Availability,
-  ): Promise<CourseInstance> {
-    return this.courseInstanceService.createCourseInstance({
-      course: { connect: { id: course.id } },
-      session: {
-        connect: {
-          year_trimester: {
-            year: session.year,
-            trimester: session.trimester,
-          },
-        },
-      },
-      availability,
-    });
-  }
-
-  private async updateCourseInstance(
-    instance: CourseInstance,
-    availability: Availability,
-  ): Promise<void> {
-    await this.courseInstanceService.updateCourseInstance({
-      where: {
-        courseId_sessionYear_sessionTrimester: {
-          courseId: instance.courseId,
-          sessionYear: instance.sessionYear,
-          sessionTrimester: instance.sessionTrimester,
-        },
-      },
-      data: { availability },
-    });
-  }
-
   private async removeOutdatedInstances(
     courseData: ParsedCourseData,
     existingInstancesMap: Map<string, CourseInstance>,
@@ -181,13 +144,11 @@ export class CourseInstancesJobService {
   ): Promise<void> {
     for (const [sessionKey, instance] of existingInstancesMap.entries()) {
       if (!courseData.available[sessionKey]) {
-        await this.courseInstanceService.deleteCourseInstance({
-          courseId_sessionYear_sessionTrimester: {
-            courseId: instance.courseId,
-            sessionYear: instance.sessionYear,
-            sessionTrimester: instance.sessionTrimester,
-          },
-        });
+        await this.courseInstanceService.deleteCourseInstance(
+          instance.courseId,
+          instance.sessionYear,
+          instance.sessionTrimester,
+        );
         removedInstances.push(instance);
       }
     }
