@@ -58,6 +58,36 @@ export class SessionService {
     });
   }
 
+  private parseSessionCode(sessionCode: string): {
+    year: number;
+    trimester: Trimester;
+  } {
+    const year = parseInt(`20${sessionCode.slice(1)}`, 10);
+    const trimesterMap: Record<string, Trimester> = {
+      A: Trimester.AUTOMNE,
+      H: Trimester.HIVER,
+      E: Trimester.ETE,
+    };
+    const trimester = trimesterMap[sessionCode[0].toUpperCase()];
+
+    if (!year || !trimester) {
+      throw new Error(`Invalid session code: ${sessionCode}`);
+    }
+
+    return { year, trimester };
+  }
+
+  public async getOrCreateSessionFromCode(
+    sessionCode: string,
+  ): Promise<Session> {
+    const { year, trimester } = this.parseSessionCode(sessionCode);
+    return this.prisma.session.upsert({
+      where: { year_trimester: { year, trimester } },
+      update: {},
+      create: { year, trimester },
+    });
+  }
+
   public async getAllSessions(): Promise<Session[]> {
     return this.prisma.session.findMany();
   }

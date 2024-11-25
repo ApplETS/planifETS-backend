@@ -12,7 +12,7 @@ export class CourseInstanceService {
   public getCourseInstance(
     courseInstanceWhereUniqueInput: Prisma.CourseInstanceWhereUniqueInput,
   ): Promise<CourseInstance | null> {
-    this.logger.log('courseInstanceById');
+    this.logger.verbose('courseInstanceById');
 
     return this.prisma.courseInstance.findUnique({
       where: courseInstanceWhereUniqueInput,
@@ -20,24 +20,10 @@ export class CourseInstanceService {
   }
 
   public async getAllCourseInstances(): Promise<CourseInstance[]> {
-    this.logger.log('courseInstances');
+    this.logger.verbose('courseInstances');
 
     const courseInstances = await this.prisma.courseInstance.findMany();
     return courseInstances;
-  }
-
-  public async getCourseInstancesBySessions(
-    sessionIds: string[],
-  ): Promise<CourseInstance[]> {
-    this.logger.log('getCourseInstancesBySessions', JSON.stringify(sessionIds));
-
-    return this.prisma.courseInstance.findMany({
-      where: {
-        sessionId: {
-          in: sessionIds,
-        },
-      },
-    });
   }
 
   public async getCourseAvailability(
@@ -61,7 +47,7 @@ export class CourseInstanceService {
   public async getCourseInstancesByCourse(
     courseId: number,
   ): Promise<CourseInstance[]> {
-    this.logger.log('getCourseInstancesByCourse', courseId);
+    this.logger.verbose('getCourseInstancesByCourse', courseId);
 
     return this.prisma.courseInstance.findMany({
       where: { courseId },
@@ -74,7 +60,7 @@ export class CourseInstanceService {
   public async createCourseInstance(
     data: Prisma.CourseInstanceCreateInput,
   ): Promise<CourseInstance> {
-    this.logger.log('createCourseInstance', data);
+    this.logger.verbose('createCourseInstance', data);
     const courseInstance = await this.prisma.courseInstance.create({
       data,
     });
@@ -85,7 +71,7 @@ export class CourseInstanceService {
     where: Prisma.CourseInstanceWhereUniqueInput;
     data: Prisma.CourseInstanceUpdateInput;
   }): Promise<CourseInstance> {
-    this.logger.log('updateCourseInstance', params);
+    this.logger.verbose('updateCourseInstance', params);
 
     const { data, where } = params;
     return this.prisma.courseInstance.update({
@@ -97,20 +83,10 @@ export class CourseInstanceService {
   public async deleteCourseInstance(
     where: Prisma.CourseInstanceWhereUniqueInput,
   ): Promise<CourseInstance> {
-    this.logger.log('deleteCourseInstance', where);
+    this.logger.verbose('deleteCourseInstance', where);
 
     return this.prisma.courseInstance.delete({
       where,
-    });
-  }
-
-  public async deleteCourseInstancesBySession(
-    sessionId: string,
-  ): Promise<Prisma.BatchPayload> {
-    this.logger.log('deleteCourseInstancesBySession', sessionId);
-
-    return this.prisma.courseInstance.deleteMany({
-      where: { sessionId },
     });
   }
 }
