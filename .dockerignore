@@ -1,0 +1,26 @@
+# Node modules
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+.env.*
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Git files
+.git
+.gitignore
+
+# Others
+dist
+coverage

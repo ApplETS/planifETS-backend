@@ -1,0 +1,26 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/applets/planifets-backend
+  pullPolicy: Always
+  tag: 'pr-47' # todo
+
+imagePullSecrets: []
+nameOverride: ''
+fullnameOverride: ''
+
+service:
+  port: 3000
+  type: LoadBalancer
+
+postgres:
+  user: postgres # todo
+  password: bEL8BZZU^BF8Rqe9 # todo
+  db: planifetsDB # todo
+
+ingress:
+  enabled: true
+  hosts:
+    - host: localhost # fixme (not sure)
+
+postgresSecretName: postgres-secret
