@@ -1,14 +1,14 @@
 import {
+  BadRequestException,
   Controller,
   Get,
-  Param,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { Session } from '@prisma/client';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Session, Trimester } from '@prisma/client';
 
-import { UuidDto } from '../common/exceptions/dtos/uuid.dto';
 import { SessionService } from './session.service';
 
 @ApiTags('Sessions')
@@ -16,14 +16,26 @@ import { SessionService } from './session.service';
 export class SessionController {
   constructor(private readonly sessionService: SessionService) {}
 
-  @Get(':id')
+  @Get('')
   @UsePipes(new ValidationPipe({ transform: true }))
-  public async getSession(@Param() { id }: UuidDto): Promise<Session | null> {
-    return this.sessionService.getSession(id);
-  }
+  @ApiQuery({
+    name: 'trimester',
+    enum: Trimester,
+  })
+  public async getSession(
+    @Query('year') year: string,
+    @Query('trimester') trimester: string,
+  ): Promise<Session | null> {
+    const parsedTrimester = Trimester[trimester as keyof typeof Trimester];
+    if (!parsedTrimester) {
+      throw new BadRequestException(
+        `Invalid trimester value. Allowed: ${Object.values(Trimester).join(', ')}`,
+      );
+    }
 
-  @Get()
-  public async getAllSessions(): Promise<Session[]> {
-    return this.sessionService.getAllSessions();
+    return this.sessionService.getOrCreateSession(
+      Number(year),
+      parsedTrimester,
+    );
   }
 }

@@ -26,4 +26,11 @@ export class ProgramController {
   public async getAllPrograms(): Promise<Program[] | null> {
     return this.programService.getAllPrograms();
   }
+
+  @Get(':code/courses')
+  public async getProgramCoursesByCode(
+    @Param('code') programCode: string,
+  ): Promise<Program | null> {
+    return this.programService.getProgramCoursesByCode(programCode);
+  }
 }
