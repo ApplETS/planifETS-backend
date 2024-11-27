@@ -37,7 +37,7 @@ model CourseInstance {
   courseId         Int
   sessionYear      Int
   sessionTrimester Trimester
-  availability     Availability
+  availability     Availability[] @default([])
 
   course  Course  @relation(fields: [courseId], references: [id])
   session Session @relation(fields: [sessionYear, sessionTrimester], references: [year, trimester])

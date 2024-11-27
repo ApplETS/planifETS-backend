@@ -50,25 +50,29 @@ export class JobsService {
     const jobs = [
       // Creates and updates Programs and ProgramTypes entities.
       // Data source: ETS API
-      { service: 'ProgramsJobService', method: 'processPrograms' },
+      // { service: 'ProgramsJobService', method: 'processPrograms' },
 
       // Creates and updates Courses entities.
       // Data source: ETS API
-      { service: 'CoursesJobService', method: 'processCourses' },
+      // { service: 'CoursesJobService', method: 'processCourses' },
 
       //Creates and updates Course instance entities.
       // Data source: Planification PDF
+      {
+        service: 'CourseInstancesJobService',
+        method: 'processCourseInstances',
+      },
 
       // Creates and updates ProgramCourse entities.
       // Data source: Cheminot (Cheminements.txt)
-      {
-        service: 'CoursesJobService',
-        method: 'syncCourseDetailsWithCheminotData',
-      },
+      // {
+      //   service: 'CoursesJobService',
+      //   method: 'syncCourseDetailsWithCheminotData',
+      // },
 
       // Create current Session and Prerequisite entities.
       // Data source: Horaire-cours PDF
-      { service: 'SessionsJobService', method: 'processSessions' },
+      // { service: 'SessionsJobService', method: 'processSessions' },
     ];
 
     for (const [index, job] of jobs.entries()) {

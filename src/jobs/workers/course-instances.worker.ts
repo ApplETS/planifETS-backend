@@ -3,16 +3,12 @@ import { CourseInstance, Program } from '@prisma/client';
 
 import { AvailabilityUtil } from '../../common/utils/course-instance/courseInstanceUtil';
 import { PlanificationCoursService } from '../../common/website-helper/pdf/pdf-parser/planification/planification-cours.service';
+import { ICoursePlanification } from '../../common/website-helper/pdf/pdf-parser/planification/planification-cours.types';
 import { CourseService } from '../../course/course.service';
 import { CourseInstanceService } from '../../course-instance/course-instance.service';
 import { seedProgramPlanificationPdfParserFlags } from '../../prisma/programs.seeder';
 import { ProgramService } from '../../program/program.service';
 import { SessionService } from '../../session/session.service';
-
-type ParsedCourseData = {
-  code: string;
-  available: Record<string, string>;
-};
 
 @Injectable()
 export class CourseInstancesJobService {
@@ -62,20 +58,27 @@ export class CourseInstancesJobService {
       );
 
     const addedInstances: CourseInstance[] = [];
+    const updatedInstances: CourseInstance[] = [];
     const removedInstances: CourseInstance[] = [];
 
     for (const courseData of parsedData) {
-      await this.processCourse(courseData, addedInstances, removedInstances);
+      await this.processCourse(
+        courseData,
+        addedInstances,
+        updatedInstances,
+        removedInstances,
+      );
     }
 
     this.logger.log(
-      `Program ${program.code}: Added ${addedInstances.length} instances, Removed ${removedInstances.length} instances.`,
+      `Program ${program.code}: Added ${addedInstances.length} instances, Updated ${updatedInstances.length} instances, Removed ${removedInstances.length} instances.`,
     );
   }
 
   private async processCourse(
-    courseData: ParsedCourseData,
+    courseData: ICoursePlanification,
     addedInstances: CourseInstance[],
+    updatedInstances: CourseInstance[],
     removedInstances: CourseInstance[],
   ): Promise<void> {
     const course = await this.courseService.getCourseByCode(courseData.code);
@@ -96,40 +99,49 @@ export class CourseInstancesJobService {
       const session =
         await this.sessionService.getOrCreateSessionFromCode(sessionCode);
 
-      const parsedAvailability =
+      const parsedAvailabilities =
         AvailabilityUtil.parseAvailability(availabilityCode);
-      if (!parsedAvailability) {
+      if (!parsedAvailabilities || parsedAvailabilities.length === 0) {
         this.logger.warn(
           `Invalid availability code "${availabilityCode}" for session "${sessionCode}". Skipping.`,
         );
         continue;
       }
 
-      const sessionKey = `${session.year}${session.trimester}`;
+      const sessionKey = `${session.year}-${session.trimester}`;
       const existingInstance = existingInstancesMap.get(sessionKey);
 
       if (existingInstance) {
-        // Update only if the availability differs
-        if (existingInstance.availability !== parsedAvailability) {
+        // Compare existing availability with parsedAvailabilities
+        const isSame = AvailabilityUtil.areAvailabilitiesEqual(
+          existingInstance.availability,
+          parsedAvailabilities,
+        );
+
+        if (!isSame) {
           this.logger.debug(
             `Updating availability for session ${sessionCode}.`,
           );
           await this.courseInstanceService.updateCourseInstanceAvailability(
             existingInstance,
-            parsedAvailability,
+            parsedAvailabilities,
           );
+          updatedInstances.push(existingInstance);
         }
+        // If same, do nothing
       } else {
+        // Create new instance
         const newInstance =
           await this.courseInstanceService.createCourseInstance(
             course,
             session,
-            parsedAvailability,
+            parsedAvailabilities,
           );
         addedInstances.push(newInstance);
       }
     }
 
+    // Handle removal of outdated instances
     await this.removeOutdatedInstances(
       courseData,
       existingInstancesMap,
@@ -138,12 +150,41 @@ export class CourseInstancesJobService {
   }
 
   private async removeOutdatedInstances(
-    courseData: ParsedCourseData,
+    courseData: ICoursePlanification,
     existingInstancesMap: Map<string, CourseInstance>,
     removedInstances: CourseInstance[],
   ): Promise<void> {
     for (const [sessionKey, instance] of existingInstancesMap.entries()) {
-      if (!courseData.available[sessionKey]) {
+      // Check if this session is present in the new parsed data
+      const isSessionPresent = Object.keys(courseData.available).some(
+        async (sessionCode) => {
+          const session =
+            await this.sessionService.getOrCreateSessionFromCode(sessionCode);
+          if (!session) return false;
+          const key = `${session.year}-${session.trimester}`;
+          return key === sessionKey;
+        },
+      );
+
+      // Since 'some' with async doesn't work as expected, refactor logic
+      let sessionFound = false;
+      for (const sessionCode of Object.keys(courseData.available)) {
+        const session =
+          await this.sessionService.getOrCreateSessionFromCode(sessionCode);
+        if (session) {
+          const key = `${session.year}-${session.trimester}`;
+          if (key === sessionKey) {
+            sessionFound = true;
+            break;
+          }
+        }
+      }
+
+      if (!sessionFound) {
+        // Session is no longer present in the new data, delete the instance
+        this.logger.debug(
+          `Removing outdated CourseInstance for session key ${sessionKey}.`,
+        );
         await this.courseInstanceService.deleteCourseInstance(
           instance.courseId,
           instance.sessionYear,
@@ -159,7 +200,7 @@ export class CourseInstancesJobService {
   ): Map<string, CourseInstance> {
     const instanceMap = new Map<string, CourseInstance>();
     for (const instance of existingInstances) {
-      const sessionKey = `${instance.sessionYear}${instance.sessionTrimester}`;
+      const sessionKey = `${instance.sessionYear}-${instance.sessionTrimester}`;
       instanceMap.set(sessionKey, instance);
     }
     return instanceMap;

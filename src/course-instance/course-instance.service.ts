@@ -1,3 +1,5 @@
+// course-instance.service.ts
+
 import { Injectable, Logger } from '@nestjs/common';
 import {
   Availability,
@@ -16,18 +18,41 @@ export class CourseInstanceService {
 
   private readonly logger = new Logger(CourseInstanceService.name);
 
-  public getCourseInstance(
+  /**
+   * Retrieves a unique CourseInstance based on unique identifiers.
+   */
+  public async getCourseInstance(
     courseInstanceWhereUniqueInput: Prisma.CourseInstanceWhereUniqueInput,
   ): Promise<CourseInstance | null> {
-    this.logger.verbose('courseInstanceById');
+    this.logger.verbose('Fetching CourseInstance by unique input.');
 
     return this.prisma.courseInstance.findUnique({
       where: courseInstanceWhereUniqueInput,
     });
   }
 
+  public async getCourseInstancesBySessions(
+    sessions: Session[],
+  ): Promise<CourseInstance[]> {
+    const sessionIdentifiers = sessions.map((session) => ({
+      sessionYear: session.year,
+      sessionTrimester: session.trimester,
+    }));
+
+    this.logger.verbose('getCourseInstancesBySessions', sessionIdentifiers);
+
+    return this.prisma.courseInstance.findMany({
+      where: {
+        OR: sessionIdentifiers.map(({ sessionYear, sessionTrimester }) => ({
+          sessionYear,
+          sessionTrimester,
+        })),
+      },
+    });
+  }
+
   public async getAllCourseInstances(): Promise<CourseInstance[]> {
-    this.logger.verbose('courseInstances');
+    this.logger.verbose('Fetching all CourseInstances.');
 
     const courseInstances = await this.prisma.courseInstance.findMany();
     return courseInstances;
@@ -35,8 +60,8 @@ export class CourseInstanceService {
 
   public async getCourseAvailability(
     courseId: number,
-  ): Promise<{ session: Session; available: boolean }[]> {
-    this.logger.verbose('getCourseAvailability', courseId);
+  ): Promise<{ session: Session; available: Availability[] }[]> {
+    this.logger.verbose('Fetching Course Availability', courseId);
 
     const courseInstances = await this.prisma.courseInstance.findMany({
       where: { courseId },
@@ -47,14 +72,14 @@ export class CourseInstanceService {
 
     return courseInstances.map((ci) => ({
       session: ci.session,
-      available: true,
+      available: ci.availability,
     }));
   }
 
   public async getCourseInstancesByCourse(
     courseId: number,
   ): Promise<CourseInstance[]> {
-    this.logger.verbose('getCourseInstancesByCourse', courseId);
+    this.logger.verbose('Fetching CourseInstances by Course ID', courseId);
 
     return this.prisma.courseInstance.findMany({
       where: { courseId },
@@ -67,11 +92,12 @@ export class CourseInstanceService {
   public async createCourseInstance(
     course: Course,
     session: Session,
-    availability: Availability,
+    availability: Availability[],
   ): Promise<CourseInstance> {
-    this.logger.verbose('createCourseInstance', {
-      course,
-      session,
+    this.logger.verbose('Creating CourseInstance', {
+      courseId: course.id,
+      sessionYear: session.year,
+      sessionTrimester: session.trimester,
       availability,
     });
 
@@ -93,8 +119,15 @@ export class CourseInstanceService {
 
   public async updateCourseInstanceAvailability(
     instance: CourseInstance,
-    availability: Availability,
+    availability: Availability[],
   ): Promise<void> {
+    this.logger.verbose('Updating CourseInstance Availability', {
+      courseId: instance.courseId,
+      sessionYear: instance.sessionYear,
+      sessionTrimester: instance.sessionTrimester,
+      availability,
+    });
+
     await this.prisma.courseInstance.update({
       where: {
         courseId_sessionYear_sessionTrimester: {
@@ -107,22 +140,12 @@ export class CourseInstanceService {
     });
   }
 
-  public async deleteCourseIsnstance(
-    where: Prisma.CourseInstanceWhereUniqueInput,
-  ): Promise<CourseInstance> {
-    this.logger.verbose('deleteCourseInstance', where);
-
-    return this.prisma.courseInstance.delete({
-      where,
-    });
-  }
-
   public async deleteCourseInstance(
     courseId: number,
     sessionYear: number,
     sessionTrimester: Trimester,
   ): Promise<CourseInstance> {
-    this.logger.verbose('deleteCourseInstance', {
+    this.logger.verbose('Deleting CourseInstance', {
       courseId,
       sessionYear,
       sessionTrimester,
