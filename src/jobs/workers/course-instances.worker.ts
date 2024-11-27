@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { CourseInstance, Program } from '@prisma/client';
+import { Availability, Course, CourseInstance, Session } from '@prisma/client';
 
 import { AvailabilityUtil } from '../../common/utils/course-instance/courseInstanceUtil';
 import { PlanificationCoursService } from '../../common/website-helper/pdf/pdf-parser/planification/planification-cours.service';
@@ -28,7 +28,7 @@ export class CourseInstancesJobService {
   public async processCourseInstances(): Promise<void> {
     this.logger.log('Starting processCourseInstances job.');
 
-    // Seed programs with horaireParsablePdf = true
+    // Seed programs with planificationParsablePdf = true
     await seedProgramPlanificationPdfParserFlags();
 
     const programs =
@@ -38,171 +38,275 @@ export class CourseInstancesJobService {
       return;
     }
 
+    // Collect parsed data from all programs
+    const allParsedData: ICoursePlanification[] = [];
     for (const program of programs) {
-      await this.processProgram(program);
+      if (!program.code) {
+        this.logger.warn(`Program ${program.id} has no code. Skipping.`);
+        continue;
+      }
+      this.logger.log(`Processing program: ${program.code}`);
+
+      const parsedData =
+        await this.planificationCourseService.parseProgramPlanification(
+          program.code,
+        );
+      allParsedData.push(...parsedData);
     }
+
+    // Process all parsed data together
+    await this.processAllParsedData(allParsedData);
 
     this.logger.log('Completed processCourseInstances job.');
   }
 
-  private async processProgram(program: Program): Promise<void> {
-    if (!program.code) {
-      this.logger.warn(`Program ${program.id} has no code. Skipping.`);
-      return;
-    }
-    this.logger.log(`Processing program: ${program.code}`);
+  private async processAllParsedData(
+    allParsedData: ICoursePlanification[],
+  ): Promise<void> {
+    // Step 1: Extract unique session and course codes
+    const { sessionCodesSet, courseCodesSet } =
+      this.extractUniqueCodes(allParsedData);
 
-    const parsedData =
-      await this.planificationCourseService.parseProgramPlanification(
-        program.code,
-      );
+    // Step 2: Fetch sessions and courses
+    const sessionCodeToSessionMap = await this.fetchSessions(sessionCodesSet);
+    const courseCodeToCourseMap = await this.fetchCourses(courseCodesSet);
 
-    const addedInstances: CourseInstance[] = [];
-    const updatedInstances: CourseInstance[] = [];
-    const removedInstances: CourseInstance[] = [];
+    // Step 3: Build required instances map
+    const requiredInstancesMap = this.buildRequiredInstancesMap(
+      allParsedData,
+      courseCodeToCourseMap,
+      sessionCodeToSessionMap,
+    );
 
-    for (const courseData of parsedData) {
-      await this.processCourse(
-        courseData,
-        addedInstances,
-        updatedInstances,
-        removedInstances,
-      );
-    }
+    // Step 4: Fetch existing instances
+    const existingInstancesMap = await this.fetchExistingInstancesMap();
 
+    // Step 5: Process required instances
+    const { addedCount, updatedCount } = await this.processRequiredInstances(
+      requiredInstancesMap,
+      existingInstancesMap,
+      courseCodeToCourseMap,
+      sessionCodeToSessionMap,
+    );
+
+    // Step 6: Delete obsolete instances
+    const deletedCount =
+      await this.deleteObsoleteInstances(existingInstancesMap);
+
+    // Step 7: Log results
     this.logger.log(
-      `Program ${program.code}: Added ${addedInstances.length} instances, Updated ${updatedInstances.length} instances, Removed ${removedInstances.length} instances.`,
+      `Total Added ${addedCount} instances, Updated ${updatedCount} instances, Deleted ${deletedCount} instances.`,
     );
   }
 
-  private async processCourse(
-    courseData: ICoursePlanification,
-    addedInstances: CourseInstance[],
-    updatedInstances: CourseInstance[],
-    removedInstances: CourseInstance[],
-  ): Promise<void> {
-    const course = await this.courseService.getCourseByCode(courseData.code);
-
-    if (!course) {
-      this.logger.warn(`Course ${courseData.code} not found. Skipping.`);
-      return;
+  private extractUniqueCodes(allParsedData: ICoursePlanification[]): {
+    sessionCodesSet: Set<string>;
+    courseCodesSet: Set<string>;
+  } {
+    const sessionCodesSet = new Set<string>();
+    const courseCodesSet = new Set<string>();
+    for (const courseData of allParsedData) {
+      if (Object.keys(courseData.available).length === 0) {
+        continue;
+      }
+      courseCodesSet.add(courseData.code);
+      Object.keys(courseData.available).forEach((sessionCode) => {
+        sessionCodesSet.add(sessionCode);
+      });
     }
+    return { sessionCodesSet, courseCodesSet };
+  }
 
-    const existingInstances =
-      await this.courseInstanceService.getCourseInstancesByCourse(course.id);
-    const existingInstancesMap =
-      this.mapExistingInstancesBySession(existingInstances);
-
-    for (const [sessionCode, availabilityCode] of Object.entries(
-      courseData.available,
-    )) {
+  private async fetchSessions(
+    sessionCodesSet: Set<string>,
+  ): Promise<Map<string, Session>> {
+    const sessionCodeToSessionMap = new Map<string, Session>();
+    for (const sessionCode of sessionCodesSet) {
       const session =
         await this.sessionService.getOrCreateSessionFromCode(sessionCode);
+      sessionCodeToSessionMap.set(sessionCode, session);
+    }
+    return sessionCodeToSessionMap;
+  }
 
-      const parsedAvailabilities =
-        AvailabilityUtil.parseAvailability(availabilityCode);
-      if (!parsedAvailabilities || parsedAvailabilities.length === 0) {
+  private async fetchCourses(
+    courseCodesSet: Set<string>,
+  ): Promise<Map<string, Course>> {
+    const courses = await this.courseService.getCoursesByCodes(
+      Array.from(courseCodesSet),
+    );
+    const courseCodeToCourseMap = new Map<string, Course>();
+    for (const course of courses) {
+      courseCodeToCourseMap.set(course.code, course);
+    }
+    return courseCodeToCourseMap;
+  }
+
+  private buildRequiredInstancesMap(
+    allParsedData: ICoursePlanification[],
+    courseCodeToCourseMap: Map<string, Course>,
+    sessionCodeToSessionMap: Map<string, Session>,
+  ): Map<
+    string,
+    {
+      courseId: number;
+      courseCode: string;
+      sessionYear: number;
+      sessionTrimester: string;
+      sessionCode: string;
+      availability: Availability[];
+    }
+  > {
+    const requiredInstancesMap = new Map<
+      string,
+      {
+        courseId: number;
+        courseCode: string;
+        sessionYear: number;
+        sessionTrimester: string;
+        sessionCode: string;
+        availability: Availability[];
+      }
+    >();
+    for (const courseData of allParsedData) {
+      const course = courseCodeToCourseMap.get(courseData.code);
+      if (!course) {
+        this.logger.warn(`Course ${courseData.code} not found. Skipping.`);
+        continue;
+      }
+
+      for (const [sessionCode, availabilityCode] of Object.entries(
+        courseData.available,
+      )) {
+        const session = sessionCodeToSessionMap.get(sessionCode);
+        if (!session) {
+          this.logger.warn(`Session ${sessionCode} not found. Skipping.`);
+          continue;
+        }
+        const parsedAvailabilities =
+          AvailabilityUtil.parseAvailability(availabilityCode);
+        if (!parsedAvailabilities) {
+          this.logger.warn(
+            `Invalid availability code "${availabilityCode}" for course "${courseData.code}" in session "${sessionCode}". Skipping.`,
+          );
+          continue;
+        }
+
+        const key = this.generateInstanceKey(
+          course.id,
+          session.year,
+          session.trimester,
+        );
+        requiredInstancesMap.set(key, {
+          courseId: course.id,
+          courseCode: course.code, // Added
+          sessionYear: session.year,
+          sessionTrimester: session.trimester,
+          sessionCode: sessionCode, // Added
+          availability: parsedAvailabilities,
+        });
+      }
+    }
+    return requiredInstancesMap;
+  }
+
+  private async fetchExistingInstancesMap(): Promise<
+    Map<string, CourseInstance>
+  > {
+    const existingInstances =
+      await this.courseInstanceService.getAllCourseInstances();
+    const existingInstancesMap = new Map<string, CourseInstance>();
+    for (const instance of existingInstances) {
+      const key = this.generateInstanceKey(
+        instance.courseId,
+        instance.sessionYear,
+        instance.sessionTrimester,
+      );
+      existingInstancesMap.set(key, instance);
+    }
+    return existingInstancesMap;
+  }
+
+  private async processRequiredInstances(
+    requiredInstancesMap: Map<
+      string,
+      {
+        courseId: number;
+        courseCode: string;
+        sessionYear: number;
+        sessionTrimester: string;
+        sessionCode: string;
+        availability: Availability[];
+      }
+    >,
+    existingInstancesMap: Map<string, CourseInstance>,
+    courseCodeToCourseMap: Map<string, Course>,
+    sessionCodeToSessionMap: Map<string, Session>,
+  ): Promise<{ addedCount: number; updatedCount: number }> {
+    let addedCount = 0;
+    let updatedCount = 0;
+
+    for (const [key, requiredInstance] of requiredInstancesMap.entries()) {
+      const existingInstance = existingInstancesMap.get(key);
+
+      const course = courseCodeToCourseMap.get(requiredInstance.courseCode);
+      const session = sessionCodeToSessionMap.get(requiredInstance.sessionCode);
+
+      if (!session || !course) {
         this.logger.warn(
-          `Invalid availability code "${availabilityCode}" for session "${sessionCode}". Skipping.`,
+          `Session or course not found for key ${key}. Skipping.`,
         );
         continue;
       }
 
-      const sessionKey = `${session.year}-${session.trimester}`;
-      const existingInstance = existingInstancesMap.get(sessionKey);
-
       if (existingInstance) {
-        // Compare existing availability with parsedAvailabilities
+        // Compare and update availability if different
         const isSame = AvailabilityUtil.areAvailabilitiesEqual(
           existingInstance.availability,
-          parsedAvailabilities,
+          requiredInstance.availability,
         );
-
         if (!isSame) {
-          this.logger.debug(
-            `Updating availability for session ${sessionCode}.`,
-          );
           await this.courseInstanceService.updateCourseInstanceAvailability(
             existingInstance,
-            parsedAvailabilities,
+            requiredInstance.availability,
           );
-          updatedInstances.push(existingInstance);
+          updatedCount++;
         }
-        // If same, do nothing
+        // Remove from existingInstancesMap to mark as processed
+        existingInstancesMap.delete(key);
       } else {
-        // Create new instance
-        const newInstance =
-          await this.courseInstanceService.createCourseInstance(
-            course,
-            session,
-            parsedAvailabilities,
-          );
-        addedInstances.push(newInstance);
+        // Create new CourseInstance
+        await this.courseInstanceService.createCourseInstance(
+          course,
+          session,
+          requiredInstance.availability,
+        );
+        addedCount++;
       }
     }
-
-    // Handle removal of outdated instances
-    await this.removeOutdatedInstances(
-      courseData,
-      existingInstancesMap,
-      removedInstances,
-    );
+    return { addedCount, updatedCount };
   }
 
-  private async removeOutdatedInstances(
-    courseData: ICoursePlanification,
+  private async deleteObsoleteInstances(
     existingInstancesMap: Map<string, CourseInstance>,
-    removedInstances: CourseInstance[],
-  ): Promise<void> {
-    for (const [sessionKey, instance] of existingInstancesMap.entries()) {
-      // Check if this session is present in the new parsed data
-      const isSessionPresent = Object.keys(courseData.available).some(
-        async (sessionCode) => {
-          const session =
-            await this.sessionService.getOrCreateSessionFromCode(sessionCode);
-          if (!session) return false;
-          const key = `${session.year}-${session.trimester}`;
-          return key === sessionKey;
-        },
+  ): Promise<number> {
+    let deletedCount = 0;
+    for (const instance of existingInstancesMap.values()) {
+      await this.courseInstanceService.deleteCourseInstance(
+        instance.courseId,
+        instance.sessionYear,
+        instance.sessionTrimester,
       );
-
-      // Since 'some' with async doesn't work as expected, refactor logic
-      let sessionFound = false;
-      for (const sessionCode of Object.keys(courseData.available)) {
-        const session =
-          await this.sessionService.getOrCreateSessionFromCode(sessionCode);
-        if (session) {
-          const key = `${session.year}-${session.trimester}`;
-          if (key === sessionKey) {
-            sessionFound = true;
-            break;
-          }
-        }
-      }
-
-      if (!sessionFound) {
-        // Session is no longer present in the new data, delete the instance
-        this.logger.debug(
-          `Removing outdated CourseInstance for session key ${sessionKey}.`,
-        );
-        await this.courseInstanceService.deleteCourseInstance(
-          instance.courseId,
-          instance.sessionYear,
-          instance.sessionTrimester,
-        );
-        removedInstances.push(instance);
-      }
+      deletedCount++;
     }
+    return deletedCount;
   }
 
-  private mapExistingInstancesBySession(
-    existingInstances: CourseInstance[],
-  ): Map<string, CourseInstance> {
-    const instanceMap = new Map<string, CourseInstance>();
-    for (const instance of existingInstances) {
-      const sessionKey = `${instance.sessionYear}-${instance.sessionTrimester}`;
-      instanceMap.set(sessionKey, instance);
-    }
-    return instanceMap;
+  private generateInstanceKey(
+    courseId: number,
+    sessionYear: number,
+    sessionTrimester: string,
+  ): string {
+    return `${courseId}-${sessionYear}-${sessionTrimester}`;
   }
 }

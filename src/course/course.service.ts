@@ -37,6 +37,18 @@ export class CourseService {
     return new Map(existingCourses.map((course) => [course.id, course]));
   }
 
+  public async getCoursesByCodes(codes: string[]): Promise<Course[]> {
+    this.logger.verbose('getCoursesByCodes', codes);
+
+    return this.prisma.course.findMany({
+      where: {
+        code: {
+          in: codes,
+        },
+      },
+    });
+  }
+
   public async getAllCourses() {
     this.logger.verbose('getAllCourses');
 
