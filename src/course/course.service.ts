@@ -16,14 +16,17 @@ export class CourseService {
       where: courseWhereUniqueInput,
     });
 
-    if (!course) {
-      this.logger.warn(
-        `Course code "${courseWhereUniqueInput.code}" not found`,
-      );
-      return null;
-    }
     return course;
   }
+
+  public async getCourseByCode(code: string): Promise<Course | null> {
+    const course = await this.prisma.course.findFirst({
+      where: { code },
+    });
+
+    return course;
+  }
+
   private async getCoursesByIds(
     courseIds: number[],
   ): Promise<Map<number, Course>> {

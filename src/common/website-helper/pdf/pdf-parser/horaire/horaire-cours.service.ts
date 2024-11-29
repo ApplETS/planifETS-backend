@@ -18,14 +18,13 @@ export class HoraireCoursService {
 
   private readonly logger = new Logger(HoraireCoursService.name);
 
-  public async parsePdfFromUrl(pdfUrl: string) {
+  public async parsePdfFromUrl(pdfUrl: string): Promise<HoraireCours[]> {
     try {
       const response = await firstValueFrom(
         this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),
       );
 
       this.logger.debug(`Fetched PDF from URL ${pdfUrl}`);
-      this.logger.debug(`Status code: ${response.status}`);
       if (response.status !== HttpStatus.OK) {
         this.logger.error(
           `Failed to fetch PDF from URL ${pdfUrl}. Status code: ${response.status}`,

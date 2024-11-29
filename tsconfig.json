@@ -17,5 +17,6 @@
       "node_modules/@types"
     ],
     "esModuleInterop": true,
+    "resolveJsonModule": true,
   }
 }
