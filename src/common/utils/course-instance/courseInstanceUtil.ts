@@ -53,7 +53,7 @@ export class AvailabilityUtil {
   ): Map<Availability, number> {
     const frequencyMap = new Map<Availability, number>();
     for (const availability of availabilities) {
-      frequencyMap.set(availability, (frequencyMap.get(availability) || 0) + 1);
+      frequencyMap.set(availability, (frequencyMap.get(availability) ?? 0) + 1);
     }
     return frequencyMap;
   }
