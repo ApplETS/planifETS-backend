@@ -1,0 +1,15 @@
+torch 
+numpy==1.26
+pandas 
+scikit-learn 
+plotly 
+nltk 
+tokenizers==0.19
+transformers==4.46.3
+sentence-transformers 
+einops 
+datasets 
+gradio 
+networkx
+umap-learn 
+ipywidgets
