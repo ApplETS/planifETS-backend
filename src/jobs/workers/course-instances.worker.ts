@@ -63,25 +63,20 @@ export class CourseInstancesJobService {
   private async processAllParsedData(
     allParsedData: ICoursePlanification[],
   ): Promise<void> {
-    // Step 1: Extract unique session and course codes
     const { sessionCodesSet, courseCodesSet } =
       this.extractUniqueCodes(allParsedData);
 
-    // Step 2: Fetch sessions and courses
     const sessionCodeToSessionMap = await this.fetchSessions(sessionCodesSet);
     const courseCodeToCourseMap = await this.fetchCourses(courseCodesSet);
 
-    // Step 3: Build required instances map
     const requiredInstancesMap = this.buildRequiredInstancesMap(
       allParsedData,
       courseCodeToCourseMap,
       sessionCodeToSessionMap,
     );
 
-    // Step 4: Fetch existing instances
     const existingInstancesMap = await this.fetchExistingInstancesMap();
 
-    // Step 5: Process required instances
     const { addedCount, updatedCount } = await this.processRequiredInstances(
       requiredInstancesMap,
       existingInstancesMap,
@@ -89,13 +84,11 @@ export class CourseInstancesJobService {
       sessionCodeToSessionMap,
     );
 
-    // Step 6: Delete obsolete instances
     const deletedCount =
       await this.deleteObsoleteInstances(existingInstancesMap);
 
-    // Step 7: Log results
     this.logger.log(
-      `Total Added ${addedCount} instances, Updated ${updatedCount} instances, Deleted ${deletedCount} instances.`,
+      `Total Added ${addedCount} instances. Updated ${updatedCount} instances. Deleted ${deletedCount} instances.`,
     );
   }
 
@@ -136,9 +129,11 @@ export class CourseInstancesJobService {
       Array.from(courseCodesSet),
     );
     const courseCodeToCourseMap = new Map<string, Course>();
+
     for (const course of courses) {
       courseCodeToCourseMap.set(course.code, course);
     }
+
     return courseCodeToCourseMap;
   }
 
@@ -199,10 +194,10 @@ export class CourseInstancesJobService {
         );
         requiredInstancesMap.set(key, {
           courseId: course.id,
-          courseCode: course.code, // Added
+          courseCode: course.code,
           sessionYear: session.year,
           sessionTrimester: session.trimester,
-          sessionCode: sessionCode, // Added
+          sessionCode: sessionCode,
           availability: parsedAvailabilities,
         });
       }

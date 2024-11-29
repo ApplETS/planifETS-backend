@@ -25,7 +25,9 @@ export class PlanificationCoursService {
       const pdfUrl = getPlanificationPdfUrl(programCode);
       return await this.parsePdfFromUrl(pdfUrl);
     } catch (error) {
-      throw new Error('Error parsing program planification');
+      throw new Error(
+        `Error parsing Planification-PDF for program: ${programCode}\n` + error,
+      );
     }
   }
 
