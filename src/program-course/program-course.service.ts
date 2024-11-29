@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, ProgramCourse } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
-
+import { ProgramCourseWithPrerequisites } from './program-course.types';
 @Injectable()
 export class ProgramCourseService {
   constructor(private readonly prisma: PrismaService) {}
@@ -16,6 +16,29 @@ export class ProgramCourseService {
 
     return this.prisma.programCourse.findUnique({
       where: programCourseWhereUniqueInput,
+    });
+  }
+
+  public async getProgramCourseWithPrerequisites(
+    programCourseWhereUniqueInput: Prisma.ProgramCourseWhereUniqueInput,
+  ): Promise<ProgramCourseWithPrerequisites | null> {
+    this.logger.verbose('get ProgramCourse WithPrerequisites', {
+      programCourseWhereUniqueInput,
+    });
+
+    return this.prisma.programCourse.findUnique({
+      where: programCourseWhereUniqueInput,
+      include: {
+        prerequisites: {
+          include: {
+            prerequisite: {
+              include: {
+                course: true,
+              },
+            },
+          },
+        },
+      },
     });
   }
 

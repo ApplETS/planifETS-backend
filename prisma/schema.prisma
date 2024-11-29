@@ -24,6 +24,8 @@ model Session {
   updatedAt DateTime  @updatedAt
 
   courseInstances CourseInstance[]
+
+  @@unique([year, trimester])
 }
 
 model CourseInstance {
@@ -57,11 +59,10 @@ model Course {
   @@index([code])
 }
 
-model CoursePrerequisite {
-  courseId                 Int
-  prerequisiteId           Int
-  unstructuredPrerequisite String?
-  programId                Int
+model ProgramCoursePrerequisite {
+  courseId       Int
+  prerequisiteId Int
+  programId      Int
 
   programCourse ProgramCourse @relation("CourseToPrerequisites", fields: [courseId, programId], references: [courseId, programId])
   prerequisite  ProgramCourse @relation("PrerequisiteToCourse", fields: [prerequisiteId, programId], references: [courseId, programId])
@@ -70,19 +71,22 @@ model CoursePrerequisite {
   updatedAt DateTime @updatedAt
 
   @@id([courseId, programId, prerequisiteId])
+  @@index([courseId, programId])
+  @@map("Prerequisite")
 }
 
 model ProgramCourse {
-  courseId            Int
-  programId           Int
-  type                String?
-  typicalSessionIndex Int?
+  courseId                 Int
+  programId                Int
+  type                     String?
+  typicalSessionIndex      Int?
+  unstructuredPrerequisite String?
 
   course  Course  @relation(fields: [courseId], references: [id])
   program Program @relation(fields: [programId], references: [id])
 
-  prerequisites        CoursePrerequisite[] @relation("CourseToPrerequisites")
-  prerequisiteToCourse CoursePrerequisite[] @relation("PrerequisiteToCourse")
+  prerequisites        ProgramCoursePrerequisite[] @relation("CourseToPrerequisites")
+  prerequisiteToCourse ProgramCoursePrerequisite[] @relation("PrerequisiteToCourse")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -94,14 +98,16 @@ model Program {
   id           Int           @id
   code         String?
   title        String
-  credits      String
+  credits      String?
   cycle        Int
   url          String
   programTypes ProgramType[]
 
-  horaireCoursPdfJson  Json?
-  planificationPdfJson Json?
-  courses              ProgramCourse[]
+  isHorairePdfParsable       Boolean         @default(false)
+  isPlanificationPdfParsable Boolean         @default(false)
+  horaireCoursPdfJson        Json?
+  planificationPdfJson       Json?
+  courses                    ProgramCourse[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

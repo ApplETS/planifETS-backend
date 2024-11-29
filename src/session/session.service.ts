@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, Session, Trimester } from '@prisma/client';
 
+import { getCurrentTrimester } from '../common/utils/session/sessionUtil';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -9,11 +10,51 @@ export class SessionService {
 
   private readonly logger = new Logger(SessionService.name);
 
-  public async getSession(id: string): Promise<Session | null> {
-    this.logger.log('getSession', id);
+  public async getOrCreateSession(
+    year: number,
+    trimester: Trimester,
+  ): Promise<Session> {
+    return this.prisma.session.upsert({
+      where: {
+        year_trimester: {
+          year,
+          trimester,
+        },
+      },
+      update: {},
+      create: {
+        year,
+        trimester,
+        updatedAt: new Date(),
+      },
+    });
+  }
 
-    return this.prisma.session.findUnique({
-      where: { id },
+  public async getOrCreateCurrentSession(
+    date: Date = new Date(),
+  ): Promise<Session> {
+    const trimester = getCurrentTrimester(date);
+    if (!trimester) {
+      this.logger.warn(
+        `Unable to determine the current trimester for date: ${date.toISOString()}`,
+      );
+      throw new Error('Current trimester could not be determined.');
+    }
+
+    const year = date.getFullYear();
+
+    return this.prisma.session.upsert({
+      where: {
+        year_trimester: {
+          year,
+          trimester,
+        },
+      },
+      update: {},
+      create: {
+        year,
+        trimester,
+      },
     });
   }
 
@@ -26,35 +67,6 @@ export class SessionService {
   ): Promise<Session> {
     return this.prisma.session.create({
       data,
-    });
-  }
-
-  public async upsertSession(
-    id: string,
-    data: Prisma.SessionUpdateInput,
-  ): Promise<Session> {
-    const createSessionDto: Prisma.SessionCreateInput = {
-      ...data,
-      id,
-      trimester: data.trimester as Trimester,
-      year: data.year as number,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-
-    return this.prisma.session.upsert({
-      where: { id },
-      update: {
-        ...data,
-        updatedAt: new Date(),
-      },
-      create: createSessionDto,
-    });
-  }
-
-  public async removeSession(id: string): Promise<Session> {
-    return this.prisma.session.delete({
-      where: { id },
     });
   }
 }

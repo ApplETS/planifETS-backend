@@ -6,10 +6,8 @@ import { Course as CourseCheminot } from '../../common/api-helper/cheminot/Cours
 import { Program as ProgramCheminot } from '../../common/api-helper/cheminot/Program';
 import { EtsCourseService } from '../../common/api-helper/ets/course/ets-course.service';
 import { CourseService } from '../../course/course.service';
-import {
-  ProgramIncludeCourseIdsAndPrerequisitesType,
-  ProgramService,
-} from '../../program/program.service';
+import { ProgramService } from '../../program/program.service';
+import { ProgramIncludeCourseIdsAndPrerequisitesType } from '../../program/program.types';
 import { ProgramCourseService } from '../../program-course/program-course.service';
 
 @Injectable()
@@ -36,50 +34,88 @@ export class CoursesJobService {
 
   public async syncCourseDetailsWithCheminotData(): Promise<void> {
     this.logger.log('Syncing course details with Cheminot data...');
+
     const existingAllPrograms =
       await this.programService.getAllProgramsWithCourses();
     const cheminotPrograms =
       await this.cheminotService.parseProgramsAndCoursesCheminot();
+
+    const missingProgramsInCheminot: string[] = [];
+    const missingCoursesInDatabase: { [programCode: string]: string[] } = {};
 
     for (const existingProgram of existingAllPrograms) {
       if (!existingProgram) {
         this.logger.warn('ExistingProgram not found:', existingProgram);
         continue;
       }
-      await this.processProgram(existingProgram, cheminotPrograms);
+      await this.processProgram(
+        existingProgram,
+        cheminotPrograms,
+        missingProgramsInCheminot,
+        missingCoursesInDatabase,
+      );
+    }
+
+    // Log missing courses and programs
+    if (Object.keys(missingCoursesInDatabase).length > 0) {
+      this.logger.warn(
+        `Missing courses in database: ${JSON.stringify(missingCoursesInDatabase, null, 2)}`,
+      );
+    }
+
+    if (missingProgramsInCheminot.length > 0) {
+      this.logger.warn(
+        `Programs not found in Cheminot data: ${JSON.stringify(missingProgramsInCheminot, null, 2)}`,
+      );
     }
   }
 
   private async processProgram(
-    exisitingProgram: ProgramIncludeCourseIdsAndPrerequisitesType,
+    existingProgram: ProgramIncludeCourseIdsAndPrerequisitesType,
     cheminotPrograms: ProgramCheminot[],
+    missingProgramsInCheminot: string[],
+    missingCoursesInDatabase: { [programCode: string]: string[] },
   ): Promise<void> {
     const programCheminot = cheminotPrograms.find(
-      (p) => p.code === exisitingProgram.code,
+      (p) => p.code === existingProgram.code,
     );
     if (!programCheminot) {
-      this.logger.warn(
-        `Program ${exisitingProgram.code} not found in Cheminot data`,
-      );
+      const programCode = existingProgram.code ?? `ID_${existingProgram.id}`;
+      missingProgramsInCheminot.push(programCode);
       return;
     }
-    await this.processCheminotCourses(exisitingProgram, programCheminot);
+    await this.processCheminotCourses(
+      existingProgram,
+      programCheminot,
+      missingCoursesInDatabase,
+    );
   }
 
   private async processCheminotCourses(
     existingProgram: ProgramIncludeCourseIdsAndPrerequisitesType,
     cheminotProgram: ProgramCheminot,
+    missingCoursesInDatabase: { [programCode: string]: string[] },
   ): Promise<void> {
+    const missingCourses: string[] = [];
+
     for (const courseCheminot of cheminotProgram.courses) {
       const existingCourse = await this.courseService.getCourse({
         code: courseCheminot.code,
       });
-      if (!existingCourse) continue;
+      if (!existingCourse) {
+        missingCourses.push(courseCheminot.code);
+        continue;
+      }
       await this.handleProgramCourseUpsertion(
         existingProgram,
         existingCourse,
         courseCheminot,
       );
+    }
+
+    if (missingCourses.length > 0) {
+      const programCode = existingProgram.code ?? `ID_${existingProgram.id}`;
+      missingCoursesInDatabase[`Program ${programCode}`] = missingCourses;
     }
   }
 
