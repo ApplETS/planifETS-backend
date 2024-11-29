@@ -8,5 +8,6 @@ import { CourseInstanceService } from './course-instance.service';
   imports: [PrismaModule],
   controllers: [CourseInstanceController],
   providers: [CourseInstanceService],
+  exports: [CourseInstanceService],
 })
 export class CourseInstanceModule {}

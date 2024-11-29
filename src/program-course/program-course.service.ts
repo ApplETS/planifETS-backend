@@ -3,6 +3,7 @@ import { Prisma, ProgramCourse } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { ProgramCourseWithPrerequisites } from './program-course.types';
+
 @Injectable()
 export class ProgramCourseService {
   constructor(private readonly prisma: PrismaService) {}

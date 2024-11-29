@@ -11,7 +11,7 @@ export class CourseInstanceController {
   constructor(private readonly courseInstanceService: CourseInstanceService) {}
 
   @Get(':id')
-  public getCourseInstance(
+  public getCourseInstanceById(
     @Param('') { id }: UuidDto,
   ): Promise<CourseInstance | null> {
     return this.courseInstanceService.getCourseInstance({ id });

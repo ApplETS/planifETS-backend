@@ -58,6 +58,10 @@ export class JobsService {
 
       //Creates and updates Course instance entities.
       // Data source: Planification PDF
+      {
+        service: 'CourseInstancesJobService',
+        method: 'processCourseInstances',
+      },
 
       // Creates and updates ProgramCourse entities.
       // Data source: Cheminot (Cheminements.txt)

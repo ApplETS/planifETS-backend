@@ -133,6 +133,28 @@ export class ProgramService {
     return programs;
   }
 
+  public async getProgramsByPlanificationParsablePDF(): Promise<Program[]> {
+    this.logger.verbose(
+      'Fetching programs with isPlanificationPdfParsable = true',
+    );
+    const programs = await this.prisma.program.findMany({
+      where: {
+        isPlanificationPdfParsable: true,
+      },
+    });
+
+    if (programs.length === 0 || programs == null) {
+      this.logger.error(
+        'No programs found with isPlanificationPdfParsable = true',
+      );
+    } else {
+      this.logger.verbose(
+        `Found ${programs.length} programs with isPlanificationPdfParsable = true.`,
+      );
+    }
+    return programs;
+  }
+
   public async createProgram(
     data: Prisma.ProgramCreateInput,
   ): Promise<Program> {
