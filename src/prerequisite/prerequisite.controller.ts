@@ -49,7 +49,7 @@ export class PrerequisiteController {
     @Query('courseCode') courseCode: string,
   ): Promise<PrerequisiteCodeDto[]> {
     return this.prerequisiteService.getPrerequisitesByCode(
-      courseCode,
+      courseCode.toUpperCase(),
       programId,
     );
   }

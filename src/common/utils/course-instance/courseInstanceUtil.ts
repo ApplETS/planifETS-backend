@@ -35,15 +35,26 @@ export class AvailabilityUtil {
   ): boolean {
     if (a.length !== b.length) return false;
 
-    const sortedA = [...a].sort();
-    const sortedB = [...b].sort();
+    const frequencyMapA = AvailabilityUtil.buildFrequencyMap(a);
+    const frequencyMapB = AvailabilityUtil.buildFrequencyMap(b);
 
-    for (let i = 0; i < sortedA.length; i++) {
-      if (sortedA[i] !== sortedB[i]) {
+    for (const [availability, count] of frequencyMapA.entries()) {
+      if (frequencyMapB.get(availability) !== count) {
         return false;
       }
     }
 
     return true;
+  }
+
+  // Builds a frequency map of the Availability enums
+  private static buildFrequencyMap(
+    availabilities: Availability[],
+  ): Map<Availability, number> {
+    const frequencyMap = new Map<Availability, number>();
+    for (const availability of availabilities) {
+      frequencyMap.set(availability, (frequencyMap.get(availability) || 0) + 1);
+    }
+    return frequencyMap;
   }
 }
