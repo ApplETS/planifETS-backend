@@ -4,7 +4,6 @@ pandas
 scikit-learn 
 plotly 
 nltk 
-tokenizers==0.19
 transformers==4.46.3
 sentence-transformers 
 einops 
