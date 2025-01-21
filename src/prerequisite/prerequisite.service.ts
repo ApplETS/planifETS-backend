@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import {
   Prisma,
   Program,
@@ -10,6 +10,7 @@ import { CourseService } from '../course/course.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProgramCourseService } from '../program-course/program-course.service';
 import { ProgramCourseWithPrerequisites } from '../program-course/program-course.types';
+import { PrerequisiteCodeDto } from './prerequisite.types';
 
 @Injectable()
 export class PrerequisiteService {
@@ -21,7 +22,55 @@ export class PrerequisiteService {
 
   private readonly logger = new Logger(PrerequisiteService.name);
 
-  public async getPrerequisites(
+  public async getPrerequisitesByCode(
+    courseCode: string,
+    programId: number,
+  ): Promise<PrerequisiteCodeDto[]> {
+    this.logger.verbose('Fetching prerequisites by course code for program', {
+      courseCode,
+      programId,
+    });
+
+    const prerequisiteCodes =
+      await this.prisma.programCoursePrerequisite.findMany({
+        where: {
+          programCourse: {
+            course: {
+              code: courseCode,
+            },
+            programId,
+          },
+        },
+        select: {
+          prerequisite: {
+            select: {
+              course: {
+                select: {
+                  code: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+    if (!prerequisiteCodes) {
+      this.logger.error(
+        `Course with code ${courseCode} not found in program with ID ${programId}`,
+      );
+      throw new NotFoundException(
+        `Course with code ${courseCode} not found in program with ID ${programId}`,
+      );
+    }
+
+    this.logger.verbose(
+      `Found ${prerequisiteCodes.length} prerequisites for course ${courseCode} in program ID ${programId}`,
+    );
+
+    return prerequisiteCodes;
+  }
+
+  public async getPrerequisitesWithProgramCourseAndPrerequisite(
     data: Prisma.ProgramCoursePrerequisiteWhereInput,
   ) {
     this.logger.verbose('Fetching course prerequisites', data);

@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { isMainThread, parentPort, workerData } from 'worker_threads';
 
 import { AppModule } from '../../app.module';
+import { CourseInstancesJobService } from './course-instances.worker';
 import { CoursesJobService } from './courses.worker';
 import { ProgramsJobService } from './programs.worker';
 import { SessionsJobService } from './sessions.worker';
@@ -10,6 +11,7 @@ import { SessionsJobService } from './sessions.worker';
 const serviceMapping = {
   ProgramsJobService,
   CoursesJobService,
+  CourseInstancesJobService,
   SessionsJobService,
 };
 

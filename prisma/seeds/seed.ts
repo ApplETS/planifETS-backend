@@ -1,12 +1,16 @@
 import { Logger } from '@nestjs/common';
 
 import { PrismaService } from '../../src/prisma/prisma.service';
-import { seedProgramPdfParserFlags } from '../../src/prisma/programs.seeder';
+import {
+  seedProgramHorairePdfParserFlags,
+  seedProgramPlanificationPdfParserFlags,
+} from '../../src/prisma/programs.seeder';
 
 const prismaService = new PrismaService();
 
 async function main() {
-  await seedProgramPdfParserFlags();
+  await seedProgramHorairePdfParserFlags();
+  await seedProgramPlanificationPdfParserFlags();
 }
 
 main()

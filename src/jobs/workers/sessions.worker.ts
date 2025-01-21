@@ -9,7 +9,7 @@ import { HoraireCoursService } from '../../common/website-helper/pdf/pdf-parser/
 import { IHoraireCours } from '../../common/website-helper/pdf/pdf-parser/horaire/horaire-cours.types';
 import { CourseService } from '../../course/course.service';
 import { PrerequisiteService } from '../../prerequisite/prerequisite.service';
-import { seedProgramPdfParserFlags } from '../../prisma/programs.seeder';
+import { seedProgramHorairePdfParserFlags } from '../../prisma/programs.seeder';
 import { ProgramService } from '../../program/program.service';
 import { ProgramCourseService } from '../../program-course/program-course.service';
 import { ProgramCourseWithPrerequisites } from '../../program-course/program-course.types';
@@ -41,7 +41,7 @@ export class SessionsJobService {
 
     try {
       // Seed programs with horaireParsablePdf = true
-      await seedProgramPdfParserFlags();
+      await seedProgramHorairePdfParserFlags();
 
       const currentSession =
         await this.sessionService.getOrCreateCurrentSession();
