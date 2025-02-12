@@ -3,7 +3,7 @@
 
 <p align="center">
     <img src="https://github.com/ApplETS/planifETS-backend/actions/workflows/ci.yml/badge.svg" alt="CI Status" style="height: 20px; margin-right: 5px;">
-  <a href="https://www.notion.so/PlanifETS-29cdf43623ec4c749dc5280dcaa3dba4" target="_blank">
+  <a href="https://dot-soursop-fcc.notion.site/PlanifETS-29cdf43623ec4c749dc5280dcaa3dba4" target="_blank">
     <img src="https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white" alt="Notion" style="height: 20px; margin-right: 5px;">
   </a>
 </p>
@@ -25,7 +25,7 @@ It fetches and synchronizes course and program data directly from ÉTS servers, 
 
 ## 🛠️ Onboarding
 
-For onboarding instructions, please refer to our documentation on [Notion](https://www.notion.so/Onboarding-662062ca7e0e421eb59baf3a63dad2e6).
+For onboarding instructions, please refer to our documentation on [Notion](https://dot-soursop-fcc.notion.site/Backend-Onboarding-662062ca7e0e421eb59baf3a63dad2e6).
 
 
 ## ⚖️ License
