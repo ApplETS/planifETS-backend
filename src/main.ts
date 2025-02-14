@@ -22,7 +22,7 @@ async function bootstrap() {
     .setTitle('PlanifÉTS API')
     .setExternalDoc('JSON API Documentation', '/api-json')
     .setVersion('1.0')
-    .addServer('http://localhost:3000/', 'Local environment')
+    .addServer(`http://localhost:${process.env.PORT}/`, 'Local environment')
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   const swaggerOptions = {
