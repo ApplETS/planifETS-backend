@@ -3,9 +3,27 @@ import { Prisma, ProgramCourse } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { ProgramCoursesDetailedDto } from './dtos/program-course-detailed.dto';
-import { ProgramCourseMapper } from './mappers/program-course.mapper';
+import { ProgramCourseDetailedMapper } from './mappers/program-course-detailed.mapper';
 import { ProgramCourseWithPrerequisites } from './types/program-course.types';
 import { ProgramCoursesDetailedQueryResult } from './types/program-course-detailed.types';
+
+const COURSE_BASIC_SELECT = {
+  code: true,
+  title: true,
+};
+
+const COURSE_DETAILS_SELECT = {
+  ...COURSE_BASIC_SELECT,
+  credits: true,
+  courseInstances: {
+    select: {
+      availability: true,
+      sessionYear: true,
+      sessionTrimester: true,
+      session: true,
+    },
+  },
+};
 
 @Injectable()
 export class ProgramCourseService {
@@ -151,14 +169,61 @@ export class ProgramCourseService {
     return hasChanged;
   }
 
-  public async getProgramsCoursesWithDetailsByCode(
+  public async getProgramsCoursesDetailedByCode(
+    programCodes: string | string[],
+  ): Promise<{
+    data: ProgramCoursesDetailedDto[];
+    errors?: { invalidProgramCodes: string[] };
+  }> {
+    const codes = Array.isArray(programCodes) ? programCodes : [programCodes];
+
+    if (!codes.length) {
+      this.logger.error(
+        'No program codes provided to getProgramsCoursesDetailedByCode',
+      );
+      throw new Error(
+        'Program codes are required to get detailed program courses',
+      );
+    }
+
+    const programs = await this.fetchProgramsWithCourses(codes);
+
+    if (!programs.length) {
+      this.logger.error('No programs found for the provided program codes', {
+        programCodes: codes,
+      });
+      throw new Error(`No programs found for codes: ${codes.join(', ')}`);
+    }
+
+    // Prepare response data
+    const mappedData = ProgramCourseDetailedMapper.toDto(programs);
+    const foundCodes = programs.map((program) => program.code);
+    const invalidProgramCodes = codes.filter(
+      (code) => !foundCodes.includes(code),
+    );
+
+    // Build response object
+    const response: {
+      data: ProgramCoursesDetailedDto[];
+      errors?: { invalidProgramCodes: string[] };
+    } = { data: mappedData };
+
+    if (invalidProgramCodes.length) {
+      this.logger.error('Some program codes are invalid', {
+        invalidProgramCodes,
+      });
+      response.errors = { invalidProgramCodes };
+    }
+
+    return response;
+  }
+
+  private async fetchProgramsWithCourses(
     programCodes: string[],
-  ): Promise<ProgramCoursesDetailedDto[]> {
-    const programs = (await this.prisma.program.findMany({
+  ): Promise<ProgramCoursesDetailedQueryResult[]> {
+    return this.prisma.program.findMany({
       where: {
-        code: {
-          in: programCodes,
-        },
+        code: { in: programCodes },
       },
       select: {
         code: true,
@@ -170,29 +235,14 @@ export class ProgramCourseService {
             typicalSessionIndex: true,
             unstructuredPrerequisite: true,
             course: {
-              select: {
-                code: true,
-                title: true,
-                credits: true,
-                courseInstances: {
-                  select: {
-                    availability: true,
-                    sessionYear: true,
-                    sessionTrimester: true,
-                    session: true,
-                  },
-                },
-              },
+              select: COURSE_DETAILS_SELECT,
             },
             prerequisites: {
               select: {
                 prerequisite: {
                   select: {
                     course: {
-                      select: {
-                        code: true,
-                        title: true,
-                      },
+                      select: COURSE_BASIC_SELECT,
                     },
                   },
                 },
@@ -201,8 +251,6 @@ export class ProgramCourseService {
           },
         },
       },
-    })) as ProgramCoursesDetailedQueryResult[];
-
-    return ProgramCourseMapper.toProgramCoursesDto(programs);
+    }) as Promise<ProgramCoursesDetailedQueryResult[]>;
   }
 }

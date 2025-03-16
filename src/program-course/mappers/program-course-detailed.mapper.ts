@@ -12,8 +12,8 @@ import {
   ProgramCoursesDetailedQueryResult,
 } from '../types/program-course-detailed.types';
 
-export class ProgramCourseMapper {
-  public static toProgramCoursesDto(
+export class ProgramCourseDetailedMapper {
+  public static toDto(
     programs: ProgramCoursesDetailedQueryResult[],
   ): ProgramCoursesDetailedDto[] {
     return programs.map((program) => ({
