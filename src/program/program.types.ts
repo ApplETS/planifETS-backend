@@ -1,4 +1,4 @@
-export type ProgramIncludeCourseIdsAndPrerequisitesType = {
+export type ProgramIncludeCourseIdsAndPrerequisitesDto = {
   id: number;
   code: string | null;
   courses: {

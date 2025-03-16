@@ -7,7 +7,7 @@ import { Program as ProgramCheminot } from '../../common/api-helper/cheminot/Pro
 import { EtsCourseService } from '../../common/api-helper/ets/course/ets-course.service';
 import { CourseService } from '../../course/course.service';
 import { ProgramService } from '../../program/program.service';
-import { ProgramIncludeCourseIdsAndPrerequisitesType } from '../../program/program.types';
+import { ProgramIncludeCourseIdsAndPrerequisitesDto } from '../../program/program.types';
 import { ProgramCourseService } from '../../program-course/program-course.service';
 
 @Injectable()
@@ -71,7 +71,7 @@ export class CoursesJobService {
   }
 
   private async processProgram(
-    existingProgram: ProgramIncludeCourseIdsAndPrerequisitesType,
+    existingProgram: ProgramIncludeCourseIdsAndPrerequisitesDto,
     cheminotPrograms: ProgramCheminot[],
     missingProgramsInCheminot: string[],
     missingCoursesInDatabase: { [programCode: string]: string[] },
@@ -92,7 +92,7 @@ export class CoursesJobService {
   }
 
   private async processCheminotCourses(
-    existingProgram: ProgramIncludeCourseIdsAndPrerequisitesType,
+    existingProgram: ProgramIncludeCourseIdsAndPrerequisitesDto,
     cheminotProgram: ProgramCheminot,
     missingCoursesInDatabase: { [programCode: string]: string[] },
   ): Promise<void> {
@@ -120,7 +120,7 @@ export class CoursesJobService {
   }
 
   private async handleProgramCourseUpsertion(
-    existingProgram: ProgramIncludeCourseIdsAndPrerequisitesType,
+    existingProgram: ProgramIncludeCourseIdsAndPrerequisitesDto,
     existingCourse: Course,
     cheminotCourse: CourseCheminot,
   ): Promise<void> {
