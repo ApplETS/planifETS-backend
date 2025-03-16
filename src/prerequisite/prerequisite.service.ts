@@ -9,7 +9,7 @@ import {
 import { CourseService } from '../course/course.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProgramCourseService } from '../program-course/program-course.service';
-import { ProgramCourseWithPrerequisites } from '../program-course/program-course.types';
+import { ProgramCourseWithPrerequisites } from '../program-course/types/program-course.types';
 import { PrerequisiteCodeDto } from './prerequisite.types';
 
 @Injectable()

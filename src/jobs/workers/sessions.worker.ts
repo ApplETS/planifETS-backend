@@ -12,7 +12,7 @@ import { PrerequisiteService } from '../../prerequisite/prerequisite.service';
 import { seedProgramHorairePdfParserFlags } from '../../prisma/programs.seeder';
 import { ProgramService } from '../../program/program.service';
 import { ProgramCourseService } from '../../program-course/program-course.service';
-import { ProgramCourseWithPrerequisites } from '../../program-course/program-course.types';
+import { ProgramCourseWithPrerequisites } from '../../program-course/types/program-course.types';
 import { SessionService } from '../../session/session.service';
 
 @Injectable()

@@ -2,23 +2,16 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, ProgramCourse } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
-import { ProgramCourseWithPrerequisites } from './program-course.types';
+import { ProgramCoursesDetailedDto } from './dtos/program-course-detailed.dto';
+import { ProgramCourseMapper } from './mappers/program-course.mapper';
+import { ProgramCourseWithPrerequisites } from './types/program-course.types';
+import { ProgramCoursesDetailedQueryResult } from './types/program-course-detailed.types';
 
 @Injectable()
 export class ProgramCourseService {
   constructor(private readonly prisma: PrismaService) {}
 
   private readonly logger = new Logger(ProgramCourseService.name);
-
-  public async getProgramCourse(
-    programCourseWhereUniqueInput: Prisma.ProgramCourseWhereUniqueInput,
-  ): Promise<ProgramCourse | null> {
-    this.logger.verbose('getProgramCourse', programCourseWhereUniqueInput);
-
-    return this.prisma.programCourse.findUnique({
-      where: programCourseWhereUniqueInput,
-    });
-  }
 
   public async getProgramCourseWithPrerequisites(
     programCourseWhereUniqueInput: Prisma.ProgramCourseWhereUniqueInput,
@@ -156,5 +149,60 @@ export class ProgramCourseService {
     }
 
     return hasChanged;
+  }
+
+  public async getProgramsCoursesWithDetailsByCode(
+    programCodes: string[],
+  ): Promise<ProgramCoursesDetailedDto[]> {
+    const programs = (await this.prisma.program.findMany({
+      where: {
+        code: {
+          in: programCodes,
+        },
+      },
+      select: {
+        code: true,
+        title: true,
+        courses: {
+          select: {
+            courseId: true,
+            type: true,
+            typicalSessionIndex: true,
+            unstructuredPrerequisite: true,
+            course: {
+              select: {
+                code: true,
+                title: true,
+                credits: true,
+                courseInstances: {
+                  select: {
+                    availability: true,
+                    sessionYear: true,
+                    sessionTrimester: true,
+                    session: true,
+                  },
+                },
+              },
+            },
+            prerequisites: {
+              select: {
+                prerequisite: {
+                  select: {
+                    course: {
+                      select: {
+                        code: true,
+                        title: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    })) as ProgramCoursesDetailedQueryResult[];
+
+    return ProgramCourseMapper.toProgramCoursesDto(programs);
   }
 }
