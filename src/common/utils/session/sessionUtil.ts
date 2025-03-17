@@ -103,3 +103,21 @@ export function getCurrentTrimester(date: Date = new Date()): Trimester | null {
   const trimesterIndex = parseInt(yearIndex.slice(-1), 10);
   return getTrimesterByIndex(trimesterIndex);
 }
+
+/**
+ * Converts a trimester enum value to its corresponding single-letter prefix
+ * @param trimester The trimester enum value
+ */
+export function getTrimesterPrefix(trimester: string): string {
+  switch (trimester) {
+    case 'HIVER':
+      return 'H';
+    case 'ETE':
+      return 'E';
+    case 'AUTOMNE':
+      return 'A';
+    default:
+      logger.error(`Unknown trimester: ${trimester}, using first character`);
+      return trimester.charAt(0);
+  }
+}

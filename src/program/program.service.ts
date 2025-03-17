@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, Program, ProgramType } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
-import { ProgramIncludeCourseIdsAndPrerequisitesType } from './program.types';
+import { ProgramIncludeCourseIdsAndPrerequisitesDto } from './program.types';
 
 @Injectable()
 export class ProgramService {
@@ -27,7 +27,7 @@ export class ProgramService {
   }
 
   public async getAllProgramsWithCourses(): Promise<
-    ProgramIncludeCourseIdsAndPrerequisitesType[]
+    ProgramIncludeCourseIdsAndPrerequisitesDto[]
   > {
     const data = await this.prisma.program.findMany({
       select: {
