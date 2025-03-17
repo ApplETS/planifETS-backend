@@ -8,7 +8,7 @@ export interface CourseDetailedDto {
   code: string;
   title: string;
   credits: number;
-  sessions: SessionAvailabilityDto[];
+  sessionAvailability: SessionAvailabilityDto[];
   prerequisites: CoursePrerequisiteDto[];
   type: string | null;
   typicalSessionIndex: number | null;

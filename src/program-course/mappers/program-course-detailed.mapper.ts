@@ -32,7 +32,7 @@ export class ProgramCourseDetailedMapper {
       code: pCourse.course.code,
       title: pCourse.course.title,
       credits: pCourse.course.credits || 0,
-      sessions: Object.values(
+      sessionAvailability: Object.values(
         this.mapSessionAvailabilities(pCourse.course.courseInstances),
       ),
       prerequisites: this.mapPrerequisites(pCourse.prerequisites),
