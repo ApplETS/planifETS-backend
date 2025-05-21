@@ -20,7 +20,7 @@ export class ProgramCourseController {
 
   constructor(private readonly programCourseService: ProgramCourseService) {}
 
-  @Get('detailed')
+  @Get('')
   @ApiOperation({ summary: 'Get detailed program courses by program codes' })
   @ApiQuery({
     name: 'programCodes',
