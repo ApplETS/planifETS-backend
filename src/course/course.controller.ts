@@ -1,7 +1,7 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Course } from '@prisma/client';
 
-import { IdDto } from '../common/exceptions/dtos/id.dto';
 import { CourseService } from './course.service';
 @ApiTags('Courses')
 @Controller('courses')
@@ -9,7 +9,9 @@ export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
   @Get(':id')
-  public getCourse(@Param('id') { id }: IdDto) {
+  public getCourse(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<Course | null> {
     return this.courseService.getCourse({ id });
   }
 

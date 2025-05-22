@@ -3,89 +3,90 @@ import {
   Get,
   HttpException,
   HttpStatus,
-  Logger,
   NotFoundException,
   ParseArrayPipe,
+  ParseIntPipe,
   Query,
 } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
-import { ProgramCoursesDetailedDto } from './dtos/program-course-detailed.dto';
+import { ProgramCoursesDto } from './dtos/program-course.dto';
 import { ProgramCourseService } from './program-course.service';
 
 @ApiTags('Program courses')
 @Controller('program-courses')
 export class ProgramCourseController {
-  private readonly logger = new Logger(ProgramCourseController.name);
-
   constructor(private readonly programCourseService: ProgramCourseService) {}
 
-  @Get('detailed')
-  @ApiOperation({ summary: 'Get detailed program courses by program codes' })
+  @Get()
+  @ApiOperation({ summary: '🟢 Get detailed program courses by program codes' })
   @ApiQuery({
     name: 'programCodes',
     type: String,
-    description: 'Comma-separated list of program codes (ex: 7086,7687)',
+    isArray: true,
+    required: true,
+    description:
+      'One or more program codes (e.g. ?programCodes=7084&programCodes="1822, 1560")',
   })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns detailed program courses',
-  })
-  @ApiResponse({ status: 400, description: 'Invalid or missing program codes' })
-  @ApiResponse({
-    status: 404,
-    description: 'No programs found for the provided codes',
-  })
-  @ApiResponse({ status: 500, description: 'Internal server error' })
   public async getProgramsCoursesDetailedByCode(
-    @Query(
-      'programCodes',
-      new ParseArrayPipe({ items: String, separator: ',' }),
-    )
+    @Query('programCodes', new ParseArrayPipe({ items: String }))
     programCodes: string[],
   ): Promise<{
-    data: ProgramCoursesDetailedDto[];
+    data: ProgramCoursesDto[];
     errors?: { invalidProgramCodes: string[] };
   }> {
-    try {
-      if (!programCodes || programCodes.length === 0) {
-        throw new HttpException(
-          'Program codes are required to get detailed program courses',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-
-      const result =
-        await this.programCourseService.getProgramsCoursesDetailedByCode(
-          programCodes,
-        );
-
-      if (result.data.length > 0) {
-        return result;
-      }
-
-      throw new NotFoundException('No programs found for the provided codes');
-    } catch (error) {
-      this.logger.error('Error fetching detailed program courses', {
-        programCodes,
-        error: error instanceof Error ? error.message : String(error),
-      });
-
-      if (error instanceof HttpException) {
-        throw error;
-      }
-
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
-
-      if (errorMessage.includes('No programs found')) {
-        throw new NotFoundException(errorMessage);
-      }
-
+    if (
+      !programCodes ||
+      !Array.isArray(programCodes) ||
+      programCodes.length === 0
+    ) {
       throw new HttpException(
-        'Failed to retrieve program courses: ' + errorMessage,
-        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Program codes are required to get detailed program courses',
+        HttpStatus.BAD_REQUEST,
       );
     }
+
+    const result =
+      await this.programCourseService.getProgramsCoursesDetailedByCode(
+        programCodes,
+      );
+
+    if (!result.data.length) {
+      throw new NotFoundException(
+        { invalidProgramCodes: result.errors?.invalidProgramCodes },
+        'No programs found for the provided codes',
+      );
+    }
+
+    return result;
+  }
+
+  @Get('program-course')
+  @ApiOperation({
+    summary: '🟢 Get a program course by courseId and programCode',
+    description: 'Ex: ?courseId=352377&programCode=7084',
+  })
+  @ApiQuery({ name: 'courseId', type: Number, required: true })
+  @ApiQuery({ name: 'programCode', type: String, required: true })
+  public async getDetailedProgramCourse(
+    @Query('courseId', ParseIntPipe) courseId: number,
+    @Query('programCode') programCode: string,
+  ) {
+    if (!courseId || !programCode) {
+      throw new HttpException(
+        'Both courseId and programCode are required.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const result = await this.programCourseService.getDetailedProgramCourse(
+      Number(courseId),
+      programCode,
+    );
+    if (!result) {
+      throw new NotFoundException(
+        `No program-course found for courseId=${courseId} in programCode=${programCode}`,
+      );
+    }
+    return result;
   }
 }

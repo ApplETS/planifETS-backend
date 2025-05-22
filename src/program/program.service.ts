@@ -65,46 +65,6 @@ export class ProgramService {
     return data;
   }
 
-  public async getProgramCoursesByCode(code: string): Promise<Program | null> {
-    return this.prisma.program.findFirst({
-      where: { code },
-      include: {
-        courses: {
-          orderBy: {
-            typicalSessionIndex: 'asc',
-          },
-          include: {
-            course: {
-              select: {
-                code: true,
-                title: true,
-                credits: true,
-                cycle: true,
-              },
-            },
-            prerequisites: {
-              select: {
-                prerequisite: {
-                  select: {
-                    course: {
-                      select: {
-                        code: true,
-                        title: true,
-                        description: true,
-                        credits: true,
-                        cycle: true,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    });
-  }
-
   public async getProgramByCode(code: string): Promise<Program | null> {
     this.logger.verbose('getProgramByCode', code);
 

@@ -1,21 +1,21 @@
 import { getTrimesterPrefix } from '../../common/utils/session/sessionUtil';
 import {
-  CourseDetailedDto,
   CoursePrerequisiteDto,
-  ProgramCoursesDetailedDto,
+  ProgramCourseDto,
+  ProgramCoursesDto,
   SessionAvailabilityDto,
-} from '../dtos/program-course-detailed.dto';
+} from '../dtos/program-course.dto';
 import {
   CourseInstanceQueryResult,
   CoursePrerequisiteQueryResult,
   ProgramCourseQueryResult,
-  ProgramCoursesDetailedQueryResult,
-} from '../types/program-course-detailed.types';
+  ProgramCoursesQueryResult,
+} from '../types/program-course.types';
 
 export class ProgramCourseDetailedMapper {
   public static toDto(
-    programs: ProgramCoursesDetailedQueryResult[],
-  ): ProgramCoursesDetailedDto[] {
+    programs: ProgramCoursesQueryResult[],
+  ): ProgramCoursesDto[] {
     return programs.map((program) => ({
       programCode: program.code || '',
       programTitle: program.title,
@@ -27,7 +27,7 @@ export class ProgramCourseDetailedMapper {
 
   private static toCourseDto(
     pCourse: ProgramCourseQueryResult,
-  ): CourseDetailedDto {
+  ): ProgramCourseDto {
     return {
       code: pCourse.course.code,
       title: pCourse.course.title,

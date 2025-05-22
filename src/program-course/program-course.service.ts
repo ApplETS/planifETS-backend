@@ -2,10 +2,13 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, ProgramCourse } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
-import { ProgramCoursesDetailedDto } from './dtos/program-course-detailed.dto';
-import { ProgramCourseDetailedMapper } from './mappers/program-course-detailed.mapper';
+import {
+  DetailedProgramCourseDto,
+  ProgramCoursesDto,
+} from './dtos/program-course.dto';
+import { ProgramCourseDetailedMapper } from './mappers/program-course.mapper';
 import { ProgramCourseWithPrerequisites } from './types/program-course.types';
-import { ProgramCoursesDetailedQueryResult } from './types/program-course-detailed.types';
+import { ProgramCoursesQueryResult } from './types/program-course.types';
 
 const COURSE_BASIC_SELECT = {
   code: true,
@@ -30,6 +33,67 @@ export class ProgramCourseService {
   constructor(private readonly prisma: PrismaService) {}
 
   private readonly logger = new Logger(ProgramCourseService.name);
+
+  public async getDetailedProgramCourse(
+    courseId: number,
+    programCode: string,
+  ): Promise<DetailedProgramCourseDto | null> {
+    const program = await this.prisma.program.findFirst({
+      where: { code: programCode },
+      select: { id: true },
+    });
+    if (!program) return null;
+
+    return this.prisma.programCourse.findFirst({
+      where: {
+        courseId,
+        programId: program.id,
+      },
+      select: {
+        courseId: true,
+        programId: true,
+        type: true,
+        typicalSessionIndex: true,
+        unstructuredPrerequisite: true,
+        course: {
+          select: {
+            code: true,
+            title: true,
+            credits: true,
+            description: true,
+            cycle: true,
+            courseInstances: {
+              select: {
+                availability: true,
+                sessionYear: true,
+                sessionTrimester: true,
+                session: {
+                  select: {
+                    trimester: true,
+                    year: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        prerequisites: {
+          select: {
+            prerequisite: {
+              select: {
+                course: {
+                  select: {
+                    code: true,
+                    title: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+  }
 
   public async getProgramCourseWithPrerequisites(
     programCourseWhereUniqueInput: Prisma.ProgramCourseWhereUniqueInput,
@@ -172,7 +236,7 @@ export class ProgramCourseService {
   public async getProgramsCoursesDetailedByCode(
     programCodes: string | string[],
   ): Promise<{
-    data: ProgramCoursesDetailedDto[];
+    data: ProgramCoursesDto[];
     errors?: { invalidProgramCodes: string[] };
   }> {
     const codes = Array.isArray(programCodes) ? programCodes : [programCodes];
@@ -180,9 +244,6 @@ export class ProgramCourseService {
     if (!codes.length) {
       this.logger.error(
         'No program codes provided to getProgramsCoursesDetailedByCode',
-      );
-      throw new Error(
-        'Program codes are required to get detailed program courses',
       );
     }
 
@@ -192,19 +253,16 @@ export class ProgramCourseService {
       this.logger.error('No programs found for the provided program codes', {
         programCodes: codes,
       });
-      throw new Error(`No programs found for codes: ${codes.join(', ')}`);
     }
 
-    // Prepare response data
     const mappedData = ProgramCourseDetailedMapper.toDto(programs);
     const foundCodes = programs.map((program) => program.code);
     const invalidProgramCodes = codes.filter(
       (code) => !foundCodes.includes(code),
     );
 
-    // Build response object
     const response: {
-      data: ProgramCoursesDetailedDto[];
+      data: ProgramCoursesDto[];
       errors?: { invalidProgramCodes: string[] };
     } = { data: mappedData };
 
@@ -220,7 +278,7 @@ export class ProgramCourseService {
 
   private async fetchProgramsWithCourses(
     programCodes: string[],
-  ): Promise<ProgramCoursesDetailedQueryResult[]> {
+  ): Promise<ProgramCoursesQueryResult[]> {
     return this.prisma.program.findMany({
       where: {
         code: { in: programCodes },
@@ -229,6 +287,9 @@ export class ProgramCourseService {
         code: true,
         title: true,
         courses: {
+          orderBy: {
+            typicalSessionIndex: 'asc',
+          },
           select: {
             courseId: true,
             type: true,
@@ -251,6 +312,6 @@ export class ProgramCourseService {
           },
         },
       },
-    }) as Promise<ProgramCoursesDetailedQueryResult[]>;
+    }) as Promise<ProgramCoursesQueryResult[]>;
   }
 }

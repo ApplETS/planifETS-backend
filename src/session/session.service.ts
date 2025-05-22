@@ -10,6 +10,12 @@ export class SessionService {
 
   private readonly logger = new Logger(SessionService.name);
 
+  private readonly trimesterMap: Record<string, Trimester> = {
+    A: Trimester.AUTOMNE,
+    H: Trimester.HIVER,
+    E: Trimester.ETE,
+  };
+
   public async getOrCreateSession(
     year: number,
     trimester: Trimester,
@@ -63,12 +69,7 @@ export class SessionService {
     trimester: Trimester;
   } {
     const year = parseInt(`20${sessionCode.slice(1)}`, 10);
-    const trimesterMap: Record<string, Trimester> = {
-      A: Trimester.AUTOMNE,
-      H: Trimester.HIVER,
-      E: Trimester.ETE,
-    };
-    const trimester = trimesterMap[sessionCode[0].toUpperCase()];
+    const trimester = this.trimesterMap[sessionCode[0].toUpperCase()];
 
     if (!year || !trimester) {
       throw new Error(`Invalid session code: ${sessionCode}`);
