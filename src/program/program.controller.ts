@@ -5,7 +5,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Program } from '@prisma/client';
 
 import { IdDto } from '../common/exceptions/dtos/id.dto';
@@ -23,14 +23,10 @@ export class ProgramController {
   }
 
   @Get()
+  @ApiOperation({
+    summary: '🟢 Get All Programs',
+  })
   public async getAllPrograms(): Promise<Program[] | null> {
     return this.programService.getAllPrograms();
-  }
-
-  @Get(':code/courses')
-  public async getProgramCoursesByCode(
-    @Param('code') programCode: string,
-  ): Promise<Program | null> {
-    return this.programService.getProgramCoursesByCode(programCode);
   }
 }

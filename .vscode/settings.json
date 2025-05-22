@@ -1,9 +1,27 @@
 {
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.nodePath": "./node_modules/eslint",
+    "eslint.validate": [
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact",
+    "markdown",
+    "json",
+    "yaml",
+    "github-actions-workflow"
+  ],
+  "search.exclude": {
+    "yarn.lock": true
+  },
   "editor.formatOnSave": true,
   "[typescript]": {
     "editor.tabSize": 2,
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
   },
   "files.eol": "\n",
   "typescript.preferences.importModuleSpecifier": "relative",
