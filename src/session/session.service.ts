@@ -93,6 +93,22 @@ export class SessionService {
     return this.prisma.session.findMany();
   }
 
+  public async getLatestAvailableSession(): Promise<Session | null> {
+    const latestSession = await this.prisma.session.findFirst({
+      orderBy: [{ year: 'desc' }, { trimester: 'desc' }],
+    });
+
+    if (!latestSession) {
+      this.logger.warn('No sessions found in the database');
+      return null;
+    }
+
+    this.logger.verbose(
+      `Found latest session: ${latestSession.year}-${latestSession.trimester}`,
+    );
+    return latestSession;
+  }
+
   public async createSession(
     data: Prisma.SessionCreateInput,
   ): Promise<Session> {
