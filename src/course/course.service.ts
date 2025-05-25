@@ -2,10 +2,16 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Course, Prisma } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
+import { CourseMapper } from './course.mapper';
+import { CourseRepository } from './course.repository';
+import { SearchCourseResult, SearchCoursesDto } from './dtos/search-course.dto';
 
 @Injectable()
 export class CourseService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly courseRepository: CourseRepository,
+  ) {}
 
   private readonly logger = new Logger(CourseService.name);
 
@@ -48,7 +54,6 @@ export class CourseService {
       },
     });
   }
-
   public async getAllCourses() {
     this.logger.verbose('getAllCourses');
 
@@ -67,6 +72,67 @@ export class CourseService {
         },
       },
     });
+  }
+
+  public async searchCourses(
+    query: string,
+    programCodes?: string[],
+    limit = 20,
+    offset = 0,
+  ): Promise<SearchCoursesDto> {
+    // Validate program codes if they exist
+    let validProgramCodes: string[] | undefined = undefined;
+
+    if (programCodes && programCodes.length > 0) {
+      // Filter out invalid program codes
+      const existingPrograms = await this.prisma.program.findMany({
+        where: { code: { in: programCodes } },
+        select: { code: true },
+      });
+
+      validProgramCodes = existingPrograms
+        .map((p) => p.code)
+        .filter((code): code is string => code !== null);
+
+      const invalidProgramCodes = programCodes.filter(
+        (code) => !validProgramCodes?.includes(code),
+      );
+
+      if (invalidProgramCodes.length > 0) {
+        this.logger.error(
+          `Invalid program codes provided for course search: ${invalidProgramCodes.join(
+            ', ',
+          )}`,
+          { invalidProgramCodes, query },
+        );
+      }
+
+      // If all program codes are invalid, perform a search without program filtering
+      if (validProgramCodes.length === 0) {
+        validProgramCodes = undefined;
+        this.logger.warn(
+          'All provided program codes were invalid. Performing search without program filtering.',
+          { query, providedProgramCodes: programCodes },
+        );
+      }
+    }
+
+    const { courses: raw, total } = await this.courseRepository.searchCourses(
+      query,
+      validProgramCodes,
+      limit,
+      offset,
+    );
+
+    const courses: SearchCourseResult[] = raw.map((c) =>
+      CourseMapper.toSearchDto(c, validProgramCodes),
+    );
+
+    return {
+      courses,
+      total,
+      hasMore: offset + courses.length < total,
+    };
   }
 
   public async createCourse(data: Prisma.CourseCreateInput): Promise<Course> {

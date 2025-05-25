@@ -6,7 +6,7 @@ import {
   DetailedProgramCourseDto,
   ProgramCoursesDto,
 } from './dtos/program-course.dto';
-import { ProgramCourseDetailedMapper } from './mappers/program-course.mapper';
+import { ProgramCourseMapper } from './mappers/program-course.mapper';
 import { ProgramCourseWithPrerequisites } from './types/program-course.types';
 import { ProgramCoursesQueryResult } from './types/program-course.types';
 
@@ -34,7 +34,7 @@ export class ProgramCourseService {
 
   private readonly logger = new Logger(ProgramCourseService.name);
 
-  public async getDetailedProgramCourse(
+  public async getProgramCourse(
     courseId: number,
     programCode: string,
   ): Promise<DetailedProgramCourseDto | null> {
@@ -255,7 +255,7 @@ export class ProgramCourseService {
       });
     }
 
-    const mappedData = ProgramCourseDetailedMapper.toDto(programs);
+    const mappedData = ProgramCourseMapper.toDto(programs);
     const foundCodes = programs.map((program) => program.code);
     const invalidProgramCodes = codes.filter(
       (code) => !foundCodes.includes(code),

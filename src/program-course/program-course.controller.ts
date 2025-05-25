@@ -19,17 +19,23 @@ export class ProgramCourseController {
   constructor(private readonly programCourseService: ProgramCourseService) {}
 
   @Get()
-  @ApiOperation({ summary: '🟢 Get detailed program courses by program codes' })
+  @ApiOperation({ summary: '🟢 Get program courses by program codes' })
   @ApiQuery({
     name: 'programCodes',
     type: String,
     isArray: true,
     required: true,
     description:
-      'One or more program codes (e.g. ?programCodes=7084&programCodes="1822, 1560")',
+      'One or more program codes (e.g. ?programCodes=7084&programCodes="1822;1560;7084")',
   })
   public async getProgramsCoursesDetailedByCode(
-    @Query('programCodes', new ParseArrayPipe({ items: String }))
+    @Query(
+      'programCodes',
+      new ParseArrayPipe({
+        items: String,
+        separator: ';',
+      }),
+    )
     programCodes: string[],
   ): Promise<{
     data: ProgramCoursesDto[];
@@ -41,7 +47,7 @@ export class ProgramCourseController {
       programCodes.length === 0
     ) {
       throw new HttpException(
-        'Program codes are required to get detailed program courses',
+        'Program codes are required to get program courses',
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -61,13 +67,22 @@ export class ProgramCourseController {
     return result;
   }
 
-  @Get('program-course')
+  @Get('details')
   @ApiOperation({
     summary: '🟢 Get a program course by courseId and programCode',
-    description: 'Ex: ?courseId=352377&programCode=7084',
   })
-  @ApiQuery({ name: 'courseId', type: Number, required: true })
-  @ApiQuery({ name: 'programCode', type: String, required: true })
+  @ApiQuery({
+    name: 'courseId',
+    type: Number,
+    required: true,
+    description: 'Ex: 352377',
+  })
+  @ApiQuery({
+    name: 'programCode',
+    type: String,
+    required: true,
+    description: 'Ex: 7084',
+  })
   public async getDetailedProgramCourse(
     @Query('courseId', ParseIntPipe) courseId: number,
     @Query('programCode') programCode: string,
@@ -78,7 +93,7 @@ export class ProgramCourseController {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const result = await this.programCourseService.getDetailedProgramCourse(
+    const result = await this.programCourseService.getProgramCourse(
       Number(courseId),
       programCode,
     );
