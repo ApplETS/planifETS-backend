@@ -6,7 +6,7 @@ import {
   DetailedProgramCourseDto,
   ProgramCoursesDto,
 } from './dtos/program-course.dto';
-import { ProgramCourseDetailedMapper } from './mappers/program-course.mapper';
+import { ProgramCourseMapper } from './mappers/program-course.mapper';
 import { ProgramCourseWithPrerequisites } from './types/program-course.types';
 import { ProgramCoursesQueryResult } from './types/program-course.types';
 
@@ -255,7 +255,7 @@ export class ProgramCourseService {
       });
     }
 
-    const mappedData = ProgramCourseDetailedMapper.toDto(programs);
+    const mappedData = ProgramCourseMapper.toDto(programs);
     const foundCodes = programs.map((program) => program.code);
     const invalidProgramCodes = codes.filter(
       (code) => !foundCodes.includes(code),

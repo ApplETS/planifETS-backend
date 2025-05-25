@@ -12,7 +12,7 @@ import {
   ProgramCoursesQueryResult,
 } from '../types/program-course.types';
 
-export class ProgramCourseDetailedMapper {
+export class ProgramCourseMapper {
   public static toDto(
     programs: ProgramCoursesQueryResult[],
   ): ProgramCoursesDto[] {

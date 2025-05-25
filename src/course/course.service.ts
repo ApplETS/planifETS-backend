@@ -2,10 +2,16 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Course, Prisma } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
+import { CourseMapper } from './course.mapper';
+import { CourseRepository } from './course.repository';
+import { SearchCourseResult, SearchCoursesDto } from './dtos/search-course.dto';
 
 @Injectable()
 export class CourseService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly courseRepository: CourseRepository,
+  ) {}
 
   private readonly logger = new Logger(CourseService.name);
 
@@ -48,7 +54,6 @@ export class CourseService {
       },
     });
   }
-
   public async getAllCourses() {
     this.logger.verbose('getAllCourses');
 
@@ -67,6 +72,30 @@ export class CourseService {
         },
       },
     });
+  }
+
+  public async searchCourses(
+    query: string,
+    programCode?: string,
+    limit = 20,
+    offset = 0,
+  ): Promise<SearchCoursesDto> {
+    const { courses: raw, total } = await this.courseRepository.searchCourses(
+      query,
+      programCode,
+      limit,
+      offset,
+    );
+
+    const courses: SearchCourseResult[] = raw.map((c) =>
+      CourseMapper.toSearchDto(c, programCode),
+    );
+
+    return {
+      courses,
+      total,
+      hasMore: offset + courses.length < total,
+    };
   }
 
   public async createCourse(data: Prisma.CourseCreateInput): Promise<Course> {

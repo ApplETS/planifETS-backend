@@ -1,5 +1,3 @@
-// course-instance.service.ts
-
 import { Injectable, Logger } from '@nestjs/common';
 import {
   Availability,
@@ -18,9 +16,6 @@ export class CourseInstanceService {
 
   private readonly logger = new Logger(CourseInstanceService.name);
 
-  /**
-   * Retrieves a unique CourseInstance based on unique identifiers.
-   */
   public async getCourseInstance(
     courseInstanceWhereUniqueInput: Prisma.CourseInstanceWhereUniqueInput,
   ): Promise<CourseInstance | null> {
