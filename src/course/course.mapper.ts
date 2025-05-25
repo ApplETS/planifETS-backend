@@ -9,7 +9,7 @@ import {
 export class CourseMapper {
   public static toSearchDto(
     raw: CourseSearchResult,
-    programCode?: string,
+    programCodes?: string[],
   ): SearchCourseResult {
     const { id, code, title, credits, cycle } = raw;
 
@@ -20,7 +20,7 @@ export class CourseMapper {
       credits,
       cycle,
       sessionAvailability: this.mapSessionAvailabilities(raw.courseInstances),
-      ...(programCode
+      ...(programCodes && programCodes.length > 0
         ? {
             typicalIndex: this.getTypicalIndex(raw.programs),
             prerequisites: this.mapPrerequisites(raw.programs),

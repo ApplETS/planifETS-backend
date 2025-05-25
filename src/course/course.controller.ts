@@ -4,6 +4,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  ParseArrayPipe,
   ParseIntPipe,
   Query,
 } from '@nestjs/common';
@@ -26,10 +27,10 @@ export class CourseController {
     description: 'Ex: LOG',
   })
   @ApiQuery({
-    name: 'programCode',
+    name: 'programCodes',
     type: String,
     required: false,
-    description: 'Ex: 7084',
+    description: 'Ex: 7084;1822;1560',
   })
   @ApiQuery({
     name: 'limit',
@@ -45,7 +46,15 @@ export class CourseController {
   })
   public async searchCourses(
     @Query('query') query: string,
-    @Query('programCode') programCode?: string,
+    @Query(
+      'programCodes',
+      new ParseArrayPipe({
+        items: String,
+        optional: true,
+        separator: ';',
+      }),
+    )
+    programCodes?: string[],
     @Query('limit') limit?: string,
     @Query('offset') offset?: string,
   ): Promise<SearchCoursesDto> {
@@ -61,7 +70,7 @@ export class CourseController {
 
     return this.courseService.searchCourses(
       query,
-      programCode,
+      programCodes,
       parsedLimit,
       parsedOffset,
     );

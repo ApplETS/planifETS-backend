@@ -26,10 +26,16 @@ export class ProgramCourseController {
     isArray: true,
     required: true,
     description:
-      'One or more program codes (e.g. ?programCodes=7084&programCodes="1822, 1560")',
+      'One or more program codes (e.g. ?programCodes=7084&programCodes="1822;1560;7084")',
   })
   public async getProgramsCoursesDetailedByCode(
-    @Query('programCodes', new ParseArrayPipe({ items: String }))
+    @Query(
+      'programCodes',
+      new ParseArrayPipe({
+        items: String,
+        separator: ';',
+      }),
+    )
     programCodes: string[],
   ): Promise<{
     data: ProgramCoursesDto[];
@@ -87,7 +93,7 @@ export class ProgramCourseController {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const result = await this.programCourseService.getDetailedProgramCourse(
+    const result = await this.programCourseService.getProgramCourse(
       Number(courseId),
       programCode,
     );

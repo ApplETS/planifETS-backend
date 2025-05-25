@@ -11,7 +11,7 @@ export class CourseRepository {
 
   public async searchCourses(
     query: string,
-    programCode?: string,
+    programCodes?: string[],
     limit = 20,
     offset = 0,
   ): Promise<{ courses: CourseSearchResult[]; total: number }> {
@@ -20,12 +20,17 @@ export class CourseRepository {
         { code: { contains: query, mode: 'insensitive' } },
         { title: { contains: query, mode: 'insensitive' } },
       ],
-      ...(programCode
-        ? { programs: { some: { program: { code: programCode } } } }
+      ...(programCodes && programCodes.length > 0
+        ? { programs: { some: { program: { code: { in: programCodes } } } } }
         : {}),
     };
 
-    this.logger.verbose('searchCourses', { query, programCode, limit, offset });
+    this.logger.verbose('searchCourses', {
+      query,
+      programCodes,
+      limit,
+      offset,
+    });
 
     const [courses, total] = await Promise.all([
       this.prisma.course.findMany({
@@ -38,18 +43,19 @@ export class CourseRepository {
             include: { session: true },
             orderBy: [{ sessionYear: 'desc' }, { sessionTrimester: 'desc' }],
           },
-          programs: programCode
-            ? {
-                where: { program: { code: programCode } },
-                include: {
-                  prerequisites: {
-                    include: {
-                      prerequisite: { include: { course: true } },
+          programs:
+            programCodes && programCodes.length > 0
+              ? {
+                  where: { program: { code: { in: programCodes } } },
+                  include: {
+                    prerequisites: {
+                      include: {
+                        prerequisite: { include: { course: true } },
+                      },
                     },
                   },
-                },
-              }
-            : undefined,
+                }
+              : undefined,
         },
       }) as Promise<CourseSearchResult[]>,
       this.prisma.course.count({ where }),
@@ -57,7 +63,7 @@ export class CourseRepository {
 
     this.logger.verbose(`Found ${courses.length} courses matching "${query}"`, {
       query,
-      programCode,
+      programCodes,
       limit,
       offset,
     });

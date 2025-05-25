@@ -34,7 +34,7 @@ export class ProgramCourseService {
 
   private readonly logger = new Logger(ProgramCourseService.name);
 
-  public async getDetailedProgramCourse(
+  public async getProgramCourse(
     courseId: number,
     programCode: string,
   ): Promise<DetailedProgramCourseDto | null> {
