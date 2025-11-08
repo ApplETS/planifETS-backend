@@ -11,7 +11,7 @@ export class CourseService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly courseRepository: CourseRepository,
-  ) {}
+  ) { }
 
   private readonly logger = new Logger(CourseService.name);
 
@@ -54,7 +54,7 @@ export class CourseService {
       },
     });
   }
-  public async getAllCourses() {
+  public async getAllCourses(): Promise<Course[]> {
     this.logger.verbose('getAllCourses');
 
     return this.prisma.course.findMany();

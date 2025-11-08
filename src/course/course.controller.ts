@@ -1,30 +1,42 @@
 import {
   Controller,
   Get,
-  HttpException,
-  HttpStatus,
   Param,
-  ParseArrayPipe,
   ParseIntPipe,
   Query,
 } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { CourseService } from './course.service';
+import { CourseDto } from './dtos/course.dto';
 import { SearchCoursesDto } from './dtos/search-course.dto';
 
 @ApiTags('Courses')
 @Controller('courses')
 export class CourseController {
-  constructor(private readonly courseService: CourseService) {}
+  constructor(private readonly courseService: CourseService) { }
+
+  @Get()
+  @ApiOkResponse({
+    description: 'Returns all courses',
+    type: [CourseDto],
+  })
+  public getAllCourses(): Promise<CourseDto[]> {
+    return this.courseService.getAllCourses();
+  }
 
   @Get('search')
   @ApiOperation({ summary: '🟢 Search courses by query string' })
+  @ApiOkResponse({
+    description: 'Returns paginated search results with courses, total count, and hasMore flag',
+    type: SearchCoursesDto,
+  })
+
   @ApiQuery({
     name: 'query',
     type: String,
-    required: true,
-    description: 'Ex: LOG',
+    required: false,
+    description: 'Search query. Leave empty to return all courses (paginated). Ex: LOG',
   })
   @ApiQuery({
     name: 'programCodes',
@@ -46,48 +58,56 @@ export class CourseController {
   })
   public async searchCourses(
     @Query('query') query: string,
-    @Query(
-      'programCodes',
-      new ParseArrayPipe({
-        items: String,
-        optional: true,
-        separator: ';',
-      }),
-    )
-    programCodes?: string[],
+    @Query('programCodes') programCodesRaw?: string,
     @Query('limit') limit?: string,
     @Query('offset') offset?: string,
   ): Promise<SearchCoursesDto> {
-    if (!query) {
-      throw new HttpException(
-        'Query parameter is required to search courses',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+    // Parse programCodes manually to avoid ParseArrayPipe issues with optional params
+    const programCodes = programCodesRaw
+      ? programCodesRaw.split(';').filter(code => code.trim())
+      : undefined;
 
     const parsedLimit = limit ? parseInt(limit, 10) : undefined;
     const parsedOffset = offset ? parseInt(offset, 10) : undefined;
 
     return this.courseService.searchCourses(
-      query,
+      query || '', // Pass empty string if query is undefined/null
       programCodes,
       parsedLimit,
       parsedOffset,
     );
   }
 
-  @Get()
-  public getAllCourses() {
-    return this.courseService.getAllCourses();
+
+
+  @Get('codes')
+  @ApiOkResponse({ type: [CourseDto] })
+  @ApiQuery({
+    name: 'codes',
+    type: String,
+    required: true,
+    isArray: true,
+    description: 'codes=LOG210&codes=LOG430 or codes=LOG210;LOG430',
+  })
+  public getCoursesByCodes(@Query('codes') codesRaw: string | string[]) {
+    let codes: string[] = [];
+
+    if (Array.isArray(codesRaw)) {
+      // If it's already an array (multiple query params), use it directly
+      codes = codesRaw.filter(code => code && code.trim());
+    } else if (typeof codesRaw === 'string') {
+      // If it's a string, split by semicolon
+      codes = codesRaw.split(';').filter(code => code && code.trim());
+    }
+
+    return this.courseService.getCoursesByCodes(codes);
   }
 
   @Get(':id')
+  @ApiOkResponse({ type: CourseDto })
   public getCourse(@Param('id', ParseIntPipe) id: number) {
     return this.courseService.getCourse({ id });
   }
 
-  @Get('codes')
-  public getCoursesByCodes(@Query('codes') codes: string[]) {
-    return this.courseService.getCoursesByCodes(codes);
-  }
+
 }

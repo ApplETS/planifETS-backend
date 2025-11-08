@@ -18,6 +18,9 @@ export class ProgramController {
   constructor(private readonly programService: ProgramService) { }
 
   @Get(':id')
+  @ApiOperation({
+    summary: '🟢 Get Program by ID',
+  })
   @ApiOkResponse({
     type: ProgramDto,
     isArray: false,
