@@ -8,7 +8,7 @@ export class TextExtractor {
     yPos: number;
     bold: boolean;
   } {
-    const textContent: string = decodeURIComponent(textItem.R[0].T).trim();
+    const textContent: string = textItem.R[0].T.trim();
     const fontSize: number = textItem.R[0].TS[1];
     const xPos: number = textItem.x;
     const yPos: number = textItem.y;

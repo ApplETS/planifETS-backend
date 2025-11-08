@@ -16,7 +16,7 @@ export class PlanificationCoursService {
 
   private readonly courseCodeValidationPipe = new CourseCodeValidationPipe();
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) { }
 
   public async parseProgramPlanification(
     programCode: string,
@@ -109,7 +109,11 @@ export class PlanificationCoursService {
 
       return courses;
     } catch (err) {
-      throw new Error('Error processing PDF data');
+      if (err instanceof Error) {
+        throw new Error(`Error processing PDF data: ${err.message}`);
+      }
+
+      throw new Error(`Error processing PDF data: ${err}`);
     }
   }
 
@@ -135,7 +139,7 @@ export class PlanificationCoursService {
       let headerName = '';
       pdfData.Pages[0].Texts.forEach((text: Text) => {
         if (this.isTextInCell(text, { startX, endX, startY, endY })) {
-          headerName += decodeURIComponent(text.R[0].T).trim() + ' ';
+          headerName += text.R[0].T.trim() + ' ';
         }
       });
 
