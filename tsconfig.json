@@ -16,6 +16,11 @@
       "node_modules/@types"
     ],
     "esModuleInterop": true,
-    "resolveJsonModule": true,
-  }
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
