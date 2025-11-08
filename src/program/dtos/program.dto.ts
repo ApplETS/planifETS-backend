@@ -27,10 +27,10 @@ export class ProgramDto implements Program {
   @ApiProperty()
   public isPlanificationPdfParsable!: boolean;
 
-  @ApiProperty({ type: 'object', nullable: true })
+  @ApiProperty({ nullable: true })
   public horaireCoursPdfJson!: JsonValue;
 
-  @ApiProperty({ type: 'object', nullable: true })
+  @ApiProperty({ nullable: true })
   public planificationPdfJson!: JsonValue;
 
   @ApiProperty()
