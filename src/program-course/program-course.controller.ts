@@ -8,15 +8,24 @@ import {
   ParseIntPipe,
   Query,
 } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 
-import { ProgramCoursesDto } from './dtos/program-course.dto';
+import {
+  DetailedProgramCourseDto,
+  ProgramCoursesDto,
+  ProgramCoursesResponseDto,
+} from './dtos/program-course.dto';
 import { ProgramCourseService } from './program-course.service';
 
 @ApiTags('Program courses')
 @Controller('program-courses')
 export class ProgramCourseController {
-  constructor(private readonly programCourseService: ProgramCourseService) {}
+  constructor(private readonly programCourseService: ProgramCourseService) { }
 
   @Get()
   @ApiOperation({ summary: '🟢 Get program courses by program codes' })
@@ -27,6 +36,10 @@ export class ProgramCourseController {
     required: true,
     description:
       'One or more program codes (e.g. ?programCodes=7084&programCodes="1822;1560;7084")',
+  })
+  @ApiOkResponse({
+    description: 'Returns program courses',
+    type: ProgramCoursesResponseDto,
   })
   public async getProgramsCoursesDetailedByCode(
     @Query(
@@ -82,6 +95,10 @@ export class ProgramCourseController {
     type: String,
     required: true,
     description: 'Ex: 7084',
+  })
+  @ApiOkResponse({
+    description: 'Returns detailed program course information',
+    type: DetailedProgramCourseDto,
   })
   public async getDetailedProgramCourse(
     @Query('courseId', ParseIntPipe) courseId: number,

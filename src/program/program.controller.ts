@@ -18,6 +18,10 @@ export class ProgramController {
   constructor(private readonly programService: ProgramService) { }
 
   @Get(':id')
+  @ApiOkResponse({
+    type: ProgramDto,
+    isArray: false,
+  })
   @UsePipes(new ValidationPipe({ transform: true }))
   public async getProgram(@Param() { id }: IdDto): Promise<Program | null> {
     return this.programService.getProgram({ id });

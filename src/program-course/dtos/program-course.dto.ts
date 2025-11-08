@@ -5,7 +5,11 @@ export class SessionAvailabilityDto {
   @ApiProperty()
   public sessionCode!: string;
 
-  @ApiProperty({ type: [String] })
+  @ApiProperty({
+    type: [String],
+    enum: ['JOUR', 'SOIR', 'INTENSIF'],
+    isArray: true,
+  })
   public availability!: string[];
 }
 
@@ -33,10 +37,17 @@ export class ProgramCourseDto {
   @ApiProperty({ type: () => [CoursePrerequisiteDto] })
   public prerequisites!: CoursePrerequisiteDto[];
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({
+    nullable: true,
+    enum: ['TRONC', 'CONCE', 'CONDI'],
+    description: 'Course type within the program (TRONC: tron commun, CONCE: Concentration)',
+  })
   public type!: string | null;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({
+    nullable: true,
+    description: 'Typical session index when this course is usually taken in the program',
+  })
   public typicalSessionIndex!: number | null;
 
   @ApiProperty({ nullable: true })
@@ -72,7 +83,7 @@ export class DetailedProgramCourseCourseInstanceDto {
   @ApiProperty()
   public sessionTrimester!: string;
 
-  @ApiProperty({ type: DetailedProgramCourseCourseInstanceSessionDto })
+  @ApiProperty({ type: () => DetailedProgramCourseCourseInstanceSessionDto })
   public session!: DetailedProgramCourseCourseInstanceSessionDto;
 }
 
@@ -85,8 +96,33 @@ export class DetailedProgramCoursePrerequisiteCourseDto {
 }
 
 export class DetailedProgramCoursePrerequisiteDto {
-  @ApiProperty({ type: DetailedProgramCoursePrerequisiteCourseDto })
+  @ApiProperty({ type: () => DetailedProgramCoursePrerequisiteCourseDto })
   public course!: DetailedProgramCoursePrerequisiteCourseDto;
+}
+
+export class DetailedProgramCourseCourseDto {
+  @ApiProperty()
+  public code!: string;
+
+  @ApiProperty()
+  public title!: string;
+
+  @ApiProperty({ nullable: true })
+  public credits!: number | null;
+
+  @ApiProperty()
+  public description!: string;
+
+  @ApiProperty({ nullable: true })
+  public cycle!: number | null;
+
+  @ApiProperty({ type: () => [DetailedProgramCourseCourseInstanceDto] })
+  public courseInstances!: DetailedProgramCourseCourseInstanceDto[];
+}
+
+export class DetailedProgramCoursePrerequisiteWrapperDto {
+  @ApiProperty({ type: () => DetailedProgramCoursePrerequisiteDto })
+  public prerequisite!: DetailedProgramCoursePrerequisiteDto;
 }
 
 export class DetailedProgramCourseDto {
@@ -105,28 +141,11 @@ export class DetailedProgramCourseDto {
   @ApiProperty({ nullable: true })
   public unstructuredPrerequisite!: string | null;
 
-  @ApiProperty({
-    type: () => Object,
-  })
-  public course!: {
-    code: string;
-    title: string;
-    credits: number | null;
-    description: string;
-    cycle: number | null;
-    courseInstances: DetailedProgramCourseCourseInstanceDto[];
-  };
+  @ApiProperty({ type: () => DetailedProgramCourseCourseDto })
+  public course!: DetailedProgramCourseCourseDto;
 
-  @ApiProperty({ type: [Object] })
-  public prerequisites!: {
-    prerequisite: {
-      course:
-      {
-        code: string;
-        title: string
-      }
-    };
-  }[];
+  @ApiProperty({ type: () => [DetailedProgramCoursePrerequisiteWrapperDto] })
+  public prerequisites!: DetailedProgramCoursePrerequisiteWrapperDto[];
 }
 
 export class ProgramCoursePrismaDto implements ProgramCourse {
@@ -150,4 +169,17 @@ export class ProgramCoursePrismaDto implements ProgramCourse {
 
   @ApiProperty()
   public updatedAt!: Date;
+}
+
+export class ProgramCoursesErrorDto {
+  @ApiProperty({ type: [String], description: 'List of invalid program codes' })
+  public invalidProgramCodes!: string[];
+}
+
+export class ProgramCoursesResponseDto {
+  @ApiProperty({ type: () => [ProgramCoursesDto], description: 'Array of program courses grouped by program code' })
+  public data!: ProgramCoursesDto[];
+
+  @ApiProperty({ type: () => ProgramCoursesErrorDto, required: false, description: 'Error information if any program codes were invalid' })
+  public errors?: ProgramCoursesErrorDto;
 }
