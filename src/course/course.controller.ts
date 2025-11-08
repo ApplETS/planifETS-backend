@@ -94,10 +94,10 @@ export class CourseController {
 
     if (Array.isArray(codesRaw)) {
       // If it's already an array (multiple query params), use it directly
-      codes = codesRaw.filter(code => code && code.trim());
+      codes = codesRaw.filter(code => code?.trim());
     } else if (typeof codesRaw === 'string') {
       // If it's a string, split by semicolon
-      codes = codesRaw.split(';').filter(code => code && code.trim());
+      codes = codesRaw.split(';').filter(code => code?.trim());
     }
 
     return this.courseService.getCoursesByCodes(codes);
