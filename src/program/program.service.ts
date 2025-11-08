@@ -6,7 +6,7 @@ import { ProgramIncludeCourseIdsAndPrerequisitesDto } from './program.types';
 
 @Injectable()
 export class ProgramService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private readonly logger = new Logger(ProgramService.name);
 

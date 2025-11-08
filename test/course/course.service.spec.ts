@@ -2,7 +2,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Course, Session } from '@prisma/client';
 import { useContainer } from 'class-validator';
-import * as request from 'supertest';
+import request from 'supertest';
 
 import { AppModule } from '../../src/app.module';
 import { PrismaService } from '../../src/prisma/prisma.service';
@@ -14,8 +14,8 @@ describe('CourseService (e2e)', () => {
   let session: Session;
 
   const courseShape = expect.objectContaining({
-    id: expect.any(String),
-    programId: expect.any(String),
+    id: expect.any(Number),
+    programId: expect.any(Number),
     code: expect.any(String),
     title: expect.any(String),
     description: expect.any(String),
@@ -23,6 +23,8 @@ describe('CourseService (e2e)', () => {
   });
 
   beforeAll(async () => {
+    void session; // To avoid unused variable error
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -37,15 +39,14 @@ describe('CourseService (e2e)', () => {
 
     session = await prisma.session.create({
       data: {
-        trimester: 'A',
+        trimester: 'AUTOMNE',
         year: 2021,
       },
     });
 
     course = await prisma.course.create({
       data: {
-        id: '1',
-        programId: '1',
+        id: 1,
         code: 'CS101',
         title: 'Introduction to Computer Science',
         description: 'A basic course on computer science',

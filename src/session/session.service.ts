@@ -6,14 +6,14 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class SessionService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private readonly logger = new Logger(SessionService.name);
 
   private readonly trimesterMap: Record<string, Trimester> = {
     A: Trimester.AUTOMNE,
     H: Trimester.HIVER,
-    E: Trimester.ETE,
+    E: Trimester.ETE
   };
 
   public async getOrCreateSession(
