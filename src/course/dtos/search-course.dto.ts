@@ -2,62 +2,62 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class SessionAvailabilityDto {
   @ApiProperty({ example: '20253' })
-  sessionCode!: string;
+  public sessionCode!: string;
 
   @ApiProperty({ example: ['A', 'B', 'C'] })
-  availability!: string[];
+  public availability!: string[];
 }
 
 export class PrerequisiteResult {
   @ApiProperty({ example: 349710 })
-  id!: number;
+  public id!: number;
 
   @ApiProperty({ example: 'LOG121' })
-  code!: string;
+  public code!: string;
 
   @ApiProperty({ example: 'Conception orientée objet' })
-  title!: string;
+  public title!: string;
 
   @ApiProperty({ example: 3, nullable: true })
-  credits!: number | null;
+  public credits!: number | null;
 
   @ApiProperty({ example: 1, nullable: true })
-  cycle!: number | null;
+  public cycle!: number | null;
 }
 
 export class SearchCourseResult {
   @ApiProperty({ example: 352405 })
-  id!: number;
+  public id!: number;
 
   @ApiProperty({ example: 'LOG121' })
-  code!: string;
+  public code!: string;
 
   @ApiProperty({ example: 'Conception orientée objet' })
-  title!: string;
+  public title!: string;
 
   @ApiProperty({ example: 3, nullable: true })
-  credits!: number | null;
+  public credits!: number | null;
 
   @ApiProperty({ example: 1, nullable: true })
-  cycle!: number | null;
+  public cycle!: number | null;
 
   @ApiProperty({ type: [SessionAvailabilityDto] })
-  sessionAvailability!: SessionAvailabilityDto[];
+  public sessionAvailability!: SessionAvailabilityDto[];
 
   @ApiProperty({ example: 2, nullable: true, required: false })
-  typicalIndex?: number | null;
+  public typicalIndex?: number | null;
 
   @ApiProperty({ type: [PrerequisiteResult], required: false })
-  prerequisites?: PrerequisiteResult[];
+  public prerequisites?: PrerequisiteResult[];
 }
 
 export class SearchCoursesDto {
   @ApiProperty({ type: [SearchCourseResult] })
-  courses!: SearchCourseResult[];
+  public courses!: SearchCourseResult[];
 
   @ApiProperty({ example: 42, description: 'Total number of courses matching the search' })
-  total!: number;
+  public total!: number;
 
   @ApiProperty({ example: true, description: 'Whether there are more results available' })
-  hasMore!: boolean;
+  public hasMore!: boolean;
 }
