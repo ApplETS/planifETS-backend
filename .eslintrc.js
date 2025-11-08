@@ -8,7 +8,6 @@ module.exports = {
   plugins: ['@typescript-eslint/eslint-plugin', 'import', 'simple-import-sort'],
   extends: [
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
     'airbnb-typescript/base',
   ],
   root: true,
@@ -32,12 +31,8 @@ module.exports = {
     ],
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
-    'prettier/prettier': [
-      'error',
-      {
-        endOfLine: 'lf',
-      },
-    ],
+    // prefer ESLint formatting rules (block-spacing) over Prettier enforcement
+    'block-spacing': ['error', 'always'],
     '@typescript-eslint/brace-style': 'off',
     indent: 'off',
     '@typescript-eslint/indent': 'off',
