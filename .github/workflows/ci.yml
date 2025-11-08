@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [20.x]
 
     steps:
       - name: Checkout to code
@@ -28,6 +28,9 @@ jobs:
 
       - name: lint
         run: yarn run lint
+
+      - name: Type check
+        run: yarn run typecheck
 
       - name: Run tests
         run: yarn test
