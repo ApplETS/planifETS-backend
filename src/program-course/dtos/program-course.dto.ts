@@ -50,7 +50,7 @@ export class ProgramCourseDto {
   })
   public typicalSessionIndex!: number | null;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: String, nullable: true })
   public unstructuredPrerequisite!: string | null;
 }
 
@@ -107,13 +107,13 @@ export class DetailedProgramCourseCourseDto {
   @ApiProperty()
   public title!: string;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: Number, nullable: true })
   public credits!: number | null;
 
   @ApiProperty()
   public description!: string;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: Number, nullable: true })
   public cycle!: number | null;
 
   @ApiProperty({ type: () => [DetailedProgramCourseCourseInstanceDto] })
@@ -132,13 +132,13 @@ export class DetailedProgramCourseDto {
   @ApiProperty()
   public programId!: number;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: String, nullable: true })
   public type!: string | null;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: Number, nullable: true })
   public typicalSessionIndex!: number | null;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: String, nullable: true })
   public unstructuredPrerequisite!: string | null;
 
   @ApiProperty({ type: () => DetailedProgramCourseCourseDto })
@@ -155,13 +155,13 @@ export class ProgramCoursePrismaDto implements ProgramCourse {
   @ApiProperty()
   public programId!: number;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: String, nullable: true })
   public type!: string | null;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: Number, nullable: true })
   public typicalSessionIndex!: number | null;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: String, nullable: true })
   public unstructuredPrerequisite!: string | null;
 
   @ApiProperty()

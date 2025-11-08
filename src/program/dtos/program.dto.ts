@@ -6,13 +6,13 @@ export class ProgramDto implements Program {
   @ApiProperty()
   public id!: number;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: String, nullable: true })
   public code!: string | null;
 
   @ApiProperty()
   public title!: string;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: String, nullable: true })
   public credits!: string | null;
 
   @ApiProperty()
