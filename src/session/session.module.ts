@@ -8,5 +8,6 @@ import { SessionService } from './session.service';
   imports: [PrismaModule],
   controllers: [SessionController],
   providers: [SessionService],
+  exports: [SessionService],
 })
 export class SessionModule {}

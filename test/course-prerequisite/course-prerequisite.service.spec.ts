@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { CoursePrerequisiteService } from '../../src/course-prerequisite/course-prerequisite.service';
+import { PrerequisiteService } from '../../src/prerequisite/prerequisite.service';
 import { PrismaService } from '../../src/prisma/prisma.service';
 
 describe('CoursePrerequisiteService', () => {
-  let service: CoursePrerequisiteService;
+  let service: PrerequisiteService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        CoursePrerequisiteService,
+        PrerequisiteService,
         {
           provide: PrismaService,
           useValue: {
@@ -25,7 +25,7 @@ describe('CoursePrerequisiteService', () => {
       ],
     }).compile();
 
-    service = module.get<CoursePrerequisiteService>(CoursePrerequisiteService);
+    service = module.get<PrerequisiteService>(PrerequisiteService);
   });
 
   it('should be defined', () => {

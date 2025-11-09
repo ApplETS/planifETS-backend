@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Fill, Output, Page, Text } from 'pdf2json';
 import { firstValueFrom } from 'rxjs';
 
+import { getPlanificationPdfUrl } from '../../../../constants/url';
 import { CourseCodeValidationPipe } from '../../../../pipes/models/course/course-code-validation-pipe';
 import { PdfParserUtil } from '../../../../utils/pdf/parser/pdfParserUtil';
 import { TextExtractor } from '../../../../utils/pdf/parser/textExtractorUtil';
@@ -15,7 +16,20 @@ export class PlanificationCoursService {
 
   private readonly courseCodeValidationPipe = new CourseCodeValidationPipe();
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) { }
+
+  public async parseProgramPlanification(
+    programCode: string,
+  ): Promise<ICoursePlanification[]> {
+    try {
+      const pdfUrl = getPlanificationPdfUrl(programCode);
+      return await this.parsePdfFromUrl(pdfUrl);
+    } catch (error) {
+      throw new Error(
+        `Error parsing Planification-PDF for program: ${programCode}\n` + error,
+      );
+    }
+  }
 
   public async parsePdfFromUrl(
     pdfUrl: string,
@@ -95,7 +109,11 @@ export class PlanificationCoursService {
 
       return courses;
     } catch (err) {
-      throw new Error('Error processing PDF data');
+      if (err instanceof Error) {
+        throw new Error(`Error processing PDF data: ${err.message}`);
+      }
+
+      throw new Error(`Error processing PDF data: ${err}`);
     }
   }
 
@@ -121,7 +139,7 @@ export class PlanificationCoursService {
       let headerName = '';
       pdfData.Pages[0].Texts.forEach((text: Text) => {
         if (this.isTextInCell(text, { startX, endX, startY, endY })) {
-          headerName += decodeURIComponent(text.R[0].T).trim() + ' ';
+          headerName += text.R[0].T.trim() + ' ';
         }
       });
 

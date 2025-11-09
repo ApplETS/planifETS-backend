@@ -1,5 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { CourseInstance, Prisma, Session } from '@prisma/client';
+import {
+  Availability,
+  Course,
+  CourseInstance,
+  Prisma,
+  Session,
+  Trimester,
+} from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -9,41 +16,47 @@ export class CourseInstanceService {
 
   private readonly logger = new Logger(CourseInstanceService.name);
 
-  public getCourseInstance(
+  public async getCourseInstance(
     courseInstanceWhereUniqueInput: Prisma.CourseInstanceWhereUniqueInput,
   ): Promise<CourseInstance | null> {
-    this.logger.log('courseInstanceById');
+    this.logger.verbose('Fetching CourseInstance by unique input.');
 
     return this.prisma.courseInstance.findUnique({
       where: courseInstanceWhereUniqueInput,
     });
   }
 
+  public async getCourseInstancesBySessions(
+    sessions: Session[],
+  ): Promise<CourseInstance[]> {
+    const sessionIdentifiers = sessions.map((session) => ({
+      sessionYear: session.year,
+      sessionTrimester: session.trimester,
+    }));
+
+    this.logger.verbose('getCourseInstancesBySessions', sessionIdentifiers);
+
+    return this.prisma.courseInstance.findMany({
+      where: {
+        OR: sessionIdentifiers.map(({ sessionYear, sessionTrimester }) => ({
+          sessionYear,
+          sessionTrimester,
+        })),
+      },
+    });
+  }
+
   public async getAllCourseInstances(): Promise<CourseInstance[]> {
-    this.logger.log('courseInstances');
+    this.logger.verbose('Fetching all CourseInstances.');
 
     const courseInstances = await this.prisma.courseInstance.findMany();
     return courseInstances;
   }
 
-  public async getCourseInstancesBySessions(
-    sessionIds: string[],
-  ): Promise<CourseInstance[]> {
-    this.logger.log('getCourseInstancesBySessions', JSON.stringify(sessionIds));
-
-    return this.prisma.courseInstance.findMany({
-      where: {
-        sessionId: {
-          in: sessionIds,
-        },
-      },
-    });
-  }
-
   public async getCourseAvailability(
     courseId: number,
-  ): Promise<{ session: Session; available: boolean }[]> {
-    this.logger.verbose('getCourseAvailability', courseId);
+  ): Promise<{ session: Session; available: Availability[] }[]> {
+    this.logger.verbose('Fetching Course Availability', courseId);
 
     const courseInstances = await this.prisma.courseInstance.findMany({
       where: { courseId },
@@ -54,14 +67,14 @@ export class CourseInstanceService {
 
     return courseInstances.map((ci) => ({
       session: ci.session,
-      available: true,
+      available: ci.availability,
     }));
   }
 
   public async getCourseInstancesByCourse(
     courseId: number,
   ): Promise<CourseInstance[]> {
-    this.logger.log('getCourseInstancesByCourse', courseId);
+    this.logger.verbose('Fetching CourseInstances by Course ID', courseId);
 
     return this.prisma.courseInstance.findMany({
       where: { courseId },
@@ -72,45 +85,75 @@ export class CourseInstanceService {
   }
 
   public async createCourseInstance(
-    data: Prisma.CourseInstanceCreateInput,
+    course: Course,
+    session: Session,
+    availability: Availability[],
   ): Promise<CourseInstance> {
-    this.logger.log('createCourseInstance', data);
-    const courseInstance = await this.prisma.courseInstance.create({
-      data,
+    this.logger.verbose('Creating CourseInstance', {
+      courseId: course.id,
+      sessionYear: session.year,
+      sessionTrimester: session.trimester,
+      availability,
     });
-    return courseInstance;
+
+    return this.prisma.courseInstance.create({
+      data: {
+        course: { connect: { id: course.id } },
+        session: {
+          connect: {
+            year_trimester: {
+              year: session.year,
+              trimester: session.trimester,
+            },
+          },
+        },
+        availability,
+      },
+    });
   }
 
-  public async updateCourseInstance(params: {
-    where: Prisma.CourseInstanceWhereUniqueInput;
-    data: Prisma.CourseInstanceUpdateInput;
-  }): Promise<CourseInstance> {
-    this.logger.log('updateCourseInstance', params);
+  public async updateCourseInstanceAvailability(
+    instance: CourseInstance,
+    availability: Availability[],
+  ): Promise<void> {
+    this.logger.verbose('Updating CourseInstance Availability', {
+      courseId: instance.courseId,
+      sessionYear: instance.sessionYear,
+      sessionTrimester: instance.sessionTrimester,
+      availability,
+    });
 
-    const { data, where } = params;
-    return this.prisma.courseInstance.update({
-      data,
-      where,
+    await this.prisma.courseInstance.update({
+      where: {
+        courseId_sessionYear_sessionTrimester: {
+          courseId: instance.courseId,
+          sessionYear: instance.sessionYear,
+          sessionTrimester: instance.sessionTrimester,
+        },
+      },
+      data: { availability },
     });
   }
 
   public async deleteCourseInstance(
-    where: Prisma.CourseInstanceWhereUniqueInput,
+    courseId: number,
+    sessionYear: number,
+    sessionTrimester: Trimester,
   ): Promise<CourseInstance> {
-    this.logger.log('deleteCourseInstance', where);
+    this.logger.verbose('Deleting CourseInstance', {
+      courseId,
+      sessionYear,
+      sessionTrimester,
+    });
 
     return this.prisma.courseInstance.delete({
-      where,
-    });
-  }
-
-  public async deleteCourseInstancesBySession(
-    sessionId: string,
-  ): Promise<Prisma.BatchPayload> {
-    this.logger.log('deleteCourseInstancesBySession', sessionId);
-
-    return this.prisma.courseInstance.deleteMany({
-      where: { sessionId },
+      where: {
+        courseId_sessionYear_sessionTrimester: {
+          courseId: courseId,
+          sessionYear: sessionYear,
+          sessionTrimester,
+        },
+      },
     });
   }
 }

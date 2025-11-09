@@ -1,19 +1,91 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, Session, Trimester } from '@prisma/client';
 
+import { getCurrentTrimester } from '../common/utils/session/sessionUtil';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class SessionService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private readonly logger = new Logger(SessionService.name);
 
-  public async getSession(id: string): Promise<Session | null> {
-    this.logger.log('getSession', id);
+  private readonly trimesterMap: Record<string, Trimester> = {
+    A: Trimester.AUTOMNE,
+    H: Trimester.HIVER,
+    E: Trimester.ETE
+  };
 
-    return this.prisma.session.findUnique({
-      where: { id },
+  public async getOrCreateSession(
+    year: number,
+    trimester: Trimester,
+  ): Promise<Session> {
+    return this.prisma.session.upsert({
+      where: {
+        year_trimester: {
+          year,
+          trimester,
+        },
+      },
+      update: {},
+      create: {
+        year,
+        trimester,
+        updatedAt: new Date(),
+      },
+    });
+  }
+
+  public async getOrCreateCurrentSession(
+    date: Date = new Date(),
+  ): Promise<Session> {
+    const trimester = getCurrentTrimester(date);
+    if (!trimester) {
+      this.logger.warn(
+        `Unable to determine the current trimester for date: ${date.toISOString()}`,
+      );
+      throw new Error('Current trimester could not be determined.');
+    }
+
+    const year = date.getFullYear();
+
+    return this.prisma.session.upsert({
+      where: {
+        year_trimester: {
+          year,
+          trimester,
+        },
+      },
+      update: {},
+      create: {
+        year,
+        trimester,
+      },
+    });
+  }
+
+  private parseSessionCode(sessionCode: string): {
+    year: number;
+    trimester: Trimester;
+  } {
+    const year = parseInt(`20${sessionCode.slice(1)}`, 10);
+    const trimester = this.trimesterMap[sessionCode[0].toUpperCase()];
+
+    if (!year || !trimester) {
+      throw new Error(`Invalid session code: ${sessionCode}`);
+    }
+
+    return { year, trimester };
+  }
+
+  public async getOrCreateSessionFromCode(
+    sessionCode: string,
+  ): Promise<Session> {
+    const { year, trimester } = this.parseSessionCode(sessionCode);
+    return this.prisma.session.upsert({
+      where: { year_trimester: { year, trimester } },
+      update: {},
+      create: { year, trimester },
     });
   }
 
@@ -21,40 +93,27 @@ export class SessionService {
     return this.prisma.session.findMany();
   }
 
+  public async getLatestAvailableSession(): Promise<Session | null> {
+    const latestSession = await this.prisma.session.findFirst({
+      orderBy: [{ year: 'desc' }, { trimester: 'desc' }],
+    });
+
+    if (!latestSession) {
+      this.logger.warn('No sessions found in the database');
+      return null;
+    }
+
+    this.logger.verbose(
+      `Found latest session: ${latestSession.year}-${latestSession.trimester}`,
+    );
+    return latestSession;
+  }
+
   public async createSession(
     data: Prisma.SessionCreateInput,
   ): Promise<Session> {
     return this.prisma.session.create({
       data,
-    });
-  }
-
-  public async upsertSession(
-    id: string,
-    data: Prisma.SessionUpdateInput,
-  ): Promise<Session> {
-    const createSessionDto: Prisma.SessionCreateInput = {
-      ...data,
-      id,
-      trimester: data.trimester as Trimester,
-      year: data.year as number,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-
-    return this.prisma.session.upsert({
-      where: { id },
-      update: {
-        ...data,
-        updatedAt: new Date(),
-      },
-      create: createSessionDto,
-    });
-  }
-
-  public async removeSession(id: string): Promise<Session> {
-    return this.prisma.session.delete({
-      where: { id },
     });
   }
 }

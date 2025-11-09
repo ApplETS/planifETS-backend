@@ -37,7 +37,7 @@ export interface ICourseWithCredits extends ICourses {
 
 @Injectable()
 export class EtsCourseService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) { }
 
   public async fetchAllCoursesWithCredits(): Promise<ICourseWithCredits[]> {
     const courses = await this.fetchAllCoursesWithoutCredits();

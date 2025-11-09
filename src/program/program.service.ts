@@ -2,31 +2,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, Program, ProgramType } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
-
-export type ProgramIncludeCourseIdsAndPrerequisitesType = {
-  id: number;
-  code: string | null;
-  courses: {
-    course: {
-      id: number;
-      code: string;
-    };
-    typicalSessionIndex: number | null;
-    type: string | null;
-    prerequisites: {
-      prerequisite: {
-        course: {
-          id: number;
-          code: string;
-        };
-      };
-    }[];
-  }[];
-};
+import { ProgramIncludeCourseIdsAndPrerequisitesDto } from './program.types';
 
 @Injectable()
 export class ProgramService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private readonly logger = new Logger(ProgramService.name);
 
@@ -47,7 +27,7 @@ export class ProgramService {
   }
 
   public async getAllProgramsWithCourses(): Promise<
-    ProgramIncludeCourseIdsAndPrerequisitesType[]
+    ProgramIncludeCourseIdsAndPrerequisitesDto[]
   > {
     const data = await this.prisma.program.findMany({
       select: {
@@ -83,6 +63,56 @@ export class ProgramService {
     });
 
     return data;
+  }
+
+  public async getProgramByCode(code: string): Promise<Program | null> {
+    this.logger.verbose('getProgramByCode', code);
+
+    return this.prisma.program.findFirst({
+      where: {
+        code,
+      },
+    });
+  }
+
+  public async getProgramsByHoraireParsablePDF(): Promise<Program[]> {
+    this.logger.verbose('Fetching programs with isHorairePdfParsable = true');
+    const programs = await this.prisma.program.findMany({
+      where: {
+        isHorairePdfParsable: true,
+      },
+    });
+
+    if (programs.length === 0 || programs == null) {
+      this.logger.error('No programs found with isHorairePdfParsable = true');
+    } else {
+      this.logger.verbose(
+        `Found ${programs.length} programs with isHorairePdfParsable = true.`,
+      );
+    }
+    return programs;
+  }
+
+  public async getProgramsByPlanificationParsablePDF(): Promise<Program[]> {
+    this.logger.verbose(
+      'Fetching programs with isPlanificationPdfParsable = true',
+    );
+    const programs = await this.prisma.program.findMany({
+      where: {
+        isPlanificationPdfParsable: true,
+      },
+    });
+
+    if (programs.length === 0 || programs == null) {
+      this.logger.error(
+        'No programs found with isPlanificationPdfParsable = true',
+      );
+    } else {
+      this.logger.verbose(
+        `Found ${programs.length} programs with isPlanificationPdfParsable = true.`,
+      );
+    }
+    return programs;
   }
 
   public async createProgram(
@@ -162,12 +192,35 @@ export class ProgramService {
     }
   }
 
-  public async deleteProgram(
-    where: Prisma.ProgramWhereUniqueInput,
-  ): Promise<Program> {
-    this.logger.verbose('deleteProgram', JSON.stringify(where));
-    return this.prisma.program.delete({
-      where,
+  public async updateProgramsByCodes(
+    codes: string[],
+    data: Prisma.ProgramUpdateInput,
+  ): Promise<number> {
+    this.logger.verbose('Starting updateProgramsByCodes', { codes, data });
+
+    const result = await this.prisma.program.updateMany({
+      where: { code: { in: codes } },
+      data,
     });
+
+    if (result.count === 0) {
+      this.logger.error(`No programs found with codes: "${codes.join(', ')}"`);
+    } else if (result.count < codes.length) {
+      // Identify which codes were not found
+      const existingPrograms = await this.prisma.program.findMany({
+        where: { code: { in: codes } },
+        select: { code: true },
+      });
+      const existingCodes = existingPrograms.map((p) => p.code);
+      const missingCodes = codes.filter(
+        (code) => !existingCodes.includes(code),
+      );
+
+      this.logger.warn(
+        `Some programs were not found and thus not updated: "${missingCodes.join(', ')}"`,
+      );
+    }
+
+    return result.count;
   }
 }

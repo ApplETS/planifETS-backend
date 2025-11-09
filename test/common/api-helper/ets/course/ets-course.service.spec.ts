@@ -5,8 +5,6 @@ import { of } from 'rxjs';
 
 import {
   EtsCourseService,
-  IEtsCourse,
-  IEtsCoursesData,
 } from '../../../../../src/common/api-helper/ets/course/ets-course.service';
 
 describe('EtsCourseService', () => {
@@ -31,12 +29,12 @@ describe('EtsCourseService', () => {
   });
 
   it('should fetch all courses', async () => {
-    const mockCourses: IEtsCoursesData[] = [
+    const mockCourses = [
       { id: 1, title: 'Course 1', code: 'C1', cycle: 'Cycle 1' },
       { id: 2, title: 'Course 2', code: 'C2', cycle: 'Cycle 2' },
     ];
 
-    const mockResponse: AxiosResponse<{ results: IEtsCoursesData[] }> = {
+    const mockResponse: AxiosResponse<{ results: typeof mockCourses }> = {
       data: { results: mockCourses },
       status: 200,
       statusText: 'OK',
@@ -44,7 +42,7 @@ describe('EtsCourseService', () => {
       config: {
         headers: {
           get: () => 'application/json',
-          set: () => {},
+          set: () => { },
           has: () => true,
           delete: () => true,
         },
@@ -52,17 +50,17 @@ describe('EtsCourseService', () => {
     };
     jest.spyOn(httpService, 'get').mockReturnValue(of(mockResponse));
 
-    const result = await service.fetchAllCourses();
+    const result = await service.fetchAllCoursesWithCredits();
     expect(result).toEqual(mockCourses);
   });
 
   it('should fetch courses by ids', async () => {
-    const mockCourses: IEtsCourse[] = [
+    const mockCourses = [
       { id: 1, title: 'Course 1', code: 'C1', cycle: 'Cycle 1', credits: '3' },
       { id: 2, title: 'Course 2', code: 'C2', cycle: 'Cycle 2', credits: '4' },
     ];
 
-    const mockResponse: AxiosResponse<IEtsCourse[]> = {
+    const mockResponse: AxiosResponse<typeof mockCourses> = {
       data: mockCourses,
       status: 200,
       statusText: 'OK',
@@ -70,7 +68,7 @@ describe('EtsCourseService', () => {
       config: {
         headers: {
           get: () => 'application/json',
-          set: () => {},
+          set: () => { },
           has: () => true,
           delete: () => true,
         },

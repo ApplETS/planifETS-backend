@@ -9,5 +9,6 @@ import { PlanificationCoursService } from './pdf-parser/planification/planificat
   imports: [HttpModule],
   providers: [HoraireCoursService, PlanificationCoursService],
   controllers: [PdfController],
+  exports: [HoraireCoursService, PlanificationCoursService],
 })
 export class PdfModule {}
