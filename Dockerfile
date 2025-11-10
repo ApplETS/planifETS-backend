@@ -5,7 +5,7 @@ FROM node:20-alpine3.19 AS base
 
 WORKDIR /app
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile --ignore-scripts
 
 # Build
 FROM base AS build
@@ -20,7 +20,7 @@ FROM node:20-alpine3.19 AS production
 WORKDIR /app
 COPY package.json yarn.lock ./
 COPY prisma ./prisma
-RUN yarn install --production --frozen-lockfile
+RUN yarn install --production --frozen-lockfile --ignore-scripts
 
 COPY --from=build /app/dist ./dist
 
