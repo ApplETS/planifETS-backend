@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Docker Compose Prod",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "docker-compose up --build",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Docker Compose Prod (Down)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "docker-compose down",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

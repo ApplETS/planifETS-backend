@@ -30,7 +30,7 @@ const COURSE_DETAILS_SELECT = {
 
 @Injectable()
 export class ProgramCourseService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private readonly logger = new Logger(ProgramCourseService.name);
 
@@ -147,7 +147,7 @@ export class ProgramCourseService {
     });
 
     if (existingProgramCourse) {
-      this.logger.error('ProgramCourse already exists', existingProgramCourse);
+      this.logger.verbose('ProgramCourse already exists', existingProgramCourse);
       return undefined;
     }
 
