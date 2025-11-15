@@ -26,7 +26,48 @@ import { ProgramCourseService } from './program-course.service';
 export class ProgramCourseController {
   constructor(private readonly programCourseService: ProgramCourseService) { }
 
-  @Get()
+
+  @Get("ids")
+  @ApiOperation({ summary: '🟢 Get program courses by course IDs' })
+  @ApiQuery({
+    name: 'courseIds',
+    type: Number,
+    isArray: true,
+    required: true,
+    description:
+      'One or more course IDs (e.g. ?courseIds=352377&courseIds=182848)',
+  })
+  @ApiOkResponse({
+    description: 'Returns program courses',
+    type: ProgramCoursesResponseDto,
+  })
+  public async getProgramsCoursesByCourseIds(
+    @Query('courseIds') courseIds: string | string[],
+  ): Promise<{
+    data: ProgramCoursesDto[];
+    errors?: { invalidCourseIds?: number[] };
+  }> {
+    // Convert to array and parse to numbers
+    const idsArray = Array.isArray(courseIds)
+      ? courseIds.map(id => Number(id))
+      : [Number(courseIds)];
+
+    // Validate that all IDs are valid numbers
+    if (idsArray.length === 0 || idsArray.some(id => isNaN(id))) {
+      throw new HttpException(
+        'Course IDs must be valid numbers',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const result = await this.programCourseService.getProgramsCoursesByCourseIds(
+      idsArray,
+    );
+
+    return result;
+  }
+
+  @Get("programs")
   @ApiOperation({ summary: '🟢 Get program courses by program codes or IDs' })
   @ApiQuery({
     name: 'programCodes',
@@ -48,7 +89,7 @@ export class ProgramCourseController {
     description: 'Returns program courses',
     type: ProgramCoursesResponseDto,
   })
-  public async getProgramsCoursesDetailed(
+  public async getProgramsCoursesByPrograms(
     @Query('programCodes') programCodes?: string | string[],
     @Query('programIds') programIds?: string | string[],
   ): Promise<{
@@ -89,7 +130,7 @@ export class ProgramCourseController {
         );
       }
 
-      result = await this.programCourseService.getProgramCoursesDetailedByCode(
+      result = await this.programCourseService.getProgramCoursesByCode(
         codesArray,
       );
 
@@ -113,7 +154,7 @@ export class ProgramCourseController {
         );
       }
 
-      result = await this.programCourseService.getProgramCoursesDetailedById(
+      result = await this.programCourseService.getProgramCoursesById(
         idsArray,
       );
 
