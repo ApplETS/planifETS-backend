@@ -20,7 +20,7 @@ export class CourseInstancesJobService {
     private readonly courseService: CourseService,
     private readonly courseInstanceService: CourseInstanceService,
     private readonly sessionService: SessionService,
-  ) {}
+  ) { }
 
   /**
    * Main method to process course instances.
@@ -166,7 +166,7 @@ export class CourseInstancesJobService {
     for (const courseData of allParsedData) {
       const course = courseCodeToCourseMap.get(courseData.code);
       if (!course) {
-        this.logger.warn(`Course ${courseData.code} not found. Skipping.`);
+        this.logger.verbose(`Course ${courseData.code} not found. Skipping.`);
         continue;
       }
 
@@ -178,11 +178,12 @@ export class CourseInstancesJobService {
           this.logger.warn(`Session ${sessionCode} not found. Skipping.`);
           continue;
         }
-        const parsedAvailabilities =
-          AvailabilityUtil.parseAvailability(availabilityCode);
+        const parsedAvailabilities = AvailabilityUtil.parseAvailability(availabilityCode);
+
         if (!parsedAvailabilities) {
           this.logger.warn(
-            `Invalid availability code "${availabilityCode}" for course "${courseData.code}" in session "${sessionCode}". Skipping.`,
+            `Invalid availability code "${availabilityCode}" for course "${courseData.code}" 
+              in session "${sessionCode}". Skipping.`,
           );
           continue;
         }

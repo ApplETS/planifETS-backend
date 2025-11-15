@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Cron, CronExpression, Timeout } from '@nestjs/schedule';
 import { join } from 'path';
 import { isMainThread, Worker } from 'worker_threads';
 
@@ -42,7 +42,17 @@ export class JobsService {
     });
   }
 
-  @Cron(CronExpression.EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT)
+  @Timeout(30_000) // run 30 seconds after boot
+  public async runOnceAfterBoot() {
+    if (process.env.NODE_ENV !== 'production') {
+      return;
+    }
+
+    this.logger.log('Boot-time job triggered...');
+    await this.processJobs();
+  }
+
+  @Cron(CronExpression.EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT, { timeZone: 'America/Toronto' })
   public async processJobs(): Promise<void> {
     this.logger.log('Starting sequential job processing...');
     this.checkMainThread();

@@ -1,4 +1,5 @@
-name: ci
+name: CI
+
 on:
   push:
     branches: [main]
@@ -10,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [22.x]
 
     steps:
-      - name: Checkout to code
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -26,14 +27,14 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: lint
+      - name: Lint code
         run: yarn run lint
 
       - name: Type check
         run: yarn run typecheck
 
       - name: Run tests
-        run: yarn test
+        run: yarn run test
 
-      - name: Build
+      - name: Build project
         run: yarn run build

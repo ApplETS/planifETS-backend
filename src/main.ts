@@ -7,10 +7,11 @@ import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
 
   app.enableCors(
     {
-      origin: ['http://localhost:3000'],
+      origin: [process.env.FRONTEND_URL || 'http://localhost:3000'],
       methods: 'GET',
     },
   );
@@ -30,7 +31,7 @@ async function bootstrap() {
     .setTitle('PlanifÉTS API')
     .setExternalDoc('JSON API Documentation', '/api-json')
     .setVersion('1.0')
-    .addServer(`http://localhost:${process.env.PORT}/`, 'Local environment')
+    .addServer(`http://localhost:${port}/`, 'Local environment')
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   const swaggerOptions = {
@@ -41,7 +42,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document, swaggerOptions);
 
   //Start the app
-  await app.listen(process.env.PORT ? parseInt(process.env.PORT) : 3000);
-  console.log(`Swagger is running on http://localhost:${process.env.PORT}/api`);
+  await app.listen(port);
+  console.log(`Swagger is running on http://localhost:${port}/api`);
 }
 bootstrap();
