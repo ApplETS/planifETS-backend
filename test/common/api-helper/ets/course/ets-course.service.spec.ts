@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 
 import {
   EtsCourseService,
-} from '../../../../../src/common/api-helper/ets/course/ets-course.service';
+} from '@/common/api-helper/ets/course/ets-course.service';
 
 describe('EtsCourseService', () => {
   let service: EtsCourseService;

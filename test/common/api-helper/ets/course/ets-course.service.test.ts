@@ -3,12 +3,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosHeaders, AxiosResponse } from 'axios';
 import { of } from 'rxjs';
 
-import { EtsCourseService } from '../../../../../src/common/api-helper/ets/course/ets-course.service';
+import { EtsCourseService } from '@/common/api-helper/ets/course/ets-course.service';
 import {
   ETS_API_GET_ALL_COURSES,
   ETS_API_GET_COURSES_BY_IDS,
-} from '../../../../../src/common/constants/url';
-import { extractNumberFromString } from '../../../../../src/common/utils/stringUtil';
+} from '@/common/constants/url';
+import { extractNumberFromString } from '@/common/utils/stringUtil';
 
 describe('EtsCourseService', () => {
   let service: EtsCourseService;

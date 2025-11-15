@@ -1,4 +1,5 @@
-import { getTrimesterPrefix } from '../../common/utils/session/sessionUtil';
+import { getTrimesterPrefix } from '@/common/utils/session/sessionUtil';
+
 import {
   CoursePrerequisiteDto,
   ProgramCourseDto,

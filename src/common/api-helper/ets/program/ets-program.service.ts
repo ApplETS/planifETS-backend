@@ -2,8 +2,8 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 
-import { ETS_API_GET_ALL_PROGRAMS } from '../../../constants/url';
-import { extractNumberFromString } from '../../../utils/stringUtil';
+import { ETS_API_GET_ALL_PROGRAMS } from '@/common/constants/url';
+import { extractNumberFromString, stripHtmlTags } from '@/common/utils/stringUtil';
 
 interface IProgramEtsAPI {
   id: number;
@@ -34,7 +34,7 @@ export type Program = {
 
 @Injectable()
 export class EtsProgramService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) { }
 
   public async fetchAllProgramsFromEtsAPI(): Promise<{
     types: IProgramTypeEtsAPI[];
@@ -48,7 +48,7 @@ export class EtsProgramService {
     const programs: Program[] = response.data.results.map(
       (program: IProgramEtsAPI) => ({
         id: program.id,
-        title: program.title,
+        title: stripHtmlTags(program.title),
         cycle: extractNumberFromString(program.cycle),
         code: program.code,
         credits: program.credits,

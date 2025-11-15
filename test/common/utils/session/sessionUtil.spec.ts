@@ -7,7 +7,7 @@ import {
   getTrimesterByIndex,
   getTrimesterIndexBySession,
   isDateInRange,
-} from '../../../../src/common/utils/session/sessionUtil';
+} from '@/common/utils/session/sessionUtil';
 
 describe('SessionUtil', () => {
   let loggerErrorSpy: jest.SpyInstance;
@@ -16,7 +16,7 @@ describe('SessionUtil', () => {
     // Spy on the Logger.prototype.error method
     loggerErrorSpy = jest
       .spyOn(Logger.prototype, 'error')
-      .mockImplementation(() => {});
+      .mockImplementation(() => { });
   });
 
   afterAll(() => {
