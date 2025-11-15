@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Base dependencies
-FROM node:20-alpine3.19 AS base
+FROM node:22-alpine3.20 AS base
 
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -15,7 +15,7 @@ COPY . ./
 RUN yarn build
 
 # Production
-FROM node:20-alpine3.19 AS production
+FROM node:22-alpine3.20 AS production
 
 WORKDIR /app
 COPY package.json yarn.lock ./
