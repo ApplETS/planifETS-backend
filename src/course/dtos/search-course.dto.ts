@@ -29,10 +29,10 @@ export class SearchCourseResult {
   @ApiProperty({ example: 352405 })
   public id!: number;
 
-  @ApiProperty({ example: 'LOG121' })
+  @ApiProperty({ example: 'LOG121', description: 'Course code. Search matches this field.' })
   public code!: string;
 
-  @ApiProperty({ example: 'Conception orientée objet' })
+  @ApiProperty({ example: 'Conception orientée objet', description: 'Course title. Search matches this field.' })
   public title!: string;
 
   @ApiProperty({ example: 3, nullable: true })

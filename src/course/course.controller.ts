@@ -26,9 +26,9 @@ export class CourseController {
   }
 
   @Get('search')
-  @ApiOperation({ summary: '🟢 Search courses by query string' })
+  @ApiOperation({ summary: '🟢 Search courses by query string (query = either code or title)' })
   @ApiOkResponse({
-    description: 'Returns paginated search results with courses, total count, and hasMore flag',
+    description: 'Returns paginated search results with courses, total count, and hasMore flag (ordererd by code, then title)',
     type: SearchCoursesDto,
   })
 
