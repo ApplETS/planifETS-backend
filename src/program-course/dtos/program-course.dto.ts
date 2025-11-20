@@ -23,6 +23,9 @@ export class CoursePrerequisiteDto {
 
 export class ProgramCourseDto {
   @ApiProperty()
+  public id!: number;
+
+  @ApiProperty()
   public code!: string;
 
   @ApiProperty()

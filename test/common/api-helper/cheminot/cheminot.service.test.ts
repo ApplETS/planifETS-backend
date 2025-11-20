@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { CheminotService } from '../../../../src/common/api-helper/cheminot/cheminot.service';
-import { FileExtractionService } from '../../../../src/common/api-helper/cheminot/file-extraction.service';
-import { Program } from '../../../../src/common/api-helper/cheminot/Program';
+import { CheminotService } from '@/common/api-helper/cheminot/cheminot.service';
+import { FileExtractionService } from '@/common/api-helper/cheminot/file-extraction.service';
+import { Program } from '@/common/api-helper/cheminot/Program';
 
 describe('CheminotService with data from a copy of Cheminements.txt (Cheminot file)', () => {
   let service: CheminotService;

@@ -89,28 +89,6 @@
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.14.0"
   },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": ".",
-    "testRegex": "test/.*\\.test\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s",
-      "!dist/**",
-      "!test/**",
-      "!coverage/**",
-      "!src/**/dto/*.ts",
-      "!./.eslintrc.js"
-    ],
-    "coverageDirectory": "./coverage",
-    "testEnvironment": "node"
-  },
   "resolutions": {
     "axios": "^1.7.9",
     "form-data": "^4.0.4",

@@ -1,4 +1,5 @@
-import { getTrimesterPrefix } from '../../common/utils/session/sessionUtil';
+import { getTrimesterPrefix } from '@/common/utils/session/sessionUtil';
+
 import {
   CoursePrerequisiteDto,
   ProgramCourseDto,
@@ -29,6 +30,7 @@ export class ProgramCourseMapper {
     pCourse: ProgramCourseQueryResult,
   ): ProgramCourseDto {
     return {
+      id: pCourse.courseId,
       code: pCourse.course.code,
       title: pCourse.course.title,
       credits: pCourse.course.credits || 0,

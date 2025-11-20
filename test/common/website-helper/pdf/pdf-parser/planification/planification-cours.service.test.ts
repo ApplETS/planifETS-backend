@@ -4,8 +4,8 @@ import { AxiosHeaders, AxiosResponse } from 'axios';
 import * as fs from 'fs';
 import { of } from 'rxjs';
 
-import { PlanificationCoursService } from '../../../../../../src/common/website-helper/pdf/pdf-parser/planification/planification-cours.service';
-import { ICoursePlanification } from '../../../../../../src/common/website-helper/pdf/pdf-parser/planification/planification-cours.types';
+import { PlanificationCoursService } from '@/common/website-helper/pdf/pdf-parser/planification/planification-cours.service';
+import { ICoursePlanification } from '@/common/website-helper/pdf/pdf-parser/planification/planification-cours.types';
 
 describe('PlanificationCoursService', () => {
   let service: PlanificationCoursService;

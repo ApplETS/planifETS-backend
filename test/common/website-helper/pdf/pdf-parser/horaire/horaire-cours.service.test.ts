@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
-import { HoraireCoursService } from '../../../../../../src/common/website-helper/pdf/pdf-parser/horaire/horaire-cours.service';
+import { HoraireCoursService } from '@/common/website-helper/pdf/pdf-parser/horaire/horaire-cours.service';
 describe('HoraireCoursService', () => {
   const NUMBER_OF_COURSES_IN_PDF = 61;
   let service: HoraireCoursService;
