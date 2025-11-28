@@ -1,6 +1,9 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_FILTER } from "@nestjs/core";
+import { SentryModule } from "@sentry/nestjs/setup";
+import { SentryGlobalFilter } from "@sentry/nestjs/setup";
 
 import { AppController } from './app.controller';
 import { CheminotModule } from './common/api-helper/cheminot/cheminot.module';
@@ -19,6 +22,7 @@ import { SessionModule } from './session/session.module';
 
 @Module({
   imports: [
+    SentryModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],
@@ -38,8 +42,14 @@ import { SessionModule } from './session/session.module';
     ProgramModule,
     ProgramCourseModule,
   ],
-  providers: [JobsService],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: SentryGlobalFilter,
+    },
+    JobsService
+  ],
   controllers: [AppController],
   exports: [HttpModule, JobsService],
 })
-export class AppModule {}
+export class AppModule { }
