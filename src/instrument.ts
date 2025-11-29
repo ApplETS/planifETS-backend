@@ -23,7 +23,7 @@ if (process.env.APP_ENV !== 'development' && !process.env.CI) {
     // This is relative to tracesSampleRate
     // Learn more at
     // https://docs.sentry.io/platforms/javascript/guides/nestjs/configuration/options/#profilesSampleRate
-    profilesSampleRate: 1.0,
+    profilesSampleRate: 1,
 
     // Enable logs to be sent to Sentry
     enableLogs: true,

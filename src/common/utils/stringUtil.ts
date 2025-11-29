@@ -25,3 +25,20 @@ export function stripHtmlTags(text: string): string {
   // Clean up extra whitespace
   return stripped.replace(/\s+/g, ' ').trim();
 }
+
+export const formatMessage = (message: string | Error | object): string => {
+  if (typeof message === 'string') {
+    return message;
+  }
+  if (message instanceof Error) {
+    return message.message;
+  }
+  if (typeof message === 'object') {
+    try {
+      return JSON.stringify(message);
+    } catch {
+      return '[Unstringifiable Object]';
+    }
+  }
+  return String(message);
+}

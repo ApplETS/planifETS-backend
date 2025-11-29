@@ -1,11 +1,13 @@
 import { ConsoleLogger, Injectable } from '@nestjs/common';
 import * as Sentry from '@sentry/nestjs';
 
+import { formatMessage } from '../utils/stringUtil';
+
 @Injectable()
 export class SentryLogger extends ConsoleLogger {
   public log(message: string | object, context?: string) {
     super.log(message, context);
-    Sentry.logger.info(String(message), {
+    Sentry.logger.info(formatMessage(message), {
       context,
       ...this.extractAttributes(message),
     });
@@ -13,7 +15,7 @@ export class SentryLogger extends ConsoleLogger {
 
   public error(message: string | Error | object, stack?: string, context?: string) {
     super.error(message, stack, context);
-    Sentry.logger.error(String(message instanceof Error ? message.message : message), {
+    Sentry.logger.error(formatMessage(message instanceof Error ? message.message : message), {
       context,
       stack: stack ?? (message instanceof Error ? message.stack : undefined),
       ...this.extractAttributes(message),
@@ -22,7 +24,7 @@ export class SentryLogger extends ConsoleLogger {
 
   public warn(message: string | object, context?: string) {
     super.warn(message, context);
-    Sentry.logger.warn(String(message), {
+    Sentry.logger.warn(formatMessage(message), {
       context,
       ...this.extractAttributes(message),
     });
