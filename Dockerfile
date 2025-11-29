@@ -12,6 +12,8 @@ FROM base AS build
 WORKDIR /app
 COPY . ./
 
+ARG SENTRY_AUTH_TOKEN
+
 RUN yarn build
 
 # Production
