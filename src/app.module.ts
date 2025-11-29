@@ -1,8 +1,7 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { APP_FILTER } from "@nestjs/core";
-import { SentryModule } from "@sentry/nestjs/setup";
-import { SentryGlobalFilter } from "@sentry/nestjs/setup";
+import { SentryGlobalFilter, SentryModule } from "@sentry/nestjs/setup";
 
 import { AppController } from './app.controller';
 import { CheminotModule } from './common/api-helper/cheminot/cheminot.module';

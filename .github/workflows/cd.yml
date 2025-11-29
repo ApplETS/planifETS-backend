@@ -15,7 +15,6 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   CI: true
 
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
