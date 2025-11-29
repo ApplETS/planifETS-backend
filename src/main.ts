@@ -1,12 +1,18 @@
+import "./instrument";
+
 import { LogLevel, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
+import { SentryLogger } from "./common/logger/sentry.logger";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(
+    AppModule,
+    { bufferLogs: true } // Buffer logs until logger is set up
+  );
   const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
 
   app.enableCors(
@@ -19,12 +25,14 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
 
+
   //Log levels
+  const sentryLogger = new SentryLogger();
   if (process.env.LOG_LEVELS) {
-    app.useLogger(process.env.LOG_LEVELS.split(',') as LogLevel[]);
-  } else {
-    app.useLogger(['error', 'warn', 'log']);
+    sentryLogger.setLogLevels(process.env.LOG_LEVELS.split(',') as LogLevel[]);
   }
+  app.useLogger(sentryLogger);
+
 
   //Swagger
   const swaggerConfig = new DocumentBuilder()

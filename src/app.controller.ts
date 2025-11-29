@@ -23,4 +23,10 @@ export class AppController {
       timestamp: new Date().toISOString(),
     };
   }
+
+  @Get("/debug-sentry")
+  @ApiTags('Health')
+  public getError() {
+    throw new Error("Sample error!");
+  }
 }

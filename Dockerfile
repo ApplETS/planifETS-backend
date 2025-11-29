@@ -12,6 +12,8 @@ FROM base AS build
 WORKDIR /app
 COPY . ./
 
+ARG SENTRY_AUTH_TOKEN
+
 RUN yarn build
 
 # Production
@@ -27,7 +29,7 @@ COPY --from=build /app/dist ./dist
 # Generate Prisma Client
 RUN yarn prisma:generate
 
-ENV NODE_ENV=production
+ENV APP_ENV=production
 
 EXPOSE 3001
 

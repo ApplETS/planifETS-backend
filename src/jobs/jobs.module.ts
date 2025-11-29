@@ -41,6 +41,6 @@ import { SessionsJobService } from './workers/sessions.worker';
 
     CourseCodeValidationPipe,
   ],
-  controllers: process.env.NODE_ENV === 'development' ? [JobsController] : [], // Only expose in dev mode for running jobs manually
+  controllers: process.env.APP_ENV === 'development' ? [JobsController] : [], // Only expose in dev mode for running jobs manually
 })
-export class JobsModule {}
+export class JobsModule { }
