@@ -1,8 +1,6 @@
 {
   "name": "planifets-backend",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
@@ -47,10 +45,12 @@
     "@prisma/client": "^5.22.0",
     "@sentry/cli": "^2.58.2",
     "@sentry/nestjs": "^10.27.0",
+    "@sentry/profiling-node": "^10.27.0",
     "@types/unzipper": "^0.10.10",
     "axios": "^1.7.9",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "dotenv": "^17.2.3",
     "express": "^4.21.1",
     "pdf2json": "^4.0.0",
     "planifets-backend": "file:",

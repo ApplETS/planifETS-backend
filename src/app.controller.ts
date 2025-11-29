@@ -1,8 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-
 @Controller()
 export class AppController {
+
+  private readonly logger = new Logger(AppController.name);
+
   @Get()
   @ApiOperation({
     summary: 'Hello World',
@@ -22,5 +25,11 @@ export class AppController {
       status: 'ok',
       timestamp: new Date().toISOString(),
     };
+  }
+
+  @Get("/debug-sentry")
+  @ApiTags('Health')
+  public getError() {
+    throw new Error("Sample error!");
   }
 }
