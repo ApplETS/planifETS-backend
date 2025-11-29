@@ -5,7 +5,7 @@ dotenv.config();
 import * as Sentry from "@sentry/nestjs";
 import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
-if (process.env.APP_ENV !== 'development') {
+if (process.env.APP_ENV !== 'development' && !process.env.CI) {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     environment: process.env.APP_ENV,
