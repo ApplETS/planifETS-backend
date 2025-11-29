@@ -44,7 +44,7 @@ export class JobsService {
 
   @Timeout(30_000) // run 30 seconds after boot
   public async runOnceAfterBoot() {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.APP_ENV !== 'production') {
       return;
     }
 

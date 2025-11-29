@@ -7,7 +7,7 @@ services:
       - "${PORT:-3001}:${PORT:-3001}"
     environment:
       DATABASE_URL: ${DATABASE_URL}
-      NODE_ENV: production
+      APP_ENV: production
       PORT: ${PORT:-3001}
       LOG_LEVELS: ${LOG_LEVELS:-log,error,warn}
       TZ: America/Toronto
