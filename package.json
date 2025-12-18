@@ -9,7 +9,7 @@
     "dev": "nest start --watch",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "yarn prisma:migrate-prod && node dist/main",
+    "start:prod": "yarn prisma:migrate-prod && yarn prisma:seed && node dist/main",
     "docker:prod": "docker-compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
