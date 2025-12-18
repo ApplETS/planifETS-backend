@@ -34,11 +34,11 @@ async function bootstrap() {
 
 
   //Swagger
+  const version = process.env.APP_GIT_SHORT_SHA ? `1.0 (${process.env.APP_GIT_SHORT_SHA})` : '1.0';
   const swaggerConfig = new DocumentBuilder()
     .setTitle('PlanifÉTS API')
     .setExternalDoc('JSON API Documentation', '/api-json')
-    .setVersion('1.0')
-    .addServer(`http://localhost:${port}/`, 'Local environment')
+    .setVersion(version)
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   const swaggerOptions = {
