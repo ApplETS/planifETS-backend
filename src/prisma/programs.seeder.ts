@@ -4,7 +4,7 @@ import { ProgramService } from '../program/program.service';
 import { PrismaService } from './prisma.service';
 
 const logger = new Logger('SeedPrograms');
-import * as programData from '../../prisma/seeds/data/programs-to-seed.json';
+import * as programData from './seeds/data/programs-to-seed.json';
 
 export async function seedProgramHorairePdfParserFlags() {
   const horairePdfPrograms = programData.horairePdfPrograms;
