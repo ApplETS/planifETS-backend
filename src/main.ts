@@ -15,16 +15,15 @@ async function bootstrap() {
   );
   const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
 
+  app.setGlobalPrefix('api');
   app.enableCors(
     {
-      origin: [process.env.FRONTEND_URL || 'http://localhost:3000'],
       methods: 'GET',
     },
   );
 
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
-
 
   //Log levels
   const sentryLogger = new SentryLogger();
