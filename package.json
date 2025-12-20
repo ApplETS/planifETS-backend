@@ -99,6 +99,8 @@
     "tmp": "^0.2.4",
     "cross-spawn": "^7.0.5",
     "@babel/helpers": "^7.26.10",
-    "brace-expansion": "^2.0.2"
+    "brace-expansion": "^2.0.2",
+    "js-yaml": "^4.1.1",
+    "glob": "^10.5.0"
   }
 }
