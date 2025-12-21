@@ -11,13 +11,15 @@ import { ProgramCourseWithPrerequisites } from './types/program-course.types';
 import { ProgramCoursesQueryResult } from './types/program-course.types';
 
 const COURSE_BASIC_SELECT = {
+  id: true,
   code: true,
   title: true,
+  credits: true,
+  cycle: true,
 };
 
 const COURSE_DETAILS_SELECT = {
   ...COURSE_BASIC_SELECT,
-  credits: true,
   courseInstances: {
     select: {
       availability: true,

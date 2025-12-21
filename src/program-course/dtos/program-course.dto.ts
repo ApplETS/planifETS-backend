@@ -15,10 +15,19 @@ export class SessionAvailabilityDto {
 
 export class CoursePrerequisiteDto {
   @ApiProperty()
+  public id!: number;
+
+  @ApiProperty()
   public code!: string;
 
   @ApiProperty()
   public title!: string;
+
+  @ApiProperty({ nullable: true })
+  public credits!: number | null;
+
+  @ApiProperty({ nullable: true })
+  public cycle!: number | null;
 }
 
 export class ProgramCourseDto {
@@ -55,6 +64,9 @@ export class ProgramCourseDto {
 
   @ApiProperty({ type: String, nullable: true })
   public unstructuredPrerequisite!: string | null;
+
+  @ApiProperty({ type: Number, nullable: true, description: 'Current cycle level of the course' })
+  public cycle!: number | null;
 }
 
 export class ProgramCoursesDto {

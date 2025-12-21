@@ -44,11 +44,22 @@ export class SearchCourseResult {
   @ApiProperty({ type: [SessionAvailabilityDto] })
   public sessionAvailability!: SessionAvailabilityDto[];
 
-  @ApiProperty({ example: 2, nullable: true, required: false })
-  public typicalIndex?: number | null;
+  @ApiProperty({ type: [PrerequisiteResult] })
+  public prerequisites!: PrerequisiteResult[];
 
-  @ApiProperty({ type: [PrerequisiteResult], required: false })
-  public prerequisites?: PrerequisiteResult[];
+  @ApiProperty({ example: 2, nullable: true, required: false, description: 'Typical session index when this course is usually taken in the program' })
+  public typicalSessionIndex?: number | null;
+
+  @ApiProperty({
+    nullable: true,
+    required: false,
+    enum: ['TRONC', 'CONCE', 'CONDI'],
+    description: 'Course type within the program (TRONC: tronc commun, CONCE: Concentration)'
+  })
+  public type?: string | null;
+
+  @ApiProperty({ type: String, nullable: true, required: false, description: 'Unstructured prerequisite text' })
+  public unstructuredPrerequisite?: string | null;
 }
 
 export class SearchCoursesDto {

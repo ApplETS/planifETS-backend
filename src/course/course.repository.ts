@@ -22,19 +22,15 @@ export class CourseRepository {
           include: { session: true },
           orderBy: [{ sessionYear: 'desc' }, { sessionTrimester: 'desc' }],
         },
-        programs:
-          programCodes && programCodes.length > 0
-            ? {
-              where: { program: { code: { in: programCodes } } },
+        programs: {
+          include: {
+            prerequisites: {
               include: {
-                prerequisites: {
-                  include: {
-                    prerequisite: { include: { course: true } },
-                  },
-                },
+                prerequisite: { include: { course: true } },
               },
-            }
-            : undefined,
+            },
+          },
+        },
       },
       take: limit,
       skip: offset,
@@ -56,19 +52,15 @@ export class CourseRepository {
           include: { session: true },
           orderBy: [{ sessionYear: 'desc' }, { sessionTrimester: 'desc' }],
         },
-        programs:
-          programCodes && programCodes.length > 0
-            ? {
-              where: { program: { code: { in: programCodes } } },
+        programs: {
+          include: {
+            prerequisites: {
               include: {
-                prerequisites: {
-                  include: {
-                    prerequisite: { include: { course: true } },
-                  },
-                },
+                prerequisite: { include: { course: true } },
               },
-            }
-            : undefined,
+            },
+          },
+        },
       },
       take,
       skip: 0,
@@ -91,19 +83,15 @@ export class CourseRepository {
           include: { session: true },
           orderBy: [{ sessionYear: 'desc' }, { sessionTrimester: 'desc' }],
         },
-        programs:
-          programCodes && programCodes.length > 0
-            ? {
-              where: { program: { code: { in: programCodes } } },
+        programs: {
+          include: {
+            prerequisites: {
               include: {
-                prerequisites: {
-                  include: {
-                    prerequisite: { include: { course: true } },
-                  },
-                },
+                prerequisite: { include: { course: true } },
               },
-            }
-            : undefined,
+            },
+          },
+        },
       },
       take,
       skip: 0,
