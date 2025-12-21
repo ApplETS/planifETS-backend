@@ -53,7 +53,7 @@ export class SearchCourseResult {
   @ApiProperty({
     nullable: true,
     required: false,
-    enum: ['TRONC', 'CONCE', 'CONDI'],
+    enum: ['TRONC', 'CONCE', 'CONDI', 'PROFI'],
     description: 'Course type within the program (TRONC: tronc commun, CONCE: Concentration)'
   })
   public type?: string | null;
