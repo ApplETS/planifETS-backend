@@ -68,17 +68,17 @@ export class SessionService {
     year: number;
     trimester: Trimester;
   } {
-    // Require code to be exactly 3 characters: 1 letter + 2 digits
+    // Require sessionCode to be exactly 3 characters: 1 letter + 2 digits
     if (typeof sessionCode !== 'string' || sessionCode.length !== 3) {
       throw new Error(`Invalid session code: ${sessionCode}`);
     }
     const trimester = this.trimesterMap[sessionCode[0].toUpperCase()];
     const yearPart = sessionCode.slice(1);
-    // Year part must be two digits and numeric
-    if (!/^[0-9]{2}$/.test(yearPart)) {
+    // Year part should be two digits and numeric
+    if (!/^\d{2}$/.test(yearPart)) {
       throw new Error(`Invalid session code: ${sessionCode}`);
     }
-    const year = parseInt(`20${yearPart}`, 10);
+    const year = Number.parseInt(`20${yearPart}`, 10);
     if (!trimester) {
       throw new Error(`Invalid session code: ${sessionCode}`);
     }

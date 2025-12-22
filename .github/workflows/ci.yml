@@ -39,6 +39,8 @@ jobs:
 
   build-and-test:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/planifets_test
     strategy:
       matrix:
         node-version: [${{ env.NODE_VERSION }}]
@@ -78,9 +80,6 @@ jobs:
             nc -z localhost 5432 && break
             sleep 1
           done
-
-      - name: Set DATABASE_URL env
-        run: echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/planifets_test" >> $GITHUB_ENV
 
       - name: Run Prisma Migrate
         run: yarn prisma migrate deploy
