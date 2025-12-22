@@ -34,6 +34,7 @@ export class ProgramCourseMapper {
       code: pCourse.course.code,
       title: pCourse.course.title,
       credits: pCourse.course.credits || 0,
+      cycle: pCourse.course.cycle,
       sessionAvailability: Object.values(
         this.mapSessionAvailabilities(pCourse.course.courseInstances),
       ),
@@ -48,8 +49,11 @@ export class ProgramCourseMapper {
     prerequisites: CoursePrerequisiteQueryResult[],
   ): CoursePrerequisiteDto[] {
     return prerequisites.map((prereq) => ({
+      id: prereq.prerequisite.course.id,
       code: prereq.prerequisite.course.code,
       title: prereq.prerequisite.course.title,
+      credits: prereq.prerequisite.course.credits,
+      cycle: prereq.prerequisite.course.cycle,
     }));
   }
 

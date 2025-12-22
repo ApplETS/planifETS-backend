@@ -26,9 +26,11 @@ export interface ProgramCourseQueryResult {
 }
 
 export interface CourseDetailsQueryResult {
+  id: number;
   code: string;
   title: string;
   credits: number | null;
+  cycle: number | null;
   courseInstances: CourseInstanceQueryResult[];
 }
 
@@ -42,8 +44,11 @@ export interface CourseInstanceQueryResult {
 export interface CoursePrerequisiteQueryResult {
   prerequisite: {
     course: {
+      id: number;
       code: string;
       title: string;
+      credits: number | null;
+      cycle: number | null;
     };
   };
 }

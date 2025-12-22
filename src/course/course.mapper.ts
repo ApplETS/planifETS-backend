@@ -20,11 +20,13 @@ export class CourseMapper {
       credits,
       cycle,
       sessionAvailability: this.mapSessionAvailabilities(raw.courseInstances),
+      prerequisites: this.mapPrerequisites(raw.programs),
       ...(programCodes && programCodes.length > 0
         ? {
-            typicalIndex: this.getTypicalIndex(raw.programs),
-            prerequisites: this.mapPrerequisites(raw.programs),
-          }
+          typicalSessionIndex: this.getTypicalSessionIndex(raw.programs),
+          type: this.getCourseType(raw.programs),
+          unstructuredPrerequisite: this.getUnstructuredPrerequisite(raw.programs),
+        }
         : {}),
     };
   }
@@ -48,15 +50,28 @@ export class CourseMapper {
     return Object.values(bySession);
   }
 
-  private static getTypicalIndex(
+  private static getTypicalSessionIndex(
     programs: CourseSearchResult['programs'],
   ): number | null {
     return programs[0]?.typicalSessionIndex ?? null;
   }
 
+  private static getCourseType(
+    programs: CourseSearchResult['programs'],
+  ): string | null {
+    return programs[0]?.type ?? null;
+  }
+
+  private static getUnstructuredPrerequisite(
+    programs: CourseSearchResult['programs'],
+  ): string | null {
+    return programs[0]?.unstructuredPrerequisite ?? null;
+  }
+
   private static mapPrerequisites(
     programs: CourseSearchResult['programs'],
   ): PrerequisiteResult[] {
+    // Get prerequisites from the first program if available
     const prereqs = programs[0]?.prerequisites ?? [];
     return prereqs.map((p) => {
       const c = p.prerequisite.course;
