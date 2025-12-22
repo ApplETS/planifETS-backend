@@ -2,7 +2,9 @@
 # <p align="center">PlanifETS</p>
 
 <p align="center">
-    <img src="https://github.com/ApplETS/planifETS-backend/actions/workflows/ci.yml/badge.svg" alt="CI Status" style="height: 20px; margin-right: 5px;">
+  <img src="https://github.com/ApplETS/planifETS-backend/actions/workflows/ci.yml/badge.svg" alt="CI Status" style="height: 20px; margin-right: 5px;">
+  <img src="https://github.com/ApplETS/planifETS-backend/actions/workflows/cd.yml/badge.svg" alt="CD Status" style="height: 20px; margin-right: 5px;">
+  <img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/ApplETS/planifETS-backend-coverage-badge/raw/coverage.json" alt="Coverage" style="height: 20px; margin-right: 5px;">
   <a href="https://dot-soursop-fcc.notion.site/PlanifETS-29cdf43623ec4c749dc5280dcaa3dba4" target="_blank">
     <img src="https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white" alt="Notion" style="height: 20px; margin-right: 5px;">
   </a>

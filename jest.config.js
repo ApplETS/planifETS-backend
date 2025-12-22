@@ -4,7 +4,7 @@ module.exports = {
     rootDir: '.',
     testRegex: 'test/.*\\.(test|spec)\\.ts$',
     transform: {
-        '^.+\\.(t|j)s$': 'ts-jest',
+        '^.+\\.(t|j)s$': ['@swc/jest'],
     },
     moduleNameMapper: {
         '^@\/(.*)$': '<rootDir>/src/$1',
@@ -19,4 +19,5 @@ module.exports = {
     ],
     coverageDirectory: './coverage',
     testEnvironment: 'node',
+    coverageProvider: 'v8',
 };

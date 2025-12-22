@@ -6,8 +6,19 @@ on:
   pull_request:
     branches: ['*']
 
+      - name: Start PostgreSQL
+        uses: harmon758/postgresql-action@v1.0.0
+        with:
+          postgresql version: '15'
+          postgresql db: planifets_test
+          postgresql user: postgres
+          postgresql password: postgres
+      - name: Set DATABASE_URL env
+        run: echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/planifets_test" >> $GITHUB_ENV
+      - name: Install dependencies
 env:
   CI: true
+  NODE_VERSION: 22.x
 
 jobs:
   security-audit:
@@ -30,7 +41,22 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [22.x]
+        node-version: [${{ env.NODE_VERSION }}]
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: planifets_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout code
@@ -46,6 +72,22 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Wait for PostgreSQL
+        run: |
+          for i in {1..30}; do
+            nc -z localhost 5432 && break
+            sleep 1
+          done
+
+      - name: Set DATABASE_URL env
+        run: echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/planifets_test" >> $GITHUB_ENV
+
+      - name: Run Prisma Migrate
+        run: yarn prisma migrate deploy
+
+      - name: Generate Prisma Client
+        run: yarn prisma generate
+
       - name: Lint code
         run: yarn run lint
 
@@ -54,6 +96,9 @@ jobs:
 
       - name: Run tests
         run: yarn run test
+
+      - name: Run coverage and enforce threshold
+        run: yarn run test:cov && npx jest --coverage --coverageThreshold='{"global":{"lines":50,"statements":50,"branches":50,"functions":50}}'
 
       - name: Build project
         run: yarn run build
