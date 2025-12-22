@@ -29,35 +29,48 @@ describe('EtsCourseService', () => {
   });
 
   it('should fetch all courses', async () => {
-    const mockCourses = [
-      { id: 1, title: 'Course 1', code: 'C1', cycle: 'Cycle 1' },
-      { id: 2, title: 'Course 2', code: 'C2', cycle: 'Cycle 2' },
+    // Mock for fetchAllCoursesWithoutCredits
+    const mockCoursesWithoutCredits = [
+      { id: 1, title: 'Course 1', description: 'desc1', code: 'C1', cycle: 1 },
+      { id: 2, title: 'Course 2', description: 'desc2', code: 'C2', cycle: 2 },
+    ];
+    // Mock for fetchCoursesById
+    const mockCoursesById = [
+      { id: 1, title: 'Course 1', code: 'C1', credits: 3 },
+      { id: 2, title: 'Course 2', code: 'C2', credits: 4 },
     ];
 
-    const mockResponse: AxiosResponse<{ results: typeof mockCourses }> = {
-      data: { results: mockCourses },
+    // First call: fetchAllCoursesWithoutCredits
+    const mockResponse1: AxiosResponse<{ results: typeof mockCoursesWithoutCredits }> = {
+      data: { results: mockCoursesWithoutCredits },
       status: 200,
       statusText: 'OK',
       headers: {},
-      config: {
-        headers: {
-          get: () => 'application/json',
-          set: () => { },
-          has: () => true,
-          delete: () => true,
-        },
-      } as never,
+      config: {} as never,
     };
-    jest.spyOn(httpService, 'get').mockReturnValue(of(mockResponse));
+    // Second call: fetchCoursesById
+    const mockResponse2: AxiosResponse<typeof mockCoursesById> = {
+      data: mockCoursesById,
+      status: 200,
+      statusText: 'OK',
+      headers: {},
+      config: {} as never,
+    };
+    const getMock = jest.spyOn(httpService, 'get');
+    getMock.mockReturnValueOnce(of(mockResponse1));
+    getMock.mockReturnValueOnce(of(mockResponse2));
 
     const result = await service.fetchAllCoursesWithCredits();
-    expect(result).toEqual(mockCourses);
+    expect(result).toEqual([
+      { ...mockCoursesWithoutCredits[0], credits: 3 },
+      { ...mockCoursesWithoutCredits[1], credits: 4 },
+    ]);
   });
 
   it('should fetch courses by ids', async () => {
     const mockCourses = [
-      { id: 1, title: 'Course 1', code: 'C1', cycle: 'Cycle 1', credits: '3' },
-      { id: 2, title: 'Course 2', code: 'C2', cycle: 'Cycle 2', credits: '4' },
+      { id: 1, title: 'Course 1', code: 'C1', credits: 3 },
+      { id: 2, title: 'Course 2', code: 'C2', credits: 4 },
     ];
 
     const mockResponse: AxiosResponse<typeof mockCourses> = {
@@ -65,18 +78,23 @@ describe('EtsCourseService', () => {
       status: 200,
       statusText: 'OK',
       headers: {},
-      config: {
-        headers: {
-          get: () => 'application/json',
-          set: () => { },
-          has: () => true,
-          delete: () => true,
-        },
-      } as never,
+      config: {} as never,
     };
     jest.spyOn(httpService, 'get').mockReturnValue(of(mockResponse));
 
     const result = await service.fetchCoursesById('1,2');
     expect(result).toEqual(mockCourses);
+  });
+
+  it('should throw if no courses fetched (by ids)', async () => {
+    const mockResponse: AxiosResponse<any[]> = {
+      data: [],
+      status: 200,
+      statusText: 'OK',
+      headers: {},
+      config: {} as never,
+    };
+    jest.spyOn(httpService, 'get').mockReturnValue(of(mockResponse));
+    await expect(service.fetchCoursesById('1,2')).rejects.toThrow('No courses fetched.');
   });
 });
