@@ -8,6 +8,7 @@ on:
 env:
   CI: true
   NODE_VERSION: 22.x
+  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/planifets_test
 
 jobs:
   security-audit:
@@ -34,21 +35,6 @@ jobs:
       matrix:
         node-version: [${{ env.NODE_VERSION }}]
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_DB: planifets_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -60,18 +46,19 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: 'yarn.lock'
 
+      - name: Install PostgreSQL
+        uses: harmon758/postgresql-action@v1.0.0
+        with:
+          postgresql version: '15'
+          postgresql db: planifets_test
+          postgresql user: postgres
+          postgresql password: postgres
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Wait for PostgreSQL
-        run: |
-          for i in {1..30}; do
-            nc -z localhost 5432 && break
-            sleep 1
-          done
-
       - name: Run Prisma Migrate
-        run: yarn prisma migrate deploy
+        run: yarn prisma:migrate-prod
 
       - name: Generate Prisma Client
         run: yarn prisma generate
