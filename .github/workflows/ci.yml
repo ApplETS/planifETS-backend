@@ -29,12 +29,9 @@ jobs:
 
   build-and-test:
     runs-on: ubuntu-latest
-    env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/planifets_test
     strategy:
       matrix:
-        node-version: [${{ env.NODE_VERSION }}]
-
+        node-version: ["${{ env.NODE_VERSION }}"]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
