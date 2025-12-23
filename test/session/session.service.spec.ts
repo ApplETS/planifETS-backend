@@ -8,6 +8,7 @@ describe('SessionService', () => {
   let service: SessionService;
   let prisma: PrismaService;
 
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [PrismaService, SessionService],
@@ -15,6 +16,8 @@ describe('SessionService', () => {
 
     service = module.get<SessionService>(SessionService);
     prisma = module.get<PrismaService>(PrismaService);
+    // Ensure the session table is cleared before each test
+    await prisma.session.deleteMany();
   });
 
   afterEach(async () => {

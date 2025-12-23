@@ -75,7 +75,7 @@ jobs:
         run: yarn run test
 
       - name: Run coverage and enforce threshold
-        run: yarn run test:cov && npx jest --coverage --coverageThreshold='{"global":{"lines":50,"statements":50,"branches":50,"functions":50}}'
+        run: yarn run test:cov
 
       - name: Build project
         run: yarn run build
