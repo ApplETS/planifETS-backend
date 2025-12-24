@@ -8,27 +8,27 @@ import { PlanificationCoursService } from '@/common/website-helper/pdf/pdf-parse
 import { ICoursePlanification } from '@/common/website-helper/pdf/pdf-parser/planification/planification-cours.types';
 import { PdfParserUtil } from '@/utils/pdf/parser/pdfParserUtil';
 
+// Extract only code and available fields from a course
+function mapCoursePlanification(c: ICoursePlanification) {
+  return { code: c.code, available: c.available };
+}
+
+// Sort by course code
+function sortByCode(a: { code: string }, b: { code: string }) {
+  return a.code.localeCompare(b.code);
+}
+
+function normalizeCourseArray(arr: Array<ICoursePlanification>) {
+  return arr
+    .map(mapCoursePlanification)
+    .sort(sortByCode);
+}
+
 describe('PlanificationCoursService', () => {
   let service: PlanificationCoursService;
   let httpService: HttpService;
   let pdf_v1: Buffer;
   let pdf_v2: Buffer;
-
-  // Extract only code and available fields from a course
-  function mapCoursePlanification(c: ICoursePlanification) {
-    return { code: c.code, available: c.available };
-  }
-
-  // Sort by course code
-  function sortByCode(a: { code: string }, b: { code: string }) {
-    return a.code.localeCompare(b.code);
-  }
-
-  function normalizeCourseArray(arr: Array<ICoursePlanification>) {
-    return arr
-      .map(mapCoursePlanification)
-      .sort(sortByCode);
-  }
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
