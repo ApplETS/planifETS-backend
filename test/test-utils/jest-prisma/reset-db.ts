@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 type PgTableRow = { tablename: string };
 
 function quoteIdent(identifier: string): string {
-  return `"${identifier.replace(/"/g, '""')}"`;
+  return `"${identifier.replaceAll('"', '""')}"`;
 }
 
 export async function resetDatabase(databaseUrl: string): Promise<void> {
