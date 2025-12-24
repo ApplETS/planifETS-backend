@@ -2,27 +2,20 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { PrismaService } from '../../src/prisma/prisma.service';
 import { SessionService } from '../../src/session/session.service';
-
+import { prisma } from '../test-utils/prisma';
 
 describe('SessionService', () => {
   let service: SessionService;
-  let prisma: PrismaService;
-
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [PrismaService, SessionService],
+      providers: [
+        SessionService,
+        { provide: PrismaService, useValue: prisma },
+      ],
     }).compile();
 
     service = module.get<SessionService>(SessionService);
-    prisma = module.get<PrismaService>(PrismaService);
-    // Ensure the session table is cleared before each test
-    await prisma.session.deleteMany();
-  });
-
-  afterEach(async () => {
-    // Clean up all sessions after each test
-    await prisma.session.deleteMany();
   });
 
   it('should be defined', () => {
@@ -30,7 +23,7 @@ describe('SessionService', () => {
   });
 
   it('should create a session', async () => {
-    const session = await service.createSession({ year: 2025, trimester: 'AUTOMNE' });
+    const session = await service.getOrCreateSession(2025, 'AUTOMNE');
     expect(session).toMatchObject({ year: 2025, trimester: 'AUTOMNE' });
   });
 
@@ -43,12 +36,30 @@ describe('SessionService', () => {
     expect(s1.trimester).toBe('ETE');
   });
 
-  it('should not create duplicate sessions for same year/trimester', async () => {
-    await service.createSession({ year: 2026, trimester: 'HIVER' });
-    // Try to create again, should throw or fail due to unique constraint
-    await expect(service.createSession({ year: 2026, trimester: 'HIVER' })).rejects.toThrow();
-    const all = await service.getAllSessions();
-    expect(all.filter(s => s.year === 2026 && s.trimester === 'HIVER').length).toBe(1);
+  it('should be idempotent with getOrCreateSession', async () => {
+    const s1 = await service.getOrCreateSession(2051, 'HIVER');
+    const s2 = await service.getOrCreateSession(2051, 'HIVER');
+    expect(s1.trimester).toBe(s2.trimester);
+    expect(s1.year).toBe(s2.year);
+    expect(s2.year).toBe(2051);
+    expect(s2.trimester).toBe('HIVER');
+    const found = await service.getAllSessions();
+    const count = found.filter(s => s.year === 2051 && s.trimester === 'HIVER').length;
+    expect(count).toBe(1);
+  });
+
+  it('should only have one session for same year/trimester', async () => {
+    await service.getOrCreateSession(2050, 'HIVER');
+    const found = await service.getAllSessions();
+    const count = found.filter(s => s.year === 2050 && s.trimester === 'HIVER').length;
+    expect(count).toBe(1);
+  });
+
+  it('should only have one session for same year/trimester', async () => {
+    await service.getOrCreateSession(2050, 'HIVER');
+    const found = await service.getAllSessions();
+    const count = found.filter(s => s.year === 2050 && s.trimester === 'HIVER').length;
+    expect(count).toBe(1);
   });
 
   it('should parse valid session codes', async () => {
@@ -69,8 +80,7 @@ describe('SessionService', () => {
   });
 
   it('should throw if current trimester cannot be determined', async () => {
-    // getCurrentTrimester returns undefined for invalid date
-    await expect(service.getOrCreateCurrentSession(new Date('invalid-date'))).rejects.toThrow();
+    await expect(service.getOrCreateCurrentSession(undefined)).rejects.toThrow();
   });
 
   it('should get or create session from code', async () => {
@@ -84,16 +94,28 @@ describe('SessionService', () => {
   });
 
   it('should get all sessions', async () => {
-    await service.createSession({ year: 2024, trimester: 'HIVER' });
-    await service.createSession({ year: 2025, trimester: 'ETE' });
+    await service.getOrCreateSession(2024, 'HIVER');
+    await service.getOrCreateSession(2025, 'ETE');
     const sessions = await service.getAllSessions();
     expect(sessions.length).toBe(2);
     expect(sessions.map(s => s.year)).toEqual(expect.arrayContaining([2024, 2025]));
   });
 
+  it('should throw for session code with non-numeric year part', async () => {
+    await expect(service.getOrCreateSessionFromCode('EAA')).rejects.toThrow('Invalid session code: EAA');
+    await expect(service.getOrCreateSessionFromCode('E1A')).rejects.toThrow('Invalid session code: E1A');
+    await expect(service.getOrCreateSessionFromCode('E--')).rejects.toThrow('Invalid session code: E--');
+  });
+
+  it('should throw for session code with year part not two digits', async () => {
+    await expect(service.getOrCreateSessionFromCode('E2')).rejects.toThrow('Invalid session code: E2');
+    await expect(service.getOrCreateSessionFromCode('E123')).rejects.toThrow('Invalid session code: E123');
+    await expect(service.getOrCreateSessionFromCode('E')).rejects.toThrow('Invalid session code: E');
+  });
+
   it('should get latest available session', async () => {
-    await service.createSession({ year: 2023, trimester: 'HIVER' });
-    await service.createSession({ year: 2025, trimester: 'ETE' });
+    await service.getOrCreateSession(2023, 'HIVER');
+    await service.getOrCreateSession(2025, 'ETE');
     const latest = await service.getLatestAvailableSession();
     expect(latest).toBeDefined();
     expect(latest?.year).toBe(2025);

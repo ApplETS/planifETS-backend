@@ -5,7 +5,6 @@
     "ts"
   ],
   "rootDir": ".",
-  "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": [
@@ -14,5 +13,8 @@
   },
   "moduleNameMapper": {
     "^@/(.*)$": "<rootDir>/../src/$1"
-  }
+  },
+  "testEnvironment": "@quramy/jest-prisma-node/environment",
+  "globalSetup": "<rootDir>/test-utils/jest.global-setup.ts",
+  "globalTeardown": "<rootDir>/test-utils/jest.global-teardown.ts"
 }

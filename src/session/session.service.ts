@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Prisma, Session, Trimester } from '@prisma/client';
+import { Session, Trimester } from '@prisma/client';
 
 import { getCurrentTrimester } from '../common/utils/session/sessionUtil';
 import { PrismaService } from '../prisma/prisma.service';
@@ -114,13 +114,5 @@ export class SessionService {
       `Found latest session: ${latestSession.year}-${latestSession.trimester}`,
     );
     return latestSession;
-  }
-
-  public async createSession(
-    data: Prisma.SessionCreateInput,
-  ): Promise<Session> {
-    return this.prisma.session.create({
-      data,
-    });
   }
 }

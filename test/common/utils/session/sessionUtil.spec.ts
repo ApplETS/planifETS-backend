@@ -108,15 +108,17 @@ describe('SessionUtil', () => {
       expect(loggerErrorSpy).not.toHaveBeenCalled();
     });
 
-    it('should return null and log an error if the date does not fall within any trimester', () => {
-      const mockDate = new Date('2024-12-25'); // End date is 19 December
-      const result = getCurrentSessionIndex(mockDate);
-      expect(result).toBeNull();
-
-      // Ensure the error method was called with the correct message
-      expect(loggerErrorSpy).toHaveBeenCalledWith(
-        `Unable to determine the current trimester for date: ${mockDate.toISOString()}`,
-      );
+    it('should return the next trimester for a date in the gap after autumn (Dec 25)', () => {
+      // Dec 25 should now be assigned to HIVER of the next year (2025)
+      const mockDate = new Date('2024-12-25');
+      expect(getCurrentSessionIndex(mockDate)).toBe('20251');
+      expect(loggerErrorSpy).not.toHaveBeenCalled();
+    });
+    it('should return the next trimester for a date in the gap after autumn (Jan 2)', () => {
+      // Jan 2 should be assigned to HIVER
+      const mockDate = new Date('2025-01-02');
+      expect(getCurrentSessionIndex(mockDate)).toBe('20251');
+      expect(loggerErrorSpy).not.toHaveBeenCalled();
     });
 
     it('should use the current date when no date is provided', () => {
@@ -205,15 +207,17 @@ describe('SessionUtil', () => {
       expect(loggerErrorSpy).not.toHaveBeenCalled();
     });
 
-    it('should return null and log an error if the date does not fall within any trimester', () => {
-      const mockDate = new Date('2024-12-25'); // End date is 19 December
-      const result = getCurrentTrimester(mockDate);
-      expect(result).toBeNull();
-
-      // Ensure the error method was called with the correct message
-      expect(loggerErrorSpy).toHaveBeenCalledWith(
-        `Unable to determine the current trimester for date: ${mockDate.toISOString()}`,
-      );
+    it('should return the next trimester for a date in the gap after autumn (Dec 25)', () => {
+      // Dec 25 should now be assigned to HIVER
+      const mockDate = new Date('2024-12-25');
+      expect(getCurrentTrimester(mockDate)).toBe(Trimester.HIVER);
+      expect(loggerErrorSpy).not.toHaveBeenCalled();
+    });
+    it('should return the next trimester for a date in the gap after autumn (Jan 2)', () => {
+      // Jan 2 should be assigned to HIVER
+      const mockDate = new Date('2025-01-02');
+      expect(getCurrentTrimester(mockDate)).toBe(Trimester.HIVER);
+      expect(loggerErrorSpy).not.toHaveBeenCalled();
     });
 
     it('should use the current date when no date is provided', () => {

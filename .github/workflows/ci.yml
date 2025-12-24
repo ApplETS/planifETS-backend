@@ -7,7 +7,7 @@ on:
     branches: ['*']
 env:
   CI: true
-  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/planifets_test
+  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/planifetsDB_test
 
 jobs:
   security-audit:
@@ -35,7 +35,7 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_DB: planifets_test
+          POSTGRES_DB: planifetsDB_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         ports:

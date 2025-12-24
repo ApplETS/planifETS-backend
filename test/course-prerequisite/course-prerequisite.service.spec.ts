@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { CourseService } from '../../src/course/course.service';
 import { PrerequisiteService } from '../../src/prerequisite/prerequisite.service';
 import { PrismaService } from '../../src/prisma/prisma.service';
 import { ProgramCourseService } from '../../src/program-course/program-course.service';
-import { CourseService } from '../../src/course/course.service';
 
 describe('CoursePrerequisiteService', () => {
   let service: PrerequisiteService;

@@ -25,11 +25,6 @@ describe('CourseService (e2e)', () => {
 
     await app.init();
 
-    // Clean up any existing session and course with the same keys
-    await prisma.courseInstance.deleteMany({});
-    await prisma.course.deleteMany({ where: { code: 'CS101' } });
-    await prisma.session.deleteMany({ where: { year: 2021, trimester: 'AUTOMNE' } });
-
     await prisma.session.create({
       data: {
         trimester: 'AUTOMNE',
@@ -49,10 +44,6 @@ describe('CourseService (e2e)', () => {
   });
 
   afterAll(async () => {
-    // Clean up in correct order to avoid FK errors
-    await prisma.courseInstance.deleteMany({});
-    await prisma.course.deleteMany({ where: { id: 99999 } });
-    await prisma.session.deleteMany({ where: { year: 2021, trimester: 'AUTOMNE' } });
     await prisma.$disconnect();
     await app.close();
   });
