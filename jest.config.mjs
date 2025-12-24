@@ -3,7 +3,7 @@ import { pathsToModuleNameMapper } from 'ts-jest';
 export default {
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '.',
-  testRegex: 'test/.*\\.(test|spec)\\.ts$',
+  testRegex: String.raw`test/.*\.(test|spec)\.ts$`,
   transform: {
     '^.+\\.(t|j)s$': ['@swc/jest'],
   },

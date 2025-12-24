@@ -12,7 +12,8 @@
     ]
   },
   "moduleNameMapper": {
-    "^@/(.*)$": "<rootDir>/../src/$1"
+    "^@/common/(.*)$": "<rootDir>/../src/common/$1",
+    "^@/utils/(.*)$": "<rootDir>/../src/common/utils/$1"
   },
   "testEnvironment": "@quramy/jest-prisma-node/environment",
   "globalSetup": "<rootDir>/test-utils/jest-prisma/jest-global-setup.ts",

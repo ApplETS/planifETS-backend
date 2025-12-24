@@ -82,8 +82,8 @@ describe('PlanificationCoursService', () => {
     };
 
     beforeAll(async () => {
-      result_v1 = (await loadFromBuffer(pdf_v1));
-      result_v2 = (await loadFromBuffer(pdf_v2));
+      result_v1 = await loadFromBuffer(pdf_v1);
+      result_v2 = await loadFromBuffer(pdf_v2);
     });
 
     it('both versions should return defined, non-empty arrays', () => {
@@ -95,25 +95,26 @@ describe('PlanificationCoursService', () => {
 
     it('v2 parsed output should match expected JSON data exactly (sorted by code)', () => {
       const expectedV2 = JSON.parse(fs.readFileSync('test/assets/data/Planification-7084-v2.json', 'utf-8')) as Array<ICoursePlanification>;
-      // Extract only code and available fields from a course
-      function mapCoursePlanification(c: ICoursePlanification) {
-        return { code: c.code, available: c.available };
-      }
-
-      // Sort by course code
-      function sortByCode(a: { code: string }, b: { code: string }) {
-        return a.code.localeCompare(b.code);
-      }
-
-      // Normalize array for comparison
-      function normalize(arr: Array<ICoursePlanification>) {
-        return arr
-          .map(mapCoursePlanification)
-          .sort(sortByCode);
-      }
 
       expect(normalize(result_v2)).toEqual(normalize(expectedV2));
     });
+
+    // Extract only code and available fields from a course
+    function mapCoursePlanification(c: ICoursePlanification) {
+      return { code: c.code, available: c.available };
+    }
+
+    // Sort by course code
+    function sortByCode(a: { code: string }, b: { code: string }) {
+      return a.code.localeCompare(b.code);
+    }
+
+    // Normalize array for comparison
+    function normalize(arr: Array<ICoursePlanification>) {
+      return arr
+        .map(mapCoursePlanification)
+        .sort(sortByCode);
+    }
 
     it('a course that changes between v1 and v2 should reflect different availability', () => {
       const a_v1 = result_v1.find((c) => c.code === 'ATE100')!;
