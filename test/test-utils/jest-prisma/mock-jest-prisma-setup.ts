@@ -4,7 +4,7 @@ jest.mock('../../../src/prisma/prisma.service', () => ({
 
 // Global teardown for Prisma after all tests
 afterAll(async () => {
-  if (jestPrisma && jestPrisma.originalClient) {
+  if (jestPrisma?.originalClient) {
     await jestPrisma.originalClient.$disconnect();
   }
 });

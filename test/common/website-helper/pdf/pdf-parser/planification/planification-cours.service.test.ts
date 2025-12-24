@@ -82,8 +82,8 @@ describe('PlanificationCoursService', () => {
     };
 
     beforeAll(async () => {
-      result_v1 = (await loadFromBuffer(pdf_v1)) as Array<ICoursePlanification>;
-      result_v2 = (await loadFromBuffer(pdf_v2)) as Array<ICoursePlanification>;
+      result_v1 = (await loadFromBuffer(pdf_v1));
+      result_v2 = (await loadFromBuffer(pdf_v2));
     });
 
     it('both versions should return defined, non-empty arrays', () => {
@@ -95,8 +95,23 @@ describe('PlanificationCoursService', () => {
 
     it('v2 parsed output should match expected JSON data exactly (sorted by code)', () => {
       const expectedV2 = JSON.parse(fs.readFileSync('test/assets/data/Planification-7084-v2.json', 'utf-8')) as Array<ICoursePlanification>;
-      const normalize = (arr: Array<ICoursePlanification>) =>
-        arr.map((c) => ({ code: c.code, available: c.available })).sort((a, b) => a.code.localeCompare(b.code));
+      // Extract only code and available fields from a course
+      function mapCoursePlanification(c: ICoursePlanification) {
+        return { code: c.code, available: c.available };
+      }
+
+      // Sort by course code
+      function sortByCode(a: { code: string }, b: { code: string }) {
+        return a.code.localeCompare(b.code);
+      }
+
+      // Normalize array for comparison
+      function normalize(arr: Array<ICoursePlanification>) {
+        return arr
+          .map(mapCoursePlanification)
+          .sort(sortByCode);
+      }
+
       expect(normalize(result_v2)).toEqual(normalize(expectedV2));
     });
 
@@ -117,8 +132,8 @@ describe('PlanificationCoursService', () => {
       expect(tin_v2).toBeDefined();
       expect(tin_v2.available).toBeDefined();
       // Ensure at least one session is parsed as 'S' or 'J' in each version
-      const hasSOrJ_v1 = (Object.values(tin_v1.available) as string[]).some((v) => /[JS]/.test(v));
-      const hasSOrJ_v2 = (Object.values(tin_v2.available) as string[]).some((v) => /[JS]/.test(v));
+      const hasSOrJ_v1 = (Object.values(tin_v1.available)).some((v) => /[JS]/.test(v));
+      const hasSOrJ_v2 = (Object.values(tin_v2.available)).some((v) => /[JS]/.test(v));
       expect(hasSOrJ_v1).toBe(true);
       expect(hasSOrJ_v2).toBe(true);
     });
