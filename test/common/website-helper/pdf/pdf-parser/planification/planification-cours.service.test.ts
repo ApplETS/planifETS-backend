@@ -14,6 +14,22 @@ describe('PlanificationCoursService', () => {
   let pdf_v1: Buffer;
   let pdf_v2: Buffer;
 
+  // Extract only code and available fields from a course
+  function mapCoursePlanification(c: ICoursePlanification) {
+    return { code: c.code, available: c.available };
+  }
+
+  // Sort by course code
+  function sortByCode(a: { code: string }, b: { code: string }) {
+    return a.code.localeCompare(b.code);
+  }
+
+  function normalizeCourseArray(arr: Array<ICoursePlanification>) {
+    return arr
+      .map(mapCoursePlanification)
+      .sort(sortByCode);
+  }
+
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -21,6 +37,7 @@ describe('PlanificationCoursService', () => {
         {
           provide: HttpService,
           useValue: { get: jest.fn() },
+
         },
       ],
     }).compile();
@@ -96,25 +113,8 @@ describe('PlanificationCoursService', () => {
     it('v2 parsed output should match expected JSON data exactly (sorted by code)', () => {
       const expectedV2 = JSON.parse(fs.readFileSync('test/assets/data/Planification-7084-v2.json', 'utf-8')) as Array<ICoursePlanification>;
 
-      expect(normalize(result_v2)).toEqual(normalize(expectedV2));
+      expect(normalizeCourseArray(result_v2)).toEqual(normalizeCourseArray(expectedV2));
     });
-
-    // Extract only code and available fields from a course
-    function mapCoursePlanification(c: ICoursePlanification) {
-      return { code: c.code, available: c.available };
-    }
-
-    // Sort by course code
-    function sortByCode(a: { code: string }, b: { code: string }) {
-      return a.code.localeCompare(b.code);
-    }
-
-    // Normalize array for comparison
-    function normalize(arr: Array<ICoursePlanification>) {
-      return arr
-        .map(mapCoursePlanification)
-        .sort(sortByCode);
-    }
 
     it('a course that changes between v1 and v2 should reflect different availability', () => {
       const a_v1 = result_v1.find((c) => c.code === 'ATE100')!;
