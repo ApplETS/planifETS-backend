@@ -49,4 +49,11 @@ module.exports = {
     '@typescript-eslint/space-infix-ops': 'off',
     '@typescript-eslint/object-curly-spacing': 'off',
   },
+  settings: {
+    'import/resolver': {
+      typescript: {
+        project: './tsconfig.json',
+      },
+    },
+  },
 };
