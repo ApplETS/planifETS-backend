@@ -5,11 +5,9 @@ import { useContainer } from 'class-validator';
 import request from 'supertest';
 
 import { AppModule } from '../../src/app.module';
-import { PrismaService } from '../../src/prisma/prisma.service';
 
 describe('CourseService (e2e)', () => {
   let app: INestApplication;
-  let prisma: PrismaService;
   let course: Course;
 
   beforeAll(async () => {
@@ -18,21 +16,20 @@ describe('CourseService (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
-    prisma = app.get<PrismaService>(PrismaService);
 
     useContainer(app.select(AppModule), { fallbackOnErrors: true });
     app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
     await app.init();
 
-    await prisma.session.create({
+    await jestPrisma.originalClient.session.create({
       data: {
         trimester: 'AUTOMNE',
         year: 2021,
       },
     });
 
-    course = await prisma.course.create({
+    course = await jestPrisma.originalClient.course.create({
       data: {
         id: 99999,
         code: 'CS101',
@@ -44,7 +41,6 @@ describe('CourseService (e2e)', () => {
   });
 
   afterAll(async () => {
-    await prisma.$disconnect();
     await app.close();
   });
 

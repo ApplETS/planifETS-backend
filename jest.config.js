@@ -45,13 +45,8 @@ module.exports = {
     testEnvironment: "@quramy/jest-prisma-node/environment",
     testEnvironmentOptions: {
         databaseUrl: process.env.DATABASE_URL,
-        // optional knobs:
-        // verboseQuery: true,
-        // maxWait: 5000,
-        // timeout: 5000,
     },
-    globalSetup: "<rootDir>/test/test-utils/jest.global-setup.ts",
-    globalTeardown: "<rootDir>/test/test-utils/jest.global-teardown.ts",
-    // setupFilesAfterEnv removed: file does not exist
-
+    globalSetup: "<rootDir>/test/test-utils/jest-prisma/jest-global-setup.ts",
+    globalTeardown: "<rootDir>/test/test-utils/jest-prisma/jest-global-teardown.ts",
+    setupFilesAfterEnv: ['<rootDir>/test/test-utils/jest-prisma/mock-jest-prisma-setup.ts'],
 };

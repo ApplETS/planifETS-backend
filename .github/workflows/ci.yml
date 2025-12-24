@@ -62,6 +62,10 @@ jobs:
       - name: Run Prisma Migrate
         run: yarn prisma:migrate-prod
 
+      - name: Create .env.test
+        run: |
+          echo "DATABASE_URL=${{ env.DATABASE_URL }}" > .env.test
+
       - name: Generate Prisma Client
         run: yarn prisma generate
 

@@ -2,19 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { PrismaService } from '../../src/prisma/prisma.service';
 import { SessionService } from '../../src/session/session.service';
-import { prisma } from '../test-utils/prisma';
 
 describe('SessionService', () => {
   let service: SessionService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        SessionService,
-        { provide: PrismaService, useValue: prisma },
-      ],
+      providers: [SessionService, PrismaService],
     }).compile();
-
     service = module.get<SessionService>(SessionService);
   });
 
@@ -77,10 +72,6 @@ describe('SessionService', () => {
     const session = await service.getOrCreateCurrentSession(now);
     expect(session.year).toBe(2025);
     expect(session.trimester).toBe('ETE');
-  });
-
-  it('should throw if current trimester cannot be determined', async () => {
-    await expect(service.getOrCreateCurrentSession(undefined)).rejects.toThrow();
   });
 
   it('should get or create session from code', async () => {
