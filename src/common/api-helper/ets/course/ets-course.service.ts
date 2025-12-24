@@ -6,7 +6,7 @@ import {
   ETS_API_GET_ALL_COURSES,
   ETS_API_GET_COURSES_BY_IDS,
 } from '@/common/constants/url';
-import { extractNumberFromString } from '@/util/stringUtil';
+import { extractNumberFromString } from '@/utils/stringUtil';
 
 export interface ICoursesEtsAPI {
   id: number;

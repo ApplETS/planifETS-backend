@@ -1,4 +1,4 @@
-import { CourseCodeValidationPipe } from '../../pipes/models/course/course-code-validation-pipe';
+import { CourseCodeValidationPipe } from '@/common/pipes/models/course/course-code-validation-pipe';
 
 export class Course {
   public static readonly COURSE_LINE_PARTS_COUNT = 11;
@@ -17,7 +17,7 @@ export class Course {
     public mandatory: boolean,
     public prerequisites: { profile: string; prerequisites: string[] }[] = [],
     public alternatives?: string[], // For CHOIX courses
-  ) {}
+  ) { }
 
   public static isCourseLine(line: string): boolean {
     return (

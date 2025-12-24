@@ -3,8 +3,9 @@ import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { Output, Page, Text } from 'pdf2json';
 import { firstValueFrom } from 'rxjs';
 
-import { PdfParserUtil } from '../../../../utils/pdf/parser/pdfParserUtil';
-import { TextExtractor } from '../../../../utils/pdf/parser/textExtractorUtil';
+import { PdfParserUtil } from '@/utils/pdf/parser/pdfParserUtil';
+import { TextExtractor } from '@/utils/pdf/parser/textExtractorUtil';
+
 import { Group } from './Group';
 import { HoraireCours } from './HoraireCours';
 import { Period } from './Period';
@@ -14,7 +15,7 @@ export class HoraireCoursService {
   private readonly END_PAGE_CONTENT_Y_AXIS = 59;
   private readonly PREALABLE_X_AXIS = 29.86;
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) { }
 
   private readonly logger = new Logger(HoraireCoursService.name);
 

@@ -8,8 +8,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { ERROR_MESSAGES } from '../../constants/error-messages';
-import { getHorairePdfUrl, getPlanificationPdfUrl } from '../../constants/url';
+import { ERROR_MESSAGES } from '@/common/constants/error-messages';
+import { getHorairePdfUrl, getPlanificationPdfUrl } from '@/common/constants/url';
+
 import { HoraireCoursService } from './pdf-parser/horaire/horaire-cours.service';
 import { IHoraireCours } from './pdf-parser/horaire/horaire-cours.types';
 import { PlanificationCoursService } from './pdf-parser/planification/planification-cours.service';
@@ -23,7 +24,7 @@ export class PdfController {
   constructor(
     private readonly horaireCoursService: HoraireCoursService,
     private readonly planificationCoursService: PlanificationCoursService,
-  ) {}
+  ) { }
 
   @Get('horaire-cours')
   public async parseHoraireCoursPdf(

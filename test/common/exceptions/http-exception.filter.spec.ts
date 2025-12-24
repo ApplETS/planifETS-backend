@@ -5,7 +5,7 @@ import { ArgumentsHost, HttpException } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import { Request, Response } from 'express';
 
-import { HttpExceptionFilter } from '../../../src/common/exceptions/http-exception.filter';
+import { HttpExceptionFilter } from '@/common/exceptions/http-exception.filter';
 
 describe('HttpExceptionFilter', () => {
   let filter: HttpExceptionFilter;

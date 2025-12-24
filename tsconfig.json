@@ -14,7 +14,7 @@
       "@/common/*": [
         "./src/common/*"
       ],
-      "@/util/*": [
+      "@/utils/*": [
         "./src/common/utils/*"
       ]
     },

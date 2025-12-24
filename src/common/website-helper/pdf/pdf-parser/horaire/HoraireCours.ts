@@ -1,6 +1,7 @@
 import { Logger } from '@nestjs/common';
 
-import { CourseCodeValidationPipe } from '../../../../pipes/models/course/course-code-validation-pipe';
+import { CourseCodeValidationPipe } from '@/common/pipes/models/course/course-code-validation-pipe';
+
 import { Group, IGroup } from './Group';
 import { IHoraireCours } from './horaire-cours.types';
 import { Period } from './Period';
@@ -18,7 +19,7 @@ export class HoraireCours implements IHoraireCours {
     public title: string = '',
     public prerequisites: string = '',
     public groups: Map<string, Group> = new Map<string, Group>(),
-  ) {}
+  ) { }
 
   public addOrUpdateCourse(courses: HoraireCours[]): void {
     const existingCourseIndex = courses.findIndex(

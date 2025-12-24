@@ -1,12 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Course, Program, Session } from '@prisma/client';
 
-import { getHorairePdfUrl } from '../../common/constants/url';
-import { CourseCodeValidationPipe } from '../../common/pipes/models/course/course-code-validation-pipe';
-import { parsePrerequisiteString } from '../../common/utils/prerequisite/prerequisiteUtil';
-import { getTrimesterIndexBySession } from '../../common/utils/session/sessionUtil';
-import { HoraireCoursService } from '../../common/website-helper/pdf/pdf-parser/horaire/horaire-cours.service';
-import { IHoraireCours } from '../../common/website-helper/pdf/pdf-parser/horaire/horaire-cours.types';
+import { getHorairePdfUrl } from '@/common/constants/url';
+import { CourseCodeValidationPipe } from '@/common/pipes/models/course/course-code-validation-pipe';
+import { parsePrerequisiteString } from '@/common/utils/prerequisite/prerequisiteUtil';
+import { getTrimesterIndexBySession } from '@/common/utils/session/sessionUtil';
+import { HoraireCoursService } from '@/common/website-helper/pdf/pdf-parser/horaire/horaire-cours.service';
+import { IHoraireCours } from '@/common/website-helper/pdf/pdf-parser/horaire/horaire-cours.types';
+
 import { CourseService } from '../../course/course.service';
 import { PrerequisiteService } from '../../prerequisite/prerequisite.service';
 import { seedProgramHorairePdfParserFlags } from '../../prisma/programs.seeder';
@@ -31,7 +32,7 @@ export class SessionsJobService {
     private readonly programCourseService: ProgramCourseService,
     private readonly prerequisiteService: PrerequisiteService,
     private readonly courseCodeValidationPipe: CourseCodeValidationPipe,
-  ) {}
+  ) { }
 
   /**
    * Main method to process prerequisites, using the current session data in Horaire-cours PDF.
