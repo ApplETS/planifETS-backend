@@ -65,6 +65,9 @@ describe('SessionService', () => {
 
   it('should throw for invalid year in session code via getOrCreateSessionFromCode', async () => {
     await expect(service.getOrCreateSessionFromCode('E')).rejects.toThrow();
+    await expect(service.getOrCreateSessionFromCode('25')).rejects.toThrow();
+    await expect(service.getOrCreateSessionFromCode('/sd')).rejects.toThrow();
+    await expect(service.getOrCreateSessionFromCode('sd/')).rejects.toThrow();
   });
 
   it('should get or create current session', async () => {

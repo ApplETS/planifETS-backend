@@ -41,7 +41,7 @@ describe('CourseService (e2e)', () => {
   });
 
   afterAll(async () => {
-    await app.close();
+    await jestPrisma.originalClient.session.deleteMany({});
   });
 
   describe('GET /courses', () => {
@@ -76,5 +76,9 @@ describe('CourseService (e2e)', () => {
         }),
       );
     });
+  });
+
+  afterAll(async () => {
+    await jestPrisma.originalClient.session.deleteMany({});
   });
 });
