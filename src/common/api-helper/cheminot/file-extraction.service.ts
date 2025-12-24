@@ -6,8 +6,8 @@ import * as unzipper from 'unzipper';
 import {
   FileExtractionError,
   FileNotFoundError,
-} from '../../constants/error-messages';
-import { CHEMINEMENTS_TXT_PATH, CHEMINOT_JAR_URL } from '../../constants/url';
+} from '../../utils/error/error-constants';
+import { CHEMINEMENTS_TXT_PATH, CHEMINOT_JAR_URL } from '../../utils/url/url-constants';
 
 @Injectable()
 export class FileExtractionService {

@@ -8,8 +8,9 @@ import {
 } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
-import { ERROR_MESSAGES } from '@/common/constants/error-messages';
-import { getHorairePdfUrl, getPlanificationPdfUrl } from '@/common/constants/url';
+import { ERROR_MESSAGES } from '@/common/utils/error/error-constants';
+import { isAxiosError } from '@/common/utils/error/errorUtil';
+import { getHorairePdfUrl, getPlanificationPdfUrl } from '@/common/utils/url/url-constants';
 
 import { HoraireCoursService } from './pdf-parser/horaire/horaire-cours.service';
 import { IHoraireCours } from './pdf-parser/horaire/horaire-cours.types';
@@ -49,6 +50,12 @@ export class PdfController {
         `${ERROR_MESSAGES.ERROR_PARSING_HORAIRE_PDF} from URL ${pdfUrl}: `,
         error,
       );
+      if (isAxiosError(error) && error.response?.status === 404) {
+        throw new HttpException(
+          ERROR_MESSAGES.HORAIRE_PDF_NOT_FOUND,
+          HttpStatus.NOT_FOUND,
+        );
+      }
       throw new HttpException(
         ERROR_MESSAGES.ERROR_PARSING_HORAIRE_PDF,
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -79,6 +86,12 @@ export class PdfController {
         `${ERROR_MESSAGES.ERROR_PARSING_PLANIFICATION_PDF} from URL ${pdfUrl}: `,
         error,
       );
+      if (isAxiosError(error) && error.response?.status === 404) {
+        throw new HttpException(
+          ERROR_MESSAGES.PLANIFICATION_PDF_NOT_FOUND,
+          HttpStatus.NOT_FOUND,
+        );
+      }
       throw new HttpException(
         ERROR_MESSAGES.ERROR_PARSING_PLANIFICATION_PDF,
         HttpStatus.INTERNAL_SERVER_ERROR,

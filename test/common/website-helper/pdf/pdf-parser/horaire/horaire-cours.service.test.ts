@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
+import { throwError } from 'rxjs';
 
 import { HoraireCoursService } from '@/common/website-helper/pdf/pdf-parser/horaire/horaire-cours.service';
 describe('HoraireCoursService', () => {
@@ -33,19 +34,19 @@ describe('HoraireCoursService', () => {
       'HorairePublication_20243_7084-v1.pdf',
     );
 
-    it('should confirm that the PDF file exists', () => {
+    it('(v1) (v1) should confirm that the PDF file exists', () => {
       const fileExists = existsSync(pdfFilePath);
       expect(fileExists).toBe(true);
     });
 
-    it('should successfully read the PDF file without errors', () => {
+    it('(v1) should successfully read the PDF file without errors', () => {
       const pdfBuffer = readFileSync(pdfFilePath);
 
       expect(pdfBuffer).toBeInstanceOf(Buffer);
       expect(pdfBuffer.length).toBeGreaterThan(0);
     });
 
-    it('should verify that the file is a valid PDF by checking the magic number', () => {
+    it('(v1) should verify that the file is a valid PDF by checking the magic number', () => {
       const pdfBuffer = readFileSync(pdfFilePath);
       const magicNumber = pdfBuffer.subarray(0, 4).toString();
       expect(magicNumber).toBe('%PDF');
@@ -70,19 +71,19 @@ describe('HoraireCoursService', () => {
       courses = await service.parseHoraireCoursPdf(pdfBuffer, 'local_pdf');
     });
 
-    it('should return a defined and non-empty array of courses', () => {
+    it('(v1) should return a defined and non-empty array of courses', () => {
       expect(courses).toBeDefined();
       expect(Array.isArray(courses)).toBe(true);
       expect(courses.length).toBeGreaterThan(0);
     });
 
-    it('should have the expected number of unique courses', () => {
+    it('(v1) should have the expected number of unique courses', () => {
       const uniqueCourseCodes = new Set(courses.map((course) => course.code));
       const expectedUniqueCount = NUMBER_OF_COURSES_IN_PDF;
       expect(uniqueCourseCodes.size).toBe(expectedUniqueCount);
     });
 
-    it('should correctly populate key properties for each course', () => {
+    it('(v1) should correctly populate key properties for each course', () => {
       courses.forEach((course) => {
         expect(course.code).toMatch(/^[A-Z]{3}\d{3}$/); // Example pattern: "ATE075"
         expect(typeof course.title).toBe('string');
@@ -92,7 +93,7 @@ describe('HoraireCoursService', () => {
       });
     });
     describe('Course details', () => {
-      it('should correctly extract ATE075 course with accurate details', () => {
+      it('(v1) should correctly extract ATE075 course with accurate details', () => {
         // Validate the "ATE075" course
         const ate075 = courses.find((course) => course.code === 'ATE075');
         expect(ate075).toBeDefined();
@@ -115,7 +116,7 @@ describe('HoraireCoursService', () => {
         expect(periodAte075.dateRange).toBe('');
       });
 
-      it('should correctly extract CHM131 course with accurate details', () => {
+      it('(v1) should correctly extract CHM131 course with accurate details', () => {
         const chm131 = courses.find((course) => course.code === 'CHM131');
         expect(chm131).toBeDefined();
         expect(chm131.title).toBe('CHIMIE ET MATÉRIAUX');
@@ -147,7 +148,7 @@ describe('HoraireCoursService', () => {
         expect(period2.dateRange).toBe('');
       });
 
-      it('should correctly extract the first period of the first group at the beginning of the file', () => {
+      it('(v1) should correctly extract the first period of the first group at the beginning of the file', () => {
         const courseCode = 'ATE075';
         const firstCourse = courses[0];
         const firstGroup = firstCourse.groups['01'];
@@ -165,7 +166,7 @@ describe('HoraireCoursService', () => {
         expect(firstPeriod.dateRange).toBe('');
       });
 
-      it('should correctly extract the last period of the last group at the end of the file', () => {
+      it('(v1) should correctly extract the last period of the last group at the end of the file', () => {
         const lastCourse = courses[courses.length - 1];
         const lastGroup = lastCourse.groups['06'];
         const lastPeriod = lastGroup.periods[lastGroup.periods.length - 1];
@@ -196,7 +197,7 @@ describe('HoraireCoursService', () => {
         expect(lastPeriod.dateRange).toBe('');
       });
 
-      it('should handle courses with only one group and one period correctly', () => {
+      it('(v1) should handle courses with only one group and one period correctly', () => {
         const ENT303 = courses.find((course) => course.code === 'ENT303');
         expect(ENT303).toBeDefined();
         expect(ENT303.title).toBe('PROJETS SPÉCIAUX EN ENTREPRENEURIAT III');
@@ -217,7 +218,7 @@ describe('HoraireCoursService', () => {
         expect(period.dateRange).toBe('');
       });
 
-      it('should handle courses with long prerequisite string correctly', () => {
+      it('(v1) should handle courses with long prerequisite string correctly', () => {
         // Example: Validate the "GTI510" course
         const gti510 = courses.find((course) => course.code === 'GTI510');
         expect(gti510).toBeDefined();
@@ -229,7 +230,7 @@ describe('HoraireCoursService', () => {
         );
       });
 
-      it('should handle courses that overlap on two pages correctly', () => {
+      it('(v1) should handle courses that overlap on two pages correctly', () => {
         const course = courses.find((PRE011) => PRE011.code === 'PRE011');
         expect(course).toBeDefined();
         expect(course.title).toBe(
@@ -239,6 +240,23 @@ describe('HoraireCoursService', () => {
         expect(Object.keys(course.groups)).toHaveLength(23);
         //Bug here but no biggie for now
         //Issue: https://github.com/ApplETS/planifETS-backend/issues/45
+      });
+    });
+  });
+
+  describe('Error handling', () => {
+    it('should throw the original error if status is 404 (not found)', async () => {
+      const axiosError = {
+        response: { status: 404 },
+        message: 'Request failed with status code 404',
+        isAxiosError: true,
+      };
+      // Correctly mock httpService.get to return an Observable that errors
+      service['httpService'].get = jest.fn().mockReturnValueOnce(
+        throwError(() => axiosError)
+      );
+      await expect(service.parsePdfFromUrl('https://dummy-not-found')).rejects.toMatchObject({
+        response: { status: 404 },
       });
     });
   });

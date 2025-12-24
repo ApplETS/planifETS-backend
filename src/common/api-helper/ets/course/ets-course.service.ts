@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import {
   ETS_API_GET_ALL_COURSES,
   ETS_API_GET_COURSES_BY_IDS,
-} from '@/common/constants/url';
+} from '@/common/utils/url/url-constants';
 import { extractNumberFromString } from '@/utils/stringUtil';
 
 export interface ICoursesEtsAPI {

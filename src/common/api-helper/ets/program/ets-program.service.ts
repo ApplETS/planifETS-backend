@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 
-import { ETS_API_GET_ALL_PROGRAMS } from '@/common/constants/url';
+import { ETS_API_GET_ALL_PROGRAMS } from '@/common/utils/url/url-constants';
 import { extractNumberFromString, stripHtmlTags } from '@/common/utils/stringUtil';
 
 interface IProgramEtsAPI {

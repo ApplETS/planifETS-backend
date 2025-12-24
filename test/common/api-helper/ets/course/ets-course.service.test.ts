@@ -7,7 +7,7 @@ import { EtsCourseService } from '@/common/api-helper/ets/course/ets-course.serv
 import {
   ETS_API_GET_ALL_COURSES,
   ETS_API_GET_COURSES_BY_IDS,
-} from '@/common/constants/url';
+} from '@/common/utils/url/url-constants';
 import { extractNumberFromString } from '@/common/utils/stringUtil';
 
 describe('EtsCourseService', () => {

@@ -3,6 +3,7 @@ import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { Output, Page, Text } from 'pdf2json';
 import { firstValueFrom } from 'rxjs';
 
+import { isAxiosError } from '@/utils/error/errorUtil';
 import { PdfParserUtil } from '@/utils/pdf/parser/pdfParserUtil';
 import { TextExtractor } from '@/utils/pdf/parser/textExtractorUtil';
 
@@ -37,7 +38,10 @@ export class HoraireCoursService {
         pdfUrl,
       );
     } catch (error) {
-      throw new Error('Error fetching PDF from URL ' + error);
+      if (isAxiosError(error) && error.response?.status) {
+        throw error;
+      }
+      throw new Error('Error fetching PDF from URL ' + String(error));
     }
   }
 
