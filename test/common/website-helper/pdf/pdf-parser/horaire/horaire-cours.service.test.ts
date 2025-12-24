@@ -29,7 +29,8 @@ describe('HoraireCoursService', () => {
       process.cwd(),
       'test',
       'assets',
-      'HorairePublication_20243_7084.pdf',
+      'pdf',
+      'HorairePublication_20243_7084-v1.pdf',
     );
 
     it('should confirm that the PDF file exists', () => {
@@ -61,7 +62,8 @@ describe('HoraireCoursService', () => {
         process.cwd(),
         'test',
         'assets',
-        'HorairePublication_20243_7084.pdf',
+        'pdf',
+        'HorairePublication_20243_7084-v1.pdf',
       );
       pdfBuffer = readFileSync(pdfFilePath);
 

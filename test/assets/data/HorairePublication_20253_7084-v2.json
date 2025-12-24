@@ -1,0 +1,4758 @@
+[
+  {
+    "code": "ATE075",
+    "title": "NEUROFOCUS : STRATÉGIES D'ÉTUDES OPTIMALES",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:30",
+            "activity": "Atelier",
+            "teacher": "",
+            "local": "E-2025",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "ATE085",
+    "title": "NEUROFOCUS : ÉQUILIBRE DE VIE AUX ÉTUDES",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "Atelier",
+            "teacher": "",
+            "local": "E-2025",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "ATE100",
+    "title": "INTÉGRITÉ INTELLECTUELLE",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "",
+            "time": "",
+            "activity": "Atelier",
+            "teacher": "",
+            "local": "",
+            "mode": "D",
+            "dateRange": "Du 15 septembre au 20 octobre 2025"
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "",
+            "time": "",
+            "activity": "Atelier",
+            "teacher": "",
+            "local": "",
+            "mode": "D",
+            "dateRange": "Du 15 septembre au 20 octobre 2025"
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "",
+            "time": "",
+            "activity": "Atelier",
+            "teacher": "",
+            "local": "",
+            "mode": "D",
+            "dateRange": "Du 20 octobre au 24 novembre 2025"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "ATE150",
+    "title": "RÈGLES DE BASE EN SANTÉ ET SÉCURITÉ",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "",
+            "time": "",
+            "activity": "Atelier",
+            "teacher": "",
+            "local": "",
+            "mode": "D",
+            "dateRange": "Du 15 septembre au 13 octobre 2025"
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "",
+            "time": "",
+            "activity": "Atelier",
+            "teacher": "",
+            "local": "",
+            "mode": "D",
+            "dateRange": "Du 15 septembre au 13 octobre 2025"
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "",
+            "time": "",
+            "activity": "Atelier",
+            "teacher": "",
+            "local": "",
+            "mode": "D",
+            "dateRange": "Du 15 septembre au 13 octobre 2025"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "CHM131",
+    "title": "CHIMIE ET MATÉRIAUX",
+    "prerequisites": "",
+    "groups": {
+      "10": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "J. Bissou Billong",
+            "local": "B-1516",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "J. Bissou Billong",
+            "local": "B-1708",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "11": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "Z. Hamoudi",
+            "local": "B-1504",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "Z. Hamoudi",
+            "local": "B-1720",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "12": {
+        "periods": [
+          {
+            "day": "Sam",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "Z. Hamoudi",
+            "local": "B-1720",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Sam",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "Z. Hamoudi",
+            "local": "B-1720",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "15": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "M. Fraser",
+            "local": "B-3416",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "M. Fraser",
+            "local": "B-1516",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "01": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "D. Piotte",
+            "local": "B-1404",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "D. Piotte",
+            "local": "B-1708",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "A. Jean-Fulcrand",
+            "local": "B-1502",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "A. Jean-Fulcrand",
+            "local": "B-1720",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "M. Bergeron-Brlek",
+            "local": "B-1404",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "M. Bergeron-Brlek",
+            "local": "B-1720",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "X. Lavocat-Dubuis",
+            "local": "B-1708",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "X. Lavocat-Dubuis",
+            "local": "B-1720",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "A. Jean-Fulcrand",
+            "local": "B-1404",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "A. Jean-Fulcrand",
+            "local": "B-1720",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "06": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "X. Lavocat-Dubuis",
+            "local": "B-1516",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "J. Bissou Billong",
+            "local": "B-1720",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "07": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "M. Bergeron-Brlek",
+            "local": "B-1516",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "M. Bergeron-Brlek",
+            "local": "B-1720",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "08": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "X. Lavocat-Dubuis",
+            "local": "B-1516",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "J. Bissou Billong",
+            "local": "B-1720",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "09": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "M. Clisson / Z. Hamoudi / A. Jean-",
+            "local": "B-1708",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "M. Clisson",
+            "local": "B-1720",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "COM410",
+    "title": "RÉDACTION TECHNIQUE ET COMMUNICATION EN GÉNIE LOGICIEL",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "M. Warnier",
+            "local": "B-1506",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 17:30",
+            "activity": "TP A+B",
+            "teacher": "M. Warnier",
+            "local": "B-3410",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "J. Vianou",
+            "local": "D-4010",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:30",
+            "activity": "TP A+B",
+            "teacher": "J. Vianou",
+            "local": "B-3408",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "ENT201",
+    "title": "GESTION FINANCIÈRE D'ENTREPRISE",
+    "prerequisites": "GIA400 ou GIA410",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "M. Boucher-Rochon",
+            "local": "E-4024",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "09:00 - 11:00",
+            "activity": "TP",
+            "teacher": "M. Boucher-Rochon",
+            "local": "E-2022",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "ENT202",
+    "title": "INTRODUCTION À L'ENTREPRENEURSHIP",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "H. Smidi",
+            "local": "B-3414",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "18:00 - 20:00",
+            "activity": "TP",
+            "teacher": "H. Smidi",
+            "local": "B-3416",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "P. d'Astous",
+            "local": "B-3414",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "18:00 - 20:00",
+            "activity": "TP",
+            "teacher": "P. d'Astous",
+            "local": "B-3414",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "ENT301",
+    "title": "PROJETS SPÉCIAUX EN ENTREPRENEURIAT I",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "",
+            "time": "",
+            "activity": "Projets",
+            "teacher": "",
+            "local": "",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "ENT302",
+    "title": "PROJETS SPÉCIAUX EN ENTREPRENEURIAT II",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "",
+            "time": "",
+            "activity": "Projets",
+            "teacher": "",
+            "local": "",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "ENT303",
+    "title": "PROJETS SPÉCIAUX EN ENTREPRENEURIAT III",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "",
+            "time": "",
+            "activity": "Projets",
+            "teacher": "",
+            "local": "",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "ENT304",
+    "title": "PROJETS SPÉCIAUX EN ENTREPRENEURIAT IV",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "",
+            "time": "",
+            "activity": "Projets",
+            "teacher": "",
+            "local": "",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "ENT601",
+    "title": "MARKETING ET VENTES",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "F.G. Duprat",
+            "local": "B-3406",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "15:30 - 17:30",
+            "activity": "TP",
+            "teacher": "F.G. Duprat",
+            "local": "D-5009",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "ETH610",
+    "title": "ENJEUX ÉTHIQUES DE L INTELLIGENCE ARTIFICIELLE",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "É. Francoeur",
+            "local": "B-1506",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "08:30 - 10:30",
+            "activity": "TP A",
+            "teacher": "É. Francoeur",
+            "local": "D-3018",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "10:30 - 12:30",
+            "activity": "TP B",
+            "teacher": "É. Francoeur",
+            "local": "D-3018",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "GIA400",
+    "title": "ANALYSE DE RENTABILITÉ DE PROJETS",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "M. Rabah",
+            "local": "D-4018",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:30",
+            "activity": "TP A+B",
+            "teacher": "M. Rabah",
+            "local": "B-3402",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "M. Rabah",
+            "local": "D-5018",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "08:30 - 12:30",
+            "activity": "TP A+B",
+            "teacher": "M. Rabah",
+            "local": "D-5012",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "K. Lagacé",
+            "local": "E-4025",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "18:00 - 22:00",
+            "activity": "TP A+B",
+            "teacher": "K. Lagacé",
+            "local": "E-4025",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "M. Boucher-Rochon",
+            "local": "",
+            "mode": "H",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "18:00 - 22:00",
+            "activity": "TP A+B",
+            "teacher": "M. Boucher-Rochon",
+            "local": "",
+            "mode": "H",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Sam",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "B.L. Agba",
+            "local": "B-1514",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Sam",
+            "time": "13:30 - 17:30",
+            "activity": "TP A+B",
+            "teacher": "B.L. Agba",
+            "local": "B-1514",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "GIA602",
+    "title": "ERGONOMIE ET SÉCURITÉ EN MILIEU INDUSTRIEL",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "D. Benyahia",
+            "local": "D-5019",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:30",
+            "activity": "Labo A+B",
+            "teacher": "C. Tiaya Tedonchio / W.B. Awatcha",
+            "local": "A-1220, A-2230",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "D. Benyahia",
+            "local": "B-4416",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "18:00 - 22:00",
+            "activity": "Labo A+B",
+            "teacher": "C. Tiaya Tedonchio",
+            "local": "A-2230",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "GPA659",
+    "title": "VISION ARTIFICIELLE",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "I. Ben Ayed",
+            "local": "E-4024",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "G. Baklouti",
+            "local": "A-3566",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "GPE450",
+    "title": "GESTION DU PERSONNEL ET RELATIONS INDUSTRIELLES",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "S. Tétreault",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "08:30 - 10:30",
+            "activity": "TP",
+            "teacher": "S. Tétreault",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "S. Tétreault",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "13:30 - 15:30",
+            "activity": "TP",
+            "teacher": "S. Tétreault",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "S. Tétreault",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "18:00 - 20:00",
+            "activity": "TP",
+            "teacher": "S. Tétreault",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "GTI320",
+    "title": "PROGRAMMATION MATHÉMATIQUE : PATRONS ET ALGORITHMES EFFICACES",
+    "prerequisites": "MAT472, LOG121",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "S. Andrews",
+            "local": "B-4418",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "08:30 - 10:30",
+            "activity": "Labo A",
+            "teacher": "S. Andrews",
+            "local": "A-3342",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "10:30 - 12:30",
+            "activity": "Labo B",
+            "teacher": "",
+            "local": "A-3342",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "GTI350",
+    "title": "CONCEPTION ET ÉVALUATION DES INTERFACES UTILISATEURS",
+    "prerequisites": "LOG210",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "M.J. McGuffin",
+            "local": "D-5012",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "08:30 - 11:30",
+            "activity": "Labo",
+            "teacher": "J. Pelletier-Guénette / F. Cardinal",
+            "local": "A-3220, A-3230",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "M.J. McGuffin",
+            "local": "D-3012",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:00",
+            "activity": "Labo",
+            "teacher": "J. Pelletier-Guénette / F. Cardinal",
+            "local": "A-3346",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "GTI510",
+    "title": "GESTION DE PROJETS ET ASSURANCE DE LA QUALITÉ",
+    "prerequisites": "GTI210 et STA204 / TI: STA204, LOG: STA204 ou STA206",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "D. Désilets",
+            "local": "B-1706",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 15:30",
+            "activity": "Labo A",
+            "teacher": "N. Hammami",
+            "local": "A-3412",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "15:30 - 17:30",
+            "activity": "Labo B",
+            "teacher": "",
+            "local": "A-3412",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "D.A. Paquette",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "18:00 - 20:00",
+            "activity": "Labo",
+            "teacher": "A. Ait-Ouarab",
+            "local": "A-3446",
+            "mode": "D",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "GTI525",
+    "title": "TECHNOLOGIES DE DÉVELOPPEMENT INTERNET",
+    "prerequisites": "LOG210 / Minimum 47 Cr",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "M. Dupuis",
+            "local": "B-3418",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "18:00 - 20:00",
+            "activity": "Labo",
+            "teacher": "K. Trépanier",
+            "local": "A-3346",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "GTI611",
+    "title": "RÉSEAUX DE COMMUNICATION IP",
+    "prerequisites": "LOG100 ou GTI100 et LOG121 / LOG121",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "W. Jaafar",
+            "local": "D-3012",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "08:30 - 11:30",
+            "activity": "Labo",
+            "teacher": "O. Tahmi / M.A. Sakka",
+            "local": "A-3342, A-3346",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "S. Hadjres",
+            "local": "D-3019",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "08:30 - 11:30",
+            "activity": "Labo",
+            "teacher": "V. Mendes / I. Essid",
+            "local": "A-3346",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "GTI619",
+    "title": "SÉCURITÉ DES SYSTÈMES",
+    "prerequisites": "GTI610 / GTI610 ou GTI611 / GTI611 / LOG121",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "S. Preda",
+            "local": "B-3416",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "18:00 - 20:00",
+            "activity": "TP/Labo",
+            "teacher": "G. Ndjike Sibenou / O. Tahmi",
+            "local": "A-3220, A-3230",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "GTI650",
+    "title": "INTRODUCTION À L INFORMATION QUANTIQUE",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "O. Landon-Cardinal",
+            "local": "B-3414",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "10:30 - 12:30",
+            "activity": "Labo",
+            "teacher": "",
+            "local": "B-3420",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "J.M. Lemay",
+            "local": "F-3009",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "10:30 - 12:30",
+            "activity": "Labo",
+            "teacher": "",
+            "local": "D-3009",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "GTI771",
+    "title": "APPRENTISSAGE MACHINE AVANCÉ",
+    "prerequisites": "MAT472, LOG635",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "A. Lameiras Koerich",
+            "local": "F-5009",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 15:30",
+            "activity": "Labo A",
+            "teacher": "A. Lameiras Koerich",
+            "local": "A-3346",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "15:30 - 17:30",
+            "activity": "Labo B",
+            "teacher": "",
+            "local": "A-3346",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "INF111",
+    "title": "PROGRAMMATION ORIENTÉE-OBJET (HORS PROGRAMME)",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "A. Toudeft",
+            "local": "E-4025",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "S. Kansab",
+            "local": "B-3416",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "F. Simard",
+            "local": "D-3017",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:00",
+            "activity": "Labo",
+            "teacher": "T. Desroches",
+            "local": "D-4012",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "A. Toudeft",
+            "local": "E-2023",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:00",
+            "activity": "Labo",
+            "teacher": "A. Toudeft",
+            "local": "E-4023",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "A. Toudeft",
+            "local": "E-2021",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "A. Toudeft",
+            "local": "D-3008",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "06": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "E.H. Alikacem",
+            "local": "D-4010",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:00",
+            "activity": "Labo",
+            "teacher": "E.H. Alikacem",
+            "local": "D-3018",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "ING150",
+    "title": "STATIQUE ET DYNAMIQUE",
+    "prerequisites": "",
+    "groups": {
+      "10": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "J. Quintin",
+            "local": "B-1504",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "J. Quintin",
+            "local": "B-1518",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "11": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "J.H. Liu",
+            "local": "B-1514",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "J.H. Liu",
+            "local": "B-1518",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "D. Benhachmi",
+            "local": "B-3428",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "D. Benhachmi",
+            "local": "B-3402",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "C. Alinot",
+            "local": "B-3428",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "C. Alinot",
+            "local": "B-1708",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "C. Alinot",
+            "local": "B-3402",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "C. Alinot",
+            "local": "B-1708",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "A. Hénault",
+            "local": "B-1506",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "A. Hénault",
+            "local": "B-3406",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "D. Benhachmi",
+            "local": "B-3402",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "D. Benhachmi",
+            "local": "B-3428",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "06": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "G. Paquin",
+            "local": "B-1516",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "G. Paquin",
+            "local": "B-1506",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "07": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "N. Dabin-Voix",
+            "local": "B-3406",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "N. Dabin-Voix",
+            "local": "B-3406",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "08": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "N. Dabin-Voix",
+            "local": "B-0904",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "N. Dabin-Voix",
+            "local": "B-1516",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "09": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "T. Ait Ahcene",
+            "local": "B-0904",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "T. Ait Ahcene / G.D. Leutcho",
+            "local": "B-0904",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "ING160",
+    "title": "THERMODYNAMIQUE ET MÉCANIQUE DES FLUIDES",
+    "prerequisites": "ING150",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "X. Daxhelet",
+            "local": "B-3428",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "X. Daxhelet",
+            "local": "B-1720",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "A. Hénault",
+            "local": "B-1504",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "A. Hénault",
+            "local": "B-1720",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "Z. Hamoudi",
+            "local": "B-3422",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "",
+            "local": "B-1720",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "ING500",
+    "title": "OUTILS DE DÉVELOPPEMENT DURABLE POUR L'INGÉNIEUR",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "P. Terrier",
+            "local": "D-5009",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "08:30 - 12:30",
+            "activity": "TP A+B",
+            "teacher": "P. Terrier",
+            "local": "D-5008",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG100",
+    "title": "PROGRAMMATION ET RÉSEAUTIQUE EN GÉNIE LOGICIEL",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "I. Benzarti / R. Langar",
+            "local": "B-3418",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "M. Ait Yahia / A. Trabelsi",
+            "local": "A-3450",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "R. Langar / A. Morsli",
+            "local": "B-3420",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "08:30 - 11:30",
+            "activity": "Labo",
+            "teacher": "H. Ghlissi / H. Feki",
+            "local": "A-3450",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "S. Hadjres / C. Pillet",
+            "local": "B-3420",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "F. Mah / C. Pillet",
+            "local": "A-3450",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "R. Langar / A. Morsli",
+            "local": "E-4022",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "08:30 - 11:30",
+            "activity": "Labo",
+            "teacher": "H. Feki",
+            "local": "A-3344",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "06": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "S. Hadjres",
+            "local": "F-2054",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "08:30 - 11:30",
+            "activity": "Labo",
+            "teacher": "",
+            "local": "A-3412",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG121",
+    "title": "CONCEPTION ORIENTÉE OBJET",
+    "prerequisites": "GTI100 (G.TI) ; LOG100 (G.Log)",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "F. Cardinal",
+            "local": "B-3408",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "S. Louissaint",
+            "local": "A-3344",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "P. Robitaille",
+            "local": "B-3432",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "08:30 - 11:30",
+            "activity": "Labo",
+            "teacher": "P. Robitaille",
+            "local": "A-3230",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "P. Robitaille",
+            "local": "B-3422",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "08:30 - 11:30",
+            "activity": "Labo",
+            "teacher": "D. Brassard",
+            "local": "A-3230",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "B. Galarneau",
+            "local": "B-3408",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:00",
+            "activity": "Labo",
+            "teacher": "S. Kansab",
+            "local": "A-3342",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "G. El boussaidi",
+            "local": "B-3432",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "I. Darif",
+            "local": "A-3346",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG210",
+    "title": "ANALYSE ET CONCEPTION DE LOGICIELS",
+    "prerequisites": "LOG121",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "R.E. Lopez Herrejon",
+            "local": "D-5025",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "08:30 - 11:30",
+            "activity": "Labo",
+            "teacher": "M.A. Haque",
+            "local": "A-3220, A-3230",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "P. Robitaille",
+            "local": "D-5025",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "V. Mendes",
+            "local": "A-3342",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "R.E. Lopez Herrejon",
+            "local": "B-0908",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "",
+            "local": "A-3346",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG240",
+    "title": "TESTS ET MAINTENANCE",
+    "prerequisites": "LOG100",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "F. Cardinal",
+            "local": "D-4008",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "08:30 - 10:30",
+            "activity": "Labo A",
+            "teacher": "",
+            "local": "A-3220",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "10:30 - 12:30",
+            "activity": "Labo B",
+            "teacher": "",
+            "local": "A-3220",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "F. Cardinal",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "18:00 - 20:00",
+            "activity": "Labo A",
+            "teacher": "M. Dagenais",
+            "local": "A-3446",
+            "mode": "D",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "20:00 - 22:00",
+            "activity": "Labo B",
+            "teacher": "",
+            "local": "A-3446",
+            "mode": "D",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG320",
+    "title": "STRUCTURES DE DONNÉES ET ALGORITHMES",
+    "prerequisites": "MAT210, LOG121",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "P. Cardinal",
+            "local": "D-3017",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "A. Vallière",
+            "local": "A-3230, A-3342",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "D. Naboulsi",
+            "local": "D-3019",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "P. Lavoie",
+            "local": "A-3446",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "F. Cardinal",
+            "local": "D-3017",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "S. Hadjres",
+            "local": "D-3009, A-3346",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG410",
+    "title": "ANALYSE DE BESOINS ET SPÉCIFICATIONS",
+    "prerequisites": "LOG240",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "C. Banville",
+            "local": "D-5012",
+            "mode": "H",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "08:30 - 10:30",
+            "activity": "TP A",
+            "teacher": "C. Banville",
+            "local": "A-3346",
+            "mode": "H",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "10:30 - 12:30",
+            "activity": "TP B",
+            "teacher": "",
+            "local": "A-3346",
+            "mode": "H",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "O. De Guise",
+            "local": "D-4009",
+            "mode": "H",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "18:00 - 20:00",
+            "activity": "Labo",
+            "teacher": "",
+            "local": "A-3340",
+            "mode": "H",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG430",
+    "title": "ARCHITECTURE LOGICIELLE",
+    "prerequisites": "LOG210",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "F. Petrillo",
+            "local": "D-3012",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "08:30 - 11:30",
+            "activity": "Labo",
+            "teacher": "G. Cavalheiro Ullmann / A. Samoud",
+            "local": "A-3446, A-3450",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "F. Petrillo",
+            "local": "D-3012",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:00",
+            "activity": "Labo",
+            "teacher": "A. Samoud",
+            "local": "A-3342, A-3344",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG460",
+    "title": "SÉCURITÉ DES LOGICIELS",
+    "prerequisites": "LOG121",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "O. Boudar",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "08:30 - 10:30",
+            "activity": "Labo A",
+            "teacher": "W. Miladi",
+            "local": "A-3450",
+            "mode": "D",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "10:30 - 12:30",
+            "activity": "Labo B",
+            "teacher": "",
+            "local": "A-3450",
+            "mode": "D",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG635",
+    "title": "SYSTÈMES INTELLIGENTS ET ALGORITHMES",
+    "prerequisites": "LOG320 et MAT350 / MAT350, LOG320",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "S. Ratté",
+            "local": "F-3042",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "08:30 - 10:30",
+            "activity": "Labo A",
+            "teacher": "A. Beauchamp",
+            "local": "A-3446",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "10:30 - 12:30",
+            "activity": "Labo B",
+            "teacher": "",
+            "local": "A-3446",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG645",
+    "title": "ARCHITECTURES DE CALCULS PARALLÈLES",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "08:30 - 12:00",
+            "activity": "C",
+            "teacher": "A. Filali",
+            "local": "D-3008",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "15:30 - 17:30",
+            "activity": "Labo A",
+            "teacher": "",
+            "local": "A-3342",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "13:30 - 15:30",
+            "activity": "Labo B",
+            "teacher": "",
+            "local": "A-3342",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG660",
+    "title": "BASES DE DONNÉES DE HAUTE PERFORMANCE",
+    "prerequisites": "LOG320",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "M. Kaba",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:00",
+            "activity": "Labo",
+            "teacher": "",
+            "local": "A-3220",
+            "mode": "D",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "M. Kaba",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:00",
+            "activity": "Labo",
+            "teacher": "B. Alchalabi",
+            "local": "A-3344",
+            "mode": "D",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG680",
+    "title": "INTRODUCTION À L'APPROCHE DEVOPS",
+    "prerequisites": "STA204 ou STA206",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "M. Sayagh",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "13:30 - 15:30",
+            "activity": "Labo A",
+            "teacher": "",
+            "local": "A-3230",
+            "mode": "D",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "15:30 - 17:30",
+            "activity": "Labo B",
+            "teacher": "",
+            "local": "A-3230",
+            "mode": "D",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG710",
+    "title": "PRINCIPES SYSTÈMES D'EXPL. ET PROGRAMMATION SYSTÈME",
+    "prerequisites": "GTI310 (G.TI) ; LOG320 (G.Log)",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "A. Brodeur",
+            "local": "E-4025",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "13:30 - 15:30",
+            "activity": "Labo A",
+            "teacher": "",
+            "local": "A-3346",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "15:30 - 17:30",
+            "activity": "Labo B",
+            "teacher": "",
+            "local": "A-3346",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG725",
+    "title": "INGÉNIERIE ET CONCEPTION DE JEUX VIDÉO",
+    "prerequisites": "GTI320",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "F. Petrillo / A. Nemery",
+            "local": "B-3410",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "18:00 - 20:00",
+            "activity": "Labo",
+            "teacher": "",
+            "local": "A-3342",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG736",
+    "title": "FONDEMENTS DES SYSTÈMES DISTRIBUÉS",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "M. Dias de Assuncao",
+            "local": "F-3046",
+            "mode": "H",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "08:30 - 10:30",
+            "activity": "Labo A",
+            "teacher": "M. Dias de Assuncao",
+            "local": "A-3346",
+            "mode": "H",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "10:30 - 12:30",
+            "activity": "Labo B",
+            "teacher": "",
+            "local": "A-3346",
+            "mode": "H",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG750",
+    "title": "INFOGRAPHIE",
+    "prerequisites": "GTI320 / MAT472",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "A.F. Gruson",
+            "local": "E-4022",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "13:30 - 15:30",
+            "activity": "Labo A",
+            "teacher": "J. Benoist",
+            "local": "A-3342",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "15:30 - 17:30",
+            "activity": "Labo B",
+            "teacher": "",
+            "local": "A-3342",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG791",
+    "title": "PROJETS SPÉCIAUX",
+    "prerequisites": "Autorisation du directeur de département",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "",
+            "time": "",
+            "activity": "Projet",
+            "teacher": "",
+            "local": "",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "LOG795",
+    "title": "PROJET DE FIN D'ÉTUDES EN GÉNIE LOGICIEL",
+    "prerequisites": "Min. 99 crédits",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "",
+            "time": "",
+            "activity": "Projet",
+            "teacher": "",
+            "local": "",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "MAT144",
+    "title": "INTRODUCTION AUX MATHÉMATIQUES DU GÉNIE (HORS PROG.)",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "I. Ndiaye",
+            "local": "D-5009",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "A. Madrane",
+            "local": "B-3422",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "A. Prud'Homme",
+            "local": "D-3025",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "A. Prud'Homme",
+            "local": "B-1518",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "R. Persechino / A. Gueye",
+            "local": "D-3019",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "R. Persechino / A. Gueye",
+            "local": "D-5010",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "O. Foutlane",
+            "local": "D-5008",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "L. Ratsirahonana",
+            "local": "B-3422",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "R. Maalaoui",
+            "local": "D-4025",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "R. Maalaoui",
+            "local": "D-3008",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "06": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "I. Ndiaye",
+            "local": "D-3025",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "A. Madrane",
+            "local": "D-4012",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "07": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "M. Morel",
+            "local": "D-3019",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "M. Morel",
+            "local": "B-3422",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "08": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "A. Prud'Homme",
+            "local": "D-5009",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "A. Prud'Homme",
+            "local": "D-3017",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "MAT145",
+    "title": "CALCUL DIFFÉRENTIEL ET INTÉGRAL",
+    "prerequisites": "",
+    "groups": {
+      "10": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "A. Lacasse",
+            "local": "D-4009",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "A. Lacasse",
+            "local": "D-5007",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "11": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "J.M. Lemay",
+            "local": "D-4010",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "J.M. Lemay",
+            "local": "B-3402",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "12": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "G. Savard / K. Mahni / M. Beaudin",
+            "local": "D-4007",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "G. Savard / M. Beaudin / F. Côté",
+            "local": "D-5017",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "13": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "K. Mahni",
+            "local": "D-4008",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "F. Côté",
+            "local": "D-4019",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "14": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "",
+            "local": "B-3402",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "L. Ratsirahonana",
+            "local": "B-3402",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "15": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "T. Hammouche",
+            "local": "B-1506",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "L. Ratsirahonana",
+            "local": "B-3428",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "16": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "P. Mbaraga",
+            "local": "B-1708",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "P. Mbaraga",
+            "local": "D-4018",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "17": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "O. Foutlane",
+            "local": "D-3018",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "L. Ratsirahonana",
+            "local": "D-5019",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "21": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "O. Foutlane",
+            "local": "D-3018",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "L. Ratsirahonana",
+            "local": "D-3025",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "22": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "D. Gagnon",
+            "local": "D-3007",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "D. Gagnon",
+            "local": "D-3007",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "01": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "A. Lacasse",
+            "local": "D-5007",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "A. Lacasse",
+            "local": "B-1706",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "J.M. Lemay",
+            "local": "B-0908",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "J.M. Lemay",
+            "local": "B-3406",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "V. Gouaillier",
+            "local": "B-1504",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "V. Gouaillier",
+            "local": "B-3402",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "J. Payette",
+            "local": "D-5017",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "J. Payette",
+            "local": "B-1706",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "V. Gouaillier",
+            "local": "B-0908",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "V. Gouaillier",
+            "local": "D-5007",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "06": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "G. Savard / K. Mahni / M. Beaudin",
+            "local": "D-3017",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "G. Savard / K. Mahni / M. Beaudin",
+            "local": "D-5017",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "07": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "K. Dhouib",
+            "local": "D-5007",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "K. Dhouib",
+            "local": "D-5007",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "08": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "K. Dhouib",
+            "local": "D-4007",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "K. Dhouib",
+            "local": "D-5010",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "09": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "S. Hilal",
+            "local": "B-1506",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "A. Madrane",
+            "local": "B-3402",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "MAT210",
+    "title": "LOGIQUE ET MATHÉMATIQUES DISCRÈTES",
+    "prerequisites": "MAT145",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "R. Persechino / A. Gueye",
+            "local": "D-4009",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "R. Persechino / A. Gueye",
+            "local": "D-4012",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "R. Persechino / A. Gueye",
+            "local": "D-4017",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "R. Persechino / A. Gueye",
+            "local": "B-1706",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "K. Mahni",
+            "local": "D-4008",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:00",
+            "activity": "Labo",
+            "teacher": "F. Côté",
+            "local": "B-3422",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "MAT265",
+    "title": "ÉQUATIONS DIFFÉRENTIELLES",
+    "prerequisites": "MAT145",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "S. Hilal / H. Lahoussine",
+            "local": "D-5025",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "S. Hilal / H. Lahoussine",
+            "local": "D-5012",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "S. Hilal / H. Lahoussine",
+            "local": "D-3025",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "A. Madrane",
+            "local": "B-1518",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "S. Hilal / H. Lahoussine",
+            "local": "D-5007",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "A. Madrane",
+            "local": "B-1514",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "S. Hilal / H. Lahoussine",
+            "local": "D-4025",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "H. Lahoussine / O. Foutlane",
+            "local": "B-1514",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "S. Hilal / H. Lahoussine",
+            "local": "D-5025",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "H. Lahoussine / A. Madrane",
+            "local": "D-3012",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "06": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "Z. Coulibaly",
+            "local": "B-1504",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "M. Abdelhamit",
+            "local": "B-1504",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "07": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "Z. Coulibaly",
+            "local": "D-4018",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "M. Abdelhamit",
+            "local": "B-1514",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "08": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "Z. Coulibaly",
+            "local": "D-4018",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "F. Côté",
+            "local": "B-1514",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "MAT350",
+    "title": "PROBABILITÉS ET STATISTIQUES",
+    "prerequisites": "MAT145",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "S. Lafrance",
+            "local": "D-5025",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "S. Lafrance",
+            "local": "D-5017",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "S. Vicente",
+            "local": "D-5017",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "S. Vicente",
+            "local": "B-0906",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "S. Gervais",
+            "local": "D-4017",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "S. Gervais",
+            "local": "D-4018",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "S. Gervais",
+            "local": "D-4018",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "S. Gervais",
+            "local": "B-0904",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "S. Lafrance",
+            "local": "D-4018",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "S. Lafrance",
+            "local": "D-4017",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "06": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "S. Vicente",
+            "local": "D-5025",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "S. Vicente",
+            "local": "B-1514",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "07": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "T. Hammouche",
+            "local": "B-1516",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "F. Côté",
+            "local": "D-4019",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "08": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "A. Régnier",
+            "local": "D-3009",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "F. Côté",
+            "local": "B-1514",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "09": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "S. Lafrance",
+            "local": "D-5017",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "13:30 - 16:30",
+            "activity": "TP",
+            "teacher": "S. Lafrance",
+            "local": "D-3018",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "MAT472",
+    "title": "ALGÈBRE LINÉAIRE ET GÉOMÉTRIE DE L'ESPACE",
+    "prerequisites": "MAT145",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "G. Roy-Fortin",
+            "local": "D-3009",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "G. Roy-Fortin",
+            "local": "B-1514",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "T. Hammouche",
+            "local": "D-3009",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:00",
+            "activity": "TP",
+            "teacher": "T. Hammouche",
+            "local": "D-5012",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "G. Roy-Fortin",
+            "local": "B-1502",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:00",
+            "activity": "TP",
+            "teacher": "G. Roy-Fortin",
+            "local": "B-1706",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "PEP110",
+    "title": "ENCADREMENT DE LA PROFESSION ET ÉTHIQUE PROFESSIONNELLE",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "M.K. Daoust",
+            "local": "B-0906",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "T. Mekhaël",
+            "local": "D-3018",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "M.K. Daoust",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "M.K. Daoust",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "T. Mekhaël",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          }
+        ]
+      },
+      "06": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "T. Mekhaël",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          }
+        ]
+      },
+      "07": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "C. Ebnoether",
+            "local": "B-0908",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "PHY144",
+    "title": "INTRODUCTION À LA PHYSIQUE DU GÉNIE (HORS PROGRAMME)",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "A. Benmassaoud",
+            "local": "B-1716",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:00",
+            "activity": "TP/Labo",
+            "teacher": "A. Benmassaoud",
+            "local": "B-3428",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "A. Benmassaoud",
+            "local": "B-1716",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 16:30",
+            "activity": "TP/Labo",
+            "teacher": "A. Benmassaoud",
+            "local": "B-1716",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "A. Benmassaoud",
+            "local": "B-1716",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "13:30 - 16:30",
+            "activity": "TP/Labo",
+            "teacher": "A. Benmassaoud",
+            "local": "B-1404",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "M. Clisson / M. Favre",
+            "local": "B-1716",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "13:30 - 16:30",
+            "activity": "TP/Labo",
+            "teacher": "M. Favre",
+            "local": "B-3428",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "C. Dahmoune",
+            "local": "B-1504",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "18:00 - 21:00",
+            "activity": "TP/Labo",
+            "teacher": "J. Kouam",
+            "local": "B-1716",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "06": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "D. Benhachmi",
+            "local": "B-3428",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:00",
+            "activity": "TP/Labo",
+            "teacher": "D. Benhachmi",
+            "local": "B-1506",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "07": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "M. Favre",
+            "local": "B-4416",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "13:30 - 16:30",
+            "activity": "TP/Labo",
+            "teacher": "M. Favre",
+            "local": "B-4416",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "09": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "T. Ait Ahcene / R. Ibrahim",
+            "local": "B-0908",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:00",
+            "activity": "TP/Labo",
+            "teacher": "J. Kouam",
+            "local": "B-3406",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "PHY332",
+    "title": "ÉLECTRICITÉ ET MAGNÉTISME",
+    "prerequisites": "CTN248 / ING150",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "G. Paquin",
+            "local": "B-1504",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "09:00 - 12:00",
+            "activity": "Labo",
+            "teacher": "G. Paquin",
+            "local": "B-1516",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "A. Hénault",
+            "local": "B-3402",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:00",
+            "activity": "Labo",
+            "teacher": "A. Hénault",
+            "local": "B-3406",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "T. Ait Ahcene",
+            "local": "B-3428",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:00",
+            "activity": "Labo",
+            "teacher": "T. Ait Ahcene",
+            "local": "B-3416",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "M. Boulé",
+            "local": "B-1504",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:00",
+            "activity": "Labo",
+            "teacher": "M. Boulé",
+            "local": "B-1506",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "M. Boulé",
+            "local": "B-3428",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "M. Boulé",
+            "local": "B-1514",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "06": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "C. Dahmoune",
+            "local": "B-1506",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:00",
+            "activity": "Labo",
+            "teacher": "C. Dahmoune",
+            "local": "B-1518",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "PHY335",
+    "title": "PHYSIQUE DES ONDES",
+    "prerequisites": "CTN248 / ING150",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "O. Landon-Cardinal",
+            "local": "B-1506",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "O. Landon-Cardinal",
+            "local": "B-1502",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "X. Lavocat-Dubuis",
+            "local": "B-1514",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:00",
+            "activity": "Labo",
+            "teacher": "X. Lavocat-Dubuis",
+            "local": "B-1708",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "X. Daxhelet",
+            "local": "B-1506",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Mar",
+            "time": "13:30 - 16:30",
+            "activity": "Labo",
+            "teacher": "X. Daxhelet",
+            "local": "B-3406",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "F. Laguë",
+            "local": "B-1502",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "18:00 - 21:00",
+            "activity": "Labo",
+            "teacher": "P. Anthony-Davis",
+            "local": "B-1504",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "PRE011",
+    "title": "DÉVELOPPEMENT PROFESSIONNEL ET INITIATION À LA SANTÉ ET SÉCURITÉ",
+    "prerequisites": "",
+    "groups": {
+      "10": {
+        "periods": []
+      },
+      "11": {
+        "periods": []
+      },
+      "12": {
+        "periods": []
+      },
+      "19": {
+        "periods": []
+      },
+      "01": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "09:00 - 12:30",
+            "activity": "Atelier",
+            "teacher": "É. Dupont / A. Binette",
+            "local": "B-1502",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "13:30 - 17:00",
+            "activity": "Atelier",
+            "teacher": "É. Dupont / A. Binette",
+            "local": "B-1502",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "13:30 - 17:00",
+            "activity": "Atelier",
+            "teacher": "A. Hébert",
+            "local": "B-1516",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:30",
+            "activity": "Atelier",
+            "teacher": "A. Hébert",
+            "local": "B-1518",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "06": {
+        "periods": [
+          {
+            "day": "Sam",
+            "time": "09:00 - 17:00",
+            "activity": "Atelier",
+            "teacher": "A. Binette / G. Lachapelle",
+            "local": "",
+            "mode": "D",
+            "dateRange": ""
+          }
+        ]
+      },
+      "07": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "18:00 - 21:30",
+            "activity": "Atelier",
+            "teacher": "A. Hébert",
+            "local": "B-1518",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "08": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "Atelier",
+            "teacher": "V. Ngô",
+            "local": "B-3428",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "09": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:30",
+            "activity": "Atelier",
+            "teacher": "H. Ntoumaleu",
+            "local": "B-1516",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "PRE013",
+    "title": "DÉVELOPPEMENT PROFESSIONNEL ET SANTÉ ET SÉCURITÉ DU TRAVAIL EN SE",
+    "prerequisites": "",
+    "groups": {
+      "02": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "09:00 - 12:30",
+            "activity": "Atelier",
+            "teacher": "É. Dupont / A. Binette",
+            "local": "B-1514",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Jeu",
+            "time": "18:00 - 21:30",
+            "activity": "Atelier",
+            "teacher": "D. Lapointe",
+            "local": "B-1514",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "18:00 - 21:30",
+            "activity": "Atelier",
+            "teacher": "D. Lapointe",
+            "local": "B-1708",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "18:00 - 21:30",
+            "activity": "Atelier",
+            "teacher": "S. Demers",
+            "local": "B-0908",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Sam",
+            "time": "08:30 - 17:30",
+            "activity": "C",
+            "teacher": "",
+            "local": "B-0908",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "06": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "18:00 - 21:30",
+            "activity": "Atelier",
+            "teacher": "D. Lapointe",
+            "local": "B-3402",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Sam",
+            "time": "08:30 - 17:30",
+            "activity": "C",
+            "teacher": "",
+            "local": "B-3402",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "07": {
+        "periods": [
+          {
+            "day": "Ven",
+            "time": "18:00 - 21:30",
+            "activity": "Atelier",
+            "teacher": "G. Lachapelle",
+            "local": "B-1502",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Sam",
+            "time": "08:30 - 17:30",
+            "activity": "C",
+            "teacher": "",
+            "local": "B-1502",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "09": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "18:00 - 21:30",
+            "activity": "Atelier",
+            "teacher": "É. Dupont / A. Binette",
+            "local": "B-3428",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  },
+  {
+    "code": "TIN503",
+    "title": "ENVIRONNEMENT, TECHNOLOGIE ET SOCIÉTÉ",
+    "prerequisites": "",
+    "groups": {
+      "01": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "M. Monette",
+            "local": "D-4018",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "08:30 - 12:30",
+            "activity": "TP A+B",
+            "teacher": "M. Monette",
+            "local": "D-3010",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "02": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "M. Monette",
+            "local": "D-4009",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Ven",
+            "time": "08:30 - 12:30",
+            "activity": "TP A+B",
+            "teacher": "M. Monette",
+            "local": "D-3018",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "03": {
+        "periods": [
+          {
+            "day": "Mar",
+            "time": "13:30 - 17:00",
+            "activity": "C",
+            "teacher": "É. Francoeur",
+            "local": "D-4010",
+            "mode": "P",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "13:30 - 17:30",
+            "activity": "TP A+B",
+            "teacher": "É. Francoeur",
+            "local": "B-1502",
+            "mode": "P",
+            "dateRange": ""
+          }
+        ]
+      },
+      "04": {
+        "periods": [
+          {
+            "day": "Mer",
+            "time": "09:00 - 12:30",
+            "activity": "C",
+            "teacher": "M. Lejeune",
+            "local": "",
+            "mode": "H",
+            "dateRange": ""
+          },
+          {
+            "day": "Lun",
+            "time": "08:30 - 12:30",
+            "activity": "TP A+B",
+            "teacher": "M. Lejeune",
+            "local": "",
+            "mode": "H",
+            "dateRange": ""
+          }
+        ]
+      },
+      "05": {
+        "periods": [
+          {
+            "day": "Lun",
+            "time": "18:00 - 21:30",
+            "activity": "C",
+            "teacher": "M. Lejeune",
+            "local": "",
+            "mode": "H",
+            "dateRange": ""
+          },
+          {
+            "day": "Jeu",
+            "time": "18:00 - 22:00",
+            "activity": "pratiques (TP).",
+            "teacher": "M. Lejeune",
+            "local": "",
+            "mode": "H",
+            "dateRange": ""
+          }
+        ]
+      }
+    }
+  }
+]

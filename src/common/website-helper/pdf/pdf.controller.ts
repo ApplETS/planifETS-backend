@@ -6,7 +6,7 @@ import {
   Logger,
   Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { ERROR_MESSAGES } from '@/common/constants/error-messages';
 import { getHorairePdfUrl, getPlanificationPdfUrl } from '@/common/constants/url';
@@ -27,6 +27,8 @@ export class PdfController {
   ) { }
 
   @Get('horaire-cours')
+  @ApiQuery({ name: 'program', description: 'Program code, e.g. 7084' })
+  @ApiQuery({ name: 'session', description: 'Session code, e.g. 20261' })
   public async parseHoraireCoursPdf(
     @Query('session') sessionCode: string,
     @Query('program') programCode: string,
@@ -55,6 +57,7 @@ export class PdfController {
   }
 
   @Get('planification-cours')
+  @ApiQuery({ name: 'program', description: 'Program code, e.g. 7084' })
   public async parsePlanificationCoursPdf(
     @Query('program') programCode: string,
   ): Promise<ICoursePlanification[]> {

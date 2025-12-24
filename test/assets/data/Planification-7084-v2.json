@@ -1,0 +1,704 @@
+[
+  {
+    "code": "ATE075",
+    "available": {}
+  },
+  {
+    "code": "ATE085",
+    "available": {}
+  },
+  {
+    "code": "ATE100",
+    "available": {
+      "H26": "I",
+      "E26": "I",
+      "A26": "I",
+      "H27": "I"
+    }
+  },
+  {
+    "code": "ATE150",
+    "available": {
+      "H26": "I",
+      "E26": "I",
+      "A26": "I",
+      "H27": "I"
+    }
+  },
+  {
+    "code": "CHM131",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "COM120",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "COM410",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "J",
+      "H27": "J"
+    }
+  },
+  {
+    "code": "ELE747",
+    "available": {
+      "E26": "J"
+    }
+  },
+  {
+    "code": "ENT201",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "J",
+      "H27": "J"
+    }
+  },
+  {
+    "code": "ENT202",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "ENT301",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "J",
+      "H27": "J"
+    }
+  },
+  {
+    "code": "ENT302",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "J",
+      "H27": "J"
+    }
+  },
+  {
+    "code": "ENT303",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "J",
+      "H27": "J"
+    }
+  },
+  {
+    "code": "ENT304",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "J",
+      "H27": "J"
+    }
+  },
+  {
+    "code": "ENT601",
+    "available": {
+      "A26": "J"
+    }
+  },
+  {
+    "code": "ETH310",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "ETH610",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "J"
+    }
+  },
+  {
+    "code": "GIA400",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "GIA602",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS",
+      "E27": "JS"
+    }
+  },
+  {
+    "code": "GPA659",
+    "available": {
+      "H26": "J",
+      "A26": "J",
+      "H27": "J"
+    }
+  },
+  {
+    "code": "GPE450",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS",
+      "E27": "JS"
+    }
+  },
+  {
+    "code": "GPO602",
+    "available": {
+      "H26": "J"
+    }
+  },
+  {
+    "code": "GTI320",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "J",
+      "H27": "J",
+      "E27": "J"
+    }
+  },
+  {
+    "code": "GTI350",
+    "available": {
+      "H26": "JS",
+      "E26": "J",
+      "A26": "JS",
+      "H27": "JS",
+      "E27": "J"
+    }
+  },
+  {
+    "code": "GTI510",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS",
+      "E27": "JS"
+    }
+  },
+  {
+    "code": "GTI525",
+    "available": {
+      "H26": "S",
+      "E26": "J",
+      "A26": "S",
+      "H27": "S",
+      "E27": "JS"
+    }
+  },
+  {
+    "code": "GTI611",
+    "available": {
+      "H26": "JS",
+      "E26": "J",
+      "A26": "J",
+      "H27": "JS",
+      "E27": "J"
+    }
+  },
+  {
+    "code": "GTI619",
+    "available": {
+      "H26": "JS",
+      "E26": "S",
+      "A26": "S",
+      "H27": "JS",
+      "E27": "S"
+    }
+  },
+  {
+    "code": "GTI650",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "J",
+      "H27": "J"
+    }
+  },
+  {
+    "code": "GTI700",
+    "available": {
+      "H26": "JS",
+      "E26": "S",
+      "A26": "S",
+      "H27": "S",
+      "E27": "S"
+    }
+  },
+  {
+    "code": "GTI719",
+    "available": {
+      "E26": "S",
+      "E27": "S"
+    }
+  },
+  {
+    "code": "GTI720",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "H27": "J",
+      "E27": "J"
+    }
+  },
+  {
+    "code": "GTI723",
+    "available": {
+      "H26": "S",
+      "H27": "S"
+    }
+  },
+  {
+    "code": "GTI745",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "H27": "J",
+      "E27": "J"
+    }
+  },
+  {
+    "code": "GTI750",
+    "available": {
+      "E26": "S",
+      "E27": "S"
+    }
+  },
+  {
+    "code": "GTI755",
+    "available": {
+      "H27": "J"
+    }
+  },
+  {
+    "code": "GTI771",
+    "available": {
+      "E26": "J",
+      "A26": "J",
+      "H27": "J",
+      "E27": "J"
+    }
+  },
+  {
+    "code": "GTI780",
+    "available": {
+      "H27": "S"
+    }
+  },
+  {
+    "code": "GTI780",
+    "available": {
+      "H26": "J"
+    }
+  },
+  {
+    "code": "INF111",
+    "available": {
+      "H26": "J",
+      "E26": "IJ",
+      "A26": "J",
+      "H27": "J"
+    }
+  },
+  {
+    "code": "ING150",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "ING160",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "ING500",
+    "available": {
+      "H26": "JS",
+      "E26": "S",
+      "A26": "J",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "LOG100",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "J",
+      "H27": "J",
+      "E27": "J"
+    }
+  },
+  {
+    "code": "LOG121",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "JS",
+      "H27": "J",
+      "E27": "J"
+    }
+  },
+  {
+    "code": "LOG210",
+    "available": {
+      "H26": "JS",
+      "E26": "J",
+      "A26": "J",
+      "H27": "JS",
+      "E27": "J"
+    }
+  },
+  {
+    "code": "LOG240",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "JS",
+      "H27": "J",
+      "E27": "J"
+    }
+  },
+  {
+    "code": "LOG320",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "J",
+      "H27": "J",
+      "E27": "JS"
+    }
+  },
+  {
+    "code": "LOG410",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "JS",
+      "H27": "JS",
+      "E27": "J"
+    }
+  },
+  {
+    "code": "LOG430",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "JS",
+      "H27": "J",
+      "E27": "J"
+    }
+  },
+  {
+    "code": "LOG450",
+    "available": {
+      "H26": "J",
+      "H27": "J"
+    }
+  },
+  {
+    "code": "LOG460",
+    "available": {
+      "H26": "S",
+      "A26": "J",
+      "H27": "S"
+    }
+  },
+  {
+    "code": "LOG530",
+    "available": {
+      "H26": "J",
+      "H27": "J"
+    }
+  },
+  {
+    "code": "LOG550",
+    "available": {
+      "H26": "S",
+      "H27": "S"
+    }
+  },
+  {
+    "code": "LOG635",
+    "available": {
+      "H26": "J",
+      "E26": "S",
+      "A26": "J",
+      "H27": "J",
+      "E27": "S"
+    }
+  },
+  {
+    "code": "LOG645",
+    "available": {
+      "H26": "J",
+      "E26": "S",
+      "A26": "J",
+      "H27": "J",
+      "E27": "S"
+    }
+  },
+  {
+    "code": "LOG660",
+    "available": {
+      "H26": "S",
+      "E26": "J",
+      "A26": "S",
+      "H27": "S",
+      "E27": "JS"
+    }
+  },
+  {
+    "code": "LOG675",
+    "available": {
+      "H26": "J",
+      "H27": "J"
+    }
+  },
+  {
+    "code": "LOG680",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "J",
+      "H27": "J",
+      "E27": "J"
+    }
+  },
+  {
+    "code": "LOG710",
+    "available": {
+      "H26": "S",
+      "A26": "J",
+      "H27": "S"
+    }
+  },
+  {
+    "code": "LOG721",
+    "available": {
+      "E26": "S",
+      "E27": "S"
+    }
+  },
+  {
+    "code": "LOG725",
+    "available": {
+      "H26": "J",
+      "A26": "S",
+      "H27": "JS",
+      "E27": "J"
+    }
+  },
+  {
+    "code": "LOG736",
+    "available": {
+      "A26": "J"
+    }
+  },
+  {
+    "code": "LOG750",
+    "available": {
+      "H26": "J",
+      "A26": "J",
+      "H27": "J"
+    }
+  },
+  {
+    "code": "LOG780",
+    "available": {
+      "H27": "J"
+    }
+  },
+  {
+    "code": "LOG791",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "J",
+      "H27": "J",
+      "E27": "JS"
+    }
+  },
+  {
+    "code": "LOG795",
+    "available": {
+      "H26": "J",
+      "E26": "J",
+      "A26": "J",
+      "H27": "J",
+      "E27": "JS"
+    }
+  },
+  {
+    "code": "LRC105",
+    "available": {}
+  },
+  {
+    "code": "LRC110",
+    "available": {}
+  },
+  {
+    "code": "LRC600",
+    "available": {
+      "A26": "J"
+    }
+  },
+  {
+    "code": "MAT144",
+    "available": {
+      "H26": "JS",
+      "E26": "IJS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "MAT145",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "MAT210",
+    "available": {
+      "H26": "JS",
+      "E26": "J",
+      "A26": "J",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "MAT265",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "MAT350",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "MAT472",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "PEP110",
+    "available": {}
+  },
+  {
+    "code": "PHY144",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "PHY332",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "PHY335",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "PRE011",
+    "available": {
+      "H26": "IJS",
+      "E26": "IJS",
+      "A26": "I",
+      "H27": "I"
+    }
+  },
+  {
+    "code": "PRE013",
+    "available": {
+      "H26": "IJS",
+      "E26": "IJS",
+      "H27": "I"
+    }
+  },
+  {
+    "code": "TIN503",
+    "available": {
+      "H26": "JS",
+      "E26": "JS",
+      "A26": "JS",
+      "H27": "JS"
+    }
+  },
+  {
+    "code": "TIN504",
+    "available": {
+      "H26": "J",
+      "H27": "S"
+    }
+  }
+]

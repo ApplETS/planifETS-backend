@@ -11,7 +11,7 @@ describe('PlanificationCoursService', () => {
   let service: PlanificationCoursService;
   let httpService: HttpService;
   let pdfBuffer: Buffer;
-  let result: ICoursePlanification[];
+  let result_v1: ICoursePlanification[];
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -30,7 +30,7 @@ describe('PlanificationCoursService', () => {
     httpService = module.get<HttpService>(HttpService);
 
     // Read the PDF file once and store the buffer
-    pdfBuffer = fs.readFileSync('test/assets/Planification-7084.pdf');
+    pdfBuffer = fs.readFileSync('test/assets/pdf/Planification-7084-v1.pdf');
 
     // Mock the HTTP service to return the local PDF buffer as if it was fetched from a URL
     const httpResponse: AxiosResponse<Buffer> = {
@@ -46,28 +46,28 @@ describe('PlanificationCoursService', () => {
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(httpResponse));
 
     // Parse the PDF once and store the result
-    result = await service.parsePdfFromUrl(
+    result_v1 = await service.parsePdfFromUrl(
       'https://dummy.horaire.etsmt.ca/Horairepublication/Planification-7084.pdf',
     );
   });
 
   it('should return a defined result', () => {
-    expect(result).toBeDefined();
+    expect(result_v1).toBeDefined();
   });
 
   it('should return a non-empty array', () => {
-    expect(result.length).toBeGreaterThan(0);
+    expect(result_v1.length).toBeGreaterThan(0);
   });
 
   it('should handle courses with no availability correctly', () => {
-    const course = result.find((c) => c.code === 'ATE050')!;
+    const course = result_v1.find((c) => c.code === 'ATE050')!;
 
     expect(course).toBeDefined();
     expect(course.available).toEqual({});
   });
 
   it('should correctly parse the availability for a course with "J" availability', () => {
-    const course = result.find((c) => c.code === 'ENT601')!;
+    const course = result_v1.find((c) => c.code === 'ENT601')!;
 
     expect(course).toBeDefined();
     expect(course.available).toEqual({
@@ -77,7 +77,7 @@ describe('PlanificationCoursService', () => {
   });
 
   it('should correctly parse the availability for a course with "S" availability', () => {
-    const course = result.find((c) => c.code === 'TIN504')!;
+    const course = result_v1.find((c) => c.code === 'TIN504')!;
 
     expect(course).toBeDefined();
     expect(course.available).toEqual({
@@ -86,7 +86,7 @@ describe('PlanificationCoursService', () => {
   });
 
   it('should correctly parse the availability for a course with "I" availability', () => {
-    const course = result.find((c) => c.code === 'ATE100')!;
+    const course = result_v1.find((c) => c.code === 'ATE100')!;
     expect(course).toBeDefined();
     expect(course.available).toEqual({
       E24: 'I',
@@ -98,7 +98,7 @@ describe('PlanificationCoursService', () => {
   });
 
   it('should correctly parse the availability for a course with "JS" availability', () => {
-    const course = result.find((c) => c.code === 'MAT350')!;
+    const course = result_v1.find((c) => c.code === 'MAT350')!;
 
     expect(course).toBeDefined();
     expect(course.available).toEqual({
@@ -111,13 +111,13 @@ describe('PlanificationCoursService', () => {
   });
 
   it('should ignore non-JSI combinations in availability sessions', async () => {
-    const course = result.find((c) => c.code === 'ATE070')!;
+    const course = result_v1.find((c) => c.code === 'ATE070');
 
     expect(course).toBeDefined();
-    expect(course.available).toEqual({});
+    expect(course!.available).toEqual({});
   });
 
   it('should parse the correct number of courses', () => {
-    expect(result.length).toBe(88);
+    expect(result_v1.length).toBe(88);
   });
 });
