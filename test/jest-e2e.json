@@ -15,6 +15,9 @@
     "^@/(.*)$": "<rootDir>/../src/$1"
   },
   "testEnvironment": "@quramy/jest-prisma-node/environment",
-  "globalSetup": "<rootDir>/test-utils/jest.global-setup.ts",
-  "globalTeardown": "<rootDir>/test-utils/jest.global-teardown.ts"
+  "globalSetup": "<rootDir>/test-utils/jest-prisma/jest-global-setup.ts",
+  "globalTeardown": "<rootDir>/test-utils/jest-prisma/jest-global-teardown.ts",
+  "setupFilesAfterEnv": [
+    "<rootDir>/test-utils/jest-prisma/mock-jest-prisma-setup.ts"
+  ]
 }
