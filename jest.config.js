@@ -7,6 +7,7 @@ module.exports = {
         '^.+\\.(t|j)s$': ['@swc/jest'],
     },
     moduleNameMapper: {
+        '^@\/util/(.*)$': '<rootDir>/src/common/utils/$1',
         '^@\/(.*)$': '<rootDir>/src/$1',
     },
     collectCoverageFrom: [

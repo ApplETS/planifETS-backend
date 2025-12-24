@@ -13,6 +13,9 @@
     "paths": {
       "@/common/*": [
         "./src/common/*"
+      ],
+      "@/util/*": [
+        "./src/common/utils/*"
       ]
     },
     "incremental": true,

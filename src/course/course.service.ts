@@ -165,84 +165,15 @@ export class CourseService {
   public async upsertCourses(
     data: Prisma.CourseCreateInput[],
   ): Promise<Course[]> {
-    this.logger.verbose('upsertCourses');
-
-    const existingCourses = await this.getCoursesByIds(
-      data.map((course) => course.id),
-    );
-    const operations = this.prepareUpsertCourses(data, existingCourses);
-
-    return Promise.all([...operations.updates, ...operations.creations]);
-  }
-
-  private prepareUpsertCourses(
-    data: Prisma.CourseCreateInput[],
-    existingCourses: Map<number, Course>,
-  ): {
-    updates: Array<Promise<Course>>;
-    creations: Array<Promise<Course>>;
-  } {
-    const updates: Array<Promise<Course>> = [];
-    const creations: Array<Promise<Course>> = [];
-
-    data.forEach((courseData) => {
-      const existingCourse = existingCourses.get(courseData.id);
-
-      if (existingCourse) {
-        const hasChanges = this.hasCourseChanged(existingCourse, courseData);
-        if (hasChanges) {
-          updates.push(
-            this.updateCourse({
-              where: { id: courseData.id },
-              data: courseData,
-            }),
-          );
-        } else {
-          updates.push(Promise.resolve(existingCourse));
-        }
-      } else {
-        creations.push(this.createCourse(courseData));
-      }
-    });
-
-    return { updates, creations };
-  }
-
-  private hasCourseChanged(
-    existingCourse: Course,
-    courseData: Prisma.CourseCreateInput,
-  ): boolean {
-    const normalizedExistingCourse = {
-      id: existingCourse.id,
-      code: existingCourse.code,
-      title: existingCourse.title,
-      description: existingCourse.description,
-      credits: existingCourse.credits,
-      cycle: existingCourse.cycle,
-    };
-
-    const normalizedCourseData = {
-      id: courseData.id,
-      code: courseData.code,
-      title: courseData.title,
-      description: courseData.description,
-      credits: courseData.credits,
-      cycle: courseData.cycle,
-    };
-
-    return (
-      JSON.stringify(normalizedExistingCourse) !==
-      JSON.stringify(normalizedCourseData)
-    );
-  }
-
-  public async deleteCourse(
-    where: Prisma.CourseWhereUniqueInput,
-  ): Promise<Course> {
-    this.logger.verbose('deleteCourse', where);
-
-    return this.prisma.course.delete({
-      where,
-    });
+    const results: Course[] = [];
+    for (const courseData of data) {
+      const result = await this.prisma.course.upsert({
+        where: { code: courseData.code },
+        update: courseData,
+        create: courseData,
+      });
+      results.push(result);
+    }
+    return results;
   }
 }

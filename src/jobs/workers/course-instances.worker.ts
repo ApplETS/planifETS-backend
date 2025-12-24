@@ -45,6 +45,10 @@ export class CourseInstancesJobService {
         this.logger.warn(`Program ${program.id} has no code. Skipping.`);
         continue;
       }
+      if (program.code.includes(',')) {
+        this.logger.warn(`Program ${program.code} has multiple codes (comma-separated). Skipping PDF parsing.`);
+        continue;
+      }
       this.logger.log(`Processing program: ${program.code}`);
 
       const parsedData =
