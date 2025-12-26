@@ -5,8 +5,8 @@ import { firstValueFrom } from 'rxjs';
 import {
   ETS_API_GET_ALL_COURSES,
   ETS_API_GET_COURSES_BY_IDS,
-} from '../../../constants/url';
-import { extractNumberFromString } from '../../../utils/stringUtil';
+} from '@/common/utils/url/url-constants';
+import { extractNumberFromString } from '@/utils/stringUtil';
 
 export interface ICoursesEtsAPI {
   id: number;
@@ -42,18 +42,31 @@ export class EtsCourseService {
   public async fetchAllCoursesWithCredits(): Promise<ICourseWithCredits[]> {
     const courses = await this.fetchAllCoursesWithoutCredits();
 
-    // Fetch credits for all courses by their IDs
-    const courseIds = courses.map((course) => course.id).join(',');
-    const coursesFetchedById = await this.fetchCoursesById(courseIds);
+    // Fetch credits for all courses by their IDs in batches to avoid URI too long error
+    const batchSize = 20; // Adjust batch size as needed
+    const coursesWithCredits: ICourseWithCredits[] = [];
 
-    // Add credits to the courses
-    return courses.map((course) => {
-      const courseCreds = coursesFetchedById.find((cc) => cc.id === course.id);
-      return {
-        ...course,
-        credits: courseCreds?.credits ?? null,
-      };
-    });
+    for (let i = 0; i < courses.length; i += batchSize) {
+      const batch = courses.slice(i, i + batchSize);
+      const courseIds = batch.map((course) => course.id).join(',');
+      const coursesFetchedById = await this.fetchCoursesById(courseIds);
+
+      // Add credits to the courses in this batch
+      const batchWithCredits = batch.map((course) => {
+        const courseCreds = coursesFetchedById.find((cc) => cc.id === course.id);
+        return {
+          ...course,
+          credits: courseCreds?.credits ?? null,
+        };
+      });
+
+      coursesWithCredits.push(...batchWithCredits);
+
+      // Add delay between batches to prevent rate limiting
+      await new Promise(resolve => setTimeout(resolve, 100)); // 100ms delay
+    }
+
+    return coursesWithCredits;
   }
 
   //Fetches all courses without credits

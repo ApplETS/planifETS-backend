@@ -39,6 +39,6 @@ export class ProgramController {
     isArray: true,
   })
   public async getAllPrograms(): Promise<ProgramDto[] | null> {
-    return this.programService.getAllPrograms();
+    return this.programService.getAllActivePrograms();
   }
 }

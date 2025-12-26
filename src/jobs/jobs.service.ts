@@ -14,7 +14,7 @@ export class JobsService {
     );
   }
 
-  private runWorker<T>(serviceName: string, methodName: string): Promise<T> {
+  public runWorker<T>(serviceName: string, methodName: string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       const workerScript = join(__dirname, 'workers', 'jobRunner.worker.js');
       const workerData = { serviceName, methodName };

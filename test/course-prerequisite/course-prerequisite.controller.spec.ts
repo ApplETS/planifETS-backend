@@ -1,8 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { CourseService } from '../../src/course/course.service';
 import { PrerequisiteController } from '../../src/prerequisite/prerequisite.controller';
 import { PrerequisiteService } from '../../src/prerequisite/prerequisite.service';
 import { PrismaService } from '../../src/prisma/prisma.service';
+import { ProgramCourseService } from '../../src/program-course/program-course.service';
 
 describe('CoursePrerequisiteController', () => {
   let controller: PrerequisiteController;
@@ -20,6 +22,14 @@ describe('CoursePrerequisiteController', () => {
               findUnique: jest.fn(),
             },
           },
+        },
+        {
+          provide: ProgramCourseService,
+          useValue: {},
+        },
+        {
+          provide: CourseService,
+          useValue: {},
         },
       ],
     }).compile();

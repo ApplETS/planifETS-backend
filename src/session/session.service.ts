@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Prisma, Session, Trimester } from '@prisma/client';
+import { Session, Trimester } from '@prisma/client';
 
 import { getCurrentTrimester } from '../common/utils/session/sessionUtil';
 import { PrismaService } from '../prisma/prisma.service';
@@ -39,10 +39,17 @@ export class SessionService {
   public async getOrCreateCurrentSession(
     date: Date = new Date(),
   ): Promise<Session> {
+    // Check for invalid date
+    let dateString: string;
+    if (Number.isNaN(date.getTime())) {
+      dateString = String(date);
+    } else {
+      dateString = date.toISOString();
+    }
     const trimester = getCurrentTrimester(date);
     if (!trimester) {
       this.logger.warn(
-        `Unable to determine the current trimester for date: ${date.toISOString()}`,
+        `Unable to determine the current trimester for date: ${dateString}`,
       );
       throw new Error('Current trimester could not be determined.');
     }
@@ -68,13 +75,20 @@ export class SessionService {
     year: number;
     trimester: Trimester;
   } {
-    const year = parseInt(`20${sessionCode.slice(1)}`, 10);
-    const trimester = this.trimesterMap[sessionCode[0].toUpperCase()];
-
-    if (!year || !trimester) {
+    // Require sessionCode to be exactly 3 characters: 1 letter + 2 digits
+    if (typeof sessionCode !== 'string' || sessionCode.length !== 3) {
       throw new Error(`Invalid session code: ${sessionCode}`);
     }
-
+    const trimester = this.trimesterMap[sessionCode[0].toUpperCase()];
+    const yearPart = sessionCode.slice(1);
+    // Year part should be two digits and numeric
+    if (!/^\d{2}$/.test(yearPart)) {
+      throw new Error(`Invalid session code: ${sessionCode}`);
+    }
+    const year = Number.parseInt(`20${yearPart}`, 10);
+    if (!trimester) {
+      throw new Error(`Invalid session code: ${sessionCode}`);
+    }
     return { year, trimester };
   }
 
@@ -107,13 +121,5 @@ export class SessionService {
       `Found latest session: ${latestSession.year}-${latestSession.trimester}`,
     );
     return latestSession;
-  }
-
-  public async createSession(
-    data: Prisma.SessionCreateInput,
-  ): Promise<Session> {
-    return this.prisma.session.create({
-      data,
-    });
   }
 }

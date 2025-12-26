@@ -1,4 +1,4 @@
-import { CourseCodeValidationPipe } from '../../pipes/models/course/course-code-validation-pipe';
+import { CourseCodeValidationPipe } from '@/common/pipes/models/course/course-code-validation-pipe';
 
 export class Course {
   public static readonly COURSE_LINE_PARTS_COUNT = 11;
@@ -17,7 +17,7 @@ export class Course {
     public mandatory: boolean,
     public prerequisites: { profile: string; prerequisites: string[] }[] = [],
     public alternatives?: string[], // For CHOIX courses
-  ) {}
+  ) { }
 
   public static isCourseLine(line: string): boolean {
     return (
@@ -39,7 +39,7 @@ export class Course {
 
       return new Course(
         parts[0],
-        parseInt(parts[1], 10),
+        Number.parseInt(parts[1], 10),
         mainCourseCode,
         parts[5].trim(),
         parts[6].trim(),
@@ -56,7 +56,7 @@ export class Course {
     }
 
     const type = parts[0];
-    const session = parseInt(parts[1], 10);
+    const session = Number.parseInt(parts[1], 10);
     const code = parts[3].toUpperCase();
     const profile = parts[4].trim();
     const concentration = parts[5].trim();

@@ -9,6 +9,8 @@ export const ERROR_MESSAGES = {
   REQUIRED_PDF_URL: 'PDF URL is required and must be valid.',
   REQUIRED_SESSION_AND_PROGRAM_CODE:
     'Session code and program code are required.',
+  HORAIRE_PDF_NOT_FOUND: 'PDF not found for the given session/program.',
+  PLANIFICATION_PDF_NOT_FOUND: 'PDF not found for the given program.',
 };
 
 export class FileNotFoundError extends Error {

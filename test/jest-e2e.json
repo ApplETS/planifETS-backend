@@ -1,9 +1,24 @@
 {
-  "moduleFileExtensions": ["js", "json", "ts"],
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
   "rootDir": ".",
-  "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
-    "^.+\\.(t|j)s$": "ts-jest"
-  }
+    "^.+\\.(t|j)s$": [
+      "@swc/jest"
+    ]
+  },
+  "moduleNameMapper": {
+    "^@/common/(.*)$": "<rootDir>/../src/common/$1",
+    "^@/utils/(.*)$": "<rootDir>/../src/common/utils/$1"
+  },
+  "testEnvironment": "@quramy/jest-prisma-node/environment",
+  "globalSetup": "<rootDir>/test-utils/jest-prisma/jest-global-setup.ts",
+  "globalTeardown": "<rootDir>/test-utils/jest-prisma/jest-global-teardown.ts",
+  "setupFilesAfterEnv": [
+    "<rootDir>/test-utils/jest-prisma/mock-jest-prisma-setup.ts"
+  ]
 }

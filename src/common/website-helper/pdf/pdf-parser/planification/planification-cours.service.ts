@@ -3,10 +3,12 @@ import { Injectable } from '@nestjs/common';
 import { Fill, Output, Page, Text } from 'pdf2json';
 import { firstValueFrom } from 'rxjs';
 
-import { getPlanificationPdfUrl } from '../../../../constants/url';
-import { CourseCodeValidationPipe } from '../../../../pipes/models/course/course-code-validation-pipe';
-import { PdfParserUtil } from '../../../../utils/pdf/parser/pdfParserUtil';
-import { TextExtractor } from '../../../../utils/pdf/parser/textExtractorUtil';
+import { CourseCodeValidationPipe } from '@/common/pipes/models/course/course-code-validation-pipe';
+import { isAxiosError } from '@/common/utils/error/errorUtil';
+import { getPlanificationPdfUrl } from '@/common/utils/url/url-constants';
+import { PdfParserUtil } from '@/utils/pdf/parser/pdfParserUtil';
+import { TextExtractor } from '@/utils/pdf/parser/textExtractorUtil';
+
 import { ICoursePlanification } from './planification-cours.types';
 import { Row } from './Row';
 
@@ -43,7 +45,10 @@ export class PlanificationCoursService {
         pdfUrl,
       );
     } catch (error) {
-      throw new Error('Error fetching pdf from URL ' + error);
+      if (isAxiosError(error) && error.response?.status) {
+        throw error;
+      }
+      throw new Error('Error fetching pdf from URL ' + String(error));
     }
   }
 

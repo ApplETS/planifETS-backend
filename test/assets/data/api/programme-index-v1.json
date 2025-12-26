@@ -1,0 +1,1697 @@
+{
+    "cycles": [
+        "1er cycle",
+        "2e cycle",
+        "3e cycle"
+    ],
+    "departements": [
+        {
+            "id": 770511,
+            "title": "Département de design"
+        },
+        {
+            "id": 367491,
+            "title": "Département des enseignements généraux"
+        },
+        {
+            "id": 766486,
+            "title": "Département de génie aérospatial"
+        },
+        {
+            "id": 367500,
+            "title": "Département de génie de la construction"
+        },
+        {
+            "id": 367282,
+            "title": "Département de génie électrique"
+        },
+        {
+            "id": 367448,
+            "title": "Département de génie logiciel et des technologies de l'information"
+        },
+        {
+            "id": 367321,
+            "title": "Département de génie mécanique"
+        },
+        {
+            "id": 367389,
+            "title": "Département de génie des systèmes"
+        }
+    ],
+    "langues": [
+        "Français",
+        "Français et anglais",
+        "Français pour la M. Ing. Français et anglais pour la M. Sc. A."
+    ],
+    "types": [
+        {
+            "id": 697388,
+            "title": "Doctorat"
+        },
+        {
+            "id": 697435,
+            "title": "Maîtrise avec projet"
+        },
+        {
+            "id": 697451,
+            "title": "Maîtrise avec mémoire"
+        },
+        {
+            "id": 699771,
+            "title": "Baccalauréat"
+        },
+        {
+            "id": 700092,
+            "title": "Certificat"
+        },
+        {
+            "id": 700093,
+            "title": "Programme court"
+        },
+        {
+            "id": 700094,
+            "title": "Cheminement universitaire en technologie (CUT)"
+        },
+        {
+            "id": 700095,
+            "title": "DESS"
+        },
+        {
+            "id": 738239,
+            "title": "Microprogramme"
+        },
+        {
+            "id": 915770,
+            "title": "Concentration en technologies de la santé"
+        }
+    ],
+    "results": [
+        {
+            "id": 829496,
+            "title": "Année préparatoire",
+            "cycle": "1er cycle",
+            "code": "5718",
+            "credits": "31 crédits",
+            "contingent": "Capacité d'accueil limitée",
+            "regime": "Offert à temps complet",
+            "langue": "Français",
+            "departements": [
+                367491
+            ],
+            "types": [
+                700094
+            ],
+            "description": " PrésentationVous êtes titulaire d’un baccalauréat général français?L’ÉTS offre une approche unique et adaptée pour faciliter la transition des lycéennes et lycéens d’un établissement scolaire français vers les formations d’ingénieurs de l’ÉTS en mettant l’accent sur le développement des compétences techniques et pratiques.Cette année préparatoire intégrée offre :Des cours axés sur la pratique et le développement des compétences expérimentales et techniquesÀ...",
+            "url": "https://www.etsmtl.ca/programmes-formations/annee-preparatoire"
+        },
+        {
+            "id": 736119,
+            "title": "Baccalauréat en design d'expérience utilisateur (UX)",
+            "cycle": "1er cycle",
+            "code": "6599",
+            "credits": "91 crédits. Durée : 3 ans.",
+            "contingent": "Capacité d'accueil limitée",
+            "regime": "Offert à temps complet",
+            "langue": "Français",
+            "departements": [
+                770511
+            ],
+            "types": [
+                699771
+            ],
+            "description": " Le premier programme de baccalauréat en design UX au Québec! Les designers UX étudient les besoins et comportements des utilisateurs ainsi que le contexte d'utilisation d'un produit ou d'un service numérique. Ils génèrent ensuite des solutions qu'ils matérialisent sous forme de prototypes afin de les faire tester par des utilisateurs. Vous pourrez travailler dans divers secteurs, occupant des postes tels que designer UX, designer de produit numérique, chercheuse ou chercheur UX,...",
+            "url": "https://www.etsmtl.ca/programmes-formations/baccalaureat-design-ux"
+        },
+        {
+            "id": 738518,
+            "title": "Baccalauréat en génie aérospatial",
+            "cycle": "1er cycle",
+            "code": "6522",
+            "credits": "118 à 120 crédits, dépendamment du choix de cours optionnels.",
+            "contingent": "Capacité d'accueil limitée",
+            "regime": "Offert à temps complet.",
+            "langue": "Français",
+            "departements": [
+                766486
+            ],
+            "types": [
+                699771
+            ],
+            "description": " Les cours auront lieu sur le campus de l’ÉNA, à Longueuil. Le génie aérospatial : donner des ailes à l'innovation Comment optimiser la conception d'ailes d'avion ou l’installation des moteurs pour améliorer l'efficacité énergétique? Quelles innovations peuvent rendre les voyages spatiaux plus sûrs et plus accessibles? Comment intégrer des matériaux légers et résistants pour augmenter les performances des satellites et des avions? Les spécialistes en génie aérospatial se...",
+            "url": "https://www.etsmtl.ca/programmes-formations/baccalaureat-genie-aerospatial"
+        },
+        {
+            "id": 957404,
+            "title": "Baccalauréat en génie de l'environnement",
+            "cycle": "1er cycle",
+            "code": "À venir",
+            "credits": "120 crédits de cours et 27 crédits de stage (hors programme, obligatoires)",
+            "contingent": "Capacité d'accueil limitée",
+            "regime": "Offert à temps complet, de jour",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                699771
+            ],
+            "description": " Le génie de l’environnement : façonner un avenir durableComment concilier activités humaines et protection des écosystèmes naturels? Comment concevoir des projets industriels ou urbains durables et respectueux de l’environnement ? Comment garantir un accès sécuritaire à l’eau potable, traiter les eaux usées de façon responsable ou prévenir la pollution des milieux récepteurs ?Grâce au tout premier baccalauréat en génie de l’environnement offert au Québec, élaborez des...",
+            "url": "https://www.etsmtl.ca/programmes-formations/baccalaureat-genie-environnement"
+        },
+        {
+            "id": 182816,
+            "title": "Baccalauréat en génie de la construction",
+            "cycle": "1er cycle",
+            "code": "7625, 6720",
+            "credits": "Entre 116 et 119 crédits (selon le profil d’accueil et le cheminement de cours) et 27 crédits de stage (hors programme, obligatoires)",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                699771
+            ],
+            "description": " Génie de la construction : un programme pratique axé sur la réalisation et la conception Quel est l’impact d’un barrage hydroélectrique sur les cours d’eau? Comment rénover un bâtiment historique ou un ouvrage de génie civil selon les normes d’aujourd’hui? Quel est l’apport de la méthode de modélisation des données du bâtiment (BIM) en construction? Quel rôle clé joue le numérique dans ce domaine? Comment mener un projet de construction selon les objectifs et...",
+            "url": "https://www.etsmtl.ca/programmes-formations/baccalaureat-genie-construction"
+        },
+        {
+            "id": 182896,
+            "title": "Baccalauréat en génie de la production automatisée",
+            "cycle": "1er cycle",
+            "code": "6557",
+            "credits": "118 ou 119 crédits de cours (selon le profil d'accueil) et 27 crédits de stage (hors programme, obligatoires)",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367389
+            ],
+            "types": [
+                699771
+            ],
+            "description": " Le génie de la production automatisée : automatiser et intégrer les systèmes technologiques Les ingénieurs et ingénieures en production automatisée réalisent l’automatisation et l’intégration des systèmes technologiques. Ces systèmes sont nécessaires pour la conception et la fabrication assistées par ordinateur, pour la production et l’inspection des produits finis et pour la prestation des services. Ces spécialistes utilisent des technologies de pointe (en mécanique,...",
+            "url": "https://www.etsmtl.ca/programmes-formations/baccalaureat-genie-production-automatisee"
+        },
+        {
+            "id": 182880,
+            "title": "Baccalauréat en génie des opérations et de la logistique",
+            "cycle": "1er cycle",
+            "code": "6556",
+            "credits": "Entre 117 et 118 crédits de cours (selon le profil d'accueil) et 27 crédits de stage (hors programme, obligatoires)",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367389
+            ],
+            "types": [
+                699771
+            ],
+            "description": " Opter pour le génie des opérations et de la logistique, c'est devenir expert du rendement! Spécialistes du rendement, les ingénieurs et ingénieures en génie des opérations et de la logistique font appliquer des programmes de production fondés sur l'utilisation optimale de la machinerie et des matériaux en vue d'augmenter la productivité d’une entreprise. En tant qu’ingénieurs des méthodes de production ou ingénieurs industriels, ils se concentrent sur l'appareil de production...",
+            "url": "https://www.etsmtl.ca/programmes-formations/baccalaureat-genie-operations-logistique"
+        },
+        {
+            "id": 182912,
+            "title": "Baccalauréat en génie des technologies de l'information",
+            "cycle": "1er cycle",
+            "code": "7086",
+            "credits": "116 crédits de cours et 27 crédits de stage (hors programme, obligatoires)",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367448
+            ],
+            "types": [
+                699771
+            ],
+            "description": " Un programme unique pour vous spécialiser en conception de systèmes d'information en entreprise Offert uniquement à l’ÉTS, ce baccalauréat vous spécialisera en conception de systèmes d’information pour l'entreprise. Avec votre expertise en infrastructures informatiques, logiciels ou réseaux, vous pourrez agir en tant que gestionnaire ou architecte de systèmes, intégrateur ou intégratrice de technologies, ingénieur ou ingénieure informatique ou en développement technologique....",
+            "url": "https://www.etsmtl.ca/programmes-formations/baccalaureat-genie-des-ti"
+        },
+        {
+            "id": 182832,
+            "title": "Baccalauréat en génie électrique",
+            "cycle": "1er cycle",
+            "code": "7694",
+            "credits": "Entre 115 et 120 crédits de cours (selon le profil d'accueil et les cours de concentration) et 27 crédits de stage (hors programme, obligatoires)",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367282
+            ],
+            "types": [
+                699771
+            ],
+            "description": " Le génie électrique, c’est un vaste domaine! L'ingénieur ou l'ingénieure en électricité conçoit des installations électriques pour la production, la transmission, la distribution ou l'utilisation domestique et industrielle de l'électricité, que ce soit à des fins de chauffage, de réfrigération, d'éclairage, de transport, de contrôle ou d'alimentation d'appareils électriques de toutes sortes. Le génie électrique joue aussi un rôle crucial dans le domaine de la santé. Dans...",
+            "url": "https://www.etsmtl.ca/programmes-formations/baccalaureat-genie-electrique"
+        },
+        {
+            "id": 182848,
+            "title": "Baccalauréat en génie logiciel",
+            "cycle": "1er cycle",
+            "code": "7084",
+            "credits": "116 crédits de cours et 27 crédits de stage (hors programme, obligatoires)",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367448
+            ],
+            "types": [
+                699771
+            ],
+            "description": " Les logiciels sont partout! Les logiciels sont omniprésents dans notre quotidien! On les utilise, entre autres, pour contrôler des équipements et des objets interconnectés dans une maison (l’internet des objets), interagir sur les réseaux sociaux, créer des environnements virtuels, contrôler une voiture autonome, traiter massivement des données ou assurer la sécurité des systèmes informatiques. Le programme de baccalauréat en génie logiciel vous apprendra entre autres à...",
+            "url": "https://www.etsmtl.ca/programmes-formations/baccalaureat-genie-logiciel"
+        },
+        {
+            "id": 182864,
+            "title": "Baccalauréat en génie mécanique",
+            "cycle": "1er cycle",
+            "code": "7684",
+            "credits": "115 crédits de cours et 27 crédits de stage (hors programme, obligatoires)",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367321
+            ],
+            "types": [
+                699771
+            ],
+            "description": " Le génie mécanique : un programme au large spectre Les spécialistes en génie mécanique s’intéressent à la transformation de l’énergie et aux systèmes mécaniques. Ils conçoivent des machines et des instruments destinés à la production de biens et de produits variés, comme les véhicules, turbines, moteurs, appareils et systèmes utilisés dans la production industrielle et dans toutes les activités quotidiennes. Dans le domaine du bâtiment, ils mettent au point des systèmes...",
+            "url": "https://www.etsmtl.ca/programmes-formations/baccalaureat-genie-mecanique"
+        },
+        {
+            "id": 182928,
+            "title": "Baccalauréat en informatique distribuée",
+            "cycle": "1er cycle",
+            "code": "6646",
+            "credits": "90 crédits, incluant 9 crédits de stage",
+            "contingent": "Capacité d'accueil limitée",
+            "regime": "Offert à temps complet",
+            "langue": "Français",
+            "departements": [
+                367448
+            ],
+            "types": [
+                699771
+            ],
+            "description": " Futurs bacheliers et bachelières en informatique distribuée&nbsp;: les employeurs vous attendent! Ce nouveau programme fera de vous des informaticiennes et informaticiens polyvalents ayant une excellente connaissance des systèmes distribués. Il vous intéressera particulièrement si vous avez, ou êtes en voie d'obtenir, un DEC technique en informatique. Informatique distribuée, génie logiciel et génie des TI : quelle différence entre les bacs? À l’ÉTS, alors que les diplômés des...",
+            "url": "https://www.etsmtl.ca/programmes-formations/baccalaureat-informatique-distribuee"
+        },
+        {
+            "id": 182968,
+            "title": "Certificat en gestion de la construction",
+            "cycle": "1er cycle",
+            "code": "4563",
+            "credits": "30 crédits",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700092
+            ],
+            "description": " Présentation Vous possédez une formation technique et vous êtes sur le marché du travail? Ce programme de certificat vous donnera une formation universitaire de 1er&nbsp;cycle en gestion de la construction, complémentaire à vos études collégiales. À l'issue de ce programme, vous pourrez exercer des fonctions d'organisation, de direction et de surveillance de travaux dans tous les secteurs de la construction. Vous aurez développé les capacités et le leadership pour&nbsp;: planifier...",
+            "url": "https://www.etsmtl.ca/programmes-formations/certificat-gestion-construction"
+        },
+        {
+            "id": 182940,
+            "title": "Cheminement universitaire en technologie",
+            "cycle": "1er cycle",
+            "code": "5766",
+            "credits": "30 ou 32 crédits de cours (selon la spécialisation)",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps complet",
+            "langue": "Français",
+            "departements": [
+                367491
+            ],
+            "types": [
+                700094
+            ],
+            "description": " PrésentationVous êtes titulaire d’un DEC qui ne permet pas d’entrer directement dans un programme de baccalauréat de l’ÉTS ou êtes en voie d’obtenir un DEC en sciences de la nature ou en sciences informatiques et mathématiques? Vous avez un intérêt marqué pour les sciences et les technologies et désirez passer de la théorie à la pratique? Le cheminement universitaire en technologie de l’ÉTS est pour vous!Le cheminement universitaire en technologie donne accès à tous...",
+            "url": "https://www.etsmtl.ca/programmes-formations/cheminement-universitaire-technologie"
+        },
+        {
+            "id": 915477,
+            "title": "Concentration en technologies de la santé",
+            "cycle": "1er cycle",
+            "code": null,
+            "credits": null,
+            "contingent": null,
+            "regime": null,
+            "langue": "Français",
+            "departements": [],
+            "types": [
+                915770
+            ],
+            "description": " Grâce à la concentration en technologies de la santé de l’ÉTS, les étudiants et étudiantes peuvent ajouter une expertise de plus à leur programme de génie mécanique, de génie électrique et de génie de la production automatisée.En effet, contrairement aux programmes en génie biomédical d’autres universités, la concentration en technologies de la santé de l’ÉTS permet aux titulaires d’un baccalauréat en génie de naviguer aisément entre le milieu de la santé et leur...",
+            "url": "https://www.etsmtl.ca/programmes-formations/concentration-technologies-sante"
+        },
+        {
+            "id": 183344,
+            "title": "DESS en BIM et innovations numériques",
+            "cycle": "2e cycle",
+            "code": "1915",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel. Les admissions sont possibles aux sessions d’automne et d’hiver seulement.",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme vise à répondre au besoin de l’industrie de ressources pouvant accompagner l’entreprise à incorporer les pratiques et technologies innovantes et demeurer compétitive dans un environnement en pleine transformation sous la poussée du numérique.Les objectifs spécifiques de la formation incluent : la maîtrise des technologies BIM et leur impact sur la gestion de l’information sur le cycle de vie de l’actif immobilier; l’acquisition de connaissances touchant...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-bim-innovations-numeriques"
+        },
+        {
+            "id": 952786,
+            "title": "DESS en design et entrepreneuriat",
+            "cycle": "2e cycle",
+            "code": "4475",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet",
+            "langue": "Français",
+            "departements": [
+                770511
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme vise des objectifs de formation continue. Il s’adresse aux professionnelles et professionnels des domaines du design désirant accroître leur expertise stratégique en design et s’initier à l’entrepreneuriat.Ce programme permet plus particulièrement de structurer une démarche de projet à la fois théorique et pratique engagée en collaboration avec des entreprises et des acteurs du milieu de l’entrepreneuriat et de l’innovation. Un réseau d’experts...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-design-entrepreneuriat"
+        },
+        {
+            "id": 183354,
+            "title": "DESS en énergies renouvelables et efficacité énergétique",
+            "cycle": "2e cycle",
+            "code": "3124",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367321,
+                367282
+            ],
+            "types": [
+                700095
+            ],
+            "description": " ObjectifCe programme vise des objectifs de formation continue. Il s’adresse aux ingénieurs et professionnels désireux d’acquérir des connaissances avancées sur les différents types d’énergies renouvelables. Ils pourront développer les habiletés et aptitudes nécessaires pour identifier les besoins technologiques dans une entreprise donnée et procéder au transfert de technologie dans l’industrie. Conditions d'admission Être titulaire d'un baccalauréat, ou l'équivalent, en...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-energies-renouvelables-efficacite-energetique"
+        },
+        {
+            "id": 183364,
+            "title": "DESS en entreprise numérique",
+            "cycle": "2e cycle",
+            "code": "2043",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps plein et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367389
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme multidisciplinaire s'adresse aux ingénieurs et aux professionnels désirant acquérir des connaissances théoriques et développer des compétences pratiques permettant de concevoir et de gérer des changements sociotechniques de même que d’assurer une transformation numérique durable dans les entreprises. Ce programme permet plus spécifiquement de définir des stratégies de transformation numérique, d’acquérir des compétences en gestion, technologies,...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-entreprise-numerique"
+        },
+        {
+            "id": 183394,
+            "title": "DESS en génie de l'environnement",
+            "cycle": "2e cycle",
+            "code": "3284",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme vise des objectifs de formation continue. Il s’adresse aux ingénieurs et aux professionnels désirant acquérir des connaissances avancées en génie de l’environnement et développer les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie dans l’industrie. Conditions d'admission Être titulaire d'un baccalauréat, ou l'équivalent, en génie, en sciences pures ou en...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-genie-environnement"
+        },
+        {
+            "id": 183384,
+            "title": "DESS en génie de la construction : gestion de projets de construction",
+            "cycle": "2e cycle",
+            "code": "3022",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme vise des objectifs de formation continue. Il s’adresse aux ingénieurs et aux professionnels désireux d’accroître leur expertise des processus, des méthodes et des techniques de conception, de réalisation, d’évaluation, d’entretien et de réhabilitation des ouvrages d’infrastructure civile (routes, bâtiments, ouvrages d’art, etc.). Conditions d'admission Être titulaire d'un baccalauréat (ou l'équivalent) en génie civil, en génie de la construction...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-genie-construction-gestion-projets"
+        },
+        {
+            "id": 183374,
+            "title": "DESS en génie de la construction : projets de conception et réhabilitation",
+            "cycle": "2e cycle",
+            "code": "1823",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme vise des objectifs de formation continue. Il s’adresse aux ingénieurs et aux professionnels désireux d’accroître leur expertise des processus, des méthodes et des techniques de conception, de réalisation, d’évaluation, d’entretien et de réhabilitation des ouvrages d’infrastructure civile (routes, bâtiments, ouvrages d’art, etc.). Conditions d'admission Être titulaire d'un baccalauréat (ou l'équivalent) en génie civil, en génie de la construction...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-genie-construction-conception-rehabilitation"
+        },
+        {
+            "id": 183404,
+            "title": "DESS en génie de la production automatisée : intégration et automatisation des systèmes",
+            "cycle": "2e cycle",
+            "code": "3209",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367389
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme vise des objectifs de formation continue. Il s’adresse aux ingénieurs et aux professionnels désireux d’acquérir des connaissances avancées en génie de la production automatisée, et plus particulièrement en intégration et en automatisation de systèmes. Pour ce faire, l'étudiant ou l'étudiante développe les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie dans...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-genie-production-automatisee-integration-automatisation"
+        },
+        {
+            "id": 183414,
+            "title": "DESS en génie de la production automatisée : systèmes intelligents",
+            "cycle": "2e cycle",
+            "code": "3234",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367389
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme vise des objectifs de formation continue. Il s’adresse aux ingénieurs et aux professionnels désireux d’acquérir des connaissances avancées en génie de la production automatisée, et plus particulièrement sur les systèmes intelligents. Pour ce faire, l'étudiant ou l'étudiante développe les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie dans l’industrie....",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-genie-production-systemes-intelligents"
+        },
+        {
+            "id": 183424,
+            "title": "DESS en génie des risques de santé et sécurité du travail",
+            "cycle": "2e cycle",
+            "code": "1682",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367321
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme a pour objectifs d’offrir aux étudiants la possibilité d’acquérir des connaissances et des compétences pour exercer des activités professionnelles d’ingénierie spécialisée dans le domaine de la sécurité du travail et du contrôle des systèmes industriels, soit la conception et l’amélioration des procédés, des normes, des spécifications techniques des équipements ou des systèmes industriels en visant l’élimination, la réduction ou le contrôle...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-genie-risques-sante-securite-travail"
+        },
+        {
+            "id": 183434,
+            "title": "DESS en génie électrique",
+            "cycle": "2e cycle",
+            "code": "3285",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367282
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme vise des objectifs de formation continue. Il s’adresse aux ingénieurs et aux professionnels désirant acquérir des connaissances avancées en génie électrique et développer les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie dans l’industrie. Conditions d'admission Être titulaire d'un baccalauréat, ou l'équivalent, en génie électrique, génie mécanique,...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-genie-electrique"
+        },
+        {
+            "id": 183444,
+            "title": "DESS en génie logiciel",
+            "cycle": "2e cycle",
+            "code": "3765",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367448
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme vise des objectifs de formation continue. Il s’adresse aux ingénieurs et aux professionnels désirant acquérir des connaissances avancées en génie logiciel et développer les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie dans l’industrie. Conditions d'admission Être titulaire d'un baccalauréat, ou l'équivalent, comprenant une forte composante ou option en...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-genie-logiciel"
+        },
+        {
+            "id": 183454,
+            "title": "DESS en génie mécanique",
+            "cycle": "2e cycle",
+            "code": "3286",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367321
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme vise des objectifs de formation continue. Il s’adresse aux ingénieurs et aux professionnels désirant acquérir des connaissances avancées en génie mécanique et développer les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie dans l’industrie. Conditions d'admission Être titulaire d'un baccalauréat, ou l 'équivalent, en génie mécanique, génie électrique,...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-genie-mecanique"
+        },
+        {
+            "id": 183464,
+            "title": "DESS en gestion de l’innovation",
+            "cycle": "2e cycle",
+            "code": "3214",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367389
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Présentation Ce programme unique de formation est dédié à la gestion de l’innovation et des changements technologiques, abordée dans un contexte global et selon une vision stratégique. Les enseignants sont des experts qui proviennent en majorité de l’industrie et l’approche pédagogique favorise le développement et le transfert des outils de gestion de l’innovation.Dans le contexte où l’on définit une innovation comme une invention destinée à la commercialisation, ce...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-gestion-innovation"
+        },
+        {
+            "id": 183476,
+            "title": "DESS en gestion de projets d'ingénierie",
+            "cycle": "2e cycle",
+            "code": "3114",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367448
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme a pour objectif de former des ingénieurs, des praticiens des sciences appliquées et des professionnels travaillant dans un milieu où les activités d’ingénierie prédominent. Il les dote d’une formation essentielle en gestion de projets d’ingénierie et de la méthodologie nécessaire pour l’appliquer selon les règles de l’art. Il vise à développer les habiletés de gestion de niveau stratégique requises pour concevoir, réaliser et compléter des...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-gestion-projets-ingenierie"
+        },
+        {
+            "id": 183486,
+            "title": "DESS en gestion des infrastructures urbaines",
+            "cycle": "2e cycle",
+            "code": "1946",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectifs Former des gestionnaires des infrastructures urbaines dans une perspective de développement durable qui intègre toutes les considérations technico-économiques de l’aménagement du territoire, de l’urbanisme, de la gestion pluviale et du transport urbain.Pour ce faire, l’étudiant acquiert dans cette concentration des connaissances avancées en gestion de projets urbains, en gestion des actifs, en technologies de l’information et d’aide à la décision en milieu urbain,...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-gestion-infrastructures-urbaines"
+        },
+        {
+            "id": 183498,
+            "title": "DESS en projets internationaux et ingénierie globale",
+            "cycle": "2e cycle",
+            "code": "3294",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectifs Ce programme vise à former des professionnels et gestionnaires aptes à : gérer des projets multidisciplinaires dans un contexte international, de la phase d’étude de faisabilité jusqu’à la période de parachèvement;interpréter les principaux cadres législatifs, réglementaires et normatifs internationaux;mettre en œuvre l’internationalisation d’innovations;diriger des équipes multiculturelles, qu’elles soient virtuelles ou de terrain;créer et maintenir...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-projets-internationaux-ingenierie-globale"
+        },
+        {
+            "id": 183508,
+            "title": "DESS en réseaux de télécommunications",
+            "cycle": "2e cycle",
+            "code": "3283",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367282
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme vise des objectifs de formation continue. Il s’adresse aux ingénieurs et aux professionnels désirant acquérir des connaissances avancées en génie des télécommunications et développer les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie dans l’industrie. Conditions d'admission Être titulaire d'un baccalauréat, ou l'équivalent, en génie dans un domaine...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-reseaux-telecommunications"
+        },
+        {
+            "id": 183528,
+            "title": "DESS en technologies de l'information",
+            "cycle": "2e cycle",
+            "code": "3178",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367448
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif L’objectif principal de ce programme est de répondre aux besoins de perfectionnement des intervenants responsables de la gestion, du développement, de l'intégration et des opérations des technologies de l'information dans les organisations. Le programme permet de conjuguer l'acquisition de connaissances et de compétences de haut niveau, d'une part en ingénierie des systèmes de traitement de l'information et, d'autre part, en gestion du changement technologique et son impact...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-technologies-information"
+        },
+        {
+            "id": 183518,
+            "title": "DESS en technologies de la santé",
+            "cycle": "2e cycle",
+            "code": "3282",
+            "credits": "30 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367389,
+                367321
+            ],
+            "types": [
+                700095
+            ],
+            "description": " Objectif Ce programme vise des objectifs de formation continue. Il s’adresse aux ingénieurs et aux professionnels désirant acquérir des connaissances avancées en technologies de la santé et développer les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie dans l’industrie. Conditions d'admission Être titulaire d’un baccalauréat, ou l’équivalent, en génie dans un domaine...",
+            "url": "https://www.etsmtl.ca/programmes-formations/dess-technologies-sante"
+        },
+        {
+            "id": 183738,
+            "title": "Doctorat en génie",
+            "cycle": "3e cycle",
+            "code": "3014",
+            "credits": "90 crédits, soit 15 crédits de scolarité et 75 crédits de thèse",
+            "contingent": null,
+            "regime": "Temps plein",
+            "langue": "Français et anglais",
+            "departements": [
+                367500,
+                367448,
+                367389,
+                367321,
+                367282,
+                766486
+            ],
+            "types": [
+                697388
+            ],
+            "description": " Faire un doctorat en génie à l’ÉTS Pourquoi faire un doctorat en génie à l’ÉTS? Parce qu’en réalisant vos études doctorales avec nous, vous aurez non seulement accès à plus de 200 professeurs et à autant d’expertises en génie, mais aussi à des équipements de pointe et à un réseau composé de 200 partenaires industriels. De plus, notre programme de doctorat en génie est des plus flexibles : vous pourrez choisir vos cours parmi la gamme offerte par nos cinq départements...",
+            "url": "https://www.etsmtl.ca/programmes-formations/doctorat-genie-ets"
+        },
+        {
+            "id": 1233245,
+            "title": "Doctorat sur mesure",
+            "cycle": "3e cycle",
+            "code": null,
+            "credits": "90 crédits",
+            "contingent": null,
+            "regime": "Temps plein",
+            "langue": "Français et anglais",
+            "departements": [],
+            "types": [
+                697388
+            ],
+            "description": " Présentation&nbsp;Lorsqu’aucun de ses programmes d’études ne correspond aux besoins de formation, mais&nbsp;qu’elle dispose&nbsp;des ressources et de la capacité d’accueil nécessaires, l’ÉTS peut, dans certains cas, autoriser un programme de doctorat sur mesure&nbsp;(90&nbsp;crédits) permettant la réalisation d’un plan de formation original et cohérent.Le programme de doctorat sur mesure vise le développement d’une expertise avancée dans une discipline ou un champ...",
+            "url": "https://www.etsmtl.ca/programmes-formations/doctorat-mesure"
+        },
+        {
+            "id": 183718,
+            "title": "Maîtrise en conception et gestion de projets d’ingénierie canadiens",
+            "cycle": "2e cycle",
+            "code": "3094",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Pour vous aider à intégrer le marché du travail québécois! Vous êtes titulaire d’un diplôme d’ingénieur obtenu à l’extérieur du Canada? Vous aimeriez intégrer le marché de l’emploi québécois? La maîtrise en conception et gestion de projets d’ingénierie canadiens de l’ÉTS a été conçue pour vous! En vous familiarisant avec le génie québécois et en vous aidant à vous préparer aux examens prescrits par l’Ordre des ingénieurs du Québec (OIQ), ce programme de...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-gestion-projets-ingenierie-canadiens"
+        },
+        {
+            "id": 183538,
+            "title": "Maîtrise en génie aérospatial",
+            "cycle": "2e cycle",
+            "code": "3235, 1560",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français pour la M. Ing. <br />Français et anglais pour la M. Sc. A.",
+            "departements": [
+                367389,
+                367321,
+                367282,
+                766486
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " L'aérospatiale à l'ÉTS : trois grandes spécialités, 50&nbsp;professeurs et 70&nbsp;partenaires industriels À l’ÉTS, la recherche en génie aérospatial regroupe plus de 50&nbsp;professeurs, 11 chaires de recherche et 14&nbsp;unités de recherche spécialisées qui collaborent avec près de 70 partenaires industriels. Les membres de notre corps professoral sont actifs dans trois grands domaines&nbsp;: les matériaux et la fabrication avancée; l’avionique et la commande; ainsi que la...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-aerospatial"
+        },
+        {
+            "id": 183604,
+            "title": "Maîtrise en génie de l'environnement",
+            "cycle": "2e cycle",
+            "code": "1562, 1561",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français pour la M. Ing. <br />Français et anglais pour la M. Sc. A.",
+            "departements": [
+                367500
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Apprenez à résoudre des enjeux environnementaux complexes avec la maîtrise en génie de l'environnement Peut-on résoudre des enjeux et des problèmes environnementaux complexes, tout en préservant les écosystèmes et en assurant la pérennité des générations futures? Quelles sont les solutions à court, moyen et long terme qui contribuent à une évolution écoresponsable de l’humanité? La maîtrise en génie de l’environnement de l’ÉTS vous aidera à trouver des réponses qui...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-environnement"
+        },
+        {
+            "id": 183574,
+            "title": "Maîtrise en génie de la construction",
+            "cycle": "2e cycle",
+            "code": "1544, 1543",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français pour la M. Ing. <br />Français et anglais pour la M. Sc. A.",
+            "departements": [
+                367500
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Apprendre non seulement à concevoir des projets de construction, mais aussi à les gérer Qu’est-ce qui démarque la maîtrise en génie de la construction de l’ÉTS des autres programmes de deuxième cycle en génie civil? Chez nous, vous apprendrez non seulement à concevoir des projets de construction mais aussi à les gérer. Et vous serez encadré par des professeurs qui ont une expérience sur le terrain : la majorité d’entre eux ont une expérience en industrie et collaborent...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-construction"
+        },
+        {
+            "id": 183550,
+            "title": "Maîtrise en génie de la production automatisée",
+            "cycle": "2e cycle",
+            "code": "303Z, 3034, 1566",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français pour la M. Ing. <br />Français et anglais pour la M. Sc. A.",
+            "departements": [
+                367389
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Pour devenir expert des systèmes intelligents Grâce à vos études de maîtrise en génie de la production automatisée de l’ÉTS, vous deviendrez spécialiste de la conception, de l’intégration et de la gestion de systèmes complexes, et ce, où qu’ils soient : à la maison, à l’hôpital, à l’usine ou en entreprise.&nbsp; Vous serez en mesure de résoudre des problématiques liées à la conception de robots collaboratifs, de développer des algorithmes pouvant analyser des...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-production-automatisee"
+        },
+        {
+            "id": 183698,
+            "title": "Maîtrise en génie des réseaux de télécommunications",
+            "cycle": "2e cycle",
+            "code": "3094, 1560",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Temps plein pour le profil avec mémoire <br />Temps partiel ou temps plein pour le profil avec projet",
+            "langue": "Français pour la M. Ing. <br />Français et anglais pour la M. Sc. A.",
+            "departements": [
+                367282
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Pour acquérir une vision stratégique et innovante du domaine des télécommunications Dans un monde où les télécommunications occupent un rôle de premier plan, et ce, pratiquement dans tous les domaines de la vie courante, les réseaux qui permettent la transmission des données, des images et de la voix doivent relever des défis de plus en plus ambitieux : ils doivent être plus fiables, plus rapides et plus accessibles.&nbsp; En réalisant une maîtrise en génie des réseaux de...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-reseaux-telecommunications"
+        },
+        {
+            "id": 183616,
+            "title": "Maîtrise en génie des risques en santé et sécurité du travail",
+            "cycle": "2e cycle",
+            "code": "3094, 1560",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Temps plein pour le profil avec mémoire <br />Temps partiel ou temps plein pour le profil avec projet",
+            "langue": "Français pour la M. Ing. <br />Français et anglais pour la M. Sc. A.",
+            "departements": [
+                367321
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Pour améliorer les bilans en santé et sécurité du travailTous les ans, environ 90&nbsp;000 personnes sont victimes d’un accident ou d’une maladie reliés à l’exercice de leur travail. De ce nombre, 200 perdront la vie. Cependant, bien qu’il y ait encore beaucoup de chemin à faire, le bilan s’améliore : les accidents de travail ont chuté de 40&nbsp;% depuis le début des années&nbsp;2000.Derrière cette amélioration, il y a des professionnels qui s’évertuent à concevoir...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-risques-sante-securite-travail"
+        },
+        {
+            "id": 183640,
+            "title": "Maîtrise en génie des technologies de l’information",
+            "cycle": "2e cycle",
+            "code": "1568, 1567",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Temps plein pour le profil avec mémoire <br />Temps partiel ou temps plein pour le profil avec projet",
+            "langue": "Français pour la M. Ing. <br />Français et anglais pour la M. Sc. A.",
+            "departements": [
+                367448
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Pour être un acteur de premier plan dans les changements technologiques et leurs impacts Les technologies de l’information sont au cœur de notre société. Elles ont un impact important et transformateur sur notre vie. Les années à venir s’annoncent riches en avancées de toutes sortes&nbsp;: pensons seulement à l’Internet des objets, aux données massives, à l’intelligence artificielle ou aux chaînes de blocs, pour ne nommer que celles-ci.&nbsp; Grâce à la maîtrise en...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-technologies-information"
+        },
+        {
+            "id": 183628,
+            "title": "Maîtrise en génie des technologies de la santé",
+            "cycle": "2e cycle",
+            "code": "3094, 1560",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Temps plein pour le profil avec mémoire <br />Temps partiel ou temps plein pour le profil avec projet",
+            "langue": "Français pour la M. Ing. <br />Français et anglais pour la M. Sc. A.",
+            "departements": [
+                367321,
+                367389
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Les technologies de la santé : au service de la prévention, du traitement, du diagnostic et de la réadaptation À l’École de technologie supérieure, plus de 20 professeurs réalisent des mandats de recherche liés à la santé et au domaine biomédical.&nbsp; Rattachés à des départements complémentaires de l’ÉTS, ils mettent en commun leurs expertises pour élaborer des outils de prévention, de diagnostic, de traitement ou de réadaptation. Pour veiller à ce que leurs travaux...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-technologies-sante"
+        },
+        {
+            "id": 183562,
+            "title": "Maîtrise en génie électrique",
+            "cycle": "2e cycle",
+            "code": "3044, 1564",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français pour la M. Ing. <br />Français et anglais pour la M. Sc. A.",
+            "departements": [
+                367282
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Des projets concrets et avant-gardistes en génie électrique À l’ÉTS, les projets de recherche en génie électrique s’appuient sur du concret, en plus d’être avant-gardistes. La preuve&nbsp;: nous comptons parmi les rares universités à nous intéresser aux systèmes embarqués intégrés dans l’avionique et la navigation. De plus, la plupart de nos professeurs ont acquis de l’expérience en entreprise, tandis que 60&nbsp;% de leurs travaux de recherche sont réalisés en...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-electrique"
+        },
+        {
+            "id": 183664,
+            "title": "Maîtrise en génie logiciel",
+            "cycle": "2e cycle",
+            "code": "1822, 1560",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Temps plein pour le profil avec mémoire <br />Temps partiel ou temps plein pour le profil avec projet",
+            "langue": "Français pour la M. Ing. <br />Français et anglais pour la M. Sc. A.",
+            "departements": [
+                367448
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Pour devenir un expert dans un domaine hautement stimulant qui connaît une croissance fulgurante Vous voulez acquérir et appliquer des connaissances de pointe en génie logiciel et contribuer de manière importante au développement et à la maintenance de logiciels? Vous souhaiteriez implanter de nouvelles pratiques et technologies afin d’amener votre employeur à un niveau supérieur de performance et à une plus grande maturité technologique? Vous aspirez à diriger une équipe de...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-logiciel"
+        },
+        {
+            "id": 183652,
+            "title": "Maîtrise en génie mécanique",
+            "cycle": "2e cycle",
+            "code": "3054, 1565",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Temps plein pour le profil avec mémoire <br />Temps partiel ou temps plein pour le profil avec projet",
+            "langue": "Français pour la M. Ing. <br />Français et anglais pour la M. Sc. A.",
+            "departements": [
+                367321
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Un programme qui vous permettra de travailler dans des domaines aussi variés que la santé, la sécurité du travail, l'environnement, l'aéronautique ou le secteur manufacturier! Qu’est-ce qui a fait la renommée du programme de maîtrise en génie mécanique de l’École de technologie supérieure au fil des ans? Chez nous, la recherche en génie mécanique touche des domaines aussi variés que la santé, la sécurité du travail, l’environnement, le secteur manufacturier et...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-mecanique"
+        },
+        {
+            "id": 183710,
+            "title": "Maîtrise en génie, concentration personnalisée",
+            "cycle": "2e cycle",
+            "code": "1560",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français et anglais",
+            "departements": [
+                367448,
+                367321,
+                367282,
+                367389
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Pour réaliser un projet de recherche dans un domaine qui sort des sentiers battus! Vous aimeriez réaliser un projet de recherche dans un domaine du génie qui sort des sentiers battus ou qui n’est pas couvert par un programme de l’ÉTS? Le sujet qui vous passionne requiert l’intervention de plusieurs domaines du savoir en génie? La maîtrise en génie avec concentration personnalisée de l’ÉTS répondra à vos besoins! Présentation de la maîtrise en génie avec concentration...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-concentration-personnalisee"
+        },
+        {
+            "id": 183586,
+            "title": "Maîtrise en génie, énergies renouvelables et efficacité énergétique",
+            "cycle": "2e cycle",
+            "code": "3094, 1560",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français pour la M. Ing. <br />Français et anglais pour la M. Sc. A.",
+            "departements": [
+                367321,
+                367282
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Réfléchir à des solutions de rechange, dès maintenant! Comme les changements climatiques ont des impacts socioéconomiques importants, notamment sur nos réseaux électriques, il faut réfléchir dès maintenant à des solutions de rechange. Il en va de même pour la sécurité des approvisionnements en énergie. Depuis la première crise du pétrole, en 1973, cet enjeu est devenu une préoccupation mondiale en raison de ses conséquences sur les économies nationales. À toutes ces...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-energies-renouvelables-efficacite-energetique"
+        },
+        {
+            "id": 183598,
+            "title": "Maîtrise en génie, projets internationaux et ingénierie globale",
+            "cycle": "2e cycle",
+            "code": "3094",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                697435
+            ],
+            "description": " Pour réaliser des projets multidisciplinaires dans un contexte mondial Vous sentez l’appel du large et vous rêvez de gérer des projets d’ingénierie à l’étranger? Préparez-vous à réaliser vos aspirations professionnelles grâce à la maîtrise en génie avec concentration en projets internationaux et en ingénierie globale de l’ÉTS. Qu’il s’agisse d’interpréter les cadres législatifs, normatifs ou réglementaires internationaux, d’animer des équipes...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-projets-internationaux-ingenierie-globale"
+        },
+        {
+            "id": 183686,
+            "title": "Maîtrise en gestion de l’innovation",
+            "cycle": "2e cycle",
+            "code": "3094, 1560",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Temps plein pour le profil avec mémoire <br />Temps partiel ou temps plein pour le profil avec projet",
+            "langue": "Français pour la M. Ing. <br />Français et anglais pour la M. Sc. A.",
+            "departements": [
+                367389
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Pour initier et mener des projets novateurs et en connaître tous les enjeux Pour innover, il faut non seulement avoir de bonnes idées, il faut savoir les vendre. Et pour démarrer une entreprise, il ne suffit pas toujours d’avoir une bonne idée : des connaissances en gestion et en stratégies de marché sont souvent nécessaires pour développer un modèle d’affaires viable. Avec une maîtrise en génie avec concentration en gestion de l’innovation de l’ÉTS, vous développerez...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-gestion-innovation"
+        },
+        {
+            "id": 183726,
+            "title": "Maîtrise en gestion de projets d'ingénierie",
+            "cycle": "2e cycle",
+            "code": "3094, 1560",
+            "credits": "45",
+            "contingent": null,
+            "regime": "Temps plein pour le profil avec mémoire <br />Temps partiel ou temps plein pour le profil avec projet",
+            "langue": "Français pour la M. Ing. <br />Français et anglais pour la M. Sc. A.",
+            "departements": [
+                367448
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Pour acquérir des compétences reconnues en gestion de projets Vous souhaitez maîtriser tous les éléments associés à la gestion de projet et de portefeuille de projets et ainsi contribuer à la progression de votre carrière? Le programme des cycles supérieurs en gestion de projet d’ingénierie de l’ÉTS vous aidera à y parvenir! Grâce à ce programme, basé sur les bonnes pratiques généralement reconnues et sur celles du Project Management Institute (PMI), vous serez en mesure...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-gestion-projets-ingenierie"
+        },
+        {
+            "id": 183676,
+            "title": "Maîtrise en gestion des infrastructures urbaines",
+            "cycle": "2e cycle",
+            "code": "309Z, 3094",
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                697435,
+                697451
+            ],
+            "description": " Faut-il rétablir ou maintenir l’état des infrastructures, les améliorer, les moderniser ou les remplacer? Une grande partie des infrastructures urbaines ayant été construites dans les années 1960 et 1970, leur dégradation représente un vaste défi pour les municipalités québécoises et cet enjeu ouvre la voie à de multiples interventions. La complexité des systèmes existants exige une réflexion particulière avant la mise en œuvre de solutions : faut-il rétablir ou maintenir...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-genie-infrastructures-urbaines"
+        },
+        {
+            "id": 1109988,
+            "title": "Maîtrise sur mesure",
+            "cycle": "2e cycle",
+            "code": null,
+            "credits": "45 crédits",
+            "contingent": null,
+            "regime": "Voir article 12.3 Régime d’études du Règlement des études de cycles supérieurs",
+            "langue": "Français et anglais",
+            "departements": [],
+            "types": [
+                697451,
+                697435
+            ],
+            "description": " PrésentationLorsqu’aucun de ses programmes d’études ne correspond aux besoins de formation, mais qu’elle dispose des ressources et de la capacité d’accueil nécessaires, l’ÉTS peut, dans certains cas, autoriser un programme de maîtrise sur mesure (45&nbsp;crédits), profil recherche, permettant la réalisation d’un plan de formation original et cohérent.Le programme de maîtrise sur mesure vise le développement d’une expertise avancée dans une discipline ou un champ...",
+            "url": "https://www.etsmtl.ca/programmes-formations/maitrise-mesure"
+        },
+        {
+            "id": 391265,
+            "title": "Microprogramme de 2<sup>e</sup> cycle en entrepreneuriat scientifique et technologique",
+            "cycle": "2e cycle",
+            "code": "9183",
+            "credits": "9 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367491
+            ],
+            "types": [
+                738239
+            ],
+            "description": " Présentation Vous avez des&nbsp;idées et vous aimeriez que la société puisse en bénéficier? Ce microprogramme vous aidera à les transformer en solutions commercialisables. Objectif Ce programme vise l’acquisition d’une culture entrepreneuriale et le développement de compétences en leadership et gestion d’entreprise permettant le démarrage d’une entreprise. À la fin de ce programme, l'étudiantes ou l'étudiante sera en mesure : d’identifier les compétences nécessaires...",
+            "url": "https://www.etsmtl.ca/programmes-formations/microprogramme-2e-cycle-entrepreneuriat-scientifique-technologique"
+        },
+        {
+            "id": 396036,
+            "title": "Microprogramme de 2<sup>e</sup> cycle en ingénierie créative",
+            "cycle": "2e cycle",
+            "code": "9159",
+            "credits": "9 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [],
+            "types": [
+                738239
+            ],
+            "description": " Présentation Vous aimez mettre votre créativité à profit? Ce microprogramme est conçu pour vous aider à&nbsp;penser en dehors des cadres traditionnels. Objectif Ce programme a pour objectif de former des personnes ingénieures, praticiennes des sciences appliquées et professionnelles travaillant dans un milieu où les activités d’ingénierie prédominent. Il les&nbsp;dote d’une formation théorique et pratique de base en méthodologies d'ingénierie créative visant&nbsp;à...",
+            "url": "https://www.etsmtl.ca/programmes-formations/microprogramme-2e-cycle-ingenierie-creative-2"
+        },
+        {
+            "id": 183286,
+            "title": "Microprogramme de 2<sup>e</sup> cycle en innovation en chirurgie",
+            "cycle": "2e cycle",
+            "code": "0845",
+            "credits": "9 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [],
+            "types": [
+                738239
+            ],
+            "description": " Présentation Ce programme s’adresse aux personnes déjà inscrites à un programme de maîtrise ou de doctorat qui souhaitent obtenir une formation en innovation en chirurgie.Il leur permettra d’acquérir, selon une perspective interdisciplinaire, une expérience utile dans le milieu de la recherche universitaire, de mettre en pratique des connaissances dans un milieu encadré, d’expérimenter en temps réel les principes de l’innovation, le développement de produits et la...",
+            "url": "https://www.etsmtl.ca/programmes-formations/microprogramme-2e-cycle-innovation-chirurgie"
+        },
+        {
+            "id": 1217860,
+            "title": "Microprogramme de 2<sup>e</sup>&nbsp;cycle en ingénierie financière sur investissement de base",
+            "cycle": "2e cycle",
+            "code": "9231",
+            "credits": "9 crédits",
+            "contingent": "Non contingenté",
+            "regime": "Temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                738239
+            ],
+            "description": " PrésentationObjectifCe programme vise à acquérir des connaissances fondamentales sur les techniques de l’ingénierie financière, notamment sur la finance moderne et l’analyse quantitative en faisant appel à des prévisions, la modélisation et l’analyse du risque.&nbsp;À la fin de ce microprogramme, les étudiantes et étudiants seront en mesure d’estimer le rôle économique du marché financier, de prendre des décisions financières en considérant l’incertitude de l'avenir...",
+            "url": "https://www.etsmtl.ca/programmes-formations/microprogramme-2e-cycle-ingenierie-financiere"
+        },
+        {
+            "id": 1217850,
+            "title": "Microprogramme de 2<sup>e</sup>&nbsp;cycle en technologie et logistique financière",
+            "cycle": "2e cycle",
+            "code": "9232",
+            "credits": "9 crédits",
+            "contingent": "Non contingenté",
+            "regime": "Temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                738239
+            ],
+            "description": " PrésentationObjectifCe programme vise à acquérir des connaissances fondamentales en logistique d'opérations financières, notamment sur les outils mathématiques (valeurs à risque, coûts transactionnels, analyse d'attribution de performance, etc.), les techniques de contrôle de risques (infonuagique, cybersécurité, illiquidité et volatilité), la gestion des métadonnées et les méthodes de suivi de marché (gestion des flux, services administratifs, garde de valeurs, bourses et...",
+            "url": "https://www.etsmtl.ca/programmes-formations/microprogramme-2e-cycle-technologie-logistique-financiere"
+        },
+        {
+            "id": 183066,
+            "title": "Programme court de 2<sup>e</sup> cycle en efficacité énergétique",
+            "cycle": "2e cycle",
+            "code": "0565",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367282
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme de formation continue s’adresse aux ingénieurs et professionnels désireux d’acquérir des connaissances avancées sur l’efficacité énergétique et sur la conversion et l'utilisation efficace de l’énergie issue de sources renouvelables. Ils y développeront les habiletés et aptitudes nécessaires pour intégrer les nouvelles technologies de l'énergie et de commande moderne dans une entreprise. De plus, ils pourront concevoir de nouvelles technologies moins...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-efficacite-energetique"
+        },
+        {
+            "id": 183126,
+            "title": "Programme court de 2<sup>e</sup> cycle en entreprise numérique",
+            "cycle": "2e cycle",
+            "code": "9038",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps plein et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367448
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectifs Ce programme multidisciplinaire s'adresse aux ingénieurs et aux professionnels désireux d’acquérir des connaissances avancées sur des projets de transformation vers l’entreprise numérique avec des technologies de rupture liées à la quatrième révolution industrielle (Industrie 4.0).Au terme du programme, les étudiants et étudiantes auront développé des compétences permettant de concevoir et de gérer des changements sociaux-techniques de même que d’assurer une...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-entreprise-numerique"
+        },
+        {
+            "id": 183076,
+            "title": "Programme court de 2<sup>e</sup> cycle en exploitation des énergies renouvelables",
+            "cycle": "2e cycle",
+            "code": "0563",
+            "credits": "15 crédits",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert temps à partiel",
+            "langue": "Français",
+            "departements": [
+                367321,
+                367282
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectifs Ce programme de formation continue s’adresse aux ingénieurs et professionnels désireux d’acquérir des connaissances avancées pour l’exploitation des différents types d’énergie renouvelable. Ils y développeront les habiletés et aptitudes permettant d'identifier les besoins technologiques dans une entreprise donnée et de procéder au transfert de technologie en industrie.Ce programme court se réalise généralement à temps partiel. Sa durée moyenne est de sept...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-energies-renouvelables"
+        },
+        {
+            "id": 183086,
+            "title": "Programme court de 2<sup>e</sup> cycle en faisabilité de projets internationaux",
+            "cycle": "2e cycle",
+            "code": "0617",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectifs Ce programme de formation continue s'adresse aux professionnels et gestionnaires aptes à gérer des projets multidisciplinaires dans un contexte international, de la phase d’étude de faisabilité jusqu’à la période de parachèvement.Ce programme court est généralement effectué à temps partiel. Sa durée moyenne est de sept sessions (deux ans et quatre mois). Conditions d'admission Être titulaire d'un baccalauréat, ou l'équivalent, en génie, en sciences appliquées ou...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-faisabilite-projets-internationaux"
+        },
+        {
+            "id": 183146,
+            "title": "Programme court de 2<sup>e</sup> cycle en génie de l'environnement",
+            "cycle": "2e cycle",
+            "code": "0648",
+            "credits": "15 crédits",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectifs Acquérez des connaissances avancées en génie de l’environnement tout en développant des habiletés et des aptitudes qui vous aideront à déterminer les besoins en technologie d’une entreprise.Ce programme court est généralement effectué à temps partiel. Sa durée moyenne est de sept sessions (deux ans et quatre mois). Conditions d'admission Être titulaire d'un baccalauréat, ou l'équivalent, en génie, en sciences pures ou en sciences appliquées, dans un domaine...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-genie-environnement"
+        },
+        {
+            "id": 183096,
+            "title": "Programme court de 2<sup>e</sup> cycle en génie de la construction : gestion des coûts et du temps",
+            "cycle": "2e cycle",
+            "code": "0856",
+            "credits": "15 crédits",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectifs Ce programme de formation continue s'adresse aux ingénieurs et professionnels désireux d’accroître leur expertise des processus et des méthodes de gestion des coûts et du temps dans le cadre de projets de construction.Ce programme court est généralement effectué à temps partiel. Sa durée moyenne est de sept sessions (deux ans et quatre mois). Conditions d'admission Être titulaire d'un baccalauréat, ou l'équivalent, en génie civil, en génie de la construction ou dans...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-genie-construction-gestion-couts-temps"
+        },
+        {
+            "id": 183106,
+            "title": "Programme court de 2<sup>e</sup> cycle en génie de la construction : gestion réglementaire",
+            "cycle": "2e cycle",
+            "code": "0857",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Présentation Ce programme court est généralement effectué à temps partiel. Sa durée moyenne est de sept sessions (deux ans et quatre mois). Conditions d'admission Être titulaire d'un baccalauréat, ou l'équivalent, en génie civil, en génie de la construction ou dans un domaine connexe, obtenu avec une moyenne cumulative d'au moins 3,0 sur 4,3 ou l'équivalent; le candidat ou la candidate ayant obtenu une moyenne entre 2,8 et 3,0 sur 4,3 peut être admis après étude du dossier; OU...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-genie-construction-gestion-reglementaire"
+        },
+        {
+            "id": 183116,
+            "title": "Programme court de 2<sup>e</sup> cycle en génie de la construction&nbsp;: hydraulique environnementale",
+            "cycle": "2e cycle",
+            "code": "0858",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Présentation Ce programme court est généralement effectué à temps partiel. Sa durée moyenne est de sept sessions (deux ans et quatre mois). Conditions d'admission Être titulaire d'un baccalauréat, ou l'équivalent, en génie civil, en génie de la construction ou dans un domaine connexe, obtenu avec une moyenne cumulative d'au moins 3,0 sur 4,3 ou l'équivalent; le candidat ou la candidate ayant obtenu une moyenne entre 2,8 et 3,0 sur 4,3 peut être admis après étude du dossier; OU...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-genie-construction-hydraulique-environnementale"
+        },
+        {
+            "id": 183136,
+            "title": "Programme court de 2<sup>e</sup> cycle en génie de la construction&nbsp;: projets de réhabilitation",
+            "cycle": "2e cycle",
+            "code": "0854",
+            "credits": "15 crédits",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Présentation Ce programme court est généralement effectué à temps partiel. Sa durée moyenne est de sept sessions (deux ans et quatre mois). Conditions d'admission Être titulaire d'un baccalauréat, ou l'équivalent, en génie civil, en génie de la construction ou dans un domaine connexe, obtenu avec une moyenne cumulative d'au moins 3,0 sur 4,3 ou l'équivalent; le candidat ou la candidate ayant obtenu une moyenne entre 2,8 et 3,0 sur 4,3 peut être admis après étude du dossier; OU...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-genie-construction-projets-rehabilitation"
+        },
+        {
+            "id": 183156,
+            "title": "Programme court de 2<sup>e</sup> cycle en génie de la production automatisée : intégration et automatisation des systèmes",
+            "cycle": "2e cycle",
+            "code": "0569",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367389
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme de formation continue s’adresse aux ingénieurs et aux professionnels désireux d’acquérir des connaissances avancées en génie de la production automatisée, et plus particulièrement en intégration et en automatisation de systèmes. À son terme, ils auront développé les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie en industrie.Ce programme court est...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-production-automatisee-integration-automatisation"
+        },
+        {
+            "id": 183166,
+            "title": "Programme court de 2<sup>e</sup> cycle en génie de la production automatisée&nbsp; : systèmes intelligents",
+            "cycle": "2e cycle",
+            "code": "0534",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367389
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme de formation continue s’adresse aux ingénieurs et aux professionnels désireux d’acquérir des connaissances avancées en génie de la production automatisée, et plus particulièrement en systèmes intelligents. À son terme, ils auront développé les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie en industrie.Ce programme court est généralement effectué à...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-production-systemes-intelligents"
+        },
+        {
+            "id": 183176,
+            "title": "Programme court de 2<sup>e</sup> cycle en génie des risques de santé et sécurité du travail",
+            "cycle": "2e cycle",
+            "code": "0682",
+            "credits": "15 crédits",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme vise l’acquisition de connaissances et de compétences en vue d'exercer des activités professionnelles d’ingénierie spécialisée dans le domaine de la sécurité du travail et du contrôle des systèmes industriels, soit : la conception et l’amélioration des procédés, des normes, des spécifications techniques des équipements ou des systèmes industriels en visant l’élimination, la réduction ou le contrôle des risques ou des expositions potentiellement...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-risques-sante-securite-travail"
+        },
+        {
+            "id": 183186,
+            "title": "Programme court de 2<sup>e</sup> cycle en génie électrique",
+            "cycle": "2e cycle",
+            "code": "0557",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367282
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme de formation continue s’adresse aux ingénieurs et aux professionnels désirant acquérir des connaissances avancées en génie électrique et développer les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie en industrie.Ce programme court est généralement effectué à temps partiel. Sa durée moyenne est de sept sessions (deux ans et quatre mois). Conditions...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-genie-electrique"
+        },
+        {
+            "id": 183206,
+            "title": "Programme court de 2<sup>e</sup> cycle en génie électrique : modélisation et traitement de l'information",
+            "cycle": "2e cycle",
+            "code": "0562",
+            "credits": "15 crédits",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367282
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme de formation continue s’adresse aux ingénieurs et aux professionnels désirant acquérir des connaissances avancées en génie électrique et développer les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie en industrie. Ce programme court est généralement effectué à temps partiel. Sa durée moyenne est de sept sessions (deux ans et quatre mois). Conditions...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-genie-electrique-modelisation-et-traitement-information"
+        },
+        {
+            "id": 183216,
+            "title": "Programme court de 2<sup>e</sup> cycle en génie électrique&nbsp;: télécommunications et microélectronique",
+            "cycle": "2e cycle",
+            "code": "0561",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367282
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme de formation continue s’adresse aux ingénieurs et aux professionnels désirant acquérir des connaissances avancées en génie électrique et développer les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie en industrie.Ce programme court est généralement effectué à temps partiel. Sa durée moyenne est de sept sessions (deux ans et quatre mois). Conditions...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-genie-electrique-telecommunications-microelectronique"
+        },
+        {
+            "id": 183226,
+            "title": "Programme court de 2<sup>e</sup> cycle en génie mécanique",
+            "cycle": "2e cycle",
+            "code": "0567",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps complet et à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367321
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme de formation continue s’adresse aux ingénieurs et aux professionnels désirant acquérir des connaissances avancées en génie mécanique et développer les habiletés et aptitudes nécessaires pour déterminer les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie en industrie.Ce programme court est généralement effectué à temps partiel. Sa durée moyenne est de sept sessions (deux ans et quatre mois). Conditions...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-genie-mecanique"
+        },
+        {
+            "id": 183236,
+            "title": "Programme court de 2<sup>e</sup> cycle en gestion de l’innovation",
+            "cycle": "2e cycle",
+            "code": "0514",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367389
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme est principalement destiné aux ingénieurs, praticiens des sciences appliquées et professionnels actifs dans un milieu où prédominent les activités d’ingénierie. Il permet à ces derniers d’acquérir la formation de base essentielle à la gestion de l’innovation de produits ou de procédés ainsi que la méthodologie nécessaire pour l’appliquer selon les règles de l’art. Dans le contexte où l’on définit une innovation comme une invention qui devient...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-gestion-innovation"
+        },
+        {
+            "id": 183246,
+            "title": "Programme court de 2<sup>e</sup> cycle en gestion de projets d'ingénierie",
+            "cycle": "2e cycle",
+            "code": "0414",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367448
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme court est destiné principalement aux ingénieurs, praticiens des sciences appliquées et professionnels travaillant dans un milieu où prédominent les activités d’ingénierie. Il les dote d’une formation essentielle en gestion de projets d’ingénierie et de la méthodologie nécessaire pour l’appliquer selon les règles de l’art. Il vise à développer les habiletés de gestion de niveau stratégique requises pour concevoir et réaliser des projets...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-gestion-projets-ingenierie"
+        },
+        {
+            "id": 183256,
+            "title": "Programme court de 2<sup>e</sup> cycle en gestion de projets internationaux",
+            "cycle": "2e cycle",
+            "code": "0616",
+            "credits": "15 crédits",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Présentation Apprenez à gérer des projets multidisciplinaires dans un contexte international et à diriger des équipes multiculturelles. Acquérez les compétences requises pour interpréter les principaux cadres législatifs, réglementaires et normatifs internationaux grâce à ce programme court de deuxième cycle. Ce programme court est généralement effectué à temps partiel. Sa durée moyenne est de sept sessions (deux ans et quatre mois). Conditions d'admission Être titulaire...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-projets-internationaux"
+        },
+        {
+            "id": 183266,
+            "title": "Programme court de 2<sup>e</sup> cycle en gestion des infrastructures urbaines",
+            "cycle": "2e cycle",
+            "code": "0681",
+            "credits": "15 crédits",
+            "contingent": "Programme non contingenté",
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectifs Ce programme de formation continue vise à former des gestionnaires des infrastructures urbaines dans une perspective de développement durable qui intègre toutes les considérations technico-économiques de l’aménagement du territoire, de l’urbanisme, de la gestion pluviale et du transport urbain.Ce programme court est généralement effectué à temps partiel. Sa durée moyenne est de sept sessions (deux ans et quatre mois). Conditions d'admission Être titulaire d'un...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-gestion-infrastructures-urbaines"
+        },
+        {
+            "id": 183276,
+            "title": "Programme court de 2<sup>e</sup> cycle en ingénierie financière",
+            "cycle": "2e cycle",
+            "code": "9081",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme, développé en collaboration avec la Caisse de dépôt et placement du Québec, offre une formation multidisciplinaire fondée sur les outils mathématiques de haut niveau, les techniques de modélisation et de calcul avancé, la finance moderne et l’analyse quantitative, notamment dans le domaine des prévisions, de la modélisation et de l’analyse du risque.Il vise l’amélioration des connaissances en matière de planification, d’exécution, de contrôle et de...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-ingenierie-financiere"
+        },
+        {
+            "id": 183296,
+            "title": "Programme court de 2<sup>e</sup> cycle en modélisation des données du bâtiment (BIM)",
+            "cycle": "2e cycle",
+            "code": "0866",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367500
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme s'appuie sur les nouveaux enjeux de la gestion de la construction qui intègrent les technologies de l'information appliquées à la construction, les techniques de modélisation 3D, de temps, de coûts, la modélisation énergétique du bâtiment et la modélisation des données pour l'opération de bâtiment. Il vise à donner aux étudiants une bonne compréhension de l'impact des technologies de l'information, des approches intégrées sur les pratiques de l'industrie...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-modelisation-donnees-batiment"
+        },
+        {
+            "id": 183306,
+            "title": "Programme court de 2<sup>e</sup> cycle en réseaux de télécommunications",
+            "cycle": "2e cycle",
+            "code": "0647",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367282
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme vise des objectifs de formation continue. Il s’adresse aux ingénieurs et aux professionnels désirant acquérir des connaissances avancées en génie des télécommunications et développer les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie dans l’industrie.Ce programme court se réalise généralement à temps partiel. Sa durée moyenne est de sept sessions (deux...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-reseaux-telecommunications"
+        },
+        {
+            "id": 183334,
+            "title": "Programme court de 2<sup>e</sup> cycle en technologies de l'information",
+            "cycle": "2e cycle",
+            "code": "0578",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367448
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif L’objectif principal de ce programme est de répondre aux besoins de perfectionnement des intervenants responsables de la gestion, du développement, de l'intégration et des opérations des technologies de l'information dans les organisations. Le programme permet de conjuguer l'acquisition de connaissances et de compétences de haut niveau, d'une part en ingénierie des systèmes de traitement de l'information et, d'autre part, en gestion du changement technologique et son impact...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-technologies-information"
+        },
+        {
+            "id": 183324,
+            "title": "Programme court de 2<sup>e</sup> cycle en technologies de la santé",
+            "cycle": "2e cycle",
+            "code": "0649",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367321,
+                367389
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme vise des objectifs de formation continue. Il s’adresse aux ingénieurs et aux professionnels désirant acquérir des connaissances avancées en technologies de la santé et développer les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie dans l’industrie.Ce programme court se réalise généralement à temps partiel. Sa durée moyenne est de sept sessions (deux ans et...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-technologies-sante"
+        },
+        {
+            "id": 183196,
+            "title": "Programme court de 2<sup>e</sup>&nbsp;cycle en génie électrique&nbsp;: commande industrielle",
+            "cycle": "2e cycle",
+            "code": "0560",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367282
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Objectif Ce programme de formation continue s’adresse aux ingénieurs et aux professionnels désirant acquérir des connaissances avancées en génie électrique et développer les habiletés et aptitudes nécessaires pour identifier les besoins en technologie dans une entreprise donnée et procéder au transfert de technologie en industrie. Ce programme court est généralement effectué à temps partiel. Sa durée moyenne est de sept sessions (deux ans et quatre mois). Conditions...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-2e-cycle-genie-electrique-commande-industrielle"
+        },
+        {
+            "id": 183040,
+            "title": "Programme court en planification et gestion de la maintenance",
+            "cycle": "1er cycle",
+            "code": "0486",
+            "credits": "15 crédits",
+            "contingent": null,
+            "regime": "Offert à temps partiel",
+            "langue": "Français",
+            "departements": [
+                367389
+            ],
+            "types": [
+                700093
+            ],
+            "description": " Cours offerts en ligne, à un horaire prédéterminé PrésentationCe programme a pour objectif d’élargir ou de compléter la formation que vous avez déjà acquise dans les champs managériaux et techniques indispensables pour comprendre, planifier, gérer et effectuer la maintenance de systèmes industriels.Au terme de ce programme, vous aurez acquis des connaissances liées aux différents concepts de la maintenance, tant dans leur aspect curatif, prévisionnel et productif que dans leur...",
+            "url": "https://www.etsmtl.ca/programmes-formations/programme-court-planification-gestion-maintenance"
+        }
+    ]
+}

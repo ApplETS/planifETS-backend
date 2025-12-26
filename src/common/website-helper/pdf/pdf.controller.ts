@@ -6,10 +6,12 @@ import {
   Logger,
   Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
-import { ERROR_MESSAGES } from '../../constants/error-messages';
-import { getHorairePdfUrl, getPlanificationPdfUrl } from '../../constants/url';
+import { ERROR_MESSAGES } from '@/common/utils/error/error-constants';
+import { isAxiosError } from '@/common/utils/error/errorUtil';
+import { getHorairePdfUrl, getPlanificationPdfUrl } from '@/common/utils/url/url-constants';
+
 import { HoraireCoursService } from './pdf-parser/horaire/horaire-cours.service';
 import { IHoraireCours } from './pdf-parser/horaire/horaire-cours.types';
 import { PlanificationCoursService } from './pdf-parser/planification/planification-cours.service';
@@ -23,9 +25,11 @@ export class PdfController {
   constructor(
     private readonly horaireCoursService: HoraireCoursService,
     private readonly planificationCoursService: PlanificationCoursService,
-  ) {}
+  ) { }
 
   @Get('horaire-cours')
+  @ApiQuery({ name: 'program', description: 'Program code, e.g. 7084' })
+  @ApiQuery({ name: 'session', description: 'Session code, e.g. 20261' })
   public async parseHoraireCoursPdf(
     @Query('session') sessionCode: string,
     @Query('program') programCode: string,
@@ -46,6 +50,12 @@ export class PdfController {
         `${ERROR_MESSAGES.ERROR_PARSING_HORAIRE_PDF} from URL ${pdfUrl}: `,
         error,
       );
+      if (isAxiosError(error) && error.response?.status === 404) {
+        throw new HttpException(
+          ERROR_MESSAGES.HORAIRE_PDF_NOT_FOUND,
+          HttpStatus.NOT_FOUND,
+        );
+      }
       throw new HttpException(
         ERROR_MESSAGES.ERROR_PARSING_HORAIRE_PDF,
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -54,6 +64,7 @@ export class PdfController {
   }
 
   @Get('planification-cours')
+  @ApiQuery({ name: 'program', description: 'Program code, e.g. 7084' })
   public async parsePlanificationCoursPdf(
     @Query('program') programCode: string,
   ): Promise<ICoursePlanification[]> {
@@ -75,6 +86,12 @@ export class PdfController {
         `${ERROR_MESSAGES.ERROR_PARSING_PLANIFICATION_PDF} from URL ${pdfUrl}: `,
         error,
       );
+      if (isAxiosError(error) && error.response?.status === 404) {
+        throw new HttpException(
+          ERROR_MESSAGES.PLANIFICATION_PDF_NOT_FOUND,
+          HttpStatus.NOT_FOUND,
+        );
+      }
       throw new HttpException(
         ERROR_MESSAGES.ERROR_PARSING_PLANIFICATION_PDF,
         HttpStatus.INTERNAL_SERVER_ERROR,
