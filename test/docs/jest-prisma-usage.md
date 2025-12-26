@@ -1,3 +1,5 @@
+Library: https://github.com/Quramy/jest-prisma/tree/main
+
 # When to use jestPrisma vs the normal Prisma client:
 
 ## Use `jestPrisma.originalClient`:
@@ -19,3 +21,8 @@ Never use jestPrisma.client or jestPrisma.originalClient directly in your app or
 - Never: Direct use of `jestPrisma.client` or `jestPrisma.originalClient` in app/test logic
 
 This ensures test isolation, correct transaction handling, and avoids data visibility issues.
+
+
+## Exceptions
+- DateTime fields: If you encounter errors or unexpected behavior with DateTime fields (e.g., type errors or timezone issues), consider using a single-context Jest environment (see jest-prisma README “Workaround for DateTime invocation error”). \
+For setup/teardown, you can use `jestPrisma.originalClient` to set DateTime fields directly.

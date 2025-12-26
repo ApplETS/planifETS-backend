@@ -39,10 +39,17 @@ export class SessionService {
   public async getOrCreateCurrentSession(
     date: Date = new Date(),
   ): Promise<Session> {
+    // Check for invalid date
+    let dateString: string;
+    if (isNaN(date.getTime())) {
+      dateString = String(date);
+    } else {
+      dateString = date.toISOString();
+    }
     const trimester = getCurrentTrimester(date);
     if (!trimester) {
       this.logger.warn(
-        `Unable to determine the current trimester for date: ${date.toISOString()}`,
+        `Unable to determine the current trimester for date: ${dateString}`,
       );
       throw new Error('Current trimester could not be determined.');
     }
