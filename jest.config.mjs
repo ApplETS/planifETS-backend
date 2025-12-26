@@ -35,10 +35,10 @@ export default {
   coverageProvider: 'v8',
   coverageThreshold: {
     global: {
-      lines: 46,
-      statements: 46,
-      branches: 46,
-      functions: 46,
+      lines: 55,
+      statements: 55,
+      branches: 55,
+      functions: 55,
     },
   },
   testEnvironment: "@quramy/jest-prisma-node/environment",
