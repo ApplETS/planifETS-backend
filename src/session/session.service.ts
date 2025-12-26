@@ -41,7 +41,7 @@ export class SessionService {
   ): Promise<Session> {
     // Check for invalid date
     let dateString: string;
-    if (isNaN(date.getTime())) {
+    if (Number.isNaN(date.getTime())) {
       dateString = String(date);
     } else {
       dateString = date.toISOString();

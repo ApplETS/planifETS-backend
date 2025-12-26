@@ -1,7 +1,7 @@
 export function extractNumberFromString(cycle: string): number {
-  const match = RegExp(/\d+/).exec(cycle);
+  const match = new RegExp(/\d+/).exec(cycle);
 
-  return match ? parseInt(match[0], 10) : 0;
+  return match ? Number.parseInt(match[0], 10) : 0;
 }
 
 export function stripHtmlTags(text: string): string {

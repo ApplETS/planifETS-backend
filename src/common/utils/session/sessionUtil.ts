@@ -109,7 +109,7 @@ export function getCurrentTrimester(date: Date = new Date()): Trimester | null {
     return null;
   }
 
-  const trimesterIndex = parseInt(yearIndex.slice(-1), 10);
+  const trimesterIndex = Number.parseInt(yearIndex.slice(-1), 10);
   return getTrimesterByIndex(trimesterIndex);
 }
 

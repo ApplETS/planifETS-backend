@@ -53,7 +53,7 @@ export class ProgramCourseController {
       : [Number(courseIds)];
 
     // Validate that all IDs are valid numbers
-    if (idsArray.length === 0 || idsArray.some(id => isNaN(id))) {
+    if (idsArray.length === 0 || idsArray.some(id => Number.isNaN(id))) {
       throw new HttpException(
         'Course IDs must be valid numbers',
         HttpStatus.BAD_REQUEST,
@@ -147,7 +147,7 @@ export class ProgramCourseController {
         ? programIds.map(id => Number(id))
         : programIds!.split(';').filter(Boolean).map(id => Number(id));
 
-      if (idsArray.length === 0 || idsArray.some(id => isNaN(id))) {
+      if (idsArray.length === 0 || idsArray.some(id => Number.isNaN(id))) {
         throw new HttpException(
           'Program IDs must be valid numbers',
           HttpStatus.BAD_REQUEST,
