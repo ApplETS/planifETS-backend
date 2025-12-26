@@ -3,26 +3,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosHeaders, AxiosResponse } from 'axios';
 import * as fs from 'fs';
 import { of, throwError } from 'rxjs';
+import { PLANIFICATION_DATA_V2_PATH, PLANIFICATION_PDF_V1_PATH, PLANIFICATION_PDF_V2_PATH } from 'test/test-utils/constants';
+import { normalizeCourseArray } from 'test/test-utils/planification/planificationUtil';
 
 import { PlanificationCoursService } from '@/common/website-helper/pdf/pdf-parser/planification/planification-cours.service';
 import { ICoursePlanification } from '@/common/website-helper/pdf/pdf-parser/planification/planification-cours.types';
 import { PdfParserUtil } from '@/utils/pdf/parser/pdfParserUtil';
 
-// Extract only code and available fields from a course
-function mapCoursePlanification(c: ICoursePlanification) {
-  return { code: c.code, available: c.available };
-}
-
-// Sort by course code
-function sortByCode(a: { code: string }, b: { code: string }) {
-  return a.code.localeCompare(b.code);
-}
-
-function normalizeCourseArray(arr: Array<ICoursePlanification>) {
-  return arr
-    .map(mapCoursePlanification)
-    .sort(sortByCode);
-}
 
 describe('PlanificationCoursService', () => {
   let service: PlanificationCoursService;
@@ -45,8 +32,8 @@ describe('PlanificationCoursService', () => {
     service = module.get<PlanificationCoursService>(PlanificationCoursService);
     httpService = module.get<HttpService>(HttpService);
 
-    pdf_v1 = fs.readFileSync('test/assets/pdf/Planification-7084-v1.pdf');
-    pdf_v2 = fs.readFileSync('test/assets/pdf/Planification-7084-v2.pdf');
+    pdf_v1 = fs.readFileSync(PLANIFICATION_PDF_V1_PATH);
+    pdf_v2 = fs.readFileSync(PLANIFICATION_PDF_V2_PATH);
   });
 
   afterEach(() => {
@@ -111,7 +98,7 @@ describe('PlanificationCoursService', () => {
     });
 
     it('v2 parsed output should match expected JSON data exactly (sorted by code)', () => {
-      const expectedV2 = JSON.parse(fs.readFileSync('test/assets/data/Planification-7084-v2.json', 'utf-8')) as Array<ICoursePlanification>;
+      const expectedV2 = JSON.parse(fs.readFileSync(PLANIFICATION_DATA_V2_PATH, 'utf-8')) as Array<ICoursePlanification>;
 
       expect(normalizeCourseArray(result_v2)).toEqual(normalizeCourseArray(expectedV2));
     });

@@ -9,7 +9,8 @@ export default {
   },
   moduleNameMapper: pathsToModuleNameMapper({
     "@/common/*": ["./src/common/*"],
-    "@/utils/*": ["./src/common/utils/*"]
+    "@/utils/*": ["./src/common/utils/*"],
+    "test/*": ["./test/*"]
   }, { prefix: '<rootDir>/' }),
 
   collectCoverageFrom: [

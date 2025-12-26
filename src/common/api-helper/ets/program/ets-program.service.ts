@@ -10,7 +10,7 @@ interface IProgramEtsAPI {
   title: string;
   cycle: string;
   code: string;
-  credits: string;
+  credits: string | null;
   types: number[];
   url: string;
 }
@@ -25,7 +25,7 @@ export type Program = {
   title: string;
   cycle: number;
   code: string;
-  credits: string;
+  credits: string | null;
   programTypes: {
     connect: { id: number }[];
   };
@@ -51,7 +51,7 @@ export class EtsProgramService {
         title: stripHtmlTags(program.title),
         cycle: extractNumberFromString(program.cycle),
         code: program.code,
-        credits: program.credits,
+        credits: typeof program.credits === 'string' ? program.credits : null,
         programTypes: {
           connect: program.types.map((typeId) => ({ id: typeId })),
         },

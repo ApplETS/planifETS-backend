@@ -11,12 +11,15 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
+      "test/*": [
+        "./test/*"
+      ],
       "@/common/*": [
         "./src/common/*"
       ],
       "@/utils/*": [
         "./src/common/utils/*"
-      ]
+      ],
     },
     "incremental": true,
     "strict": true,

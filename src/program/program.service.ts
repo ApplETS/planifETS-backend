@@ -23,6 +23,12 @@ export class ProgramService {
   public async getAllPrograms(): Promise<Program[]> {
     this.logger.verbose('getAllPrograms');
 
+    return this.prisma.program.findMany();
+  }
+
+  public async getAllActivePrograms(): Promise<Program[]> {
+    this.logger.verbose('getAllActivePrograms');
+
     return this.prisma.program.findMany({
       where: {
         courses: {
