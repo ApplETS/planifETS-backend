@@ -1,5 +1,5 @@
 
-# <p align="center">PlanifETS</p>
+# <p align="center">PlanifETS Backend</p>
 
 <p align="center">
   <img src="https://github.com/ApplETS/planifETS-backend/actions/workflows/ci.yml/badge.svg" alt="CI Status" style="height: 20px; margin-right: 5px;">
