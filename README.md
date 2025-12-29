@@ -31,4 +31,4 @@ For onboarding instructions, please refer to our documentation on [Notion](https
 
 ## ⚖️ License
 
-This projet is licensed under the Apache License V2.0. See the [LICENSE](https://github.com/ApplETS/Notre-Dame/blob/master/LICENSE) file for more info.
+This projet is licensed under the Apache License V2.0. See the [LICENSE](https://github.com/ApplETS/planifETS-backend/blob/master/LICENSE) file for more info.
