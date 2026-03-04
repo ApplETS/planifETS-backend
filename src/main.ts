@@ -37,7 +37,7 @@ async function bootstrap() {
   const version = process.env.APP_GIT_SHORT_SHA ? `1.0.0 (${process.env.APP_GIT_SHORT_SHA})` : '1.0.0';
   const swaggerConfig = new DocumentBuilder()
     .setTitle('PlanifETS API')
-    .setExternalDoc('JSON API Documentation', '/api-json')
+    .setExternalDoc('JSON API Documentation', 'docs-json')
     .setVersion(version)
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
