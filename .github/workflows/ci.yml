@@ -86,3 +86,5 @@ jobs:
 
       - name: Build project
         run: yarn run build
+      - name: Check for dead code
+        run: yarn unused

@@ -80,7 +80,7 @@ export class ProgramCoursesDto {
   public courses!: ProgramCourseDto[];
 }
 
-export class DetailedProgramCourseCourseInstanceSessionDto {
+class DetailedProgramCourseCourseInstanceSessionDto {
   @ApiProperty()
   public trimester!: string;
 
@@ -88,7 +88,7 @@ export class DetailedProgramCourseCourseInstanceSessionDto {
   public year!: number;
 }
 
-export class DetailedProgramCourseCourseInstanceDto {
+class DetailedProgramCourseCourseInstanceDto {
   @ApiProperty({ type: [String] })
   public availability!: string[];
 
@@ -102,7 +102,7 @@ export class DetailedProgramCourseCourseInstanceDto {
   public session!: DetailedProgramCourseCourseInstanceSessionDto;
 }
 
-export class DetailedProgramCoursePrerequisiteCourseDto {
+class DetailedProgramCoursePrerequisiteCourseDto {
   @ApiProperty()
   public code!: string;
 
@@ -110,12 +110,12 @@ export class DetailedProgramCoursePrerequisiteCourseDto {
   public title!: string;
 }
 
-export class DetailedProgramCoursePrerequisiteDto {
+class DetailedProgramCoursePrerequisiteDto {
   @ApiProperty({ type: () => DetailedProgramCoursePrerequisiteCourseDto })
   public course!: DetailedProgramCoursePrerequisiteCourseDto;
 }
 
-export class DetailedProgramCourseCourseDto {
+class DetailedProgramCourseCourseDto {
   @ApiProperty()
   public code!: string;
 
@@ -186,7 +186,7 @@ export class ProgramCoursePrismaDto implements ProgramCourse {
   public updatedAt!: Date;
 }
 
-export class ProgramCoursesErrorDto {
+class ProgramCoursesErrorDto {
   @ApiProperty({ type: [String], description: 'List of invalid program codes' })
   public invalidProgramCodes!: string[];
 }
