@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ProgramCourse } from '@prisma/client';
 
 export class SessionAvailabilityDto {
   @ApiProperty()
@@ -135,7 +134,7 @@ class DetailedProgramCourseCourseDto {
   public courseInstances!: DetailedProgramCourseCourseInstanceDto[];
 }
 
-export class DetailedProgramCoursePrerequisiteWrapperDto {
+class DetailedProgramCoursePrerequisiteWrapperDto {
   @ApiProperty({ type: () => DetailedProgramCoursePrerequisiteDto })
   public prerequisite!: DetailedProgramCoursePrerequisiteDto;
 }
@@ -161,29 +160,6 @@ export class DetailedProgramCourseDto {
 
   @ApiProperty({ type: () => [DetailedProgramCoursePrerequisiteWrapperDto] })
   public prerequisites!: DetailedProgramCoursePrerequisiteWrapperDto[];
-}
-
-export class ProgramCoursePrismaDto implements ProgramCourse {
-  @ApiProperty()
-  public courseId!: number;
-
-  @ApiProperty()
-  public programId!: number;
-
-  @ApiProperty({ type: String, nullable: true })
-  public type!: string | null;
-
-  @ApiProperty({ type: Number, nullable: true })
-  public typicalSessionIndex!: number | null;
-
-  @ApiProperty({ type: String, nullable: true })
-  public unstructuredPrerequisite!: string | null;
-
-  @ApiProperty()
-  public createdAt!: Date;
-
-  @ApiProperty()
-  public updatedAt!: Date;
 }
 
 class ProgramCoursesErrorDto {

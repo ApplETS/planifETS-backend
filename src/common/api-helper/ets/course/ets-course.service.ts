@@ -8,7 +8,7 @@ import {
 } from '@/common/utils/url/url-constants';
 import { extractNumberFromString } from '@/utils/stringUtil';
 
-export interface ICoursesEtsAPI {
+interface ICoursesEtsAPI {
   id: number;
   title: string;
   description: string;
@@ -23,7 +23,7 @@ export interface ICourseEtsAPI {
   credits: number | null;
 }
 
-export interface ICourses {
+interface ICourses {
   id: number;
   title: string;
   description: string;
