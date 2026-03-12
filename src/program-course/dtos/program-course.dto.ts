@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ProgramCourse } from '@prisma/client';
 
 export class SessionAvailabilityDto {
   @ApiProperty()
@@ -80,7 +79,7 @@ export class ProgramCoursesDto {
   public courses!: ProgramCourseDto[];
 }
 
-export class DetailedProgramCourseCourseInstanceSessionDto {
+class DetailedProgramCourseCourseInstanceSessionDto {
   @ApiProperty()
   public trimester!: string;
 
@@ -88,7 +87,7 @@ export class DetailedProgramCourseCourseInstanceSessionDto {
   public year!: number;
 }
 
-export class DetailedProgramCourseCourseInstanceDto {
+class DetailedProgramCourseCourseInstanceDto {
   @ApiProperty({ type: [String] })
   public availability!: string[];
 
@@ -102,7 +101,7 @@ export class DetailedProgramCourseCourseInstanceDto {
   public session!: DetailedProgramCourseCourseInstanceSessionDto;
 }
 
-export class DetailedProgramCoursePrerequisiteCourseDto {
+class DetailedProgramCoursePrerequisiteCourseDto {
   @ApiProperty()
   public code!: string;
 
@@ -110,12 +109,12 @@ export class DetailedProgramCoursePrerequisiteCourseDto {
   public title!: string;
 }
 
-export class DetailedProgramCoursePrerequisiteDto {
+class DetailedProgramCoursePrerequisiteDto {
   @ApiProperty({ type: () => DetailedProgramCoursePrerequisiteCourseDto })
   public course!: DetailedProgramCoursePrerequisiteCourseDto;
 }
 
-export class DetailedProgramCourseCourseDto {
+class DetailedProgramCourseCourseDto {
   @ApiProperty()
   public code!: string;
 
@@ -135,7 +134,7 @@ export class DetailedProgramCourseCourseDto {
   public courseInstances!: DetailedProgramCourseCourseInstanceDto[];
 }
 
-export class DetailedProgramCoursePrerequisiteWrapperDto {
+class DetailedProgramCoursePrerequisiteWrapperDto {
   @ApiProperty({ type: () => DetailedProgramCoursePrerequisiteDto })
   public prerequisite!: DetailedProgramCoursePrerequisiteDto;
 }
@@ -163,30 +162,7 @@ export class DetailedProgramCourseDto {
   public prerequisites!: DetailedProgramCoursePrerequisiteWrapperDto[];
 }
 
-export class ProgramCoursePrismaDto implements ProgramCourse {
-  @ApiProperty()
-  public courseId!: number;
-
-  @ApiProperty()
-  public programId!: number;
-
-  @ApiProperty({ type: String, nullable: true })
-  public type!: string | null;
-
-  @ApiProperty({ type: Number, nullable: true })
-  public typicalSessionIndex!: number | null;
-
-  @ApiProperty({ type: String, nullable: true })
-  public unstructuredPrerequisite!: string | null;
-
-  @ApiProperty()
-  public createdAt!: Date;
-
-  @ApiProperty()
-  public updatedAt!: Date;
-}
-
-export class ProgramCoursesErrorDto {
+class ProgramCoursesErrorDto {
   @ApiProperty({ type: [String], description: 'List of invalid program codes' })
   public invalidProgramCodes!: string[];
 }

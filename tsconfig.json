@@ -10,7 +10,11 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": ".",
+    "ignoreDeprecations": "5.0",
     "paths": {
+      "*": [
+        "./src/*"
+      ],
       "test/*": [
         "./test/*"
       ],
@@ -26,6 +30,10 @@
     "strictBindCallApply": false,
     "typeRoots": [
       "node_modules/@types"
+    ],
+    "types": [
+      "node",
+      "jest"
     ],
     "esModuleInterop": true,
     "skipLibCheck": true,
