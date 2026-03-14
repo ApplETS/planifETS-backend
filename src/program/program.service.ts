@@ -127,6 +127,28 @@ export class ProgramService {
     return programs;
   }
 
+  public async getProgramsListByCourseId(courseId: number) {
+    const programs = await this.prisma.program.findMany({
+      where: {
+        courses: {
+          some: {
+            courseId: courseId,
+          },
+        },
+      },
+      select: {
+        id: true,
+        code: true,
+        title: true,
+      },
+    });
+    return programs.map(p => ({
+      programId: p.id,
+      programCode: p.code ?? '',
+      programTitle: p.title,
+    }));
+  }
+
   public async createProgram(
     data: Prisma.ProgramCreateInput,
   ): Promise<Program> {
