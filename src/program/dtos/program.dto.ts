@@ -39,3 +39,15 @@ export class ProgramDto implements Program {
   @ApiProperty()
   public updatedAt!: Date;
 }
+
+
+export class ProgramListDto {
+  @ApiProperty()
+  public programId!: number;
+
+  @ApiProperty()
+  public programCode!: string;
+
+  @ApiProperty()
+  public programTitle!: string;
+}
