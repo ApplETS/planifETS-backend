@@ -75,4 +75,11 @@ jobs:
         run: yarn unused
 
       - name: Run security audit
-        run: yarn audit --groups dependencies
+        run: |
+          yarn audit --groups dependencies | tee audit.log
+          if grep -E 'high|critical' audit.log; then
+            echo 'High or critical vulnerabilities found!';
+            exit 1;
+          else
+            echo 'No high or critical vulnerabilities.';
+          fi
