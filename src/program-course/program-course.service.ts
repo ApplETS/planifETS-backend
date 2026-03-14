@@ -79,6 +79,7 @@ export class ProgramCourseService {
               select: {
                 course: {
                   select: {
+                    id: true,
                     code: true,
                     title: true,
                   },

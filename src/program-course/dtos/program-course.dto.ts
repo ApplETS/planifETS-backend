@@ -103,6 +103,9 @@ class DetailedProgramCourseCourseInstanceDto {
 
 class DetailedProgramCoursePrerequisiteCourseDto {
   @ApiProperty()
+  public id!: number;
+
+  @ApiProperty()
   public code!: string;
 
   @ApiProperty()
