@@ -81,7 +81,7 @@ export class ProgramCourseController {
     description: 'Returns program courses',
     type: ProgramCoursesResponseDto,
   })
-  public async getProgramsCoursesByPrograms(
+  public async getProgramsCoursesByProgramIds(
     @Query('programIds') programIds: string | string[],
   ): Promise<{
     data: ProgramCoursesDto[];
@@ -95,8 +95,8 @@ export class ProgramCourseController {
     }
 
     const idsArray = Array.isArray(programIds)
-      ? programIds.map(id => Number(id))
-      : programIds.split(';').filter(Boolean).map(id => Number(id));
+      ? programIds.map(Number)
+      : programIds.split(';').filter(Boolean).map(Number);
 
     if (idsArray.length === 0 || idsArray.some(id => Number.isNaN(id))) {
       throw new HttpException(

@@ -24,13 +24,16 @@ describe('ProgramCourseService', () => {
     };
   };
 
+  const courseId = 352377;
+  const programId = 182848;
+  const invalidId = 999999;
   const now = new Date('2026-03-26T00:00:00.000Z');
 
   const buildProgramCourse = (
     overrides: Partial<ProgramCourse> = {},
   ): ProgramCourse => ({
-    courseId: 352377,
-    programId: 182848,
+    courseId,
+    programId,
     type: 'TRONC',
     typicalSessionIndex: 1,
     unstructuredPrerequisite: null,
@@ -39,20 +42,56 @@ describe('ProgramCourseService', () => {
     ...overrides,
   });
 
+  const buildProgramCourseWhere = ({
+    customCourseId = courseId,
+    customProgramId = programId,
+  }: {
+    customCourseId?: number;
+    customProgramId?: number;
+  } = {}): Prisma.ProgramCourseWhereUniqueInput => ({
+    courseId_programId: {
+      courseId: customCourseId,
+      programId: customProgramId,
+    },
+  });
+
+  const buildProgramCourseCreateInput = (
+    overrides: Partial<Prisma.ProgramCourseCreateInput> = {},
+  ): Prisma.ProgramCourseCreateInput =>
+    ({
+      program: { connect: { id: programId } },
+      course: { connect: { id: courseId } },
+      type: 'TRONC',
+      typicalSessionIndex: 1,
+      unstructuredPrerequisite: null,
+      ...overrides,
+    }) as Prisma.ProgramCourseCreateInput;
+
+  const buildProgramCourseUpdateParams = ({
+    where = buildProgramCourseWhere(),
+    data = { type: 'CONCE' } as Prisma.ProgramCourseUpdateInput,
+  }: {
+    where?: Prisma.ProgramCourseWhereUniqueInput;
+    data?: Prisma.ProgramCourseUpdateInput;
+  } = {}) => ({
+    where,
+    data,
+  });
+
   const buildProgramQueryResult = (
     overrides: Partial<ProgramCoursesQueryResult> = {},
   ): ProgramCoursesQueryResult => ({
-    id: 182848,
+    id: programId,
     code: 'LOG',
     title: 'Baccalaureat en genie logiciel',
     courses: [
       {
-        courseId: 352377,
+        courseId,
         type: 'TRONC',
         typicalSessionIndex: 1,
         unstructuredPrerequisite: null,
         course: {
-          id: 352377,
+          id: courseId,
           code: 'LOG100',
           title: 'Introduction au genie logiciel',
           credits: 3,
@@ -64,6 +103,97 @@ describe('ProgramCourseService', () => {
     ],
     ...overrides,
   });
+
+  const buildMappedProgramCourses = (
+    overrides: Partial<ProgramCoursesDto> = {},
+  ): ProgramCoursesDto[] => [
+    {
+      programCode: 'LOG',
+      programTitle: 'Baccalaureat en genie logiciel',
+      courses: [],
+      ...overrides,
+    },
+  ];
+
+  const arrangeMappedPrograms = ({
+    programs = [buildProgramQueryResult()],
+    mappedData = buildMappedProgramCourses(),
+  }: {
+    programs?: ProgramCoursesQueryResult[];
+    mappedData?: ProgramCoursesDto[];
+  } = {}) => {
+    const mapperSpy = jest
+      .spyOn(ProgramCourseMapper, 'toDto')
+      .mockReturnValue(mappedData);
+
+    prismaMock.program.findMany.mockResolvedValue(programs);
+
+    return {
+      mapperSpy,
+      mappedData,
+      programs,
+    };
+  };
+
+  const buildProgramFindManySelectExpectation = ({
+    includeId = true,
+    coursesWhere,
+  }: {
+    includeId?: boolean;
+    coursesWhere?: Prisma.ProgramCourseWhereInput;
+  } = {}) =>
+    expect.objectContaining({
+      ...(includeId ? { id: true } : {}),
+      code: true,
+      title: true,
+      courses: expect.objectContaining({
+        ...(coursesWhere ? { where: coursesWhere } : {}),
+        orderBy: {
+          typicalSessionIndex: 'asc',
+        },
+        select: expect.objectContaining({
+          courseId: true,
+          type: true,
+          typicalSessionIndex: true,
+          unstructuredPrerequisite: true,
+          course: {
+            select: expect.objectContaining({
+              id: true,
+              code: true,
+              title: true,
+              credits: true,
+              cycle: true,
+              courseInstances: expect.any(Object),
+            }),
+          },
+          prerequisites: expect.any(Object),
+        }),
+      }),
+    });
+
+  const expectProgramFindManyCalledWith = ({
+    where,
+    includeId = true,
+    coursesWhere,
+  }: {
+    where: Prisma.ProgramWhereInput;
+    includeId?: boolean;
+    coursesWhere?: Prisma.ProgramCourseWhereInput;
+  }) => {
+    expect(prismaMock.program.findMany).toHaveBeenCalledWith({
+      where,
+      select: buildProgramFindManySelectExpectation({
+        includeId,
+        coursesWhere,
+      }),
+    });
+  };
+
+  const mockVerboseLogger = () =>
+    jest.spyOn(service['logger'], 'verbose').mockImplementation(() => undefined);
+
+  const mockErrorLogger = () =>
+    jest.spyOn(service['logger'], 'error').mockImplementation(() => undefined);
 
   beforeEach(async () => {
     prismaMock = {
@@ -103,8 +233,8 @@ describe('ProgramCourseService', () => {
 
   it('should get a detailed program course with the expected projection', async () => {
     const detailedProgramCourse = {
-      courseId: 352377,
-      programId: 182848,
+      courseId,
+      programId,
       type: 'TRONC',
       typicalSessionIndex: 1,
       unstructuredPrerequisite: null,
@@ -121,13 +251,13 @@ describe('ProgramCourseService', () => {
 
     prismaMock.programCourse.findFirst.mockResolvedValue(detailedProgramCourse);
 
-    const result = await service.getProgramCourse(352377, 182848);
+    const result = await service.getProgramCourse(courseId, programId);
 
     expect(result).toEqual(detailedProgramCourse);
     expect(prismaMock.programCourse.findFirst).toHaveBeenCalledWith({
       where: {
-        courseId: 352377,
-        programId: 182848,
+        courseId,
+        programId,
       },
       select: expect.objectContaining({
         courseId: true,
@@ -177,18 +307,13 @@ describe('ProgramCourseService', () => {
   });
 
   it('should get a program course with prerequisites eagerly loaded', async () => {
-    const where: Prisma.ProgramCourseWhereUniqueInput = {
-      courseId_programId: {
-        courseId: 352377,
-        programId: 182848,
-      },
-    };
+    const where = buildProgramCourseWhere();
     const programCourseWithPrerequisites = {
       ...buildProgramCourse(),
       prerequisites: [
         {
           prerequisite: {
-            ...buildProgramCourse({ courseId: 111111, programId: 182848 }),
+            ...buildProgramCourse({ courseId: 111111 }),
             course: {
               id: 111111,
               code: 'MAT145',
@@ -231,12 +356,12 @@ describe('ProgramCourseService', () => {
     const records = [buildProgramCourse()];
     prismaMock.programCourse.findMany.mockResolvedValue(records);
 
-    const result = await service.getProgramCoursesByProgram(182848);
+    const result = await service.getProgramCoursesByProgram(programId);
 
     expect(result).toEqual(records);
     expect(prismaMock.programCourse.findMany).toHaveBeenCalledWith({
       where: {
-        programId: 182848,
+        programId,
       },
     });
   });
@@ -252,15 +377,8 @@ describe('ProgramCourseService', () => {
   });
 
   it('should not create a duplicate program course', async () => {
-    const loggerVerboseSpy = jest
-      .spyOn(service['logger'], 'verbose')
-      .mockImplementation(() => undefined);
-    const data = {
-      program: { connect: { id: 182848 } },
-      course: { connect: { id: 352377 } },
-      type: 'TRONC',
-      typicalSessionIndex: 1,
-    } as Prisma.ProgramCourseCreateInput;
+    const loggerVerboseSpy = mockVerboseLogger();
+    const data = buildProgramCourseCreateInput();
 
     prismaMock.programCourse.findFirst.mockResolvedValue(buildProgramCourse());
 
@@ -269,32 +387,24 @@ describe('ProgramCourseService', () => {
     expect(result).toBeUndefined();
     expect(prismaMock.programCourse.findFirst).toHaveBeenCalledWith({
       where: {
-        programId: 182848,
-        courseId: 352377,
+        programId,
+        courseId,
       },
     });
     expect(prismaMock.programCourse.create).not.toHaveBeenCalled();
     expect(loggerVerboseSpy).toHaveBeenCalledWith(
       'ProgramCourse already exists',
       expect.objectContaining({
-        courseId: 352377,
-        programId: 182848,
+        courseId,
+        programId,
       }),
     );
   });
 
   it('should create a program course when it does not exist yet', async () => {
-    const loggerVerboseSpy = jest
-      .spyOn(service['logger'], 'verbose')
-      .mockImplementation(() => undefined);
+    const loggerVerboseSpy = mockVerboseLogger();
     const createdRecord = buildProgramCourse();
-    const data = {
-      program: { connect: { id: 182848 } },
-      course: { connect: { id: 352377 } },
-      type: 'TRONC',
-      typicalSessionIndex: 1,
-      unstructuredPrerequisite: null,
-    } as Prisma.ProgramCourseCreateInput;
+    const data = buildProgramCourseCreateInput();
 
     prismaMock.programCourse.findFirst.mockResolvedValue(null);
     prismaMock.programCourse.create.mockResolvedValue(createdRecord);
@@ -309,20 +419,8 @@ describe('ProgramCourseService', () => {
   });
 
   it('should return undefined when updating a missing program course', async () => {
-    const loggerErrorSpy = jest
-      .spyOn(service['logger'], 'error')
-      .mockImplementation(() => undefined);
-    const params = {
-      where: {
-        courseId_programId: {
-          courseId: 352377,
-          programId: 182848,
-        },
-      } as Prisma.ProgramCourseWhereUniqueInput,
-      data: {
-        type: 'CONCE',
-      } as Prisma.ProgramCourseUpdateInput,
-    };
+    const loggerErrorSpy = mockErrorLogger();
+    const params = buildProgramCourseUpdateParams();
 
     prismaMock.programCourse.findUnique.mockResolvedValue(null);
 
@@ -340,20 +438,8 @@ describe('ProgramCourseService', () => {
   });
 
   it('should update an existing program course', async () => {
-    const loggerVerboseSpy = jest
-      .spyOn(service['logger'], 'verbose')
-      .mockImplementation(() => undefined);
-    const params = {
-      where: {
-        courseId_programId: {
-          courseId: 352377,
-          programId: 182848,
-        },
-      } as Prisma.ProgramCourseWhereUniqueInput,
-      data: {
-        type: 'CONCE',
-      } as Prisma.ProgramCourseUpdateInput,
-    };
+    const loggerVerboseSpy = mockVerboseLogger();
+    const params = buildProgramCourseUpdateParams();
     const updatedRecord = buildProgramCourse({ type: 'CONCE' });
 
     prismaMock.programCourse.findUnique.mockResolvedValue(buildProgramCourse());
@@ -370,15 +456,8 @@ describe('ProgramCourseService', () => {
   });
 
   it('should delete a program course', async () => {
-    const loggerVerboseSpy = jest
-      .spyOn(service['logger'], 'verbose')
-      .mockImplementation(() => undefined);
-    const where: Prisma.ProgramCourseWhereUniqueInput = {
-      courseId_programId: {
-        courseId: 352377,
-        programId: 182848,
-      },
-    };
+    const loggerVerboseSpy = mockVerboseLogger();
+    const where = buildProgramCourseWhere();
     const deletedRecord = buildProgramCourse();
 
     prismaMock.programCourse.delete.mockResolvedValue(deletedRecord);
@@ -394,133 +473,77 @@ describe('ProgramCourseService', () => {
   });
 
   it('should return false when a program course has not changed', () => {
-    const loggerVerboseSpy = jest
-      .spyOn(service['logger'], 'verbose')
-      .mockImplementation(() => undefined);
+    const loggerVerboseSpy = mockVerboseLogger();
 
     const result = service.hasProgramCourseChanged(
       { typicalSessionIndex: 1, type: 'TRONC' },
       { typicalSessionIndex: 1, type: 'TRONC' },
-      182848,
-      352377,
+      programId,
+      courseId,
     );
 
     expect(result).toBe(false);
     expect(loggerVerboseSpy).not.toHaveBeenCalled();
   });
 
-  it('should detect a typical session index change', () => {
-    const loggerVerboseSpy = jest
-      .spyOn(service['logger'], 'verbose')
-      .mockImplementation(() => undefined);
+  it.each([
+    {
+      name: 'typical session index',
+      newCourseData: { typicalSessionIndex: 2, type: 'TRONC' },
+      expectedChanges: {
+        typicalSessionIndex: 'has changed',
+        type: 'no changes',
+      },
+    },
+    {
+      name: 'type',
+      newCourseData: { typicalSessionIndex: 1, type: 'CONCE' },
+      expectedChanges: {
+        typicalSessionIndex: 'no changes',
+        type: 'has changed',
+      },
+    },
+  ])('should detect a $name change', ({ newCourseData, expectedChanges }) => {
+    const loggerVerboseSpy = mockVerboseLogger();
 
     const result = service.hasProgramCourseChanged(
-      { typicalSessionIndex: 2, type: 'TRONC' },
+      newCourseData,
       { typicalSessionIndex: 1, type: 'TRONC' },
-      182848,
-      352377,
+      programId,
+      courseId,
     );
 
     expect(result).toBe(true);
     expect(loggerVerboseSpy).toHaveBeenCalledWith(
       'ProgramCourse has changed',
       expect.objectContaining({
-        changes: {
-          typicalSessionIndex: 'has changed',
-          type: 'no changes',
-        },
-        programId: 182848,
-        courseId: 352377,
-      }),
-    );
-  });
-
-  it('should detect a type change', () => {
-    const loggerVerboseSpy = jest
-      .spyOn(service['logger'], 'verbose')
-      .mockImplementation(() => undefined);
-
-    const result = service.hasProgramCourseChanged(
-      { typicalSessionIndex: 1, type: 'CONCE' },
-      { typicalSessionIndex: 1, type: 'TRONC' },
-      182848,
-      352377,
-    );
-
-    expect(result).toBe(true);
-    expect(loggerVerboseSpy).toHaveBeenCalledWith(
-      'ProgramCourse has changed',
-      expect.objectContaining({
-        changes: {
-          typicalSessionIndex: 'no changes',
-          type: 'has changed',
-        },
+        changes: expectedChanges,
+        programId,
+        courseId,
       }),
     );
   });
 
   it('should get program courses by a single program id without errors', async () => {
-    const programs = [buildProgramQueryResult()];
-    const mappedData: ProgramCoursesDto[] = [
-      {
-        programCode: 'LOG',
-        programTitle: 'Baccalaureat en genie logiciel',
-        courses: [],
-      },
-    ];
-    const mapperSpy = jest
-      .spyOn(ProgramCourseMapper, 'toDto')
-      .mockReturnValue(mappedData);
+    const { mappedData, mapperSpy, programs } = arrangeMappedPrograms();
 
-    prismaMock.program.findMany.mockResolvedValue(programs);
-
-    const result = await service.getProgramCoursesById(182848);
+    const result = await service.getProgramCoursesById(programId);
 
     expect(result).toEqual({ data: mappedData });
     expect(mapperSpy).toHaveBeenCalledWith(programs);
-    expect(prismaMock.program.findMany).toHaveBeenCalledWith({
+    expectProgramFindManyCalledWith({
       where: {
-        id: { in: [182848] },
+        id: { in: [programId] },
       },
-      select: expect.objectContaining({
-        id: true,
-        code: true,
-        title: true,
-        courses: expect.objectContaining({
-          orderBy: {
-            typicalSessionIndex: 'asc',
-          },
-          select: expect.objectContaining({
-            courseId: true,
-            type: true,
-            typicalSessionIndex: true,
-            unstructuredPrerequisite: true,
-            course: {
-              select: expect.objectContaining({
-                id: true,
-                code: true,
-                title: true,
-                credits: true,
-                cycle: true,
-                courseInstances: expect.any(Object),
-              }),
-            },
-            prerequisites: expect.any(Object),
-          }),
-        }),
-      }),
     });
   });
 
   it('should log an error when no program ids are provided', async () => {
-    const loggerErrorSpy = jest
-      .spyOn(service['logger'], 'error')
-      .mockImplementation(() => undefined);
-    const mapperSpy = jest
-      .spyOn(ProgramCourseMapper, 'toDto')
-      .mockReturnValue([]);
-
-    prismaMock.program.findMany.mockResolvedValue([]);
+    const loggerErrorSpy = mockErrorLogger();
+    const { mapperSpy } = arrangeMappedPrograms({
+      programs: [],
+      mappedData: [],
+    });
 
     const result = await service.getProgramCoursesById([]);
 
@@ -538,118 +561,57 @@ describe('ProgramCourseService', () => {
   });
 
   it('should return invalid program ids when some requested programs are missing', async () => {
-    const loggerErrorSpy = jest
-      .spyOn(service['logger'], 'error')
-      .mockImplementation(() => undefined);
-    const programs = [buildProgramQueryResult()];
-    const mappedData: ProgramCoursesDto[] = [
-      {
-        programCode: 'LOG',
-        programTitle: 'Baccalaureat en genie logiciel',
-        courses: [],
-      },
-    ];
+    const loggerErrorSpy = mockErrorLogger();
+    const { mappedData } = arrangeMappedPrograms();
 
-    jest.spyOn(ProgramCourseMapper, 'toDto').mockReturnValue(mappedData);
-    prismaMock.program.findMany.mockResolvedValue(programs);
-
-    const result = await service.getProgramCoursesById([182848, 999999]);
+    const result = await service.getProgramCoursesById([programId, invalidId]);
 
     expect(result).toEqual({
       data: mappedData,
-      errors: { invalidProgramIds: [999999] },
+      errors: { invalidProgramIds: [invalidId] },
     });
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       'Some program IDs are invalid',
-      { invalidProgramIds: [999999] },
+      { invalidProgramIds: [invalidId] },
     );
   });
 
   it('should get programs by course ids without errors when every course id is found', async () => {
-    const programs = [buildProgramQueryResult()];
-    const mappedData: ProgramCoursesDto[] = [
-      {
-        programCode: 'LOG',
-        programTitle: 'Baccalaureat en genie logiciel',
-        courses: [],
-      },
-    ];
+    const { mappedData } = arrangeMappedPrograms();
 
-    jest.spyOn(ProgramCourseMapper, 'toDto').mockReturnValue(mappedData);
-    prismaMock.program.findMany.mockResolvedValue(programs);
-
-    const result = await service.getProgramsCoursesByCourseIds([352377]);
+    const result = await service.getProgramsCoursesByCourseIds([courseId]);
 
     expect(result).toEqual({ data: mappedData });
-    expect(prismaMock.program.findMany).toHaveBeenCalledWith({
+    expectProgramFindManyCalledWith({
       where: {
         courses: {
           some: {
-            courseId: { in: [352377] },
+            courseId: { in: [courseId] },
           },
         },
       },
-      select: expect.objectContaining({
-        id: true,
-        code: true,
-        title: true,
-        courses: expect.objectContaining({
-          where: {
-            courseId: { in: [352377] },
-          },
-          orderBy: {
-            typicalSessionIndex: 'asc',
-          },
-          select: expect.objectContaining({
-            courseId: true,
-            type: true,
-            typicalSessionIndex: true,
-            unstructuredPrerequisite: true,
-            course: {
-              select: expect.objectContaining({
-                id: true,
-                code: true,
-                title: true,
-                credits: true,
-                cycle: true,
-                courseInstances: expect.any(Object),
-              }),
-            },
-            prerequisites: expect.any(Object),
-          }),
-        }),
-      }),
+      coursesWhere: {
+        courseId: { in: [courseId] },
+      },
     });
   });
 
   it('should return invalid course ids when some requested course ids are missing', async () => {
-    const loggerErrorSpy = jest
-      .spyOn(service['logger'], 'error')
-      .mockImplementation(() => undefined);
-    const programs = [buildProgramQueryResult()];
-    const mappedData: ProgramCoursesDto[] = [
-      {
-        programCode: 'LOG',
-        programTitle: 'Baccalaureat en genie logiciel',
-        courses: [],
-      },
-    ];
-
-    jest.spyOn(ProgramCourseMapper, 'toDto').mockReturnValue(mappedData);
-    prismaMock.program.findMany.mockResolvedValue(programs);
+    const loggerErrorSpy = mockErrorLogger();
+    const { mappedData } = arrangeMappedPrograms();
 
     const result = await service.getProgramsCoursesByCourseIds([
-      352377,
-      999999,
+      courseId,
+      invalidId,
     ]);
 
     expect(result).toEqual({
       data: mappedData,
-      errors: { invalidCourseIds: [999999] },
+      errors: { invalidCourseIds: [invalidId] },
     });
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       'Some course IDs are invalid',
-      { invalidCourseIds: [999999] },
+      { invalidCourseIds: [invalidId] },
     );
   });
 
@@ -661,36 +623,11 @@ describe('ProgramCourseService', () => {
     const result = await service.fetchProgramsWithCourses(['LOG', 'GTI']);
 
     expect(result).toEqual(programs);
-    expect(prismaMock.program.findMany).toHaveBeenCalledWith({
+    expectProgramFindManyCalledWith({
       where: {
         code: { in: ['LOG', 'GTI'] },
       },
-      select: expect.objectContaining({
-        code: true,
-        title: true,
-        courses: expect.objectContaining({
-          orderBy: {
-            typicalSessionIndex: 'asc',
-          },
-          select: expect.objectContaining({
-            courseId: true,
-            type: true,
-            typicalSessionIndex: true,
-            unstructuredPrerequisite: true,
-            course: {
-              select: expect.objectContaining({
-                id: true,
-                code: true,
-                title: true,
-                credits: true,
-                cycle: true,
-                courseInstances: expect.any(Object),
-              }),
-            },
-            prerequisites: expect.any(Object),
-          }),
-        }),
-      }),
+      includeId: false,
     });
   });
 });

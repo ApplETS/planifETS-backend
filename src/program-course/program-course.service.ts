@@ -7,8 +7,7 @@ import {
   ProgramCoursesDto,
 } from './dtos/program-course.dto';
 import { ProgramCourseMapper } from './mappers/program-course.mapper';
-import { ProgramCourseWithPrerequisites } from './types/program-course.types';
-import { ProgramCoursesQueryResult } from './types/program-course.types';
+import { ProgramCoursesQueryResult, ProgramCourseWithPrerequisites } from './types/program-course.types';
 
 const COURSE_BASIC_SELECT = {
   id: true,
