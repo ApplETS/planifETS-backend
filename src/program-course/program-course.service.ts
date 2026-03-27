@@ -230,49 +230,6 @@ export class ProgramCourseService {
     return hasChanged;
   }
 
-  public async getProgramCoursesByCode(
-    programCodes: string | string[],
-  ): Promise<{
-    data: ProgramCoursesDto[];
-    errors?: { invalidProgramCodes: string[] };
-  }> {
-    const codes = Array.isArray(programCodes) ? programCodes : [programCodes];
-
-    if (!codes.length) {
-      this.logger.error(
-        'No program codes provided to getProgramsCoursesDetailedByCode',
-      );
-    }
-
-    const programs = await this.fetchProgramsWithCourses(codes);
-
-    if (!programs.length) {
-      this.logger.error('No programs found for the provided program codes', {
-        programCodes: codes,
-      });
-    }
-
-    const mappedData = ProgramCourseMapper.toDto(programs);
-    const foundCodes = programs.map((program) => program.code);
-    const invalidProgramCodes = codes.filter(
-      (code) => !foundCodes.includes(code),
-    );
-
-    const response: {
-      data: ProgramCoursesDto[];
-      errors?: { invalidProgramCodes: string[] };
-    } = { data: mappedData };
-
-    if (invalidProgramCodes.length) {
-      this.logger.error('Some program codes are invalid', {
-        invalidProgramCodes,
-      });
-      response.errors = { invalidProgramCodes };
-    }
-
-    return response;
-  }
-
   public async getProgramCoursesById(
     programIds: number | number[],
   ): Promise<{

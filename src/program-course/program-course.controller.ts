@@ -68,20 +68,12 @@ export class ProgramCourseController {
   }
 
   @Get("programs")
-  @ApiOperation({ summary: '🟢 Get program courses by program codes or IDs' })
-  @ApiQuery({
-    name: 'programCodes',
-    type: String,
-    isArray: true,
-    required: false,
-    description:
-      'One or more program codes (e.g. ?programCodes=7084&programCodes=1822)',
-  })
+  @ApiOperation({ summary: '🟢 Get program courses by program IDs' })
   @ApiQuery({
     name: 'programIds',
     type: Number,
     isArray: true,
-    required: false,
+    required: true,
     description:
       'One or more program IDs (e.g. ?programIds=182848&programIds=183562)',
   })
@@ -90,80 +82,38 @@ export class ProgramCourseController {
     type: ProgramCoursesResponseDto,
   })
   public async getProgramsCoursesByPrograms(
-    @Query('programCodes') programCodes?: string | string[],
-    @Query('programIds') programIds?: string | string[],
+    @Query('programIds') programIds: string | string[],
   ): Promise<{
     data: ProgramCoursesDto[];
-    errors?: { invalidProgramCodes?: string[]; invalidProgramIds?: number[] };
+    errors?: { invalidProgramIds?: number[] };
   }> {
-    // Check if both parameters are provided
-    if (programCodes && programIds) {
+    if (!programIds) {
       throw new HttpException(
-        'Please provide either programCodes or programIds, not both',
+        'Program IDs are required to get program courses',
         HttpStatus.BAD_REQUEST,
       );
     }
 
-    // Check if neither parameter is provided
-    if (!programCodes && !programIds) {
+    const idsArray = Array.isArray(programIds)
+      ? programIds.map(id => Number(id))
+      : programIds.split(';').filter(Boolean).map(id => Number(id));
+
+    if (idsArray.length === 0 || idsArray.some(id => Number.isNaN(id))) {
       throw new HttpException(
-        'Either programCodes or programIds is required to get program courses',
+        'Program IDs must be valid numbers',
         HttpStatus.BAD_REQUEST,
       );
     }
 
-    let result: {
-      data: ProgramCoursesDto[];
-      errors?: { invalidProgramCodes?: string[]; invalidProgramIds?: number[] };
-    };
+    const result = await this.programCourseService.getProgramCoursesById(
+      idsArray,
+    );
 
-    // Handle programCodes
-    if (programCodes) {
-      const codesArray = Array.isArray(programCodes)
-        ? programCodes
-        : programCodes.split(';').filter(Boolean);
-
-      if (codesArray.length === 0) {
-        throw new HttpException(
-          'Program codes array cannot be empty',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-
-      result = await this.programCourseService.getProgramCoursesByCode(
-        codesArray,
+    if (!result.data.length) {
+      throw new NotFoundException(
+        { invalidProgramIds: result.errors?.invalidProgramIds },
+        'No programs found for the provided IDs',
       );
-
-      if (!result.data.length) {
-        throw new NotFoundException(
-          { invalidProgramCodes: result.errors?.invalidProgramCodes },
-          'No programs found for the provided codes',
-        );
-      }
-    }
-    // Handle programIds
-    else {
-      const idsArray = Array.isArray(programIds)
-        ? programIds.map(id => Number(id))
-        : programIds!.split(';').filter(Boolean).map(id => Number(id));
-
-      if (idsArray.length === 0 || idsArray.some(id => Number.isNaN(id))) {
-        throw new HttpException(
-          'Program IDs must be valid numbers',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-
-      result = await this.programCourseService.getProgramCoursesById(
-        idsArray,
-      );
-
-      if (!result.data.length) {
-        throw new NotFoundException(
-          { invalidProgramIds: result.errors?.invalidProgramIds },
-          'No programs found for the provided IDs',
-        );
-      }
     }
 
     return result;
