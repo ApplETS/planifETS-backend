@@ -1,22 +1,11 @@
 
 import { Availability, Trimester } from '@prisma/client';
 
-import * as sessionUtil from '../common/utils/session/sessionUtil';
-import { CourseMapper } from './course.mapper';
-import { CourseSearchResult } from './course.types';
+import { CourseMapper } from '../../src/course/course.mapper';
+import { CourseSearchResult } from '../../src/course/course.types';
 
 
 describe('CourseMapper', () => {
-  const mockGetTrimesterPrefix = jest.fn();
-
-  beforeAll(() => {
-    jest.spyOn(sessionUtil, 'getTrimesterPrefix').mockImplementation(mockGetTrimesterPrefix);
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   const baseCourseInstance = {
     session: {
       createdAt: new Date(),
@@ -66,7 +55,6 @@ describe('CourseMapper', () => {
   } as unknown as CourseSearchResult;
 
   it('should map to SearchCourseResult with programCodes', () => {
-    mockGetTrimesterPrefix.mockReturnValue('A');
     const result = CourseMapper.toSearchDto(baseCourse, ['INF']);
     expect(result).toMatchObject({
       id: '1',
@@ -96,7 +84,6 @@ describe('CourseMapper', () => {
   });
 
   it('should map to SearchCourseResult without programCodes', () => {
-    mockGetTrimesterPrefix.mockReturnValue('A');
     const result = CourseMapper.toSearchDto(baseCourse);
     expect(result).not.toHaveProperty('typicalSessionIndex');
     expect(result).not.toHaveProperty('type');
@@ -112,7 +99,6 @@ describe('CourseMapper', () => {
   });
 
   it('should deduplicate sessionAvailability by session', () => {
-    mockGetTrimesterPrefix.mockReturnValue('A');
     const course = {
       ...baseCourse,
       courseInstances: [

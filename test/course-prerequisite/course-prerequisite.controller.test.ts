@@ -1,10 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { CourseService } from '../../src/course/course.service';
 import { PrerequisiteController } from '../../src/prerequisite/prerequisite.controller';
 import { PrerequisiteService } from '../../src/prerequisite/prerequisite.service';
-import { PrismaService } from '../../src/prisma/prisma.service';
-import { ProgramCourseService } from '../../src/program-course/program-course.service';
 
 describe('CoursePrerequisiteController', () => {
   let controller: PrerequisiteController;
@@ -13,23 +10,12 @@ describe('CoursePrerequisiteController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PrerequisiteController],
       providers: [
-        PrerequisiteService,
         {
-          provide: PrismaService,
+          provide: PrerequisiteService,
           useValue: {
-            coursePrerequisite: {
-              findMany: jest.fn(),
-              findUnique: jest.fn(),
-            },
+            getAllCoursePrerequisites: jest.fn(),
+            getPrerequisitesByCode: jest.fn(),
           },
-        },
-        {
-          provide: ProgramCourseService,
-          useValue: {},
-        },
-        {
-          provide: CourseService,
-          useValue: {},
         },
       ],
     }).compile();

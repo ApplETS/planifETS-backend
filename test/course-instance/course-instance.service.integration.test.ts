@@ -7,8 +7,7 @@ describe('CourseInstanceService (integration)', () => {
   let service: CourseInstanceService;
   let prisma: PrismaService;
 
-
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [CourseInstanceService, PrismaService],
     }).compile();

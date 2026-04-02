@@ -15,7 +15,15 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js', 'dist/', "package.json", "node_modules/"],
+  overrides: [
+    {
+      files: ['jest/**/*.mjs'],
+      parserOptions: {
+        project: null,
+        sourceType: 'module',
+      },
+    },
+  ],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/lines-between-class-members': 'off',

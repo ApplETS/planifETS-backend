@@ -1,87 +1,124 @@
-import { HttpModule } from '@nestjs/axios';
+import { HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
+import { AxiosHeaders, AxiosResponse } from 'axios';
+import { of } from 'rxjs';
 
-import { EtsProgramService, IProgramTypeEtsAPI, Program } from '@/common/api-helper/ets/program/ets-program.service';
+import {
+  EtsProgramService,
+  IProgramTypeEtsAPI,
+} from '@/common/api-helper/ets/program/ets-program.service';
 
-describe('EtsProgramService API DTO', () => {
+describe('EtsProgramService', () => {
   let service: EtsProgramService;
-  let types: IProgramTypeEtsAPI[];
-  let programs: Program[];
+  let httpService: HttpService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [HttpModule],
-      providers: [EtsProgramService],
+      providers: [
+        EtsProgramService,
+        {
+          provide: HttpService,
+          useValue: {
+            get: jest.fn(),
+          },
+        },
+      ],
     }).compile();
-    service = module.get(EtsProgramService);
+
+    service = module.get<EtsProgramService>(EtsProgramService);
+    httpService = module.get<HttpService>(HttpService);
+  });
+
+  it('should map ETS API program results to internal DTOs', async () => {
+    const mockTypes: IProgramTypeEtsAPI[] = [
+      { id: 10, title: 'Baccalaureat' },
+    ];
+
+    const mockResponse: AxiosResponse = {
+      data: {
+        types: mockTypes,
+        results: [
+          {
+            id: 7084,
+            title: '<strong>Baccalaureat</strong> en genie logiciel',
+            cycle: '1er cycle',
+            code: 'LOG',
+            credits: '90',
+            types: [10],
+            url: 'https://example.com/program/7084',
+          },
+        ],
+      },
+      status: 200,
+      statusText: 'OK',
+      headers: {},
+      config: {
+        headers: new AxiosHeaders(),
+      },
+    };
+
+    jest.spyOn(httpService, 'get').mockReturnValueOnce(of(mockResponse));
+
     const result = await service.fetchAllProgramsFromEtsAPI();
-    types = result.types;
-    programs = result.programs;
-  });
 
-  it('should fetch types as array of correct DTOs', () => {
-    expect(Array.isArray(types)).toBe(true);
-    types.forEach((type: IProgramTypeEtsAPI) => {
-      expect(typeof type.id).toBe('number');
-      expect(typeof type.title).toBe('string');
+    expect(result).toEqual({
+      types: mockTypes,
+      programs: [
+        {
+          id: 7084,
+          title: 'Baccalaureat en genie logiciel',
+          cycle: 1,
+          code: 'LOG',
+          credits: '90',
+          programTypes: {
+            connect: [{ id: 10 }],
+          },
+          url: 'https://example.com/program/7084',
+        },
+      ],
     });
   });
 
-  it('should fetch programs as array', () => {
-    expect(Array.isArray(programs)).toBe(true);
-    expect(programs.length).toBeGreaterThan(0);
-  });
+  it('should keep null credits when the API omits them', async () => {
+    const mockResponse: AxiosResponse = {
+      data: {
+        types: [],
+        results: [
+          {
+            id: 1822,
+            title: 'Programme court',
+            cycle: '2e cycle',
+            code: 'PC',
+            credits: null,
+            types: [],
+            url: 'https://example.com/program/1822',
+          },
+        ],
+      },
+      status: 200,
+      statusText: 'OK',
+      headers: {},
+      config: {
+        headers: new AxiosHeaders(),
+      },
+    };
 
-  it('should have valid id, title, and cycle for each program', () => {
-    programs.forEach((program: Program) => {
-      expect(typeof program.id).toBe('number');
-      expect(typeof program.title).toBe('string');
-      expect(typeof program.cycle).toBe('number');
-    });
-  });
+    jest.spyOn(httpService, 'get').mockReturnValueOnce(of(mockResponse));
 
-  it('should have code as string, null, or object', () => {
-    programs.forEach((program: Program) => {
-      expect(
-        typeof program.code === 'string' ||
-        program.code === null ||
-        typeof program.code === 'object'
-      ).toBe(true);
-    });
-  });
+    const result = await service.fetchAllProgramsFromEtsAPI();
 
-  it('should have credits as string or null', () => {
-    programs.forEach((program: Program) => {
-      if (typeof program.credits === 'object' && program.credits !== null) {
-        console.log('Program with object credits:', program);
-      }
-      expect(
-        typeof program.credits === 'string' ||
-        program.credits === null
-      ).toBe(true);
-    });
-  });
-
-  it('should have programTypes.connect as array of objects with id:number', () => {
-    programs.forEach((program: Program) => {
-      expect(Array.isArray(program.programTypes.connect)).toBe(true);
-      program.programTypes.connect.forEach((typeObj) => {
-        expect(typeof typeObj).toBe('object');
-        expect(typeObj).not.toBeNull();
-        expect(typeof typeObj.id).toBe('number');
-      });
-    });
-  });
-  it('should have valid IProgramTypeEtsAPI objects in types', () => {
-    types.forEach((type: IProgramTypeEtsAPI) => {
-      expect(typeof type.id).toBe('number');
-      expect(typeof type.title).toBe('string');
-    });
-  });
-
-  it('should have url as string', () => {
-    programs.forEach((program: Program) => {
-      expect(typeof program.url).toBe('string');
-    });
+    expect(result.programs).toEqual([
+      {
+        id: 1822,
+        title: 'Programme court',
+        cycle: 2,
+        code: 'PC',
+        credits: null,
+        programTypes: {
+          connect: [],
+        },
+        url: 'https://example.com/program/1822',
+      },
+    ]);
   });
 });

@@ -5,12 +5,14 @@ import { useContainer } from 'class-validator';
 import request from 'supertest';
 
 import { AppModule } from '../../src/app.module';
+import { PrismaService } from '../../src/prisma/prisma.service';
 
 describe('CourseService (e2e)', () => {
   let app: INestApplication;
   let course: Course;
+  let prisma: PrismaService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -21,15 +23,16 @@ describe('CourseService (e2e)', () => {
     app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
     await app.init();
+    prisma = app.get(PrismaService);
 
-    await jestPrisma.originalClient.session.create({
+    await prisma.session.create({
       data: {
         trimester: 'AUTOMNE',
         year: 2021,
       },
     });
 
-    course = await jestPrisma.originalClient.course.create({
+    course = await prisma.course.create({
       data: {
         id: 99999,
         code: 'CS101',
@@ -40,8 +43,7 @@ describe('CourseService (e2e)', () => {
     });
   });
 
-  afterAll(async () => {
-    await jestPrisma.originalClient.session.deleteMany({});
+  afterEach(async () => {
     if (app) {
       await app.close();
     }
@@ -79,9 +81,5 @@ describe('CourseService (e2e)', () => {
         }),
       );
     });
-  });
-
-  afterAll(async () => {
-    await jestPrisma.originalClient.session.deleteMany({});
   });
 });
