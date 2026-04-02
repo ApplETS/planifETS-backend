@@ -2,3 +2,5 @@ node_modules
 dist
 
 *.json
+*.md
+.eslintrc.js

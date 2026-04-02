@@ -161,4 +161,20 @@ describe('EtsCourseService', () => {
       },
     ]);
   });
+
+  it('should throw if no courses are fetched by ids', async () => {
+    const mockResponse: AxiosResponse = {
+      data: [],
+      status: 200,
+      statusText: 'OK',
+      headers: {},
+      config: {
+        headers: new AxiosHeaders(),
+      },
+    };
+
+    jest.spyOn(httpService, 'get').mockReturnValueOnce(of(mockResponse));
+
+    await expect(service.fetchCoursesById('1,2')).rejects.toThrow('No courses fetched.');
+  });
 });

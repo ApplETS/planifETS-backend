@@ -1,4 +1,3 @@
-
 import { HttpModule } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -8,11 +7,11 @@ import { ProgramsJobService } from '../../src/jobs/workers/programs.worker';
 import { PrismaService } from '../../src/prisma/prisma.service';
 import { ProgramService } from '../../src/program/program.service';
 
-describe('ProgramService Integration', () => {
+describe('ProgramService (integration)', () => {
   let programService: ProgramService;
 
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const seedModule: TestingModule = await Test.createTestingModule({
       imports: [HttpModule],
       providers: [
         ProgramsJobService,
@@ -24,9 +23,17 @@ describe('ProgramService Integration', () => {
         },
       ],
     }).compile();
-    const programsJobService = module.get(ProgramsJobService);
-    // Seed DB with real ETS API data
+    const programsJobService = seedModule.get(ProgramsJobService);
+
+    // Seed baseline data once with the non-transaction client.
     await programsJobService.processPrograms();
+  });
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [PrismaService, ProgramService],
+    }).compile();
+
     programService = module.get(ProgramService);
   });
 

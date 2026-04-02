@@ -1,9 +1,19 @@
-Library: https://github.com/Quramy/jest-prisma/tree/main
+> Library: https://github.com/Quramy/jest-prisma/tree/main
+
+# Motivation
+
+We use `jest-prisma` for DB-backed tests because we want real Prisma queries against a real test database, but without one test leaking state into another.
+
+It wraps each test in an isolated transaction, so inserts/updates done by one test do not pollute the next test.
 
 # When to use jestPrisma vs the normal Prisma client:
 
+This document applies to these type of tests:
+- `*.integration.test.ts`
+- `*.e2e.test.ts`
+
 ## Use `jestPrisma.originalClient`:
-- Only for test setup/teardown (e.g., seeding, cleaning up data) in beforeAll, afterAll, or global setup files.
+- Only for test setup/teardown (e.g., seeding, cleaning up data) outside your test logic.
 - Never use it in your application code or inside your test cases.
 
 `PrismaService` can't be used in `beforeAll`/`afterAll` because those run outside of jest-prisma's transaction management.
@@ -11,6 +21,8 @@ Library: https://github.com/Quramy/jest-prisma/tree/main
 ## Use `PrismaService` (which is mocked to use jestPrisma.client):
 - In all your application code and inside your test cases (e.g., when calling service methods, repositories, or controllers).
 - This ensures all test logic runs inside jest-prisma's managed transactions for isolation.
+- Prefer creating Nest testing modules in `beforeEach`, not `beforeAll`, when those modules inject `PrismaService`.
+- For e2e tests that seed data per test, prefer getting `PrismaService` from the Nest app in `beforeEach` instead of using `jestPrisma.originalClient`.
 
 ## Never use 
 Never use jestPrisma.client or jestPrisma.originalClient directly in your app or test logic (except for setup/teardown as above).
