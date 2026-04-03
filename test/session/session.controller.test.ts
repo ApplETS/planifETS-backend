@@ -26,10 +26,6 @@ describe('SessionController', () => {
     service = module.get<SessionService>(SessionService);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
-
   describe('getAllSessions', () => {
     it('should return all sessions', async () => {
       const sessions: Session[] = [

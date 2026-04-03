@@ -107,13 +107,13 @@ describe('ProgramCourseService', () => {
   const buildMappedProgramCourses = (
     overrides: Partial<ProgramCoursesDto> = {},
   ): ProgramCoursesDto[] => [
-    {
-      programCode: 'LOG',
-      programTitle: 'Baccalaureat en genie logiciel',
-      courses: [],
-      ...overrides,
-    },
-  ];
+      {
+        programCode: 'LOG',
+        programTitle: 'Baccalaureat en genie logiciel',
+        courses: [],
+        ...overrides,
+      },
+    ];
 
   const arrangeMappedPrograms = ({
     programs = [buildProgramQueryResult()],
@@ -225,10 +225,6 @@ describe('ProgramCourseService', () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
   });
 
   it('should get a detailed program course with the expected projection', async () => {
@@ -613,21 +609,5 @@ describe('ProgramCourseService', () => {
       'Some course IDs are invalid',
       { invalidCourseIds: [invalidId] },
     );
-  });
-
-  it('should cover the private fetchProgramsWithCourses query builder', async () => {
-    const programs = [buildProgramQueryResult()];
-    prismaMock.program.findMany.mockResolvedValue(programs);
-
-    // @ts-expect-error Accessing a private method for targeted coverage
-    const result = await service.fetchProgramsWithCourses(['LOG', 'GTI']);
-
-    expect(result).toEqual(programs);
-    expectProgramFindManyCalledWith({
-      where: {
-        code: { in: ['LOG', 'GTI'] },
-      },
-      includeId: false,
-    });
   });
 });

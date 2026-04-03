@@ -4,11 +4,11 @@ import { AxiosHeaders, AxiosResponse } from 'axios';
 import { of } from 'rxjs';
 
 import { EtsCourseService } from '@/common/api-helper/ets/course/ets-course.service';
+import { extractNumberFromString } from '@/common/utils/stringUtil';
 import {
   ETS_API_GET_ALL_COURSES,
   ETS_API_GET_COURSES_BY_IDS,
 } from '@/common/utils/url/url-constants';
-import { extractNumberFromString } from '@/common/utils/stringUtil';
 
 describe('EtsCourseService', () => {
   let service: EtsCourseService;

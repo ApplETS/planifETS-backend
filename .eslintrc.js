@@ -50,6 +50,8 @@ module.exports = {
     '@typescript-eslint/func-call-spacing': 'off',
     '@typescript-eslint/keyword-spacing': 'off',
     '@typescript-eslint/no-extra-semi': 'off',
+    'no-unused-private-class-members': 'off',
+    '@typescript-eslint/no-unused-private-class-members': 'error',
     '@typescript-eslint/space-before-blocks': 'off',
     '@typescript-eslint/quotes': 'off',
     '@typescript-eslint/semi': 'off',

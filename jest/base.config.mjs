@@ -32,4 +32,12 @@ export default {
   ],
   coverageDirectory: '<rootDir>/coverage',
   coverageProvider: 'v8',
+  coverageThreshold: {
+    global: {
+      branches: 85,
+      functions: 80,
+      lines: 70,
+      statements: 70,
+    },
+  },
 };
