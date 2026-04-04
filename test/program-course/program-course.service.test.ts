@@ -302,6 +302,22 @@ describe('ProgramCourseService', () => {
     });
   });
 
+  it('should return null when a detailed program course does not exist', async () => {
+    prismaMock.programCourse.findFirst.mockResolvedValue(null);
+
+    const result = await service.getProgramCourse(courseId, programId);
+
+    expect(result).toBeNull();
+    expect(prismaMock.programCourse.findFirst).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: {
+          courseId,
+          programId,
+        },
+      }),
+    );
+  });
+
   it('should get a program course with prerequisites eagerly loaded', async () => {
     const where = buildProgramCourseWhere();
     const programCourseWithPrerequisites = {

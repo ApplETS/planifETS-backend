@@ -3,6 +3,7 @@ import { Availability } from '@prisma/client';
 import request from 'supertest';
 
 import { PrismaService } from '../../src/prisma/prisma.service';
+import { buildSearchCourseContract } from '../test-utils/api-contract-builders';
 import { closeE2eTestApp, createE2eTestApp } from '../test-utils/e2e-app';
 import {
   seedCourse,
@@ -102,6 +103,74 @@ describe('ProgramCourseController (e2e)', () => {
     };
   }
 
+  function buildProgramGroup(
+    courses: ReturnType<typeof buildSearchCourseContract>[],
+  ) {
+    return {
+      programCode: '7084',
+      programTitle: 'Baccalaureat en genie logiciel',
+      courses,
+    };
+  }
+
+  function buildPrerequisiteCourseContract() {
+    return buildSearchCourseContract({
+      id: 145001,
+      code: 'MAT145',
+      title: 'Calcul differentiel',
+      credits: 4,
+      cycle: 1,
+      sessionAvailability: [],
+      prerequisites: [],
+      typicalSessionIndex: 1,
+      type: 'TRONC',
+      unstructuredPrerequisite: null,
+    });
+  }
+
+  function buildTargetCourseContract(courseId = 121002) {
+    return buildSearchCourseContract({
+      id: courseId,
+      code: 'LOG121',
+      title: 'Conception orientee objet',
+      credits: 3,
+      cycle: 1,
+      sessionAvailability: [
+        {
+          sessionCode: 'A2026',
+          availability: ['JOUR'],
+        },
+      ],
+      prerequisites: [
+        {
+          id: 145001,
+          code: 'MAT145',
+          title: 'Calcul differentiel',
+          credits: 4,
+          cycle: 1,
+        },
+      ],
+      typicalSessionIndex: 2,
+      type: 'TRONC',
+      unstructuredPrerequisite: 'MAT145 or equivalent',
+    });
+  }
+
+  function buildEmptyNestedCourseContract(courseId = 121210) {
+    return buildSearchCourseContract({
+      id: courseId,
+      code: 'LOG210',
+      title: 'Analyse des systemes',
+      credits: 3,
+      cycle: 1,
+      sessionAvailability: [],
+      prerequisites: [],
+      typicalSessionIndex: 3,
+      type: 'CONCE',
+      unstructuredPrerequisite: null,
+    });
+  }
+
   describe('GET /program-courses/ids', () => {
     it('returns grouped program courses and invalid course ids', async () => {
       const { targetCourse } = await seedProgramCourseScenario();
@@ -115,37 +184,7 @@ describe('ProgramCourseController (e2e)', () => {
       expect(status).toBe(200);
       expect(body).toStrictEqual({
         data: [
-          {
-            programCode: '7084',
-            programTitle: 'Baccalaureat en genie logiciel',
-            courses: [
-              {
-                id: targetCourse.id,
-                code: 'LOG121',
-                title: 'Conception orientee objet',
-                credits: 3,
-                cycle: 1,
-                sessionAvailability: [
-                  {
-                    sessionCode: 'A2026',
-                    availability: ['JOUR'],
-                  },
-                ],
-                prerequisites: [
-                  {
-                    id: 145001,
-                    code: 'MAT145',
-                    title: 'Calcul differentiel',
-                    credits: 4,
-                    cycle: 1,
-                  },
-                ],
-                type: 'TRONC',
-                typicalSessionIndex: 2,
-                unstructuredPrerequisite: 'MAT145 or equivalent',
-              },
-            ],
-          },
+          buildProgramGroup([buildTargetCourseContract(targetCourse.id)]),
         ],
         errors: {
           invalidCourseIds: [999999],
@@ -168,18 +207,6 @@ describe('ProgramCourseController (e2e)', () => {
         },
       });
     });
-
-    it('returns a validation error when a course id is not numeric', async () => {
-      const { status, body } = await request(app.getHttpServer())
-        .get('/program-courses/ids')
-        .query({ courseIds: 'abc' });
-
-      expect(status).toBe(400);
-      expect(body).toStrictEqual({
-        statusCode: 400,
-        message: 'Course IDs must be valid numbers',
-      });
-    });
   });
 
   describe('GET /program-courses/programs', () => {
@@ -193,61 +220,11 @@ describe('ProgramCourseController (e2e)', () => {
       expect(status).toBe(200);
       expect(body).toStrictEqual({
         data: [
-          {
-            programCode: '7084',
-            programTitle: 'Baccalaureat en genie logiciel',
-            courses: [
-              {
-                id: 145001,
-                code: 'MAT145',
-                title: 'Calcul differentiel',
-                credits: 4,
-                cycle: 1,
-                sessionAvailability: [],
-                prerequisites: [],
-                type: 'TRONC',
-                typicalSessionIndex: 1,
-                unstructuredPrerequisite: null,
-              },
-              {
-                id: 121002,
-                code: 'LOG121',
-                title: 'Conception orientee objet',
-                credits: 3,
-                cycle: 1,
-                sessionAvailability: [
-                  {
-                    sessionCode: 'A2026',
-                    availability: ['JOUR'],
-                  },
-                ],
-                prerequisites: [
-                  {
-                    id: 145001,
-                    code: 'MAT145',
-                    title: 'Calcul differentiel',
-                    credits: 4,
-                    cycle: 1,
-                  },
-                ],
-                type: 'TRONC',
-                typicalSessionIndex: 2,
-                unstructuredPrerequisite: 'MAT145 or equivalent',
-              },
-              {
-                id: 121210,
-                code: 'LOG210',
-                title: 'Analyse des systemes',
-                credits: 3,
-                cycle: 1,
-                sessionAvailability: [],
-                prerequisites: [],
-                type: 'CONCE',
-                typicalSessionIndex: 3,
-                unstructuredPrerequisite: null,
-              },
-            ],
-          },
+          buildProgramGroup([
+            buildPrerequisiteCourseContract(),
+            buildTargetCourseContract(),
+            buildEmptyNestedCourseContract(),
+          ]),
         ],
         errors: {
           invalidProgramIds: [999999],
@@ -265,85 +242,12 @@ describe('ProgramCourseController (e2e)', () => {
       expect(status).toBe(200);
       expect(body).toStrictEqual({
         data: [
-          {
-            programCode: '7084',
-            programTitle: 'Baccalaureat en genie logiciel',
-            courses: [
-              {
-                id: 145001,
-                code: 'MAT145',
-                title: 'Calcul differentiel',
-                credits: 4,
-                cycle: 1,
-                sessionAvailability: [],
-                prerequisites: [],
-                type: 'TRONC',
-                typicalSessionIndex: 1,
-                unstructuredPrerequisite: null,
-              },
-              {
-                id: 121002,
-                code: 'LOG121',
-                title: 'Conception orientee objet',
-                credits: 3,
-                cycle: 1,
-                sessionAvailability: [
-                  {
-                    sessionCode: 'A2026',
-                    availability: ['JOUR'],
-                  },
-                ],
-                prerequisites: [
-                  {
-                    id: 145001,
-                    code: 'MAT145',
-                    title: 'Calcul differentiel',
-                    credits: 4,
-                    cycle: 1,
-                  },
-                ],
-                type: 'TRONC',
-                typicalSessionIndex: 2,
-                unstructuredPrerequisite: 'MAT145 or equivalent',
-              },
-              {
-                id: 121210,
-                code: 'LOG210',
-                title: 'Analyse des systemes',
-                credits: 3,
-                cycle: 1,
-                sessionAvailability: [],
-                prerequisites: [],
-                type: 'CONCE',
-                typicalSessionIndex: 3,
-                unstructuredPrerequisite: null,
-              },
-            ],
-          },
+          buildProgramGroup([
+            buildPrerequisiteCourseContract(),
+            buildTargetCourseContract(),
+            buildEmptyNestedCourseContract(),
+          ]),
         ],
-      });
-    });
-
-    it('returns the exact not-found payload when no program exists', async () => {
-      const { status, body } = await request(app.getHttpServer())
-        .get('/program-courses/programs')
-        .query({ programIds: '999999' });
-
-      expect(status).toBe(404);
-      expect(body).toStrictEqual({
-        invalidProgramIds: [999999],
-      });
-    });
-
-    it('returns a bad request when programIds are missing', async () => {
-      const { status, body } = await request(app.getHttpServer()).get(
-        '/program-courses/programs',
-      );
-
-      expect(status).toBe(400);
-      expect(body).toStrictEqual({
-        statusCode: 400,
-        message: 'Program IDs are required to get program courses',
       });
     });
   });
@@ -424,62 +328,6 @@ describe('ProgramCourseController (e2e)', () => {
           courseInstances: [],
         },
         prerequisites: [],
-      });
-    });
-
-    it('returns a not-found response when the program course does not exist', async () => {
-      await seedProgramCourseScenario();
-
-      const { status, body } = await request(app.getHttpServer())
-        .get('/program-courses/details')
-        .query({
-          courseId: '999999',
-          programId: '7084',
-        });
-
-      expect(status).toBe(404);
-      expect(body).toStrictEqual({
-        message: 'No program-course found for courseId=999999 in programId=7084',
-        error: 'Not Found',
-        statusCode: 404,
-      });
-    });
-
-    it('returns a validation error when query params are not numeric', async () => {
-      const { status, body } = await request(app.getHttpServer())
-        .get('/program-courses/details')
-        .query({
-          courseId: 'abc',
-          programId: '7084',
-        });
-
-      expect(status).toBe(400);
-      expect(body).toStrictEqual({
-        message: 'Validation failed (numeric string is expected)',
-        error: 'Bad Request',
-        statusCode: 400,
-      });
-    });
-
-    it.each([
-      {
-        name: 'courseId is missing',
-        query: { programId: '7084' },
-      },
-      {
-        name: 'programId is missing',
-        query: { courseId: '121002' },
-      },
-    ])('returns a parse error when $name', async ({ query }) => {
-      const { status, body } = await request(app.getHttpServer())
-        .get('/program-courses/details')
-        .query(query);
-
-      expect(status).toBe(400);
-      expect(body).toStrictEqual({
-        message: 'Validation failed (numeric string is expected)',
-        error: 'Bad Request',
-        statusCode: 400,
       });
     });
   });

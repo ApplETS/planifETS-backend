@@ -67,6 +67,18 @@ describe('ProgramCourseController', () => {
     });
   });
 
+  it('returns a bad request when a course id is not numeric', async () => {
+    const { status, body } = await request(app.getHttpServer())
+      .get('/program-courses/ids')
+      .query({ courseIds: 'abc' });
+
+    expect(status).toBe(400);
+    expect(body).toStrictEqual({
+      statusCode: 400,
+      message: 'Course IDs must be valid numbers',
+    });
+  });
+
   it('parses semicolon-delimited programIds before calling the service', async () => {
     programCourseService.getProgramCoursesById.mockImplementation(async (ids) => ({
       data: [
