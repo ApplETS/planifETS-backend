@@ -131,7 +131,7 @@ export function buildSearchCourseContract(
     cycle,
     sessionAvailability,
     prerequisites,
-    ...(Object.prototype.hasOwnProperty.call(input, 'typicalSessionIndex')
+    ...(Object.hasOwn(input, 'typicalSessionIndex')
       ? {
         typicalSessionIndex,
         type,

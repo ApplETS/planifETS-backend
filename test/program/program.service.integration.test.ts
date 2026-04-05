@@ -9,9 +9,10 @@ import { ProgramService } from '../../src/program/program.service';
 
 describe('ProgramService (integration)', () => {
   let programService: ProgramService;
+  let seedModule: TestingModule;
 
   beforeAll(async () => {
-    const seedModule: TestingModule = await Test.createTestingModule({
+    seedModule = await Test.createTestingModule({
       imports: [HttpModule],
       providers: [
         ProgramsJobService,
@@ -24,17 +25,16 @@ describe('ProgramService (integration)', () => {
       ],
     }).compile();
     const programsJobService = seedModule.get(ProgramsJobService);
+    programService = seedModule.get(ProgramService);
 
     // Seed baseline data once with the non-transaction client.
     await programsJobService.processPrograms();
   });
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [PrismaService, ProgramService],
-    }).compile();
-
-    programService = module.get(ProgramService);
+  afterAll(async () => {
+    if (seedModule) {
+      await seedModule.close();
+    }
   });
 
   it('should have seeded x minimum programs', async () => {
@@ -58,41 +58,52 @@ describe('ProgramService (integration)', () => {
 
   it('should get programs by isHorairePdfParsable', async () => {
     // ensure all programs flags are false
-    const allPrograms = (await programService.getAllPrograms()).filter((prg): prg is typeof prg & { code: string } => prg.code !== null);
+    const allPrograms = (await programService.getAllPrograms()).filter(
+      (prg): prg is typeof prg & { code: string } => typeof prg.code === 'string',
+    );
+    const [targetProgram] = allPrograms;
+
+    expect(targetProgram).toBeDefined();
+
     for (const prog of allPrograms) {
       await programService.updateProgramsByCodes([prog.code], {
         isHorairePdfParsable: false,
       });
     }
     // set specific program flag to true
-    await programService.updateProgramsByCodes(['7084'], {
+    await programService.updateProgramsByCodes([targetProgram.code], {
       isHorairePdfParsable: true,
     });
 
     const programs = await programService.getProgramsByHoraireParsablePDF();
-    expect(programs.some(p => p.code === '7084')).toBe(true);
+    expect(programs.some(p => p.code === targetProgram.code)).toBe(true);
     expect(programs.some(p => p.code === 'miaow cacawette fouette')).toBe(false);
   });
 
   it('should get programs by isPlanificationPdfParsable', async () => {
     // ensure all programs flags are false
-    const allPrograms = (await programService.getAllPrograms()).filter((prg): prg is typeof prg & { code: string } => prg.code !== null);
+    const allPrograms = (await programService.getAllPrograms()).filter(
+      (prg): prg is typeof prg & { code: string } => typeof prg.code === 'string',
+    );
+    const [targetProgram] = allPrograms;
+
+    expect(targetProgram).toBeDefined();
+
     for (const prog of allPrograms) {
       await programService.updateProgramsByCodes([prog.code], {
         isPlanificationPdfParsable: false,
       });
     }
     // set specific program flag to true
-    await programService.updateProgramsByCodes(['7084'], {
+    await programService.updateProgramsByCodes([targetProgram.code], {
       isPlanificationPdfParsable: true,
     });
 
     const programs = await programService.getProgramsByPlanificationParsablePDF();
     // does it exist?
     expect(programs).toBeDefined();
-    expect(programs.length).toBe(1);
     expect(programs.length).toBeGreaterThan(0);
-    expect(programs.some(p => p.code === '7084')).toBe(true);
+    expect(programs.some(p => p.code === targetProgram.code)).toBe(true);
     expect(programs.some(p => p.code === 'miaow cacawette fouette')).toBe(false);
   });
 

@@ -14,6 +14,74 @@ import {
   seedSession,
 } from '../test-utils/prisma-fixtures';
 
+function buildProgramGroup(
+  courses: ReturnType<typeof buildSearchCourseContract>[],
+) {
+  return {
+    programCode: '7084',
+    programTitle: 'Baccalaureat en genie logiciel',
+    courses,
+  };
+}
+
+function buildPrerequisiteCourseContract() {
+  return buildSearchCourseContract({
+    id: 145001,
+    code: 'MAT145',
+    title: 'Calcul differentiel',
+    credits: 4,
+    cycle: 1,
+    sessionAvailability: [],
+    prerequisites: [],
+    typicalSessionIndex: 1,
+    type: 'TRONC',
+    unstructuredPrerequisite: null,
+  });
+}
+
+function buildTargetCourseContract(courseId = 121002) {
+  return buildSearchCourseContract({
+    id: courseId,
+    code: 'LOG121',
+    title: 'Conception orientee objet',
+    credits: 3,
+    cycle: 1,
+    sessionAvailability: [
+      {
+        sessionCode: 'A2026',
+        availability: ['JOUR'],
+      },
+    ],
+    prerequisites: [
+      {
+        id: 145001,
+        code: 'MAT145',
+        title: 'Calcul differentiel',
+        credits: 4,
+        cycle: 1,
+      },
+    ],
+    typicalSessionIndex: 2,
+    type: 'TRONC',
+    unstructuredPrerequisite: 'MAT145 or equivalent',
+  });
+}
+
+function buildEmptyNestedCourseContract(courseId = 121210) {
+  return buildSearchCourseContract({
+    id: courseId,
+    code: 'LOG210',
+    title: 'Analyse des systemes',
+    credits: 3,
+    cycle: 1,
+    sessionAvailability: [],
+    prerequisites: [],
+    typicalSessionIndex: 3,
+    type: 'CONCE',
+    unstructuredPrerequisite: null,
+  });
+}
+
 describe('ProgramCourseController (e2e)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
@@ -101,74 +169,6 @@ describe('ProgramCourseController (e2e)', () => {
       targetCourse,
       emptyNestedCourse,
     };
-  }
-
-  function buildProgramGroup(
-    courses: ReturnType<typeof buildSearchCourseContract>[],
-  ) {
-    return {
-      programCode: '7084',
-      programTitle: 'Baccalaureat en genie logiciel',
-      courses,
-    };
-  }
-
-  function buildPrerequisiteCourseContract() {
-    return buildSearchCourseContract({
-      id: 145001,
-      code: 'MAT145',
-      title: 'Calcul differentiel',
-      credits: 4,
-      cycle: 1,
-      sessionAvailability: [],
-      prerequisites: [],
-      typicalSessionIndex: 1,
-      type: 'TRONC',
-      unstructuredPrerequisite: null,
-    });
-  }
-
-  function buildTargetCourseContract(courseId = 121002) {
-    return buildSearchCourseContract({
-      id: courseId,
-      code: 'LOG121',
-      title: 'Conception orientee objet',
-      credits: 3,
-      cycle: 1,
-      sessionAvailability: [
-        {
-          sessionCode: 'A2026',
-          availability: ['JOUR'],
-        },
-      ],
-      prerequisites: [
-        {
-          id: 145001,
-          code: 'MAT145',
-          title: 'Calcul differentiel',
-          credits: 4,
-          cycle: 1,
-        },
-      ],
-      typicalSessionIndex: 2,
-      type: 'TRONC',
-      unstructuredPrerequisite: 'MAT145 or equivalent',
-    });
-  }
-
-  function buildEmptyNestedCourseContract(courseId = 121210) {
-    return buildSearchCourseContract({
-      id: courseId,
-      code: 'LOG210',
-      title: 'Analyse des systemes',
-      credits: 3,
-      cycle: 1,
-      sessionAvailability: [],
-      prerequisites: [],
-      typicalSessionIndex: 3,
-      type: 'CONCE',
-      unstructuredPrerequisite: null,
-    });
   }
 
   describe('GET /program-courses/ids', () => {

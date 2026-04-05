@@ -7,16 +7,23 @@ describe('EtsProgramService (live integration)', () => {
   let service: EtsProgramService;
   let types: IProgramTypeEtsAPI[];
   let programs: Program[];
+  let moduleRef: TestingModule;
 
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    moduleRef = await Test.createTestingModule({
       imports: [HttpModule],
       providers: [EtsProgramService],
     }).compile();
-    service = module.get(EtsProgramService);
+    service = moduleRef.get(EtsProgramService);
     const result = await service.fetchAllProgramsFromEtsAPI();
     types = result.types;
     programs = result.programs;
+  });
+
+  afterAll(async () => {
+    if (moduleRef) {
+      await moduleRef.close();
+    }
   });
 
   it('should fetch types as array of correct DTOs', () => {
