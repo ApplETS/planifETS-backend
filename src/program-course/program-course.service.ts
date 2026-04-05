@@ -304,45 +304,6 @@ export class ProgramCourseService {
     return response;
   }
 
-  private async fetchProgramsWithCourses(
-    programCodes: string[],
-  ): Promise<ProgramCoursesQueryResult[]> {
-    return this.prisma.program.findMany({
-      where: {
-        code: { in: programCodes },
-      },
-      select: {
-        code: true,
-        title: true,
-        courses: {
-          orderBy: {
-            typicalSessionIndex: 'asc',
-          },
-          select: {
-            courseId: true,
-            type: true,
-            typicalSessionIndex: true,
-            unstructuredPrerequisite: true,
-            course: {
-              select: COURSE_DETAILS_SELECT,
-            },
-            prerequisites: {
-              select: {
-                prerequisite: {
-                  select: {
-                    course: {
-                      select: COURSE_BASIC_SELECT,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    }) as Promise<ProgramCoursesQueryResult[]>;
-  }
-
   private async fetchProgramsWithCoursesById(
     programIds: number[],
   ): Promise<ProgramCoursesQueryResult[]> {

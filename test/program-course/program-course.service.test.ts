@@ -107,13 +107,13 @@ describe('ProgramCourseService', () => {
   const buildMappedProgramCourses = (
     overrides: Partial<ProgramCoursesDto> = {},
   ): ProgramCoursesDto[] => [
-    {
-      programCode: 'LOG',
-      programTitle: 'Baccalaureat en genie logiciel',
-      courses: [],
-      ...overrides,
-    },
-  ];
+      {
+        programCode: 'LOG',
+        programTitle: 'Baccalaureat en genie logiciel',
+        courses: [],
+        ...overrides,
+      },
+    ];
 
   const arrangeMappedPrograms = ({
     programs = [buildProgramQueryResult()],
@@ -227,10 +227,6 @@ describe('ProgramCourseService', () => {
     jest.restoreAllMocks();
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-
   it('should get a detailed program course with the expected projection', async () => {
     const detailedProgramCourse = {
       courseId,
@@ -304,6 +300,22 @@ describe('ProgramCourseService', () => {
         },
       }),
     });
+  });
+
+  it('should return null when a detailed program course does not exist', async () => {
+    prismaMock.programCourse.findFirst.mockResolvedValue(null);
+
+    const result = await service.getProgramCourse(courseId, programId);
+
+    expect(result).toBeNull();
+    expect(prismaMock.programCourse.findFirst).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: {
+          courseId,
+          programId,
+        },
+      }),
+    );
   });
 
   it('should get a program course with prerequisites eagerly loaded', async () => {
@@ -613,21 +625,5 @@ describe('ProgramCourseService', () => {
       'Some course IDs are invalid',
       { invalidCourseIds: [invalidId] },
     );
-  });
-
-  it('should cover the private fetchProgramsWithCourses query builder', async () => {
-    const programs = [buildProgramQueryResult()];
-    prismaMock.program.findMany.mockResolvedValue(programs);
-
-    // @ts-expect-error Accessing a private method for targeted coverage
-    const result = await service.fetchProgramsWithCourses(['LOG', 'GTI']);
-
-    expect(result).toEqual(programs);
-    expectProgramFindManyCalledWith({
-      where: {
-        code: { in: ['LOG', 'GTI'] },
-      },
-      includeId: false,
-    });
   });
 });

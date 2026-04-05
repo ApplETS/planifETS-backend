@@ -1,11 +1,6 @@
-import { CourseCodeValidationPipe } from '@/common/pipes/models/course/course-code-validation-pipe';
-
 export class Course {
   public static readonly COURSE_LINE_PARTS_COUNT = 11;
   public static readonly INTERNSHIP_LINE_PARTS_COUNT = 12;
-
-  private static readonly courseCodeValidationPipe =
-    new CourseCodeValidationPipe();
 
   constructor(
     public type: string,

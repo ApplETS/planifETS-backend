@@ -18,10 +18,6 @@ describe('SessionService', () => {
     sessionService = module.get<SessionService>(SessionService);
   });
 
-  it('should be defined', () => {
-    expect(sessionService).toBeDefined();
-  });
-
   it('should create a session', async () => {
     const session = await sessionService.getOrCreateSession(2025, 'AUTOMNE');
     expect(session).toMatchObject({ year: 2025, trimester: 'AUTOMNE' });
