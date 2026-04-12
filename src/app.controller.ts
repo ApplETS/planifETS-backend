@@ -24,9 +24,13 @@ export class AppController {
     };
   }
 
-  @Get("/debug-sentry")
+  @Get("/health/sentry")
   @ApiTags('Health')
+  @ApiOperation({
+    summary: 'Health check endpoint for Sentry testing',
+    description: 'Throws an error to test Sentry integration',
+  })
   public getError() {
-    throw new Error("Sample error!");
+    throw new Error("Sentry test error from /health/sentry endpoint");
   }
 }

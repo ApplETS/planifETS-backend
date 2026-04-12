@@ -36,5 +36,5 @@ This ensures test isolation, correct transaction handling, and avoids data visib
 
 
 ## Exceptions
-- DateTime fields: If you encounter errors or unexpected behavior with DateTime fields (e.g., type errors or timezone issues), consider using a single-context Jest environment (see jest-prisma README “Workaround for DateTime invocation error”). \
+- DateTime fields: If you encounter errors or unexpected behavior with DateTime fields (e.g., type errors or timezone issues), consider using a single-context Jest environment (see jest-prisma README "Workaround for DateTime invocation error"). \
 For setup/teardown, you can use `jestPrisma.originalClient` to set DateTime fields directly.
