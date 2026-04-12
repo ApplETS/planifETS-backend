@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Node.js 22 or the current LTS version
+- Node.js 22
 - Yarn
 - PostgreSQL 16+
 - VS Code
@@ -10,7 +10,7 @@
 ## Optional
 
 - Docker Desktop
-- A database IDE such as [DBeaver Community](https://dbeaver.io/download/) (it's opensource btw)
+- A database IDE such as [DBeaver Community](https://dbeaver.io/download/)
 
 ## 1. Clone the project
 

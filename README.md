@@ -8,10 +8,11 @@
 
 > _Session planner for students at the École de technologie supérieure_
 
-This backend provides an API to support academic session planning at ÉTS. 
+This backend provides an API to support academic session planning at ÉTS.
 
 It fetches and synchronizes course and program data directly from ÉTS servers, giving students up-to-date information for planning their academic paths.
 
+You can find the frontend repo [here](https://github.com/ApplETS/planifETS-frontend).
 
 ## 🚀 Technologies used
 
