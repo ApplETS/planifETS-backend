@@ -6,7 +6,7 @@ This pipeline keeps PlanifETS academic data in sync with external ETS sources. T
 
 - Production boot: `runOnceAfterBoot()` starts the full pipeline 30 seconds after startup.
 - Monthly schedule: `processJobs()` runs on the first day of each month at midnight (`America/Toronto`).
-- Development only: `POST /jobs/run-workers` can run the full pipeline or selected jobs manually.
+- Development only: `POST /api/jobs/run-workers` can run the full pipeline or selected jobs manually.
 
 ## Execution model
 
@@ -66,7 +66,7 @@ sequenceDiagram
     participant DB as Database
 
     Trigger->>Jobs: processJobs()
-    Dev->>Controller: POST /jobs/run-workers
+    Dev->>Controller: POST /api/jobs/run-workers
     Controller->>Jobs: processJobs() or runWorker(...)
 
     loop Each selected job

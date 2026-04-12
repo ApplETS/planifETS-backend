@@ -12,7 +12,8 @@ The file is embedded in the **ChemiNotC.jar** archive, which is extracted from t
 
 ### Usage in our system
 
-- Establish course sequences (`typicalSessionIndex`) and prerequisites
+- Establish course sequences (`typicalSessionIndex`: 1 to 8 sessions)
+- Sync `ProgramCourse.type`
 
 ### Programs
 ```txt
