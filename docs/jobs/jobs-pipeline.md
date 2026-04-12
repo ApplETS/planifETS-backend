@@ -82,5 +82,3 @@ sequenceDiagram
 
     Note right of Worker: One worker thread is spawned per job. The worker mapping currently exposes Programs, Courses, CourseInstances, and Sessions job services.
 ```
-
-Update this page when the trigger points, execution order, or job ownership changes.
