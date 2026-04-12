@@ -110,8 +110,4 @@ Have fun! 🐿️
 
 - [NestJS in 100 Seconds](https://www.youtube.com/watch?v=0M8AYU_hPas)
 - [NestJS documentation](https://docs.nestjs.com/)
-- [NestJS testing documentation](https://docs.nestjs.com/fundamentals/testing#unit-testing)
 - [Prisma documentation](https://www.prisma.io/docs)
-- [Jobs Pipeline](./jobs-pipeline.md)
-- [Test File Conventions](./test/test-files-conventions.md)
-- [jest-prisma Usage](./test/jest-prisma-usage.md)
