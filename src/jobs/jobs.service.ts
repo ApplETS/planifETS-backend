@@ -1,7 +1,8 @@
+import { join } from 'node:path';
+import { isMainThread, Worker } from 'node:worker_threads';
+
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression, Timeout } from '@nestjs/schedule';
-import { join } from 'path';
-import { isMainThread, Worker } from 'worker_threads';
 
 @Injectable()
 export class JobsService {
@@ -65,6 +66,13 @@ export class JobsService {
       // Creates and updates Courses entities.
       // Data source: ETS API
       { service: 'CoursesJobService', method: 'processCourses' },
+
+      // Enriches Course descriptions with website content.
+      // Data source: ETS website
+      {
+        service: 'CoursesJobService',
+        method: 'syncCourseDescriptionsFromEtsWebsite',
+      },
 
       //Creates and updates Course instance entities.
       // Data source: Planification PDF

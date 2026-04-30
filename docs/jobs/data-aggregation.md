@@ -8,6 +8,7 @@ This page describes how the jobs pipeline aggregates academic data from the diff
 | --- | --- | --- | --- |
 | ETS API | `ProgramsJobService.processPrograms` | Program list and program types | `ProgramType`, `Program` |
 | ETS API | `CoursesJobService.processCourses` | Course catalog and course credits | `Course` |
+| ETS website | `CoursesJobService.syncCourseDescriptionsFromEtsWebsite` | Course page description content | `Course.description` |
 | Cheminot | `CoursesJobService.syncCourseDetailsWithCheminotData` | Program-course sequencing metadata | `ProgramCourse.typicalSessionIndex`, `ProgramCourse.type`, missing `ProgramCourse` links |
 | Planification PDFs | `CourseInstancesJobService.processCourseInstances` | Course availability by session | `Session`, `CourseInstance` |
 | Horaire PDFs | `SessionsJobService.processSessions` | Current-session prerequisite text and course prerequisite relationships | `ProgramCourse.unstructuredPrerequisite`, `ProgramCoursePrerequisite` |
@@ -51,6 +52,21 @@ Notes:
 
 - The implementation first fetches the catalog, then fetches credits in batches by course ID.
 - This step does not assign courses to programs.
+
+### Course descriptions from website
+
+Source job: `CoursesJobService.syncCourseDescriptionsFromEtsWebsite`
+
+The public ETS course page is used to overwrite:
+
+- `Course.description`
+
+Notes:
+
+- The website version is treated as the source of truth for course descriptions when scraping succeeds.
+- Stored descriptions remain plain text, but preserve semantic formatting for UI and RAG use:
+  paragraphs stay separated by blank lines and list items are stored as `- ` bullet lines.
+- Unsafe HTML such as scripts is never stored in the database.
 
 ## 2. Cheminot
 
