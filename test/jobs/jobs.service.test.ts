@@ -15,8 +15,8 @@ describe('JobsService', () => {
     }).compile();
     service = module.get<JobsService>(JobsService);
     runWorkerSpy = jest.spyOn(service as unknown as { runWorker: JobsService['runWorker'] }, 'runWorker');
-    loggerLogSpy = jest.spyOn(service['logger'], 'log').mockImplementation(() => { });
-    loggerErrorSpy = jest.spyOn(service['logger'], 'error').mockImplementation(() => { });
+    loggerLogSpy = jest.spyOn(service['logger'], 'log').mockImplementation(() => {});
+    loggerErrorSpy = jest.spyOn(service['logger'], 'error').mockImplementation(() => {});
   });
 
   it('should process all jobs in order and call runWorker with correct service/method', async () => {
@@ -26,7 +26,7 @@ describe('JobsService', () => {
     expect(runWorkerSpy).toHaveBeenCalledTimes(6);
     expect(runWorkerSpy).toHaveBeenNthCalledWith(1, 'ProgramsJobService', 'processPrograms');
     expect(runWorkerSpy).toHaveBeenNthCalledWith(2, 'CoursesJobService', 'processCourses');
-    expect(runWorkerSpy).toHaveBeenNthCalledWith(3, 'CoursesJobService', 'syncCourseDescriptionsFromWebsite');
+    expect(runWorkerSpy).toHaveBeenNthCalledWith(3, 'CoursesJobService', 'syncCourseDescriptionsFromEtsWebsite');
     expect(runWorkerSpy).toHaveBeenNthCalledWith(4, 'CourseInstancesJobService', 'processCourseInstances');
     expect(runWorkerSpy).toHaveBeenNthCalledWith(5, 'CoursesJobService', 'syncCourseDetailsWithCheminotData');
     expect(runWorkerSpy).toHaveBeenNthCalledWith(6, 'SessionsJobService', 'processSessions');
@@ -60,7 +60,7 @@ describe('JobsService', () => {
     expect(loggerLogSpy).toHaveBeenCalledWith('Starting sequential job processing...');
     expect(loggerLogSpy).toHaveBeenCalledWith('Starting job 1: ProgramsJobService.processPrograms');
     expect(loggerLogSpy).toHaveBeenCalledWith('Starting job 2: CoursesJobService.processCourses');
-    expect(loggerLogSpy).toHaveBeenCalledWith('Starting job 3: CoursesJobService.syncCourseDescriptionsFromWebsite');
+    expect(loggerLogSpy).toHaveBeenCalledWith('Starting job 3: CoursesJobService.syncCourseDescriptionsFromEtsWebsite');
     expect(loggerLogSpy).toHaveBeenCalledWith('Starting job 4: CourseInstancesJobService.processCourseInstances');
     expect(loggerLogSpy).toHaveBeenCalledWith('Starting job 5: CoursesJobService.syncCourseDetailsWithCheminotData');
     expect(loggerLogSpy).toHaveBeenCalledWith('Starting job 6: SessionsJobService.processSessions');

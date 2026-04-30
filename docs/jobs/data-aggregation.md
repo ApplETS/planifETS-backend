@@ -8,7 +8,7 @@ This page describes how the jobs pipeline aggregates academic data from the diff
 | --- | --- | --- | --- |
 | ETS API | `ProgramsJobService.processPrograms` | Program list and program types | `ProgramType`, `Program` |
 | ETS API | `CoursesJobService.processCourses` | Course catalog and course credits | `Course` |
-| ETS website | `CoursesJobService.syncCourseDescriptionsFromWebsite` | Course page description content | `Course.description` |
+| ETS website | `CoursesJobService.syncCourseDescriptionsFromEtsWebsite` | Course page description content | `Course.description` |
 | Cheminot | `CoursesJobService.syncCourseDetailsWithCheminotData` | Program-course sequencing metadata | `ProgramCourse.typicalSessionIndex`, `ProgramCourse.type`, missing `ProgramCourse` links |
 | Planification PDFs | `CourseInstancesJobService.processCourseInstances` | Course availability by session | `Session`, `CourseInstance` |
 | Horaire PDFs | `SessionsJobService.processSessions` | Current-session prerequisite text and course prerequisite relationships | `ProgramCourse.unstructuredPrerequisite`, `ProgramCoursePrerequisite` |
@@ -55,7 +55,7 @@ Notes:
 
 ### Course descriptions from website
 
-Source job: `CoursesJobService.syncCourseDescriptionsFromWebsite`
+Source job: `CoursesJobService.syncCourseDescriptionsFromEtsWebsite`
 
 The public ETS course page is used to overwrite:
 

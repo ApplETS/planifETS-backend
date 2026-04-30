@@ -7,7 +7,7 @@ import { JobsService } from './jobs.service';
 @ApiTags('jobs')
 @Controller('jobs')
 export class JobsController {
-  constructor(private readonly jobsService: JobsService) { }
+  constructor(private readonly jobsService: JobsService) {}
 
   @Post('run-workers')
 
@@ -32,7 +32,7 @@ export class JobsController {
     const jobs: { service: string; method: string }[] = [];
     if (processPrograms) jobs.push({ service: 'ProgramsJobService', method: 'processPrograms' });
     if (processCourses) jobs.push({ service: 'CoursesJobService', method: 'processCourses' });
-    if (processCourseDescriptions) jobs.push({ service: 'CoursesJobService', method: 'syncCourseDescriptionsFromWebsite' });
+    if (processCourseDescriptions) jobs.push({ service: 'CoursesJobService', method: 'syncCourseDescriptionsFromEtsWebsite' });
     if (processCourseInstances) jobs.push({ service: 'CourseInstancesJobService', method: 'processCourseInstances' });
     if (processProgramCourses) jobs.push({ service: 'CoursesJobService', method: 'syncCourseDetailsWithCheminotData' });
     if (processSessions) jobs.push({ service: 'SessionsJobService', method: 'processSessions' });

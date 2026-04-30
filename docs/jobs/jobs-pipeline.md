@@ -21,7 +21,7 @@ This pipeline keeps PlanifETS academic data in sync with external ETS sources. T
 | --- | --- | --- | --- |
 | 1 | `ProgramsJobService.processPrograms` | ETS API | Upserts program types and programs |
 | 2 | `CoursesJobService.processCourses` | ETS API | Upserts courses |
-| 3 | `CoursesJobService.syncCourseDescriptionsFromWebsite` | ETS website | Overwrites course descriptions with normalized plain text |
+| 3 | `CoursesJobService.syncCourseDescriptionsFromEtsWebsite` | ETS website | Overwrites course descriptions with normalized plain text |
 | 4 | `CourseInstancesJobService.processCourseInstances` | Planification PDFs | Syncs course instances |
 | 5 | `CoursesJobService.syncCourseDetailsWithCheminotData` | Cheminot | Syncs program-course metadata |
 | 6 | `SessionsJobService.processSessions` | Horaire PDFs | Syncs the current session and prerequisites |

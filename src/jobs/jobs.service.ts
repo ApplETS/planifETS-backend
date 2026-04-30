@@ -70,7 +70,7 @@ export class JobsService {
       // Data source: ETS website
       {
         service: 'CoursesJobService',
-        method: 'syncCourseDescriptionsFromWebsite',
+        method: 'syncCourseDescriptionsFromEtsWebsite',
       },
 
       //Creates and updates Course instance entities.

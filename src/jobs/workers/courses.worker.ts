@@ -32,7 +32,7 @@ export class CoursesJobService {
     await this.courseService.upsertCourses(courses);
   }
 
-  public async syncCourseDescriptionsFromWebsite(): Promise<void> {
+  public async syncCourseDescriptionsFromEtsWebsite(): Promise<void> {
     this.logger.log('Syncing course descriptions from ETS website...');
 
     const courses = await this.courseService.getAllCourses();

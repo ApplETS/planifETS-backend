@@ -64,7 +64,7 @@ describe('CoursesJobService', () => {
       .mockResolvedValueOnce('New description')
       .mockResolvedValueOnce('Already correct');
 
-    await service.syncCourseDescriptionsFromWebsite();
+    await service.syncCourseDescriptionsFromEtsWebsite();
 
     expect(
       etsCourseServiceMock.fetchCourseDescriptionFromEtsWebsite,
@@ -93,7 +93,7 @@ describe('CoursesJobService', () => {
       .mockRejectedValueOnce(new Error('HTTP 404'))
       .mockResolvedValueOnce('Updated LOG121');
 
-    await service.syncCourseDescriptionsFromWebsite();
+    await service.syncCourseDescriptionsFromEtsWebsite();
 
     expect(courseServiceMock.updateCourse).toHaveBeenCalledTimes(1);
     expect(courseServiceMock.updateCourse).toHaveBeenCalledWith({
@@ -121,7 +121,7 @@ describe('CoursesJobService', () => {
     etsCourseServiceMock.fetchCourseDescriptionFromEtsWebsite
       .mockResolvedValueOnce('Updated LOG121');
 
-    await service.syncCourseDescriptionsFromWebsite();
+    await service.syncCourseDescriptionsFromEtsWebsite();
 
     expect(
       etsCourseServiceMock.fetchCourseDescriptionFromEtsWebsite,
@@ -145,7 +145,7 @@ describe('CoursesJobService', () => {
       .mockResolvedValueOnce('Fresh description')
       .mockRejectedValueOnce(new Error('Timeout'));
 
-    await service.syncCourseDescriptionsFromWebsite();
+    await service.syncCourseDescriptionsFromEtsWebsite();
 
     expect(logSpy).toHaveBeenCalledWith(
       'Course description sync completed. Processed 2 courses, updated 1, skipped 0, failed 1.',
