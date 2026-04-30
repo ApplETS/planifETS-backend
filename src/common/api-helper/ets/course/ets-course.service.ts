@@ -66,7 +66,7 @@ export class EtsCourseService {
       coursesWithCredits.push(...batchWithCredits);
 
       // Add delay between batches to prevent rate limiting
-      await new Promise(resolve => setTimeout(resolve, 100)); // 100ms delay
+      await new Promise((resolve) => setTimeout(resolve, 100)); // 100ms delay
     }
 
     return coursesWithCredits;
@@ -136,9 +136,10 @@ export class EtsCourseService {
   private extractDescriptionSection(html: string): Cheerio<Element> {
     const $ = load(html);
     const pageContentDescription = $('#page-content .c-fold__text.o-text').first();
-    const descriptionContainer = pageContentDescription.length > 0
-      ? pageContentDescription
-      : $('.c-fold__text.o-text').first();
+    const descriptionContainer =
+      pageContentDescription.length > 0
+        ? pageContentDescription
+        : $('.c-fold__text.o-text').first();
 
     if (descriptionContainer.length === 0) {
       throw new Error('Could not extract course description from ETS website');
@@ -166,17 +167,17 @@ export class EtsCourseService {
     rootNode.find('ul, ol').prepend('\n').append('\n\n');
 
     const normalizedLines = rootNode.text()
-      .replace(/\r\n/g, '\n')
-      .replace(/\u00A0/g, ' ')
+      .replaceAll('\r\n', '\n')
+      .replaceAll('\u00A0', ' ')
       .split('\n')
-      .map((line) => line.replace(/[ \t]+/g, ' ').trim());
+      .map((line) => line.replaceAll(/[ \t]+/g, ' ').trim());
 
     const result: string[] = [];
     for (const line of normalizedLines) {
       const isEmpty = line.length === 0;
 
       if (isEmpty) {
-        if (result.length === 0 || result[result.length - 1] === '') {
+        if (result.length === 0 || result.at(-1) === '') {
           continue;
         }
         result.push('');
@@ -186,7 +187,7 @@ export class EtsCourseService {
       result.push(line);
     }
 
-    while (result[result.length - 1] === '') {
+    while (result.at(-1) === '') {
       result.pop();
     }
 

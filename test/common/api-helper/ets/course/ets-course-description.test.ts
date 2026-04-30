@@ -1,8 +1,9 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
 import { HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosHeaders, AxiosResponse } from 'axios';
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import { of } from 'rxjs';
 
 import { EtsCourseService } from '../../../../../src/common/api-helper/ets/course/ets-course.service';

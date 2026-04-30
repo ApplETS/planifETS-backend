@@ -1,7 +1,8 @@
+import { join } from 'node:path';
+import { isMainThread, Worker } from 'node:worker_threads';
+
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression, Timeout } from '@nestjs/schedule';
-import { join } from 'path';
-import { isMainThread, Worker } from 'worker_threads';
 
 @Injectable()
 export class JobsService {
