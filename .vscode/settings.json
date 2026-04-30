@@ -26,5 +26,6 @@
   "files.eol": "\n",
   "files.insertFinalNewline": true,
   "prisma.pinToPrisma6": true,
-  "js/ts.tsdk.path": "node_modules\\typescript\\lib"
+  "js/ts.tsdk.path": "node_modules\\typescript\\lib",
+  "js/ts.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
 }

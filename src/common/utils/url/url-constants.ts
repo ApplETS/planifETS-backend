@@ -12,6 +12,10 @@ export const ETS_API_GET_ALL_PROGRAMS = `${ETS_API_BASE_URL}search/programme-ind
 export const ETS_API_GET_COURSES_BY_IDS = `${ETS_API_BASE_URL}courses/get?ids=`;
 export const ETS_API_GET_ALL_COURSES = `${ETS_API_BASE_URL}search/cours-index`;
 
+export const getEtsCoursePageUrl = (courseCode: string): string => {
+  return `${ETS_BASE_URL}etudes/cours/${courseCode.toLowerCase()}`;
+};
+
 /*
  * PDF
  */

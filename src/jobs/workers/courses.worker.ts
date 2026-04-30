@@ -32,6 +32,58 @@ export class CoursesJobService {
     await this.courseService.upsertCourses(courses);
   }
 
+  public async syncCourseDescriptionsFromWebsite(): Promise<void> {
+    this.logger.log('Syncing course descriptions from ETS website...');
+
+    const courses = await this.courseService.getAllCourses();
+    let updatedCount = 0;
+    let skippedCount = 0;
+    const failedCourseCodes: string[] = [];
+
+    for (const course of courses) {
+      if (!course.code?.trim()) {
+        skippedCount += 1;
+        this.logger.warn(
+          `Skipping course description sync for course ${course.id}: missing course code.`,
+        );
+        continue;
+      }
+
+      try {
+        const description =
+          await this.etsCourseService.fetchCourseDescriptionFromEtsWebsite(
+            course.code,
+          );
+
+        if (description !== course.description) {
+          await this.courseService.updateCourse({
+            where: { id: course.id },
+            data: {
+              code: course.code,
+              description,
+            },
+          });
+          updatedCount += 1;
+        }
+      } catch (error) {
+        failedCourseCodes.push(course.code);
+        this.logger.warn(
+          `Failed to sync description for course ${course.code}: ${error instanceof Error ? error.message : String(error)}`,
+        );
+      }
+    }
+
+    this.logger.log(
+      `Course description sync completed. Processed ${courses.length} courses, updated ${updatedCount}, skipped ${skippedCount}, failed ${failedCourseCodes.length}.`,
+    );
+
+    if (failedCourseCodes.length > 0) {
+      this.logger.warn(
+        `Course description sync failures: ${JSON.stringify(failedCourseCodes)}`,
+      );
+    }
+  }
+
   public async syncCourseDetailsWithCheminotData(): Promise<void> {
     this.logger.log('Syncing course details with Cheminot data...');
 

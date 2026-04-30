@@ -1,5 +1,10 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "src/main.ts",
+    "src/jobs/workers/jobRunner.worker.ts",
+    "src/prisma/seeds/seed.ts"
+  ],
   "exclude": [
     "devDependencies",
     "binaries"

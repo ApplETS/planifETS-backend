@@ -66,6 +66,13 @@ export class JobsService {
       // Data source: ETS API
       { service: 'CoursesJobService', method: 'processCourses' },
 
+      // Enriches Course descriptions with website content.
+      // Data source: ETS website
+      {
+        service: 'CoursesJobService',
+        method: 'syncCourseDescriptionsFromWebsite',
+      },
+
       //Creates and updates Course instance entities.
       // Data source: Planification PDF
       {
