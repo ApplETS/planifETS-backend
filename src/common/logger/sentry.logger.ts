@@ -1,7 +1,7 @@
 import { ConsoleLogger, Injectable } from '@nestjs/common';
 import * as Sentry from '@sentry/nestjs';
 
-import { formatMessage } from '../utils/stringUtil';
+import { formatMessage } from '@/common/utils/stringUtil';
 
 @Injectable()
 export class SentryLogger extends ConsoleLogger {

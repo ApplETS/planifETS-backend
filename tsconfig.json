@@ -12,9 +12,6 @@
     "baseUrl": ".",
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "*": [
-        "./src/*"
-      ],
       "test/*": [
         "./test/*"
       ],

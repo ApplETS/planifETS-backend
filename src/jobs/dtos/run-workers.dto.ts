@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-
+// Used in development environment only
 export class RunWorkersDto {
   @ApiProperty({ default: true })
   public processAllJobs: boolean = true;

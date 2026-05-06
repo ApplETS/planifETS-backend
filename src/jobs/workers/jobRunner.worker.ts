@@ -1,24 +1,13 @@
-import { Logger, LogLevel } from '@nestjs/common';
+import '../../instrument';
+
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { isMainThread, parentPort, workerData } from 'worker_threads';
 
-import { AppModule } from '../../app.module';
-import { CourseInstancesJobService } from './course-instances.worker';
-import { CoursesJobService } from './courses.worker';
-import { ProgramsJobService } from './programs.worker';
-import { SessionsJobService } from './sessions.worker';
+import { createAppLoggerFactory } from '@/common/logger/app-logger-factory';
 
-const serviceMapping = {
-  ProgramsJobService,
-  CoursesJobService,
-  CourseInstancesJobService,
-  SessionsJobService,
-};
-
-interface WorkerData {
-  serviceName: keyof typeof serviceMapping;
-  methodName: string;
-}
+import { JobWorkerData, jobWorkerServiceMap } from '../jobs.constants';
+import { JobsModule } from '../jobs.module';
 
 interface ServiceInstance {
   [key: string]: () => Promise<void>;
@@ -28,16 +17,18 @@ interface ServiceInstance {
   const logger = new Logger('JobRunnerWorker');
   logger.debug('Are we on the main thread?', isMainThread ? 'Yes' : 'No');
 
-  const { serviceName, methodName } = workerData as WorkerData;
-  const appContext = await NestFactory.createApplicationContext(AppModule, {
-    logger: process.env.LOG_LEVELS
-      ? (process.env.LOG_LEVELS.split(',') as LogLevel[])
-      : ['error', 'warn', 'log'],
-  });
+  const { serviceName, methodName } = workerData as JobWorkerData;
+  const appContext = await NestFactory.createApplicationContext(
+    JobsModule,
+    {
+      logger: false, // this suppresses the default Nest logger since we'll use our custom logger instead
+    },
+  );
+  appContext.useLogger(createAppLoggerFactory('JobWorkerNestContext'));
 
   try {
     // Get the Service Class from the mapping
-    const ServiceClass = serviceMapping[serviceName];
+    const ServiceClass = jobWorkerServiceMap[serviceName];
 
     if (!ServiceClass) {
       throw new Error(`Service ${serviceName} not found in service mapping`);
