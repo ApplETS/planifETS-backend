@@ -13,6 +13,8 @@ This pipeline keeps PlanifETS academic data in sync with external ETS sources. T
 - The pipeline is coordinated by `JobsService`.
 - Jobs run sequentially in a fixed order.
 - Each job spawns its own short-lived worker thread through `jobRunner.worker.ts`.
+- Workers bootstrap `JobsModule` directly.
+- Scheduler registration stays in `JobsSchedulerModule`, which is only imported by the main app.
 - A failure is logged, but the pipeline continues with the next job.
 
 ## Current order
@@ -73,7 +75,7 @@ sequenceDiagram
 
     loop Each selected job
         Jobs->>Worker: spawn(serviceName, methodName)
-        Worker->>App: createApplicationContext(AppModule)
+        Worker->>App: createApplicationContext(JobsModule)
         Worker->>Service: resolve mapped service + method
         Service->>Sources: fetch / parse data
         Service->>DB: create / update records
@@ -82,5 +84,7 @@ sequenceDiagram
         Jobs->>Jobs: log result and continue
     end
 
-    Note right of Worker: One worker thread is spawned per job. The worker mapping currently exposes Programs, Courses, CourseInstances, and Sessions job services.
+    Note right of Worker: One worker thread is spawned per job and exits when that job finishes. JobsModule is worker-safe because schedule registration lives in JobsSchedulerModule, not in the worker bootstrap path.
 ```
+
+Note that the current implementation uses one short-lived worker per job.

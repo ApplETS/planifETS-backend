@@ -8,17 +8,13 @@ import { Cron, CronExpression, Timeout } from '@nestjs/schedule';
 export class JobsService {
   private readonly logger = new Logger(JobsService.name);
 
-  private checkMainThread() {
-    this.logger.debug(
-      'Are we on the main thread?',
-      isMainThread ? 'Yes' : 'No',
-    );
-  }
-
   public runWorker<T>(serviceName: string, methodName: string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       const workerScript = join(__dirname, 'workers', 'jobRunner.worker.js');
       const workerData = { serviceName, methodName };
+
+      this.logger.log(`Spawning worker for ${serviceName}.${methodName}`);
+
       const worker = new Worker(workerScript, { workerData });
 
       worker.on('message', (message) => {
@@ -43,7 +39,7 @@ export class JobsService {
     });
   }
 
-  @Timeout(30_000) // run 30 seconds after boot
+  @Timeout(600_000) // run 10 minutes after boot
   public async runOnceAfterBoot() {
     if (process.env.APP_ENV !== 'production') {
       return;
@@ -56,7 +52,7 @@ export class JobsService {
   @Cron(CronExpression.EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT, { timeZone: 'America/Toronto' })
   public async processJobs(): Promise<void> {
     this.logger.log('Starting sequential job processing...');
-    this.checkMainThread();
+    this.logger.debug('Are we on the main thread?', isMainThread ? 'Yes' : 'No');
 
     const jobs = [
       // Creates and updates Programs and ProgramTypes entities.
@@ -100,7 +96,7 @@ export class JobsService {
       try {
         const result = await this.runWorker(service, method);
         this.logger.log(
-          `Job ${index + 1} (${service}.${method}) completed successfully: ${JSON.stringify(result)}`,
+          `Job ${index + 1} (${service}.${method}) completed : ${JSON.stringify(result)}`,
         );
       } catch (error) {
         if (error instanceof Error) {

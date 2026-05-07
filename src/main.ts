@@ -1,12 +1,14 @@
-import "./instrument";
+import './instrument';
 
-import { LogLevel, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
+import { HttpExceptionFilter } from '@/common/exceptions/http-exception.filter';
+import { createAppLoggerFactory } from '@/common/logger/app-logger-factory';
+
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
-import { SentryLogger } from "./common/logger/sentry.logger";
+
 
 async function bootstrap() {
   const app = await NestFactory.create(
@@ -26,12 +28,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   //Log levels
-  const sentryLogger = new SentryLogger();
-  if (process.env.LOG_LEVELS) {
-    sentryLogger.setLogLevels(process.env.LOG_LEVELS.split(',') as LogLevel[]);
-  }
-  app.useLogger(sentryLogger);
-
+  app.useLogger(createAppLoggerFactory());
 
   //Swagger
   const version = process.env.APP_GIT_SHORT_SHA ? `1.0.0 (${process.env.APP_GIT_SHORT_SHA})` : '1.0.0';

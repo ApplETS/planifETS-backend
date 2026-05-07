@@ -9,8 +9,7 @@ import { EtsModule } from './common/api-helper/ets/ets.module';
 import { PdfModule } from './common/website-helper/pdf/pdf.module';
 import { CourseModule } from './course/course.module';
 import { CourseInstanceModule } from './course-instance/course-instance.module';
-import { JobsModule } from './jobs/jobs.module';
-import { JobsService } from './jobs/jobs.service';
+import { JobsSchedulerModule } from './jobs/jobs-scheduler.module';
 import { PrerequisiteModule } from './prerequisite/prerequisite.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProgramModule } from './program/program.module';
@@ -24,7 +23,7 @@ import { SessionModule } from './session/session.module';
     CheminotModule,
     EtsModule,
     PdfModule,
-    JobsModule,
+    JobsSchedulerModule,
 
     // CRUD modules
     CourseModule,
@@ -41,9 +40,8 @@ import { SessionModule } from './session/session.module';
       provide: APP_FILTER,
       useClass: SentryGlobalFilter,
     },
-    JobsService
   ],
   controllers: [AppController],
-  exports: [HttpModule, JobsService],
+  exports: [HttpModule],
 })
-export class AppModule { }
+export class AppModule {}
