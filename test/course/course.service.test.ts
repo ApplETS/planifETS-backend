@@ -10,6 +10,7 @@ describe('CourseService', () => {
   let service: CourseService;
   let serviceLogger: Logger;
   let prismaMock: {
+    $transaction: jest.Mock;
     course: {
       findUnique: jest.Mock;
       findFirst: jest.Mock;
@@ -96,6 +97,7 @@ describe('CourseService', () => {
 
   beforeEach(() => {
     prismaMock = {
+      $transaction: jest.fn(),
       course: {
         findUnique: jest.fn(),
         findFirst: jest.fn(),
@@ -178,6 +180,34 @@ describe('CourseService', () => {
     await expect(service.getAllCourses()).resolves.toStrictEqual(courses);
     expect(loggerVerboseSpy).toHaveBeenCalledWith('getAllCourses');
     expect(prismaMock.course.findMany).toHaveBeenCalledWith();
+  });
+
+  it('gets only the fields needed for course description sync', async () => {
+    const courses = [
+      {
+        id: 352405,
+        code: 'LOG121',
+        description: 'Introduction a la conception orientee objet.',
+      },
+    ];
+    const loggerVerboseSpy = jest
+      .spyOn(serviceLogger, 'verbose')
+      .mockImplementation(() => {});
+    prismaMock.course.findMany.mockResolvedValue(courses);
+
+    await expect(service.getCoursesForDescriptionSync()).resolves.toStrictEqual(
+      courses,
+    );
+    expect(loggerVerboseSpy).toHaveBeenCalledWith(
+      'getCoursesForDescriptionSync',
+    );
+    expect(prismaMock.course.findMany).toHaveBeenCalledWith({
+      select: {
+        id: true,
+        code: true,
+        description: true,
+      },
+    });
   });
 
   it('gets courses by program and logs the lookup', async () => {
@@ -386,6 +416,72 @@ describe('CourseService', () => {
         updatedAt: expect.any(Date),
       },
     });
+  });
+
+  it('updates course descriptions in a batch transaction', async () => {
+    const courses = [
+      {
+        id: 352405,
+        code: 'LOG121',
+        description: 'Updated LOG121',
+      },
+      {
+        id: 352406,
+        code: 'LOG122',
+        description: 'Updated LOG122',
+      },
+    ];
+    const loggerVerboseSpy = jest
+      .spyOn(serviceLogger, 'verbose')
+      .mockImplementation(() => {});
+    prismaMock.course.update
+      .mockReturnValueOnce('update-1')
+      .mockReturnValueOnce('update-2');
+    prismaMock.$transaction.mockResolvedValue([
+      buildCourse({ description: 'Updated LOG121' }),
+      buildCourse({
+        id: 352406,
+        code: 'LOG122',
+        title: 'Structures de donnees',
+        description: 'Updated LOG122',
+      }),
+    ]);
+
+    await expect(
+      service.updateCourseDescriptionsBatch(courses),
+    ).resolves.toStrictEqual([
+      buildCourse({ description: 'Updated LOG121' }),
+      buildCourse({
+        id: 352406,
+        code: 'LOG122',
+        title: 'Structures de donnees',
+        description: 'Updated LOG122',
+      }),
+    ]);
+    expect(loggerVerboseSpy).toHaveBeenCalledWith(
+      'updateCourseDescriptionsBatch',
+      ['LOG121', 'LOG122'],
+    );
+    expect(prismaMock.course.update).toHaveBeenNthCalledWith(1, {
+      where: { id: 352405 },
+      data: {
+        code: 'LOG121',
+        description: 'Updated LOG121',
+        updatedAt: expect.any(Date),
+      },
+    });
+    expect(prismaMock.course.update).toHaveBeenNthCalledWith(2, {
+      where: { id: 352406 },
+      data: {
+        code: 'LOG122',
+        description: 'Updated LOG122',
+        updatedAt: expect.any(Date),
+      },
+    });
+    expect(prismaMock.$transaction).toHaveBeenCalledWith([
+      'update-1',
+      'update-2',
+    ]);
   });
 
   it('upserts multiple courses one by one using their codes as unique keys', async () => {

@@ -15,21 +15,9 @@ describe('CoursesJobService', () => {
     fetchCourseDescriptionFromEtsWebsite: jest.Mock;
   };
   let courseServiceMock: {
-    getAllCourses: jest.Mock;
-    updateCourse: jest.Mock;
+    getCoursesForDescriptionSync: jest.Mock;
+    updateCourseDescriptionsBatch: jest.Mock;
   };
-
-  const buildCourse = (overrides: Partial<Course> = {}): Course => ({
-    id: 1,
-    code: 'LOG210',
-    title: 'Analyse et conception de logiciels',
-    description: 'Old description',
-    credits: 4,
-    cycle: 1,
-    createdAt: new Date('2025-01-01T00:00:00.000Z'),
-    updatedAt: new Date('2025-01-01T00:00:00.000Z'),
-    ...overrides,
-  });
 
   beforeEach(() => {
     etsCourseServiceMock = {
@@ -37,8 +25,8 @@ describe('CoursesJobService', () => {
     };
 
     courseServiceMock = {
-      getAllCourses: jest.fn(),
-      updateCourse: jest.fn(),
+      getCoursesForDescriptionSync: jest.fn(),
+      updateCourseDescriptionsBatch: jest.fn(),
     };
 
     service = new CoursesJobService(
@@ -56,9 +44,9 @@ describe('CoursesJobService', () => {
   });
 
   it('updates course descriptions from the website when they changed', async () => {
-    courseServiceMock.getAllCourses.mockResolvedValue([
-      buildCourse(),
-      buildCourse({ id: 2, code: 'LOG121', description: 'Already correct' }),
+    courseServiceMock.getCoursesForDescriptionSync.mockResolvedValue([
+      { id: 1, code: 'LOG210', description: 'Old description' },
+      { id: 2, code: 'LOG121', description: 'Already correct' },
     ]);
     etsCourseServiceMock.fetchCourseDescriptionFromEtsWebsite
       .mockResolvedValueOnce('New description')
@@ -72,22 +60,22 @@ describe('CoursesJobService', () => {
     expect(
       etsCourseServiceMock.fetchCourseDescriptionFromEtsWebsite,
     ).toHaveBeenNthCalledWith(2, 'LOG121');
-    expect(courseServiceMock.updateCourse).toHaveBeenCalledTimes(1);
-    expect(courseServiceMock.updateCourse).toHaveBeenCalledWith({
-      where: { id: 1 },
-      data: {
+    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenCalledTimes(1);
+    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenCalledWith([
+      {
+        id: 1,
         code: 'LOG210',
         description: 'New description',
       },
-    });
+    ]);
   });
 
   it('keeps existing descriptions when one scrape fails and continues processing', async () => {
     const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => {});
 
-    courseServiceMock.getAllCourses.mockResolvedValue([
-      buildCourse({ code: 'LOG210' }),
-      buildCourse({ id: 2, code: 'LOG121' }),
+    courseServiceMock.getCoursesForDescriptionSync.mockResolvedValue([
+      { id: 1, code: 'LOG210', description: 'Old description' },
+      { id: 2, code: 'LOG121', description: 'Old description' },
     ]);
     etsCourseServiceMock.fetchCourseDescriptionFromEtsWebsite
       .mockRejectedValueOnce(new Error('HTTP 404'))
@@ -95,28 +83,25 @@ describe('CoursesJobService', () => {
 
     await service.syncCourseDescriptionsFromEtsWebsite();
 
-    expect(courseServiceMock.updateCourse).toHaveBeenCalledTimes(1);
-    expect(courseServiceMock.updateCourse).toHaveBeenCalledWith({
-      where: { id: 2 },
-      data: {
+    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenCalledTimes(1);
+    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenCalledWith([
+      {
+        id: 2,
         code: 'LOG121',
         description: 'Updated LOG121',
       },
-    });
+    ]);
     expect(warnSpy).toHaveBeenCalledWith(
-      'Failed to sync description for course LOG210: HTTP 404',
-    );
-    expect(warnSpy).toHaveBeenCalledWith(
-      'Course description sync failures: ["LOG210"]',
+      'Failed to sync description for courses [LOG210]: HTTP 404',
     );
   });
 
   it('skips courses with missing codes', async () => {
     const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => {});
 
-    courseServiceMock.getAllCourses.mockResolvedValue([
-      buildCourse({ id: 3, code: '' as unknown as Course['code'] }),
-      buildCourse({ id: 4, code: 'LOG121' }),
+    courseServiceMock.getCoursesForDescriptionSync.mockResolvedValue([
+      { id: 3, code: '' as unknown as Course['code'], description: 'Old description' },
+      { id: 4, code: 'LOG121', description: 'Old description' },
     ]);
     etsCourseServiceMock.fetchCourseDescriptionFromEtsWebsite
       .mockResolvedValueOnce('Updated LOG121');
@@ -137,9 +122,9 @@ describe('CoursesJobService', () => {
   it('logs the summary counts after syncing descriptions', async () => {
     const logSpy = jest.spyOn(logger, 'log').mockImplementation(() => {});
 
-    courseServiceMock.getAllCourses.mockResolvedValue([
-      buildCourse({ code: 'LOG210', description: 'Old description' }),
-      buildCourse({ id: 2, code: 'LOG121', description: 'Keep me' }),
+    courseServiceMock.getCoursesForDescriptionSync.mockResolvedValue([
+      { id: 1, code: 'LOG210', description: 'Old description' },
+      { id: 2, code: 'LOG121', description: 'Keep me' },
     ]);
     etsCourseServiceMock.fetchCourseDescriptionFromEtsWebsite
       .mockResolvedValueOnce('Fresh description')
@@ -149,6 +134,69 @@ describe('CoursesJobService', () => {
 
     expect(logSpy).toHaveBeenCalledWith(
       'Course description sync completed. Processed 2 courses, updated 1, skipped 0, failed 1.',
+    );
+  });
+
+  it('batches updates and groups failed courses by shared error message', async () => {
+    const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => {});
+
+    courseServiceMock.getCoursesForDescriptionSync.mockResolvedValue([
+      { id: 1, code: 'LOG001', description: 'Old 1' },
+      { id: 2, code: 'LOG002', description: 'Old 2' },
+      { id: 3, code: 'LOG003', description: 'Old 3' },
+      { id: 4, code: 'LOG004', description: 'Old 4' },
+      { id: 5, code: 'LOG005', description: 'Old 5' },
+      { id: 6, code: 'LOG006', description: 'Old 6' },
+      { id: 7, code: 'LOG007', description: 'Old 7' },
+      { id: 8, code: 'LOG008', description: 'Old 8' },
+      { id: 9, code: 'LOG009', description: 'Old 9' },
+      { id: 10, code: 'LOG010', description: 'Old 10' },
+      { id: 11, code: 'LOG011', description: 'Old 11' },
+      { id: 12, code: 'LOG012', description: 'Old 12' },
+    ]);
+    etsCourseServiceMock.fetchCourseDescriptionFromEtsWebsite
+      .mockResolvedValueOnce('New 1')
+      .mockRejectedValueOnce(
+        new Error('Could not extract course description from ETS website'),
+      )
+      .mockResolvedValueOnce('New 3')
+      .mockResolvedValueOnce('New 4')
+      .mockResolvedValueOnce('New 5')
+      .mockResolvedValueOnce('New 6')
+      .mockResolvedValueOnce('New 7')
+      .mockResolvedValueOnce('New 8')
+      .mockResolvedValueOnce('New 9')
+      .mockRejectedValueOnce(
+        new Error('Could not extract course description from ETS website'),
+      )
+      .mockResolvedValueOnce('New 11')
+      .mockResolvedValueOnce('New 12');
+
+    await service.syncCourseDescriptionsFromEtsWebsite();
+
+    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenCalledTimes(2);
+    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenNthCalledWith(
+      1,
+      [
+        { id: 1, code: 'LOG001', description: 'New 1' },
+        { id: 3, code: 'LOG003', description: 'New 3' },
+        { id: 4, code: 'LOG004', description: 'New 4' },
+        { id: 5, code: 'LOG005', description: 'New 5' },
+        { id: 6, code: 'LOG006', description: 'New 6' },
+        { id: 7, code: 'LOG007', description: 'New 7' },
+        { id: 8, code: 'LOG008', description: 'New 8' },
+        { id: 9, code: 'LOG009', description: 'New 9' },
+      ],
+    );
+    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenNthCalledWith(
+      2,
+      [
+        { id: 11, code: 'LOG011', description: 'New 11' },
+        { id: 12, code: 'LOG012', description: 'New 12' },
+      ],
+    );
+    expect(warnSpy).toHaveBeenCalledWith(
+      'Failed to sync description for courses [LOG002, LOG010]: Could not extract course description from ETS website',
     );
   });
 });

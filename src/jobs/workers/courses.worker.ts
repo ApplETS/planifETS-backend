@@ -12,6 +12,9 @@ import { ProgramCourseService } from '../../program-course/program-course.servic
 
 @Injectable()
 export class CoursesJobService {
+  private static readonly DESCRIPTION_SYNC_BATCH_SIZE = 10;
+  private static readonly COURSE_DESCRIPTION_SYNC_BATCH_DELAY_MS = 100;
+
   private readonly logger = new Logger(CoursesJobService.name);
 
   constructor(
@@ -35,10 +38,12 @@ export class CoursesJobService {
   public async syncCourseDescriptionsFromEtsWebsite(): Promise<void> {
     this.logger.log('Syncing course descriptions from ETS website...');
 
-    const courses = await this.courseService.getAllCourses();
+    const courses = await this.courseService.getCoursesForDescriptionSync();
     let updatedCount = 0;
     let skippedCount = 0;
     const failedCourseCodes: string[] = [];
+
+    const coursesWithCodes: typeof courses = [];
 
     for (const course of courses) {
       if (!course.code?.trim()) {
@@ -48,28 +53,67 @@ export class CoursesJobService {
         );
         continue;
       }
+      coursesWithCodes.push(course);
+    }
 
-      try {
-        const description =
-          await this.etsCourseService.fetchCourseDescriptionFromEtsWebsite(
+    for (
+      let index = 0;
+      index < coursesWithCodes.length;
+      index += CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE
+    ) {
+      const batch = coursesWithCodes.slice(
+        index,
+        index + CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE,
+      );
+      const results = await Promise.allSettled(
+        batch.map((course) =>
+          this.etsCourseService.fetchCourseDescriptionFromEtsWebsite(
             course.code,
-          );
+          ),
+        ),
+      );
+      const coursesToUpdate: Array<Pick<Course, 'id' | 'code' | 'description'>> =
+        [];
+      const failedCoursesByError = new Map<string, string[]>();
 
-        if (description !== course.description) {
-          await this.courseService.updateCourse({
-            where: { id: course.id },
-            data: {
+      results.forEach((result, resultIndex) => {
+        const course = batch[resultIndex];
+
+        if (result.status === 'fulfilled') {
+          if (result.value !== course.description) {
+            coursesToUpdate.push({
+              id: course.id,
               code: course.code,
-              description,
-            },
-          });
-          updatedCount += 1;
+              description: result.value,
+            });
+          }
+          return;
         }
-      } catch (error) {
-        failedCourseCodes.push(course.code);
+
+        const errorMessage =
+          result.reason instanceof Error
+            ? result.reason.message
+            : String(result.reason);
+        const courseCodes = failedCoursesByError.get(errorMessage) ?? [];
+
+        courseCodes.push(course.code);
+        failedCoursesByError.set(errorMessage, courseCodes);
+      });
+
+      if (coursesToUpdate.length > 0) {
+        await this.courseService.updateCourseDescriptionsBatch(coursesToUpdate);
+        updatedCount += coursesToUpdate.length;
+      }
+
+      failedCoursesByError.forEach((courseCodes, errorMessage) => {
+        failedCourseCodes.push(...courseCodes);
         this.logger.warn(
-          `Failed to sync description for course ${course.code}: ${error instanceof Error ? error.message : String(error)}`,
+          `Failed to sync description for courses [${courseCodes.join(', ')}]: ${errorMessage}`,
         );
+      });
+
+      if (index + CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE < coursesWithCodes.length) {
+        await this.delay(CoursesJobService.COURSE_DESCRIPTION_SYNC_BATCH_DELAY_MS);
       }
     }
 
@@ -82,6 +126,10 @@ export class CoursesJobService {
         `Course description sync failures: ${JSON.stringify(failedCourseCodes)}`,
       );
     }
+  }
+
+  private async delay(milliseconds: number): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, milliseconds));
   }
 
   public async syncCourseDetailsWithCheminotData(): Promise<void> {
