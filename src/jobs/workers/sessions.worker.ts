@@ -110,8 +110,16 @@ export class SessionsJobService {
       this.logMissingProgramCourses(program, missingProgramCourseIds);
       this.logger.log(`Saved parsed courses for program ${programCode}.`);
     } catch (error) {
-      this.logger.error(`Error processing program code "${programCode}": 
-        ${error instanceof Error ? error.message : String(error)}`);
+      if (error instanceof Error) {
+        this.logger.warn(
+          `Error processing program code "${programCode}"`,
+          error,
+        );
+      } else {
+        this.logger.warn(
+          `Error processing program code "${programCode}": ${String(error)}`,
+        );
+      }
     }
   }
 
