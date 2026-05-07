@@ -28,10 +28,9 @@ ENV TZ=America/Toronto
 WORKDIR /app
 COPY package.json yarn.lock ./
 COPY prisma ./prisma
-RUN yarn install --production --frozen-lockfile --ignore-scripts
-
-# Install tzdata for timezone support
-RUN apk add --no-cache tzdata && \
+# Install dependencies and tzdata
+RUN yarn install --production --frozen-lockfile --ignore-scripts && \
+    apk add --no-cache tzdata && \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
     echo "${TZ}" > /etc/timezone
 

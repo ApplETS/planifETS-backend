@@ -105,11 +105,8 @@ export class CoursesJobService {
         updatedCount += coursesToUpdate.length;
       }
 
-      failedCoursesByError.forEach((courseCodes, errorMessage) => {
+      failedCoursesByError.forEach((courseCodes) => {
         failedCourseCodes.push(...courseCodes);
-        this.logger.warn(
-          `Failed to sync description for courses [${courseCodes.join(', ')}]: ${errorMessage}`,
-        );
       });
 
       if (index + CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE < coursesWithCodes.length) {
@@ -123,7 +120,7 @@ export class CoursesJobService {
 
     if (failedCourseCodes.length > 0) {
       this.logger.warn(
-        `Course description sync failures: ${JSON.stringify(failedCourseCodes)}`,
+        `Failed to sync descriptions for courses because they could not be found on the ETS website or their description could not be extracted: [${failedCourseCodes.join(', ')}]`,
       );
     }
   }

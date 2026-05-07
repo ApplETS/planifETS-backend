@@ -91,8 +91,9 @@ describe('CoursesJobService', () => {
         description: 'Updated LOG121',
       },
     ]);
+
     expect(warnSpy).toHaveBeenCalledWith(
-      'Failed to sync description for courses [LOG210]: HTTP 404',
+      'Failed to sync descriptions for courses because they could not be found on the ETS website or their description could not be extracted: [LOG210]',
     );
   });
 
@@ -137,7 +138,7 @@ describe('CoursesJobService', () => {
     );
   });
 
-  it('batches updates and groups failed courses by shared error message', async () => {
+  it('batches updates and logs failed course codes once at the end', async () => {
     const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => {});
 
     courseServiceMock.getCoursesForDescriptionSync.mockResolvedValue([
@@ -196,7 +197,7 @@ describe('CoursesJobService', () => {
       ],
     );
     expect(warnSpy).toHaveBeenCalledWith(
-      'Failed to sync description for courses [LOG002, LOG010]: Could not extract course description from ETS website',
+      'Failed to sync descriptions for courses because they could not be found on the ETS website or their description could not be extracted: [LOG002, LOG010]',
     );
   });
 });
