@@ -49,7 +49,7 @@ export class JobsService {
     await this.processJobs();
   }
 
-  @Cron(CronExpression.EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT, { timeZone: 'America/Toronto' })
+  @Cron(CronExpression.EVERY_12_HOURS, { timeZone: 'America/Toronto' })
   public async processJobs(): Promise<void> {
     this.logger.log('Starting sequential job processing...');
     this.logger.debug('Are we on the main thread?', isMainThread ? 'Yes' : 'No');
@@ -91,9 +91,9 @@ export class JobsService {
 
     for (const [index, job] of jobs.entries()) {
       const { service, method } = job;
-      this.logger.log(`Starting job ${index + 1}: ${service}.${method}`);
 
       try {
+        this.logger.log(`Starting job ${index + 1}: ${service}.${method}`);
         const result = await this.runWorker(service, method);
         this.logger.log(
           `Job ${index + 1} (${service}.${method}) completed : ${JSON.stringify(result)}`,

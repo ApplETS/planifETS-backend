@@ -32,7 +32,7 @@ export class SessionsJobService {
     private readonly programCourseService: ProgramCourseService,
     private readonly prerequisiteService: PrerequisiteService,
     private readonly courseCodeValidationPipe: CourseCodeValidationPipe,
-  ) { }
+  ) {}
 
   /**
    * Main method to process prerequisites, using the current session data in Horaire-cours PDF.
@@ -78,6 +78,7 @@ export class SessionsJobService {
     program: Program,
   ): Promise<void> {
     const { code: programCode } = program;
+    const missingProgramCourseIds = new Set<number>();
     this.logger.log(`Processing program: ${programCode}`);
 
     if (!programCode) {
@@ -101,25 +102,33 @@ export class SessionsJobService {
       );
 
       // c. Handle parsed data
-      await this.handleParsedCourses(program, parsedCourses);
+      await this.handleParsedCourses(
+        program,
+        parsedCourses,
+        missingProgramCourseIds,
+      );
+      this.logMissingProgramCourses(program, missingProgramCourseIds);
       this.logger.log(`Saved parsed courses for program ${programCode}.`);
     } catch (error) {
-      this.logger.error(`Error processing program ${programCode}:`, error);
+      this.logger.error(`Error processing program code "${programCode}": 
+        ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 
   private async handleParsedCourses(
     program: Program,
     courses: IHoraireCours[],
+    missingProgramCourseIds: Set<number>,
   ): Promise<void> {
     for (const course of courses) {
-      await this.processPrerequisites(course, program);
+      await this.processPrerequisites(course, program, missingProgramCourseIds);
     }
   }
 
   private async processPrerequisites(
     coursePdf: IHoraireCours,
     program: Program,
+    missingProgramCourseIds: Set<number>,
   ): Promise<void> {
     const existingCourse = await this.getExistingCourse(coursePdf.code);
     if (!existingCourse) {
@@ -129,6 +138,7 @@ export class SessionsJobService {
     const programCourse = await this.getProgramCourseWithPrerequisites(
       existingCourse.id,
       program.id,
+      missingProgramCourseIds,
     );
     if (!programCourse) {
       return;
@@ -171,6 +181,7 @@ export class SessionsJobService {
   private async getProgramCourseWithPrerequisites(
     courseId: number,
     programId: number,
+    missingProgramCourseIds: Set<number>,
   ): Promise<ProgramCourseWithPrerequisites | null> {
     const programCourse =
       await this.programCourseService.getProgramCourseWithPrerequisites({
@@ -180,11 +191,23 @@ export class SessionsJobService {
         },
       });
     if (!programCourse) {
-      this.logger.warn(
-        `ProgramCourse not found for courseId: ${courseId}, programId: ${programId}`,
-      );
+      missingProgramCourseIds.add(courseId);
     }
     return programCourse;
+  }
+
+  private logMissingProgramCourses(
+    program: Program,
+    missingProgramCourseIds: Set<number>,
+  ): void {
+    if (missingProgramCourseIds.size === 0) {
+      return;
+    }
+
+    const missingCourseIds = [...missingProgramCourseIds].join(', ');
+    this.logger.warn(
+      `For program ${program.code} (id: ${program.id}), ProgramCourse not found for courseIds: [${missingCourseIds}]`,
+    );
   }
 
   private parsePrerequisites(coursePdf: IHoraireCours): string[] | null {

@@ -251,7 +251,7 @@ export class ProgramService {
       );
 
       this.logger.warn(
-        `Some programs were not found and thus not updated: "${missingCodes.join(', ')}"`,
+        `Some programs were not found in the database during updateProgramsByCodes and therefore were not updated: "${missingCodes.join(', ')}"`,
       );
     }
 

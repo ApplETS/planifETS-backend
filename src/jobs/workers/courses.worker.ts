@@ -156,7 +156,8 @@ export class CoursesJobService {
     // Log missing courses and programs
     if (Object.keys(missingCoursesInDatabase).length > 0) {
       this.logger.warn(
-        `Missing courses in database: ${JSON.stringify(missingCoursesInDatabase, null, 2)}`,
+        `${missingCoursesInDatabase.length} missing courses in database:      
+        ${JSON.stringify(missingCoursesInDatabase, null, 2)}`,
       );
     }
 
