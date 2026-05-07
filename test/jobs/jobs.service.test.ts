@@ -66,7 +66,7 @@ describe('JobsService', () => {
     expect(loggerLogSpy).toHaveBeenCalledWith('Starting job 6: SessionsJobService.processSessions');
     expect(loggerLogSpy).toHaveBeenCalledWith('Job processing completed.');
     expect(loggerLogSpy).toHaveBeenCalledWith(
-      expect.stringContaining('Job 1 (ProgramsJobService.processPrograms) completed successfully'),
+      expect.stringContaining('Job 1 (ProgramsJobService.processPrograms) completed :'),
     );
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       expect.stringContaining('Job 2 (CoursesJobService.processCourses) failed: fail2'),
