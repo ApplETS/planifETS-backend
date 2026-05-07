@@ -50,6 +50,20 @@ export class CourseService {
     return this.prisma.course.findMany();
   }
 
+  public async getCoursesForDescriptionSync(): Promise<
+    Pick<Course, 'id' | 'code' | 'description'>[]
+  > {
+    this.logger.verbose('getCoursesForDescriptionSync');
+
+    return this.prisma.course.findMany({
+      select: {
+        id: true,
+        code: true,
+        description: true,
+      },
+    });
+  }
+
   public async getCoursesByProgram(programId: number): Promise<Course[]> {
     this.logger.verbose('getCoursesByProgram', programId);
 
@@ -150,6 +164,30 @@ export class CourseService {
       },
       where,
     });
+  }
+
+  public async updateCourseDescriptionsBatch(
+    courses: Array<Pick<Course, 'id' | 'code' | 'description'>>,
+  ): Promise<Course[]> {
+    this.logger.verbose(
+      'updateCourseDescriptionsBatch',
+      courses.map((course) => course.code),
+    );
+
+    const updatedAt = new Date();
+
+    return this.prisma.$transaction(
+      courses.map((course) =>
+        this.prisma.course.update({
+          where: { id: course.id },
+          data: {
+            code: course.code,
+            description: course.description,
+            updatedAt,
+          },
+        }),
+      ),
+    );
   }
 
   public async upsertCourses(

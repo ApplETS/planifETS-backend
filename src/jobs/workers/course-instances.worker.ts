@@ -1,9 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Availability, Course, CourseInstance, Session } from '@prisma/client';
 
-import { AvailabilityUtil } from '../../common/utils/course-instance/courseInstanceUtil';
-import { PlanificationCoursService } from '../../common/website-helper/pdf/pdf-parser/planification/planification-cours.service';
-import { ICoursePlanification } from '../../common/website-helper/pdf/pdf-parser/planification/planification-cours.types';
+import { AvailabilityUtil } from '@/common/utils/course-instance/courseInstanceUtil';
+import { PlanificationCoursService } from '@/common/website-helper/pdf/pdf-parser/planification/planification-cours.service';
+import { ICoursePlanification } from '@/common/website-helper/pdf/pdf-parser/planification/planification-cours.types';
+
 import { CourseService } from '../../course/course.service';
 import { CourseInstanceService } from '../../course-instance/course-instance.service';
 import { seedProgramPlanificationPdfParserFlags } from '../../prisma/programs.seeder';
@@ -20,7 +21,7 @@ export class CourseInstancesJobService {
     private readonly courseService: CourseService,
     private readonly courseInstanceService: CourseInstanceService,
     private readonly sessionService: SessionService,
-  ) { }
+  ) {}
 
   /**
    * Main method to process course instances.
