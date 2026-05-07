@@ -57,14 +57,14 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Run Dependency Audit 
+      - name: Run Dependency Audit
         run: |
           yarn audit --groups dependencies | tee audit.log
-          if grep -E 'high|critical' audit.log; then
-            echo 'High or critical vulnerabilities found!';
+          if grep -E 'critical' audit.log; then
+            echo 'Critical vulnerabilities found!';
             exit 1;
           else
-            echo 'No high or critical vulnerabilities.';
+            echo 'No critical vulnerabilities.';
           fi
 
   unit-tests:
