@@ -23,11 +23,17 @@ FROM node:22-alpine3.20 AS production
 ARG APP_GIT_SHORT_SHA
 ENV APP_GIT_SHORT_SHA=${APP_GIT_SHORT_SHA}
 ENV APP_ENV=production
+ENV TZ=America/Toronto
 
 WORKDIR /app
 COPY package.json yarn.lock ./
 COPY prisma ./prisma
 RUN yarn install --production --frozen-lockfile --ignore-scripts
+
+# Install tzdata for timezone support
+RUN apk add --no-cache tzdata && \
+    cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
+    echo "${TZ}" > /etc/timezone
 
 COPY --from=build /app/dist ./dist
 
