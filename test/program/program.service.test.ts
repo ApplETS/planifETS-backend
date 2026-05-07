@@ -84,7 +84,7 @@ describe('ProgramService', () => {
     const program = buildProgram();
     const loggerVerboseSpy = jest
       .spyOn(serviceLogger, 'verbose')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     prismaMock.program.findUnique.mockResolvedValue(program);
 
     await expect(service.getProgram({ id: 7084 })).resolves.toBe(program);
@@ -98,7 +98,7 @@ describe('ProgramService', () => {
     const programs = [buildProgram(), buildProgram({ id: 1822, code: '1822' })];
     const loggerVerboseSpy = jest
       .spyOn(serviceLogger, 'verbose')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     prismaMock.program.findMany.mockResolvedValue(programs);
 
     await expect(service.getAllPrograms()).resolves.toStrictEqual(programs);
@@ -199,7 +199,7 @@ describe('ProgramService', () => {
     const program = buildProgram();
     const loggerVerboseSpy = jest
       .spyOn(serviceLogger, 'verbose')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     prismaMock.program.findFirst.mockResolvedValue(program);
 
     await expect(service.getProgramByCode('7084')).resolves.toBe(program);
@@ -215,7 +215,7 @@ describe('ProgramService', () => {
     const programs = [buildProgram({ isHorairePdfParsable: true })];
     const loggerVerboseSpy = jest
       .spyOn(serviceLogger, 'verbose')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     prismaMock.program.findMany.mockResolvedValue(programs);
 
     await expect(service.getProgramsByHoraireParsablePDF()).resolves.toBe(
@@ -237,7 +237,7 @@ describe('ProgramService', () => {
   it('logs an error when no horaire-parsable programs are found', async () => {
     const loggerErrorSpy = jest
       .spyOn(serviceLogger, 'error')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     prismaMock.program.findMany.mockResolvedValue([]);
 
     await expect(service.getProgramsByHoraireParsablePDF()).resolves.toStrictEqual(
@@ -252,7 +252,7 @@ describe('ProgramService', () => {
     const programs = [buildProgram({ isPlanificationPdfParsable: true })];
     const loggerVerboseSpy = jest
       .spyOn(serviceLogger, 'verbose')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     prismaMock.program.findMany.mockResolvedValue(programs);
 
     await expect(service.getProgramsByPlanificationParsablePDF()).resolves.toBe(
@@ -274,7 +274,7 @@ describe('ProgramService', () => {
   it('logs an error when no planification-parsable programs are found', async () => {
     const loggerErrorSpy = jest
       .spyOn(serviceLogger, 'error')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     prismaMock.program.findMany.mockResolvedValue([]);
 
     await expect(
@@ -332,7 +332,7 @@ describe('ProgramService', () => {
     const program = buildProgram();
     const loggerVerboseSpy = jest
       .spyOn(serviceLogger, 'verbose')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     prismaMock.program.create.mockResolvedValue(program);
 
     await expect(service.createProgram(data)).resolves.toBe(program);
@@ -351,7 +351,7 @@ describe('ProgramService', () => {
     const program = buildProgram();
     const loggerVerboseSpy = jest
       .spyOn(serviceLogger, 'verbose')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     prismaMock.program.upsert.mockResolvedValue(program);
 
     await expect(service.upsertProgram(data)).resolves.toBe(program);
@@ -438,10 +438,10 @@ describe('ProgramService', () => {
     ];
     const loggerLogSpy = jest
       .spyOn(serviceLogger, 'log')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     const loggerVerboseSpy = jest
       .spyOn(serviceLogger, 'verbose')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     prismaMock.programType.findMany.mockResolvedValue([{ id: 1 }]);
 
     await expect(service.createProgramTypes(types)).resolves.toBeUndefined();
@@ -471,7 +471,7 @@ describe('ProgramService', () => {
     ];
     const loggerLogSpy = jest
       .spyOn(serviceLogger, 'log')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     prismaMock.programType.findMany.mockResolvedValue([{ id: 1 }, { id: 2 }]);
 
     await expect(service.createProgramTypes(types)).resolves.toBeUndefined();
@@ -483,7 +483,7 @@ describe('ProgramService', () => {
     const error = new Error('database unavailable');
     const loggerErrorSpy = jest
       .spyOn(serviceLogger, 'error')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     prismaMock.programType.findMany.mockRejectedValue(error);
 
     await expect(
@@ -498,7 +498,7 @@ describe('ProgramService', () => {
   it('returns the update count and checks for missing codes on partial updates', async () => {
     const loggerWarnSpy = jest
       .spyOn(serviceLogger, 'warn')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     prismaMock.program.updateMany.mockResolvedValue({ count: 1 });
     prismaMock.program.findMany.mockResolvedValue([{ code: '7084' }]);
     const updateData = {
@@ -527,14 +527,14 @@ describe('ProgramService', () => {
       },
     });
     expect(loggerWarnSpy).toHaveBeenCalledWith(
-      'Some programs were not found and thus not updated: "1822"',
+      'Some programs were not found in the database during updateProgramsByCodes and therefore were not updated: "1822"',
     );
   });
 
   it('logs an error when no program codes are updated', async () => {
     const loggerErrorSpy = jest
       .spyOn(serviceLogger, 'error')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
     prismaMock.program.updateMany.mockResolvedValue({ count: 0 });
     const updateData = {
       isPlanificationPdfParsable: true,
