@@ -4,7 +4,7 @@ services:
       context: .
       target: production
     ports:
-      - "${PORT:-3001}:${PORT:-3001}"
+      - "${HOST_PORT:-3501}:${PORT:-3001}"
     environment:
       DATABASE_URL: ${DATABASE_URL}
       APP_ENV: production
@@ -17,6 +17,8 @@ services:
     networks:
       - app-network
     restart: unless-stopped
+    profiles:
+      - production
     healthcheck:
       test:
         [
@@ -27,6 +29,29 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+
+  nestjs-app-dev:
+    build:
+      context: .
+      target: dev
+    ports:
+      - "${HOST_PORT:-3501}:${PORT:-3001}"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      APP_ENV: development
+      PORT: ${PORT:-3001}
+      LOG_LEVELS: ${LOG_LEVELS:-log,error,warn}
+      TZ: America/Toronto
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+    profiles:
+      - dev
 
   db:
     image: postgres:16
