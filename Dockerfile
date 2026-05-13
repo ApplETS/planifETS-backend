@@ -22,6 +22,7 @@ FROM base AS dev
 WORKDIR /app
 COPY prisma ./prisma
 ENV NODE_ENV=development
+ENV APP_ENV=development
 EXPOSE 3001
 CMD ["sh", "-c", "yarn prisma:generate && yarn start:dev"]
 

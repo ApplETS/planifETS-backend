@@ -27,7 +27,7 @@ cd planifETS-backend
 cp .env.example .env
 ```
 
-The default values work out of the box for Docker. No changes needed.
+The default values work out of the box for Docker. The compose file connects the app to the `db` service automatically, so you do not need to change `DATABASE_URL` for container-based development.
 
 > **Note:** On Windows, ports `3001` and `5432` may be reserved by Hyper-V. The compose file maps the app to host port `3501` and PostgreSQL to `5433` to avoid conflicts.
 
