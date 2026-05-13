@@ -17,6 +17,15 @@ ENV NODE_ENV=production
 
 RUN yarn build
 
+# Development
+FROM base AS dev
+WORKDIR /app
+COPY prisma ./prisma
+ENV NODE_ENV=development
+ENV APP_ENV=development
+EXPOSE 3001
+CMD ["sh", "-c", "yarn prisma:generate && yarn start:dev"]
+
 # Production
 FROM node:22-alpine3.20 AS production
 
