@@ -11,20 +11,8 @@ import {
 } from '@/common/utils/url/url-constants';
 import { extractNumberFromString } from '@/utils/stringUtil';
 
-interface ICoursesEtsAPI {
-  id: number;
-  title: string;
-  description: string;
-  code: string;
-  cycle: string | null;
-}
-
-export interface ICourseEtsAPI {
-  id: number;
-  title: string;
-  code: string;
-  credits: number | null;
-}
+import { CourseByIdEtsApiDto } from './dtos/course-by-id-ets-api.dto';
+import { CourseIndexResponseDto } from './dtos/course-index-response.dto';
 
 interface ICourses {
   id: number;
@@ -77,13 +65,14 @@ export class EtsCourseService {
     const response = await firstValueFrom(
       this.httpService.get(ETS_API_GET_ALL_COURSES),
     );
-    const courses = response.data.results;
+    const raw = response.data as CourseIndexResponseDto;
+    const courses = raw.results;
 
     if (!courses.length) {
       throw new Error('No courses fetched.');
     }
 
-    return courses.map((course: ICoursesEtsAPI) => ({
+    return courses.map((course) => ({
       id: course.id,
       title: course.title,
       description: course.description,
@@ -94,7 +83,7 @@ export class EtsCourseService {
 
   // Fetches one or more courses by their ids
   // The ids are passed as a string with comma-separated values, ex: "349682,349710"
-  public async fetchCoursesById(ids: string): Promise<ICourseEtsAPI[]> {
+  public async fetchCoursesById(ids: string): Promise<CourseByIdEtsApiDto[]> {
     const response = await firstValueFrom(
       this.httpService.get(`${ETS_API_GET_COURSES_BY_IDS}${ids}`),
     );
@@ -104,7 +93,7 @@ export class EtsCourseService {
       throw new Error('No courses fetched.');
     }
 
-    return courses.map((course: ICourseEtsAPI) => ({
+    return courses.map((course: CourseByIdEtsApiDto) => ({
       id: course.id,
       title: course.title,
       code: course.code,
