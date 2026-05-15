@@ -5,26 +5,15 @@ import { firstValueFrom } from 'rxjs';
 import { extractNumberFromString, stripHtmlTags } from '@/common/utils/stringUtil';
 import { ETS_API_GET_ALL_PROGRAMS } from '@/common/utils/url/url-constants';
 
-interface IProgramEtsAPI {
-  id: number;
-  title: string;
-  cycle: string;
-  code: string;
-  credits: string | null;
-  types: number[];
-  url: string;
-}
-
-export interface IProgramTypeEtsAPI {
-  id: number;
-  title: string;
-}
+import { ProgramEtsApiDto } from './dtos/program-ets-api.dto';
+import { ProgramIndexResponseDto } from './dtos/program-index-response.dto';
+import { ProgramTypeEtsApiDto } from './dtos/program-type-ets-api.dto';
 
 export type Program = {
   id: number;
   title: string;
   cycle: number;
-  code: string;
+  code: string | null;
   credits: string | null;
   programTypes: {
     connect: { id: number }[];
@@ -37,16 +26,17 @@ export class EtsProgramService {
   constructor(private readonly httpService: HttpService) { }
 
   public async fetchAllProgramsFromEtsAPI(): Promise<{
-    types: IProgramTypeEtsAPI[];
+    types: ProgramTypeEtsApiDto[];
     programs: Program[];
   }> {
     const response = await firstValueFrom(
       this.httpService.get(ETS_API_GET_ALL_PROGRAMS),
     );
 
-    const types: IProgramTypeEtsAPI[] = response.data.types;
-    const programs: Program[] = response.data.results.map(
-      (program: IProgramEtsAPI) => ({
+    const raw = response.data as ProgramIndexResponseDto;
+    const types: ProgramTypeEtsApiDto[] = raw.types;
+    const programs: Program[] = raw.results.map(
+      (program: ProgramEtsApiDto) => ({
         id: program.id,
         title: stripHtmlTags(program.title),
         cycle: extractNumberFromString(program.cycle),

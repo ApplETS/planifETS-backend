@@ -3,10 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosHeaders, AxiosResponse } from 'axios';
 import { of } from 'rxjs';
 
-import {
-  EtsProgramService,
-  IProgramTypeEtsAPI,
-} from '@/common/api-helper/ets/program/ets-program.service';
+import { ProgramTypeEtsApiDto } from '@/common/api-helper/ets/program/dtos/program-type-ets-api.dto';
+import { EtsProgramService } from '@/common/api-helper/ets/program/ets-program.service';
 
 describe('EtsProgramService', () => {
   let service: EtsProgramService;
@@ -30,7 +28,7 @@ describe('EtsProgramService', () => {
   });
 
   it('should map ETS API program results to internal DTOs', async () => {
-    const mockTypes: IProgramTypeEtsAPI[] = [
+    const mockTypes: ProgramTypeEtsApiDto[] = [
       { id: 10, title: 'Baccalaureat' },
     ];
 

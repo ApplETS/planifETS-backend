@@ -1,11 +1,12 @@
 import { HttpModule } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { EtsProgramService, IProgramTypeEtsAPI, Program } from '@/common/api-helper/ets/program/ets-program.service';
+import { ProgramTypeEtsApiDto } from '@/common/api-helper/ets/program/dtos/program-type-ets-api.dto';
+import { EtsProgramService, Program } from '@/common/api-helper/ets/program/ets-program.service';
 
 describe('EtsProgramService (live integration)', () => {
   let service: EtsProgramService;
-  let types: IProgramTypeEtsAPI[];
+  let types: ProgramTypeEtsApiDto[];
   let programs: Program[];
   let moduleRef: TestingModule;
 
@@ -28,7 +29,7 @@ describe('EtsProgramService (live integration)', () => {
 
   it('should fetch types as array of correct DTOs', () => {
     expect(Array.isArray(types)).toBe(true);
-    types.forEach((type: IProgramTypeEtsAPI) => {
+    types.forEach((type: ProgramTypeEtsApiDto) => {
       expect(typeof type.id).toBe('number');
       expect(typeof type.title).toBe('string');
     });
@@ -79,8 +80,8 @@ describe('EtsProgramService (live integration)', () => {
       });
     });
   });
-  it('should have valid IProgramTypeEtsAPI objects in types', () => {
-    types.forEach((type: IProgramTypeEtsAPI) => {
+  it('should have valid ProgramTypeEtsApiDto objects in types', () => {
+    types.forEach((type: ProgramTypeEtsApiDto) => {
       expect(typeof type.id).toBe('number');
       expect(typeof type.title).toBe('string');
     });
