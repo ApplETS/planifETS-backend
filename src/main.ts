@@ -6,6 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { HttpExceptionFilter } from '@/common/exceptions/http-exception.filter';
 import { createAppLoggerFactory } from '@/common/logger/app-logger-factory';
+import { MonitoringService } from '@/monitoring/monitoring.service';
 
 import { AppModule } from './app.module';
 
@@ -25,10 +26,12 @@ async function bootstrap() {
   );
 
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalFilters(new HttpExceptionFilter());
+
+  const monitoring = app.get(MonitoringService);
+  app.useGlobalFilters(new HttpExceptionFilter(monitoring));
 
   //Log levels
-  app.useLogger(createAppLoggerFactory());
+  app.useLogger(createAppLoggerFactory(monitoring));
 
   //Swagger
   const version = process.env.APP_GIT_SHORT_SHA ? `1.0.0 (${process.env.APP_GIT_SHORT_SHA})` : '1.0.0';

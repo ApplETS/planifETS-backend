@@ -21,6 +21,9 @@
       "@/utils/*": [
         "./src/common/utils/*"
       ],
+      "@/monitoring/*": [
+        "./src/monitoring/*"
+      ],
     },
     "incremental": true,
     "strict": true,

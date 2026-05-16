@@ -1,13 +1,21 @@
-import { ConsoleLogger, Injectable } from '@nestjs/common';
-import * as Sentry from '@sentry/nestjs';
+import { ConsoleLogger, ConsoleLoggerOptions, Injectable, Optional } from '@nestjs/common';
 
 import { formatMessage } from '@/common/utils/stringUtil';
+import { MonitoringService } from '@/monitoring/monitoring.service';
 
 @Injectable()
 export class SentryLogger extends ConsoleLogger {
+  constructor(
+    context?: string,
+    options?: ConsoleLoggerOptions,
+    @Optional() private readonly monitoring?: MonitoringService,
+  ) {
+    super(context, options);
+  }
+
   public log(message: string | object, context?: string) {
     super.log(message, context);
-    Sentry.logger.info(formatMessage(message), {
+    this.monitoring?.captureLog('log', formatMessage(message), {
       context,
       ...this.extractAttributes(message),
     });
@@ -15,7 +23,7 @@ export class SentryLogger extends ConsoleLogger {
 
   public error(message: string | Error | object, stack?: string, context?: string) {
     super.error(message, stack, context);
-    Sentry.logger.error(formatMessage(message instanceof Error ? message.message : message), {
+    this.monitoring?.captureLog('error', formatMessage(message instanceof Error ? message.message : message), {
       context,
       stack: stack ?? (message instanceof Error ? message.stack : undefined),
       ...this.extractAttributes(message),
@@ -24,7 +32,7 @@ export class SentryLogger extends ConsoleLogger {
 
   public warn(message: string | object, context?: string) {
     super.warn(message, context);
-    Sentry.logger.warn(formatMessage(message), {
+    this.monitoring?.captureLog('warn', formatMessage(message), {
       context,
       ...this.extractAttributes(message),
     });

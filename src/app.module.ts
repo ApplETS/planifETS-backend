@@ -10,6 +10,7 @@ import { PdfModule } from './common/website-helper/pdf/pdf.module';
 import { CourseModule } from './course/course.module';
 import { CourseInstanceModule } from './course-instance/course-instance.module';
 import { JobsSchedulerModule } from './jobs/jobs-scheduler.module';
+import { MonitoringModule } from './monitoring/monitoring.module';
 import { PrerequisiteModule } from './prerequisite/prerequisite.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProgramModule } from './program/program.module';
@@ -33,7 +34,8 @@ import { SessionModule } from './session/session.module';
     ProgramModule,
     ProgramCourseModule,
 
-    SentryModule.forRoot()
+    SentryModule.forRoot(),
+    MonitoringModule,
   ],
   providers: [
     {

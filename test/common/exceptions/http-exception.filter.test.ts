@@ -1,28 +1,23 @@
-
-jest.mock('@sentry/node');
-jest.mock('@sentry/node');
 import { ArgumentsHost, HttpException } from '@nestjs/common';
-import * as Sentry from '@sentry/node';
 import { Request, Response } from 'express';
 
 import { HttpExceptionFilter } from '@/common/exceptions/http-exception.filter';
+import { MonitoringService } from '@/monitoring/monitoring.service';
 
 describe('HttpExceptionFilter', () => {
   let filter: HttpExceptionFilter;
-  let sentryCaptureSpy: jest.SpyInstance;
-  let sentryWithScopeSpy: jest.SpyInstance;
+  let mockMonitoring: jest.Mocked<MonitoringService>;
   let mockResponse: Partial<Response>;
   let mockRequest: Partial<Request>;
   let mockHost: ArgumentsHost;
 
   beforeEach(() => {
-    filter = new HttpExceptionFilter();
-    sentryCaptureSpy = jest.spyOn(Sentry, 'captureException').mockImplementation(() => 'id');
-    const mockScope = { setTag: jest.fn(), setExtra: jest.fn() };
-    sentryWithScopeSpy = jest.spyOn(Sentry, 'withScope').mockImplementation((cb) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-      if (typeof cb === 'function') (cb as Function)(mockScope);
-    });
+    mockMonitoring = {
+      captureException: jest.fn(),
+      captureLog: jest.fn(),
+    } as jest.Mocked<MonitoringService>;
+
+    filter = new HttpExceptionFilter(mockMonitoring);
 
     mockResponse = { status: jest.fn().mockReturnThis(), json: jest.fn() };
     mockRequest = { url: '/test', method: 'GET', body: { foo: 'bar' } };
@@ -39,7 +34,6 @@ describe('HttpExceptionFilter', () => {
   });
 
   it('should use default message if exception message is missing', () => {
-    // Create a mock exception with no message
     const exception = new HttpException(undefined as unknown as string, 404);
     Object.defineProperty(exception, 'message', { value: undefined });
     filter.catch(exception, mockHost);
@@ -86,12 +80,17 @@ describe('HttpExceptionFilter', () => {
     );
   });
 
-  it('should capture exception with Sentry and send proper response', () => {
+  it('should capture exception via monitoring service and send proper response', () => {
     const exception = new HttpException('Test error', 400);
     filter.catch(exception, mockHost);
 
-    expect(sentryWithScopeSpy).toHaveBeenCalled();
-    expect(sentryCaptureSpy).toHaveBeenCalledWith(exception);
+    expect(mockMonitoring.captureException).toHaveBeenCalledWith(
+      exception,
+      expect.objectContaining({
+        tags: expect.objectContaining({ 'http.status_code': '400' }),
+        extras: expect.objectContaining({ path: '/test', method: 'GET' }),
+      })
+    );
     expect(mockResponse.status).toHaveBeenCalledWith(400);
     expect(mockResponse.json).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -102,14 +101,14 @@ describe('HttpExceptionFilter', () => {
     );
   });
 
-  it('should handle Sentry capture failure gracefully', () => {
-    sentryWithScopeSpy.mockImplementationOnce(() => { throw new Error('fail'); });
+  it('should handle monitoring capture failure gracefully', () => {
+    mockMonitoring.captureException.mockImplementationOnce(() => { throw new Error('fail'); });
     const exception = new HttpException('Test error', 500);
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
     filter.catch(exception, mockHost);
 
     expect(consoleSpy).toHaveBeenCalledWith(
-      'Sentry capture failed for HttpException:',
+      'Monitoring capture failed for HttpException:',
       expect.any(Error)
     );
     expect(mockResponse.status).toHaveBeenCalledWith(500);
