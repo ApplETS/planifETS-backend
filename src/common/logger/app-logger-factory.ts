@@ -1,7 +1,7 @@
 import { LogLevel } from '@nestjs/common';
 
-import { SentryLogger } from '@/common/logger/sentry.logger';
-import { MonitoringService } from '@/monitoring/monitoring.service';
+import { AppLogger } from '@/common/logger/app.logger';
+import { PosthogMonitoringService } from '@/monitoring/posthog-monitoring.service';
 
 function resolveLogLevels(): LogLevel[] {
   return process.env.LOG_LEVELS
@@ -9,8 +9,8 @@ function resolveLogLevels(): LogLevel[] {
     : ['error', 'warn', 'log'];
 }
 
-export function createAppLoggerFactory(monitoring?: MonitoringService, context?: string): SentryLogger {
-  const logger = new SentryLogger(context ?? 'Application', {}, monitoring);
+export function createAppLoggerFactory(monitoring?: PosthogMonitoringService, context?: string): AppLogger {
+  const logger = new AppLogger(context ?? 'Application', {}, monitoring);
   logger.setLogLevels(resolveLogLevels());
   return logger;
 }

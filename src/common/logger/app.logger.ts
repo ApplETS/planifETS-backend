@@ -1,16 +1,16 @@
 import { ConsoleLogger, ConsoleLoggerOptions, Injectable, Optional } from '@nestjs/common';
 
 import { formatMessage } from '@/common/utils/stringUtil';
-import { MonitoringService } from '@/monitoring/monitoring.service';
+import { PosthogMonitoringService } from '@/monitoring/posthog-monitoring.service';
 
 @Injectable()
-export class SentryLogger extends ConsoleLogger {
+export class AppLogger extends ConsoleLogger {
   constructor(
     context?: string,
     options?: ConsoleLoggerOptions,
-    @Optional() private readonly monitoring?: MonitoringService,
+    @Optional() private readonly monitoring?: PosthogMonitoringService,
   ) {
-    super(context, options);
+    super(context ?? '', options ?? {});
   }
 
   public log(message: string | object, context?: string) {

@@ -1,9 +1,8 @@
-import '../../instrument';
-
 import { NestFactory } from '@nestjs/core';
 import { isMainThread, parentPort, workerData } from 'worker_threads';
 
 import { createAppLoggerFactory } from '@/common/logger/app-logger-factory';
+import { PosthogMonitoringService } from '@/monitoring/posthog-monitoring.service';
 
 import { JobWorkerData, jobWorkerServiceMap } from '../jobs.constants';
 import { JobsModule } from '../jobs.module';
@@ -24,7 +23,8 @@ async function runJobWorker(
   );
 
   try {
-    appContext.useLogger(createAppLoggerFactory('JobWorkerNestContext'));
+    const monitoring = appContext.get(PosthogMonitoringService);
+    appContext.useLogger(createAppLoggerFactory(monitoring, 'JobWorkerNestContext'));
 
     const ServiceClass = jobWorkerServiceMap[serviceName];
 
@@ -52,7 +52,7 @@ async function runJobWorker(
 
 // Worker logic
 (async () => {
-  const logger = createAppLoggerFactory('JobRunnerWorker');
+  const logger = createAppLoggerFactory(undefined, 'JobRunnerWorker');
   logger.debug('Are we on the main thread?', isMainThread ? 'Yes' : 'No');
 
   const { serviceName, methodName } = workerData as JobWorkerData;
