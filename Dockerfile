@@ -12,7 +12,6 @@ FROM base AS build
 WORKDIR /app
 COPY . ./
 
-ARG SENTRY_AUTH_TOKEN
 ENV NODE_ENV=production
 
 RUN yarn build
