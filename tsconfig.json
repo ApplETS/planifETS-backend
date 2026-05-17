@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "moduleResolution": "bundler",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -13,6 +12,9 @@
     "baseUrl": ".",
     "forceConsistentCasingInFileNames": true,
     "paths": {
+      "posthog-node/nestjs": [
+        "./node_modules/posthog-node/dist/entrypoints/nestjs"
+      ],
       "test/*": [
         "./test/*"
       ],
