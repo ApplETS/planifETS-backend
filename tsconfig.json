@@ -12,6 +12,9 @@
     "baseUrl": ".",
     "forceConsistentCasingInFileNames": true,
     "paths": {
+      "posthog-node/nestjs": [
+        "./node_modules/posthog-node/dist/entrypoints/nestjs"
+      ],
       "test/*": [
         "./test/*"
       ],
@@ -20,6 +23,9 @@
       ],
       "@/utils/*": [
         "./src/common/utils/*"
+      ],
+      "@/monitoring/*": [
+        "./src/monitoring/*"
       ],
     },
     "incremental": true,

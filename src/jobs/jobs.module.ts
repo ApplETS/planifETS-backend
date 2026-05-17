@@ -5,6 +5,7 @@ import { EtsModule } from '../common/api-helper/ets/ets.module';
 import { PdfModule } from '../common/website-helper/pdf/pdf.module';
 import { CourseModule } from '../course/course.module';
 import { CourseInstanceModule } from '../course-instance/course-instance.module';
+import { MonitoringModule } from '../monitoring/monitoring.module';
 import { PrerequisiteModule } from '../prerequisite/prerequisite.module';
 import { ProgramModule } from '../program/program.module';
 import { ProgramCourseModule } from '../program-course/program-course.module';
@@ -15,6 +16,7 @@ import { JobsService } from './jobs.service';
 
 @Module({
   imports: [
+    MonitoringModule,
     CourseModule,
     CourseInstanceModule,
     PrerequisiteModule,

@@ -7,6 +7,7 @@ export default {
   moduleNameMapper: {
     '^@/common/(.*)$': '<rootDir>/src/common/$1',
     '^@/utils/(.*)$': '<rootDir>/src/common/utils/$1',
+    '^@/monitoring/(.*)$': '<rootDir>/src/monitoring/$1',
     '^test/(.*)$': '<rootDir>/test/$1',
   },
   collectCoverageFrom: [

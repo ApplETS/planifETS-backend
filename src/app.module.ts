@@ -1,7 +1,5 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { APP_FILTER } from "@nestjs/core";
-import { SentryGlobalFilter, SentryModule } from "@sentry/nestjs/setup";
 
 import { AppController } from './app.controller';
 import { CheminotModule } from './common/api-helper/cheminot/cheminot.module';
@@ -10,6 +8,7 @@ import { PdfModule } from './common/website-helper/pdf/pdf.module';
 import { CourseModule } from './course/course.module';
 import { CourseInstanceModule } from './course-instance/course-instance.module';
 import { JobsSchedulerModule } from './jobs/jobs-scheduler.module';
+import { MonitoringModule } from './monitoring/monitoring.module';
 import { PrerequisiteModule } from './prerequisite/prerequisite.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProgramModule } from './program/program.module';
@@ -24,6 +23,7 @@ import { SessionModule } from './session/session.module';
     EtsModule,
     PdfModule,
     JobsSchedulerModule,
+    MonitoringModule,
 
     // CRUD modules
     CourseModule,
@@ -32,14 +32,6 @@ import { SessionModule } from './session/session.module';
     SessionModule,
     ProgramModule,
     ProgramCourseModule,
-
-    SentryModule.forRoot()
-  ],
-  providers: [
-    {
-      provide: APP_FILTER,
-      useClass: SentryGlobalFilter,
-    },
   ],
   controllers: [AppController],
   exports: [HttpModule],

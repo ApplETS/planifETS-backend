@@ -47,9 +47,10 @@ describe('jobRunner.worker', () => {
     };
     const createAppLoggerFactory = jest
       .fn()
-      .mockImplementation((context: string) => (
-        context === 'JobRunnerWorker' ? workerLogger : nestContextLogger
-      ));
+      .mockImplementation((monitoringOrContext: unknown, context?: string) => {
+        const effectiveContext = context ?? (monitoringOrContext as string);
+        return effectiveContext === 'JobRunnerWorker' ? workerLogger : nestContextLogger;
+      });
 
     const resolvedAppContext = appContext ?? {
       useLogger,
@@ -65,7 +66,6 @@ describe('jobRunner.worker', () => {
 
     class TestService {}
 
-    jest.doMock('../../src/instrument', () => ({}));
     jest.doMock('@nestjs/core', () => ({
       NestFactory: {
         createApplicationContext,
@@ -145,13 +145,31 @@ describe('jobRunner.worker', () => {
       serviceInstance: { run },
     });
 
-    expect(createAppLoggerFactory).toHaveBeenCalledWith('JobWorkerNestContext');
+    expect(createAppLoggerFactory).toHaveBeenCalledWith(expect.anything(), 'JobWorkerNestContext');
     expect(useLogger).toHaveBeenCalledTimes(1);
-    expect(get).toHaveBeenCalledTimes(1);
+    expect(get).toHaveBeenCalledTimes(2);
     expect(run).toHaveBeenCalledTimes(1);
     expect(close).toHaveBeenCalledTimes(1);
     expect(postMessage).toHaveBeenCalledWith('run completed.');
     expect(exitSpy).toHaveBeenCalledWith(0);
+  });
+
+  it('wires the monitoring service from app context into the logger factory', async () => {
+    const mockMonitoringService = { captureException: jest.fn(), captureLog: jest.fn() };
+    const run = jest.fn().mockResolvedValue(undefined);
+    const get = jest.fn()
+      .mockReturnValueOnce(mockMonitoringService)
+      .mockReturnValueOnce({ run });
+
+    const { createAppLoggerFactory } = await loadWorker({
+      appContext: {
+        useLogger: jest.fn(),
+        get,
+        close: jest.fn().mockResolvedValue(undefined),
+      },
+    });
+
+    expect(createAppLoggerFactory).toHaveBeenCalledWith(mockMonitoringService, 'JobWorkerNestContext');
   });
 
   it('closes the context and reports job execution failures', async () => {

@@ -4,32 +4,33 @@ import {
   ExceptionFilter,
   HttpException,
 } from '@nestjs/common';
-import { SentryExceptionCaptured } from '@sentry/nestjs';
-import * as Sentry from '@sentry/node';
 import { Request, Response } from 'express';
+
+import { PosthogMonitoringService } from '@/monitoring/posthog-monitoring.service';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
-  @SentryExceptionCaptured()
+  constructor(private readonly monitoring: PosthogMonitoringService) {}
+
   public catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
-    try {
-      Sentry.withScope((scope) => {
-        scope.setTag('exception.filter', 'HttpExceptionFilter');
-        scope.setTag('http.status_code', String(status));
-        scope.setExtra('path', request.url);
-        scope.setExtra('method', request.method);
-        if (request.body) {
-          scope.setExtra('body', request.body);
-        }
 
-        Sentry.captureException(exception);
-      });
-    } catch (err) {
-      console.error('Sentry capture failed for HttpException:', err);
+    // PostHogInterceptor captures status >= 500; only capture 4xx here to avoid duplication
+    if (status < 500) {
+      try {
+        this.monitoring.captureException(exception, {
+          'exception.filter': 'HttpExceptionFilter',
+          'http.status_code': String(status),
+          path: request.url,
+          method: request.method,
+          ...(request.body && { body: request.body }),
+        });
+      } catch (err) {
+        console.error('Monitoring capture failed for HttpException:', err);
+      }
     }
 
     response.status(status).json({

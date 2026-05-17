@@ -1,14 +1,15 @@
-import './instrument';
+import 'dotenv/config';
 
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { PostHogInterceptor } from 'posthog-node/nestjs';
 
 import { HttpExceptionFilter } from '@/common/exceptions/http-exception.filter';
 import { createAppLoggerFactory } from '@/common/logger/app-logger-factory';
+import { PosthogMonitoringService } from '@/monitoring/posthog-monitoring.service';
 
 import { AppModule } from './app.module';
-
 
 async function bootstrap() {
   const app = await NestFactory.create(
@@ -18,17 +19,18 @@ async function bootstrap() {
   const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
 
   app.setGlobalPrefix('api');
-  app.enableCors(
-    {
-      methods: 'GET',
-    },
-  );
-
+  app.enableCors({ methods: 'GET' });
+  app.enableShutdownHooks();
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalFilters(new HttpExceptionFilter());
+
+  const monitoring = app.get(PosthogMonitoringService);
+  const interceptor = app.get(PostHogInterceptor);
+
+  app.useGlobalInterceptors(interceptor);
+  app.useGlobalFilters(new HttpExceptionFilter(monitoring));
 
   //Log levels
-  app.useLogger(createAppLoggerFactory());
+  app.useLogger(createAppLoggerFactory(monitoring));
 
   //Swagger
   const version = process.env.APP_GIT_SHORT_SHA ? `1.0.0 (${process.env.APP_GIT_SHORT_SHA})` : '1.0.0';
@@ -39,9 +41,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   const swaggerOptions = {
-    swaggerOptions: {
-      displayRequestDuration: true,
-    },
+    swaggerOptions: { displayRequestDuration: true },
     useGlobalPrefix: true,
   };
   SwaggerModule.setup('docs', app, document, swaggerOptions);
