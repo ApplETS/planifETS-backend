@@ -24,7 +24,7 @@ export class AppController {
     };
   }
 
-  @Get("/health/monitoring")
+  @Get('/health/monitoring')
   @ApiTags('Health')
   @ApiOperation({
     summary: 'Health check endpoint for monitoring testing',

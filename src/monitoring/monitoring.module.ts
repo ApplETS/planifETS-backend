@@ -9,9 +9,11 @@ import { POSTHOG_CLIENT, PosthogMonitoringService } from './posthog-monitoring.s
     {
       provide: POSTHOG_CLIENT,
       useFactory: () => {
-        const client = new PostHog(process.env.POSTHOG_API_KEY ?? '', {
+        const apiKey = process.env.POSTHOG_API_KEY?.trim() ?? '';
+        const disabled = !apiKey || process.env.APP_ENV === 'development' || Boolean(process.env.CI);
+        const client = new PostHog(apiKey, {
           host: process.env.POSTHOG_HOST ?? 'https://us.i.posthog.com',
-          disabled: process.env.APP_ENV === 'development' || Boolean(process.env.CI),
+          disabled,
         });
         client.on('error', (err) => console.error('[PostHog] send error:', err));
         return client;

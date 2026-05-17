@@ -69,11 +69,15 @@ export class PosthogMonitoringService implements OnApplicationShutdown {
     };
 
     try {
-      await fetch(`${host}/i/v1/logs?token=${apiKey}`, {
+      const response = await fetch(`${host}/i/v1/logs?token=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
+
+      if (!response.ok) {
+        console.error('[PostHog] Failed to send log:', response.status, response.statusText);
+      }
     } catch (err) {
       console.error('[PostHog] Failed to send log:', err);
     }
