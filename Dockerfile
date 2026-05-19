@@ -5,7 +5,8 @@ FROM node:22.22.3-alpine3.22 AS base
 
 WORKDIR /app
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --ignore-scripts
+RUN apk add --no-cache openssl && \
+    yarn install --frozen-lockfile --ignore-scripts
 
 # Build
 FROM base AS build
@@ -38,7 +39,7 @@ COPY package.json yarn.lock ./
 COPY prisma ./prisma
 # Install dependencies and tzdata
 RUN yarn install --production --frozen-lockfile --ignore-scripts && \
-    apk add --no-cache tzdata && \
+    apk add --no-cache tzdata openssl && \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
     echo "${TZ}" > /etc/timezone
 
