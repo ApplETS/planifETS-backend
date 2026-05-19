@@ -18,7 +18,7 @@ body:
   - type: textarea
     id: expected
     attributes:
-      label: What is the expected behaviour?
+      label: What is the expected behavior?
       description: Describe how you expected it to behave.
       placeholder: <Description>
     validations:
