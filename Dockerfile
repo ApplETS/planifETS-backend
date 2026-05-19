@@ -4,9 +4,9 @@
 FROM node:22.22.3-alpine3.22 AS base
 
 WORKDIR /app
+RUN apk add --no-cache openssl
 COPY package.json yarn.lock ./
-RUN apk add --no-cache openssl && \
-    yarn install --frozen-lockfile --ignore-scripts
+RUN yarn install --frozen-lockfile --ignore-scripts
 
 # Build
 FROM base AS build
@@ -35,13 +35,12 @@ ENV APP_ENV=production
 ENV TZ=America/Toronto
 
 WORKDIR /app
-COPY package.json yarn.lock ./
-COPY prisma ./prisma
-# Install dependencies and tzdata
-RUN yarn install --production --frozen-lockfile --ignore-scripts && \
-    apk add --no-cache tzdata openssl && \
+RUN apk add --no-cache tzdata openssl && \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
     echo "${TZ}" > /etc/timezone
+COPY package.json yarn.lock ./
+COPY prisma ./prisma
+RUN yarn install --production --frozen-lockfile --ignore-scripts
 
 COPY --from=build /app/dist ./dist
 
