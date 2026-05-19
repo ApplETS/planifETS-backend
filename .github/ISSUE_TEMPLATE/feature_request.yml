@@ -1,0 +1,27 @@
+name: ✨ Feature Request
+description: Suggest a new feature or an improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature description
+      description: Describe the desired feature and what problem it solves.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How you envision this feature.
+
+  - type: textarea
+    id: definition-of-done
+    attributes:
+      label: Definition of Done
+      description: List the criteria that must be met for this feature to be considered complete.
+      value: |
+        - [ ] Criteria 1
+        - [ ] Criteria 2
