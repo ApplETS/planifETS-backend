@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Health')
 @Controller()
 export class AppController {
   @Get()
@@ -12,7 +13,6 @@ export class AppController {
   }
 
   @Get('health')
-  @ApiTags('Health')
   @ApiOperation({
     summary: 'Health check endpoint',
     description: 'Returns the health status of the application',
@@ -25,7 +25,6 @@ export class AppController {
   }
 
   @Get('/health/monitoring')
-  @ApiTags('Health')
   @ApiOperation({
     summary: 'Health check endpoint for monitoring testing',
     description: 'Throws an error to test monitoring integration',
