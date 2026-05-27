@@ -42,6 +42,7 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL}
       APP_ENV: development
+      APP_GIT_SHORT_SHA: ${APP_GIT_SHORT_SHA:-}
       PORT: ${PORT:-3001}
       LOG_LEVELS: ${LOG_LEVELS:-log,error,warn}
       TZ: America/Toronto
