@@ -7,6 +7,7 @@ import { EtsModule } from './common/api-helper/ets/ets.module';
 import { PdfModule } from './common/website-helper/pdf/pdf.module';
 import { CourseModule } from './course/course.module';
 import { CourseInstanceModule } from './course-instance/course-instance.module';
+import { EmbeddingModule } from './embedding/embedding.module';
 import { JobsSchedulerModule } from './jobs/jobs-scheduler.module';
 import { MonitoringModule } from './monitoring/monitoring.module';
 import { PrerequisiteModule } from './prerequisite/prerequisite.module';
@@ -32,6 +33,7 @@ import { SessionModule } from './session/session.module';
     SessionModule,
     ProgramModule,
     ProgramCourseModule,
+    EmbeddingModule,
   ],
   controllers: [AppController],
   exports: [HttpModule],
