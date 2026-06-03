@@ -39,15 +39,26 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+      - transformers-cache:/app/.cache/transformers
+    mem_limit: 4g
+    memswap_limit: 4g
     environment:
       DATABASE_URL: ${DATABASE_URL}
       APP_ENV: development
       PORT: ${PORT:-3001}
       LOG_LEVELS: ${LOG_LEVELS:-log,error,warn}
       TZ: America/Toronto
+      QDRANT_URL: ${QDRANT_URL:-http://qdrant:6333}
+      QDRANT_COLLECTION: ${QDRANT_COLLECTION:-courses_bge_m3}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-Xenova/bge-m3}
+      EMBEDDING_DTYPE: ${EMBEDDING_DTYPE:-q4}
+      EMBEDDING_BATCH_SIZE: ${EMBEDDING_BATCH_SIZE:-50}
+      TRANSFORMERS_CACHE_DIR: ${TRANSFORMERS_CACHE_DIR:-/app/.cache/transformers}
     depends_on:
       db:
         condition: service_healthy
+      qdrant:
+        condition: service_started
     networks:
       - app-network
     profiles:
@@ -72,8 +83,24 @@ services:
       timeout: 5s
       retries: 5
 
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant-data:/qdrant/storage
+    networks:
+      - app-network
+    profiles:
+      - dev
+
 volumes:
   db-data:
+    driver: local
+  qdrant-data:
+    driver: local
+  transformers-cache:
     driver: local
 
 networks:
