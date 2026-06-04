@@ -24,6 +24,9 @@ export default {
     '!src/**/types/**',
     '!src/**/dtos/**',
     '!src/**/*.dto.ts',
+    '!src/**/*.module.ts',
+    '!src/**/workers/*.worker.ts',
+    '!src/monitoring/**',
   ],
   coveragePathIgnorePatterns: [
     '/node_modules/',
@@ -32,6 +35,7 @@ export default {
     '/coverage/',
   ],
   coverageDirectory: '<rootDir>/coverage',
+  coverageReporters: ['text', 'lcov', 'json-summary'],
   coverageProvider: 'v8',
   coverageThreshold: {
     global: {

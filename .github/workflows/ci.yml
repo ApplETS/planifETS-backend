@@ -215,3 +215,12 @@ jobs:
 
       - name: Run coverage and enforce threshold
         run: yarn run test:cov
+
+      - name: Post coverage comment on PR
+        if: github.event_name == 'pull_request'
+        uses: MishaKav/jest-coverage-comment@fb83bcbaeb5ca467936175796f862a2992938833
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          coverage-summary-path: ./coverage/coverage-summary.json
+          title: 'Test Coverage'
+          create-new-comment: false
