@@ -21,6 +21,7 @@ export class JobsController {
       processCourseInstances = false,
       processProgramCourses = false,
       processSessions = false,
+      processCourseEmbeddings = false,
     } = body || {};
 
     if (processAllJobs) {
@@ -36,6 +37,7 @@ export class JobsController {
     if (processCourseInstances) jobs.push({ service: 'CourseInstancesJobService', method: 'processCourseInstances' });
     if (processProgramCourses) jobs.push({ service: 'CoursesJobService', method: 'syncCourseDetailsWithCheminotData' });
     if (processSessions) jobs.push({ service: 'SessionsJobService', method: 'processSessions' });
+    if (processCourseEmbeddings) jobs.push({ service: 'CourseEmbeddingIndexerService', method: 'run' });
 
     if (jobs.length === 0) {
       return { status: 'No jobs triggered (no flags set)' };

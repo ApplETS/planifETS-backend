@@ -2,10 +2,11 @@
 
 ## Requirements
 
-- Node.js 22
+- Node.js 22.22.0
 - Yarn
 - PostgreSQL 16+
 - VS Code
+- nvm (recommended for Node.js version management)
 
 ## Optional
 
@@ -74,6 +75,14 @@ Default body:
 ---
 
 ## Option B - Local setup
+
+### 0. Set up Node.js with nvm
+
+```bash
+nvm install 22.22.0
+nvm use 22.22.0
+node --version  # Verify: should show v22.22.0+
+```
 
 ### 1. Clone the project
 

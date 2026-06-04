@@ -1,52 +1,91 @@
 # syntax=docker/dockerfile:1
 
-# Base dependencies
-FROM node:22.22.3-alpine3.22 AS base
+FROM node:22.22.3-bullseye-slim AS deps
 
 WORKDIR /app
-RUN apk add --no-cache openssl
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    make \
+    g++ \
+    ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
+
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --ignore-scripts
 
-# Build
-FROM base AS build
+FROM node:22.22.3-bullseye-slim AS prod-deps
+
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    make \
+    g++ \
+    ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
+
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile --ignore-scripts --production
+
+FROM node:22.22.3-bullseye-slim AS build
+
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . ./
 
 ENV NODE_ENV=production
-
+RUN yarn prisma:generate
 RUN yarn build
 
-# Development
-FROM base AS dev
+FROM node:22.22.3-bullseye-slim AS dev
+
 WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY package.json yarn.lock ./
 COPY prisma ./prisma
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openssl \
+    ca-certificates \
+    tzdata \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN yarn prisma:generate
+
 ENV NODE_ENV=development
 ENV APP_ENV=development
+ENV TZ=America/Toronto
+
 EXPOSE 3001
 CMD ["sh", "-c", "yarn prisma:generate && yarn start:dev"]
 
-# Production
-FROM node:22.22.3-alpine3.22 AS production
+FROM node:22.22.3-bullseye-slim AS production
 
 ARG APP_GIT_SHORT_SHA
 ENV APP_GIT_SHORT_SHA=${APP_GIT_SHORT_SHA}
+ENV NODE_ENV=production
 ENV APP_ENV=production
 ENV TZ=America/Toronto
 
 WORKDIR /app
-RUN apk add --no-cache tzdata openssl && \
-    cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
-    echo "${TZ}" > /etc/timezone
-COPY package.json yarn.lock ./
-COPY prisma ./prisma
-RUN yarn install --production --frozen-lockfile --ignore-scripts
 
+COPY package.json ./
 COPY --from=build /app/dist ./dist
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=build /app/node_modules/.prisma ./node_modules/.prisma
+COPY prisma ./prisma
 
-# Generate Prisma Client
-RUN yarn prisma:generate
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openssl \
+    ca-certificates \
+    tzdata \
+  && rm -rf /var/lib/apt/lists/* \
+  && groupadd --gid 10001 appgroup \
+  && useradd --uid 10001 --gid 10001 --no-create-home appuser \
+  && chown -R appuser:appgroup /app
+
+USER 10001:10001
 
 EXPOSE 3001
-
 CMD ["yarn", "start:prod"]

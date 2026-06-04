@@ -20,16 +20,17 @@ describe('JobsService', () => {
   });
 
   it('should process all jobs in order and call runWorker with correct service/method', async () => {
-    const results = ['A', 'B', 'C', 'D', 'E', 'F'];
+    const results = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
     runWorkerSpy.mockImplementation(() => Promise.resolve(results.shift()));
     await service.processJobs();
-    expect(runWorkerSpy).toHaveBeenCalledTimes(6);
+    expect(runWorkerSpy).toHaveBeenCalledTimes(7);
     expect(runWorkerSpy).toHaveBeenNthCalledWith(1, 'ProgramsJobService', 'processPrograms');
     expect(runWorkerSpy).toHaveBeenNthCalledWith(2, 'CoursesJobService', 'processCourses');
     expect(runWorkerSpy).toHaveBeenNthCalledWith(3, 'CoursesJobService', 'syncCourseDescriptionsFromEtsWebsite');
     expect(runWorkerSpy).toHaveBeenNthCalledWith(4, 'CourseInstancesJobService', 'processCourseInstances');
     expect(runWorkerSpy).toHaveBeenNthCalledWith(5, 'CoursesJobService', 'syncCourseDetailsWithCheminotData');
     expect(runWorkerSpy).toHaveBeenNthCalledWith(6, 'SessionsJobService', 'processSessions');
+    expect(runWorkerSpy).toHaveBeenNthCalledWith(7, 'CourseEmbeddingIndexerService', 'run');
   });
 
   it('should continue processing jobs even if one fails', async () => {
@@ -39,9 +40,10 @@ describe('JobsService', () => {
       .mockResolvedValueOnce('ok3')
       .mockResolvedValueOnce('ok4')
       .mockResolvedValueOnce('ok5')
-      .mockResolvedValueOnce('ok6');
+      .mockResolvedValueOnce('ok6')
+      .mockResolvedValueOnce('ok7');
     await service.processJobs();
-    expect(runWorkerSpy).toHaveBeenCalledTimes(6);
+    expect(runWorkerSpy).toHaveBeenCalledTimes(7);
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       expect.stringContaining('Job 2 (CoursesJobService.processCourses) failed: fail2'),
       expect.any(String)
@@ -55,7 +57,8 @@ describe('JobsService', () => {
       .mockResolvedValueOnce('ok3')
       .mockResolvedValueOnce('ok4')
       .mockResolvedValueOnce('ok5')
-      .mockResolvedValueOnce('ok6');
+      .mockResolvedValueOnce('ok6')
+      .mockResolvedValueOnce('ok7');
     await service.processJobs();
     expect(loggerLogSpy).toHaveBeenCalledWith('Starting sequential job processing...');
     expect(loggerLogSpy).toHaveBeenCalledWith('Starting job 1: ProgramsJobService.processPrograms');
@@ -64,6 +67,7 @@ describe('JobsService', () => {
     expect(loggerLogSpy).toHaveBeenCalledWith('Starting job 4: CourseInstancesJobService.processCourseInstances');
     expect(loggerLogSpy).toHaveBeenCalledWith('Starting job 5: CoursesJobService.syncCourseDetailsWithCheminotData');
     expect(loggerLogSpy).toHaveBeenCalledWith('Starting job 6: SessionsJobService.processSessions');
+    expect(loggerLogSpy).toHaveBeenCalledWith('Starting job 7: CourseEmbeddingIndexerService.run');
     expect(loggerLogSpy).toHaveBeenCalledWith('Job processing completed.');
     expect(loggerLogSpy).toHaveBeenCalledWith(
       expect.stringContaining('Job 1 (ProgramsJobService.processPrograms) completed :'),
