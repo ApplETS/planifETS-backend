@@ -1,10 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { QdrantClient } from '@qdrant/js-client-rest';
 
+import { BGE_M3_VECTOR_SIZE } from './embedding.constants';
+import { CourseEmbeddingPayload } from './embedding-course.mapper';
 import {
-  BGE_M3_VECTOR_SIZE,
-  CourseEmbeddingPayload,
-} from './embedding-course.mapper';
+  getNestedProperty,
+  isNotFoundError,
+  isRecord,
+  retryTransient,
+} from './qdrant-error.util';
 
 export interface CourseQdrantPoint {
   id: string;
@@ -61,6 +65,32 @@ export class QdrantCourseIndexService {
         },
       });
     }
+  }
+
+  public async getExistingTextHashes(): Promise<Map<string, string>> {
+    const hashes = new Map<string, string>();
+    let nextOffset: string | number | undefined = undefined;
+
+    do {
+      const response = await this.client.scroll(this.collectionName, {
+        offset: nextOffset,
+        limit: 250,
+        with_payload: ['text_hash'],
+        with_vector: false,
+      });
+
+      for (const point of response.points) {
+        const hash = (point.payload as Record<string, unknown>)?.text_hash;
+        if (typeof point.id === 'string' && typeof hash === 'string') {
+          hashes.set(point.id, hash);
+        }
+      }
+
+      const raw = response.next_page_offset;
+      nextOffset = typeof raw === 'string' || typeof raw === 'number' ? raw : undefined;
+    } while (nextOffset !== undefined && nextOffset !== null);
+
+    return hashes;
   }
 
   public async upsertPoints(points: CourseQdrantPoint[]): Promise<void> {
@@ -150,104 +180,4 @@ function parseVectorConfig(value: unknown): VectorConfig | undefined {
     size,
     distance,
   };
-}
-
-async function retryTransient<T>(
-  operation: () => Promise<T>,
-  maxAttempts: number,
-  delayMs: number,
-): Promise<T> {
-  let lastError: unknown;
-
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    try {
-      return await operation();
-    } catch (error) {
-      lastError = error;
-
-      if (!isTransientError(error) || attempt === maxAttempts) {
-        throw error;
-      }
-
-      await sleep(delayMs * attempt);
-    }
-  }
-
-  throw lastError;
-}
-
-function isNotFoundError(error: unknown): boolean {
-  return getStatusCode(error) === 404;
-}
-
-function isTransientError(error: unknown): boolean {
-  const status = getStatusCode(error);
-  const code = getErrorCode(error);
-
-  return (
-    status === 408 ||
-    status === 429 ||
-    isServerErrorStatus(status) ||
-    code === 'ECONNRESET' ||
-    code === 'ECONNREFUSED' ||
-    code === 'ETIMEDOUT'
-  );
-}
-
-function isServerErrorStatus(status: number | undefined): boolean {
-  return typeof status === 'number' && status >= 500;
-}
-
-function getStatusCode(error: unknown): number | undefined {
-  if (!isRecord(error)) {
-    return undefined;
-  }
-
-  const status = error.status;
-
-  if (typeof status === 'number') {
-    return status;
-  }
-
-  const statusCode = error.statusCode;
-
-  if (typeof statusCode === 'number') {
-    return statusCode;
-  }
-
-  const response = error.response;
-
-  if (isRecord(response) && typeof response.status === 'number') {
-    return response.status;
-  }
-
-  return undefined;
-}
-
-function getErrorCode(error: unknown): string | undefined {
-  if (!isRecord(error)) {
-    return undefined;
-  }
-
-  return typeof error.code === 'string' ? error.code : undefined;
-}
-
-function getNestedProperty(value: unknown, path: string[]): unknown {
-  return path.reduce<unknown>((currentValue, key) => {
-    if (!isRecord(currentValue)) {
-      return undefined;
-    }
-
-    return currentValue[key];
-  }, value);
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
-}
-
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
 }

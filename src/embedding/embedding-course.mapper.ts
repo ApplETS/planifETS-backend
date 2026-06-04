@@ -1,8 +1,8 @@
+import { createHash } from 'node:crypto';
+
 import { v5 as uuidv5 } from 'uuid';
 
 import { EmbeddingViewDto } from './dtos/embedding-view.dto';
-
-export const BGE_M3_VECTOR_SIZE = 1024;
 
 const QDRANT_ID_NAMESPACE =
   process.env.QDRANT_ID_NAMESPACE ?? '5e7f1c4d-3d8a-45f1-87a4-9cf4de6f6b29';
@@ -31,6 +31,7 @@ export interface CourseEmbeddingPayload {
   availability: string[];
   sessions: string[];
   text: string;
+  text_hash: string;
   embedding_model: string;
   indexed_at: string;
 }
@@ -43,6 +44,10 @@ export interface PreparedCourseEmbedding {
 
 export function toQdrantPointId(embeddingId: string): string {
   return uuidv5(embeddingId, QDRANT_ID_NAMESPACE);
+}
+
+export function hashEmbeddingText(text: string): string {
+  return createHash('sha256').update(text).digest('hex');
 }
 
 export function getCourseTypeLabel(type: string | null | undefined): string | undefined {
@@ -123,6 +128,7 @@ export function buildCourseEmbeddingPayload(
     availability,
     sessions,
     text,
+    text_hash: hashEmbeddingText(text),
     embedding_model: embeddingModel,
     indexed_at: indexedAt,
   };
@@ -162,6 +168,11 @@ export function prepareCourseEmbedding(
     text,
     payload: buildCourseEmbeddingPayload(row, text, embeddingModel),
   };
+}
+
+export function computeCourseChangeKey(row: EmbeddingViewDto): { id: string; hash: string } {
+  const text = buildCourseEmbeddingText(row);
+  return { id: toQdrantPointId(row.embedding_id), hash: hashEmbeddingText(text) };
 }
 
 function clean(value: string | null | undefined): string {

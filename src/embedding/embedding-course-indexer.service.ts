@@ -1,9 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 
 import { EmbeddingViewDto } from './dtos/embedding-view.dto';
+import { BGE_M3_VECTOR_SIZE } from './embedding.constants';
 import { EmbeddingService } from './embedding.service';
 import {
-  BGE_M3_VECTOR_SIZE,
+  computeCourseChangeKey,
   prepareCourseEmbedding,
   PreparedCourseEmbedding,
 } from './embedding-course.mapper';
@@ -15,6 +16,7 @@ import {
 
 type IndexingCounters = {
   indexedCount: number;
+  skippedCount: number;
   errorCount: number;
 };
 
@@ -35,6 +37,7 @@ export class CourseEmbeddingIndexerService {
 
     const counters: IndexingCounters = {
       indexedCount: 0,
+      skippedCount: 0,
       errorCount: 0,
     };
 
@@ -44,14 +47,26 @@ export class CourseEmbeddingIndexerService {
 
     await this.qdrantCourseIndexService.ensureCollection();
 
-    const rows = await this.embeddingService.findAll();
+    const [rows, existingHashes] = await Promise.all([
+      this.embeddingService.findAll(),
+      this.qdrantCourseIndexService.getExistingTextHashes(),
+    ]);
 
-    this.logger.log(`Loaded ${rows.length} rows from v_courses_for_embedding.`);
+    this.logger.log(`Loaded ${rows.length} rows from v_courses_for_embedding. ${existingHashes.size} points already in Qdrant.`);
 
-    for (let offset = 0; offset < rows.length; offset += batchSize) {
-      const rowsBatch = rows.slice(offset, offset + batchSize);
+    const rowsToIndex = rows.filter((row) => {
+      const { id, hash } = computeCourseChangeKey(row);
+      return existingHashes.get(id) !== hash;
+    });
+
+    counters.skippedCount = rows.length - rowsToIndex.length;
+
+    this.logger.log(`Skipping ${counters.skippedCount} unchanged courses. Indexing ${rowsToIndex.length} new/changed courses.`);
+
+    for (let offset = 0; offset < rowsToIndex.length; offset += batchSize) {
+      const rowsBatch = rowsToIndex.slice(offset, offset + batchSize);
       const batchNumber = Math.floor(offset / batchSize) + 1;
-      const totalBatches = Math.ceil(rows.length / batchSize);
+      const totalBatches = Math.ceil(rowsToIndex.length / batchSize);
 
       this.logger.debug(`Processing batch ${batchNumber}/${totalBatches} (offset ${offset}, size ${rowsBatch.length})`);
 
@@ -61,7 +76,7 @@ export class CourseEmbeddingIndexerService {
     const durationSeconds = ((Date.now() - startedAt) / 1000).toFixed(2);
 
     this.logger.log(
-      `COMPLETED: ${counters.indexedCount}/${rows.length} courses indexed in ${durationSeconds}s. Errors: ${counters.errorCount}. Missing: ${rows.length - counters.indexedCount - counters.errorCount}.`,
+      `COMPLETED: ${counters.indexedCount}/${rowsToIndex.length} courses indexed in ${durationSeconds}s. Skipped: ${counters.skippedCount}. Errors: ${counters.errorCount}.`,
     );
   }
 
