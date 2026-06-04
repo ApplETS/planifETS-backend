@@ -7,6 +7,7 @@ import { Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
 type PendingRequest = {
   resolve: (vectors: number[][]) => void;
   reject: (error: Error) => void;
+  timer: ReturnType<typeof setTimeout>;
 };
 
 type EmbedWorkerSuccessMessage = {
@@ -27,6 +28,7 @@ type EmbedWorkerMessage = EmbedWorkerSuccessMessage | EmbedWorkerFailureMessage;
 export class EmbeddingWorkerClient implements OnModuleDestroy {
   private readonly logger = new Logger(EmbeddingWorkerClient.name);
   private worker: Worker | null = null;
+  private workerTerminating = false;
   private readonly pending = new Map<number, PendingRequest>();
   private nextRequestId = 1;
 
@@ -58,11 +60,12 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
     });
 
     worker.on('exit', (code: number) => {
-      if (code !== 0) {
+      if (code !== 0 && !this.workerTerminating) {
         const error = new Error(`Embedding worker exited with code ${code}`);
         this.logger.error(error.message);
         this.rejectAll(error);
       }
+      this.workerTerminating = false;
     });
 
     return worker;
@@ -84,19 +87,28 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
     const id = this.nextRequestId++;
     const model = process.env.EMBEDDING_MODEL ?? 'Xenova/bge-m3';
     const dtype = process.env.EMBEDDING_DTYPE ?? 'q4';
+    const timeoutMs = parseInt(process.env.EMBEDDING_WORKER_TIMEOUT_MS ?? '300000', 10);
 
     return new Promise((resolve, reject) => {
-      this.pending.set(id, {
-        resolve,
-        reject,
-      });
+      const timer = setTimeout(() => {
+        if (!this.pending.has(id)) {
+          return;
+        }
+        this.pending.delete(id);
 
-      this.getWorker().postMessage({
-        id,
-        texts,
-        model,
-        dtype,
-      });
+        const error = new Error(`Embedding worker timed out after ${timeoutMs}ms (request ${id}).`);
+        this.logger.error(error.message + ' Terminating worker.');
+        void this.worker?.terminate().then(() => {
+          this.worker = null;
+        });
+
+        reject(error);
+      }, timeoutMs);
+
+      this.pending.set(id, { resolve, reject, timer });
+
+      this.logger.debug(`Posting embed request ${id}: ${texts.length} texts, model=${model}, dtype=${dtype}, timeout=${timeoutMs}ms`);
+      this.getWorker().postMessage({ id, texts, model, dtype });
     });
   }
 
@@ -105,6 +117,7 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
       return;
     }
 
+    this.workerTerminating = true;
     await this.worker.terminate();
   }
 
@@ -125,6 +138,7 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
       return;
     }
 
+    clearTimeout(pendingRequest.timer);
     this.pending.delete(parsedMessage.id);
 
     if (parsedMessage.ok) {
@@ -137,6 +151,7 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
 
   private rejectAll(error: Error): void {
     for (const request of this.pending.values()) {
+      clearTimeout(request.timer);
       request.reject(error);
     }
 

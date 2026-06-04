@@ -9,15 +9,15 @@ type EmbedRequest = {
 
 type EmbedResponse =
   | {
-      id: number;
-      ok: true;
-      vectors: number[][];
-    }
+    id: number;
+    ok: true;
+    vectors: number[][];
+  }
   | {
-      id: number;
-      ok: false;
-      error: string;
-    };
+    id: number;
+    ok: false;
+    error: string;
+  };
 
 type TensorLike = {
   data: ArrayLike<number> | Iterable<number>;
@@ -88,16 +88,22 @@ async function handleMessage(message: unknown): Promise<void> {
       return;
     }
 
+    console.log(`[bge-m3.worker] Request ${request.id}: loading extractor for ${request.texts.length} texts`);
     const extractor = await getExtractor(request.model, request.dtype);
 
+    console.log(`[bge-m3.worker] Request ${request.id}: running inference on ${request.texts.length} texts (max_length=1024)`);
+    const inferenceStart = Date.now();
     const output = await extractor(request.texts, {
       pooling: 'mean',
       normalize: true,
       truncation: true,
-      max_length: 8192,
+      max_length: 1024,
     });
+    console.log(`[bge-m3.worker] Request ${request.id}: inference done in ${Date.now() - inferenceStart}ms`);
 
+    console.log(`[bge-m3.worker] Request ${request.id}: converting tensor to vectors`);
     const vectors = tensorToVectors(output, request.texts.length);
+    console.log(`[bge-m3.worker] Request ${request.id}: done, returning ${vectors.length} vectors`);
 
     const response: EmbedResponse = {
       id: request.id,
@@ -137,6 +143,8 @@ async function createExtractor(
   model: string,
   dtype?: string,
 ): Promise<FeatureExtractor> {
+  console.log(`[bge-m3.worker] Loading model: ${model} (dtype=${dtype ?? 'default'})`);
+
   const transformersModule = (await import(
     '@huggingface/transformers'
   )) as unknown as TransformersModule;
@@ -151,7 +159,11 @@ async function createExtractor(
     options.dtype = dtype;
   }
 
-  return transformersModule.pipeline('feature-extraction', model, options);
+  const extractor = await transformersModule.pipeline('feature-extraction', model, options);
+
+  console.log(`[bge-m3.worker] Model ready: ${model}`);
+
+  return extractor;
 }
 
 function parseEmbedRequest(message: unknown): EmbedRequest {
