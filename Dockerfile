@@ -14,6 +14,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --ignore-scripts
 
+FROM node:22.22.3-bullseye-slim AS prod-deps
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    make \
+    g++ \
+    ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
+
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile --ignore-scripts --production
+
 FROM node:22.22.3-bullseye-slim AS build
 
 WORKDIR /app
@@ -21,6 +35,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . ./
 
 ENV NODE_ENV=production
+RUN yarn prisma:generate
 RUN yarn build
 
 FROM node:22.22.3-bullseye-slim AS dev
@@ -49,13 +64,16 @@ FROM node:22.22.3-bullseye-slim AS production
 
 ARG APP_GIT_SHORT_SHA
 ENV APP_GIT_SHORT_SHA=${APP_GIT_SHORT_SHA}
+ENV NODE_ENV=production
 ENV APP_ENV=production
 ENV TZ=America/Toronto
 
 WORKDIR /app
 
+COPY package.json ./
 COPY --from=build /app/dist ./dist
-COPY --from=deps /app/node_modules ./node_modules
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=build /app/node_modules/.prisma ./node_modules/.prisma
 COPY prisma ./prisma
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -63,8 +81,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     tzdata \
   && rm -rf /var/lib/apt/lists/*
-
-RUN yarn prisma:generate
 
 EXPOSE 3001
 CMD ["yarn", "start:prod"]

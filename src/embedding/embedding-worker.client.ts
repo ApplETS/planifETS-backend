@@ -57,6 +57,7 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
     worker.on('error', (error: Error) => {
       this.logger.error(`Embedding worker error: ${error.message}`, error.stack);
       this.rejectAll(error);
+      this.worker = null;
     });
 
     worker.on('exit', (code: number) => {
@@ -66,6 +67,7 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
         this.rejectAll(error);
       }
       this.workerTerminating = false;
+      this.worker = null;
     });
 
     return worker;
@@ -119,6 +121,7 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
 
     this.workerTerminating = true;
     await this.worker.terminate();
+    this.worker = null;
   }
 
   private handleWorkerMessage(message: unknown): void {

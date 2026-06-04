@@ -113,6 +113,11 @@ async function handleMessage(message: unknown): Promise<void> {
 
     port.postMessage(response);
   } catch (error) {
+    if (requestId === -1) {
+      console.error('[bge-m3.worker] Cannot reply: message had no valid id, dropping error response');
+      return;
+    }
+
     const response: EmbedResponse = {
       id: requestId,
       ok: false,
