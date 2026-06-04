@@ -44,7 +44,6 @@
     "@nestjs/schedule": "^4.1.1",
     "@nestjs/swagger": "^11.2.6",
     "@prisma/client": "^5.22.0",
-    "prisma": "^5.22.0",
     "@qdrant/js-client-rest": "^1.18.0",
     "@types/unzipper": "^0.10.10",
     "axios": "^1.13.5",
@@ -56,10 +55,10 @@
     "express": "^4.21.1",
     "pdf2json": "^4.0.0",
     "posthog-node": "^5.34.2",
+    "prisma": "^5.22.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "unzipper": "^0.12.3",
-    "uuid": "^14.0.0"
+    "unzipper": "^0.12.3"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.17",

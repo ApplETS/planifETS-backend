@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-import { v5 as uuidv5 } from 'uuid';
+import { uuidV5 } from '@/common/utils/uuid/uuidUtil';
 
 import { EmbeddingViewDto } from './dtos/embedding-view.dto';
 
@@ -43,7 +43,7 @@ export interface PreparedCourseEmbedding {
 }
 
 export function toQdrantPointId(embeddingId: string): string {
-  return uuidv5(embeddingId, QDRANT_ID_NAMESPACE);
+  return uuidV5(embeddingId, QDRANT_ID_NAMESPACE);
 }
 
 export function hashEmbeddingText(text: string): string {
