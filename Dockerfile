@@ -80,7 +80,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     openssl \
     ca-certificates \
     tzdata \
-  && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/* \
+  && groupadd --gid 10001 appgroup \
+  && useradd --uid 10001 --gid 10001 --no-create-home appuser \
+  && chown -R appuser:appgroup /app
+
+USER 10001:10001
 
 EXPOSE 3001
 CMD ["yarn", "start:prod"]
