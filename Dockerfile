@@ -58,7 +58,7 @@ ENV APP_ENV=development
 ENV TZ=America/Toronto
 
 EXPOSE 3001
-CMD ["yarn", "start:dev"]
+CMD ["sh", "-c", "yarn prisma:generate && yarn start:dev"]
 
 FROM node:22.22.3-bullseye-slim AS production
 
