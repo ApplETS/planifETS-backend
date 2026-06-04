@@ -134,7 +134,7 @@ async function getExtractor(
 ): Promise<FeatureExtractor> {
   const key = `${model}:${dtype ?? 'default'}`;
 
-  if (!extractorState || extractorState.key !== key) {
+  if (extractorState?.key !== key) {
     extractorState = {
       key,
       promise: createExtractor(model, dtype),
@@ -182,7 +182,7 @@ function parseEmbedRequest(message: unknown): EmbedRequest {
   const dtype = message.dtype;
 
   if (typeof id !== 'number' || !Number.isInteger(id)) {
-    throw new Error('Invalid worker message: "id" must be an integer.');
+    throw new TypeError('Invalid worker message: "id" must be an integer.');
   }
 
   if (!Array.isArray(texts) || !texts.every((text) => typeof text === 'string')) {
@@ -220,11 +220,11 @@ function tensorToVectors(
     throw new Error('Embedding output is empty.');
   }
 
-  if (output.dims && output.dims.length === 2) {
+  if (output.dims?.length === 2) {
     const [batchSize, vectorSize] = output.dims;
 
     if (!Number.isInteger(batchSize) || !Number.isInteger(vectorSize)) {
-      throw new Error(`Invalid embedding tensor dims: ${output.dims.join(', ')}.`);
+      throw new TypeError(`Invalid embedding tensor dims: ${output.dims.join(', ')}.`);
     }
 
     if (batchSize !== expectedBatchSize) {

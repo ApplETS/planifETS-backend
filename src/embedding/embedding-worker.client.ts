@@ -89,7 +89,7 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
     const id = this.nextRequestId++;
     const model = process.env.EMBEDDING_MODEL ?? 'Xenova/bge-m3';
     const dtype = process.env.EMBEDDING_DTYPE ?? 'q4';
-    const timeoutMs = parseInt(process.env.EMBEDDING_WORKER_TIMEOUT_MS ?? '300000', 10);
+    const timeoutMs = Number.parseInt(process.env.EMBEDDING_WORKER_TIMEOUT_MS ?? '300000', 10);
 
     return new Promise((resolve, reject) => {
       const timer = setTimeout(() => {
@@ -100,7 +100,9 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
 
         const error = new Error(`Embedding worker timed out after ${timeoutMs}ms (request ${id}).`);
         this.logger.error(error.message + ' Terminating worker.');
-        void this.worker?.terminate().then(() => {
+        this.worker?.terminate().then(() => {
+          this.worker = null;
+        }).catch(() => {
           this.worker = null;
         });
 

@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 
 // produces stable reproducible identifier (name, namespace) 
 export function uuidV5(name: string, namespace: string): string {
-  const namespaceBytes = Buffer.from(namespace.replace(/-/g, ''), 'hex');
+  const namespaceBytes = Buffer.from(namespace.replaceAll('-', ''), 'hex');
   const nameBytes = Buffer.from(name, 'utf8');
 
   const hash = createHash('sha1')
