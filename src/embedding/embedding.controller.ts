@@ -1,6 +1,7 @@
 import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
+import { EmbeddingCountDto } from './dtos/embedding-count.dto';
 import { EmbeddingViewDto } from './dtos/embedding-view.dto';
 import { EmbeddingService } from './embedding.service';
 
@@ -14,6 +15,13 @@ export class EmbeddingController {
   @ApiOkResponse({ type: [EmbeddingViewDto] })
   public findAll(): Promise<EmbeddingViewDto[]> {
     return this.embeddingService.findAll();
+  }
+
+  @Get('count')
+  @ApiOperation({ summary: 'Get the total number of distinct courses in the embedding view' })
+  @ApiOkResponse({ type: EmbeddingCountDto })
+  public countCourses(): Promise<EmbeddingCountDto> {
+    return this.embeddingService.countCourses();
   }
 
   @Get(':courseId')

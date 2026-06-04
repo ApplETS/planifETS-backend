@@ -50,14 +50,18 @@ export class CourseEmbeddingIndexerService {
 
     for (let offset = 0; offset < rows.length; offset += batchSize) {
       const rowsBatch = rows.slice(offset, offset + batchSize);
+      const batchNumber = Math.floor(offset / batchSize) + 1;
+      const totalBatches = Math.ceil(rows.length / batchSize);
 
-      await this.processRowsBatch(rowsBatch, embeddingModel, counters, offset);
+      this.logger.debug(`Processing batch ${batchNumber}/${totalBatches} (offset ${offset}, size ${rowsBatch.length})`);
+
+      await this.processRowsBatch(rowsBatch, embeddingModel, counters, offset, batchNumber, totalBatches);
     }
 
     const durationSeconds = ((Date.now() - startedAt) / 1000).toFixed(2);
 
     this.logger.log(
-      `${counters.indexedCount} cours indexés en ${durationSeconds} secondes, ${counters.errorCount} erreurs.`,
+      `COMPLETED: ${counters.indexedCount}/${rows.length} courses indexed in ${durationSeconds}s. Errors: ${counters.errorCount}. Missing: ${rows.length - counters.indexedCount - counters.errorCount}.`,
     );
   }
 
@@ -66,8 +70,11 @@ export class CourseEmbeddingIndexerService {
     embeddingModel: string,
     counters: IndexingCounters,
     offset: number,
+    batchNumber?: number,
+    totalBatches?: number,
   ): Promise<void> {
     const preparedBatch: PreparedCourseEmbedding[] = [];
+    const batchInfo = batchNumber && totalBatches ? ` (batch ${batchNumber}/${totalBatches})` : '';
 
     for (const row of rowsBatch) {
       try {
@@ -81,7 +88,10 @@ export class CourseEmbeddingIndexerService {
       }
     }
 
+    this.logger.debug(`Prepared ${preparedBatch.length}/${rowsBatch.length} courses${batchInfo}. Errors: ${counters.errorCount}.`);
+
     if (preparedBatch.length === 0) {
+      this.logger.warn(`Batch ${batchNumber || 'unknown'} had 0 prepared items, skipping.`);
       return;
     }
 
@@ -89,9 +99,10 @@ export class CourseEmbeddingIndexerService {
 
     try {
       points = await this.embedPreparedBatch(preparedBatch);
+      this.logger.debug(`Embedded ${points.length} courses${batchInfo}.`);
     } catch (error) {
       this.logger.warn(
-        `Embedding batch failed at offset ${offset}. Falling back to item-by-item. Error: ${formatError(error)}`,
+        `Embedding batch failed at offset ${offset}${batchInfo}. Falling back to item-by-item. Error: ${formatError(error)}`,
       );
 
       await this.processPreparedBatchOneByOne(preparedBatch, counters);
@@ -101,9 +112,10 @@ export class CourseEmbeddingIndexerService {
     try {
       await this.qdrantCourseIndexService.upsertPoints(points);
       counters.indexedCount += points.length;
+      this.logger.log(`✓ Upserted ${points.length} courses to Qdrant${batchInfo}. Total indexed: ${counters.indexedCount}.`);
     } catch (error) {
       this.logger.error(
-        `Qdrant upsert failed at offset ${offset}. Stopping job. Error: ${formatError(error)}`,
+        `Qdrant upsert failed at offset ${offset}${batchInfo}. Stopping job. Error: ${formatError(error)}`,
       );
 
       throw error;

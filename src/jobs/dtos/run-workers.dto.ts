@@ -21,4 +21,7 @@ export class RunWorkersDto {
 
   @ApiProperty({ default: false })
   public processSessions: boolean = false;
+
+  @ApiProperty({ default: false, description: 'Run the course embedding index job (job:index).' })
+  public processCourseEmbeddings: boolean = false;
 }

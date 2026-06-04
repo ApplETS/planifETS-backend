@@ -54,6 +54,9 @@ services:
       EMBEDDING_DTYPE: ${EMBEDDING_DTYPE:-q4}
       EMBEDDING_BATCH_SIZE: ${EMBEDDING_BATCH_SIZE:-50}
       TRANSFORMERS_CACHE_DIR: ${TRANSFORMERS_CACHE_DIR:-/app/.cache/transformers}
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "100"
+      FORCE_POLLING: "true"
     depends_on:
       db:
         condition: service_healthy

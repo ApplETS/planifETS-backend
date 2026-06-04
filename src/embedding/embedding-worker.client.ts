@@ -1,3 +1,4 @@
+import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { Worker } from 'node:worker_threads';
 
@@ -25,33 +26,54 @@ type EmbedWorkerMessage = EmbedWorkerSuccessMessage | EmbedWorkerFailureMessage;
 @Injectable()
 export class EmbeddingWorkerClient implements OnModuleDestroy {
   private readonly logger = new Logger(EmbeddingWorkerClient.name);
-  private readonly worker: Worker;
+  private worker: Worker | null = null;
   private readonly pending = new Map<number, PendingRequest>();
   private nextRequestId = 1;
 
-  constructor() {
+  private getWorkerPath(): string {
     const workerPath = path.join(__dirname, 'workers', 'bge-m3.worker.js');
 
-    this.worker = new Worker(workerPath, {
+    if (!fs.existsSync(workerPath)) {
+      throw new Error(`Embedding worker not found at ${workerPath}`);
+    }
+
+    return workerPath;
+  }
+
+  private createWorker(): Worker {
+    const workerPath = this.getWorkerPath();
+    this.logger.log(`Starting embedding worker from: ${workerPath}`);
+
+    const worker = new Worker(workerPath, {
       env: process.env,
     });
 
-    this.worker.on('message', (message: unknown) => {
+    worker.on('message', (message: unknown) => {
       this.handleWorkerMessage(message);
     });
 
-    this.worker.on('error', (error: Error) => {
+    worker.on('error', (error: Error) => {
       this.logger.error(`Embedding worker error: ${error.message}`, error.stack);
       this.rejectAll(error);
     });
 
-    this.worker.on('exit', (code: number) => {
+    worker.on('exit', (code: number) => {
       if (code !== 0) {
         const error = new Error(`Embedding worker exited with code ${code}`);
         this.logger.error(error.message);
         this.rejectAll(error);
       }
     });
+
+    return worker;
+  }
+
+  private getWorker(): Worker {
+    if (!this.worker) {
+      this.worker = this.createWorker();
+    }
+
+    return this.worker;
   }
 
   public embed(texts: string[]): Promise<number[][]> {
@@ -69,7 +91,7 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
         reject,
       });
 
-      this.worker.postMessage({
+      this.getWorker().postMessage({
         id,
         texts,
         model,
@@ -79,6 +101,10 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
   }
 
   public async onModuleDestroy(): Promise<void> {
+    if (!this.worker) {
+      return;
+    }
+
     await this.worker.terminate();
   }
 

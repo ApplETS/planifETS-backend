@@ -70,15 +70,23 @@ export class QdrantCourseIndexService {
 
     const qdrantPoints = points.map(toQdrantUpsertPoint);
 
-    await retryTransient(
-      () =>
-        this.client.upsert(this.collectionName, {
-          wait: true,
-          points: qdrantPoints,
-        }),
-      3,
-      1000,
-    );
+    this.logger.debug(`Upserting ${qdrantPoints.length} points to collection ${this.collectionName}`);
+
+    try {
+      await retryTransient(
+        () =>
+          this.client.upsert(this.collectionName, {
+            wait: true,
+            points: qdrantPoints,
+          }),
+        3,
+        1000,
+      );
+      this.logger.debug(`Successfully upserted ${qdrantPoints.length} points`);
+    } catch (error) {
+      this.logger.error(`Failed to upsert ${qdrantPoints.length} points: ${error}`);
+      throw error;
+    }
   }
 
   private validateCollection(info: unknown): void {

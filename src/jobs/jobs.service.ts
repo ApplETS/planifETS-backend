@@ -87,6 +87,10 @@ export class JobsService {
       // Create current Session and Prerequisite entities.
       // Data source: Horaire-cours PDF
       { service: 'SessionsJobService', method: 'processSessions' },
+
+      // Index course embeddings for RAG.
+      // Data source: Course data
+      { service: 'CourseEmbeddingIndexerService', method: 'run' },
     ];
 
     for (const [index, job] of jobs.entries()) {
