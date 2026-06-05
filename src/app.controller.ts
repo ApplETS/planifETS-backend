@@ -32,4 +32,17 @@ export class AppController {
   public getError() {
     throw new Error("Monitoring test error from /health/monitoring endpoint");
   }
+
+  @Get('info')
+  @ApiTags('Info')
+  @ApiOperation({
+    summary: 'Application info',
+    description: 'Returns the git commit SHA and environment of the running instance',
+  })
+  public getInfo(): { gitSha: string | null; environment: string } {
+    return {
+      gitSha: process.env.APP_GIT_SHORT_SHA ?? null,
+      environment: process.env.APP_ENV ?? 'development',
+    };
+  }
 }

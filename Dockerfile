@@ -20,11 +20,12 @@ RUN yarn build
 # Development
 FROM base AS dev
 WORKDIR /app
+RUN apk add --no-cache git
 COPY prisma ./prisma
 ENV NODE_ENV=development
 ENV APP_ENV=development
 EXPOSE 3001
-CMD ["sh", "-c", "yarn prisma:generate && yarn start:dev"]
+CMD ["sh", "-c", "export APP_GIT_SHORT_SHA=$(git rev-parse --short=7 HEAD 2>/dev/null || echo localdev) && yarn prisma:generate && yarn start:dev"]
 
 # Production
 FROM node:22.22.3-alpine3.22 AS production
