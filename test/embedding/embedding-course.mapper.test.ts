@@ -8,6 +8,7 @@ import {
   getCourseTypeLabel,
   hashEmbeddingText,
   prepareCourseEmbedding,
+  sanitizeEmbeddingRow,
   toQdrantPointId,
 } from '../../src/embedding/embedding-course.mapper';
 
@@ -144,60 +145,33 @@ describe('buildCourseEmbeddingText', () => {
     expect(text).not.toContain('Préalables non structurés');
   });
 
-  it('includes type label for known types', () => {
+  it('omits type — stored in payload only, not embedded', () => {
     const text = buildCourseEmbeddingText(buildRow({ type: 'TRONC' }));
-    expect(text).toContain('Type : tronc commun.');
-  });
-
-  it('omits type when null', () => {
-    const text = buildCourseEmbeddingText(buildRow({ type: null }));
     expect(text).not.toContain('Type :');
   });
 
-  it('includes program title when present', () => {
+  it('omits program title — used as Qdrant filter, not embedded', () => {
     const text = buildCourseEmbeddingText(buildRow({ program_title: 'Génie logiciel' }));
-    expect(text).toContain('Programme : Génie logiciel.');
+    expect(text).not.toContain('Programme :');
   });
 
-  it('includes cycle when present', () => {
+  it('omits cycle — used as Qdrant filter, not embedded', () => {
     const text = buildCourseEmbeddingText(buildRow({ cycle: 2 }));
-    expect(text).toContain('Cycle : 2.');
-  });
-
-  it('omits cycle when null', () => {
-    const text = buildCourseEmbeddingText(buildRow({ cycle: null }));
     expect(text).not.toContain('Cycle :');
   });
 
-  it('includes typical_session_index when present', () => {
+  it('omits typical_session_index — not semantically useful for retrieval', () => {
     const text = buildCourseEmbeddingText(buildRow({ typical_session_index: 5 }));
-    expect(text).toContain('Session typique : 5.');
-  });
-
-  it('omits typical_session_index when null', () => {
-    const text = buildCourseEmbeddingText(buildRow({ typical_session_index: null }));
     expect(text).not.toContain('Session typique :');
   });
 
-  it('includes availability when present', () => {
+  it('omits availability — not semantically useful for retrieval', () => {
     const text = buildCourseEmbeddingText(buildRow({ availability: ['JOUR', 'SOIR'] }));
-    expect(text).toContain('Disponibilité :');
-    expect(text).toContain('JOUR');
-    expect(text).toContain('SOIR');
-  });
-
-  it('omits availability when empty', () => {
-    const text = buildCourseEmbeddingText(buildRow({ availability: [] }));
     expect(text).not.toContain('Disponibilité :');
   });
 
-  it('includes sessions when present', () => {
+  it('omits sessions — not semantically useful for retrieval', () => {
     const text = buildCourseEmbeddingText(buildRow({ sessions: ['Automne 2026'] }));
-    expect(text).toContain('Sessions : Automne 2026.');
-  });
-
-  it('omits sessions when empty', () => {
-    const text = buildCourseEmbeddingText(buildRow({ sessions: [] }));
     expect(text).not.toContain('Sessions :');
   });
 
@@ -341,5 +315,53 @@ describe('computeCourseChangeKey', () => {
     const r1 = computeCourseChangeKey(buildRow({ title: 'A' }));
     const r2 = computeCourseChangeKey(buildRow({ title: 'B' }));
     expect(r1.id).toBe(r2.id);
+  });
+});
+
+describe('sanitizeEmbeddingRow', () => {
+  it('strips HTML tags from description', () => {
+    const row = sanitizeEmbeddingRow(buildRow({ description: '<p>Un cours.</p>' }));
+    expect(row.description).not.toContain('<p>');
+    expect(row.description).toContain('Un cours.');
+  });
+
+  it('decodes HTML entities in description', () => {
+    const row = sanitizeEmbeddingRow(buildRow({ description: 'R&amp;D &nbsp;et &lt;algo&gt;' }));
+    expect(row.description).toContain('R&D');
+    expect(row.description).toContain('<algo>');
+    expect(row.description).not.toContain('&amp;');
+    expect(row.description).not.toContain('&lt;');
+  });
+
+  it('unescapes \\" sequences in description', () => {
+    const row = sanitizeEmbeddingRow(buildRow({ description: 'Le \\"machine learning\\".' }));
+    expect(row.description).toContain('"machine learning"');
+    expect(row.description).not.toContain('\\"');
+  });
+
+  it('strips HTML tags from title', () => {
+    const row = sanitizeEmbeddingRow(buildRow({ title: '<em>Systèmes</em> intelligents' }));
+    expect(row.title).not.toContain('<em>');
+    expect(row.title).toContain('Systèmes');
+  });
+
+  it('sanitizes unstructured_prerequisite when present', () => {
+    const row = sanitizeEmbeddingRow(buildRow({ unstructured_prerequisite: 'Avoir suivi &amp; réussi LOG121.' }));
+    expect(row.unstructured_prerequisite).toContain('Avoir suivi & réussi LOG121.');
+    expect(row.unstructured_prerequisite).not.toContain('&amp;');
+  });
+
+  it('leaves unstructured_prerequisite null when null', () => {
+    const row = sanitizeEmbeddingRow(buildRow({ unstructured_prerequisite: null }));
+    expect(row.unstructured_prerequisite).toBeNull();
+  });
+
+  it('preserves non-text fields unchanged', () => {
+    const original = buildRow();
+    const row = sanitizeEmbeddingRow(original);
+    expect(row.course_id).toBe(original.course_id);
+    expect(row.program_id).toBe(original.program_id);
+    expect(row.cycle).toBe(original.cycle);
+    expect(row.prerequisite_codes).toBe(original.prerequisite_codes);
   });
 });

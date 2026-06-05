@@ -93,6 +93,24 @@ export class QdrantCourseIndexService {
     return hashes;
   }
 
+  public async search(
+    vector: number[],
+    options: { limit: number; scoreThreshold: number; filter?: object },
+  ): Promise<Array<{ payload: CourseEmbeddingPayload; score: number }>> {
+    const results = await this.client.search(this.collectionName, {
+      vector,
+      limit: options.limit,
+      score_threshold: options.scoreThreshold,
+      filter: options.filter as Parameters<typeof this.client.search>[1]['filter'],
+      with_payload: true,
+    });
+
+    return results.map((result) => ({
+      payload: result.payload as unknown as CourseEmbeddingPayload,
+      score: result.score,
+    }));
+  }
+
   public async upsertPoints(points: CourseQdrantPoint[]): Promise<void> {
     if (points.length === 0) {
       return;
