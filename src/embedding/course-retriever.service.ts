@@ -3,12 +3,12 @@ import { Injectable } from '@nestjs/common';
 import { EmbeddingWorkerClient } from './embedding-worker.client';
 import { QdrantCourseIndexService } from './qdrant-course-index.service';
 
-export interface UserSessionContext {
+interface UserSessionContext {
   programIds?: number[];
   cycle?: number;
 }
 
-export interface CourseResult {
+interface CourseResult {
   code: string;
   title: string;
   description: string;

@@ -167,13 +167,13 @@ export function sanitizeEmbeddingRow(row: EmbeddingViewDto): EmbeddingViewDto {
 
 function sanitizeText(value: string): string {
   return value
-    .replace(/&amp;/gi, '&')
-    .replace(/&nbsp;/gi, ' ')
-    .replace(/&lt;/gi, '<')
-    .replace(/&gt;/gi, '>')
-    .replace(/&quot;/gi, '"')
-    .replace(/\\"/g, '"')
-    .replace(/\\/g, '');
+    .replaceAll('&amp;', '&')
+    .replaceAll('&nbsp;', ' ')
+    .replaceAll('&lt;', '<')
+    .replaceAll('&gt;', '>')
+    .replaceAll('&quot;', '"')
+    .replaceAll('\\"', '"')
+    .replaceAll('\\', '');
 }
 
 // Long descriptions dilute the embedding vector. Keep the first ~800 chars

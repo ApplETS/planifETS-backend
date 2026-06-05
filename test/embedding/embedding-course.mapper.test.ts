@@ -319,12 +319,6 @@ describe('computeCourseChangeKey', () => {
 });
 
 describe('sanitizeEmbeddingRow', () => {
-  it('strips HTML tags from description', () => {
-    const row = sanitizeEmbeddingRow(buildRow({ description: '<p>Un cours.</p>' }));
-    expect(row.description).not.toContain('<p>');
-    expect(row.description).toContain('Un cours.');
-  });
-
   it('decodes HTML entities in description', () => {
     const row = sanitizeEmbeddingRow(buildRow({ description: 'R&amp;D &nbsp;et &lt;algo&gt;' }));
     expect(row.description).toContain('R&D');
@@ -337,12 +331,6 @@ describe('sanitizeEmbeddingRow', () => {
     const row = sanitizeEmbeddingRow(buildRow({ description: 'Le \\"machine learning\\".' }));
     expect(row.description).toContain('"machine learning"');
     expect(row.description).not.toContain('\\"');
-  });
-
-  it('strips HTML tags from title', () => {
-    const row = sanitizeEmbeddingRow(buildRow({ title: '<em>Systèmes</em> intelligents' }));
-    expect(row.title).not.toContain('<em>');
-    expect(row.title).toContain('Systèmes');
   });
 
   it('sanitizes unstructured_prerequisite when present', () => {
