@@ -167,7 +167,6 @@ export function sanitizeEmbeddingRow(row: EmbeddingViewDto): EmbeddingViewDto {
 
 function sanitizeText(value: string): string {
   return value
-    .replace(/<[^>]+>/g, ' ')
     .replace(/&amp;/gi, '&')
     .replace(/&nbsp;/gi, ' ')
     .replace(/&lt;/gi, '<')
