@@ -75,7 +75,16 @@ function getErrorCode(error: unknown): string | undefined {
     return undefined;
   }
 
-  return typeof error.code === 'string' ? error.code : undefined;
+  if (typeof error.code === 'string') {
+    return error.code;
+  }
+
+  // Node.js native fetch wraps network errors: TypeError("fetch failed", { cause: { code: "ECONNREFUSED" } })
+  if (isRecord(error.cause) && typeof error.cause.code === 'string') {
+    return error.cause.code;
+  }
+
+  return undefined;
 }
 
 export function getNestedProperty(value: unknown, path: string[]): unknown {

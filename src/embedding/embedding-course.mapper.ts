@@ -172,7 +172,7 @@ function sanitizeText(value: string): string {
     .replaceAll('&lt;', '<')
     .replaceAll('&gt;', '>')
     .replaceAll('&quot;', '"')
-    .replaceAll('\\"', '"')
+    .replaceAll(String.raw`\"`, '"')
     .replaceAll('\\', '');
 }
 
