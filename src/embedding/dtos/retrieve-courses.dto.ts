@@ -28,6 +28,11 @@ export class RetrieveCoursesDto {
   public context?: UserSessionContextDto;
 }
 
+export class RetrieveCoursesResponseDto {
+  @ApiProperty({ type: () => [CourseResultDto] })
+  public courses!: CourseResultDto[];
+}
+
 export class CourseResultDto {
   @ApiProperty({ example: 'LOG635' })
   public code!: string;
