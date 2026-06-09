@@ -33,7 +33,7 @@ export class RetrieveCoursesResponseDto {
   public courses!: CourseResultDto[];
 }
 
-export class CourseResultDto {
+class CourseResultDto {
   @ApiProperty({ example: 'LOG635' })
   public code!: string;
 
