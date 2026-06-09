@@ -60,7 +60,9 @@ export function buildCourseEmbeddingText(row: EmbeddingViewDto): string {
 
   parts.push(toSentence(`${row.code} — ${row.title}`));
 
-  const description = clean(row.description);
+  // Truncated to first ~800 chars so the high-level concept dominates over
+  // dense technical jargon that would dilute the embedding vector.
+  const description = truncateAtSentence(clean(row.description));
   if (description) parts.push(toSentence(description));
 
   const prerequisiteCodes = cleanStringArray(row.prerequisite_codes);
@@ -73,33 +75,10 @@ export function buildCourseEmbeddingText(row: EmbeddingViewDto): string {
     parts.push(`Préalables non structurés : ${unstructuredPrerequisite}.`);
   }
 
-  const typeLabel = getCourseTypeLabel(row.type);
-  if (typeLabel) {
-    parts.push(`Type : ${typeLabel}.`);
-  }
-
-  const programTitle = clean(row.program_title);
-  if (programTitle) {
-    parts.push(`Programme : ${programTitle}.`);
-  }
-
-  if (row.cycle !== null && row.cycle !== undefined) {
-    parts.push(`Cycle : ${row.cycle}.`);
-  }
-
-  if (row.typical_session_index !== null && row.typical_session_index !== undefined) {
-    parts.push(`Session typique : ${row.typical_session_index}.`);
-  }
-
-  const availability = cleanStringArray(row.availability);
-  if (availability.length > 0) {
-    parts.push(`Disponibilité : ${availability.join(', ')}.`);
-  }
-
-  const sessions = cleanStringArray(row.sessions);
-  if (sessions.length > 0) {
-    parts.push(`Sessions : ${sessions.join(', ')}.`);
-  }
+  // Programme, cycle, sessions, disponibilité are omitted from the embedded text.
+  // They are identical across all courses in the same program/cycle, which creates
+  // a high baseline cosine similarity that masks discriminative course content.
+  // These fields are available as Qdrant payload filters instead.
 
   return normalizeWhitespace(parts.join(' '));
 }
@@ -173,6 +152,41 @@ export function prepareCourseEmbedding(
 export function computeCourseChangeKey(row: EmbeddingViewDto): { id: string; hash: string } {
   const text = buildCourseEmbeddingText(row);
   return { id: toQdrantPointId(row.embedding_id), hash: hashEmbeddingText(text) };
+}
+
+export function sanitizeEmbeddingRow(row: EmbeddingViewDto): EmbeddingViewDto {
+  return {
+    ...row,
+    title: sanitizeText(row.title),
+    description: sanitizeText(row.description ?? ''),
+    unstructured_prerequisite: row.unstructured_prerequisite
+      ? sanitizeText(row.unstructured_prerequisite)
+      : row.unstructured_prerequisite,
+  };
+}
+
+function sanitizeText(value: string): string {
+  return value
+    .replaceAll('&amp;', '&')
+    .replaceAll('&nbsp;', ' ')
+    .replaceAll('&lt;', '<')
+    .replaceAll('&gt;', '>')
+    .replaceAll('&quot;', '"')
+    .replaceAll(String.raw`\"`, '"')
+    .replaceAll('\\', '');
+}
+
+// Long descriptions dilute the embedding vector. Keep the first ~800 chars
+// (≈ 2 paragraphs) so the high-level concept dominates over technical jargon.
+function truncateAtSentence(text: string, maxChars = 800): string {
+  if (text.length <= maxChars) return text;
+  const candidate = text.slice(0, maxChars);
+  const lastEnd = Math.max(
+    candidate.lastIndexOf('.'),
+    candidate.lastIndexOf('!'),
+    candidate.lastIndexOf('?'),
+  );
+  return lastEnd > 0 ? candidate.slice(0, lastEnd + 1) : candidate;
 }
 
 function clean(value: string | null | undefined): string {
