@@ -1,4 +1,4 @@
-import { ArgumentsHost, HttpException } from '@nestjs/common';
+import { ArgumentsHost, HttpException, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
 
 import { HttpExceptionFilter } from '@/common/exceptions/http-exception.filter';
@@ -109,10 +109,10 @@ describe('HttpExceptionFilter', () => {
   it('should handle monitoring capture failure gracefully', () => {
     mockMonitoring.captureException.mockImplementationOnce(() => { throw new Error('fail'); });
     const exception = new HttpException('Test error', 400);
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+    const loggerSpy = jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
     filter.catch(exception, mockHost);
 
-    expect(consoleSpy).toHaveBeenCalledWith(
+    expect(loggerSpy).toHaveBeenCalledWith(
       'Monitoring capture failed for HttpException:',
       expect.any(Error)
     );

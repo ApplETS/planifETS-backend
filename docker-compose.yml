@@ -11,6 +11,14 @@ services:
       PORT: ${PORT:-3001}
       LOG_LEVELS: ${LOG_LEVELS:-log,error,warn}
       TZ: America/Toronto
+      LLM_TIMEOUT_MS: ${LLM_TIMEOUT_MS:-10000}
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      GROQ_PRIMARY_MODEL: ${GROQ_PRIMARY_MODEL:-llama-3.3-70b-versatile}
+      GROQ_FALLBACK_MODEL: ${GROQ_FALLBACK_MODEL:-llama-3.1-8b-instant}
+      NVIDIA_API_KEY: ${NVIDIA_API_KEY}
+      NVIDIA_MODEL: ${NVIDIA_MODEL:-meta/llama-3.3-70b-instruct}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash-lite}
     depends_on:
       db:
         condition: service_healthy
@@ -40,18 +48,10 @@ services:
       - .:/app
       - /app/node_modules
       - transformers-cache:/app/.cache/transformers
+    env_file:
+      - .env
     environment:
-      DATABASE_URL: ${DATABASE_URL}
       APP_ENV: development
-      PORT: ${PORT:-3001}
-      LOG_LEVELS: ${LOG_LEVELS:-log,error,warn}
-      TZ: America/Toronto
-      QDRANT_URL: ${QDRANT_URL:-http://qdrant:6333}
-      QDRANT_COLLECTION: ${QDRANT_COLLECTION:-courses_bge_m3}
-      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-Xenova/bge-m3}
-      EMBEDDING_DTYPE: ${EMBEDDING_DTYPE:-q4}
-      EMBEDDING_BATCH_SIZE: ${EMBEDDING_BATCH_SIZE:-50}
-      TRANSFORMERS_CACHE_DIR: ${TRANSFORMERS_CACHE_DIR:-/app/.cache/transformers}
       CHOKIDAR_USEPOLLING: "true"
       CHOKIDAR_INTERVAL: "100"
       FORCE_POLLING: "true"

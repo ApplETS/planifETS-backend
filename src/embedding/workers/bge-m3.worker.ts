@@ -2,6 +2,10 @@ import { createRequire } from 'node:module';
 import * as path from 'node:path';
 import { parentPort } from 'node:worker_threads';
 
+import { Logger } from '@nestjs/common';
+
+const logger = new Logger('bge-m3.worker');
+
 // onnxruntime-node's napi-v6 native binding cannot re-register with a new V8 isolate
 // after being loaded by a previous worker thread in the same process (dlopen keeps the
 // .node file mapped but NAPI init only ran for the first isolate). Redirect
@@ -116,10 +120,10 @@ async function handleMessage(message: unknown): Promise<void> {
       return;
     }
 
-    console.log(`[bge-m3.worker] Request ${request.id}: loading extractor for ${request.texts.length} texts`);
+    logger.debug(`Request ${request.id}: loading extractor for ${request.texts.length} texts`);
     const extractor = await getExtractor(request.model, request.dtype);
 
-    console.log(`[bge-m3.worker] Request ${request.id}: running inference on ${request.texts.length} texts (max_length=1024)`);
+    logger.debug(`Request ${request.id}: running inference on ${request.texts.length} texts (max_length=1024)`);
     const inferenceStart = Date.now();
     const output = await extractor(request.texts, {
       pooling: 'mean',
@@ -127,11 +131,11 @@ async function handleMessage(message: unknown): Promise<void> {
       truncation: true,
       max_length: 1024,
     });
-    console.log(`[bge-m3.worker] Request ${request.id}: inference done in ${Date.now() - inferenceStart}ms`);
+    logger.debug(`Request ${request.id}: inference done in ${Date.now() - inferenceStart}ms`);
 
-    console.log(`[bge-m3.worker] Request ${request.id}: converting tensor to vectors`);
+    logger.debug(`Request ${request.id}: converting tensor to vectors`);
     const vectors = tensorToVectors(output, request.texts.length);
-    console.log(`[bge-m3.worker] Request ${request.id}: done, returning ${vectors.length} vectors`);
+    logger.debug(`Request ${request.id}: done, returning ${vectors.length} vectors`);
 
     const response: EmbedResponse = {
       id: request.id,
@@ -142,7 +146,7 @@ async function handleMessage(message: unknown): Promise<void> {
     port.postMessage(response);
   } catch (error) {
     if (requestId === -1) {
-      console.error('[bge-m3.worker] Cannot reply: message had no valid id, dropping error response');
+      logger.error('Cannot reply: message had no valid id, dropping error response');
       return;
     }
 
@@ -181,7 +185,7 @@ async function createExtractor(
   model: string,
   dtype?: string,
 ): Promise<FeatureExtractor> {
-  console.log(`[bge-m3.worker] Loading model: ${model} (dtype=${dtype ?? 'default'})`);
+  logger.log(`Loading model: ${model} (dtype=${dtype ?? 'default'})`);
 
   const transformersModule = (await import(
     '@huggingface/transformers'
@@ -199,7 +203,7 @@ async function createExtractor(
 
   const extractor = await transformersModule.pipeline('feature-extraction', model, options);
 
-  console.log(`[bge-m3.worker] Model ready: ${model}`);
+  logger.log(`Model ready: ${model}`);
 
   return extractor;
 }
