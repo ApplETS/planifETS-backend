@@ -11,7 +11,7 @@ import { NvidiaProvider } from './providers/nvidia.provider';
 @Injectable()
 export class LlmService {
   private readonly logger = new Logger(LlmService.name);
-  private providers: LlmProvider[];
+  private readonly providers: LlmProvider[];
   private readonly timeoutMs: number;
 
   private tryProvider(model: string | undefined, apiKey: string | undefined,
@@ -24,7 +24,7 @@ export class LlmService {
   }
 
   constructor() {
-    this.timeoutMs = parseInt(process.env.LLM_TIMEOUT_MS || '10000', 10);
+    this.timeoutMs = Number.parseInt(process.env.LLM_TIMEOUT_MS || '10000', 10);
 
     this.providers = [
       this.tryProvider(process.env.GROQ_PRIMARY_MODEL, process.env.GROQ_API_KEY, GroqProvider),
