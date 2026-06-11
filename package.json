@@ -28,8 +28,7 @@
     "test:all": "yarn test && yarn test:integration && yarn test:e2e",
     "test:e2e": "jest --config ./jest/e2e.config.mjs",
     "knip": "knip",
-    "unused": "knip --use-tsconfig-files",
-    "job:index": "nest build && node dist/jobs/jobs-embeddings.js"
+    "unused": "knip --use-tsconfig-files"
   },
   "prisma": {
     "schema": "prisma/schema.prisma",

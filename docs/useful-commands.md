@@ -93,7 +93,4 @@ yarn knip
 
 # Build the production bundle
 yarn build
-
-# Run the embedding indexing job
-yarn job:index
 ```
