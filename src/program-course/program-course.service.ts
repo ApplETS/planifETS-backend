@@ -261,9 +261,7 @@ export class ProgramCourseService {
     } = { data: mappedData };
 
     if (invalidProgramIds.length) {
-      this.logger.error('Some program IDs are invalid', {
-        invalidProgramIds,
-      });
+      this.logger.error(`Some program IDs are invalid: [${invalidProgramIds.join(', ')}]`);
       response.errors = { invalidProgramIds };
     }
 
@@ -295,9 +293,7 @@ export class ProgramCourseService {
     } = { data: mappedData };
 
     if (invalidCourseIds.length) {
-      this.logger.error('Some course IDs are invalid', {
-        invalidCourseIds,
-      });
+      this.logger.error(`Some course IDs are invalid: [${invalidCourseIds.join(', ')}]`);
       response.errors = { invalidCourseIds };
     }
 
