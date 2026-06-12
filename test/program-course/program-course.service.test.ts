@@ -583,8 +583,7 @@ describe('ProgramCourseService', () => {
       errors: { invalidProgramIds: [invalidId] },
     });
     expect(loggerErrorSpy).toHaveBeenCalledWith(
-      'Some program IDs are invalid',
-      { invalidProgramIds: [invalidId] },
+      `Some program IDs are invalid: [${invalidId}]`,
     );
   });
 
@@ -622,8 +621,7 @@ describe('ProgramCourseService', () => {
       errors: { invalidCourseIds: [invalidId] },
     });
     expect(loggerErrorSpy).toHaveBeenCalledWith(
-      'Some course IDs are invalid',
-      { invalidCourseIds: [invalidId] },
+      `Some course IDs are invalid: [${invalidId}]`,
     );
   });
 });

@@ -1,10 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Course } from '@prisma/client';
 
-import { CheminotService } from '../../common/api-helper/cheminot/cheminot.service';
-import { Course as CourseCheminot } from '../../common/api-helper/cheminot/Course';
-import { Program as ProgramCheminot } from '../../common/api-helper/cheminot/Program';
-import { EtsCourseService } from '../../common/api-helper/ets/course/ets-course.service';
+import { CheminotService } from '@/common/api-helper/cheminot/cheminot.service';
+import { Course as CourseCheminot } from '@/common/api-helper/cheminot/Course';
+import { Program as ProgramCheminot } from '@/common/api-helper/cheminot/Program';
+import { EtsCourseService } from '@/common/api-helper/ets/course/ets-course.service';
+
 import { CourseService } from '../../course/course.service';
 import { ProgramService } from '../../program/program.service';
 import { ProgramIncludeCourseIdsAndPrerequisitesDto } from '../../program/program.types';
@@ -177,6 +178,7 @@ export class CoursesJobService {
     const programCheminot = cheminotPrograms.find(
       (p) => p.code === existingProgram.code,
     );
+
     if (!programCheminot) {
       const programCode = existingProgram.code ?? `ID_${existingProgram.id}`;
       missingProgramsInCheminot.push(programCode);

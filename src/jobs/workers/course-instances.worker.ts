@@ -52,11 +52,19 @@ export class CourseInstancesJobService {
       }
       this.logger.log(`Processing program: ${program.code}`);
 
-      const parsedData =
-        await this.planificationCourseService.parseProgramPlanification(
-          program.code,
-        );
-      allParsedData.push(...parsedData);
+      try {
+        const parsedData =
+          await this.planificationCourseService.parseProgramPlanification(
+            program.code,
+          );
+        allParsedData.push(...parsedData);
+      } catch (error) {
+        if (error instanceof Error) {
+          this.logger.warn(`Error parsing planification PDF for program ${program.code}`, error);
+        } else {
+          this.logger.warn(`Error parsing planification PDF for program ${program.code}: ${String(error)}`);
+        }
+      }
     }
 
     // Process all parsed data together
