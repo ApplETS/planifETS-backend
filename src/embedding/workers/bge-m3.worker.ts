@@ -1,5 +1,5 @@
-import { createRequire } from 'node:module';
-import * as path from 'node:path';
+// import { createRequire } from 'node:module';
+// import * as path from 'node:path';
 import { parentPort } from 'node:worker_threads';
 
 import { Logger } from '@nestjs/common';
@@ -18,19 +18,19 @@ const logger = new Logger('bge-m3.worker');
 // the redirect, Node's module cache returns our already-configured instance.
 // (onnxruntime-web defaults to blob: URLs for WASM which are not supported in Node.js.)
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const _workerRequire = createRequire(__filename);
-const _nodeModule = _workerRequire('module') as { _load(id: string, ...rest: unknown[]): unknown };
-const _origModLoad = _nodeModule._load;
-_nodeModule._load = function (id: string, ...rest: unknown[]) {
-  return _origModLoad.apply(_nodeModule, [id === 'onnxruntime-node' ? 'onnxruntime-web' : id, ...rest]);
-};
+// const _workerRequire = createRequire(__filename);
+// const _nodeModule = _workerRequire('module') as { _load(id: string, ...rest: unknown[]): unknown };
+// const _origModLoad = _nodeModule._load;
+// _nodeModule._load = function (id: string, ...rest: unknown[]) {
+//   return _origModLoad.apply(_nodeModule, [id === 'onnxruntime-node' ? 'onnxruntime-web' : id, ...rest]);
+// };
 
-// Pre-load onnxruntime-web and set wasmPaths before transformers sees it for the first time.
-const _ortWeb = _workerRequire('onnxruntime-web') as {
-  env: { wasm: { wasmPaths?: string; numThreads?: number } };
-};
-_ortWeb.env.wasm.wasmPaths = path.dirname(_workerRequire.resolve('onnxruntime-web')) + path.sep;
-_ortWeb.env.wasm.numThreads = 1;
+// // Pre-load onnxruntime-web and set wasmPaths before transformers sees it for the first time.
+// const _ortWeb = _workerRequire('onnxruntime-web') as {
+//   env: { wasm: { wasmPaths?: string; numThreads?: number } };
+// };
+// _ortWeb.env.wasm.wasmPaths = path.dirname(_workerRequire.resolve('onnxruntime-web')) + path.sep;
+// _ortWeb.env.wasm.numThreads = 1;
 
 type EmbedRequest = {
   id: number;
@@ -57,7 +57,7 @@ type TensorLike = {
 };
 
 type FeatureExtractionOptions = {
-  pooling: 'mean';
+  pooling: 'cls';
   normalize: boolean;
   truncation?: boolean;
   max_length?: number;
@@ -68,8 +68,18 @@ type FeatureExtractor = (
   options: FeatureExtractionOptions,
 ) => Promise<TensorLike> | TensorLike;
 
+type ProgressInfo = {
+  status?: string;
+  name?: string;
+  file?: string;
+  progress?: number;
+  loaded?: number;
+  total?: number;
+};
+
 type PipelineOptions = {
   dtype?: string;
+  progress_callback?: (progress: ProgressInfo) => void;
 };
 
 type PipelineFactory = (
@@ -126,7 +136,7 @@ async function handleMessage(message: unknown): Promise<void> {
     logger.debug(`Request ${request.id}: running inference on ${request.texts.length} texts (max_length=1024)`);
     const inferenceStart = Date.now();
     const output = await extractor(request.texts, {
-      pooling: 'mean',
+      pooling: 'cls',
       normalize: true,
       truncation: true,
       max_length: 1024,
@@ -195,14 +205,30 @@ async function createExtractor(
     transformersModule.env.cacheDir = process.env.TRANSFORMERS_CACHE_DIR;
   }
 
-  const options: PipelineOptions = {};
+  // const options: PipelineOptions = {};
+
+  // if (dtype) {
+  //   options.dtype = dtype;
+  // }
+
+  // const extractor = await transformersModule.pipeline('feature-extraction', model, options);
+
+  const options: PipelineOptions = {
+    progress_callback: (progress) => {
+      logger.log(`Model loading progress: ${JSON.stringify(progress)}`);
+    },
+  };
 
   if (dtype) {
     options.dtype = dtype;
   }
 
-  const extractor = await transformersModule.pipeline('feature-extraction', model, options);
-
+  const extractor = await transformersModule.pipeline(
+    'feature-extraction',
+    model,
+    options,
+  );
+    
   logger.log(`Model ready: ${model}`);
 
   return extractor;
