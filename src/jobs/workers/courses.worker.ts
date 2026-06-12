@@ -174,9 +174,11 @@ export class CoursesJobService {
     missingProgramsInCheminot: string[],
     missingCoursesInDatabase: { [programCode: string]: string[] },
   ): Promise<void> {
-    const programCheminot = cheminotPrograms.find(
-      (p) => p.code === existingProgram.code,
+    const programCodes = existingProgram.code?.split(',').map((c) => c.trim()) ?? [];
+    const programCheminot = cheminotPrograms.find((p) =>
+      programCodes.includes(p.code),
     );
+
     if (!programCheminot) {
       const programCode = existingProgram.code ?? `ID_${existingProgram.id}`;
       missingProgramsInCheminot.push(programCode);
