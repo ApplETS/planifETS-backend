@@ -77,6 +77,35 @@ describe('EtsProgramService', () => {
     });
   });
 
+  it('should keep only the first code when the API returns comma-separated codes', async () => {
+    const mockResponse: AxiosResponse = {
+      data: {
+        types: [],
+        results: [
+          {
+            id: 182816,
+            title: 'Baccalaureat en genie de la construction',
+            cycle: '1er cycle',
+            code: '7625, 6720',
+            credits: '116',
+            types: [],
+            url: 'https://example.com/program/182816',
+          },
+        ],
+      },
+      status: 200,
+      statusText: 'OK',
+      headers: {},
+      config: { headers: new AxiosHeaders() },
+    };
+
+    jest.spyOn(httpService, 'get').mockReturnValueOnce(of(mockResponse));
+
+    const result = await service.fetchAllProgramsFromEtsAPI();
+
+    expect(result.programs[0].code).toBe('7625');
+  });
+
   it('should keep null credits when the API omits them', async () => {
     const mockResponse: AxiosResponse = {
       data: {

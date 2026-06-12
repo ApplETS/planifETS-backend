@@ -156,12 +156,9 @@ describe('CoursesJobService', () => {
   });
 
   describe('syncCourseDetailsWithCheminotData', () => {
-    it('matches a program whose DB code is comma-separated (e.g. "7625, 6720") against its Cheminot code ("7625")', async () => {
-      // Program 7625 / 6720 in the ETS API has code "7625, 6720".
-      // The Cheminements.txt parser captures only the first number: "7625".
-      // The sync must create program courses despite the mismatch.
+    it('creates program courses when a program code matches Cheminot', async () => {
       programServiceMock.getAllProgramsWithCourses.mockResolvedValue([
-        { id: 1, code: '7625, 6720', courses: [] },
+        { id: 1, code: '7625', courses: [] },
       ]);
       cheminotServiceMock.parseProgramsAndCoursesCheminot.mockResolvedValue([
         {

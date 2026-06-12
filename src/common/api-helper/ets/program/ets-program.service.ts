@@ -40,7 +40,7 @@ export class EtsProgramService {
         id: program.id,
         title: stripHtmlTags(program.title),
         cycle: extractNumberFromString(program.cycle),
-        code: program.code,
+        code: program.code ? program.code.split(',')[0].trim() : null,
         credits: typeof program.credits === 'string' ? program.credits : null,
         programTypes: {
           connect: program.types.map((typeId) => ({ id: typeId })),
