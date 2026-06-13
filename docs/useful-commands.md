@@ -21,19 +21,15 @@ docker compose --profile dev logs -f
 # Stop all running containers
 docker ps -q | xargs -r docker stop
 
-# Full cleanup — removes containers, images, volumes, and networks (destructive!)
+# Full cleanup — removes containers, images, volumes, and networks
+# ⚠️ WARNING: this affects ALL Docker resources on your machine, not just this project.
+# Running services from other projects will also be stopped and removed.
 docker system prune -af --volumes
 ```
 
-## 🧑‍💻 Development
+## 🧑‍💻 Local Development
 
 ```bash
-# Install dependencies
-yarn install
-
-# Start the app locally with hot reload
-yarn dev
-
 # Type check without emitting (CI-safe)
 yarn typecheck
 
