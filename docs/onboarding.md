@@ -89,11 +89,11 @@ node --version  # Verify: should show v22.22.0+
 ```bash
 git clone git@github.com:ApplETS/planifETS-backend.git
 cd planifETS-backend
+# If you use `nvm`, run `nvm use` first.
 yarn install
 yarn build
 ```
 
-If you use `nvm`, run `nvm use` first.
 
 ### 2. Set up PostgreSQL
 
