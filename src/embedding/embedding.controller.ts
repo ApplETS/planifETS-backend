@@ -5,7 +5,7 @@ import { EmbeddingCountDto } from './dtos/embedding-count.dto';
 import { EmbeddingViewDto } from './dtos/embedding-view.dto';
 import { EmbeddingService } from './embedding.service';
 
-@ApiTags('Embedding View')
+@ApiTags('Chatbot')
 @Controller('embedding-view')
 export class EmbeddingController {
   constructor(private readonly embeddingService: EmbeddingService) {}

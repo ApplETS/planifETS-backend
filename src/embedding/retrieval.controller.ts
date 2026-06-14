@@ -4,12 +4,12 @@ import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CourseRetrieverService } from './course-retriever.service';
 import { RetrieveCoursesDto, RetrieveCoursesResponseDto } from './dtos/retrieve-courses.dto';
 
-@ApiTags('Retrieval')
+@ApiTags('Chatbot')
 @Controller('retrieval')
 export class RetrievalController {
   constructor(private readonly retrieverService: CourseRetrieverService) {}
 
-  @Post('courses')
+  @Post('query-courses')
   @HttpCode(200)
   @ApiOperation({ summary: 'Semantic search — embed query and return top-K courses from Qdrant' })
   @ApiOkResponse({ type: RetrieveCoursesResponseDto })

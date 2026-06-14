@@ -7,6 +7,7 @@ import { firstValueFrom } from 'rxjs';
 import {
   ETS_API_GET_ALL_COURSES,
   ETS_API_GET_COURSES_BY_IDS,
+  ETS_USER_AGENT,
   getEtsCoursePageUrl,
 } from '@/common/utils/url/url-constants';
 import { extractNumberFromString } from '@/utils/stringUtil';
@@ -63,7 +64,9 @@ export class EtsCourseService {
   //Fetches all courses without credits
   public async fetchAllCoursesWithoutCredits(): Promise<ICourses[]> {
     const response = await firstValueFrom(
-      this.httpService.get(ETS_API_GET_ALL_COURSES),
+      this.httpService.get(ETS_API_GET_ALL_COURSES, {
+        headers: { 'User-Agent': ETS_USER_AGENT },
+      }),
     );
     const raw = response.data as CourseIndexResponseDto;
     const courses = raw.results;
@@ -85,7 +88,9 @@ export class EtsCourseService {
   // The ids are passed as a string with comma-separated values, ex: "349682,349710"
   public async fetchCoursesById(ids: string): Promise<CourseByIdEtsApiDto[]> {
     const response = await firstValueFrom(
-      this.httpService.get(`${ETS_API_GET_COURSES_BY_IDS}${ids}`),
+      this.httpService.get(`${ETS_API_GET_COURSES_BY_IDS}${ids}`, {
+        headers: { 'User-Agent': ETS_USER_AGENT },
+      }),
     );
     const courses = response.data;
 
@@ -107,6 +112,7 @@ export class EtsCourseService {
     const response = await firstValueFrom(
       this.httpService.get(getEtsCoursePageUrl(courseCode), {
         responseType: 'text',
+        headers: { 'User-Agent': ETS_USER_AGENT },
       }),
     );
 
