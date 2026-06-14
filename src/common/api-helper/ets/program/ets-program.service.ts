@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 
 import { extractNumberFromString, stripHtmlTags } from '@/common/utils/stringUtil';
-import { ETS_API_GET_ALL_PROGRAMS } from '@/common/utils/url/url-constants';
+import { ETS_API_GET_ALL_PROGRAMS, ETS_USER_AGENT } from '@/common/utils/url/url-constants';
 
 import { ProgramEtsApiDto } from './dtos/program-ets-api.dto';
 import { ProgramIndexResponseDto } from './dtos/program-index-response.dto';
@@ -30,7 +30,9 @@ export class EtsProgramService {
     programs: Program[];
   }> {
     const response = await firstValueFrom(
-      this.httpService.get(ETS_API_GET_ALL_PROGRAMS),
+      this.httpService.get(ETS_API_GET_ALL_PROGRAMS, {
+        headers: { 'User-Agent': ETS_USER_AGENT },
+      }),
     );
 
     const raw = response.data as ProgramIndexResponseDto;
