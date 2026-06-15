@@ -17,7 +17,7 @@ export class LlmController {
     return { providers };
   }
 
-  @Post('generate')
+  @Post('recommend')
   @HttpCode(200)
   @ApiOperation({ summary: 'Generate course recommendations from a natural language prompt' })
   @ApiOkResponse({ type: GenerateResponseDto })
