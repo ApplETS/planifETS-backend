@@ -30,7 +30,7 @@ cp .env.example .env
 
 The default values work out of the box for Docker. The compose file connects the app to the `db` service automatically, so you do not need to change `DATABASE_URL` for container-based development.
 
-> **Note:** On Windows, ports `3001` and `5432` may be reserved by Hyper-V. The compose file maps the app to host port `3501` and PostgreSQL to `5433` to avoid conflicts.
+> **Note:** On Windows, ports `3001` and `5432` may be reserved by Hyper-V. The compose file maps the app to host port `3001` and PostgreSQL to `5433` to avoid conflicts.
 
 ### 3. Start the stack
 
@@ -48,14 +48,14 @@ docker compose --profile production up --build
 
 Once running:
 
-- Swagger UI: `http://localhost:3501/api/docs`
-- Health check: `http://localhost:3501/api/health`
+- Swagger UI: `http://localhost:3001/api/docs`
+- Health check: `http://localhost:3001/api/health`
 
 ### 4. Populate the database
 
 Use Swagger to trigger the development-only jobs endpoint:
 
-1. Open `http://localhost:3501/api/docs`
+1. Open `http://localhost:3001/api/docs`
 2. Find `POST /api/jobs/run-workers`
 3. Run it with the default request body to execute the full pipeline
 
