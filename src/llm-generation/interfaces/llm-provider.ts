@@ -21,7 +21,7 @@ export abstract class LlmProvider {
     this.name = `${providerName} (${modelName})`;
   }
 
-  public async generate(prompt: string, signal: AbortSignal): Promise<LlmGenerationResponse> {
+  public async complete(prompt: string, signal: AbortSignal): Promise<LlmGenerationResponse> {
     const fullPrompt = `${prompt}\n${JSON_FORMAT_INSTRUCTION}`;
 
     const response = await fetch(this.getUrl(), {

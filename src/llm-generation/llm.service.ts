@@ -49,7 +49,7 @@ export class LlmService {
           const controller = new AbortController();
           const timeout = setTimeout(() => controller.abort(), provider.timeoutMs ?? this.timeoutMs);
           try {
-            await provider.generate(testPrompt, controller.signal);
+            await provider.complete(testPrompt, controller.signal);
           } finally {
             clearTimeout(timeout);
           }
@@ -62,7 +62,7 @@ export class LlmService {
     );
   }
 
-  public async generate(prompt: string): Promise<LlmGenerationResponse> {
+  public async recommend(prompt: string): Promise<LlmGenerationResponse> {
     this.logger.debug(`Retrieving courses for prompt: "${prompt}"`);
     const courses = await this.courseRetriever.retrieveCourses(prompt);
     this.logger.log(
@@ -94,7 +94,7 @@ export class LlmService {
 
         this.logger.debug(`Attempting generation with ${provider.name}`);
         try {
-          return await provider.generate(enrichedPrompt, controller.signal);
+          return await provider.complete(enrichedPrompt, controller.signal);
         } finally {
           clearTimeout(timeout);
         }
