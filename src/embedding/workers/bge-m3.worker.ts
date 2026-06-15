@@ -57,7 +57,7 @@ type TensorLike = {
 };
 
 type FeatureExtractionOptions = {
-  pooling: 'mean';
+  pooling: 'mean' | 'cls';
   normalize: boolean;
   truncation?: boolean;
   max_length?: number;
@@ -68,8 +68,18 @@ type FeatureExtractor = (
   options: FeatureExtractionOptions,
 ) => Promise<TensorLike> | TensorLike;
 
+type ProgressInfo = {
+  status?: string;
+  name?: string;
+  file?: string;
+  progress?: number;
+  loaded?: number;
+  total?: number;
+};
+
 type PipelineOptions = {
   dtype?: string;
+  progress_callback?: (progress: ProgressInfo) => void;
 };
 
 type PipelineFactory = (
@@ -126,7 +136,7 @@ async function handleMessage(message: unknown): Promise<void> {
     logger.debug(`Request ${request.id}: running inference on ${request.texts.length} texts (max_length=1024)`);
     const inferenceStart = Date.now();
     const output = await extractor(request.texts, {
-      pooling: 'mean',
+      pooling: 'cls',
       normalize: true,
       truncation: true,
       max_length: 1024,
@@ -195,7 +205,15 @@ async function createExtractor(
     transformersModule.env.cacheDir = process.env.TRANSFORMERS_CACHE_DIR;
   }
 
-  const options: PipelineOptions = {};
+  const options: PipelineOptions = {
+    progress_callback: (progress) => {
+      if (progress.status === 'progress' && progress.file && progress.progress !== undefined) {
+        logger.debug(`Downloading ${progress.file}: ${progress.progress.toFixed(1)}%`);
+      } else if (progress.status === 'done' && progress.file) {
+        logger.log(`Downloaded ${progress.file}`);
+      }
+    },
+  };
 
   if (dtype) {
     options.dtype = dtype;
