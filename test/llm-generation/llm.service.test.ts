@@ -1,9 +1,14 @@
 import { Logger } from '@nestjs/common';
 
+import { CourseRetrieverService } from '../../src/embedding/course-retriever.service';
 import { LlmExhaustedException } from '../../src/llm-generation/exceptions/llm-exhausted.exception';
 import { LlmGenerationResponse } from '../../src/llm-generation/interfaces/llm-generation-response.interface';
 import { LlmProvider } from '../../src/llm-generation/interfaces/llm-provider';
 import { LlmService } from '../../src/llm-generation/llm.service';
+
+const mockCourseRetriever = {
+  retrieveCourses: jest.fn().mockResolvedValue([]),
+} as unknown as CourseRetrieverService;
 
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const NVIDIA_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
@@ -56,7 +61,7 @@ describe('LlmService', () => {
       process.env.GROQ_API_KEY = 'groq-key';
       process.env.GROQ_PRIMARY_MODEL = 'llama-3.3-70b-versatile';
 
-      const service = new LlmService();
+      const service = new LlmService(mockCourseRetriever);
 
       const providers = (service as unknown as { providers: LlmProvider[] }).providers;
       expect(providers).toHaveLength(1);
@@ -66,7 +71,7 @@ describe('LlmService', () => {
     it('excludes a provider when the API key is missing', () => {
       process.env.GROQ_PRIMARY_MODEL = 'llama-3.3-70b-versatile';
 
-      const service = new LlmService();
+      const service = new LlmService(mockCourseRetriever);
 
       expect((service as unknown as { providers: LlmProvider[] }).providers).toHaveLength(0);
     });
@@ -74,7 +79,7 @@ describe('LlmService', () => {
     it('excludes a provider when the model name is missing', () => {
       process.env.GROQ_API_KEY = 'groq-key';
 
-      const service = new LlmService();
+      const service = new LlmService(mockCourseRetriever);
 
       expect((service as unknown as { providers: LlmProvider[] }).providers).toHaveLength(0);
     });
@@ -82,7 +87,7 @@ describe('LlmService', () => {
     it('logs a warning when no providers are configured', () => {
       const warnSpy = jest.spyOn(Logger.prototype, 'warn').mockImplementation(() => {});
 
-      new LlmService();
+      new LlmService(mockCourseRetriever);
 
       expect(warnSpy).toHaveBeenCalledWith(
         expect.stringContaining('No LLM providers configured'),
@@ -98,7 +103,7 @@ describe('LlmService', () => {
       process.env.GEMINI_API_KEY = 'gemini-key';
       process.env.GEMINI_MODEL = 'gemini-2.0-flash';
 
-      const service = new LlmService();
+      const service = new LlmService(mockCourseRetriever);
 
       expect((service as unknown as { providers: LlmProvider[] }).providers).toHaveLength(4);
     });
@@ -106,13 +111,13 @@ describe('LlmService', () => {
     it('reads LLM_TIMEOUT_MS from the environment', () => {
       process.env.LLM_TIMEOUT_MS = '3000';
 
-      const service = new LlmService();
+      const service = new LlmService(mockCourseRetriever);
 
       expect((service as unknown as { timeoutMs: number }).timeoutMs).toBe(3000);
     });
 
     it('defaults the timeout to 10000 ms when LLM_TIMEOUT_MS is not set', () => {
-      const service = new LlmService();
+      const service = new LlmService(mockCourseRetriever);
 
       expect((service as unknown as { timeoutMs: number }).timeoutMs).toBe(10000);
     });
@@ -127,7 +132,7 @@ describe('LlmService', () => {
 
       fetchMock.mockReturnValue(okFetch(VALID_LLM_JSON));
 
-      const result = await new LlmService().generate('Suggest AI courses');
+      const result = await new LlmService(mockCourseRetriever).recommend('Suggest AI courses');
 
       expect(result).toEqual({
         courses: [{ code: 'LOG121' }],
@@ -147,7 +152,7 @@ describe('LlmService', () => {
         .mockReturnValueOnce(errorFetch(429, 'rate limited'))
         .mockReturnValueOnce(okFetch(VALID_LLM_JSON));
 
-      const result = await new LlmService().generate('Suggest AI courses');
+      const result = await new LlmService(mockCourseRetriever).recommend('Suggest AI courses');
 
       expect(result).toEqual({
         courses: [{ code: 'LOG121' }],
@@ -168,7 +173,7 @@ describe('LlmService', () => {
         .mockRejectedValueOnce(new Error('ECONNREFUSED'))
         .mockReturnValueOnce(okFetch(VALID_LLM_JSON));
 
-      const result = await new LlmService().generate('Suggest AI courses');
+      const result = await new LlmService(mockCourseRetriever).recommend('Suggest AI courses');
 
       expect(result).toEqual({
         courses: [{ code: 'LOG121' }],
@@ -189,7 +194,7 @@ describe('LlmService', () => {
         .mockRejectedValueOnce(new Error('fallback Groq down'))
         .mockReturnValueOnce(okFetch(VALID_LLM_JSON));
 
-      const result = await new LlmService().generate('Suggest AI courses');
+      const result = await new LlmService(mockCourseRetriever).recommend('Suggest AI courses');
 
       expect(result).toEqual({
         courses: [{ code: 'LOG121' }],
@@ -207,7 +212,7 @@ describe('LlmService', () => {
 
       fetchMock.mockRejectedValue(new Error('all down'));
 
-      await expect(new LlmService().generate('Suggest AI courses')).rejects.toThrow(
+      await expect(new LlmService(mockCourseRetriever).recommend('Suggest AI courses')).rejects.toThrow(
         LlmExhaustedException,
       );
       expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -216,7 +221,7 @@ describe('LlmService', () => {
     it('throws LlmExhaustedException immediately when no providers are configured', async () => {
       jest.spyOn(Logger.prototype, 'warn').mockImplementation(() => {});
 
-      await expect(new LlmService().generate('Suggest AI courses')).rejects.toThrow(
+      await expect(new LlmService(mockCourseRetriever).recommend('Suggest AI courses')).rejects.toThrow(
         LlmExhaustedException,
       );
       expect(fetchMock).not.toHaveBeenCalled();
@@ -233,7 +238,7 @@ describe('LlmService', () => {
         .mockReturnValueOnce(okFetch(VALID_LLM_JSON));
 
       const warnSpy = jest.spyOn(Logger.prototype, 'warn').mockImplementation(() => {});
-      await new LlmService().generate('Suggest AI courses');
+      await new LlmService(mockCourseRetriever).recommend('Suggest AI courses');
 
       expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Groq'));
     });
@@ -244,14 +249,14 @@ describe('LlmService', () => {
       process.env.NVIDIA_API_KEY = 'nvidia-key';
       process.env.NVIDIA_MODEL = 'nvidia-llama';
 
-      const service = new LlmService();
+      const service = new LlmService(mockCourseRetriever);
       const [groqProvider, nvidiaProvider] = (service as unknown as { providers: LlmProvider[] }).providers;
 
       // Force a short per-provider timeout (provider.timeoutMs takes precedence over LLM_TIMEOUT_MS)
       (groqProvider as unknown as { timeoutMs: number }).timeoutMs = 50;
 
       // Groq hangs until its AbortSignal fires — simulates a slow provider
-      jest.spyOn(groqProvider, 'generate').mockImplementation(
+      jest.spyOn(groqProvider, 'complete').mockImplementation(
         (...args: unknown[]) =>
           new Promise<LlmGenerationResponse>((_, reject) => {
             (args[1] as AbortSignal).addEventListener('abort', () =>
@@ -259,32 +264,32 @@ describe('LlmService', () => {
             );
           }),
       );
-      jest.spyOn(nvidiaProvider, 'generate').mockResolvedValue({
+      jest.spyOn(nvidiaProvider, 'complete').mockResolvedValue({
         courses: [{ code: 'LOG121' }],
         explanation: 'These courses cover the fundamentals.',
       });
 
-      const result = await service.generate('Suggest AI courses');
+      const result = await service.recommend('Suggest AI courses');
 
       expect(result).toEqual({
         courses: [{ code: 'LOG121' }],
         explanation: 'These courses cover the fundamentals.',
       });
-      expect(groqProvider.generate).toHaveBeenCalledTimes(1);
-      expect(nvidiaProvider.generate).toHaveBeenCalledTimes(1);
+      expect(groqProvider.complete).toHaveBeenCalledTimes(1);
+      expect(nvidiaProvider.complete).toHaveBeenCalledTimes(1);
     }, 2000);
 
     it('throws LlmExhaustedException and the AbortSignal is marked aborted when every provider times out', async () => {
       process.env.GROQ_API_KEY = 'groq-key';
       process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
 
-      const service = new LlmService();
+      const service = new LlmService(mockCourseRetriever);
       const [groqProvider] = (service as unknown as { providers: LlmProvider[] }).providers;
 
       (groqProvider as unknown as { timeoutMs: number }).timeoutMs = 50;
 
       let capturedSignal: AbortSignal | undefined;
-      jest.spyOn(groqProvider, 'generate').mockImplementation(
+      jest.spyOn(groqProvider, 'complete').mockImplementation(
         (...args: unknown[]) => {
           const signal = args[1] as AbortSignal;
           capturedSignal = signal;
@@ -296,7 +301,7 @@ describe('LlmService', () => {
         },
       );
 
-      await expect(service.generate('Suggest AI courses')).rejects.toThrow(
+      await expect(service.recommend('Suggest AI courses')).rejects.toThrow(
         LlmExhaustedException,
       );
       expect(capturedSignal?.aborted).toBe(true);
@@ -310,7 +315,7 @@ describe('LlmService', () => {
 
       fetchMock.mockReturnValue(okFetch(VALID_LLM_JSON));
 
-      const statuses = await new LlmService().checkStatus();
+      const statuses = await new LlmService(mockCourseRetriever).checkStatus();
 
       expect(statuses).toHaveLength(1);
       expect(statuses[0]).toMatchObject({
@@ -327,7 +332,7 @@ describe('LlmService', () => {
 
       fetchMock.mockRejectedValue(new Error('Connection refused'));
 
-      const statuses = await new LlmService().checkStatus();
+      const statuses = await new LlmService(mockCourseRetriever).checkStatus();
 
       expect(statuses[0]).toMatchObject({
         status: 'error',
@@ -345,7 +350,7 @@ describe('LlmService', () => {
         .mockReturnValueOnce(okFetch(VALID_LLM_JSON))
         .mockRejectedValueOnce(new Error('NVIDIA unavailable'));
 
-      const statuses = await new LlmService().checkStatus();
+      const statuses = await new LlmService(mockCourseRetriever).checkStatus();
 
       expect(statuses).toHaveLength(2);
       expect(statuses.find((s) => s.name.includes('Groq'))?.status).toBe('ok');
@@ -355,7 +360,7 @@ describe('LlmService', () => {
     it('returns an empty array when no providers are configured', async () => {
       jest.spyOn(Logger.prototype, 'warn').mockImplementation(() => {});
 
-      const statuses = await new LlmService().checkStatus();
+      const statuses = await new LlmService(mockCourseRetriever).checkStatus();
 
       expect(statuses).toEqual([]);
     });
