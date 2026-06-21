@@ -113,6 +113,7 @@ export class EtsCourseService {
       this.httpService.get(getEtsCoursePageUrl(courseCode), {
         responseType: 'text',
         headers: { 'User-Agent': ETS_USER_AGENT },
+        timeout: 10_000,
       }),
     );
 
