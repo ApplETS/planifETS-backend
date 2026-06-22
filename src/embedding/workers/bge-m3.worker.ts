@@ -1,36 +1,6 @@
-import { createRequire } from 'node:module';
-import * as path from 'node:path';
-import { parentPort } from 'node:worker_threads';
-
 import { Logger } from '@nestjs/common';
 
 const logger = new Logger('bge-m3.worker');
-
-// onnxruntime-node's napi-v6 native binding cannot re-register with a new V8 isolate
-// after being loaded by a previous worker thread in the same process (dlopen keeps the
-// .node file mapped but NAPI init only ran for the first isolate). Redirect
-// require('onnxruntime-node') → onnxruntime-web so the WASM backend is used instead.
-// onnxruntime-web has no native .node binary and loads cleanly across worker threads.
-//
-// This redirect MUST be applied before @huggingface/transformers is imported, because
-// transformers.node.cjs statically requires onnxruntime-node at bundle load time.
-// We also pre-load and configure onnxruntime-web here so that when transformers triggers
-// the redirect, Node's module cache returns our already-configured instance.
-// (onnxruntime-web defaults to blob: URLs for WASM which are not supported in Node.js.)
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const _workerRequire = createRequire(__filename);
-const _nodeModule = _workerRequire('module') as { _load(id: string, ...rest: unknown[]): unknown };
-const _origModLoad = _nodeModule._load;
-_nodeModule._load = function (id: string, ...rest: unknown[]) {
-  return _origModLoad.apply(_nodeModule, [id === 'onnxruntime-node' ? 'onnxruntime-web' : id, ...rest]);
-};
-
-// Pre-load onnxruntime-web and set wasmPaths before transformers sees it for the first time.
-const _ortWeb = _workerRequire('onnxruntime-web') as {
-  env: { wasm: { wasmPaths?: string; numThreads?: number } };
-};
-_ortWeb.env.wasm.wasmPaths = path.dirname(_workerRequire.resolve('onnxruntime-web')) + path.sep;
-_ortWeb.env.wasm.numThreads = 1;
 
 type EmbedRequest = {
   id: number;
@@ -57,7 +27,7 @@ type TensorLike = {
 };
 
 type FeatureExtractionOptions = {
-  pooling: 'mean';
+  pooling: 'mean' | 'cls';
   normalize: boolean;
   truncation?: boolean;
   max_length?: number;
@@ -68,8 +38,25 @@ type FeatureExtractor = (
   options: FeatureExtractionOptions,
 ) => Promise<TensorLike> | TensorLike;
 
+type ProgressInfo = {
+  status?: string;
+  name?: string;
+  file?: string;
+  progress?: number;
+  loaded?: number;
+  total?: number;
+};
+
+type OnnxSessionOptions = {
+  intraOpNumThreads?: number;
+  interOpNumThreads?: number;
+};
+
 type PipelineOptions = {
   dtype?: string;
+  device?: string;
+  session_options?: OnnxSessionOptions;
+  progress_callback?: (progress: ProgressInfo) => void;
 };
 
 type PipelineFactory = (
@@ -92,13 +79,13 @@ type ExtractorState = {
 
 let extractorState: ExtractorState | null = null;
 
-if (parentPort === null) {
-  throw new Error('bge-m3.worker.ts must be executed as a worker thread.');
+if (typeof process.send !== 'function') {
+  throw new Error('bge-m3.worker.ts must be executed as a forked child process.');
 }
 
-const port = parentPort;
+const send = process.send.bind(process);
 
-port.on('message', (message: unknown) => {
+process.on('message', (message: unknown) => {
   void handleMessage(message);
 });
 
@@ -116,9 +103,17 @@ async function handleMessage(message: unknown): Promise<void> {
         vectors: [],
       };
 
-      port.postMessage(response);
+      send(response);
       return;
     }
+
+    const charLengths = request.texts.map((t) => t.length);
+    const charMin = Math.min(...charLengths);
+    const charMax = Math.max(...charLengths);
+    const charAvg = Math.round(charLengths.reduce((s, n) => s + n, 0) / charLengths.length);
+    logger.debug(
+      `Request ${request.id}: ${request.texts.length} texts — chars min=${charMin} avg=${charAvg} max=${charMax} (~tokens min=${Math.round(charMin / 4)} avg=${Math.round(charAvg / 4)} max=${Math.round(charMax / 4)})`,
+    );
 
     logger.debug(`Request ${request.id}: loading extractor for ${request.texts.length} texts`);
     const extractor = await getExtractor(request.model, request.dtype);
@@ -126,7 +121,7 @@ async function handleMessage(message: unknown): Promise<void> {
     logger.debug(`Request ${request.id}: running inference on ${request.texts.length} texts (max_length=1024)`);
     const inferenceStart = Date.now();
     const output = await extractor(request.texts, {
-      pooling: 'mean',
+      pooling: 'cls',
       normalize: true,
       truncation: true,
       max_length: 1024,
@@ -143,7 +138,7 @@ async function handleMessage(message: unknown): Promise<void> {
       vectors,
     };
 
-    port.postMessage(response);
+    send(response);
   } catch (error) {
     if (requestId === -1) {
       logger.error('Cannot reply: message had no valid id, dropping error response');
@@ -156,7 +151,7 @@ async function handleMessage(message: unknown): Promise<void> {
       error: formatError(error),
     };
 
-    port.postMessage(response);
+    send(response);
   }
 }
 
@@ -168,8 +163,6 @@ async function getExtractor(
 
   if (extractorState?.key !== key) {
     const promise = createExtractor(model, dtype);
-    // Reset on failure so the next request retries model loading instead of
-    // replaying the same rejection forever.
     promise.catch(() => {
       if (extractorState?.key === key) {
         extractorState = null;
@@ -195,7 +188,23 @@ async function createExtractor(
     transformersModule.env.cacheDir = process.env.TRANSFORMERS_CACHE_DIR;
   }
 
-  const options: PipelineOptions = {};
+  const numThreads = Number.parseInt(process.env.EMBEDDING_ORT_THREADS ?? '2', 10);
+  logger.log(`ONNX session threads: ${numThreads}`);
+
+  const options: PipelineOptions = {
+    device: 'cpu',
+    session_options: {
+      intraOpNumThreads: numThreads,
+      interOpNumThreads: 1,
+    },
+    progress_callback: (progress) => {
+      if (progress.status === 'progress' && progress.file && progress.progress !== undefined) {
+        logger.debug(`Downloading ${progress.file}: ${progress.progress.toFixed(1)}%`);
+      } else if (progress.status === 'done' && progress.file) {
+        logger.log(`Downloaded ${progress.file}`);
+      }
+    },
+  };
 
   if (dtype) {
     options.dtype = dtype;

@@ -5,6 +5,8 @@ services:
       target: production
     ports:
       - "${PORT:-3501}:${PORT:-3001}"
+    volumes:
+      - transformers-cache:/transformers-cache
     environment:
       DATABASE_URL: ${DATABASE_URL}
       APP_ENV: production
@@ -19,6 +21,7 @@ services:
       NVIDIA_MODEL: ${NVIDIA_MODEL:-meta/llama-3.3-70b-instruct}
       GEMINI_API_KEY: ${GEMINI_API_KEY}
       GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash-lite}
+      TRANSFORMERS_CACHE_DIR: /transformers-cache
     depends_on:
       db:
         condition: service_healthy
@@ -47,11 +50,12 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-      - transformers-cache:/app/.cache/transformers
+      - transformers-cache:/transformers-cache
     env_file:
       - .env
     environment:
       APP_ENV: development
+      TRANSFORMERS_CACHE_DIR: /transformers-cache
       CHOKIDAR_USEPOLLING: "true"
       CHOKIDAR_INTERVAL: "100"
       FORCE_POLLING: "true"

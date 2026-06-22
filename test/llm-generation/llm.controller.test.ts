@@ -10,7 +10,7 @@ describe('LlmController', () => {
   let app: INestApplication;
   const llmService = {
     checkStatus: jest.fn(),
-    generate: jest.fn(),
+    recommend: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -52,52 +52,52 @@ describe('LlmController', () => {
     });
   });
 
-  describe('POST /chatbot/generate', () => {
+  describe('POST /chatbot/recommend', () => {
     it('returns 200 with the LLM generation result', async () => {
       const response = { courses: [{ code: 'LOG121' }], explanation: 'Great choice.' };
-      llmService.generate.mockResolvedValue(response);
+      llmService.recommend.mockResolvedValue(response);
 
       const { status, body } = await request(app.getHttpServer())
-        .post('/chatbot/generate')
+        .post('/chatbot/recommend')
         .send({ prompt: 'I want to learn AI' });
 
       expect(status).toBe(200);
       expect(body).toEqual(response);
-      expect(llmService.generate).toHaveBeenCalledWith('I want to learn AI');
+      expect(llmService.recommend).toHaveBeenCalledWith('I want to learn AI');
     });
 
     it('returns 400 when the prompt field is missing', async () => {
       const { status } = await request(app.getHttpServer())
-        .post('/chatbot/generate')
+        .post('/chatbot/recommend')
         .send({});
 
       expect(status).toBe(400);
-      expect(llmService.generate).not.toHaveBeenCalled();
+      expect(llmService.recommend).not.toHaveBeenCalled();
     });
 
     it('returns 400 when the prompt is an empty string', async () => {
       const { status } = await request(app.getHttpServer())
-        .post('/chatbot/generate')
+        .post('/chatbot/recommend')
         .send({ prompt: '' });
 
       expect(status).toBe(400);
-      expect(llmService.generate).not.toHaveBeenCalled();
+      expect(llmService.recommend).not.toHaveBeenCalled();
     });
 
     it('returns 400 when the prompt is not a string', async () => {
       const { status } = await request(app.getHttpServer())
-        .post('/chatbot/generate')
+        .post('/chatbot/recommend')
         .send({ prompt: 42 });
 
       expect(status).toBe(400);
-      expect(llmService.generate).not.toHaveBeenCalled();
+      expect(llmService.recommend).not.toHaveBeenCalled();
     });
 
     it('returns 500 when all LLM providers are exhausted', async () => {
-      llmService.generate.mockRejectedValue(new LlmExhaustedException());
+      llmService.recommend.mockRejectedValue(new LlmExhaustedException());
 
       const { status } = await request(app.getHttpServer())
-        .post('/chatbot/generate')
+        .post('/chatbot/recommend')
         .send({ prompt: 'I want to learn AI' });
 
       expect(status).toBe(500);

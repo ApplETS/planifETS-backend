@@ -1,6 +1,7 @@
+import type { ChildProcess } from 'node:child_process';
+import { fork } from 'node:child_process';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { Worker } from 'node:worker_threads';
 
 import { Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
 
@@ -27,7 +28,7 @@ type EmbedWorkerMessage = EmbedWorkerSuccessMessage | EmbedWorkerFailureMessage;
 @Injectable()
 export class EmbeddingWorkerClient implements OnModuleDestroy {
   private readonly logger = new Logger(EmbeddingWorkerClient.name);
-  private worker: Worker | null = null;
+  private worker: ChildProcess | null = null;
   private workerTerminating = false;
   private readonly pending = new Map<number, PendingRequest>();
   private nextRequestId = 1;
@@ -42,25 +43,25 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
     return workerPath;
   }
 
-  private createWorker(): Worker {
+  private createWorker(): ChildProcess {
     const workerPath = this.getWorkerPath();
     this.logger.log(`Starting embedding worker from: ${workerPath}`);
 
-    const worker = new Worker(workerPath, {
-      env: process.env,
+    const child = fork(workerPath, [], {
+      env: process.env as NodeJS.ProcessEnv,
     });
 
-    worker.on('message', (message: unknown) => {
+    child.on('message', (message: unknown) => {
       this.handleWorkerMessage(message);
     });
 
-    worker.on('error', (error: Error) => {
+    child.on('error', (error: Error) => {
       this.logger.error(`Embedding worker error: ${error.message}`, error.stack);
       this.rejectAll(error);
       this.worker = null;
     });
 
-    worker.on('exit', (code: number) => {
+    child.on('exit', (code: number | null) => {
       if (code !== 0 && !this.workerTerminating) {
         const error = new Error(`Embedding worker exited with code ${code}`);
         this.logger.error(error.message);
@@ -70,10 +71,10 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
       this.worker = null;
     });
 
-    return worker;
+    return child;
   }
 
-  private getWorker(): Worker {
+  private getWorker(): ChildProcess {
     if (!this.worker) {
       this.worker = this.createWorker();
     }
@@ -100,11 +101,8 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
 
         const error = new Error(`Embedding worker timed out after ${timeoutMs}ms (request ${id}).`);
         this.logger.error(error.message + ' Terminating worker.');
-        this.worker?.terminate().then(() => {
-          this.worker = null;
-        }).catch(() => {
-          this.worker = null;
-        });
+        this.worker?.kill();
+        this.worker = null;
 
         reject(error);
       }, timeoutMs);
@@ -112,17 +110,17 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
       this.pending.set(id, { resolve, reject, timer });
 
       this.logger.debug(`Posting embed request ${id}: ${texts.length} texts, model=${model}, dtype=${dtype}, timeout=${timeoutMs}ms`);
-      this.getWorker().postMessage({ id, texts, model, dtype });
+      this.getWorker().send({ id, texts, model, dtype });
     });
   }
 
-  public async onModuleDestroy(): Promise<void> {
+  public onModuleDestroy(): void {
     if (!this.worker) {
       return;
     }
 
     this.workerTerminating = true;
-    await this.worker.terminate();
+    this.worker.kill();
     this.worker = null;
   }
 

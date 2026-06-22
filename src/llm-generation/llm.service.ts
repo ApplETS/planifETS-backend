@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
+import { CourseRetrieverService } from '../embedding/course-retriever.service';
 import { ProviderStatusDto } from './dtos/generate.dto';
 import { LlmExhaustedException } from './exceptions/llm-exhausted.exception';
 import { LlmGenerationResponse } from './interfaces/llm-generation-response.interface';
@@ -23,7 +24,7 @@ export class LlmService {
     return new Provider(model, apiKey);
   }
 
-  constructor() {
+  constructor(private readonly courseRetriever: CourseRetrieverService) {
     this.timeoutMs = Number.parseInt(process.env.LLM_TIMEOUT_MS || '10000', 10);
 
     this.providers = [
@@ -48,7 +49,7 @@ export class LlmService {
           const controller = new AbortController();
           const timeout = setTimeout(() => controller.abort(), provider.timeoutMs ?? this.timeoutMs);
           try {
-            await provider.generate(testPrompt, controller.signal);
+            await provider.complete(testPrompt, controller.signal);
           } finally {
             clearTimeout(timeout);
           }
@@ -61,7 +62,29 @@ export class LlmService {
     );
   }
 
-  public async generate(prompt: string): Promise<LlmGenerationResponse> {
+  public async recommend(prompt: string): Promise<LlmGenerationResponse> {
+    this.logger.debug(`Retrieving courses for prompt: "${prompt}"`);
+    const courses = await this.courseRetriever.retrieveCourses(prompt);
+    this.logger.log(
+      `Retrieved ${courses.length} courses:\n` +
+      courses.map((c) => `  [${c.score.toFixed(3)}] ${c.code} – ${c.title}`).join('\n'),
+    );
+
+    const courseContext = courses
+      .map((c) => `- [${c.code}] ${c.title}: ${c.description}`)
+      .join('\n');
+
+    const enrichedPrompt =
+      `You are a course recommendation assistant at ÉTS university.
+      Based on the following courses retrieved, recommend the most relevant ones for the user's request.
+
+      AVAILABLE COURSES:
+      ${courseContext}
+
+      USER REQUEST:
+      ${prompt}
+      `;
+
     let lastError: Error | undefined;
 
     for (const provider of this.providers) {
@@ -71,7 +94,7 @@ export class LlmService {
 
         this.logger.debug(`Attempting generation with ${provider.name}`);
         try {
-          return await provider.generate(prompt, controller.signal);
+          return await provider.complete(enrichedPrompt, controller.signal);
         } finally {
           clearTimeout(timeout);
         }

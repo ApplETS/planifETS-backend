@@ -4487,6 +4487,16 @@ global-agent@^3.0.0:
     semver "^7.3.2"
     serialize-error "^7.0.1"
 
+global-agent@^4.1.3:
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/global-agent/-/global-agent-4.1.3.tgz#318a8a132fcf76c74adb27de2e1466d7e9241125"
+  integrity sha512-KUJEViiuFT3I97t+GYMikLPJS2Lfo/S2F+DQuBWzuzaMPnvt5yyZePzArx36fBzpGTxZjIpDbXLeySLgh+k76g==
+  dependencies:
+    globalthis "^1.0.2"
+    matcher "^4.0.0"
+    semver "^7.3.5"
+    serialize-error "^8.1.0"
+
 globals@^13.19.0:
   version "13.24.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-13.24.0.tgz#8432a19d78ce0c1e833949c36adb345400bb1171"
@@ -4494,7 +4504,7 @@ globals@^13.19.0:
   dependencies:
     type-fest "^0.20.2"
 
-globalthis@^1.0.1, globalthis@^1.0.4:
+globalthis@^1.0.1, globalthis@^1.0.2, globalthis@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/globalthis/-/globalthis-1.0.4.tgz#7430ed3a975d97bfb59bcce41f5cabbafa651236"
   integrity sha512-DpLKbNU4WylpxJykQujfCcwYWiV/Jhm50Goo0wrVILAv5jOr9d+H+UR3PhSCD2rCCEIg0uc+G+muBTwD54JhDQ==
@@ -5719,6 +5729,13 @@ matcher@^3.0.0:
   dependencies:
     escape-string-regexp "^4.0.0"
 
+matcher@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/matcher/-/matcher-4.0.0.tgz#a42a05a09aaed92e2d241eb91fddac689461ea51"
+  integrity sha512-S6x5wmcDmsDRRU/c2dkccDwQPXoFczc5+HpQ2lON8pnvHlnvHAHj5WlLVvw6n6vNyHuVugYrFohYxbS+pvFpKQ==
+  dependencies:
+    escape-string-regexp "^4.0.0"
+
 math-intrinsics@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/math-intrinsics/-/math-intrinsics-1.1.0.tgz#a0dd74be81e2aa5c2f27e65ce283605ee4e2b7f9"
@@ -6033,6 +6050,11 @@ onnxruntime-common@1.24.3:
   resolved "https://registry.yarnpkg.com/onnxruntime-common/-/onnxruntime-common-1.24.3.tgz#fb93319a2d041fc9fe2a209167ba6ef2f1a47fee"
   integrity sha512-GeuPZO6U/LBJXvwdaqHbuUmoXiEdeCjWi/EG7Y1HNnDwJYuk6WUbNXpF6luSUY8yASul3cmUlLGrCCL1ZgVXqA==
 
+onnxruntime-common@1.27.0:
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/onnxruntime-common/-/onnxruntime-common-1.27.0.tgz#fdff2f9ab3d509148a0a8c8721a3b9f288b41ee9"
+  integrity sha512-3KxL5wIVqa8Ex08jxSzncm9CMgw8CjOFyOQ7SxvG9o0cVLlhTNKXyIQuTbtX4tGPJEf73OER2xrjt4HJSBL4ow==
+
 onnxruntime-node@1.24.3:
   version "1.24.3"
   resolved "https://registry.yarnpkg.com/onnxruntime-node/-/onnxruntime-node-1.24.3.tgz#ec8da99c335aa5ea95559a3ac1ae915a89541d5e"
@@ -6041,6 +6063,15 @@ onnxruntime-node@1.24.3:
     adm-zip "^0.5.16"
     global-agent "^3.0.0"
     onnxruntime-common "1.24.3"
+
+onnxruntime-node@^1.27.0:
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/onnxruntime-node/-/onnxruntime-node-1.27.0.tgz#2df9726b784e42c5e47e2b8a9d0f60562e8489f2"
+  integrity sha512-QEzGwrvNBgv4uPVdnbHsOGG4G6T96mdlcFI8aAKPjMU8wOPpVocPXb6k3QGkaZagVTv2G9Bnnbo6Z3JdXr1fQw==
+  dependencies:
+    adm-zip "^0.5.16"
+    global-agent "^4.1.3"
+    onnxruntime-common "1.27.0"
 
 onnxruntime-web@1.26.0-dev.20260416-b7804b056c:
   version "1.26.0-dev.20260416-b7804b056c"
@@ -6794,6 +6825,13 @@ serialize-error@^7.0.1:
   integrity sha512-8I8TjW5KMOKsZQTvoxjuSIa7foAwPWGOts+6o7sgjz41/qMD9VQHEDxi6PBvK2l0MXUmqZyNpUK+T2tQaaElvw==
   dependencies:
     type-fest "^0.13.1"
+
+serialize-error@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/serialize-error/-/serialize-error-8.1.0.tgz#3a069970c712f78634942ddd50fbbc0eaebe2f67"
+  integrity sha512-3NnuWfM6vBYoy5gZFvHiYsVbafvI9vZv/+jlIigFn4oP4zjNPK3LhcY0xSCgeb1a5L8jO71Mit9LlNoi2UfDDQ==
+  dependencies:
+    type-fest "^0.20.2"
 
 serve-static@~1.16.2:
   version "1.16.3"

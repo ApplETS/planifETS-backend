@@ -21,7 +21,7 @@ export class LlmController {
   @HttpCode(200)
   @ApiOperation({ summary: 'Generate course recommendations from a natural language prompt' })
   @ApiOkResponse({ type: GenerateResponseDto })
-  public async generate(@Body() body: GenerateDto): Promise<GenerateResponseDto> {
-    return this.llmService.generate(body.prompt);
+  public async recommend(@Body() body: GenerateDto): Promise<GenerateResponseDto> {
+    return this.llmService.recommend(body.prompt);
   }
 }

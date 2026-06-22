@@ -109,6 +109,9 @@ export class CoursesJobService {
         failedCourseCodes.push(...courseCodes);
       });
 
+      const processed = Math.min(index + CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE, coursesWithCodes.length);
+      this.logger.debug(`Description sync progress: ${processed}/${coursesWithCodes.length} (updated=${updatedCount}, failed=${failedCourseCodes.length})`);
+
       if (index + CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE < coursesWithCodes.length) {
         await this.delay(CoursesJobService.COURSE_DESCRIPTION_SYNC_BATCH_DELAY_MS);
       }

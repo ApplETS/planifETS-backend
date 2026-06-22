@@ -30,7 +30,7 @@ describe('LLM providers', () => {
     it('GroqProvider calls the Groq completions endpoint', async () => {
       fetchMock.mockReturnValue(okFetch(validJson));
 
-      await new GroqProvider('llama-3.3', 'key').generate('test', new AbortController().signal);
+      await new GroqProvider('llama-3.3', 'key').complete('test', new AbortController().signal);
 
       expect(fetchMock).toHaveBeenCalledWith(GROQ_URL, expect.any(Object));
     });
@@ -38,7 +38,7 @@ describe('LLM providers', () => {
     it('NvidiaProvider calls the NVIDIA completions endpoint', async () => {
       fetchMock.mockReturnValue(okFetch(validJson));
 
-      await new NvidiaProvider('nvidia-llama', 'key').generate('test', new AbortController().signal);
+      await new NvidiaProvider('nvidia-llama', 'key').complete('test', new AbortController().signal);
 
       expect(fetchMock).toHaveBeenCalledWith(NVIDIA_URL, expect.any(Object));
     });
@@ -46,7 +46,7 @@ describe('LLM providers', () => {
     it('GeminiProvider calls the Gemini OpenAI-compatible endpoint', async () => {
       fetchMock.mockReturnValue(okFetch(validJson));
 
-      await new GeminiProvider('gemini-2.0-flash', 'key').generate('test', new AbortController().signal);
+      await new GeminiProvider('gemini-2.0-flash', 'key').complete('test', new AbortController().signal);
 
       expect(fetchMock).toHaveBeenCalledWith(GEMINI_URL, expect.any(Object));
     });
@@ -56,7 +56,7 @@ describe('LLM providers', () => {
     it('sends a POST with Authorization bearer token and JSON content-type', async () => {
       fetchMock.mockReturnValue(okFetch(validJson));
 
-      await new GroqProvider('llama-3.3', 'test-api-key').generate(
+      await new GroqProvider('llama-3.3', 'test-api-key').complete(
         'test',
         new AbortController().signal,
       );
@@ -76,7 +76,7 @@ describe('LLM providers', () => {
     it('GroqProvider includes response_format json_object in the request body', async () => {
       fetchMock.mockReturnValue(okFetch(validJson));
 
-      await new GroqProvider('llama-3.3', 'key').generate('test', new AbortController().signal);
+      await new GroqProvider('llama-3.3', 'key').complete('test', new AbortController().signal);
 
       const body = JSON.parse(fetchMock.mock.calls[0][1].body);
       expect(body.response_format).toEqual({ type: 'json_object' });
@@ -85,7 +85,7 @@ describe('LLM providers', () => {
     it('GeminiProvider includes response_format json_object in the request body', async () => {
       fetchMock.mockReturnValue(okFetch(validJson));
 
-      await new GeminiProvider('gemini-2.0-flash', 'key').generate('test', new AbortController().signal);
+      await new GeminiProvider('gemini-2.0-flash', 'key').complete('test', new AbortController().signal);
 
       const body = JSON.parse(fetchMock.mock.calls[0][1].body);
       expect(body.response_format).toEqual({ type: 'json_object' });
@@ -94,7 +94,7 @@ describe('LLM providers', () => {
     it('NvidiaProvider omits response_format from the request body', async () => {
       fetchMock.mockReturnValue(okFetch(validJson));
 
-      await new NvidiaProvider('nvidia-llama', 'key').generate('test', new AbortController().signal);
+      await new NvidiaProvider('nvidia-llama', 'key').complete('test', new AbortController().signal);
 
       const body = JSON.parse(fetchMock.mock.calls[0][1].body);
       expect(body.response_format).toBeUndefined();
@@ -103,7 +103,7 @@ describe('LLM providers', () => {
     it('sends the user prompt inside the messages array', async () => {
       fetchMock.mockReturnValue(okFetch(validJson));
 
-      await new GroqProvider('llama-3.3', 'key').generate(
+      await new GroqProvider('llama-3.3', 'key').complete(
         'Suggest AI courses',
         new AbortController().signal,
       );
@@ -117,7 +117,7 @@ describe('LLM providers', () => {
     it('appends JSON format instructions to the user prompt', async () => {
       fetchMock.mockReturnValue(okFetch(validJson));
 
-      await new GroqProvider('llama-3.3', 'key').generate(
+      await new GroqProvider('llama-3.3', 'key').complete(
         'my prompt',
         new AbortController().signal,
       );
@@ -132,7 +132,7 @@ describe('LLM providers', () => {
       fetchMock.mockReturnValue(okFetch(validJson));
 
       const controller = new AbortController();
-      await new GroqProvider('llama-3.3', 'key').generate('test', controller.signal);
+      await new GroqProvider('llama-3.3', 'key').complete('test', controller.signal);
 
       expect(fetchMock).toHaveBeenCalledWith(
         expect.any(String),
@@ -145,7 +145,7 @@ describe('LLM providers', () => {
     it('parses a valid JSON response and returns courses and explanation', async () => {
       fetchMock.mockReturnValue(okFetch(validJson));
 
-      const result = await new GroqProvider('llama-3.3', 'key').generate(
+      const result = await new GroqProvider('llama-3.3', 'key').complete(
         'test',
         new AbortController().signal,
       );
@@ -157,7 +157,7 @@ describe('LLM providers', () => {
       const wrappedJson = `\`\`\`json\n${validJson}\n\`\`\``;
       fetchMock.mockReturnValue(okFetch(wrappedJson));
 
-      const result = await new GroqProvider('llama-3.3', 'key').generate(
+      const result = await new GroqProvider('llama-3.3', 'key').complete(
         'test',
         new AbortController().signal,
       );
@@ -169,7 +169,7 @@ describe('LLM providers', () => {
       fetchMock.mockReturnValue(okFetch('not valid json'));
 
       await expect(
-        new GroqProvider('llama-3.3', 'key').generate('test', new AbortController().signal),
+        new GroqProvider('llama-3.3', 'key').complete('test', new AbortController().signal),
       ).rejects.toThrow(/Failed to parse.*JSON response/);
     });
   });
@@ -183,7 +183,7 @@ describe('LLM providers', () => {
       } as Response);
 
       await expect(
-        new GroqProvider('llama-3.3', 'key').generate('test', new AbortController().signal),
+        new GroqProvider('llama-3.3', 'key').complete('test', new AbortController().signal),
       ).rejects.toThrow(/429.*rate limit exceeded/);
     });
 
@@ -198,7 +198,7 @@ describe('LLM providers', () => {
         }),
       );
 
-      const generatePromise = new GroqProvider('llama-3.3', 'key').generate(
+      const generatePromise = new GroqProvider('llama-3.3', 'key').complete(
         'test',
         controller.signal,
       );
