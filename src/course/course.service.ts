@@ -50,6 +50,10 @@ export class CourseService {
     return this.prisma.course.findMany();
   }
 
+  public async countCourses(): Promise<number> {
+    return this.prisma.course.count();
+  }
+
   public async getCoursesForDescriptionSync(): Promise<
     Pick<Course, 'id' | 'code' | 'description'>[]
   > {

@@ -80,6 +80,13 @@ export class CourseController {
 
 
 
+  @Get('count')
+  @ApiOperation({ summary: 'Returns the total number of courses' })
+  @ApiOkResponse({ description: 'Total course count', type: Number })
+  public countCourses(): Promise<number> {
+    return this.courseService.countCourses();
+  }
+
   @Get('codes')
   @ApiOkResponse({ type: [CourseDto] })
   @ApiQuery({
