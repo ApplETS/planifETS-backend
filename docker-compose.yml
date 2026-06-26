@@ -72,6 +72,8 @@ services:
       timeout: 5s
       retries: 5
 
+  # Qdrant is deployed separately via planifets-chatbot ArgoCD app in k8s.
+  # This service is for local dev only (e.g. testing yarn seed:qdrant).
   qdrant:
     image: qdrant/qdrant:latest
     ports:
