@@ -27,6 +27,7 @@
     "test:integration": "jest --config ./jest/integration.config.mjs",
     "test:all": "yarn test && yarn test:integration && yarn test:e2e",
     "test:e2e": "jest --config ./jest/e2e.config.mjs",
+    "seed:qdrant": "ts-node seed/qdrant/seed-qdrant.ts",
     "knip": "knip",
     "unused": "knip --use-tsconfig-files"
   },
@@ -42,6 +43,7 @@
     "@nestjs/schedule": "^4.1.1",
     "@nestjs/swagger": "^11.2.6",
     "@prisma/client": "^5.22.0",
+    "@qdrant/js-client-rest": "^1.18.0",
     "@types/unzipper": "^0.10.10",
     "axios": "^1.13.5",
     "cheerio": "^1.2.0",
