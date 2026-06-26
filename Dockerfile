@@ -43,6 +43,7 @@ COPY prisma ./prisma
 RUN yarn install --production --frozen-lockfile --ignore-scripts
 
 COPY --from=build /app/dist ./dist
+COPY seed ./seed
 
 # Generate Prisma Client
 RUN yarn prisma:generate

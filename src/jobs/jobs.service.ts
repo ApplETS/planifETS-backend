@@ -1,12 +1,33 @@
 import { join } from 'node:path';
 import { isMainThread, Worker } from 'node:worker_threads';
 
-import { Injectable, Logger } from '@nestjs/common';
-import { Cron, CronExpression, Timeout } from '@nestjs/schedule';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { SchedulerRegistry, Timeout } from '@nestjs/schedule';
+import { CronJob } from 'cron';
+
+const DEFAULT_JOBS_CRON = '0 */12 * * *'; // every 12 hours
 
 @Injectable()
-export class JobsService {
+export class JobsService implements OnModuleInit {
   private readonly logger = new Logger(JobsService.name);
+
+  constructor(private readonly schedulerRegistry: SchedulerRegistry) {}
+
+  public onModuleInit() {
+    const cronExpression = process.env.JOBS_CRON_SCHEDULE || DEFAULT_JOBS_CRON;
+    this.logger.log(`Registering jobs cron: ${cronExpression}`);
+
+    const job = new CronJob(
+      cronExpression,
+      () => this.processJobs(),
+      null,
+      false,
+      'America/Toronto',
+    );
+
+    this.schedulerRegistry.addCronJob('data-aggregation', job);
+    job.start();
+  }
 
   public runWorker<T>(serviceName: string, methodName: string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
@@ -49,7 +70,6 @@ export class JobsService {
     await this.processJobs();
   }
 
-  @Cron(CronExpression.EVERY_12_HOURS, { timeZone: 'America/Toronto' })
   public async processJobs(): Promise<void> {
     this.logger.log('Starting sequential job processing...');
     this.logger.debug('Are we on the main thread?', isMainThread ? 'Yes' : 'No');

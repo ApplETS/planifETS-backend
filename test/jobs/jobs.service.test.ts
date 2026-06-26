@@ -1,3 +1,4 @@
+import { SchedulerRegistry } from '@nestjs/schedule';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { JobsService } from '../../src/jobs/jobs.service';
@@ -11,7 +12,7 @@ describe('JobsService', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
     const module: TestingModule = await Test.createTestingModule({
-      providers: [JobsService],
+      providers: [JobsService, SchedulerRegistry],
     }).compile();
     service = module.get<JobsService>(JobsService);
     runWorkerSpy = jest.spyOn(service as unknown as { runWorker: JobsService['runWorker'] }, 'runWorker');
