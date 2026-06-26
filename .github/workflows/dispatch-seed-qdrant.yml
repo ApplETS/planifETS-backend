@@ -1,0 +1,66 @@
+name: Seed Qdrant
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment"
+        required: true
+        type: choice
+        options:
+          - dev
+          - staging
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  seed-qdrant:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set namespace
+        id: ns
+        run: |
+          if [ "${{ inputs.environment }}" = "dev" ]; then
+            echo "namespace=planifets-dev" >> "$GITHUB_OUTPUT"
+          else
+            echo "namespace=planifets-staging" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+
+      - name: Delete previous Job if exists
+        run: |
+          kubectl delete job seed-qdrant \
+            --namespace=${{ steps.ns.outputs.namespace }} \
+            --ignore-not-found=true
+
+      - name: Apply seed Job
+        run: |
+          kubectl apply -f k8s/jobs/seed-qdrant-courses.k8s.job.yaml \
+            --namespace=${{ steps.ns.outputs.namespace }}
+
+      - name: Wait for Job completion
+        run: |
+          kubectl wait --for=condition=complete job/seed-qdrant \
+            --namespace=${{ steps.ns.outputs.namespace }} \
+            --timeout=120s
+
+      - name: Print Job logs
+        if: always()
+        run: |
+          kubectl logs job/seed-qdrant \
+            --namespace=${{ steps.ns.outputs.namespace }} \
+            --tail=100

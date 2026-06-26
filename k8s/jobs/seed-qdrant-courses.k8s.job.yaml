@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: seed-qdrant
+  labels:
+    app: planifets-backend
+    component: seed-qdrant
+spec:
+  ttlSecondsAfterFinished: 3600
+  backoffLimit: 2
+  template:
+    metadata:
+      labels:
+        app: planifets-backend
+        component: seed-qdrant
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: seed-qdrant
+          image: ghcr.io/clubcedille/planifets-backend:latest
+          command: ["yarn", "seed:qdrant"]
+          env:
+            - name: QDRANT_URL
+              value: "http://planifets-chatbot-qdrant:6333"
+            - name: QDRANT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: planifets-chatbot-secret
+                  key: qdrant_api_key
+            - name: QDRANT_COLLECTION
+              value: "courses"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
