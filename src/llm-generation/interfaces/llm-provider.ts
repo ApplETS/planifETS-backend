@@ -1,10 +1,12 @@
 import {LlmGenerationResponse} from './llm-generation-response.interface';
 
 const JSON_FORMAT_INSTRUCTION = `
-Respond ONLY with valid JSON matching this exact structure, no markdown code blocks:
+Respond ONLY with valid JSON matching this exact structure, no markdown code blocks.
+Match the language of the user's request for all values.
+Do not include any extra text or markdown.
 {
-  "courses": [{ "code": "<course code>", "reason": "<brief reason why this course is relevant>" }],
-  "explanation": "<explanation>"
+  "courses": [{ "code": "<course code>", "reason": "<brief reason why this course is relevant in the same language as the user's request>" }],
+  "explanation": "<brief explanation in the same language as the user's request>"
 }`;
 
 export abstract class LlmProvider {
