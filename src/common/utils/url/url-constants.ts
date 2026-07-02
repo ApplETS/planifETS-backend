@@ -38,3 +38,23 @@ export const getHorairePdfUrl = (
  */
 export const CHEMINOT_JAR_URL = 'https://CheminotJWS.etsmtl.ca/ChemiNotC.jar';
 export const CHEMINEMENTS_TXT_PATH = 'ressources/Cheminements.txt';
+
+/*
+ * PlanETS
+ */
+const PLANETS_BASE_URL = 'https://planets.etsmtl.ca/public/';
+
+// ÉTS sessions: 1 = hiver (winter), 2 = été (summer), 3 = automne (fall)
+export const getCurrentEtsSessionCode = (date: Date = new Date()): number => {
+  const month = date.getMonth(); // 0-11
+  const session = month <= 3 ? 1 : month <= 7 ? 2 : 3;
+
+  return date.getFullYear() * 10 + session;
+};
+
+export const getPlanetsCourseUrl = (
+  courseCode: string,
+  sessionCode: number = getCurrentEtsSessionCode(),
+): string => {
+  return `${PLANETS_BASE_URL}Versionpdf.aspx?session=${sessionCode}&sigle=${courseCode}`;
+};

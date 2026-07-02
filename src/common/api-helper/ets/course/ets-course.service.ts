@@ -1,9 +1,11 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Cheerio, load } from 'cheerio';
 import { Element } from 'domhandler';
 import { firstValueFrom } from 'rxjs';
 
+import { logHttpFetchFailure } from '@/common/utils/error/logHttpFetchFailure';
+import { htmlFragmentToPlainText } from '@/common/utils/html/htmlFragmentToPlainText';
 import {
   ETS_API_GET_ALL_COURSES,
   ETS_API_GET_COURSES_BY_IDS,
@@ -29,6 +31,8 @@ export interface ICourseWithCredits extends ICourses {
 
 @Injectable()
 export class EtsCourseService {
+  private readonly logger = new Logger(EtsCourseService.name);
+
   constructor(private readonly httpService: HttpService) {}
 
   public async fetchAllCoursesWithCredits(): Promise<ICourseWithCredits[]> {
@@ -109,18 +113,24 @@ export class EtsCourseService {
   public async fetchCourseDescriptionFromEtsWebsite(
     courseCode: string,
   ): Promise<string> {
-    const response = await firstValueFrom(
-      this.httpService.get(getEtsCoursePageUrl(courseCode), {
-        responseType: 'text',
-        headers: { 'User-Agent': ETS_USER_AGENT },
-        timeout: 10_000,
-      }),
-    );
+    let html: string;
 
-    const descriptionSection = this.extractDescriptionSection(
-      String(response.data),
-    );
-    const text = this.normalizeHtmlFragmentToPlainText(descriptionSection);
+    try {
+      const response = await firstValueFrom(
+        this.httpService.get(getEtsCoursePageUrl(courseCode), {
+          responseType: 'text',
+          headers: { 'User-Agent': ETS_USER_AGENT },
+          timeout: 10_000,
+        }),
+      );
+      html = String(response.data);
+    } catch (error) {
+      logHttpFetchFailure(this.logger, 'ETS website', courseCode, error);
+      throw error;
+    }
+
+    const descriptionSection = this.extractDescriptionSection(html, courseCode);
+    const text = htmlFragmentToPlainText(descriptionSection);
 
     if (!text) {
       throw new Error('Could not extract course description from ETS website');
@@ -129,7 +139,10 @@ export class EtsCourseService {
     return text;
   }
 
-  private extractDescriptionSection(html: string): Cheerio<Element> {
+  private extractDescriptionSection(
+    html: string,
+    courseCode: string,
+  ): Cheerio<Element> {
     const $ = load(html);
     const pageContentDescription = $('#page-content .c-fold__text.o-text').first();
     const descriptionContainer =
@@ -138,68 +151,14 @@ export class EtsCourseService {
         : $('.c-fold__text.o-text').first();
 
     if (descriptionContainer.length === 0) {
+      this.logger.warn(
+        `No description section found for course ${courseCode}. Page title="${$('title').first().text().trim()}" bodySnippet="${$('body').text().trim().slice(0, 200).replaceAll(/\s+/g, ' ')}"`,
+      );
       throw new Error('Could not extract course description from ETS website');
     }
 
     descriptionContainer.find('script, style, noscript').remove();
 
     return descriptionContainer;
-  }
-
-  private normalizeHtmlFragmentToPlainText(
-    descriptionSection: Cheerio<Element>,
-  ): string {
-    const $html = load(descriptionSection.clone().toString());
-    const rootNode = $html.root();
-
-    rootNode.find('script, style, noscript').remove();
-    rootNode.find('br').replaceWith('\n');
-    rootNode.find('li').each((_, element) => {
-      const item = $html(element);
-      item.prepend('- ');
-      item.append('\n');
-    });
-    rootNode.find('p, div, section, article, blockquote').append('\n\n');
-    rootNode.find('ul, ol').prepend('\n').append('\n\n');
-
-    const normalizedLines = rootNode.text()
-      .replaceAll('\r\n', '\n')
-      .replaceAll('\u00A0', ' ')
-      .split('\n')
-      .map((line) => line.replaceAll(/[ \t]+/g, ' ').trim());
-
-    const result: string[] = [];
-    for (const line of normalizedLines) {
-      const isEmpty = line.length === 0;
-
-      if (isEmpty) {
-        if (result.length === 0 || result.at(-1) === '') {
-          continue;
-        }
-        result.push('');
-        continue;
-      }
-
-      result.push(line);
-    }
-
-    while (result.at(-1) === '') {
-      result.pop();
-    }
-
-    const compactedResult = result.filter((line, index, lines) => {
-      if (line !== '') {
-        return true;
-      }
-
-      const previousLine = lines[index - 1] ?? null;
-      const nextLine = lines[index + 1] ?? null;
-
-      return !(
-        previousLine?.startsWith('- ') && nextLine?.startsWith('- ')
-      );
-    });
-
-    return compactedResult.join('\n');
   }
 }

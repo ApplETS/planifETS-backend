@@ -59,7 +59,16 @@ export class CourseService {
   > {
     this.logger.verbose('getCoursesForDescriptionSync');
 
+    // Fetch courses that are in cycle 1 and do not have a hyphen in their code (ex: SYS123-É25)
     return this.prisma.course.findMany({
+      where: {
+        cycle: 1,
+        code: {
+          not: {
+            contains: '-',
+          },
+        },
+      },
       select: {
         id: true,
         code: true,

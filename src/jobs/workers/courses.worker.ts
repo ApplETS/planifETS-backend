@@ -5,6 +5,7 @@ import { CheminotService } from '../../common/api-helper/cheminot/cheminot.servi
 import { Course as CourseCheminot } from '../../common/api-helper/cheminot/Course';
 import { Program as ProgramCheminot } from '../../common/api-helper/cheminot/Program';
 import { EtsCourseService } from '../../common/api-helper/ets/course/ets-course.service';
+import { EtsPlanetsService } from '../../common/api-helper/ets/course/ets-planets.service';
 import { CourseService } from '../../course/course.service';
 import { ProgramService } from '../../program/program.service';
 import { ProgramIncludeCourseIdsAndPrerequisitesDto } from '../../program/program.types';
@@ -19,6 +20,7 @@ export class CoursesJobService {
 
   constructor(
     private readonly etsCourseService: EtsCourseService,
+    private readonly etsPlanetsService: EtsPlanetsService,
     private readonly courseService: CourseService,
     private readonly programCourseService: ProgramCourseService,
     private readonly programService: ProgramService,
@@ -39,9 +41,7 @@ export class CoursesJobService {
     this.logger.log('Syncing course descriptions from ETS website...');
 
     const courses = await this.courseService.getCoursesForDescriptionSync();
-    let updatedCount = 0;
     let skippedCount = 0;
-    const failedCourseCodes: string[] = [];
 
     const coursesWithCodes: typeof courses = [];
 
@@ -56,21 +56,60 @@ export class CoursesJobService {
       coursesWithCodes.push(course);
     }
 
+    const firstPass = await this.processCourseBatches(coursesWithCodes, (code) =>
+      this.etsCourseService.fetchCourseDescriptionFromEtsWebsite(code),
+    );
+    let updatedCount = firstPass.updatedCount;
+    let failedCourseCodes = firstPass.failedCourseCodes;
+
+    if (failedCourseCodes.length > 0) {
+      const coursesByCode = new Map(
+        coursesWithCodes.map((course) => [course.code, course]),
+      );
+      const coursesToRetry = failedCourseCodes.map(
+        (code) => coursesByCode.get(code)!,
+      );
+
+      this.logger.debug(
+        `Retrying description sync for ${coursesToRetry.length} failed courses via PlanETS...`,
+      );
+      const retryPass = await this.processCourseBatches(coursesToRetry, (code) =>
+        this.etsPlanetsService.fetchCourseDescriptionFromPlanets(code),
+      );
+
+      updatedCount += retryPass.updatedCount;
+      failedCourseCodes = retryPass.failedCourseCodes;
+    }
+
+    this.logger.log(
+      `Course description sync completed. Processed ${courses.length} courses, updated ${updatedCount}, skipped ${skippedCount}, failed ${failedCourseCodes.length}.`,
+    );
+
+    if (failedCourseCodes.length > 0) {
+      this.logger.warn(
+        `Failed to sync descriptions for courses because they could not be found on the ETS website or their description could not be extracted: [${failedCourseCodes.join(', ')}]`,
+      );
+    }
+  }
+
+  private async processCourseBatches(
+    courses: Array<Pick<Course, 'id' | 'code' | 'description'>>,
+    fetchDescription: (courseCode: string) => Promise<string>,
+  ): Promise<{ updatedCount: number; failedCourseCodes: string[] }> {
+    let updatedCount = 0;
+    const failedCourseCodes: string[] = [];
+
     for (
       let index = 0;
-      index < coursesWithCodes.length;
+      index < courses.length;
       index += CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE
     ) {
-      const batch = coursesWithCodes.slice(
+      const batch = courses.slice(
         index,
         index + CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE,
       );
       const results = await Promise.allSettled(
-        batch.map((course) =>
-          this.etsCourseService.fetchCourseDescriptionFromEtsWebsite(
-            course.code,
-          ),
-        ),
+        batch.map((course) => fetchDescription(course.code)),
       );
       const coursesToUpdate: Array<Pick<Course, 'id' | 'code' | 'description'>> =
         [];
@@ -109,23 +148,15 @@ export class CoursesJobService {
         failedCourseCodes.push(...courseCodes);
       });
 
-      const processed = Math.min(index + CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE, coursesWithCodes.length);
-      this.logger.debug(`Description sync progress: ${processed}/${coursesWithCodes.length} (updated=${updatedCount}, failed=${failedCourseCodes.length})`);
+      const processed = Math.min(index + CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE, courses.length);
+      this.logger.debug(`Description sync progress: ${processed}/${courses.length} (updated=${updatedCount}, failed=${failedCourseCodes.length})`);
 
-      if (index + CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE < coursesWithCodes.length) {
+      if (index + CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE < courses.length) {
         await this.delay(CoursesJobService.COURSE_DESCRIPTION_SYNC_BATCH_DELAY_MS);
       }
     }
 
-    this.logger.log(
-      `Course description sync completed. Processed ${courses.length} courses, updated ${updatedCount}, skipped ${skippedCount}, failed ${failedCourseCodes.length}.`,
-    );
-
-    if (failedCourseCodes.length > 0) {
-      this.logger.warn(
-        `Failed to sync descriptions for courses because they could not be found on the ETS website or their description could not be extracted: [${failedCourseCodes.join(', ')}]`,
-      );
-    }
+    return { updatedCount, failedCourseCodes };
   }
 
   private async delay(milliseconds: number): Promise<void> {

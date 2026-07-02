@@ -202,6 +202,14 @@ describe('CourseService', () => {
       'getCoursesForDescriptionSync',
     );
     expect(prismaMock.course.findMany).toHaveBeenCalledWith({
+      where: {
+        cycle: 1,
+        code: {
+          not: {
+            contains: '-',
+          },
+        },
+      },
       select: {
         id: true,
         code: true,
