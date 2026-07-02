@@ -49,19 +49,28 @@ export class AppController {
   @Get('health')
   @ApiOperation({
     summary: 'Health check endpoint',
-    description: 'Returns a diagnostic view of the application and its dependencies',
+    description:
+      'Returns a diagnostic view of the application and its dependencies'
   })
   public async healthCheck(): Promise<DiagnosticHealthResponse> {
     const [postgres, frontend, qdrant] = await Promise.all([
       this.checkPostgresHealth(),
       this.checkHttpHealth(process.env.FRONTEND_URL, '/'),
-      this.checkHttpHealth(process.env.QDRANT_URL, '/healthz'),
+      this.checkHttpHealth(process.env.QDRANT_URL, '/healthz')
     ]);
 
-    const criticalStatuses = [postgres, qdrant].filter((service) => service.status !== 'unconfigured');
-    const hasCriticalFailure = criticalStatuses.some((service) => service.status !== 'ok');
+    const criticalStatuses = [postgres, qdrant].filter(
+      (service) => service.status !== 'unconfigured'
+    );
+    const hasCriticalFailure = criticalStatuses.some(
+      (service) => service.status !== 'ok'
+    );
     const hasNonCriticalFailure = frontend.status === 'down';
-    const healthStatus = hasCriticalFailure ? 'error' : hasNonCriticalFailure ? 'degraded' : 'ok';
+    const healthStatus = hasCriticalFailure
+      ? 'error'
+      : hasNonCriticalFailure
+        ? 'degraded'
+        : 'ok';
 
     return {
       status: healthStatus,
@@ -69,15 +78,16 @@ export class AppController {
       services: {
         frontend,
         postgres,
-        qdrant,
-      },
+        qdrant
+      }
     };
   }
 
   @Get('health/live')
   @ApiOperation({
     summary: 'Liveness probe endpoint',
-    description: 'Indicates that the process is running and able to serve requests',
+    description:
+      'Indicates that the process is running and able to serve requests'
   })
   public getLiveness(): { status: 'ok'; timestamp: string } {
     return {
@@ -89,12 +99,15 @@ export class AppController {
   @Get('health/ready')
   @ApiOperation({
     summary: 'Readiness probe endpoint',
-    description: 'Checks whether the backend can reach its required dependencies',
+    description:
+      'Checks whether the backend can reach its required dependencies'
   })
-  public async readinessCheck(@Res({ passthrough: true }) response: Response): Promise<ReadinessHealthResponse> {
+  public async readinessCheck(
+    @Res({ passthrough: true }) response: Response
+  ): Promise<ReadinessHealthResponse> {
     const [postgres, qdrant] = await Promise.all([
       this.checkPostgresHealth(),
-      this.checkHttpHealth(process.env.QDRANT_URL, '/healthz'),
+      this.checkHttpHealth(process.env.QDRANT_URL, '/healthz')
     ]);
 
     const isReady = postgres.status !== 'down' && qdrant.status !== 'down';
@@ -106,8 +119,8 @@ export class AppController {
       timestamp: new Date().toISOString(),
       services: {
         postgres,
-        qdrant,
-      },
+        qdrant
+      }
     };
   }
 
@@ -128,21 +141,24 @@ export class AppController {
 
       return {
         status: 'ok',
-        latencyMs: Date.now() - startedAt,
+        latencyMs: Date.now() - startedAt
       };
     } catch (error) {
       return {
         status: 'down',
         latencyMs: Date.now() - startedAt,
-        error: this.toErrorMessage(error),
+        error: this.toErrorMessage(error)
       };
     }
   }
 
-  private async checkHttpHealth(baseUrl: string | undefined, path: string): Promise<DependencyHealth> {
+  private async checkHttpHealth(
+    baseUrl: string | undefined,
+    path: string
+  ): Promise<DependencyHealth> {
     if (!baseUrl) {
       return {
-        status: 'unconfigured',
+        status: 'unconfigured'
       };
     }
 
@@ -152,7 +168,7 @@ export class AppController {
       const targetUrl = new URL(path, baseUrl);
       const response = await fetch(targetUrl, {
         method: 'GET',
-        signal: AbortSignal.timeout(2000),
+        signal: AbortSignal.timeout(2000)
       });
       const isHealthy = response.status >= 200 && response.status < 400;
 
@@ -161,14 +177,16 @@ export class AppController {
         url: targetUrl.toString(),
         statusCode: response.status,
         latencyMs: Date.now() - startedAt,
-        error: isHealthy ? undefined : `Unexpected status code ${response.status}`,
+        error: isHealthy
+          ? undefined
+          : `Unexpected status code ${response.status}`
       };
     } catch (error) {
       return {
         status: 'down',
         url: baseUrl,
         latencyMs: Date.now() - startedAt,
-        error: this.toErrorMessage(error),
+        error: this.toErrorMessage(error)
       };
     }
   }
