@@ -13,18 +13,17 @@ interface ServiceInstance {
 
 async function runJobWorker(
   serviceName: JobWorkerData['serviceName'],
-  methodName: JobWorkerData['methodName'],
+  methodName: JobWorkerData['methodName']
 ) {
-  const appContext = await NestFactory.createApplicationContext(
-    JobsModule,
-    {
-      logger: false, // this suppresses the default Nest logger since we'll use our custom logger instead
-    },
-  );
+  const appContext = await NestFactory.createApplicationContext(JobsModule, {
+    logger: false // this suppresses the default Nest logger since we'll use our custom logger instead
+  });
 
   try {
     const monitoring = appContext.get(PosthogMonitoringService);
-    appContext.useLogger(createAppLoggerFactory(monitoring, 'JobWorkerNestContext'));
+    appContext.useLogger(
+      createAppLoggerFactory(monitoring, 'JobWorkerNestContext')
+    );
 
     const ServiceClass = jobWorkerServiceMap[serviceName];
 
@@ -34,12 +33,9 @@ async function runJobWorker(
 
     const serviceInstance = appContext.get(ServiceClass) as ServiceInstance;
 
-    if (
-      !serviceInstance ||
-      typeof serviceInstance[methodName] !== 'function'
-    ) {
+    if (!serviceInstance || typeof serviceInstance[methodName] !== 'function') {
       throw new Error(
-        `Method ${methodName} not found on service ${serviceName}`,
+        `Method ${methodName} not found on service ${serviceName}`
       );
     }
 

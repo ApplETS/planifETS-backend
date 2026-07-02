@@ -15,7 +15,9 @@ export class EtsApiController {
   }
 
   @Get(':id')
-  public fetchCoursesById(@Param('id') id: string): Promise<CourseByIdEtsApiDto[]> {
+  public fetchCoursesById(
+    @Param('id') id: string
+  ): Promise<CourseByIdEtsApiDto[]> {
     if (!id) {
       throw new Error('The id parameter is required');
     }

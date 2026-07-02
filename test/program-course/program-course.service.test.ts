@@ -30,7 +30,7 @@ describe('ProgramCourseService', () => {
   const now = new Date('2026-03-26T00:00:00.000Z');
 
   const buildProgramCourse = (
-    overrides: Partial<ProgramCourse> = {},
+    overrides: Partial<ProgramCourse> = {}
   ): ProgramCourse => ({
     courseId,
     programId,
@@ -39,24 +39,24 @@ describe('ProgramCourseService', () => {
     unstructuredPrerequisite: null,
     createdAt: now,
     updatedAt: now,
-    ...overrides,
+    ...overrides
   });
 
   const buildProgramCourseWhere = ({
     customCourseId = courseId,
-    customProgramId = programId,
+    customProgramId = programId
   }: {
     customCourseId?: number;
     customProgramId?: number;
   } = {}): Prisma.ProgramCourseWhereUniqueInput => ({
     courseId_programId: {
       courseId: customCourseId,
-      programId: customProgramId,
-    },
+      programId: customProgramId
+    }
   });
 
   const buildProgramCourseCreateInput = (
-    overrides: Partial<Prisma.ProgramCourseCreateInput> = {},
+    overrides: Partial<Prisma.ProgramCourseCreateInput> = {}
   ): Prisma.ProgramCourseCreateInput =>
     ({
       program: { connect: { id: programId } },
@@ -64,22 +64,22 @@ describe('ProgramCourseService', () => {
       type: 'TRONC',
       typicalSessionIndex: 1,
       unstructuredPrerequisite: null,
-      ...overrides,
+      ...overrides
     }) as Prisma.ProgramCourseCreateInput;
 
   const buildProgramCourseUpdateParams = ({
     where = buildProgramCourseWhere(),
-    data = { type: 'CONCE' } as Prisma.ProgramCourseUpdateInput,
+    data = { type: 'CONCE' } as Prisma.ProgramCourseUpdateInput
   }: {
     where?: Prisma.ProgramCourseWhereUniqueInput;
     data?: Prisma.ProgramCourseUpdateInput;
   } = {}) => ({
     where,
-    data,
+    data
   });
 
   const buildProgramQueryResult = (
-    overrides: Partial<ProgramCoursesQueryResult> = {},
+    overrides: Partial<ProgramCoursesQueryResult> = {}
   ): ProgramCoursesQueryResult => ({
     id: programId,
     code: 'LOG',
@@ -96,28 +96,28 @@ describe('ProgramCourseService', () => {
           title: 'Introduction au genie logiciel',
           credits: 3,
           cycle: 1,
-          courseInstances: [],
+          courseInstances: []
         },
-        prerequisites: [],
-      },
+        prerequisites: []
+      }
     ],
-    ...overrides,
+    ...overrides
   });
 
   const buildMappedProgramCourses = (
-    overrides: Partial<ProgramCoursesDto> = {},
+    overrides: Partial<ProgramCoursesDto> = {}
   ): ProgramCoursesDto[] => [
-      {
-        programCode: 'LOG',
-        programTitle: 'Baccalaureat en genie logiciel',
-        courses: [],
-        ...overrides,
-      },
-    ];
+    {
+      programCode: 'LOG',
+      programTitle: 'Baccalaureat en genie logiciel',
+      courses: [],
+      ...overrides
+    }
+  ];
 
   const arrangeMappedPrograms = ({
     programs = [buildProgramQueryResult()],
-    mappedData = buildMappedProgramCourses(),
+    mappedData = buildMappedProgramCourses()
   }: {
     programs?: ProgramCoursesQueryResult[];
     mappedData?: ProgramCoursesDto[];
@@ -131,13 +131,13 @@ describe('ProgramCourseService', () => {
     return {
       mapperSpy,
       mappedData,
-      programs,
+      programs
     };
   };
 
   const buildProgramFindManySelectExpectation = ({
     includeId = true,
-    coursesWhere,
+    coursesWhere
   }: {
     includeId?: boolean;
     coursesWhere?: Prisma.ProgramCourseWhereInput;
@@ -149,7 +149,7 @@ describe('ProgramCourseService', () => {
       courses: expect.objectContaining({
         ...(coursesWhere ? { where: coursesWhere } : {}),
         orderBy: {
-          typicalSessionIndex: 'asc',
+          typicalSessionIndex: 'asc'
         },
         select: expect.objectContaining({
           courseId: true,
@@ -163,18 +163,18 @@ describe('ProgramCourseService', () => {
               title: true,
               credits: true,
               cycle: true,
-              courseInstances: expect.any(Object),
-            }),
+              courseInstances: expect.any(Object)
+            })
           },
-          prerequisites: expect.any(Object),
-        }),
-      }),
+          prerequisites: expect.any(Object)
+        })
+      })
     });
 
   const expectProgramFindManyCalledWith = ({
     where,
     includeId = true,
-    coursesWhere,
+    coursesWhere
   }: {
     where: Prisma.ProgramWhereInput;
     includeId?: boolean;
@@ -184,13 +184,15 @@ describe('ProgramCourseService', () => {
       where,
       select: buildProgramFindManySelectExpectation({
         includeId,
-        coursesWhere,
-      }),
+        coursesWhere
+      })
     });
   };
 
   const mockVerboseLogger = () =>
-    jest.spyOn(service['logger'], 'verbose').mockImplementation(() => undefined);
+    jest
+      .spyOn(service['logger'], 'verbose')
+      .mockImplementation(() => undefined);
 
   const mockErrorLogger = () =>
     jest.spyOn(service['logger'], 'error').mockImplementation(() => undefined);
@@ -203,11 +205,11 @@ describe('ProgramCourseService', () => {
         findMany: jest.fn(),
         create: jest.fn(),
         update: jest.fn(),
-        delete: jest.fn(),
+        delete: jest.fn()
       },
       program: {
-        findMany: jest.fn(),
-      },
+        findMany: jest.fn()
+      }
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -215,9 +217,9 @@ describe('ProgramCourseService', () => {
         ProgramCourseService,
         {
           provide: PrismaService,
-          useValue: prismaMock,
-        },
-      ],
+          useValue: prismaMock
+        }
+      ]
     }).compile();
 
     service = module.get<ProgramCourseService>(ProgramCourseService);
@@ -240,9 +242,9 @@ describe('ProgramCourseService', () => {
         credits: 3,
         description: 'Description',
         cycle: 1,
-        courseInstances: [],
+        courseInstances: []
       },
-      prerequisites: [],
+      prerequisites: []
     };
 
     prismaMock.programCourse.findFirst.mockResolvedValue(detailedProgramCourse);
@@ -253,7 +255,7 @@ describe('ProgramCourseService', () => {
     expect(prismaMock.programCourse.findFirst).toHaveBeenCalledWith({
       where: {
         courseId,
-        programId,
+        programId
       },
       select: expect.objectContaining({
         courseId: true,
@@ -276,12 +278,12 @@ describe('ProgramCourseService', () => {
                 session: {
                   select: {
                     trimester: true,
-                    year: true,
-                  },
-                },
-              }),
-            },
-          }),
+                    year: true
+                  }
+                }
+              })
+            }
+          })
         },
         prerequisites: {
           select: {
@@ -291,14 +293,14 @@ describe('ProgramCourseService', () => {
                   select: {
                     id: true,
                     code: true,
-                    title: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      }),
+                    title: true
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
     });
   });
 
@@ -312,9 +314,9 @@ describe('ProgramCourseService', () => {
       expect.objectContaining({
         where: {
           courseId,
-          programId,
-        },
-      }),
+          programId
+        }
+      })
     );
   });
 
@@ -334,15 +336,15 @@ describe('ProgramCourseService', () => {
               credits: 4,
               cycle: 1,
               createdAt: now,
-              updatedAt: now,
-            },
-          },
-        },
-      ],
+              updatedAt: now
+            }
+          }
+        }
+      ]
     };
 
     prismaMock.programCourse.findUnique.mockResolvedValue(
-      programCourseWithPrerequisites,
+      programCourseWithPrerequisites
     );
 
     const result = await service.getProgramCourseWithPrerequisites(where);
@@ -355,12 +357,12 @@ describe('ProgramCourseService', () => {
           include: {
             prerequisite: {
               include: {
-                course: true,
-              },
-            },
-          },
-        },
-      },
+                course: true
+              }
+            }
+          }
+        }
+      }
     });
   });
 
@@ -373,8 +375,8 @@ describe('ProgramCourseService', () => {
     expect(result).toEqual(records);
     expect(prismaMock.programCourse.findMany).toHaveBeenCalledWith({
       where: {
-        programId,
-      },
+        programId
+      }
     });
   });
 
@@ -400,16 +402,16 @@ describe('ProgramCourseService', () => {
     expect(prismaMock.programCourse.findFirst).toHaveBeenCalledWith({
       where: {
         programId,
-        courseId,
-      },
+        courseId
+      }
     });
     expect(prismaMock.programCourse.create).not.toHaveBeenCalled();
     expect(loggerVerboseSpy).toHaveBeenCalledWith(
       'ProgramCourse already exists',
       expect.objectContaining({
         courseId,
-        programId,
-      }),
+        programId
+      })
     );
   });
 
@@ -425,7 +427,7 @@ describe('ProgramCourseService', () => {
 
     expect(result).toEqual(createdRecord);
     expect(prismaMock.programCourse.create).toHaveBeenCalledWith({
-      data,
+      data
     });
     expect(loggerVerboseSpy).toHaveBeenCalledWith('createProgramCourse', data);
   });
@@ -445,7 +447,7 @@ describe('ProgramCourseService', () => {
       'Where: ',
       params.where,
       'Data: ',
-      params.data,
+      params.data
     );
   });
 
@@ -463,7 +465,7 @@ describe('ProgramCourseService', () => {
     expect(prismaMock.programCourse.update).toHaveBeenCalledWith(params);
     expect(loggerVerboseSpy).toHaveBeenCalledWith(
       'Updating existing ProgramCourse',
-      params,
+      params
     );
   });
 
@@ -480,7 +482,7 @@ describe('ProgramCourseService', () => {
     expect(prismaMock.programCourse.delete).toHaveBeenCalledWith({ where });
     expect(loggerVerboseSpy).toHaveBeenCalledWith(
       'deleteProgramCourse',
-      JSON.stringify(where),
+      JSON.stringify(where)
     );
   });
 
@@ -491,7 +493,7 @@ describe('ProgramCourseService', () => {
       { typicalSessionIndex: 1, type: 'TRONC' },
       { typicalSessionIndex: 1, type: 'TRONC' },
       programId,
-      courseId,
+      courseId
     );
 
     expect(result).toBe(false);
@@ -504,17 +506,17 @@ describe('ProgramCourseService', () => {
       newCourseData: { typicalSessionIndex: 2, type: 'TRONC' },
       expectedChanges: {
         typicalSessionIndex: 'has changed',
-        type: 'no changes',
-      },
+        type: 'no changes'
+      }
     },
     {
       name: 'type',
       newCourseData: { typicalSessionIndex: 1, type: 'CONCE' },
       expectedChanges: {
         typicalSessionIndex: 'no changes',
-        type: 'has changed',
-      },
-    },
+        type: 'has changed'
+      }
+    }
   ])('should detect a $name change', ({ newCourseData, expectedChanges }) => {
     const loggerVerboseSpy = mockVerboseLogger();
 
@@ -522,7 +524,7 @@ describe('ProgramCourseService', () => {
       newCourseData,
       { typicalSessionIndex: 1, type: 'TRONC' },
       programId,
-      courseId,
+      courseId
     );
 
     expect(result).toBe(true);
@@ -531,8 +533,8 @@ describe('ProgramCourseService', () => {
       expect.objectContaining({
         changes: expectedChanges,
         programId,
-        courseId,
-      }),
+        courseId
+      })
     );
   });
 
@@ -545,8 +547,8 @@ describe('ProgramCourseService', () => {
     expect(mapperSpy).toHaveBeenCalledWith(programs);
     expectProgramFindManyCalledWith({
       where: {
-        id: { in: [programId] },
-      },
+        id: { in: [programId] }
+      }
     });
   });
 
@@ -554,7 +556,7 @@ describe('ProgramCourseService', () => {
     const loggerErrorSpy = mockErrorLogger();
     const { mapperSpy } = arrangeMappedPrograms({
       programs: [],
-      mappedData: [],
+      mappedData: []
     });
 
     const result = await service.getProgramCoursesById([]);
@@ -563,12 +565,12 @@ describe('ProgramCourseService', () => {
     expect(mapperSpy).toHaveBeenCalledWith([]);
     expect(loggerErrorSpy).toHaveBeenNthCalledWith(
       1,
-      'No program IDs provided to getProgramCoursesById',
+      'No program IDs provided to getProgramCoursesById'
     );
     expect(loggerErrorSpy).toHaveBeenNthCalledWith(
       2,
       'No programs found for the provided program IDs',
-      { programIds: [] },
+      { programIds: [] }
     );
   });
 
@@ -580,11 +582,11 @@ describe('ProgramCourseService', () => {
 
     expect(result).toEqual({
       data: mappedData,
-      errors: { invalidProgramIds: [invalidId] },
+      errors: { invalidProgramIds: [invalidId] }
     });
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       'Some program IDs are invalid',
-      { invalidProgramIds: [invalidId] },
+      { invalidProgramIds: [invalidId] }
     );
   });
 
@@ -598,13 +600,13 @@ describe('ProgramCourseService', () => {
       where: {
         courses: {
           some: {
-            courseId: { in: [courseId] },
-          },
-        },
+            courseId: { in: [courseId] }
+          }
+        }
       },
       coursesWhere: {
-        courseId: { in: [courseId] },
-      },
+        courseId: { in: [courseId] }
+      }
     });
   });
 
@@ -614,16 +616,15 @@ describe('ProgramCourseService', () => {
 
     const result = await service.getProgramsCoursesByCourseIds([
       courseId,
-      invalidId,
+      invalidId
     ]);
 
     expect(result).toEqual({
       data: mappedData,
-      errors: { invalidCourseIds: [invalidId] },
+      errors: { invalidCourseIds: [invalidId] }
     });
-    expect(loggerErrorSpy).toHaveBeenCalledWith(
-      'Some course IDs are invalid',
-      { invalidCourseIds: [invalidId] },
-    );
+    expect(loggerErrorSpy).toHaveBeenCalledWith('Some course IDs are invalid', {
+      invalidCourseIds: [invalidId]
+    });
   });
 });

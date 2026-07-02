@@ -18,10 +18,16 @@ export function htmlFragmentToPlainText(fragment: Cheerio<Element>): string {
     item.prepend('- ');
     item.append(LINE_BREAK);
   });
-  rootNode.find('p, div, section, article, blockquote').append(LINE_BREAK + LINE_BREAK);
-  rootNode.find('ul, ol').prepend(LINE_BREAK).append(LINE_BREAK + LINE_BREAK);
+  rootNode
+    .find('p, div, section, article, blockquote')
+    .append(LINE_BREAK + LINE_BREAK);
+  rootNode
+    .find('ul, ol')
+    .prepend(LINE_BREAK)
+    .append(LINE_BREAK + LINE_BREAK);
 
-  const normalizedLines = rootNode.text()
+  const normalizedLines = rootNode
+    .text()
     .replaceAll(' ', ' ')
     .split(LINE_BREAK)
     .map((line) => line.replaceAll(/\s+/g, ' ').trim());
@@ -53,9 +59,7 @@ export function htmlFragmentToPlainText(fragment: Cheerio<Element>): string {
     const previousLine = lines[index - 1] ?? null;
     const nextLine = lines[index + 1] ?? null;
 
-    return !(
-      previousLine?.startsWith('- ') && nextLine?.startsWith('- ')
-    );
+    return !(previousLine?.startsWith('- ') && nextLine?.startsWith('- '));
   });
 
   return compactedResult.join('\n');

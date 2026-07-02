@@ -18,7 +18,7 @@ export async function fetchCourseDescription(
   httpService: HttpService,
   logger: Logger,
   courseCode: string,
-  config: CourseDescriptionSource,
+  config: CourseDescriptionSource
 ): Promise<string> {
   let html: string;
 
@@ -27,8 +27,8 @@ export async function fetchCourseDescription(
       httpService.get(config.url, {
         responseType: 'text',
         headers: config.requestHeaders,
-        timeout: 10_000,
-      }),
+        timeout: 10_000
+      })
     );
     html = String(response.data);
   } catch (error) {
@@ -40,12 +40,14 @@ export async function fetchCourseDescription(
     html,
     courseCode,
     logger,
-    config,
+    config
   );
   const text = htmlFragmentToPlainText(descriptionSection);
 
   if (!text) {
-    throw new Error(`Could not extract course description from ${config.source}`);
+    throw new Error(
+      `Could not extract course description from ${config.source}`
+    );
   }
 
   return text;
@@ -55,7 +57,7 @@ function extractDescriptionSection(
   html: string,
   courseCode: string,
   logger: Logger,
-  config: CourseDescriptionSource,
+  config: CourseDescriptionSource
 ): Cheerio<Element> {
   const $ = load(html);
   let descriptionContainer: Cheerio<Element> | undefined;
@@ -70,9 +72,11 @@ function extractDescriptionSection(
 
   if (!descriptionContainer) {
     logger.verbose(
-      `No description section found for course ${courseCode} on ${config.source}.`,
+      `No description section found for course ${courseCode} on ${config.source}.`
     );
-    throw new Error(`Could not extract course description from ${config.source}`);
+    throw new Error(
+      `Could not extract course description from ${config.source}`
+    );
   }
 
   descriptionContainer.find('script, style, noscript').remove();

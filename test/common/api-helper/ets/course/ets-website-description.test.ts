@@ -25,10 +25,10 @@ describe('EtsWebsiteService course description parsing', () => {
         {
           provide: HttpService,
           useValue: {
-            get: jest.fn(),
-          },
-        },
-      ],
+            get: jest.fn()
+          }
+        }
+      ]
     }).compile();
 
     service = module.get<EtsWebsiteService>(EtsWebsiteService);
@@ -44,14 +44,14 @@ describe('EtsWebsiteService course description parsing', () => {
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(response));
 
     await expect(
-      service.fetchCourseDescriptionFromEtsWebsite('GTI350'),
+      service.fetchCourseDescriptionFromEtsWebsite('GTI350')
     ).resolves.toBe(
       [
         'Au terme de ce cours, l’étudiante ou l’étudiant sera en mesure :',
@@ -62,8 +62,8 @@ describe('EtsWebsiteService course description parsing', () => {
         '',
         "Étapes de spécification, de conception, de développement, et d'évaluation des interfaces utilisateurs selon les principes du génie des TI. Conception itérative et centrée sur l'utilisateur. Analyse des tâches. Directives de conception. Techniques de prototypage. Programmation événementielle. Perception visuelle. Styles et techniques d'interaction. Dispositifs d'entrée et de sortie. Loi de Fitts. Méthodes d’évaluation qualitative et quantitative des interfaces.",
         '',
-        'Séances de laboratoire axées sur l’application des concepts vus en classe.',
-      ].join('\n'),
+        'Séances de laboratoire axées sur l’application des concepts vus en classe.'
+      ].join('\n')
     );
   });
 
@@ -83,16 +83,16 @@ describe('EtsWebsiteService course description parsing', () => {
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(response));
 
     return expect(
-      service.fetchCourseDescriptionFromEtsWebsite('LOG210'),
+      service.fetchCourseDescriptionFromEtsWebsite('LOG210')
     ).resolves.toBe(
-      ['Premier paragraphe.', '', '- Point A', '- Point B'].join('\n'),
+      ['Premier paragraphe.', '', '- Point A', '- Point B'].join('\n')
     );
   });
 
@@ -114,17 +114,15 @@ describe('EtsWebsiteService course description parsing', () => {
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(response));
 
     return expect(
-      service.fetchCourseDescriptionFromEtsWebsite('LOG210'),
-    ).resolves.toBe(
-      ['Description ciblée.', '', '- Élément 1'].join('\n'),
-    );
+      service.fetchCourseDescriptionFromEtsWebsite('LOG210')
+    ).resolves.toBe(['Description ciblée.', '', '- Élément 1'].join('\n'));
   });
 
   it('throws when the expected description block is missing', async () => {
@@ -140,16 +138,14 @@ describe('EtsWebsiteService course description parsing', () => {
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(response));
 
     await expect(
-      service.fetchCourseDescriptionFromEtsWebsite('LOG210'),
-    ).rejects.toThrow(
-      'Could not extract course description from ETS website',
-    );
+      service.fetchCourseDescriptionFromEtsWebsite('LOG210')
+    ).rejects.toThrow('Could not extract course description from ETS website');
   });
 });

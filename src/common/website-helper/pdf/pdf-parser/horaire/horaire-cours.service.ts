@@ -16,26 +16,26 @@ export class HoraireCoursService {
   private readonly END_PAGE_CONTENT_Y_AXIS = 59;
   private readonly PREALABLE_X_AXIS = 29.86;
 
-  constructor(private readonly httpService: HttpService) { }
+  constructor(private readonly httpService: HttpService) {}
 
   private readonly logger = new Logger(HoraireCoursService.name);
 
   public async parsePdfFromUrl(pdfUrl: string): Promise<HoraireCours[]> {
     try {
       const response = await firstValueFrom(
-        this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),
+        this.httpService.get(pdfUrl, { responseType: 'arraybuffer' })
       );
 
       this.logger.debug(`Fetched PDF from URL ${pdfUrl}`);
       if (response.status !== HttpStatus.OK) {
         this.logger.error(
-          `Failed to fetch PDF from URL ${pdfUrl}. Status code: ${response.status}`,
+          `Failed to fetch PDF from URL ${pdfUrl}. Status code: ${response.status}`
         );
       }
 
       return await this.parseHoraireCoursPdf(
         Buffer.from(response.data),
-        pdfUrl,
+        pdfUrl
       );
     } catch (error) {
       if (isAxiosError(error) && error.response?.status) {
@@ -48,10 +48,10 @@ export class HoraireCoursService {
   // Parses the PDF buffer to extract course information
   public async parseHoraireCoursPdf(
     pdfBuffer: Buffer,
-    pdfUrl: string,
+    pdfUrl: string
   ): Promise<HoraireCours[]> {
     return PdfParserUtil.parsePdfBuffer(pdfBuffer, (pdfData) =>
-      this.processPdfData(pdfData, pdfUrl),
+      this.processPdfData(pdfData, pdfUrl)
     );
   }
 
@@ -70,7 +70,7 @@ export class HoraireCoursService {
           currentCourse,
           currentGroupNumber,
           periods,
-          courses,
+          courses
         ));
       });
 
@@ -82,7 +82,7 @@ export class HoraireCoursService {
         throw new Error(`No courses found in the PDF located at ${pdfUrl}.`);
 
       const serializedCourses: HoraireCours[] = courses.map((course) =>
-        course.serialize(),
+        course.serialize()
       ) as unknown as HoraireCours[];
 
       return serializedCourses;
@@ -97,7 +97,7 @@ export class HoraireCoursService {
     currentCourse: HoraireCours,
     currentGroupNumber: string,
     periods: Period[],
-    courses: HoraireCours[],
+    courses: HoraireCours[]
   ): {
     currentCourse: HoraireCours;
     currentGroupNumber: string;
@@ -109,7 +109,7 @@ export class HoraireCoursService {
         fontSize,
         xPos,
         yPos,
-        bold,
+        bold
       } = TextExtractor.extractTextDetails(textItem);
 
       if (!text || yPos > this.END_PAGE_CONTENT_Y_AXIS || bold) return;
@@ -119,7 +119,7 @@ export class HoraireCoursService {
           currentCourse,
           currentGroupNumber,
           periods,
-          courses,
+          courses
         );
 
         //Reset course
@@ -152,7 +152,7 @@ export class HoraireCoursService {
     currentCourse: HoraireCours,
     currentGroupNumber: string,
     periods: Period[],
-    courses: HoraireCours[],
+    courses: HoraireCours[]
   ) {
     if (
       currentCourse.code &&
@@ -170,7 +170,7 @@ export class HoraireCoursService {
   private finalizeCurrentGroup(
     currentCourse: HoraireCours,
     currentGroupNumber: string,
-    periods: Period[],
+    periods: Period[]
   ) {
     if (
       currentGroupNumber &&
@@ -185,7 +185,7 @@ export class HoraireCoursService {
     currentGroupNumber: string,
     periods: Period[],
     xPos: number,
-    text: string,
+    text: string
   ): Period[] {
     if (!currentGroupNumber) return periods;
 

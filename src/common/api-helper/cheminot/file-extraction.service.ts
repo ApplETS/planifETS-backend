@@ -5,9 +5,12 @@ import * as unzipper from 'unzipper';
 
 import {
   FileExtractionError,
-  FileNotFoundError,
+  FileNotFoundError
 } from '../../utils/error/error-constants';
-import { CHEMINEMENTS_TXT_PATH, CHEMINOT_JAR_URL } from '../../utils/url/url-constants';
+import {
+  CHEMINEMENTS_TXT_PATH,
+  CHEMINOT_JAR_URL
+} from '../../utils/url/url-constants';
 
 @Injectable()
 export class FileExtractionService {
@@ -21,7 +24,7 @@ export class FileExtractionService {
       const response: AxiosResponse<Readable> = await axios({
         url: CHEMINOT_JAR_URL,
         method: 'GET',
-        responseType: 'stream',
+        responseType: 'stream'
       });
 
       // Extract the cheminements.txt file from the JAR archive stream
@@ -56,14 +59,14 @@ export class FileExtractionService {
     } catch (error) {
       this.logger.error(
         'Error extracting the file:',
-        error instanceof Error ? error.message : String(error),
+        error instanceof Error ? error.message : String(error)
       );
 
       if (error instanceof Error) {
         throw new FileExtractionError(error.message);
       } else {
         throw new FileExtractionError(
-          'An unknown error occurred during file extraction.',
+          'An unknown error occurred during file extraction.'
         );
       }
     }

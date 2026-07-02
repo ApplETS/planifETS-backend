@@ -3,7 +3,7 @@ import {
   isNotFoundError,
   isRecord,
   isTransientError,
-  retryTransient,
+  retryTransient
 } from '../../src/embedding/qdrant-error.util';
 
 describe('isRecord', () => {
@@ -30,7 +30,9 @@ describe('isRecord', () => {
 
 describe('getNestedProperty', () => {
   it('retrieves a value at a nested path', () => {
-    expect(getNestedProperty({ a: { b: { c: 42 } } }, ['a', 'b', 'c'])).toBe(42);
+    expect(getNestedProperty({ a: { b: { c: 42 } } }, ['a', 'b', 'c'])).toBe(
+      42
+    );
   });
 
   it('returns undefined when an intermediate key is missing', () => {
@@ -121,7 +123,8 @@ describe('retryTransient', () => {
   });
 
   it('retries on a transient error and resolves on the next attempt', async () => {
-    const operation = jest.fn()
+    const operation = jest
+      .fn()
       .mockRejectedValueOnce({ status: 503 })
       .mockResolvedValueOnce('ok');
     await expect(retryTransient(operation, 3, 0)).resolves.toBe('ok');

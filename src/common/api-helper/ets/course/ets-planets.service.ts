@@ -15,12 +15,12 @@ export class EtsPlanETSService {
   constructor(private readonly httpService: HttpService) {}
 
   public async fetchCourseDescriptionFromPlanETS(
-    courseCode: string,
+    courseCode: string
   ): Promise<string> {
     return fetchCourseDescription(this.httpService, this.logger, courseCode, {
       source: 'PlanETS',
       url: getPlanETSCourseUrl(courseCode),
-      descriptionSelectors: [DESCRIPTION_SELECTOR],
+      descriptionSelectors: [DESCRIPTION_SELECTOR]
     });
   }
 }

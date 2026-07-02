@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 jest.mock('../../src/common/utils/session/sessionUtil', () => ({
   ...jest.requireActual('../../src/common/utils/session/sessionUtil'),
-  getCurrentTrimester: jest.fn(),
+  getCurrentTrimester: jest.fn()
 }));
 import * as sessionUtil from '../../src/common/utils/session/sessionUtil';
 import { PrismaService } from '../../src/prisma/prisma.service';
@@ -13,7 +13,7 @@ describe('SessionService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [SessionService, PrismaService],
+      providers: [SessionService, PrismaService]
     }).compile();
     sessionService = module.get<SessionService>(SessionService);
   });
@@ -40,21 +40,27 @@ describe('SessionService', () => {
     expect(s2.year).toBe(2051);
     expect(s2.trimester).toBe('HIVER');
     const found = await sessionService.getAllSessions();
-    const count = found.filter(s => s.year === 2051 && s.trimester === 'HIVER').length;
+    const count = found.filter(
+      (s) => s.year === 2051 && s.trimester === 'HIVER'
+    ).length;
     expect(count).toBe(1);
   });
 
   it('should only have one session for same year/trimester', async () => {
     await sessionService.getOrCreateSession(2050, 'HIVER');
     const found = await sessionService.getAllSessions();
-    const count = found.filter(s => s.year === 2050 && s.trimester === 'HIVER').length;
+    const count = found.filter(
+      (s) => s.year === 2050 && s.trimester === 'HIVER'
+    ).length;
     expect(count).toBe(1);
   });
 
   it('should only have one session for same year/trimester', async () => {
     await sessionService.getOrCreateSession(2050, 'HIVER');
     const found = await sessionService.getAllSessions();
-    const count = found.filter(s => s.year === 2050 && s.trimester === 'HIVER').length;
+    const count = found.filter(
+      (s) => s.year === 2050 && s.trimester === 'HIVER'
+    ).length;
     expect(count).toBe(1);
   });
 
@@ -65,10 +71,18 @@ describe('SessionService', () => {
   });
 
   it('should throw for invalid year in session code via getOrCreateSessionFromCode', async () => {
-    await expect(sessionService.getOrCreateSessionFromCode('E')).rejects.toThrow();
-    await expect(sessionService.getOrCreateSessionFromCode('25')).rejects.toThrow();
-    await expect(sessionService.getOrCreateSessionFromCode('/sd')).rejects.toThrow();
-    await expect(sessionService.getOrCreateSessionFromCode('sd/')).rejects.toThrow();
+    await expect(
+      sessionService.getOrCreateSessionFromCode('E')
+    ).rejects.toThrow();
+    await expect(
+      sessionService.getOrCreateSessionFromCode('25')
+    ).rejects.toThrow();
+    await expect(
+      sessionService.getOrCreateSessionFromCode('/sd')
+    ).rejects.toThrow();
+    await expect(
+      sessionService.getOrCreateSessionFromCode('sd/')
+    ).rejects.toThrow();
   });
 
   it('should get or create current session', async () => {
@@ -86,7 +100,9 @@ describe('SessionService', () => {
   });
 
   it('should throw for invalid session code', async () => {
-    await expect(sessionService.getOrCreateSessionFromCode('X99')).rejects.toThrow('Invalid session code: X99');
+    await expect(
+      sessionService.getOrCreateSessionFromCode('X99')
+    ).rejects.toThrow('Invalid session code: X99');
   });
 
   it('should get all sessions', async () => {
@@ -94,19 +110,33 @@ describe('SessionService', () => {
     await sessionService.getOrCreateSession(2025, 'ETE');
     const sessions = await sessionService.getAllSessions();
     expect(sessions.length).toBe(2);
-    expect(sessions.map(s => s.year)).toEqual(expect.arrayContaining([2024, 2025]));
+    expect(sessions.map((s) => s.year)).toEqual(
+      expect.arrayContaining([2024, 2025])
+    );
   });
 
   it('should throw for session code with non-numeric year part', async () => {
-    await expect(sessionService.getOrCreateSessionFromCode('EAA')).rejects.toThrow('Invalid session code: EAA');
-    await expect(sessionService.getOrCreateSessionFromCode('E1A')).rejects.toThrow('Invalid session code: E1A');
-    await expect(sessionService.getOrCreateSessionFromCode('E--')).rejects.toThrow('Invalid session code: E--');
+    await expect(
+      sessionService.getOrCreateSessionFromCode('EAA')
+    ).rejects.toThrow('Invalid session code: EAA');
+    await expect(
+      sessionService.getOrCreateSessionFromCode('E1A')
+    ).rejects.toThrow('Invalid session code: E1A');
+    await expect(
+      sessionService.getOrCreateSessionFromCode('E--')
+    ).rejects.toThrow('Invalid session code: E--');
   });
 
   it('should throw for session code with year part not two digits', async () => {
-    await expect(sessionService.getOrCreateSessionFromCode('E2')).rejects.toThrow('Invalid session code: E2');
-    await expect(sessionService.getOrCreateSessionFromCode('E123')).rejects.toThrow('Invalid session code: E123');
-    await expect(sessionService.getOrCreateSessionFromCode('E')).rejects.toThrow('Invalid session code: E');
+    await expect(
+      sessionService.getOrCreateSessionFromCode('E2')
+    ).rejects.toThrow('Invalid session code: E2');
+    await expect(
+      sessionService.getOrCreateSessionFromCode('E123')
+    ).rejects.toThrow('Invalid session code: E123');
+    await expect(
+      sessionService.getOrCreateSessionFromCode('E')
+    ).rejects.toThrow('Invalid session code: E');
   });
 
   it('should get latest available session', async () => {
@@ -130,7 +160,9 @@ describe('SessionService', () => {
       (sessionUtil.getCurrentTrimester as jest.Mock).mockReturnValue(undefined);
       // pass invalid date to trigger the error
       const invalidDate = new Date('0-02--25T00:00:00.000Z');
-      await expect(sessionService.getOrCreateCurrentSession(invalidDate)).rejects.toThrow('Current trimester could not be determined.');
+      await expect(
+        sessionService.getOrCreateCurrentSession(invalidDate)
+      ).rejects.toThrow('Current trimester could not be determined.');
       expect(loggerWarnSpy).toHaveBeenCalledWith(
         'Unable to determine the current trimester for date: Invalid Date'
       );

@@ -10,16 +10,16 @@ import { SearchCourseResult, SearchCoursesDto } from './dtos/search-course.dto';
 export class CourseService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly courseRepository: CourseRepository,
-  ) { }
+    private readonly courseRepository: CourseRepository
+  ) {}
 
   private readonly logger = new Logger(CourseService.name);
 
   public async getCourse(
-    courseWhereUniqueInput: Prisma.CourseWhereUniqueInput,
+    courseWhereUniqueInput: Prisma.CourseWhereUniqueInput
   ): Promise<Course | null> {
     const course = await this.prisma.course.findUnique({
-      where: courseWhereUniqueInput,
+      where: courseWhereUniqueInput
     });
 
     return course;
@@ -27,7 +27,7 @@ export class CourseService {
 
   public async getCourseByCode(code: string): Promise<Course | null> {
     const course = await this.prisma.course.findFirst({
-      where: { code },
+      where: { code }
     });
 
     return course;
@@ -39,9 +39,9 @@ export class CourseService {
     return this.prisma.course.findMany({
       where: {
         code: {
-          in: codes,
-        },
-      },
+          in: codes
+        }
+      }
     });
   }
   public async getAllCourses(): Promise<Course[]> {
@@ -65,15 +65,15 @@ export class CourseService {
         cycle: 1,
         code: {
           not: {
-            contains: '-',
-          },
-        },
+            contains: '-'
+          }
+        }
       },
       select: {
         id: true,
         code: true,
-        description: true,
-      },
+        description: true
+      }
     });
   }
 
@@ -84,10 +84,10 @@ export class CourseService {
       where: {
         programs: {
           some: {
-            programId,
-          },
-        },
-      },
+            programId
+          }
+        }
+      }
     });
   }
 
@@ -95,7 +95,7 @@ export class CourseService {
     query: string,
     programCodes?: string[],
     limit = 20,
-    offset = 0,
+    offset = 0
   ): Promise<SearchCoursesDto> {
     // Validate program codes if they exist
     let validProgramCodes: string[] | undefined = undefined;
@@ -104,7 +104,7 @@ export class CourseService {
       // Filter out invalid program codes
       const existingPrograms = await this.prisma.program.findMany({
         where: { code: { in: programCodes } },
-        select: { code: true },
+        select: { code: true }
       });
 
       validProgramCodes = existingPrograms
@@ -112,15 +112,15 @@ export class CourseService {
         .filter((code): code is string => code !== null);
 
       const invalidProgramCodes = programCodes.filter(
-        (code) => !validProgramCodes?.includes(code),
+        (code) => !validProgramCodes?.includes(code)
       );
 
       if (invalidProgramCodes.length > 0) {
         this.logger.error(
           `Invalid program codes provided for course search: ${invalidProgramCodes.join(
-            ', ',
+            ', '
           )}`,
-          { invalidProgramCodes, query },
+          { invalidProgramCodes, query }
         );
       }
 
@@ -129,7 +129,7 @@ export class CourseService {
         validProgramCodes = undefined;
         this.logger.warn(
           'All provided program codes were invalid. Performing search without program filtering.',
-          { query, providedProgramCodes: programCodes },
+          { query, providedProgramCodes: programCodes }
         );
       }
     }
@@ -138,17 +138,17 @@ export class CourseService {
       query,
       validProgramCodes,
       limit,
-      offset,
+      offset
     );
 
     const courses: SearchCourseResult[] = raw.map((c) =>
-      CourseMapper.toSearchDto(c, validProgramCodes),
+      CourseMapper.toSearchDto(c, validProgramCodes)
     );
 
     return {
       courses,
       total,
-      hasMore: offset + courses.length < total,
+      hasMore: offset + courses.length < total
     };
   }
 
@@ -158,8 +158,8 @@ export class CourseService {
     return this.prisma.course.create({
       data: {
         ...data,
-        createdAt: new Date(),
-      },
+        createdAt: new Date()
+      }
     });
   }
 
@@ -173,18 +173,18 @@ export class CourseService {
     return this.prisma.course.update({
       data: {
         ...data,
-        updatedAt: new Date(),
+        updatedAt: new Date()
       },
-      where,
+      where
     });
   }
 
   public async updateCourseDescriptionsBatch(
-    courses: Array<Pick<Course, 'id' | 'code' | 'description'>>,
+    courses: Array<Pick<Course, 'id' | 'code' | 'description'>>
   ): Promise<Course[]> {
     this.logger.verbose(
       'updateCourseDescriptionsBatch',
-      courses.map((course) => course.code),
+      courses.map((course) => course.code)
     );
 
     const updatedAt = new Date();
@@ -196,22 +196,22 @@ export class CourseService {
           data: {
             code: course.code,
             description: course.description,
-            updatedAt,
-          },
-        }),
-      ),
+            updatedAt
+          }
+        })
+      )
     );
   }
 
   public async upsertCourses(
-    data: Prisma.CourseCreateInput[],
+    data: Prisma.CourseCreateInput[]
   ): Promise<Course[]> {
     const results: Course[] = [];
     for (const courseData of data) {
       const result = await this.prisma.course.upsert({
         where: { code: courseData.code },
         update: courseData,
-        create: courseData,
+        create: courseData
       });
       results.push(result);
     }

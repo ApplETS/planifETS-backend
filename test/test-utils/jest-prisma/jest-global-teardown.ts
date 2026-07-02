@@ -6,7 +6,8 @@ export default async function globalTeardown(): Promise<void> {
   loadTestEnv();
 
   const databaseUrl = process.env.DATABASE_URL;
-  if (!databaseUrl) throw new Error('DATABASE_URL is missing in globalTeardown');
+  if (!databaseUrl)
+    throw new Error('DATABASE_URL is missing in globalTeardown');
 
   assertIsTestDatabase(databaseUrl);
 

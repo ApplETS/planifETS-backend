@@ -28,13 +28,10 @@ import { JobsService } from './jobs.service';
 
     CheminotModule,
     EtsModule,
-    PdfModule,
+    PdfModule
   ],
-  providers: [
-    JobsService,
-    ...jobWorkerProviders,
-  ],
+  providers: [JobsService, ...jobWorkerProviders],
   controllers: process.env.APP_ENV === 'development' ? [JobsController] : [], // Only expose in dev mode for running jobs manually
-  exports: [JobsService],
+  exports: [JobsService]
 })
 export class JobsModule {}

@@ -20,7 +20,7 @@ export class CourseInstancesJobService {
     private readonly programService: ProgramService,
     private readonly courseService: CourseService,
     private readonly courseInstanceService: CourseInstanceService,
-    private readonly sessionService: SessionService,
+    private readonly sessionService: SessionService
   ) {}
 
   /**
@@ -47,14 +47,16 @@ export class CourseInstancesJobService {
         continue;
       }
       if (program.code.includes(',')) {
-        this.logger.warn(`Program ${program.code} has multiple codes (comma-separated). Skipping PDF parsing.`);
+        this.logger.warn(
+          `Program ${program.code} has multiple codes (comma-separated). Skipping PDF parsing.`
+        );
         continue;
       }
       this.logger.log(`Processing program: ${program.code}`);
 
       const parsedData =
         await this.planificationCourseService.parseProgramPlanification(
-          program.code,
+          program.code
         );
       allParsedData.push(...parsedData);
     }
@@ -66,7 +68,7 @@ export class CourseInstancesJobService {
   }
 
   private async processAllParsedData(
-    allParsedData: ICoursePlanification[],
+    allParsedData: ICoursePlanification[]
   ): Promise<void> {
     const { sessionCodesSet, courseCodesSet } =
       this.extractUniqueCodes(allParsedData);
@@ -77,7 +79,7 @@ export class CourseInstancesJobService {
     const requiredInstancesMap = this.buildRequiredInstancesMap(
       allParsedData,
       courseCodeToCourseMap,
-      sessionCodeToSessionMap,
+      sessionCodeToSessionMap
     );
 
     const existingInstancesMap = await this.fetchExistingInstancesMap();
@@ -86,14 +88,14 @@ export class CourseInstancesJobService {
       requiredInstancesMap,
       existingInstancesMap,
       courseCodeToCourseMap,
-      sessionCodeToSessionMap,
+      sessionCodeToSessionMap
     );
 
     const deletedCount =
       await this.deleteObsoleteInstances(existingInstancesMap);
 
     this.logger.log(
-      `Total Added ${addedCount} instances. Updated ${updatedCount} instances. Deleted ${deletedCount} instances.`,
+      `Total Added ${addedCount} instances. Updated ${updatedCount} instances. Deleted ${deletedCount} instances.`
     );
   }
 
@@ -116,7 +118,7 @@ export class CourseInstancesJobService {
   }
 
   private async fetchSessions(
-    sessionCodesSet: Set<string>,
+    sessionCodesSet: Set<string>
   ): Promise<Map<string, Session>> {
     const sessionCodeToSessionMap = new Map<string, Session>();
     for (const sessionCode of sessionCodesSet) {
@@ -128,10 +130,10 @@ export class CourseInstancesJobService {
   }
 
   private async fetchCourses(
-    courseCodesSet: Set<string>,
+    courseCodesSet: Set<string>
   ): Promise<Map<string, Course>> {
     const courses = await this.courseService.getCoursesByCodes(
-      Array.from(courseCodesSet),
+      Array.from(courseCodesSet)
     );
     const courseCodeToCourseMap = new Map<string, Course>();
 
@@ -145,7 +147,7 @@ export class CourseInstancesJobService {
   private buildRequiredInstancesMap(
     allParsedData: ICoursePlanification[],
     courseCodeToCourseMap: Map<string, Course>,
-    sessionCodeToSessionMap: Map<string, Session>,
+    sessionCodeToSessionMap: Map<string, Session>
   ): Map<
     string,
     {
@@ -176,19 +178,20 @@ export class CourseInstancesJobService {
       }
 
       for (const [sessionCode, availabilityCode] of Object.entries(
-        courseData.available,
+        courseData.available
       )) {
         const session = sessionCodeToSessionMap.get(sessionCode);
         if (!session) {
           this.logger.warn(`Session ${sessionCode} not found. Skipping.`);
           continue;
         }
-        const parsedAvailabilities = AvailabilityUtil.parseAvailability(availabilityCode);
+        const parsedAvailabilities =
+          AvailabilityUtil.parseAvailability(availabilityCode);
 
         if (!parsedAvailabilities) {
           this.logger.warn(
             `Invalid availability code "${availabilityCode}" for course "${courseData.code}" 
-              in session "${sessionCode}". Skipping.`,
+              in session "${sessionCode}". Skipping.`
           );
           continue;
         }
@@ -196,7 +199,7 @@ export class CourseInstancesJobService {
         const key = this.generateInstanceKey(
           course.id,
           session.year,
-          session.trimester,
+          session.trimester
         );
         requiredInstancesMap.set(key, {
           courseId: course.id,
@@ -204,7 +207,7 @@ export class CourseInstancesJobService {
           sessionYear: session.year,
           sessionTrimester: session.trimester,
           sessionCode: sessionCode,
-          availability: parsedAvailabilities,
+          availability: parsedAvailabilities
         });
       }
     }
@@ -221,7 +224,7 @@ export class CourseInstancesJobService {
       const key = this.generateInstanceKey(
         instance.courseId,
         instance.sessionYear,
-        instance.sessionTrimester,
+        instance.sessionTrimester
       );
       existingInstancesMap.set(key, instance);
     }
@@ -242,7 +245,7 @@ export class CourseInstancesJobService {
     >,
     existingInstancesMap: Map<string, CourseInstance>,
     courseCodeToCourseMap: Map<string, Course>,
-    sessionCodeToSessionMap: Map<string, Session>,
+    sessionCodeToSessionMap: Map<string, Session>
   ): Promise<{ addedCount: number; updatedCount: number }> {
     let addedCount = 0;
     let updatedCount = 0;
@@ -255,7 +258,7 @@ export class CourseInstancesJobService {
 
       if (!session || !course) {
         this.logger.warn(
-          `Session or course not found for key ${key}. Skipping.`,
+          `Session or course not found for key ${key}. Skipping.`
         );
         continue;
       }
@@ -264,12 +267,12 @@ export class CourseInstancesJobService {
         // Compare and update availability if different
         const isSame = AvailabilityUtil.areAvailabilitiesEqual(
           existingInstance.availability,
-          requiredInstance.availability,
+          requiredInstance.availability
         );
         if (!isSame) {
           await this.courseInstanceService.updateCourseInstanceAvailability(
             existingInstance,
-            requiredInstance.availability,
+            requiredInstance.availability
           );
           updatedCount++;
         }
@@ -280,7 +283,7 @@ export class CourseInstancesJobService {
         await this.courseInstanceService.createCourseInstance(
           course,
           session,
-          requiredInstance.availability,
+          requiredInstance.availability
         );
         addedCount++;
       }
@@ -289,14 +292,14 @@ export class CourseInstancesJobService {
   }
 
   private async deleteObsoleteInstances(
-    existingInstancesMap: Map<string, CourseInstance>,
+    existingInstancesMap: Map<string, CourseInstance>
   ): Promise<number> {
     let deletedCount = 0;
     for (const instance of existingInstancesMap.values()) {
       await this.courseInstanceService.deleteCourseInstance(
         instance.courseId,
         instance.sessionYear,
-        instance.sessionTrimester,
+        instance.sessionTrimester
       );
       deletedCount++;
     }
@@ -306,7 +309,7 @@ export class CourseInstancesJobService {
   private generateInstanceKey(
     courseId: number,
     sessionYear: number,
-    sessionTrimester: string,
+    sessionTrimester: string
   ): string {
     return `${courseId}-${sessionYear}-${sessionTrimester}`;
   }

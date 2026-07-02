@@ -9,19 +9,19 @@ import { EtsWebsiteService } from './ets-website.service';
 export class EtsWebsiteController {
   constructor(
     private readonly etsWebsiteService: EtsWebsiteService,
-    private readonly etsPlanETSService: EtsPlanETSService,
+    private readonly etsPlanETSService: EtsPlanETSService
   ) {}
 
   @Get('website/course/:code/description')
   public fetchCourseDescriptionFromEtsWebsite(
-    @Param('code') code: string,
+    @Param('code') code: string
   ): Promise<string> {
     return this.etsWebsiteService.fetchCourseDescriptionFromEtsWebsite(code);
   }
 
   @Get('planets/course/:code/description')
   public fetchCourseDescriptionFromPlanETS(
-    @Param('code') code: string,
+    @Param('code') code: string
   ): Promise<string> {
     return this.etsPlanETSService.fetchCourseDescriptionFromPlanETS(code);
   }

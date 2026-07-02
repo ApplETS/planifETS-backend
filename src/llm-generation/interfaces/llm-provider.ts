@@ -16,24 +16,29 @@ export abstract class LlmProvider {
   constructor(
     providerName: string,
     protected readonly modelName: string,
-    protected readonly apiKey: string,
+    protected readonly apiKey: string
   ) {
     this.name = `${providerName} (${modelName})`;
   }
 
-  public async complete(prompt: string, signal: AbortSignal): Promise<LlmGenerationResponse> {
+  public async complete(
+    prompt: string,
+    signal: AbortSignal
+  ): Promise<LlmGenerationResponse> {
     const fullPrompt = `${prompt}\n${JSON_FORMAT_INSTRUCTION}`;
 
     const response = await fetch(this.getUrl(), {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify(this.getBody(fullPrompt)),
-      signal,
+      signal
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`${this.name} API error: ${response.status} - ${errorText}`);
+      throw new Error(
+        `${this.name} API error: ${response.status} - ${errorText}`
+      );
     }
 
     const data = await response.json();
@@ -46,12 +51,17 @@ export abstract class LlmProvider {
   protected abstract extractText(data: unknown): string;
 
   private parseJsonResponse(text: string): LlmGenerationResponse {
-    const cleaned = text.replace(/^```json\n?/i, '').replace(/\n?```$/i, '').trim();
+    const cleaned = text
+      .replace(/^```json\n?/i, '')
+      .replace(/\n?```$/i, '')
+      .trim();
     try {
       return JSON.parse(cleaned);
     } catch (error) {
       const msg = error instanceof Error ? error.message : String(error);
-      throw new Error(`Failed to parse ${this.name} JSON response: ${msg}\nText: ${text}`);
+      throw new Error(
+        `Failed to parse ${this.name} JSON response: ${msg}\nText: ${text}`
+      );
     }
   }
 }

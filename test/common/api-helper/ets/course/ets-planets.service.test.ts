@@ -16,10 +16,10 @@ describe('EtsPlanETSService', () => {
         {
           provide: HttpService,
           useValue: {
-            get: jest.fn(),
-          },
-        },
-      ],
+            get: jest.fn()
+          }
+        }
+      ]
     }).compile();
 
     service = module.get<EtsPlanETSService>(EtsPlanETSService);
@@ -32,7 +32,7 @@ describe('EtsPlanETSService', () => {
       status: 200,
       statusText: 'OK',
       headers: {},
-      config: { headers: new AxiosHeaders() },
+      config: { headers: new AxiosHeaders() }
     };
 
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(response));
@@ -57,18 +57,18 @@ describe('EtsPlanETSService', () => {
     `);
 
     await expect(
-      service.fetchCourseDescriptionFromPlanETS('LOG210'),
+      service.fetchCourseDescriptionFromPlanETS('LOG210')
     ).resolves.toBe(
       [
         'Au terme de ce cours, l’étudiante ou l’étudiant sera en mesure :',
-        "• de maîtriser et appliquer des patrons de conception logicielle;",
-        "• de concevoir un logiciel orienté objet en appliquant un ensemble de principes et des méthodes heuristiques de génie logiciel;",
+        '• de maîtriser et appliquer des patrons de conception logicielle;',
+        '• de concevoir un logiciel orienté objet en appliquant un ensemble de principes et des méthodes heuristiques de génie logiciel;',
         "• de réaliser un logiciel en suivant un processus itératif et évolutif incluant les activités d'analyse et de conception par objets.",
         '',
         "Méthodes et techniques de modélisation orientés objet, langage de modélisation, cas d'utilisation, analyse orientée objet, modèle du domaine, conception et programmation orientées objet, principes GRASP, patrons de conception, processus itératif et évolutif.",
         '',
-        "Séances de laboratoire axées sur l'application des notions d'analyse, de conception et de programmation orientées objet vues en classe. Mise en œuvre d'un modèle d'objet à partir d'une spécification de logiciel et à l'aide d'un langage orienté objet contemporain. Conception d'applications utilisant les outils UML ainsi que des techniques et des outils utiles au génie logiciel, tels qu'un environnement de développement intégré, la compilation automatique et les tests automatiques.",
-      ].join('\n'),
+        "Séances de laboratoire axées sur l'application des notions d'analyse, de conception et de programmation orientées objet vues en classe. Mise en œuvre d'un modèle d'objet à partir d'une spécification de logiciel et à l'aide d'un langage orienté objet contemporain. Conception d'applications utilisant les outils UML ainsi que des techniques et des outils utiles au génie logiciel, tels qu'un environnement de développement intégré, la compilation automatique et les tests automatiques."
+      ].join('\n')
     );
   });
 
@@ -80,7 +80,7 @@ describe('EtsPlanETSService', () => {
     `);
 
     await expect(
-      service.fetchCourseDescriptionFromPlanETS('LOG210'),
+      service.fetchCourseDescriptionFromPlanETS('LOG210')
     ).rejects.toThrow('Could not extract course description from PlanETS');
   });
 
@@ -90,7 +90,7 @@ describe('EtsPlanETSService', () => {
       .mockReturnValueOnce(throwError(() => new Error('socket hang up')));
 
     await expect(
-      service.fetchCourseDescriptionFromPlanETS('LOG210'),
+      service.fetchCourseDescriptionFromPlanETS('LOG210')
     ).rejects.toThrow('socket hang up');
   });
 });

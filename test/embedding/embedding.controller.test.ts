@@ -14,9 +14,11 @@ describe('EmbeddingController', () => {
     serviceMock = {
       findAll: jest.fn(),
       findByCourseId: jest.fn(),
-      countCourses: jest.fn(),
+      countCourses: jest.fn()
     };
-    controller = new EmbeddingController(serviceMock as unknown as EmbeddingService);
+    controller = new EmbeddingController(
+      serviceMock as unknown as EmbeddingService
+    );
   });
 
   describe('findAll', () => {
@@ -31,7 +33,9 @@ describe('EmbeddingController', () => {
   describe('countCourses', () => {
     it('delegates to EmbeddingService.countCourses and returns the count', async () => {
       serviceMock.countCourses.mockResolvedValue({ count: 10 });
-      await expect(controller.countCourses()).resolves.toStrictEqual({ count: 10 });
+      await expect(controller.countCourses()).resolves.toStrictEqual({
+        count: 10
+      });
       expect(serviceMock.countCourses).toHaveBeenCalledTimes(1);
     });
   });

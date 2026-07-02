@@ -4,7 +4,10 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class GenerateDto {
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({ example: 'I want to learn about artificial intelligence and machine learning' })
+  @ApiProperty({
+    example:
+      'I want to learn about artificial intelligence and machine learning'
+  })
   public prompt!: string;
 }
 
@@ -17,7 +20,9 @@ export class GenerateResponseDto {
   @ApiProperty({ type: [LlmCourseDto] })
   public courses!: LlmCourseDto[];
 
-  @ApiProperty({ example: 'These courses cover the fundamentals of AI and ML.' })
+  @ApiProperty({
+    example: 'These courses cover the fundamentals of AI and ML.'
+  })
   public explanation!: string;
 }
 

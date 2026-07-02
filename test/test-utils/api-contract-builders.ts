@@ -1,15 +1,21 @@
 import { Course, Prisma, Program, Session } from '@prisma/client';
 
-type JsonLike = string | number | boolean | null | JsonLike[] | {
-  [key: string]: JsonLike;
-};
+type JsonLike =
+  | string
+  | number
+  | boolean
+  | null
+  | JsonLike[]
+  | {
+      [key: string]: JsonLike;
+    };
 
 function normalizeJsonContractValue(value: unknown): JsonLike {
   if (
-    value === null
-    || value === Prisma.JsonNull
-    || value === Prisma.DbNull
-    || value === Prisma.AnyNull
+    value === null ||
+    value === Prisma.JsonNull ||
+    value === Prisma.DbNull ||
+    value === Prisma.AnyNull
   ) {
     return null;
   }
@@ -22,8 +28,8 @@ function normalizeJsonContractValue(value: unknown): JsonLike {
     return Object.fromEntries(
       Object.entries(value as Record<string, unknown>).map(([key, item]) => [
         key,
-        normalizeJsonContractValue(item),
-      ]),
+        normalizeJsonContractValue(item)
+      ])
     );
   }
 
@@ -108,7 +114,7 @@ interface ProgramContract {
 }
 
 export function buildSearchCourseContract(
-  input: SearchCourseContractInput,
+  input: SearchCourseContractInput
 ): SearchCourseContract {
   const {
     id,
@@ -120,7 +126,7 @@ export function buildSearchCourseContract(
     prerequisites,
     typicalSessionIndex,
     type,
-    unstructuredPrerequisite,
+    unstructuredPrerequisite
   } = input;
 
   return {
@@ -133,22 +139,22 @@ export function buildSearchCourseContract(
     prerequisites,
     ...(Object.hasOwn(input, 'typicalSessionIndex')
       ? {
-        typicalSessionIndex,
-        type,
-        unstructuredPrerequisite,
-      }
-      : {}),
+          typicalSessionIndex,
+          type,
+          unstructuredPrerequisite
+        }
+      : {})
   };
 }
 
 export function serializeSessionContract(
-  session: Pick<Session, 'year' | 'trimester' | 'createdAt' | 'updatedAt'>,
+  session: Pick<Session, 'year' | 'trimester' | 'createdAt' | 'updatedAt'>
 ): SessionContract {
   return {
     year: session.year,
     trimester: session.trimester,
     createdAt: session.createdAt.toISOString(),
-    updatedAt: session.updatedAt.toISOString(),
+    updatedAt: session.updatedAt.toISOString()
   };
 }
 
@@ -163,7 +169,7 @@ export function serializeCourseEntityContract(
     | 'cycle'
     | 'createdAt'
     | 'updatedAt'
-  >,
+  >
 ): CourseEntityContract {
   return {
     id: course.id,
@@ -173,7 +179,7 @@ export function serializeCourseEntityContract(
     credits: course.credits,
     cycle: course.cycle,
     createdAt: course.createdAt.toISOString(),
-    updatedAt: course.updatedAt.toISOString(),
+    updatedAt: course.updatedAt.toISOString()
   };
 }
 
@@ -192,7 +198,7 @@ export function serializeProgramContract(
     | 'planificationPdfJson'
     | 'createdAt'
     | 'updatedAt'
-  >,
+  >
 ): ProgramContract {
   return {
     id: program.id,
@@ -203,9 +209,13 @@ export function serializeProgramContract(
     url: program.url,
     isHorairePdfParsable: program.isHorairePdfParsable,
     isPlanificationPdfParsable: program.isPlanificationPdfParsable,
-    horaireCoursPdfJson: normalizeJsonContractValue(program.horaireCoursPdfJson),
-    planificationPdfJson: normalizeJsonContractValue(program.planificationPdfJson),
+    horaireCoursPdfJson: normalizeJsonContractValue(
+      program.horaireCoursPdfJson
+    ),
+    planificationPdfJson: normalizeJsonContractValue(
+      program.planificationPdfJson
+    ),
     createdAt: program.createdAt.toISOString(),
-    updatedAt: program.updatedAt.toISOString(),
+    updatedAt: program.updatedAt.toISOString()
   };
 }

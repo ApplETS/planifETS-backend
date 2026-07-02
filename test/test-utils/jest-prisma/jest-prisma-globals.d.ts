@@ -5,4 +5,4 @@ declare global {
   const jestPrisma: JestPrisma<PrismaClient>;
 }
 
-export { };
+export {};

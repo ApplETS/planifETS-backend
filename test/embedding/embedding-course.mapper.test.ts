@@ -9,12 +9,15 @@ import {
   hashEmbeddingText,
   prepareCourseEmbedding,
   sanitizeEmbeddingRow,
-  toQdrantPointId,
+  toQdrantPointId
 } from '../../src/embedding/embedding-course.mapper';
 
-const UUID_V5_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-5[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
+const UUID_V5_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-5[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 
-const buildRow = (overrides: Partial<EmbeddingViewDto> = {}): EmbeddingViewDto => ({
+const buildRow = (
+  overrides: Partial<EmbeddingViewDto> = {}
+): EmbeddingViewDto => ({
   embedding_id: '352507_182848',
   course_id: 352507,
   program_id: 182848,
@@ -30,7 +33,7 @@ const buildRow = (overrides: Partial<EmbeddingViewDto> = {}): EmbeddingViewDto =
   has_prerequisites: true,
   availability: ['JOUR'],
   sessions: ['Automne 2026'],
-  ...overrides,
+  ...overrides
 });
 
 describe('hashEmbeddingText', () => {
@@ -60,11 +63,15 @@ describe('toQdrantPointId', () => {
   });
 
   it('is deterministic for the same input', () => {
-    expect(toQdrantPointId('352507_182848')).toBe(toQdrantPointId('352507_182848'));
+    expect(toQdrantPointId('352507_182848')).toBe(
+      toQdrantPointId('352507_182848')
+    );
   });
 
   it('produces different IDs for different embedding IDs', () => {
-    expect(toQdrantPointId('352507_182848')).not.toBe(toQdrantPointId('352508_182848'));
+    expect(toQdrantPointId('352507_182848')).not.toBe(
+      toQdrantPointId('352508_182848')
+    );
   });
 
   it('produces a different id when QDRANT_ID_NAMESPACE changes', async () => {
@@ -72,7 +79,8 @@ describe('toQdrantPointId', () => {
 
     jest.resetModules();
     process.env.QDRANT_ID_NAMESPACE = '11111111-1111-1111-1111-111111111111';
-    const { toQdrantPointId: altFn } = await import('../../src/embedding/embedding-course.mapper');
+    const { toQdrantPointId: altFn } =
+      await import('../../src/embedding/embedding-course.mapper');
     delete process.env.QDRANT_ID_NAMESPACE;
     jest.resetModules();
 
@@ -115,17 +123,23 @@ describe('buildCourseEmbeddingText', () => {
   });
 
   it('includes description when present', () => {
-    const text = buildCourseEmbeddingText(buildRow({ description: 'Une description.' }));
+    const text = buildCourseEmbeddingText(
+      buildRow({ description: 'Une description.' })
+    );
     expect(text).toContain('Une description.');
   });
 
   it('includes prerequisite codes sorted', () => {
-    const text = buildCourseEmbeddingText(buildRow({ prerequisite_codes: ['MAT350', 'LOG320'] }));
+    const text = buildCourseEmbeddingText(
+      buildRow({ prerequisite_codes: ['MAT350', 'LOG320'] })
+    );
     expect(text).toContain('Préalables : LOG320, MAT350.');
   });
 
   it('deduplicates prerequisite codes', () => {
-    const text = buildCourseEmbeddingText(buildRow({ prerequisite_codes: ['LOG320', 'LOG320'] }));
+    const text = buildCourseEmbeddingText(
+      buildRow({ prerequisite_codes: ['LOG320', 'LOG320'] })
+    );
     const count = (text.match(/LOG320/g) ?? []).length;
     expect(count).toBe(1);
   });
@@ -136,12 +150,18 @@ describe('buildCourseEmbeddingText', () => {
   });
 
   it('includes unstructured prerequisite when present', () => {
-    const text = buildCourseEmbeddingText(buildRow({ unstructured_prerequisite: 'Approbation du directeur.' }));
-    expect(text).toContain('Préalables non structurés : Approbation du directeur.');
+    const text = buildCourseEmbeddingText(
+      buildRow({ unstructured_prerequisite: 'Approbation du directeur.' })
+    );
+    expect(text).toContain(
+      'Préalables non structurés : Approbation du directeur.'
+    );
   });
 
   it('omits unstructured prerequisite when null', () => {
-    const text = buildCourseEmbeddingText(buildRow({ unstructured_prerequisite: null }));
+    const text = buildCourseEmbeddingText(
+      buildRow({ unstructured_prerequisite: null })
+    );
     expect(text).not.toContain('Préalables non structurés');
   });
 
@@ -151,7 +171,9 @@ describe('buildCourseEmbeddingText', () => {
   });
 
   it('omits program title — used as Qdrant filter, not embedded', () => {
-    const text = buildCourseEmbeddingText(buildRow({ program_title: 'Génie logiciel' }));
+    const text = buildCourseEmbeddingText(
+      buildRow({ program_title: 'Génie logiciel' })
+    );
     expect(text).not.toContain('Programme :');
   });
 
@@ -161,17 +183,23 @@ describe('buildCourseEmbeddingText', () => {
   });
 
   it('omits typical_session_index — not semantically useful for retrieval', () => {
-    const text = buildCourseEmbeddingText(buildRow({ typical_session_index: 5 }));
+    const text = buildCourseEmbeddingText(
+      buildRow({ typical_session_index: 5 })
+    );
     expect(text).not.toContain('Session typique :');
   });
 
   it('omits availability — not semantically useful for retrieval', () => {
-    const text = buildCourseEmbeddingText(buildRow({ availability: ['JOUR', 'SOIR'] }));
+    const text = buildCourseEmbeddingText(
+      buildRow({ availability: ['JOUR', 'SOIR'] })
+    );
     expect(text).not.toContain('Disponibilité :');
   });
 
   it('omits sessions — not semantically useful for retrieval', () => {
-    const text = buildCourseEmbeddingText(buildRow({ sessions: ['Automne 2026'] }));
+    const text = buildCourseEmbeddingText(
+      buildRow({ sessions: ['Automne 2026'] })
+    );
     expect(text).not.toContain('Sessions :');
   });
 
@@ -181,7 +209,9 @@ describe('buildCourseEmbeddingText', () => {
   });
 
   it('filters non-string entries in array fields', () => {
-    const text = buildCourseEmbeddingText(buildRow({ prerequisite_codes: [null, 'LOG320'] as unknown as string[] }));
+    const text = buildCourseEmbeddingText(
+      buildRow({ prerequisite_codes: [null, 'LOG320'] as unknown as string[] })
+    );
     expect(text).toContain('LOG320');
     expect(text).not.toContain('null');
   });
@@ -190,7 +220,12 @@ describe('buildCourseEmbeddingText', () => {
 describe('buildCourseEmbeddingPayload', () => {
   it('includes all required fields', () => {
     const text = 'embedded text';
-    const payload = buildCourseEmbeddingPayload(buildRow(), text, 'Xenova/bge-m3', '2025-01-01T00:00:00.000Z');
+    const payload = buildCourseEmbeddingPayload(
+      buildRow(),
+      text,
+      'Xenova/bge-m3',
+      '2025-01-01T00:00:00.000Z'
+    );
 
     expect(payload.embedding_id).toBe('352507_182848');
     expect(payload.course_id).toBe(352507);
@@ -204,54 +239,93 @@ describe('buildCourseEmbeddingPayload', () => {
   });
 
   it('includes cycle when present', () => {
-    const payload = buildCourseEmbeddingPayload(buildRow({ cycle: 1 }), 'text', 'model', 'now');
+    const payload = buildCourseEmbeddingPayload(
+      buildRow({ cycle: 1 }),
+      'text',
+      'model',
+      'now'
+    );
     expect(payload.cycle).toBe(1);
   });
 
   it('omits cycle when null', () => {
-    const payload = buildCourseEmbeddingPayload(buildRow({ cycle: null }), 'text', 'model', 'now');
+    const payload = buildCourseEmbeddingPayload(
+      buildRow({ cycle: null }),
+      'text',
+      'model',
+      'now'
+    );
     expect(payload).not.toHaveProperty('cycle');
   });
 
   it('includes type and type_label for known types', () => {
-    const payload = buildCourseEmbeddingPayload(buildRow({ type: 'CONCE' }), 'text', 'model', 'now');
+    const payload = buildCourseEmbeddingPayload(
+      buildRow({ type: 'CONCE' }),
+      'text',
+      'model',
+      'now'
+    );
     expect(payload.type).toBe('CONCE');
     expect(payload.type_label).toBe('cours optionnel');
   });
 
   it('omits type fields when null', () => {
-    const payload = buildCourseEmbeddingPayload(buildRow({ type: null }), 'text', 'model', 'now');
+    const payload = buildCourseEmbeddingPayload(
+      buildRow({ type: null }),
+      'text',
+      'model',
+      'now'
+    );
     expect(payload).not.toHaveProperty('type');
     expect(payload).not.toHaveProperty('type_label');
   });
 
   it('includes typical_session_index when present', () => {
-    const payload = buildCourseEmbeddingPayload(buildRow({ typical_session_index: 3 }), 'text', 'model', 'now');
+    const payload = buildCourseEmbeddingPayload(
+      buildRow({ typical_session_index: 3 }),
+      'text',
+      'model',
+      'now'
+    );
     expect(payload.typical_session_index).toBe(3);
   });
 
   it('omits typical_session_index when null', () => {
-    const payload = buildCourseEmbeddingPayload(buildRow({ typical_session_index: null }), 'text', 'model', 'now');
+    const payload = buildCourseEmbeddingPayload(
+      buildRow({ typical_session_index: null }),
+      'text',
+      'model',
+      'now'
+    );
     expect(payload).not.toHaveProperty('typical_session_index');
   });
 
   it('includes unstructured_prerequisite when present', () => {
     const payload = buildCourseEmbeddingPayload(
       buildRow({ unstructured_prerequisite: 'Approbation.' }),
-      'text', 'model', 'now',
+      'text',
+      'model',
+      'now'
     );
     expect(payload.unstructured_prerequisite).toBe('Approbation.');
   });
 
   it('omits unstructured_prerequisite when null', () => {
-    const payload = buildCourseEmbeddingPayload(buildRow({ unstructured_prerequisite: null }), 'text', 'model', 'now');
+    const payload = buildCourseEmbeddingPayload(
+      buildRow({ unstructured_prerequisite: null }),
+      'text',
+      'model',
+      'now'
+    );
     expect(payload).not.toHaveProperty('unstructured_prerequisite');
   });
 
   it('defaults description to empty string when null/undefined', () => {
     const payload = buildCourseEmbeddingPayload(
       buildRow({ description: null as unknown as string }),
-      'text', 'model', 'now',
+      'text',
+      'model',
+      'now'
     );
     expect(payload.description).toBe('');
   });
@@ -266,8 +340,18 @@ describe('buildCourseEmbeddingPayload', () => {
   });
 
   it('has_prerequisites reflects the row value', () => {
-    const truePayload = buildCourseEmbeddingPayload(buildRow({ has_prerequisites: true }), 'text', 'model', 'now');
-    const falsePayload = buildCourseEmbeddingPayload(buildRow({ has_prerequisites: false }), 'text', 'model', 'now');
+    const truePayload = buildCourseEmbeddingPayload(
+      buildRow({ has_prerequisites: true }),
+      'text',
+      'model',
+      'now'
+    );
+    const falsePayload = buildCourseEmbeddingPayload(
+      buildRow({ has_prerequisites: false }),
+      'text',
+      'model',
+      'now'
+    );
     expect(truePayload.has_prerequisites).toBe(true);
     expect(falsePayload.has_prerequisites).toBe(false);
   });
@@ -302,7 +386,9 @@ describe('computeCourseChangeKey', () => {
 
   it('is deterministic for the same row', () => {
     const row = buildRow();
-    expect(computeCourseChangeKey(row)).toStrictEqual(computeCourseChangeKey(row));
+    expect(computeCourseChangeKey(row)).toStrictEqual(
+      computeCourseChangeKey(row)
+    );
   });
 
   it('produces a different hash when title changes', () => {
@@ -320,7 +406,9 @@ describe('computeCourseChangeKey', () => {
 
 describe('sanitizeEmbeddingRow', () => {
   it('decodes HTML entities in description', () => {
-    const row = sanitizeEmbeddingRow(buildRow({ description: 'R&amp;D &nbsp;et &lt;algo&gt;' }));
+    const row = sanitizeEmbeddingRow(
+      buildRow({ description: 'R&amp;D &nbsp;et &lt;algo&gt;' })
+    );
     expect(row.description).toContain('R&D');
     expect(row.description).toContain('<algo>');
     expect(row.description).not.toContain('&amp;');
@@ -328,19 +416,29 @@ describe('sanitizeEmbeddingRow', () => {
   });
 
   it('unescapes \\" sequences in description', () => {
-    const row = sanitizeEmbeddingRow(buildRow({ description: 'Le \\"machine learning\\".' }));
+    const row = sanitizeEmbeddingRow(
+      buildRow({ description: 'Le \\"machine learning\\".' })
+    );
     expect(row.description).toContain('"machine learning"');
     expect(row.description).not.toContain('\\"');
   });
 
   it('sanitizes unstructured_prerequisite when present', () => {
-    const row = sanitizeEmbeddingRow(buildRow({ unstructured_prerequisite: 'Avoir suivi &amp; réussi LOG121.' }));
-    expect(row.unstructured_prerequisite).toContain('Avoir suivi & réussi LOG121.');
+    const row = sanitizeEmbeddingRow(
+      buildRow({
+        unstructured_prerequisite: 'Avoir suivi &amp; réussi LOG121.'
+      })
+    );
+    expect(row.unstructured_prerequisite).toContain(
+      'Avoir suivi & réussi LOG121.'
+    );
     expect(row.unstructured_prerequisite).not.toContain('&amp;');
   });
 
   it('leaves unstructured_prerequisite null when null', () => {
-    const row = sanitizeEmbeddingRow(buildRow({ unstructured_prerequisite: null }));
+    const row = sanitizeEmbeddingRow(
+      buildRow({ unstructured_prerequisite: null })
+    );
     expect(row.unstructured_prerequisite).toBeNull();
   });
 

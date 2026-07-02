@@ -17,10 +17,10 @@ describe('EtsProgramService', () => {
         {
           provide: HttpService,
           useValue: {
-            get: jest.fn(),
-          },
-        },
-      ],
+            get: jest.fn()
+          }
+        }
+      ]
     }).compile();
 
     service = module.get<EtsProgramService>(EtsProgramService);
@@ -29,7 +29,7 @@ describe('EtsProgramService', () => {
 
   it('should map ETS API program results to internal DTOs', async () => {
     const mockTypes: ProgramTypeEtsApiDto[] = [
-      { id: 10, title: 'Baccalaureat' },
+      { id: 10, title: 'Baccalaureat' }
     ];
 
     const mockResponse: AxiosResponse = {
@@ -43,16 +43,16 @@ describe('EtsProgramService', () => {
             code: 'LOG',
             credits: '90',
             types: [10],
-            url: 'https://example.com/program/7084',
-          },
-        ],
+            url: 'https://example.com/program/7084'
+          }
+        ]
       },
       status: 200,
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(mockResponse));
@@ -69,11 +69,11 @@ describe('EtsProgramService', () => {
           code: 'LOG',
           credits: '90',
           programTypes: {
-            connect: [{ id: 10 }],
+            connect: [{ id: 10 }]
           },
-          url: 'https://example.com/program/7084',
-        },
-      ],
+          url: 'https://example.com/program/7084'
+        }
+      ]
     });
   });
 
@@ -89,16 +89,16 @@ describe('EtsProgramService', () => {
             code: 'PC',
             credits: null,
             types: [],
-            url: 'https://example.com/program/1822',
-          },
-        ],
+            url: 'https://example.com/program/1822'
+          }
+        ]
       },
       status: 200,
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(mockResponse));
@@ -113,10 +113,10 @@ describe('EtsProgramService', () => {
         code: 'PC',
         credits: null,
         programTypes: {
-          connect: [],
+          connect: []
         },
-        url: 'https://example.com/program/1822',
-      },
+        url: 'https://example.com/program/1822'
+      }
     ]);
   });
 });

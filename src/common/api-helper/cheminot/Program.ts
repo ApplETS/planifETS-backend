@@ -6,7 +6,7 @@ export class Program {
   constructor(
     public code: string,
     public courses: Course[] = [],
-    public choix: Course[] = [],
+    public choix: Course[] = []
   ) {}
 
   public static isProgramLine(line: string): boolean {
@@ -46,7 +46,7 @@ export class Program {
 
     // Handle regular courses (non-CHOIX)
     const existingCourseIndex = this.courses.findIndex(
-      (course) => course.code === newCourse.code,
+      (course) => course.code === newCourse.code
     );
 
     if (existingCourseIndex >= 0) {
@@ -62,8 +62,7 @@ export class Program {
     // Merge profiles and prerequisites for duplicate courses
     newCourse.prerequisites.forEach((newProfilePrereqs) => {
       const existingProfile = existingCourse.prerequisites.find(
-        (profilePrereqs) =>
-          profilePrereqs.profile === newProfilePrereqs.profile,
+        (profilePrereqs) => profilePrereqs.profile === newProfilePrereqs.profile
       );
 
       if (existingProfile) {

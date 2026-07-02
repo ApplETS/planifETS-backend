@@ -35,9 +35,9 @@ import { SessionModule } from './session/session.module';
     ProgramModule,
     ProgramCourseModule,
     EmbeddingModule,
-    LlmGenerationModule,
+    LlmGenerationModule
   ],
   controllers: [AppController],
-  exports: [HttpModule],
+  exports: [HttpModule]
 })
 export class AppModule {}

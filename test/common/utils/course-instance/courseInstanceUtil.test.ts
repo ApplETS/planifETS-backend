@@ -5,36 +5,42 @@ import { AvailabilityUtil } from '@/common/utils/course-instance/courseInstanceU
 describe('AvailabilityUtil', () => {
   describe('parseAvailability', () => {
     it('should parse valid single code', () => {
-      expect(AvailabilityUtil.parseAvailability('J')).toEqual([Availability.JOUR]);
-      expect(AvailabilityUtil.parseAvailability('S')).toEqual([Availability.SOIR]);
-      expect(AvailabilityUtil.parseAvailability('I')).toEqual([Availability.INTENSIF]);
+      expect(AvailabilityUtil.parseAvailability('J')).toEqual([
+        Availability.JOUR
+      ]);
+      expect(AvailabilityUtil.parseAvailability('S')).toEqual([
+        Availability.SOIR
+      ]);
+      expect(AvailabilityUtil.parseAvailability('I')).toEqual([
+        Availability.INTENSIF
+      ]);
     });
 
     it('should parse valid multiple codes (no duplicates)', () => {
       expect(AvailabilityUtil.parseAvailability('JS')).toEqual([
         Availability.JOUR,
-        Availability.SOIR,
+        Availability.SOIR
       ]);
       expect(AvailabilityUtil.parseAvailability('SI')).toEqual([
         Availability.SOIR,
-        Availability.INTENSIF,
+        Availability.INTENSIF
       ]);
       expect(AvailabilityUtil.parseAvailability('JIS')).toEqual([
         Availability.JOUR,
         Availability.INTENSIF,
-        Availability.SOIR,
+        Availability.SOIR
       ]);
     });
 
     it('should ignore case and remove duplicates', () => {
       expect(AvailabilityUtil.parseAvailability('jjs')).toEqual([
         Availability.JOUR,
-        Availability.SOIR,
+        Availability.SOIR
       ]);
       expect(AvailabilityUtil.parseAvailability('sijj')).toEqual([
         Availability.SOIR,
         Availability.INTENSIF,
-        Availability.JOUR,
+        Availability.JOUR
       ]);
     });
 
@@ -50,8 +56,8 @@ describe('AvailabilityUtil', () => {
       expect(
         AvailabilityUtil.areAvailabilitiesEqual(
           [Availability.JOUR, Availability.SOIR],
-          [Availability.JOUR, Availability.SOIR],
-        ),
+          [Availability.JOUR, Availability.SOIR]
+        )
       ).toBe(true);
     });
 
@@ -59,8 +65,8 @@ describe('AvailabilityUtil', () => {
       expect(
         AvailabilityUtil.areAvailabilitiesEqual(
           [Availability.SOIR, Availability.JOUR],
-          [Availability.JOUR, Availability.SOIR],
-        ),
+          [Availability.JOUR, Availability.SOIR]
+        )
       ).toBe(true);
     });
 
@@ -68,8 +74,8 @@ describe('AvailabilityUtil', () => {
       expect(
         AvailabilityUtil.areAvailabilitiesEqual(
           [Availability.JOUR],
-          [Availability.SOIR],
-        ),
+          [Availability.SOIR]
+        )
       ).toBe(false);
     });
 
@@ -77,8 +83,8 @@ describe('AvailabilityUtil', () => {
       expect(
         AvailabilityUtil.areAvailabilitiesEqual(
           [Availability.JOUR],
-          [Availability.JOUR, Availability.SOIR],
-        ),
+          [Availability.JOUR, Availability.SOIR]
+        )
       ).toBe(false);
     });
   });

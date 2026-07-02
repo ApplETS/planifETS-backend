@@ -9,7 +9,7 @@ export class ProgramsJobService {
 
   constructor(
     private readonly etsProgramService: EtsProgramService,
-    private readonly programService: ProgramService,
+    private readonly programService: ProgramService
   ) {}
 
   public async processPrograms(): Promise<void> {
@@ -22,7 +22,7 @@ export class ProgramsJobService {
     }
 
     this.logger.log(
-      `${types.length} types of programs and ${programs.length} programs fetched.`,
+      `${types.length} types of programs and ${programs.length} programs fetched.`
     );
     await this.programService.createProgramTypes(types);
     await this.programService.upsertPrograms(programs);

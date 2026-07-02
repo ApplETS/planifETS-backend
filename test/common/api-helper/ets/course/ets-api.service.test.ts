@@ -7,7 +7,7 @@ import { EtsApiService } from '@/common/api-helper/ets/course/ets-api.service';
 import { extractNumberFromString } from '@/common/utils/stringUtil';
 import {
   ETS_API_GET_ALL_COURSES,
-  ETS_API_GET_COURSES_BY_IDS,
+  ETS_API_GET_COURSES_BY_IDS
 } from '@/common/utils/url/url-constants';
 
 describe('EtsApiService', () => {
@@ -21,10 +21,10 @@ describe('EtsApiService', () => {
         {
           provide: HttpService,
           useValue: {
-            get: jest.fn(),
-          },
-        },
-      ],
+            get: jest.fn()
+          }
+        }
+      ]
     }).compile();
 
     service = module.get<EtsApiService>(EtsApiService);
@@ -40,16 +40,16 @@ describe('EtsApiService', () => {
             title: 'Petit chaton',
             description: 'Description 1',
             code: 'Miaow321',
-            cycle: null,
-          },
-        ],
+            cycle: null
+          }
+        ]
       },
       status: 200,
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(mockResponse));
@@ -62,8 +62,8 @@ describe('EtsApiService', () => {
         title: 'Petit chaton',
         description: 'Description 1',
         code: 'Miaow321',
-        cycle: null,
-      },
+        cycle: null
+      }
     ]);
   });
 
@@ -74,15 +74,15 @@ describe('EtsApiService', () => {
           id: 1,
           title: 'Prrrrrrrrrr',
           code: 'LOG100',
-          credits: 4,
-        },
+          credits: 4
+        }
       ],
       status: 200,
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(mockResponse));
@@ -94,8 +94,8 @@ describe('EtsApiService', () => {
         id: 1,
         title: 'Prrrrrrrrrr',
         code: 'LOG100',
-        credits: 4,
-      },
+        credits: 4
+      }
     ]);
   });
 
@@ -108,16 +108,16 @@ describe('EtsApiService', () => {
             title: 'League of Legends 123',
             description: 'Description 1',
             code: 'LOL123',
-            cycle: '2e cycle',
-          },
-        ],
+            cycle: '2e cycle'
+          }
+        ]
       },
       status: 200,
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     const mockCoursesByIdResponse: AxiosResponse = {
@@ -126,15 +126,15 @@ describe('EtsApiService', () => {
           id: 1,
           title: 'League of Legends 123',
           code: 'LOL123',
-          credits: 3,
-        },
+          credits: 3
+        }
       ],
       status: 200,
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     jest.spyOn(httpService, 'get').mockImplementation((url) => {
@@ -157,8 +157,8 @@ describe('EtsApiService', () => {
         description: 'Description 1',
         code: 'LOL123',
         cycle: extractNumberFromString('2e cycle'),
-        credits: 3,
-      },
+        credits: 3
+      }
     ]);
   });
 
@@ -169,12 +169,14 @@ describe('EtsApiService', () => {
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(mockResponse));
 
-    await expect(service.fetchCoursesById('1,2')).rejects.toThrow('No courses fetched.');
+    await expect(service.fetchCoursesById('1,2')).rejects.toThrow(
+      'No courses fetched.'
+    );
   });
 });

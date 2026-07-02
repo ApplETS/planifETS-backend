@@ -12,7 +12,17 @@ import { EtsProgramService } from './program/ets-program.service';
 @Module({
   imports: [HttpModule],
   controllers: [EtsApiController, EtsWebsiteController, EtsProgramController],
-  providers: [EtsApiService, EtsWebsiteService, EtsPlanETSService, EtsProgramService],
-  exports: [EtsApiService, EtsWebsiteService, EtsPlanETSService, EtsProgramService],
+  providers: [
+    EtsApiService,
+    EtsWebsiteService,
+    EtsPlanETSService,
+    EtsProgramService
+  ],
+  exports: [
+    EtsApiService,
+    EtsWebsiteService,
+    EtsPlanETSService,
+    EtsProgramService
+  ]
 })
 export class EtsModule {}

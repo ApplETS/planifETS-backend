@@ -1,7 +1,7 @@
 export async function retryTransient<T>(
   operation: () => Promise<T>,
   maxAttempts: number,
-  delayMs: number,
+  delayMs: number
 ): Promise<T> {
   let lastError: unknown;
 

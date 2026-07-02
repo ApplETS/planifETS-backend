@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import {
   ETS_API_GET_ALL_COURSES,
   ETS_API_GET_COURSES_BY_IDS,
-  ETS_USER_AGENT,
+  ETS_USER_AGENT
 } from '@/common/utils/url/url-constants';
 import { extractNumberFromString } from '@/utils/stringUtil';
 
@@ -42,10 +42,12 @@ export class EtsApiService {
 
       // Add credits to the courses in this batch
       const batchWithCredits = batch.map((course) => {
-        const courseCreds = coursesFetchedById.find((cc) => cc.id === course.id);
+        const courseCreds = coursesFetchedById.find(
+          (cc) => cc.id === course.id
+        );
         return {
           ...course,
-          credits: courseCreds?.credits ?? null,
+          credits: courseCreds?.credits ?? null
         };
       });
 
@@ -62,8 +64,8 @@ export class EtsApiService {
   public async fetchAllCoursesWithoutCredits(): Promise<ICourses[]> {
     const response = await firstValueFrom(
       this.httpService.get(ETS_API_GET_ALL_COURSES, {
-        headers: { 'User-Agent': ETS_USER_AGENT },
-      }),
+        headers: { 'User-Agent': ETS_USER_AGENT }
+      })
     );
     const raw = response.data as CourseIndexResponseDto;
     const courses = raw.results;
@@ -77,7 +79,7 @@ export class EtsApiService {
       title: course.title,
       description: course.description,
       code: course.code,
-      cycle: course.cycle ? extractNumberFromString(course.cycle) : null,
+      cycle: course.cycle ? extractNumberFromString(course.cycle) : null
     }));
   }
 
@@ -86,8 +88,8 @@ export class EtsApiService {
   public async fetchCoursesById(ids: string): Promise<CourseByIdEtsApiDto[]> {
     const response = await firstValueFrom(
       this.httpService.get(`${ETS_API_GET_COURSES_BY_IDS}${ids}`, {
-        headers: { 'User-Agent': ETS_USER_AGENT },
-      }),
+        headers: { 'User-Agent': ETS_USER_AGENT }
+      })
     );
     const courses = response.data;
 
@@ -99,7 +101,7 @@ export class EtsApiService {
       id: course.id,
       title: course.title,
       code: course.code,
-      credits: course.credits,
+      credits: course.credits
     }));
   }
 }

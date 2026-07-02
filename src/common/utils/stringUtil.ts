@@ -41,4 +41,4 @@ export const formatMessage = (message: string | Error | object): string => {
     }
   }
   return String(message);
-}
+};

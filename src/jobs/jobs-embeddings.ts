@@ -11,11 +11,11 @@ async function bootstrap(): Promise<void> {
 
   try {
     app = await NestFactory.createApplicationContext(AppModule, {
-      logger: ['log', 'warn', 'error'],
+      logger: ['log', 'warn', 'error']
     });
 
     const indexer = app.get(CourseEmbeddingIndexerService, {
-      strict: false,
+      strict: false
     });
 
     await indexer.run();

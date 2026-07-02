@@ -28,7 +28,7 @@ export const getPlanificationPdfUrl = (programCode: string): string => {
 
 export const getHorairePdfUrl = (
   sessionCode: string,
-  programCode: string,
+  programCode: string
 ): string => {
   return `https://horaire.etsmtl.ca/HorairePublication/HorairePublication_${sessionCode}_${programCode}.pdf`;
 };
@@ -62,7 +62,7 @@ const getCurrentEtsSessionCode = (date: Date = new Date()): number => {
 
 export const getPlanETSCourseUrl = (
   courseCode: string,
-  sessionCode: number = getCurrentEtsSessionCode(),
+  sessionCode: number = getCurrentEtsSessionCode()
 ): string => {
   return `${PLANETS_BASE_URL}Versionpdf.aspx?session=${sessionCode}&sigle=${courseCode}`;
 };

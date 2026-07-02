@@ -4,7 +4,7 @@ import {
   CourseInstance,
   Prisma,
   Session,
-  Trimester,
+  Trimester
 } from '@prisma/client';
 
 import { CourseInstanceService } from '../../src/course-instance/course-instance.service';
@@ -33,7 +33,7 @@ describe('CourseInstanceService', () => {
     cycle: 1,
     createdAt: now,
     updatedAt: now,
-    ...overrides,
+    ...overrides
   });
 
   const buildSession = (overrides: Partial<Session> = {}): Session => ({
@@ -41,11 +41,11 @@ describe('CourseInstanceService', () => {
     trimester: Trimester.AUTOMNE,
     createdAt: now,
     updatedAt: now,
-    ...overrides,
+    ...overrides
   });
 
   const buildCourseInstance = (
-    overrides: Partial<CourseInstance> = {},
+    overrides: Partial<CourseInstance> = {}
   ): CourseInstance => ({
     courseId: 352405,
     sessionYear: 2026,
@@ -53,7 +53,7 @@ describe('CourseInstanceService', () => {
     availability: [Availability.JOUR],
     createdAt: now,
     updatedAt: now,
-    ...overrides,
+    ...overrides
   });
 
   beforeEach(() => {
@@ -63,8 +63,8 @@ describe('CourseInstanceService', () => {
         findMany: jest.fn(),
         create: jest.fn(),
         update: jest.fn(),
-        delete: jest.fn(),
-      },
+        delete: jest.fn()
+      }
     };
 
     service = new CourseInstanceService(prismaMock as unknown as PrismaService);
@@ -79,8 +79,8 @@ describe('CourseInstanceService', () => {
       courseId_sessionYear_sessionTrimester: {
         courseId: 352405,
         sessionYear: 2026,
-        sessionTrimester: Trimester.AUTOMNE,
-      },
+        sessionTrimester: Trimester.AUTOMNE
+      }
     };
     const record = buildCourseInstance();
 
@@ -88,42 +88,42 @@ describe('CourseInstanceService', () => {
 
     await expect(service.getCourseInstance(where)).resolves.toBe(record);
     expect(prismaMock.courseInstance.findUnique).toHaveBeenCalledWith({
-      where,
+      where
     });
   });
 
   it('gets course instances for the provided sessions', async () => {
     const sessions = [
       buildSession(),
-      buildSession({ year: 2027, trimester: Trimester.HIVER }),
+      buildSession({ year: 2027, trimester: Trimester.HIVER })
     ];
     const records = [
       buildCourseInstance(),
       buildCourseInstance({
         sessionYear: 2027,
         sessionTrimester: Trimester.HIVER,
-        availability: [Availability.SOIR],
-      }),
+        availability: [Availability.SOIR]
+      })
     ];
 
     prismaMock.courseInstance.findMany.mockResolvedValue(records);
 
     await expect(
-      service.getCourseInstancesBySessions(sessions),
+      service.getCourseInstancesBySessions(sessions)
     ).resolves.toEqual(records);
     expect(prismaMock.courseInstance.findMany).toHaveBeenCalledWith({
       where: {
         OR: [
           {
             sessionYear: 2026,
-            sessionTrimester: Trimester.AUTOMNE,
+            sessionTrimester: Trimester.AUTOMNE
           },
           {
             sessionYear: 2027,
-            sessionTrimester: Trimester.HIVER,
-          },
-        ],
-      },
+            sessionTrimester: Trimester.HIVER
+          }
+        ]
+      }
     });
   });
 
@@ -141,19 +141,19 @@ describe('CourseInstanceService', () => {
     const records = [
       {
         ...buildCourseInstance({ availability: [Availability.JOUR] }),
-        session,
+        session
       },
       {
         ...buildCourseInstance({
           sessionYear: 2027,
           sessionTrimester: Trimester.HIVER,
-          availability: [Availability.SOIR, Availability.INTENSIF],
+          availability: [Availability.SOIR, Availability.INTENSIF]
         }),
         session: buildSession({
           year: 2027,
-          trimester: Trimester.HIVER,
-        }),
-      },
+          trimester: Trimester.HIVER
+        })
+      }
     ];
 
     prismaMock.courseInstance.findMany.mockResolvedValue(records);
@@ -161,21 +161,21 @@ describe('CourseInstanceService', () => {
     await expect(service.getCourseAvailability(352405)).resolves.toEqual([
       {
         session,
-        available: [Availability.JOUR],
+        available: [Availability.JOUR]
       },
       {
         session: buildSession({
           year: 2027,
-          trimester: Trimester.HIVER,
+          trimester: Trimester.HIVER
         }),
-        available: [Availability.SOIR, Availability.INTENSIF],
-      },
+        available: [Availability.SOIR, Availability.INTENSIF]
+      }
     ]);
     expect(prismaMock.courseInstance.findMany).toHaveBeenCalledWith({
       where: { courseId: 352405 },
       include: {
-        session: true,
-      },
+        session: true
+      }
     });
   });
 
@@ -183,20 +183,20 @@ describe('CourseInstanceService', () => {
     const records = [
       {
         ...buildCourseInstance(),
-        course: buildCourse(),
-      },
+        course: buildCourse()
+      }
     ];
 
     prismaMock.courseInstance.findMany.mockResolvedValue(records);
 
     await expect(service.getCourseInstancesByCourse(352405)).resolves.toEqual(
-      records,
+      records
     );
     expect(prismaMock.courseInstance.findMany).toHaveBeenCalledWith({
       where: { courseId: 352405 },
       include: {
-        course: true,
-      },
+        course: true
+      }
     });
   });
 
@@ -209,7 +209,7 @@ describe('CourseInstanceService', () => {
     prismaMock.courseInstance.create.mockResolvedValue(createdRecord);
 
     await expect(
-      service.createCourseInstance(course, session, availability),
+      service.createCourseInstance(course, session, availability)
     ).resolves.toEqual(createdRecord);
     expect(prismaMock.courseInstance.create).toHaveBeenCalledWith({
       data: {
@@ -218,12 +218,12 @@ describe('CourseInstanceService', () => {
           connect: {
             year_trimester: {
               year: session.year,
-              trimester: session.trimester,
-            },
-          },
+              trimester: session.trimester
+            }
+          }
         },
-        availability,
-      },
+        availability
+      }
     });
   });
 
@@ -233,21 +233,21 @@ describe('CourseInstanceService', () => {
 
     prismaMock.courseInstance.update.mockResolvedValue({
       ...instance,
-      availability,
+      availability
     });
 
     await expect(
-      service.updateCourseInstanceAvailability(instance, availability),
+      service.updateCourseInstanceAvailability(instance, availability)
     ).resolves.toBeUndefined();
     expect(prismaMock.courseInstance.update).toHaveBeenCalledWith({
       where: {
         courseId_sessionYear_sessionTrimester: {
           courseId: instance.courseId,
           sessionYear: instance.sessionYear,
-          sessionTrimester: instance.sessionTrimester,
-        },
+          sessionTrimester: instance.sessionTrimester
+        }
       },
-      data: { availability },
+      data: { availability }
     });
   });
 
@@ -257,16 +257,16 @@ describe('CourseInstanceService', () => {
     prismaMock.courseInstance.delete.mockResolvedValue(deletedRecord);
 
     await expect(
-      service.deleteCourseInstance(352405, 2026, Trimester.AUTOMNE),
+      service.deleteCourseInstance(352405, 2026, Trimester.AUTOMNE)
     ).resolves.toEqual(deletedRecord);
     expect(prismaMock.courseInstance.delete).toHaveBeenCalledWith({
       where: {
         courseId_sessionYear_sessionTrimester: {
           courseId: 352405,
           sessionYear: 2026,
-          sessionTrimester: Trimester.AUTOMNE,
-        },
-      },
+          sessionTrimester: Trimester.AUTOMNE
+        }
+      }
     });
   });
 });

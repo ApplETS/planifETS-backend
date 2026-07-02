@@ -9,7 +9,6 @@ export default async function globalSetup(): Promise<void> {
   const databaseUrl = process.env.DATABASE_URL;
   if (!databaseUrl) throw new Error('DATABASE_URL is missing in globalSetup');
 
-
   assertIsTestDatabase(databaseUrl);
 
   // Ensure schema is up-to-date for the test DB

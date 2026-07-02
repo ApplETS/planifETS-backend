@@ -1,4 +1,8 @@
-import { extractNumberFromString, formatMessage, stripHtmlTags } from "@/common/utils/stringUtil";
+import {
+  extractNumberFromString,
+  formatMessage,
+  stripHtmlTags
+} from '@/common/utils/stringUtil';
 
 describe('extractNumberFromString', () => {
   it('should extract the first number from a string', () => {
@@ -20,9 +24,13 @@ describe('stripHtmlTags', () => {
     expect(stripHtmlTags('')).toBe('');
     expect(stripHtmlTags(undefined as never)).toBe(undefined);
     expect(stripHtmlTags('No tags')).toBe('No tags');
-    expect(stripHtmlTags('<span>&quot;Hello&quot; &apos;World&apos;</span>')).toBe(`"Hello" 'World'`);
+    expect(
+      stripHtmlTags('<span>&quot;Hello&quot; &apos;World&apos;</span>')
+    ).toBe(`"Hello" 'World'`);
     expect(stripHtmlTags('<b>   spaced   </b>')).toBe('spaced');
-    expect(stripHtmlTags('<b>multi   space</b>   <i>test</i>')).toBe('multi space test');
+    expect(stripHtmlTags('<b>multi   space</b>   <i>test</i>')).toBe(
+      'multi space test'
+    );
   });
 });
 

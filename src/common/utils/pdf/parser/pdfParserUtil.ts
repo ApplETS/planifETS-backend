@@ -6,7 +6,7 @@ export class PdfParserUtil {
 
   public static async parsePdfBuffer<T>(
     pdfBuffer: Buffer,
-    processData: (pdfData: Output) => T,
+    processData: (pdfData: Output) => T
   ): Promise<T> {
     const parser = new PDFParser();
 

@@ -7,7 +7,7 @@ import {
   getNestedProperty,
   isNotFoundError,
   isRecord,
-  retryTransient,
+  retryTransient
 } from './qdrant-error.util';
 
 export interface CourseQdrantPoint {
@@ -50,7 +50,9 @@ export class QdrantCourseIndexService {
 
       this.validateCollection(info);
 
-      this.logger.log(`Qdrant collection already exists: ${this.collectionName}`);
+      this.logger.log(
+        `Qdrant collection already exists: ${this.collectionName}`
+      );
     } catch (error) {
       if (!isNotFoundError(error)) {
         throw error;
@@ -61,8 +63,8 @@ export class QdrantCourseIndexService {
       await this.client.createCollection(this.collectionName, {
         vectors: {
           size: BGE_M3_VECTOR_SIZE,
-          distance: 'Cosine',
-        },
+          distance: 'Cosine'
+        }
       });
     }
   }
@@ -76,7 +78,7 @@ export class QdrantCourseIndexService {
         offset: nextOffset,
         limit: 250,
         with_payload: ['text_hash'],
-        with_vector: false,
+        with_vector: false
       });
 
       for (const point of response.points) {
@@ -87,7 +89,8 @@ export class QdrantCourseIndexService {
       }
 
       const raw = response.next_page_offset;
-      nextOffset = typeof raw === 'string' || typeof raw === 'number' ? raw : undefined;
+      nextOffset =
+        typeof raw === 'string' || typeof raw === 'number' ? raw : undefined;
     } while (nextOffset !== undefined && nextOffset !== null);
 
     return hashes;
@@ -95,19 +98,21 @@ export class QdrantCourseIndexService {
 
   public async search(
     vector: number[],
-    options: { limit: number; scoreThreshold: number; filter?: object },
+    options: { limit: number; scoreThreshold: number; filter?: object }
   ): Promise<Array<{ payload: CourseEmbeddingPayload; score: number }>> {
     const results = await this.client.search(this.collectionName, {
       vector,
       limit: options.limit,
       score_threshold: options.scoreThreshold,
-      filter: options.filter as Parameters<typeof this.client.search>[1]['filter'],
-      with_payload: true,
+      filter: options.filter as Parameters<
+        typeof this.client.search
+      >[1]['filter'],
+      with_payload: true
     });
 
     return results.map((result) => ({
       payload: result.payload as unknown as CourseEmbeddingPayload,
-      score: result.score,
+      score: result.score
     }));
   }
 
@@ -118,21 +123,25 @@ export class QdrantCourseIndexService {
 
     const qdrantPoints = points.map(toQdrantUpsertPoint);
 
-    this.logger.debug(`Upserting ${qdrantPoints.length} points to collection ${this.collectionName}`);
+    this.logger.debug(
+      `Upserting ${qdrantPoints.length} points to collection ${this.collectionName}`
+    );
 
     try {
       await retryTransient(
         () =>
           this.client.upsert(this.collectionName, {
             wait: true,
-            points: qdrantPoints,
+            points: qdrantPoints
           }),
         3,
-        1000,
+        1000
       );
       this.logger.debug(`Successfully upserted ${qdrantPoints.length} points`);
     } catch (error) {
-      this.logger.error(`Failed to upsert ${qdrantPoints.length} points: ${error}`);
+      this.logger.error(
+        `Failed to upsert ${qdrantPoints.length} points: ${error}`
+      );
       throw error;
     }
   }
@@ -142,19 +151,19 @@ export class QdrantCourseIndexService {
 
     if (!vectors) {
       throw new Error(
-        `Cannot read vector configuration for collection ${this.collectionName}.`,
+        `Cannot read vector configuration for collection ${this.collectionName}.`
       );
     }
 
     if (vectors.size !== BGE_M3_VECTOR_SIZE) {
       throw new Error(
-        `Invalid Qdrant vector size for ${this.collectionName}: got ${vectors.size}, expected ${BGE_M3_VECTOR_SIZE}.`,
+        `Invalid Qdrant vector size for ${this.collectionName}: got ${vectors.size}, expected ${BGE_M3_VECTOR_SIZE}.`
       );
     }
 
     if (vectors.distance.toLowerCase() !== 'cosine') {
       throw new Error(
-        `Invalid Qdrant distance for ${this.collectionName}: got ${vectors.distance}, expected Cosine.`,
+        `Invalid Qdrant distance for ${this.collectionName}: got ${vectors.distance}, expected Cosine.`
       );
     }
   }
@@ -165,8 +174,8 @@ function toQdrantUpsertPoint(point: CourseQdrantPoint): QdrantUpsertPoint {
     id: point.id,
     vector: point.vector,
     payload: {
-      ...point.payload,
-    },
+      ...point.payload
+    }
   };
 }
 
@@ -196,6 +205,6 @@ function parseVectorConfig(value: unknown): VectorConfig | undefined {
 
   return {
     size,
-    distance,
+    distance
   };
 }

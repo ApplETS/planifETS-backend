@@ -26,16 +26,16 @@ describe('CoursesJobService', () => {
 
   beforeEach(() => {
     etsWebsiteServiceMock = {
-      fetchCourseDescriptionFromEtsWebsite: jest.fn(),
+      fetchCourseDescriptionFromEtsWebsite: jest.fn()
     };
 
     planetsServiceMock = {
-      fetchCourseDescriptionFromPlanETS: jest.fn(),
+      fetchCourseDescriptionFromPlanETS: jest.fn()
     };
 
     courseServiceMock = {
       getCoursesForDescriptionSync: jest.fn(),
-      updateCourseDescriptionsBatch: jest.fn(),
+      updateCourseDescriptionsBatch: jest.fn()
     };
 
     service = new CoursesJobService(
@@ -45,7 +45,7 @@ describe('CoursesJobService', () => {
       courseServiceMock as unknown as CourseService,
       {} as ProgramCourseService,
       {} as ProgramService,
-      {} as CheminotService,
+      {} as CheminotService
     );
     logger = (service as unknown as { logger: Logger }).logger;
   });
@@ -57,7 +57,7 @@ describe('CoursesJobService', () => {
   it('updates course descriptions from the website when they changed', async () => {
     courseServiceMock.getCoursesForDescriptionSync.mockResolvedValue([
       { id: 1, code: 'LOG210', description: 'Old description' },
-      { id: 2, code: 'LOG121', description: 'Already correct' },
+      { id: 2, code: 'LOG121', description: 'Already correct' }
     ]);
     etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite
       .mockResolvedValueOnce('New description')
@@ -66,19 +66,25 @@ describe('CoursesJobService', () => {
     await service.syncCourseDescriptionsFromEtsWebsite();
 
     expect(
-      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite,
+      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite
     ).toHaveBeenNthCalledWith(1, 'LOG210');
     expect(
-      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite,
+      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite
     ).toHaveBeenNthCalledWith(2, 'LOG121');
-    expect(planetsServiceMock.fetchCourseDescriptionFromPlanETS).not.toHaveBeenCalled();
-    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenCalledTimes(1);
-    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenCalledWith([
+    expect(
+      planetsServiceMock.fetchCourseDescriptionFromPlanETS
+    ).not.toHaveBeenCalled();
+    expect(
+      courseServiceMock.updateCourseDescriptionsBatch
+    ).toHaveBeenCalledTimes(1);
+    expect(
+      courseServiceMock.updateCourseDescriptionsBatch
+    ).toHaveBeenCalledWith([
       {
         id: 1,
         code: 'LOG210',
-        description: 'New description',
-      },
+        description: 'New description'
+      }
     ]);
   });
 
@@ -87,37 +93,41 @@ describe('CoursesJobService', () => {
 
     courseServiceMock.getCoursesForDescriptionSync.mockResolvedValue([
       { id: 1, code: 'LOG210', description: 'Old description' },
-      { id: 2, code: 'LOG121', description: 'Old description' },
+      { id: 2, code: 'LOG121', description: 'Old description' }
     ]);
     etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite
       .mockRejectedValueOnce(new Error('HTTP 404'))
       .mockResolvedValueOnce('Updated LOG121');
     planetsServiceMock.fetchCourseDescriptionFromPlanETS.mockRejectedValueOnce(
-      new Error('HTTP 404'),
+      new Error('HTTP 404')
     );
 
     await service.syncCourseDescriptionsFromEtsWebsite();
 
-    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenCalledTimes(1);
-    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenCalledWith([
+    expect(
+      courseServiceMock.updateCourseDescriptionsBatch
+    ).toHaveBeenCalledTimes(1);
+    expect(
+      courseServiceMock.updateCourseDescriptionsBatch
+    ).toHaveBeenCalledWith([
       {
         id: 2,
         code: 'LOG121',
-        description: 'Updated LOG121',
-      },
+        description: 'Updated LOG121'
+      }
     ]);
 
     expect(warnSpy).toHaveBeenCalledWith(
-      'Failed to sync descriptions for courses because they could not be found on the ETS website or their description could not be extracted: [LOG210]',
+      'Failed to sync descriptions for courses because they could not be found on the ETS website or their description could not be extracted: [LOG210]'
     );
     expect(
-      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite,
+      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite
     ).toHaveBeenCalledTimes(2);
     expect(
-      planetsServiceMock.fetchCourseDescriptionFromPlanETS,
+      planetsServiceMock.fetchCourseDescriptionFromPlanETS
     ).toHaveBeenCalledTimes(1);
     expect(
-      planetsServiceMock.fetchCourseDescriptionFromPlanETS,
+      planetsServiceMock.fetchCourseDescriptionFromPlanETS
     ).toHaveBeenCalledWith('LOG210');
   });
 
@@ -125,22 +135,27 @@ describe('CoursesJobService', () => {
     const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => {});
 
     courseServiceMock.getCoursesForDescriptionSync.mockResolvedValue([
-      { id: 3, code: '' as unknown as Course['code'], description: 'Old description' },
-      { id: 4, code: 'LOG121', description: 'Old description' },
+      {
+        id: 3,
+        code: '' as unknown as Course['code'],
+        description: 'Old description'
+      },
+      { id: 4, code: 'LOG121', description: 'Old description' }
     ]);
-    etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite
-      .mockResolvedValueOnce('Updated LOG121');
+    etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite.mockResolvedValueOnce(
+      'Updated LOG121'
+    );
 
     await service.syncCourseDescriptionsFromEtsWebsite();
 
     expect(
-      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite,
+      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite
     ).toHaveBeenCalledTimes(1);
     expect(
-      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite,
+      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite
     ).toHaveBeenCalledWith('LOG121');
     expect(warnSpy).toHaveBeenCalledWith(
-      'Skipping course description sync for course 3: missing course code.',
+      'Skipping course description sync for course 3: missing course code.'
     );
   });
 
@@ -149,19 +164,19 @@ describe('CoursesJobService', () => {
 
     courseServiceMock.getCoursesForDescriptionSync.mockResolvedValue([
       { id: 1, code: 'LOG210', description: 'Old description' },
-      { id: 2, code: 'LOG121', description: 'Keep me' },
+      { id: 2, code: 'LOG121', description: 'Keep me' }
     ]);
     etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite
       .mockResolvedValueOnce('Fresh description')
       .mockRejectedValueOnce(new Error('Timeout'));
     planetsServiceMock.fetchCourseDescriptionFromPlanETS.mockRejectedValueOnce(
-      new Error('Timeout'),
+      new Error('Timeout')
     );
 
     await service.syncCourseDescriptionsFromEtsWebsite();
 
     expect(logSpy).toHaveBeenCalledWith(
-      'Course description sync completed. Processed 2 courses, updated 1, skipped 0, failed 1.',
+      'Course description sync completed. Processed 2 courses, updated 1, skipped 0, failed 1.'
     );
   });
 
@@ -180,12 +195,12 @@ describe('CoursesJobService', () => {
       { id: 9, code: 'LOG009', description: 'Old 9' },
       { id: 10, code: 'LOG010', description: 'Old 10' },
       { id: 11, code: 'LOG011', description: 'Old 11' },
-      { id: 12, code: 'LOG012', description: 'Old 12' },
+      { id: 12, code: 'LOG012', description: 'Old 12' }
     ]);
     etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite
       .mockResolvedValueOnce('New 1')
       .mockRejectedValueOnce(
-        new Error('Could not extract course description from ETS website'),
+        new Error('Could not extract course description from ETS website')
       )
       .mockResolvedValueOnce('New 3')
       .mockResolvedValueOnce('New 4')
@@ -195,49 +210,49 @@ describe('CoursesJobService', () => {
       .mockResolvedValueOnce('New 8')
       .mockResolvedValueOnce('New 9')
       .mockRejectedValueOnce(
-        new Error('Could not extract course description from ETS website'),
+        new Error('Could not extract course description from ETS website')
       )
       .mockResolvedValueOnce('New 11')
       .mockResolvedValueOnce('New 12');
     planetsServiceMock.fetchCourseDescriptionFromPlanETS
       .mockRejectedValueOnce(
-        new Error('Could not extract course description from PlanETS'),
+        new Error('Could not extract course description from PlanETS')
       )
       .mockRejectedValueOnce(
-        new Error('Could not extract course description from PlanETS'),
+        new Error('Could not extract course description from PlanETS')
       );
 
     await service.syncCourseDescriptionsFromEtsWebsite();
 
     expect(
-      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite,
+      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite
     ).toHaveBeenCalledTimes(12);
     expect(
-      planetsServiceMock.fetchCourseDescriptionFromPlanETS,
+      planetsServiceMock.fetchCourseDescriptionFromPlanETS
     ).toHaveBeenCalledTimes(2);
-    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenCalledTimes(2);
-    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenNthCalledWith(
-      1,
-      [
-        { id: 1, code: 'LOG001', description: 'New 1' },
-        { id: 3, code: 'LOG003', description: 'New 3' },
-        { id: 4, code: 'LOG004', description: 'New 4' },
-        { id: 5, code: 'LOG005', description: 'New 5' },
-        { id: 6, code: 'LOG006', description: 'New 6' },
-        { id: 7, code: 'LOG007', description: 'New 7' },
-        { id: 8, code: 'LOG008', description: 'New 8' },
-        { id: 9, code: 'LOG009', description: 'New 9' },
-      ],
-    );
-    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenNthCalledWith(
-      2,
-      [
-        { id: 11, code: 'LOG011', description: 'New 11' },
-        { id: 12, code: 'LOG012', description: 'New 12' },
-      ],
-    );
+    expect(
+      courseServiceMock.updateCourseDescriptionsBatch
+    ).toHaveBeenCalledTimes(2);
+    expect(
+      courseServiceMock.updateCourseDescriptionsBatch
+    ).toHaveBeenNthCalledWith(1, [
+      { id: 1, code: 'LOG001', description: 'New 1' },
+      { id: 3, code: 'LOG003', description: 'New 3' },
+      { id: 4, code: 'LOG004', description: 'New 4' },
+      { id: 5, code: 'LOG005', description: 'New 5' },
+      { id: 6, code: 'LOG006', description: 'New 6' },
+      { id: 7, code: 'LOG007', description: 'New 7' },
+      { id: 8, code: 'LOG008', description: 'New 8' },
+      { id: 9, code: 'LOG009', description: 'New 9' }
+    ]);
+    expect(
+      courseServiceMock.updateCourseDescriptionsBatch
+    ).toHaveBeenNthCalledWith(2, [
+      { id: 11, code: 'LOG011', description: 'New 11' },
+      { id: 12, code: 'LOG012', description: 'New 12' }
+    ]);
     expect(warnSpy).toHaveBeenCalledWith(
-      'Failed to sync descriptions for courses because they could not be found on the ETS website or their description could not be extracted: [LOG002, LOG010]',
+      'Failed to sync descriptions for courses because they could not be found on the ETS website or their description could not be extracted: [LOG002, LOG010]'
     );
   });
 
@@ -245,29 +260,33 @@ describe('CoursesJobService', () => {
     const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => {});
 
     courseServiceMock.getCoursesForDescriptionSync.mockResolvedValue([
-      { id: 1, code: 'LOG210', description: 'Old description' },
+      { id: 1, code: 'LOG210', description: 'Old description' }
     ]);
     etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite.mockRejectedValueOnce(
-      new Error('Timeout'),
+      new Error('Timeout')
     );
     planetsServiceMock.fetchCourseDescriptionFromPlanETS.mockResolvedValueOnce(
-      'New description',
+      'New description'
     );
 
     await service.syncCourseDescriptionsFromEtsWebsite();
 
     expect(
-      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite,
+      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite
     ).toHaveBeenCalledTimes(1);
     expect(
-      planetsServiceMock.fetchCourseDescriptionFromPlanETS,
+      planetsServiceMock.fetchCourseDescriptionFromPlanETS
     ).toHaveBeenCalledTimes(1);
     expect(
-      planetsServiceMock.fetchCourseDescriptionFromPlanETS,
+      planetsServiceMock.fetchCourseDescriptionFromPlanETS
     ).toHaveBeenCalledWith('LOG210');
-    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenCalledTimes(1);
-    expect(courseServiceMock.updateCourseDescriptionsBatch).toHaveBeenCalledWith([
-      { id: 1, code: 'LOG210', description: 'New description' },
+    expect(
+      courseServiceMock.updateCourseDescriptionsBatch
+    ).toHaveBeenCalledTimes(1);
+    expect(
+      courseServiceMock.updateCourseDescriptionsBatch
+    ).toHaveBeenCalledWith([
+      { id: 1, code: 'LOG210', description: 'New description' }
     ]);
     expect(warnSpy).not.toHaveBeenCalled();
   });
@@ -276,26 +295,28 @@ describe('CoursesJobService', () => {
     const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => {});
 
     courseServiceMock.getCoursesForDescriptionSync.mockResolvedValue([
-      { id: 1, code: 'LOG210', description: 'Old description' },
+      { id: 1, code: 'LOG210', description: 'Old description' }
     ]);
     etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite.mockRejectedValueOnce(
-      new Error('Timeout'),
+      new Error('Timeout')
     );
     planetsServiceMock.fetchCourseDescriptionFromPlanETS.mockRejectedValueOnce(
-      new Error('Timeout'),
+      new Error('Timeout')
     );
 
     await service.syncCourseDescriptionsFromEtsWebsite();
 
     expect(
-      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite,
+      etsWebsiteServiceMock.fetchCourseDescriptionFromEtsWebsite
     ).toHaveBeenCalledTimes(1);
     expect(
-      planetsServiceMock.fetchCourseDescriptionFromPlanETS,
+      planetsServiceMock.fetchCourseDescriptionFromPlanETS
     ).toHaveBeenCalledTimes(1);
-    expect(courseServiceMock.updateCourseDescriptionsBatch).not.toHaveBeenCalled();
+    expect(
+      courseServiceMock.updateCourseDescriptionsBatch
+    ).not.toHaveBeenCalled();
     expect(warnSpy).toHaveBeenCalledWith(
-      'Failed to sync descriptions for courses because they could not be found on the ETS website or their description could not be extracted: [LOG210]',
+      'Failed to sync descriptions for courses because they could not be found on the ETS website or their description could not be extracted: [LOG210]'
     );
   });
 });

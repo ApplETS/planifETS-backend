@@ -1,7 +1,11 @@
 import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { GenerateDto, GenerateResponseDto, StatusResponseDto } from './dtos/generate.dto';
+import {
+  GenerateDto,
+  GenerateResponseDto,
+  StatusResponseDto
+} from './dtos/generate.dto';
 import { LlmService } from './llm.service';
 
 @ApiTags('Chatbot')
@@ -19,9 +23,13 @@ export class LlmController {
 
   @Post('recommend')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Generate course recommendations from a natural language prompt' })
+  @ApiOperation({
+    summary: 'Generate course recommendations from a natural language prompt'
+  })
   @ApiOkResponse({ type: GenerateResponseDto })
-  public async recommend(@Body() body: GenerateDto): Promise<GenerateResponseDto> {
+  public async recommend(
+    @Body() body: GenerateDto
+  ): Promise<GenerateResponseDto> {
     return this.llmService.recommend(body.prompt);
   }
 }

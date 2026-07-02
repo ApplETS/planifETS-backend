@@ -21,12 +21,19 @@ const buildMockChildProcess = () => {
   const child = {
     send: jest.fn(),
     kill: jest.fn(),
-    on: jest.fn().mockImplementation((event: keyof ChildProcessEventMap, cb: ChildProcessEventMap[typeof event]) => {
-      listeners[event] = cb as never;
-    }),
+    on: jest
+      .fn()
+      .mockImplementation(
+        (
+          event: keyof ChildProcessEventMap,
+          cb: ChildProcessEventMap[typeof event]
+        ) => {
+          listeners[event] = cb as never;
+        }
+      ),
     emit: (event: keyof ChildProcessEventMap, ...args: unknown[]) => {
       (listeners[event] as ((...a: unknown[]) => void) | undefined)?.(...args);
-    },
+    }
   };
   return child;
 };
@@ -59,7 +66,9 @@ describe('EmbeddingWorkerClient', () => {
   describe('embed — worker not found', () => {
     it('throws when the worker script does not exist on disk', async () => {
       mockFsExistsSync.mockReturnValue(false);
-      await expect(client.embed(['hello'])).rejects.toThrow('Embedding worker not found');
+      await expect(client.embed(['hello'])).rejects.toThrow(
+        'Embedding worker not found'
+      );
     });
   });
 
@@ -98,12 +107,18 @@ describe('EmbeddingWorkerClient', () => {
 
     it('rejects when the worker sends a failure message', async () => {
       const embedPromise = client.embed(['hello']);
-      mockChild.emit('message', { id: 1, ok: false, error: 'model load failed' });
+      mockChild.emit('message', {
+        id: 1,
+        ok: false,
+        error: 'model load failed'
+      });
       await expect(embedPromise).rejects.toThrow('model load failed');
     });
 
     it('warns and ignores messages that do not match any pending request', async () => {
-      const warnSpy = jest.spyOn(client['logger'], 'warn').mockImplementation(() => {});
+      const warnSpy = jest
+        .spyOn(client['logger'], 'warn')
+        .mockImplementation(() => {});
       // Start an embed so the worker is created and its message listener is registered
       const embedPromise = client.embed(['hello']);
       mockChild.emit('message', { id: 999, ok: true, vectors: [[0.1]] });
@@ -114,7 +129,9 @@ describe('EmbeddingWorkerClient', () => {
     });
 
     it('warns and ignores malformed messages from the worker', async () => {
-      const warnSpy = jest.spyOn(client['logger'], 'warn').mockImplementation(() => {});
+      const warnSpy = jest
+        .spyOn(client['logger'], 'warn')
+        .mockImplementation(() => {});
       const embedPromise = client.embed(['hello']);
 
       mockChild.emit('message', { not: 'valid' });

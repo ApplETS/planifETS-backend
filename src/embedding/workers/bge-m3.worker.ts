@@ -11,15 +11,15 @@ type EmbedRequest = {
 
 type EmbedResponse =
   | {
-    id: number;
-    ok: true;
-    vectors: number[][];
-  }
+      id: number;
+      ok: true;
+      vectors: number[][];
+    }
   | {
-    id: number;
-    ok: false;
-    error: string;
-  };
+      id: number;
+      ok: false;
+      error: string;
+    };
 
 type TensorLike = {
   data: ArrayLike<number> | Iterable<number>;
@@ -35,7 +35,7 @@ type FeatureExtractionOptions = {
 
 type FeatureExtractor = (
   texts: string | string[],
-  options: FeatureExtractionOptions,
+  options: FeatureExtractionOptions
 ) => Promise<TensorLike> | TensorLike;
 
 type ProgressInfo = {
@@ -62,7 +62,7 @@ type PipelineOptions = {
 type PipelineFactory = (
   task: 'feature-extraction',
   model: string,
-  options?: PipelineOptions,
+  options?: PipelineOptions
 ) => Promise<FeatureExtractor> | FeatureExtractor;
 
 type TransformersModule = {
@@ -80,7 +80,9 @@ type ExtractorState = {
 let extractorState: ExtractorState | null = null;
 
 if (typeof process.send !== 'function') {
-  throw new Error('bge-m3.worker.ts must be executed as a forked child process.');
+  throw new Error(
+    'bge-m3.worker.ts must be executed as a forked child process.'
+  );
 }
 
 const send = process.send.bind(process);
@@ -100,7 +102,7 @@ async function handleMessage(message: unknown): Promise<void> {
       const response: EmbedResponse = {
         id: request.id,
         ok: true,
-        vectors: [],
+        vectors: []
       };
 
       send(response);
@@ -110,45 +112,57 @@ async function handleMessage(message: unknown): Promise<void> {
     const charLengths = request.texts.map((t) => t.length);
     const charMin = Math.min(...charLengths);
     const charMax = Math.max(...charLengths);
-    const charAvg = Math.round(charLengths.reduce((s, n) => s + n, 0) / charLengths.length);
+    const charAvg = Math.round(
+      charLengths.reduce((s, n) => s + n, 0) / charLengths.length
+    );
     logger.debug(
-      `Request ${request.id}: ${request.texts.length} texts — chars min=${charMin} avg=${charAvg} max=${charMax} (~tokens min=${Math.round(charMin / 4)} avg=${Math.round(charAvg / 4)} max=${Math.round(charMax / 4)})`,
+      `Request ${request.id}: ${request.texts.length} texts — chars min=${charMin} avg=${charAvg} max=${charMax} (~tokens min=${Math.round(charMin / 4)} avg=${Math.round(charAvg / 4)} max=${Math.round(charMax / 4)})`
     );
 
-    logger.debug(`Request ${request.id}: loading extractor for ${request.texts.length} texts`);
+    logger.debug(
+      `Request ${request.id}: loading extractor for ${request.texts.length} texts`
+    );
     const extractor = await getExtractor(request.model, request.dtype);
 
-    logger.debug(`Request ${request.id}: running inference on ${request.texts.length} texts (max_length=1024)`);
+    logger.debug(
+      `Request ${request.id}: running inference on ${request.texts.length} texts (max_length=1024)`
+    );
     const inferenceStart = Date.now();
     const output = await extractor(request.texts, {
       pooling: 'cls',
       normalize: true,
       truncation: true,
-      max_length: 1024,
+      max_length: 1024
     });
-    logger.debug(`Request ${request.id}: inference done in ${Date.now() - inferenceStart}ms`);
+    logger.debug(
+      `Request ${request.id}: inference done in ${Date.now() - inferenceStart}ms`
+    );
 
     logger.debug(`Request ${request.id}: converting tensor to vectors`);
     const vectors = tensorToVectors(output, request.texts.length);
-    logger.debug(`Request ${request.id}: done, returning ${vectors.length} vectors`);
+    logger.debug(
+      `Request ${request.id}: done, returning ${vectors.length} vectors`
+    );
 
     const response: EmbedResponse = {
       id: request.id,
       ok: true,
-      vectors,
+      vectors
     };
 
     send(response);
   } catch (error) {
     if (requestId === -1) {
-      logger.error('Cannot reply: message had no valid id, dropping error response');
+      logger.error(
+        'Cannot reply: message had no valid id, dropping error response'
+      );
       return;
     }
 
     const response: EmbedResponse = {
       id: requestId,
       ok: false,
-      error: formatError(error),
+      error: formatError(error)
     };
 
     send(response);
@@ -157,7 +171,7 @@ async function handleMessage(message: unknown): Promise<void> {
 
 async function getExtractor(
   model: string,
-  dtype?: string,
+  dtype?: string
 ): Promise<FeatureExtractor> {
   const key = `${model}:${dtype ?? 'default'}`;
 
@@ -176,41 +190,53 @@ async function getExtractor(
 
 async function createExtractor(
   model: string,
-  dtype?: string,
+  dtype?: string
 ): Promise<FeatureExtractor> {
   logger.log(`Loading model: ${model} (dtype=${dtype ?? 'default'})`);
 
-  const transformersModule = (await import(
-    '@huggingface/transformers'
-  )) as unknown as TransformersModule;
+  const transformersModule =
+    (await import('@huggingface/transformers')) as unknown as TransformersModule;
 
   if (process.env.TRANSFORMERS_CACHE_DIR) {
     transformersModule.env.cacheDir = process.env.TRANSFORMERS_CACHE_DIR;
   }
 
-  const numThreads = Number.parseInt(process.env.EMBEDDING_ORT_THREADS ?? '2', 10);
+  const numThreads = Number.parseInt(
+    process.env.EMBEDDING_ORT_THREADS ?? '2',
+    10
+  );
   logger.log(`ONNX session threads: ${numThreads}`);
 
   const options: PipelineOptions = {
     device: 'cpu',
     session_options: {
       intraOpNumThreads: numThreads,
-      interOpNumThreads: 1,
+      interOpNumThreads: 1
     },
     progress_callback: (progress) => {
-      if (progress.status === 'progress' && progress.file && progress.progress !== undefined) {
-        logger.debug(`Downloading ${progress.file}: ${progress.progress.toFixed(1)}%`);
+      if (
+        progress.status === 'progress' &&
+        progress.file &&
+        progress.progress !== undefined
+      ) {
+        logger.debug(
+          `Downloading ${progress.file}: ${progress.progress.toFixed(1)}%`
+        );
       } else if (progress.status === 'done' && progress.file) {
         logger.log(`Downloaded ${progress.file}`);
       }
-    },
+    }
   };
 
   if (dtype) {
     options.dtype = dtype;
   }
 
-  const extractor = await transformersModule.pipeline('feature-extraction', model, options);
+  const extractor = await transformersModule.pipeline(
+    'feature-extraction',
+    model,
+    options
+  );
 
   logger.log(`Model ready: ${model}`);
 
@@ -231,22 +257,29 @@ function parseEmbedRequest(message: unknown): EmbedRequest {
     throw new TypeError('Invalid worker message: "id" must be an integer.');
   }
 
-  if (!Array.isArray(texts) || !texts.every((text) => typeof text === 'string')) {
+  if (
+    !Array.isArray(texts) ||
+    !texts.every((text) => typeof text === 'string')
+  ) {
     throw new Error('Invalid worker message: "texts" must be a string array.');
   }
 
   if (typeof model !== 'string' || model.trim().length === 0) {
-    throw new Error('Invalid worker message: "model" must be a non-empty string.');
+    throw new Error(
+      'Invalid worker message: "model" must be a non-empty string.'
+    );
   }
 
   if (dtype !== undefined && typeof dtype !== 'string') {
-    throw new Error('Invalid worker message: "dtype" must be a string when provided.');
+    throw new Error(
+      'Invalid worker message: "dtype" must be a string when provided.'
+    );
   }
 
   const request: EmbedRequest = {
     id,
     texts,
-    model,
+    model
   };
 
   if (typeof dtype === 'string' && dtype.trim().length > 0) {
@@ -258,7 +291,7 @@ function parseEmbedRequest(message: unknown): EmbedRequest {
 
 function tensorToVectors(
   output: TensorLike,
-  expectedBatchSize: number,
+  expectedBatchSize: number
 ): number[][] {
   const data = Array.from(output.data);
 
@@ -270,12 +303,14 @@ function tensorToVectors(
     const [batchSize, vectorSize] = output.dims;
 
     if (!Number.isInteger(batchSize) || !Number.isInteger(vectorSize)) {
-      throw new TypeError(`Invalid embedding tensor dims: ${output.dims.join(', ')}.`);
+      throw new TypeError(
+        `Invalid embedding tensor dims: ${output.dims.join(', ')}.`
+      );
     }
 
     if (batchSize !== expectedBatchSize) {
       throw new Error(
-        `Unexpected embedding batch size: got ${batchSize}, expected ${expectedBatchSize}.`,
+        `Unexpected embedding batch size: got ${batchSize}, expected ${expectedBatchSize}.`
       );
     }
 
@@ -288,21 +323,21 @@ function tensorToVectors(
 
   if (data.length % expectedBatchSize !== 0) {
     throw new Error(
-      `Cannot split embedding tensor: data length ${data.length}, batch size ${expectedBatchSize}.`,
+      `Cannot split embedding tensor: data length ${data.length}, batch size ${expectedBatchSize}.`
     );
   }
 
   return splitVectorData(
     data,
     expectedBatchSize,
-    data.length / expectedBatchSize,
+    data.length / expectedBatchSize
   );
 }
 
 function splitVectorData(
   data: number[],
   batchSize: number,
-  vectorSize: number,
+  vectorSize: number
 ): number[][] {
   const vectors: number[][] = [];
 

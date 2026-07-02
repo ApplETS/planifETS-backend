@@ -7,7 +7,9 @@ function quoteIdent(identifier: string): string {
 }
 
 export async function resetDatabase(databaseUrl: string): Promise<void> {
-  const prisma = new PrismaClient({ datasources: { db: { url: databaseUrl } } });
+  const prisma = new PrismaClient({
+    datasources: { db: { url: databaseUrl } }
+  });
 
   try {
     const tables = await prisma.$queryRaw<PgTableRow[]>`
@@ -19,7 +21,9 @@ export async function resetDatabase(databaseUrl: string): Promise<void> {
 
     if (tables.length === 0) return;
 
-    const fqTables = tables.map((t) => `${quoteIdent('public')}.${quoteIdent(t.tablename)}`);
+    const fqTables = tables.map(
+      (t) => `${quoteIdent('public')}.${quoteIdent(t.tablename)}`
+    );
     const sql = `TRUNCATE TABLE ${fqTables.join(', ')} RESTART IDENTITY CASCADE;`;
 
     await prisma.$executeRawUnsafe(sql);

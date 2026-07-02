@@ -8,6 +8,6 @@ import { LlmService } from './llm.service';
   imports: [EmbeddingModule],
   controllers: [LlmController],
   providers: [LlmService],
-  exports: [LlmService],
+  exports: [LlmService]
 })
 export class LlmGenerationModule {}

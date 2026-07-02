@@ -8,7 +8,7 @@ import { SessionService } from './session.service';
 @ApiTags('Sessions')
 @Controller('sessions')
 export class SessionController {
-  constructor(private readonly sessionService: SessionService) { }
+  constructor(private readonly sessionService: SessionService) {}
 
   @Get()
   @ApiOkResponse({ type: [SessionDto] })

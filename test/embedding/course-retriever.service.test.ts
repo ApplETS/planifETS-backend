@@ -14,7 +14,7 @@ const makeQdrantHit = (
     title: string;
     description: string;
     prerequisite_codes: string[];
-  }> = {},
+  }> = {}
 ) => ({
   payload: {
     code,
@@ -31,9 +31,9 @@ const makeQdrantHit = (
     text: '',
     text_hash: '',
     embedding_model: 'Xenova/bge-m3',
-    indexed_at: '2026-01-01T00:00:00.000Z',
+    indexed_at: '2026-01-01T00:00:00.000Z'
   },
-  score,
+  score
 });
 
 describe('CourseRetrieverService', () => {
@@ -49,7 +49,7 @@ describe('CourseRetrieverService', () => {
 
     service = new CourseRetrieverService(
       workerMock as unknown as EmbeddingWorkerClient,
-      qdrantMock as unknown as QdrantCourseIndexService,
+      qdrantMock as unknown as QdrantCourseIndexService
     );
   });
 
@@ -58,7 +58,7 @@ describe('CourseRetrieverService', () => {
       await service.retrieveCourses('bases de données');
 
       expect(workerMock.embed).toHaveBeenCalledWith([
-        QUERY_INSTRUCTION + 'bases de données',
+        QUERY_INSTRUCTION + 'bases de données'
       ]);
     });
 
@@ -67,7 +67,7 @@ describe('CourseRetrieverService', () => {
 
       expect(qdrantMock.search).toHaveBeenCalledWith(
         MOCK_VECTOR,
-        expect.objectContaining({ limit: 50, scoreThreshold: 0.4 }),
+        expect.objectContaining({ limit: 50, scoreThreshold: 0.4 })
       );
     });
 
@@ -76,7 +76,7 @@ describe('CourseRetrieverService', () => {
 
       expect(qdrantMock.search).toHaveBeenCalledWith(
         MOCK_VECTOR,
-        expect.objectContaining({ filter: undefined }),
+        expect.objectContaining({ filter: undefined })
       );
     });
 
@@ -85,7 +85,7 @@ describe('CourseRetrieverService', () => {
 
       expect(qdrantMock.search).toHaveBeenCalledWith(
         MOCK_VECTOR,
-        expect.objectContaining({ filter: undefined }),
+        expect.objectContaining({ filter: undefined })
       );
     });
 
@@ -95,8 +95,8 @@ describe('CourseRetrieverService', () => {
       expect(qdrantMock.search).toHaveBeenCalledWith(
         MOCK_VECTOR,
         expect.objectContaining({
-          filter: { must: [{ key: 'program_id', match: { any: [182848] } }] },
-        }),
+          filter: { must: [{ key: 'program_id', match: { any: [182848] } }] }
+        })
       );
     });
 
@@ -106,8 +106,8 @@ describe('CourseRetrieverService', () => {
       expect(qdrantMock.search).toHaveBeenCalledWith(
         MOCK_VECTOR,
         expect.objectContaining({
-          filter: { must: [{ key: 'cycle', match: { value: 1 } }] },
-        }),
+          filter: { must: [{ key: 'cycle', match: { value: 1 } }] }
+        })
       );
     });
 
@@ -120,17 +120,19 @@ describe('CourseRetrieverService', () => {
           filter: {
             must: [
               { key: 'program_id', match: { any: [182848] } },
-              { key: 'cycle', match: { value: 1 } },
-            ],
-          },
-        }),
+              { key: 'cycle', match: { value: 1 } }
+            ]
+          }
+        })
       );
     });
 
     it('returns empty array when Qdrant returns no results', async () => {
       qdrantMock.search.mockResolvedValue([]);
 
-      const result = await service.retrieveCourses('recette de pâtes à ravioli');
+      const result = await service.retrieveCourses(
+        'recette de pâtes à ravioli'
+      );
 
       expect(result).toEqual([]);
     });
@@ -139,7 +141,7 @@ describe('CourseRetrieverService', () => {
       qdrantMock.search.mockResolvedValue([
         makeQdrantHit('LOG635', 0.85),
         makeQdrantHit('LOG635', 0.72), // same code, lower score — should be dropped
-        makeQdrantHit('LOG660', 0.78),
+        makeQdrantHit('LOG660', 0.78)
       ]);
 
       const result = await service.retrieveCourses('IA');
@@ -151,7 +153,7 @@ describe('CourseRetrieverService', () => {
 
     it('returns at most 10 results even when Qdrant returns 30', async () => {
       const hits = Array.from({ length: 30 }, (_, i) =>
-        makeQdrantHit(`LOG${String(i).padStart(3, '0')}`, 0.9 - i * 0.01),
+        makeQdrantHit(`LOG${String(i).padStart(3, '0')}`, 0.9 - i * 0.01)
       );
       qdrantMock.search.mockResolvedValue(hits);
 
@@ -164,7 +166,7 @@ describe('CourseRetrieverService', () => {
       qdrantMock.search.mockResolvedValue([
         makeQdrantHit('LOG660', 0.78),
         makeQdrantHit('LOG635', 0.85),
-        makeQdrantHit('LOG200', 0.71),
+        makeQdrantHit('LOG200', 0.71)
       ]);
 
       const result = await service.retrieveCourses('IA');
@@ -177,8 +179,8 @@ describe('CourseRetrieverService', () => {
         makeQdrantHit('LOG635', 0.91, {
           title: 'Systèmes intelligents',
           description: 'Description.',
-          prerequisite_codes: ['LOG121'],
-        }),
+          prerequisite_codes: ['LOG121']
+        })
       ]);
 
       const result = await service.retrieveCourses('IA');
@@ -188,20 +190,24 @@ describe('CourseRetrieverService', () => {
         title: 'Systèmes intelligents',
         description: 'Description.',
         score: 0.91,
-        prerequisite_codes: ['LOG121'],
+        prerequisite_codes: ['LOG121']
       });
     });
 
     it('propagates errors from the embedding worker', async () => {
       workerMock.embed.mockRejectedValue(new Error('Worker timeout'));
 
-      await expect(service.retrieveCourses('IA')).rejects.toThrow('Worker timeout');
+      await expect(service.retrieveCourses('IA')).rejects.toThrow(
+        'Worker timeout'
+      );
     });
 
     it('propagates errors from Qdrant search', async () => {
       qdrantMock.search.mockRejectedValue(new Error('Qdrant unavailable'));
 
-      await expect(service.retrieveCourses('IA')).rejects.toThrow('Qdrant unavailable');
+      await expect(service.retrieveCourses('IA')).rejects.toThrow(
+        'Qdrant unavailable'
+      );
     });
   });
 });

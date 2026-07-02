@@ -36,11 +36,11 @@ describe('CourseService', () => {
     cycle: 1,
     createdAt: new Date('2025-01-01T00:00:00.000Z'),
     updatedAt: new Date('2025-01-01T00:00:00.000Z'),
-    ...overrides,
+    ...overrides
   });
 
   const buildCreateInput = (
-    overrides: Partial<Prisma.CourseCreateInput> = {},
+    overrides: Partial<Prisma.CourseCreateInput> = {}
   ): Prisma.CourseCreateInput => ({
     id: 352405,
     code: 'LOG121',
@@ -48,11 +48,11 @@ describe('CourseService', () => {
     description: 'Introduction a la conception orientee objet.',
     credits: 3,
     cycle: 1,
-    ...overrides,
+    ...overrides
   });
 
   const buildSearchResult = (
-    overrides: Partial<CourseSearchResult> = {},
+    overrides: Partial<CourseSearchResult> = {}
   ): CourseSearchResult =>
     ({
       ...buildCourse(),
@@ -62,15 +62,15 @@ describe('CourseService', () => {
             trimester: Trimester.AUTOMNE,
             year: 2025,
             createdAt: new Date('2025-01-01T00:00:00.000Z'),
-            updatedAt: new Date('2025-01-01T00:00:00.000Z'),
+            updatedAt: new Date('2025-01-01T00:00:00.000Z')
           },
           courseId: 352405,
           sessionYear: 2025,
           sessionTrimester: Trimester.AUTOMNE,
           availability: [Availability.JOUR],
           createdAt: new Date('2025-01-01T00:00:00.000Z'),
-          updatedAt: new Date('2025-01-01T00:00:00.000Z'),
-        },
+          updatedAt: new Date('2025-01-01T00:00:00.000Z')
+        }
       ],
       programs: [
         {
@@ -85,14 +85,14 @@ describe('CourseService', () => {
                   code: 'MAT145',
                   title: 'Calcul differentiel',
                   description: 'Notions de base en calcul.',
-                  credits: 2,
-                }),
-              },
-            },
-          ],
-        },
+                  credits: 2
+                })
+              }
+            }
+          ]
+        }
       ],
-      ...overrides,
+      ...overrides
     }) as CourseSearchResult;
 
   beforeEach(() => {
@@ -104,20 +104,20 @@ describe('CourseService', () => {
         findMany: jest.fn(),
         create: jest.fn(),
         update: jest.fn(),
-        upsert: jest.fn(),
+        upsert: jest.fn()
       },
       program: {
-        findMany: jest.fn(),
-      },
+        findMany: jest.fn()
+      }
     };
 
     courseRepositoryMock = {
-      searchCourses: jest.fn(),
+      searchCourses: jest.fn()
     };
 
     service = new CourseService(
       prismaMock as unknown as PrismaService,
-      courseRepositoryMock as unknown as CourseRepository,
+      courseRepositoryMock as unknown as CourseRepository
     );
     serviceLogger = (service as unknown as { logger: Logger }).logger;
     jest.clearAllMocks();
@@ -133,7 +133,7 @@ describe('CourseService', () => {
 
     await expect(service.getCourse({ id: 352405 })).resolves.toBe(course);
     expect(prismaMock.course.findUnique).toHaveBeenCalledWith({
-      where: { id: 352405 },
+      where: { id: 352405 }
     });
   });
 
@@ -143,30 +143,33 @@ describe('CourseService', () => {
 
     await expect(service.getCourseByCode('LOG121')).resolves.toBe(course);
     expect(prismaMock.course.findFirst).toHaveBeenCalledWith({
-      where: { code: 'LOG121' },
+      where: { code: 'LOG121' }
     });
   });
 
   it('gets courses by codes and logs the lookup', async () => {
-    const courses = [buildCourse(), buildCourse({ id: 352406, code: 'LOG122' })];
+    const courses = [
+      buildCourse(),
+      buildCourse({ id: 352406, code: 'LOG122' })
+    ];
     const loggerVerboseSpy = jest
       .spyOn(serviceLogger, 'verbose')
       .mockImplementation(() => {});
     prismaMock.course.findMany.mockResolvedValue(courses);
 
     await expect(
-      service.getCoursesByCodes(['LOG121', 'LOG122']),
+      service.getCoursesByCodes(['LOG121', 'LOG122'])
     ).resolves.toStrictEqual(courses);
     expect(loggerVerboseSpy).toHaveBeenCalledWith('getCoursesByCodes', [
       'LOG121',
-      'LOG122',
+      'LOG122'
     ]);
     expect(prismaMock.course.findMany).toHaveBeenCalledWith({
       where: {
         code: {
-          in: ['LOG121', 'LOG122'],
-        },
-      },
+          in: ['LOG121', 'LOG122']
+        }
+      }
     });
   });
 
@@ -187,8 +190,8 @@ describe('CourseService', () => {
       {
         id: 352405,
         code: 'LOG121',
-        description: 'Introduction a la conception orientee objet.',
-      },
+        description: 'Introduction a la conception orientee objet.'
+      }
     ];
     const loggerVerboseSpy = jest
       .spyOn(serviceLogger, 'verbose')
@@ -196,25 +199,25 @@ describe('CourseService', () => {
     prismaMock.course.findMany.mockResolvedValue(courses);
 
     await expect(service.getCoursesForDescriptionSync()).resolves.toStrictEqual(
-      courses,
+      courses
     );
     expect(loggerVerboseSpy).toHaveBeenCalledWith(
-      'getCoursesForDescriptionSync',
+      'getCoursesForDescriptionSync'
     );
     expect(prismaMock.course.findMany).toHaveBeenCalledWith({
       where: {
         cycle: 1,
         code: {
           not: {
-            contains: '-',
-          },
-        },
+            contains: '-'
+          }
+        }
       },
       select: {
         id: true,
         code: true,
-        description: true,
-      },
+        description: true
+      }
     });
   });
 
@@ -226,24 +229,24 @@ describe('CourseService', () => {
     prismaMock.course.findMany.mockResolvedValue(courses);
 
     await expect(service.getCoursesByProgram(7084)).resolves.toStrictEqual(
-      courses,
+      courses
     );
     expect(loggerVerboseSpy).toHaveBeenCalledWith('getCoursesByProgram', 7084);
     expect(prismaMock.course.findMany).toHaveBeenCalledWith({
       where: {
         programs: {
           some: {
-            programId: 7084,
-          },
-        },
-      },
+            programId: 7084
+          }
+        }
+      }
     });
   });
 
   it('searches courses without program filtering when no program codes are provided', async () => {
     courseRepositoryMock.searchCourses.mockResolvedValue({
       courses: [buildSearchResult()],
-      total: 1,
+      total: 1
     });
 
     const result = await service.searchCourses('LOG');
@@ -253,7 +256,7 @@ describe('CourseService', () => {
       'LOG',
       undefined,
       20,
-      0,
+      0
     );
     expect(result).toStrictEqual({
       courses: [
@@ -266,8 +269,8 @@ describe('CourseService', () => {
           sessionAvailability: [
             {
               sessionCode: 'A2025',
-              availability: [Availability.JOUR],
-            },
+              availability: [Availability.JOUR]
+            }
           ],
           prerequisites: [
             {
@@ -275,13 +278,13 @@ describe('CourseService', () => {
               code: 'MAT145',
               title: 'Calcul differentiel',
               credits: 2,
-              cycle: 1,
-            },
-          ],
-        },
+              cycle: 1
+            }
+          ]
+        }
       ],
       total: 1,
-      hasMore: false,
+      hasMore: false
     });
   });
 
@@ -292,7 +295,7 @@ describe('CourseService', () => {
     prismaMock.program.findMany.mockResolvedValue([{ code: '7084' }]);
     courseRepositoryMock.searchCourses.mockResolvedValue({
       courses: [buildSearchResult()],
-      total: 5,
+      total: 5
     });
 
     const result = await service.searchCourses('LOG', ['7084', '9999'], 2, 1);
@@ -300,22 +303,22 @@ describe('CourseService', () => {
     expect(prismaMock.program.findMany).toHaveBeenCalledWith({
       where: {
         code: {
-          in: ['7084', '9999'],
-        },
+          in: ['7084', '9999']
+        }
       },
       select: {
-        code: true,
-      },
+        code: true
+      }
     });
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       'Invalid program codes provided for course search: 9999',
-      { invalidProgramCodes: ['9999'], query: 'LOG' },
+      { invalidProgramCodes: ['9999'], query: 'LOG' }
     );
     expect(courseRepositoryMock.searchCourses).toHaveBeenCalledWith(
       'LOG',
       ['7084'],
       2,
-      1,
+      1
     );
     expect(result).toStrictEqual({
       courses: [
@@ -328,8 +331,8 @@ describe('CourseService', () => {
           sessionAvailability: [
             {
               sessionCode: 'A2025',
-              availability: [Availability.JOUR],
-            },
+              availability: [Availability.JOUR]
+            }
           ],
           prerequisites: [
             {
@@ -337,16 +340,16 @@ describe('CourseService', () => {
               code: 'MAT145',
               title: 'Calcul differentiel',
               credits: 2,
-              cycle: 1,
-            },
+              cycle: 1
+            }
           ],
           typicalSessionIndex: 2,
           type: 'TRONC',
-          unstructuredPrerequisite: 'Department approval',
-        },
+          unstructuredPrerequisite: 'Department approval'
+        }
       ],
       total: 5,
-      hasMore: true,
+      hasMore: true
     });
   });
 
@@ -360,24 +363,24 @@ describe('CourseService', () => {
     prismaMock.program.findMany.mockResolvedValue([]);
     courseRepositoryMock.searchCourses.mockResolvedValue({
       courses: [buildSearchResult()],
-      total: 1,
+      total: 1
     });
 
     const result = await service.searchCourses('LOG', ['9999']);
 
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       'Invalid program codes provided for course search: 9999',
-      { invalidProgramCodes: ['9999'], query: 'LOG' },
+      { invalidProgramCodes: ['9999'], query: 'LOG' }
     );
     expect(loggerWarnSpy).toHaveBeenCalledWith(
       'All provided program codes were invalid. Performing search without program filtering.',
-      { query: 'LOG', providedProgramCodes: ['9999'] },
+      { query: 'LOG', providedProgramCodes: ['9999'] }
     );
     expect(courseRepositoryMock.searchCourses).toHaveBeenCalledWith(
       'LOG',
       undefined,
       20,
-      0,
+      0
     );
     expect(result.courses[0]).not.toHaveProperty('typicalSessionIndex');
     expect(result.courses[0]).not.toHaveProperty('type');
@@ -393,12 +396,15 @@ describe('CourseService', () => {
     prismaMock.course.create.mockResolvedValue(course);
 
     await expect(service.createCourse(data)).resolves.toBe(course);
-    expect(loggerVerboseSpy).toHaveBeenCalledWith('Creating new course', 'LOG121');
+    expect(loggerVerboseSpy).toHaveBeenCalledWith(
+      'Creating new course',
+      'LOG121'
+    );
     expect(prismaMock.course.create).toHaveBeenCalledWith({
       data: {
         ...data,
-        createdAt: expect.any(Date),
-      },
+        createdAt: expect.any(Date)
+      }
     });
   });
 
@@ -412,8 +418,8 @@ describe('CourseService', () => {
     await expect(
       service.updateCourse({
         where: { id: 352405 },
-        data: { code: 'LOG121', title: 'Conception logicielle' },
-      }),
+        data: { code: 'LOG121', title: 'Conception logicielle' }
+      })
     ).resolves.toBe(course);
     expect(loggerVerboseSpy).toHaveBeenCalledWith('Updating course', 'LOG121');
     expect(prismaMock.course.update).toHaveBeenCalledWith({
@@ -421,8 +427,8 @@ describe('CourseService', () => {
       data: {
         code: 'LOG121',
         title: 'Conception logicielle',
-        updatedAt: expect.any(Date),
-      },
+        updatedAt: expect.any(Date)
+      }
     });
   });
 
@@ -431,13 +437,13 @@ describe('CourseService', () => {
       {
         id: 352405,
         code: 'LOG121',
-        description: 'Updated LOG121',
+        description: 'Updated LOG121'
       },
       {
         id: 352406,
         code: 'LOG122',
-        description: 'Updated LOG122',
-      },
+        description: 'Updated LOG122'
+      }
     ];
     const loggerVerboseSpy = jest
       .spyOn(serviceLogger, 'verbose')
@@ -451,44 +457,44 @@ describe('CourseService', () => {
         id: 352406,
         code: 'LOG122',
         title: 'Structures de donnees',
-        description: 'Updated LOG122',
-      }),
+        description: 'Updated LOG122'
+      })
     ]);
 
     await expect(
-      service.updateCourseDescriptionsBatch(courses),
+      service.updateCourseDescriptionsBatch(courses)
     ).resolves.toStrictEqual([
       buildCourse({ description: 'Updated LOG121' }),
       buildCourse({
         id: 352406,
         code: 'LOG122',
         title: 'Structures de donnees',
-        description: 'Updated LOG122',
-      }),
+        description: 'Updated LOG122'
+      })
     ]);
     expect(loggerVerboseSpy).toHaveBeenCalledWith(
       'updateCourseDescriptionsBatch',
-      ['LOG121', 'LOG122'],
+      ['LOG121', 'LOG122']
     );
     expect(prismaMock.course.update).toHaveBeenNthCalledWith(1, {
       where: { id: 352405 },
       data: {
         code: 'LOG121',
         description: 'Updated LOG121',
-        updatedAt: expect.any(Date),
-      },
+        updatedAt: expect.any(Date)
+      }
     });
     expect(prismaMock.course.update).toHaveBeenNthCalledWith(2, {
       where: { id: 352406 },
       data: {
         code: 'LOG122',
         description: 'Updated LOG122',
-        updatedAt: expect.any(Date),
-      },
+        updatedAt: expect.any(Date)
+      }
     });
     expect(prismaMock.$transaction).toHaveBeenCalledWith([
       'update-1',
-      'update-2',
+      'update-2'
     ]);
   });
 
@@ -497,7 +503,7 @@ describe('CourseService', () => {
     const second = buildCreateInput({
       id: 352406,
       code: 'LOG122',
-      title: 'Structures de donnees',
+      title: 'Structures de donnees'
     });
     prismaMock.course.upsert
       .mockResolvedValueOnce(buildCourse())
@@ -505,27 +511,29 @@ describe('CourseService', () => {
         buildCourse({
           id: 352406,
           code: 'LOG122',
-          title: 'Structures de donnees',
-        }),
+          title: 'Structures de donnees'
+        })
       );
 
-    await expect(service.upsertCourses([first, second])).resolves.toStrictEqual([
-      buildCourse(),
-      buildCourse({
-        id: 352406,
-        code: 'LOG122',
-        title: 'Structures de donnees',
-      }),
-    ]);
+    await expect(service.upsertCourses([first, second])).resolves.toStrictEqual(
+      [
+        buildCourse(),
+        buildCourse({
+          id: 352406,
+          code: 'LOG122',
+          title: 'Structures de donnees'
+        })
+      ]
+    );
     expect(prismaMock.course.upsert).toHaveBeenNthCalledWith(1, {
       where: { code: 'LOG121' },
       update: first,
-      create: first,
+      create: first
     });
     expect(prismaMock.course.upsert).toHaveBeenNthCalledWith(2, {
       where: { code: 'LOG122' },
       update: second,
-      create: second,
+      create: second
     });
   });
 });
