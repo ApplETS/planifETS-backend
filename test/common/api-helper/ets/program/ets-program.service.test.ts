@@ -89,14 +89,14 @@ describe('EtsProgramService', () => {
             code: '7625, 6720',
             credits: '116',
             types: [],
-            url: 'https://example.com/program/182816',
-          },
-        ],
+            url: 'https://example.com/program/182816'
+          }
+        ]
       },
       status: 200,
       statusText: 'OK',
       headers: {},
-      config: { headers: new AxiosHeaders() },
+      config: { headers: new AxiosHeaders() }
     };
 
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(mockResponse));

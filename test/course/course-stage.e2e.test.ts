@@ -6,7 +6,7 @@ import { closeE2eTestApp, createE2eTestApp } from '../test-utils/e2e-app';
 import {
   seedCourse,
   seedProgram,
-  seedProgramCourse,
+  seedProgramCourse
 } from '../test-utils/prisma-fixtures';
 
 describe('Stage courses (e2e)', () => {
@@ -24,7 +24,7 @@ describe('Stage courses (e2e)', () => {
   async function seedStageScenario() {
     const program = await seedProgram(prisma, {
       id: 88801,
-      title: 'Baccalaureat en genie logiciel (co-op)',
+      title: 'Baccalaureat en genie logiciel (co-op)'
     });
 
     const stg1 = await seedCourse(prisma, {
@@ -32,26 +32,38 @@ describe('Stage courses (e2e)', () => {
       code: 'STG001',
       title: 'Stage I',
       credits: 9,
-      cycle: 1,
+      cycle: 1
     });
     const stg2 = await seedCourse(prisma, {
       id: 9000002,
       code: 'STG002',
       title: 'Stage II',
       credits: 9,
-      cycle: 1,
+      cycle: 1
     });
     const stg3 = await seedCourse(prisma, {
       id: 9000003,
       code: 'STG003',
       title: 'Stage III',
       credits: 9,
-      cycle: 1,
+      cycle: 1
     });
 
-    await seedProgramCourse(prisma, { courseId: stg1.id, programId: program.id, type: 'STAGE' });
-    await seedProgramCourse(prisma, { courseId: stg2.id, programId: program.id, type: 'STAGE' });
-    await seedProgramCourse(prisma, { courseId: stg3.id, programId: program.id, type: 'STAGE' });
+    await seedProgramCourse(prisma, {
+      courseId: stg1.id,
+      programId: program.id,
+      type: 'STAGE'
+    });
+    await seedProgramCourse(prisma, {
+      courseId: stg2.id,
+      programId: program.id,
+      type: 'STAGE'
+    });
+    await seedProgramCourse(prisma, {
+      courseId: stg3.id,
+      programId: program.id,
+      type: 'STAGE'
+    });
 
     return { program, stg1, stg2, stg3 };
   }
@@ -67,7 +79,7 @@ describe('Stage courses (e2e)', () => {
       expect(status).toBe(200);
       expect(body.courses).toHaveLength(3);
       expect(body.courses.map((c: { code: string }) => c.code)).toEqual(
-        expect.arrayContaining(['STG001', 'STG002', 'STG003']),
+        expect.arrayContaining(['STG001', 'STG002', 'STG003'])
       );
       body.courses.forEach((c: { type: string; credits: number }) => {
         expect(c.type).toBe('STAGE');
@@ -81,7 +93,7 @@ describe('Stage courses (e2e)', () => {
       await seedStageScenario();
 
       const links = await prisma.programCourse.findMany({
-        where: { course: { code: 'STG001' }, program: { cycle: 1 } },
+        where: { course: { code: 'STG001' }, program: { cycle: 1 } }
       });
 
       expect(links.length).toBeGreaterThan(0);

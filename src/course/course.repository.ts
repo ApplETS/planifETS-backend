@@ -4,8 +4,40 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CourseSearchResult } from './course.types';
 
+const SEARCH_INCLUDE = {
+  courseInstances: {
+    include: { session: true },
+    orderBy: [{ sessionYear: 'desc' }, { sessionTrimester: 'desc' }]
+  },
+  programs: {
+    include: {
+      prerequisites: {
+        include: {
+          prerequisite: { include: { course: true } }
+        }
+      }
+    }
+  }
+} satisfies Prisma.CourseInclude;
+
+const SEARCH_ORDER_BY = [
+  { code: 'asc' },
+  { title: 'asc' }
+] satisfies Prisma.CourseOrderByWithRelationInput[];
+
+function programCodesFilter(
+  programCodes: string[] | undefined
+): Prisma.CourseWhereInput {
+  return programCodes && programCodes.length > 0
+    ? { programs: { some: { program: { code: { in: programCodes } } } } }
+    : {};
+}
+
 @Injectable()
 export class CourseRepository {
+  constructor(private readonly prisma: PrismaService) {}
+  private readonly logger = new Logger(CourseRepository.name);
+
   private getCodeStartsMatches(
     query: string,
     programCodes: string[] | undefined,
@@ -14,28 +46,12 @@ export class CourseRepository {
   ) {
     const where: Prisma.CourseWhereInput = {
       code: { startsWith: query, mode: 'insensitive' },
-      ...(programCodes && programCodes.length > 0
-        ? { programs: { some: { program: { code: { in: programCodes } } } } }
-        : {})
+      ...programCodesFilter(programCodes)
     };
     return this.prisma.course.findMany({
       where,
-      orderBy: [{ code: 'asc' }, { title: 'asc' }],
-      include: {
-        courseInstances: {
-          include: { session: true },
-          orderBy: [{ sessionYear: 'desc' }, { sessionTrimester: 'desc' }]
-        },
-        programs: {
-          include: {
-            prerequisites: {
-              include: {
-                prerequisite: { include: { course: true } }
-              }
-            }
-          }
-        }
-      },
+      orderBy: SEARCH_ORDER_BY,
+      include: SEARCH_INCLUDE,
       take: limit,
       skip: offset
     }) as Promise<CourseSearchResult[]>;
@@ -52,28 +68,12 @@ export class CourseRepository {
         mode: 'insensitive',
         not: { startsWith: query }
       },
-      ...(programCodes && programCodes.length > 0
-        ? { programs: { some: { program: { code: { in: programCodes } } } } }
-        : {})
+      ...programCodesFilter(programCodes)
     };
     return this.prisma.course.findMany({
       where,
-      orderBy: [{ code: 'asc' }, { title: 'asc' }],
-      include: {
-        courseInstances: {
-          include: { session: true },
-          orderBy: [{ sessionYear: 'desc' }, { sessionTrimester: 'desc' }]
-        },
-        programs: {
-          include: {
-            prerequisites: {
-              include: {
-                prerequisite: { include: { course: true } }
-              }
-            }
-          }
-        }
-      },
+      orderBy: SEARCH_ORDER_BY,
+      include: SEARCH_INCLUDE,
       take,
       skip: 0
     }) as Promise<CourseSearchResult[]>;
@@ -87,34 +87,16 @@ export class CourseRepository {
     const where: Prisma.CourseWhereInput = {
       title: { contains: query, mode: 'insensitive' },
       code: { not: { contains: query } },
-      ...(programCodes && programCodes.length > 0
-        ? { programs: { some: { program: { code: { in: programCodes } } } } }
-        : {})
+      ...programCodesFilter(programCodes)
     };
     return this.prisma.course.findMany({
       where,
-      orderBy: [{ code: 'asc' }, { title: 'asc' }],
-      include: {
-        courseInstances: {
-          include: { session: true },
-          orderBy: [{ sessionYear: 'desc' }, { sessionTrimester: 'desc' }]
-        },
-        programs: {
-          include: {
-            prerequisites: {
-              include: {
-                prerequisite: { include: { course: true } }
-              }
-            }
-          }
-        }
-      },
+      orderBy: SEARCH_ORDER_BY,
+      include: SEARCH_INCLUDE,
       take,
       skip: 0
     }) as Promise<CourseSearchResult[]>;
   }
-  constructor(private readonly prisma: PrismaService) {}
-  private readonly logger = new Logger(CourseRepository.name);
 
   public async searchCourses(
     query: string,
@@ -163,9 +145,7 @@ export class CourseRepository {
           { code: { contains: query, mode: 'insensitive' } },
           { title: { contains: query, mode: 'insensitive' } }
         ],
-        ...(programCodes && programCodes.length > 0
-          ? { programs: { some: { program: { code: { in: programCodes } } } } }
-          : {})
+        ...programCodesFilter(programCodes)
       }
     });
 
