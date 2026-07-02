@@ -45,7 +45,7 @@ export const CHEMINEMENTS_TXT_PATH = 'ressources/Cheminements.txt';
 const PLANETS_BASE_URL = 'https://planets.etsmtl.ca/public/';
 
 // ÉTS sessions: 1 = hiver (winter), 2 = été (summer), 3 = automne (fall)
-export const getCurrentEtsSessionCode = (date: Date = new Date()): number => {
+const getCurrentEtsSessionCode = (date: Date = new Date()): number => {
   const month = date.getMonth(); // 0-11
   const session = month <= 3 ? 1 : month <= 7 ? 2 : 3;
 
