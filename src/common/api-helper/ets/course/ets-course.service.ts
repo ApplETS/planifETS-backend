@@ -1,11 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
-import { Cheerio, load } from 'cheerio';
-import { Element } from 'domhandler';
 import { firstValueFrom } from 'rxjs';
 
-import { logHttpFetchFailure } from '@/common/utils/error/logHttpFetchFailure';
-import { htmlFragmentToPlainText } from '@/common/utils/html/htmlFragmentToPlainText';
 import {
   ETS_API_GET_ALL_COURSES,
   ETS_API_GET_COURSES_BY_IDS,
@@ -14,6 +10,7 @@ import {
 } from '@/common/utils/url/url-constants';
 import { extractNumberFromString } from '@/utils/stringUtil';
 
+import { fetchCourseDescription } from './course-description-fetcher';
 import { CourseByIdEtsApiDto } from './dtos/course-by-id-ets-api.dto';
 import { CourseIndexResponseDto } from './dtos/course-index-response.dto';
 
@@ -113,52 +110,14 @@ export class EtsCourseService {
   public async fetchCourseDescriptionFromEtsWebsite(
     courseCode: string,
   ): Promise<string> {
-    let html: string;
-
-    try {
-      const response = await firstValueFrom(
-        this.httpService.get(getEtsCoursePageUrl(courseCode), {
-          responseType: 'text',
-          headers: { 'User-Agent': ETS_USER_AGENT },
-          timeout: 10_000,
-        }),
-      );
-      html = String(response.data);
-    } catch (error) {
-      logHttpFetchFailure(this.logger, 'ETS website', courseCode, error);
-      throw error;
-    }
-
-    const descriptionSection = this.extractDescriptionSection(html, courseCode);
-    const text = htmlFragmentToPlainText(descriptionSection);
-
-    if (!text) {
-      throw new Error('Could not extract course description from ETS website');
-    }
-
-    return text;
-  }
-
-  private extractDescriptionSection(
-    html: string,
-    courseCode: string,
-  ): Cheerio<Element> {
-    const $ = load(html);
-    const pageContentDescription = $('#page-content .c-fold__text.o-text').first();
-    const descriptionContainer =
-      pageContentDescription.length > 0
-        ? pageContentDescription
-        : $('.c-fold__text.o-text').first();
-
-    if (descriptionContainer.length === 0) {
-      this.logger.warn(
-        `No description section found for course ${courseCode}. Page title="${$('title').first().text().trim()}" bodySnippet="${$('body').text().trim().slice(0, 200).replaceAll(/\s+/g, ' ')}"`,
-      );
-      throw new Error('Could not extract course description from ETS website');
-    }
-
-    descriptionContainer.find('script, style, noscript').remove();
-
-    return descriptionContainer;
+    return fetchCourseDescription(this.httpService, this.logger, courseCode, {
+      source: 'ETS website',
+      url: getEtsCoursePageUrl(courseCode),
+      requestHeaders: { 'User-Agent': ETS_USER_AGENT },
+      descriptionSelectors: [
+        '#page-content .c-fold__text.o-text',
+        '.c-fold__text.o-text',
+      ],
+    });
   }
 }
