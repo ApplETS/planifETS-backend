@@ -109,7 +109,9 @@ export class LlmService {
       .join('\n');
 
     const enrichedPrompt = `You are a course recommendation assistant at ÉTS university.
-      Based on the following courses retrieved, recommend the most relevant ones for the user's request.
+      Match the language of the user's request.
+      If the user's question mentions a specific course code, first check whether that course appears in the available courses list. If it does not, say so briefly in the same language as the user's request and return an empty courses array.
+      Otherwise, recommend the most relevant courses for the user's request.
 
       AVAILABLE COURSES:
       ${courseContext}

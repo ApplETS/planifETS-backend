@@ -14,6 +14,13 @@ export class GenerateDto {
 class LlmCourseDto {
   @ApiProperty({ example: 'LOG635' })
   public code!: string;
+
+  @ApiProperty({
+    example:
+      'Covers the core concepts behind AI and machine learning workflows.',
+    required: false
+  })
+  public reason?: string;
 }
 
 export class GenerateResponseDto {
