@@ -73,7 +73,7 @@ export class CheminotService {
     const courseCodes = line.split(',').map((code) => code.trim());
 
     return courseCodes.every((code) =>
-      this.courseCodeValidationPipe.transform(code),
+      this.courseCodeValidationPipe.transform(code)
     );
   }
 
@@ -89,7 +89,7 @@ export class CheminotService {
 
   private handleProgramLine(
     line: string,
-    currentProgram: Program | null,
+    currentProgram: Program | null
   ): Program | null {
     const program = Program.parseProgramLine(line);
     return program || currentProgram;
@@ -105,9 +105,11 @@ export class CheminotService {
   private handleHorsProgrammeSection(
     lines: string[],
     startIndex: number,
-    currentProgram: Program | null,
+    currentProgram: Program | null
   ) {
-    if (!currentProgram) return;
+    if (!currentProgram) {
+      return;
+    }
 
     for (let i = startIndex + 1; i < lines.length; i++) {
       const line = lines[i].trim();

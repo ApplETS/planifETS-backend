@@ -2,10 +2,11 @@
 
 ## Requirements
 
-- Node.js 22
+- Node.js 22.22.0
 - Yarn
 - PostgreSQL 16+
 - VS Code
+- nvm (recommended for Node.js version management)
 
 ## Optional
 
@@ -29,7 +30,7 @@ cp .env.example .env
 
 The default values work out of the box for Docker. The compose file connects the app to the `db` service automatically, so you do not need to change `DATABASE_URL` for container-based development.
 
-> **Note:** On Windows, ports `3001` and `5432` may be reserved by Hyper-V. The compose file maps the app to host port `3501` and PostgreSQL to `5433` to avoid conflicts.
+> **Note:** On Windows, ports `3001` and `5432` may be reserved by Hyper-V. The compose file maps the app to host port `3001` and PostgreSQL to `5433` to avoid conflicts.
 
 ### 3. Start the stack
 
@@ -78,16 +79,24 @@ Default body:
 
 ## Option B - Local setup
 
+### 0. Set up Node.js with nvm
+
+```bash
+nvm install 22.22.0
+nvm use 22.22.0
+node --version  # Verify: should show v22.22.0+
+```
+
 ### 1. Clone the project
 
 ```bash
 git clone git@github.com:ApplETS/planifETS-backend.git
 cd planifETS-backend
+# If you use `nvm`, run `nvm use` first.
 yarn install
 yarn build
 ```
 
-If you use `nvm`, run `nvm use` first.
 
 ### 2. Set up PostgreSQL
 

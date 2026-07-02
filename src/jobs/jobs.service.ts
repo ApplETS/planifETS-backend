@@ -52,7 +52,10 @@ export class JobsService {
   @Cron(CronExpression.EVERY_12_HOURS, { timeZone: 'America/Toronto' })
   public async processJobs(): Promise<void> {
     this.logger.log('Starting sequential job processing...');
-    this.logger.debug('Are we on the main thread?', isMainThread ? 'Yes' : 'No');
+    this.logger.debug(
+      'Are we on the main thread?',
+      isMainThread ? 'Yes' : 'No'
+    );
 
     const jobs = [
       // Creates and updates Programs and ProgramTypes entities.
@@ -67,26 +70,30 @@ export class JobsService {
       // Data source: ETS website
       {
         service: 'CoursesJobService',
-        method: 'syncCourseDescriptionsFromEtsWebsite',
+        method: 'syncCourseDescriptionsFromEtsWebsite'
       },
 
       //Creates and updates Course instance entities.
       // Data source: Planification PDF
       {
         service: 'CourseInstancesJobService',
-        method: 'processCourseInstances',
+        method: 'processCourseInstances'
       },
 
       // Creates and updates ProgramCourse entities.
       // Data source: Cheminot (Cheminements.txt)
       {
         service: 'CoursesJobService',
-        method: 'syncCourseDetailsWithCheminotData',
+        method: 'syncCourseDetailsWithCheminotData'
       },
 
       // Create current Session and Prerequisite entities.
       // Data source: Horaire-cours PDF
       { service: 'SessionsJobService', method: 'processSessions' },
+
+      // Index course embeddings for RAG.
+      // Data source: Course data
+      { service: 'CourseEmbeddingIndexerService', method: 'run' }
     ];
 
     for (const [index, job] of jobs.entries()) {
@@ -96,17 +103,17 @@ export class JobsService {
         this.logger.log(`Starting job ${index + 1}: ${service}.${method}`);
         const result = await this.runWorker(service, method);
         this.logger.log(
-          `Job ${index + 1} (${service}.${method}) completed : ${JSON.stringify(result)}`,
+          `Job ${index + 1} (${service}.${method}) completed : ${JSON.stringify(result)}`
         );
       } catch (error) {
         if (error instanceof Error) {
           this.logger.error(
             `Job ${index + 1} (${service}.${method}) failed: ${error.message}`,
-            error.stack,
+            error.stack
           );
         } else {
           this.logger.error(
-            `Job ${index + 1} (${service}.${method}) failed: ${error}`,
+            `Job ${index + 1} (${service}.${method}) failed: ${error}`
           );
         }
       }

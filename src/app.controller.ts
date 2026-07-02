@@ -33,20 +33,20 @@ type ReadinessHealthResponse = {
   };
 };
 
+@ApiTags('Health')
 @Controller()
 export class AppController {
   constructor(private readonly prisma: PrismaService) {}
 
   @Get()
   @ApiOperation({
-    summary: 'Hello World',
+    summary: 'Hello World'
   })
   public getHello(): string {
     return 'Hello World!';
   }
 
   @Get('health')
-  @ApiTags('Health')
   @ApiOperation({
     summary: 'Health check endpoint',
     description: 'Returns a diagnostic view of the application and its dependencies',
@@ -82,7 +82,7 @@ export class AppController {
   public getLiveness(): { status: 'ok'; timestamp: string } {
     return {
       status: 'ok',
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     };
   }
 
@@ -112,13 +112,12 @@ export class AppController {
   }
 
   @Get('/health/monitoring')
-  @ApiTags('Health')
   @ApiOperation({
     summary: 'Health check endpoint for monitoring testing',
-    description: 'Throws an error to test monitoring integration',
+    description: 'Throws an error to test monitoring integration'
   })
   public getError() {
-    throw new Error("Monitoring test error from /health/monitoring endpoint");
+    throw new Error('Monitoring test error from /health/monitoring endpoint');
   }
 
   private async checkPostgresHealth(): Promise<DependencyHealth> {

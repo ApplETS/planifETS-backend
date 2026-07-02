@@ -5,6 +5,7 @@ import { EtsModule } from '../common/api-helper/ets/ets.module';
 import { PdfModule } from '../common/website-helper/pdf/pdf.module';
 import { CourseModule } from '../course/course.module';
 import { CourseInstanceModule } from '../course-instance/course-instance.module';
+import { EmbeddingModule } from '../embedding/embedding.module';
 import { MonitoringModule } from '../monitoring/monitoring.module';
 import { PrerequisiteModule } from '../prerequisite/prerequisite.module';
 import { ProgramModule } from '../program/program.module';
@@ -23,16 +24,14 @@ import { JobsService } from './jobs.service';
     ProgramModule,
     ProgramCourseModule,
     SessionModule,
+    EmbeddingModule,
 
     CheminotModule,
     EtsModule,
-    PdfModule,
+    PdfModule
   ],
-  providers: [
-    JobsService,
-    ...jobWorkerProviders,
-  ],
+  providers: [JobsService, ...jobWorkerProviders],
   controllers: process.env.APP_ENV === 'development' ? [JobsController] : [], // Only expose in dev mode for running jobs manually
-  exports: [JobsService],
+  exports: [JobsService]
 })
 export class JobsModule {}

@@ -1,9 +1,7 @@
-
 import { Availability, Trimester } from '@prisma/client';
 
 import { CourseMapper } from '../../src/course/course.mapper';
 import { CourseSearchResult } from '../../src/course/course.types';
-
 
 describe('CourseMapper', () => {
   const baseCourseInstance = {
@@ -11,14 +9,14 @@ describe('CourseMapper', () => {
       createdAt: new Date(),
       updatedAt: new Date(),
       trimester: Trimester.AUTOMNE,
-      year: 2025,
+      year: 2025
     },
     createdAt: new Date(),
     updatedAt: new Date(),
     courseId: 1,
     sessionYear: 2025,
     sessionTrimester: Trimester.AUTOMNE,
-    availability: [Availability.JOUR],
+    availability: [Availability.JOUR]
   };
 
   const baseCourse = {
@@ -45,13 +43,13 @@ describe('CourseMapper', () => {
                 credits: 3,
                 cycle: 'undergrad',
                 createdAt: new Date(),
-                updatedAt: new Date(),
-              },
-            },
-          },
-        ],
-      },
-    ],
+                updatedAt: new Date()
+              }
+            }
+          }
+        ]
+      }
+    ]
   } as unknown as CourseSearchResult;
 
   it('should map to SearchCourseResult with programCodes', () => {
@@ -65,8 +63,8 @@ describe('CourseMapper', () => {
       sessionAvailability: [
         {
           sessionCode: 'A2025',
-          availability: [Availability.JOUR],
-        },
+          availability: [Availability.JOUR]
+        }
       ],
       prerequisites: [
         {
@@ -74,12 +72,12 @@ describe('CourseMapper', () => {
           code: 'MAT101',
           title: 'Math',
           credits: 3,
-          cycle: 'undergrad',
-        },
+          cycle: 'undergrad'
+        }
       ],
       typicalSessionIndex: 2,
       type: 'mandatory',
-      unstructuredPrerequisite: 'None',
+      unstructuredPrerequisite: 'None'
     });
   });
 
@@ -101,10 +99,7 @@ describe('CourseMapper', () => {
   it('should deduplicate sessionAvailability by session', () => {
     const course = {
       ...baseCourse,
-      courseInstances: [
-        { ...baseCourseInstance },
-        { ...baseCourseInstance },
-      ],
+      courseInstances: [{ ...baseCourseInstance }, { ...baseCourseInstance }]
     };
     const result = CourseMapper.toSearchDto(course);
     expect(result.sessionAvailability.length).toBe(1);

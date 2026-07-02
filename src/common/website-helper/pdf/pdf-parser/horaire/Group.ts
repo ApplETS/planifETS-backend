@@ -24,7 +24,7 @@ export class Group implements IGroup {
   public isPeriodExists(period: Period): boolean {
     return this.periods.some(
       (existingPeriod) =>
-        JSON.stringify(existingPeriod) === JSON.stringify(period),
+        JSON.stringify(existingPeriod) === JSON.stringify(period)
     );
   }
 
@@ -34,7 +34,7 @@ export class Group implements IGroup {
 
   public serialize(): IGroup {
     return {
-      periods: this.periods.map((period: Period) => period.serialize()),
+      periods: this.periods.map((period: Period) => period.serialize())
     };
   }
 }

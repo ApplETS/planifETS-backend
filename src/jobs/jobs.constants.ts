@@ -1,6 +1,7 @@
 import { Provider } from '@nestjs/common';
 
 import { CourseCodeValidationPipe } from '../common/pipes/models/course/course-code-validation-pipe';
+import { CourseEmbeddingIndexerService } from '../embedding/embedding-course-indexer.service';
 import { CourseInstancesJobService } from './workers/course-instances.worker';
 import { CoursesJobService } from './workers/courses.worker';
 import { ProgramsJobService } from './workers/programs.worker';
@@ -11,11 +12,15 @@ export const jobWorkerServiceMap = {
   CoursesJobService,
   CourseInstancesJobService,
   SessionsJobService,
+  CourseEmbeddingIndexerService
 } as const;
 
 export const jobWorkerProviders: Provider[] = [
-  ...Object.values(jobWorkerServiceMap),
-  CourseCodeValidationPipe,
+  ProgramsJobService,
+  CoursesJobService,
+  CourseInstancesJobService,
+  SessionsJobService,
+  CourseCodeValidationPipe
 ];
 
 export type JobWorkerServiceName = keyof typeof jobWorkerServiceMap;

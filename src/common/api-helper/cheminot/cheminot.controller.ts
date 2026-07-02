@@ -9,7 +9,7 @@ import { FileExtractionService } from './file-extraction.service';
 export class CheminotController {
   constructor(
     private readonly fileExtractionService: FileExtractionService,
-    private readonly cheminotService: CheminotService,
+    private readonly cheminotService: CheminotService
   ) {}
 
   @Get('cheminements-file')
@@ -20,7 +20,7 @@ export class CheminotController {
 
   @Get('programs-courses')
   @ApiOperation({
-    summary: 'Parse the programs and courses from the cheminements.txt file',
+    summary: 'Parse the programs and courses from the cheminements.txt file'
   })
   public async parseProgramsAndCoursesFromCheminotTxtFile() {
     return this.cheminotService.parseProgramsAndCoursesCheminot();

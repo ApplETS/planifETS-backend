@@ -9,7 +9,10 @@ function resolveLogLevels(): LogLevel[] {
     : ['error', 'warn', 'log'];
 }
 
-export function createAppLoggerFactory(monitoring?: PosthogMonitoringService, context?: string): AppLogger {
+export function createAppLoggerFactory(
+  monitoring?: PosthogMonitoringService,
+  context?: string
+): AppLogger {
   const logger = new AppLogger(context ?? 'Application', {}, monitoring);
   logger.setLogLevels(resolveLogLevels());
   return logger;

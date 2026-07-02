@@ -3,7 +3,7 @@ import {
   Prisma,
   Program,
   ProgramCourse,
-  ProgramCoursePrerequisite,
+  ProgramCoursePrerequisite
 } from '@prisma/client';
 
 import { CourseService } from '../course/course.service';
@@ -17,18 +17,18 @@ export class PrerequisiteService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly programCourseService: ProgramCourseService,
-    private readonly courseService: CourseService,
+    private readonly courseService: CourseService
   ) {}
 
   private readonly logger = new Logger(PrerequisiteService.name);
 
   public async getPrerequisitesByCode(
     courseCode: string,
-    programId: number,
+    programId: number
   ): Promise<PrerequisiteCodeDto[]> {
     this.logger.verbose('Fetching prerequisites by course code for program', {
       courseCode,
-      programId,
+      programId
     });
 
     const prerequisiteCodes =
@@ -36,42 +36,42 @@ export class PrerequisiteService {
         where: {
           programCourse: {
             course: {
-              code: courseCode,
+              code: courseCode
             },
-            programId,
-          },
+            programId
+          }
         },
         select: {
           prerequisite: {
             select: {
               course: {
                 select: {
-                  code: true,
-                },
-              },
-            },
-          },
-        },
+                  code: true
+                }
+              }
+            }
+          }
+        }
       });
 
     if (!prerequisiteCodes) {
       this.logger.error(
-        `Course with code ${courseCode} not found in program with ID ${programId}`,
+        `Course with code ${courseCode} not found in program with ID ${programId}`
       );
       throw new NotFoundException(
-        `Course with code ${courseCode} not found in program with ID ${programId}`,
+        `Course with code ${courseCode} not found in program with ID ${programId}`
       );
     }
 
     this.logger.verbose(
-      `Found ${prerequisiteCodes.length} prerequisites for course ${courseCode} in program ID ${programId}`,
+      `Found ${prerequisiteCodes.length} prerequisites for course ${courseCode} in program ID ${programId}`
     );
 
     return prerequisiteCodes;
   }
 
   public async getPrerequisitesWithProgramCourseAndPrerequisite(
-    data: Prisma.ProgramCoursePrerequisiteWhereInput,
+    data: Prisma.ProgramCoursePrerequisiteWhereInput
   ) {
     this.logger.verbose('Fetching course prerequisites', data);
 
@@ -79,8 +79,8 @@ export class PrerequisiteService {
       where: data,
       include: {
         programCourse: true,
-        prerequisite: true,
-      },
+        prerequisite: true
+      }
     });
   }
 
@@ -90,13 +90,13 @@ export class PrerequisiteService {
     return this.prisma.programCoursePrerequisite.findMany({
       include: {
         programCourse: true,
-        prerequisite: true,
-      },
+        prerequisite: true
+      }
     });
   }
 
   public async createPrerequisite(
-    data: Prisma.ProgramCoursePrerequisiteCreateInput,
+    data: Prisma.ProgramCoursePrerequisiteCreateInput
   ): Promise<ProgramCoursePrerequisite> {
     this.logger.verbose('createProgramCoursePrerequisite', data);
 
@@ -122,9 +122,9 @@ export class PrerequisiteService {
           courseId_programId_prerequisiteId: {
             courseId,
             programId,
-            prerequisiteId,
-          },
-        },
+            prerequisiteId
+          }
+        }
       });
 
     if (existingPrerequisite) {
@@ -134,22 +134,22 @@ export class PrerequisiteService {
 
     this.logger.verbose('Creating new prerequisite', data);
     return this.prisma.programCoursePrerequisite.create({
-      data,
+      data
     });
   }
 
   public async createPrerequisites(
-    data: Prisma.ProgramCoursePrerequisiteCreateInput[],
+    data: Prisma.ProgramCoursePrerequisiteCreateInput[]
   ): Promise<ProgramCoursePrerequisite[]> {
     return Promise.all(
-      data.map((prerequisiteData) => this.createPrerequisite(prerequisiteData)),
+      data.map((prerequisiteData) => this.createPrerequisite(prerequisiteData))
     );
   }
 
   public async addPrerequisiteIfNotExists(
     programCourse: ProgramCourseWithPrerequisites,
     prerequisiteCode: string,
-    program: Program,
+    program: Program
   ): Promise<boolean> {
     const existingPrerequisiteCodes =
       programCourse.prerequisites?.map((p) => p.prerequisite.course.code) ?? [];
@@ -162,7 +162,7 @@ export class PrerequisiteService {
       await this.courseService.getCourseByCode(prerequisiteCode);
     if (!prerequisiteCourse) {
       this.logger.error(
-        `Prerequisite course not found in database: ${prerequisiteCode}`,
+        `Prerequisite course not found in database: ${prerequisiteCode}`
       );
       return false;
     }
@@ -171,13 +171,13 @@ export class PrerequisiteService {
       await this.programCourseService.getProgramCourseWithPrerequisites({
         courseId_programId: {
           courseId: prerequisiteCourse.id,
-          programId: program.id,
-        },
+          programId: program.id
+        }
       });
 
     if (!prerequisiteProgramCourse) {
       this.logger.error(
-        `ProgramCourse not found for prerequisite course ${prerequisiteCode} and program ${program.code}`,
+        `ProgramCourse not found for prerequisite course ${prerequisiteCode} and program ${program.code}`
       );
       return false;
     }
@@ -187,18 +187,18 @@ export class PrerequisiteService {
         connect: {
           courseId_programId: {
             courseId: programCourse.courseId,
-            programId: programCourse.programId,
-          },
-        },
+            programId: programCourse.programId
+          }
+        }
       },
       prerequisite: {
         connect: {
           courseId_programId: {
             courseId: prerequisiteProgramCourse.courseId,
-            programId: prerequisiteProgramCourse.programId,
-          },
-        },
-      },
+            programId: prerequisiteProgramCourse.programId
+          }
+        }
+      }
     });
 
     return true; // Prerequisite was added
@@ -206,7 +206,7 @@ export class PrerequisiteService {
 
   public async updateUnstructuredPrerequisite(
     programCourse: ProgramCourse,
-    newUnstructuredPrerequisite: string | null,
+    newUnstructuredPrerequisite: string | null
   ): Promise<number> {
     if (
       programCourse.unstructuredPrerequisite !== newUnstructuredPrerequisite
@@ -215,12 +215,12 @@ export class PrerequisiteService {
         where: {
           courseId_programId: {
             courseId: programCourse.courseId,
-            programId: programCourse.programId,
-          },
+            programId: programCourse.programId
+          }
         },
         data: {
-          unstructuredPrerequisite: newUnstructuredPrerequisite,
-        },
+          unstructuredPrerequisite: newUnstructuredPrerequisite
+        }
       });
       return 1;
     }
@@ -230,12 +230,12 @@ export class PrerequisiteService {
   public async deletePrerequisiteForProgramCourse(
     programId: number,
     courseId: number,
-    prerequisiteId: number,
+    prerequisiteId: number
   ): Promise<number> {
     this.logger.verbose('deletePrerequisiteForProgramCourse', {
       programId,
       courseId,
-      prerequisiteId,
+      prerequisiteId
     });
 
     try {
@@ -244,9 +244,9 @@ export class PrerequisiteService {
           courseId_programId_prerequisiteId: {
             programId,
             courseId,
-            prerequisiteId,
-          },
-        },
+            prerequisiteId
+          }
+        }
       });
       return 1;
     } catch (error) {
@@ -257,19 +257,19 @@ export class PrerequisiteService {
 
   public async deletePrerequisitesForProgramCourse(
     programId: number,
-    courseId: number,
+    courseId: number
   ): Promise<number> {
     this.logger.verbose('deletePrerequisitesForProgramCourse', {
       programId,
-      courseId,
+      courseId
     });
 
     return (
       await this.prisma.programCoursePrerequisite.deleteMany({
         where: {
           programId: programId,
-          courseId: courseId,
-        },
+          courseId: courseId
+        }
       })
     ).count;
   }

@@ -1,4 +1,12 @@
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString, IsUrl } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+  IsUrl
+} from 'class-validator';
 
 export class ProgramEtsApiDto {
   @IsNumber()

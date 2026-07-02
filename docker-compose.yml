@@ -4,7 +4,9 @@ services:
       context: .
       target: production
     ports:
-      - "${HOST_PORT:-3501}:${PORT:-3001}"
+      - "${PORT:-3501}:${PORT:-3001}"
+    volumes:
+      - transformers-cache:/transformers-cache
     environment:
       DATABASE_URL: ${DATABASE_URL}
       FRONTEND_URL: ${FRONTEND_URL:-}
@@ -13,6 +15,15 @@ services:
       PORT: ${PORT:-3001}
       LOG_LEVELS: ${LOG_LEVELS:-log,error,warn}
       TZ: America/Toronto
+      LLM_TIMEOUT_MS: ${LLM_TIMEOUT_MS:-10000}
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      GROQ_PRIMARY_MODEL: ${GROQ_PRIMARY_MODEL:-llama-3.3-70b-versatile}
+      GROQ_FALLBACK_MODEL: ${GROQ_FALLBACK_MODEL:-llama-3.1-8b-instant}
+      NVIDIA_API_KEY: ${NVIDIA_API_KEY}
+      NVIDIA_MODEL: ${NVIDIA_MODEL:-meta/llama-3.3-70b-instruct}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash-lite}
+      TRANSFORMERS_CACHE_DIR: /transformers-cache
     depends_on:
       db:
         condition: service_healthy
@@ -37,22 +48,25 @@ services:
       context: .
       target: dev
     ports:
-      - "${HOST_PORT:-3501}:${PORT:-3001}"
+      - "${PORT:-3501}:${PORT:-3001}"
     volumes:
       - .:/app
       - /app/node_modules
+      - transformers-cache:/transformers-cache
+    env_file:
+      - .env
     environment:
-      DATABASE_URL: ${DATABASE_URL}
-      FRONTEND_URL: ${FRONTEND_URL:-}
-      QDRANT_URL: ${QDRANT_URL:-}
       APP_ENV: development
       APP_GIT_SHORT_SHA: ${APP_GIT_SHORT_SHA:-}
-      PORT: ${PORT:-3001}
-      LOG_LEVELS: ${LOG_LEVELS:-log,error,warn}
-      TZ: America/Toronto
+      TRANSFORMERS_CACHE_DIR: /transformers-cache
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "100"
+      FORCE_POLLING: "true"
     depends_on:
       db:
         condition: service_healthy
+      qdrant:
+        condition: service_started
     networks:
       - app-network
     profiles:
@@ -77,8 +91,24 @@ services:
       timeout: 5s
       retries: 5
 
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant-data:/qdrant/storage
+    networks:
+      - app-network
+    profiles:
+      - dev
+
 volumes:
   db-data:
+    driver: local
+  qdrant-data:
+    driver: local
+  transformers-cache:
     driver: local
 
 networks:

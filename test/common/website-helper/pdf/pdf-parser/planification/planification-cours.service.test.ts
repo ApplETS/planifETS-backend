@@ -3,13 +3,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosHeaders, AxiosResponse } from 'axios';
 import * as fs from 'fs';
 import { of, throwError } from 'rxjs';
-import { PLANIFICATION_DATA_V2_PATH, PLANIFICATION_PDF_V1_PATH, PLANIFICATION_PDF_V2_PATH } from 'test/test-utils/constants';
+import {
+  PLANIFICATION_DATA_V2_PATH,
+  PLANIFICATION_PDF_V1_PATH,
+  PLANIFICATION_PDF_V2_PATH
+} from 'test/test-utils/constants';
 import { normalizeCourseArray } from 'test/test-utils/planification/planificationUtil';
 
 import { PlanificationCoursService } from '@/common/website-helper/pdf/pdf-parser/planification/planification-cours.service';
 import { ICoursePlanification } from '@/common/website-helper/pdf/pdf-parser/planification/planification-cours.types';
 import { PdfParserUtil } from '@/utils/pdf/parser/pdfParserUtil';
-
 
 describe('PlanificationCoursService', () => {
   let service: PlanificationCoursService;
@@ -23,10 +26,9 @@ describe('PlanificationCoursService', () => {
         PlanificationCoursService,
         {
           provide: HttpService,
-          useValue: { get: jest.fn() },
-
-        },
-      ],
+          useValue: { get: jest.fn() }
+        }
+      ]
     }).compile();
 
     service = module.get<PlanificationCoursService>(PlanificationCoursService);
@@ -41,31 +43,45 @@ describe('PlanificationCoursService', () => {
   });
 
   it('parsePlanificationCoursPdf should call PdfParserUtil.parsePdfBuffer', async () => {
-    const spy = jest.spyOn(PdfParserUtil, 'parsePdfBuffer').mockResolvedValueOnce([] as Array<ICoursePlanification>);
+    const spy = jest
+      .spyOn(PdfParserUtil, 'parsePdfBuffer')
+      .mockResolvedValueOnce([] as Array<ICoursePlanification>);
     await service.parsePlanificationCoursPdf(Buffer.from([]), 'dummy.pdf');
     expect(spy).toHaveBeenCalled();
   });
 
   describe('Error handling', () => {
     it('parsePdfFromUrl should throw a descriptive error when httpService.get errors', async () => {
-      jest.spyOn(httpService, 'get').mockReturnValueOnce(throwError(() => new Error('Network error')));
-      await expect(service.parsePdfFromUrl('https://dummy')).rejects.toThrow('Error fetching pdf from URL');
+      jest
+        .spyOn(httpService, 'get')
+        .mockReturnValueOnce(throwError(() => new Error('Network error')));
+      await expect(service.parsePdfFromUrl('https://dummy')).rejects.toThrow(
+        'Error fetching pdf from URL'
+      );
     });
 
     it('parseProgramPlanification should propagate parse errors with context', async () => {
-      jest.spyOn(service, 'parsePdfFromUrl').mockRejectedValueOnce(new Error('parse error'));
-      await expect(service.parseProgramPlanification('7084')).rejects.toThrow(/Error parsing Planification-PDF/);
+      jest
+        .spyOn(service, 'parsePdfFromUrl')
+        .mockRejectedValueOnce(new Error('parse error'));
+      await expect(service.parseProgramPlanification('7084')).rejects.toThrow(
+        /Error parsing Planification-PDF/
+      );
     });
 
     it('parsePdfFromUrl should throw the original error if status is 404 (not found)', async () => {
       const axiosError = {
         response: { status: 404 },
         message: 'Request failed with status code 404',
-        isAxiosError: true,
+        isAxiosError: true
       };
-      jest.spyOn(httpService, 'get').mockReturnValueOnce(throwError(() => axiosError));
-      await expect(service.parsePdfFromUrl('https://dummy-not-found')).rejects.toMatchObject({
-        response: { status: 404 },
+      jest
+        .spyOn(httpService, 'get')
+        .mockReturnValueOnce(throwError(() => axiosError));
+      await expect(
+        service.parsePdfFromUrl('https://dummy-not-found')
+      ).rejects.toMatchObject({
+        response: { status: 404 }
       });
     });
   });
@@ -79,10 +95,12 @@ describe('PlanificationCoursService', () => {
         status: 200,
         statusText: 'OK',
         headers: {},
-        config: { headers: new AxiosHeaders() },
+        config: { headers: new AxiosHeaders() }
       };
       jest.spyOn(httpService, 'get').mockReturnValueOnce(of(httpResponse));
-      return service.parsePdfFromUrl('https://dummy.horaire.etsmt.ca/Horairepublication/Planification-7084.pdf');
+      return service.parsePdfFromUrl(
+        'https://dummy.horaire.etsmt.ca/Horairepublication/Planification-7084.pdf'
+      );
     };
 
     beforeAll(async () => {
@@ -98,9 +116,13 @@ describe('PlanificationCoursService', () => {
     });
 
     it('v2 parsed output should match expected JSON data exactly (sorted by code)', () => {
-      const expectedV2 = JSON.parse(fs.readFileSync(PLANIFICATION_DATA_V2_PATH, 'utf-8')) as Array<ICoursePlanification>;
+      const expectedV2 = JSON.parse(
+        fs.readFileSync(PLANIFICATION_DATA_V2_PATH, 'utf-8')
+      ) as Array<ICoursePlanification>;
 
-      expect(normalizeCourseArray(result_v2)).toEqual(normalizeCourseArray(expectedV2));
+      expect(normalizeCourseArray(result_v2)).toEqual(
+        normalizeCourseArray(expectedV2)
+      );
     });
 
     it('a course that changes between v1 and v2 should reflect different availability', () => {
@@ -109,7 +131,9 @@ describe('PlanificationCoursService', () => {
       expect(a_v1).toBeDefined();
       expect(a_v2).toBeDefined();
       // Ensure availability objects are not identical between versions for this code
-      expect(JSON.stringify(a_v1.available)).not.toEqual(JSON.stringify(a_v2.available));
+      expect(JSON.stringify(a_v1.available)).not.toEqual(
+        JSON.stringify(a_v2.available)
+      );
     });
 
     it('courses with single-letter availability (J/S/I) are parsed as expected in each version', () => {
@@ -120,8 +144,12 @@ describe('PlanificationCoursService', () => {
       expect(tin_v2).toBeDefined();
       expect(tin_v2.available).toBeDefined();
       // Ensure at least one session is parsed as 'S' or 'J' in each version
-      const hasSOrJ_v1 = (Object.values(tin_v1.available)).some((v) => /[JS]/.test(v));
-      const hasSOrJ_v2 = (Object.values(tin_v2.available)).some((v) => /[JS]/.test(v));
+      const hasSOrJ_v1 = Object.values(tin_v1.available).some((v) =>
+        /[JS]/.test(v)
+      );
+      const hasSOrJ_v2 = Object.values(tin_v2.available).some((v) =>
+        /[JS]/.test(v)
+      );
       expect(hasSOrJ_v1).toBe(true);
       expect(hasSOrJ_v2).toBe(true);
     });

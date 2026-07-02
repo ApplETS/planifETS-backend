@@ -1,4 +1,12 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString, IsUrl, Length } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+  IsUrl,
+  Length
+} from 'class-validator';
 
 export class CourseEtsApiDto {
   @IsNumber()

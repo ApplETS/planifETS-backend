@@ -8,6 +8,6 @@ import { ProgramCourseService } from './program-course.service';
   imports: [PrismaModule],
   controllers: [ProgramCourseController],
   providers: [ProgramCourseService],
-  exports: [ProgramCourseService],
+  exports: [ProgramCourseService]
 })
 export class ProgramCourseModule {}

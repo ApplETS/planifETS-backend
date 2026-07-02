@@ -40,7 +40,6 @@ export class ProgramDto implements Program {
   public updatedAt!: Date;
 }
 
-
 export class ProgramListDto {
   @ApiProperty()
   public programId!: number;
