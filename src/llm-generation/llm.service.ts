@@ -1,13 +1,13 @@
-import {Injectable, Logger} from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
-import {CourseRetrieverService} from '../embedding/course-retriever.service';
-import {ProviderStatusDto} from './dtos/generate.dto';
-import {LlmExhaustedException} from './exceptions/llm-exhausted.exception';
-import {LlmGenerationResponse} from './interfaces/llm-generation-response.interface';
-import {LlmProvider} from './interfaces/llm-provider';
-import {GeminiProvider} from './providers/gemini.provider';
-import {GroqProvider} from './providers/groq.provider';
-import {NvidiaProvider} from './providers/nvidia.provider';
+import { CourseRetrieverService } from '../embedding/course-retriever.service';
+import { ProviderStatusDto } from './dtos/generate.dto';
+import { LlmExhaustedException } from './exceptions/llm-exhausted.exception';
+import { LlmGenerationResponse } from './interfaces/llm-generation-response.interface';
+import { LlmProvider } from './interfaces/llm-provider';
+import { GeminiProvider } from './providers/gemini.provider';
+import { GroqProvider } from './providers/groq.provider';
+import { NvidiaProvider } from './providers/nvidia.provider';
 
 @Injectable()
 export class LlmService {

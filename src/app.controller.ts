@@ -6,7 +6,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 export class AppController {
   @Get()
   @ApiOperation({
-    summary: 'Hello World',
+    summary: 'Hello World'
   })
   public getHello(): string {
     return 'Hello World!';
@@ -15,21 +15,21 @@ export class AppController {
   @Get('health')
   @ApiOperation({
     summary: 'Health check endpoint',
-    description: 'Returns the health status of the application',
+    description: 'Returns the health status of the application'
   })
   public healthCheck(): { status: string; timestamp: string } {
     return {
       status: 'ok',
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     };
   }
 
   @Get('/health/monitoring')
   @ApiOperation({
     summary: 'Health check endpoint for monitoring testing',
-    description: 'Throws an error to test monitoring integration',
+    description: 'Throws an error to test monitoring integration'
   })
   public getError() {
-    throw new Error("Monitoring test error from /health/monitoring endpoint");
+    throw new Error('Monitoring test error from /health/monitoring endpoint');
   }
 }

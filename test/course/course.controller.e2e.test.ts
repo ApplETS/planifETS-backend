@@ -5,7 +5,7 @@ import request from 'supertest';
 import { PrismaService } from '../../src/prisma/prisma.service';
 import {
   buildSearchCourseContract,
-  serializeCourseEntityContract,
+  serializeCourseEntityContract
 } from '../test-utils/api-contract-builders';
 import { closeE2eTestApp, createE2eTestApp } from '../test-utils/e2e-app';
 import {
@@ -14,7 +14,7 @@ import {
   seedProgram,
   seedProgramCourse,
   seedProgramCoursePrerequisite,
-  seedSession,
+  seedSession
 } from '../test-utils/prisma-fixtures';
 
 describe('CourseController (e2e)', () => {
@@ -32,22 +32,22 @@ describe('CourseController (e2e)', () => {
   async function seedSearchScenario() {
     await seedSession(prisma, {
       year: 2026,
-      trimester: 'AUTOMNE',
+      trimester: 'AUTOMNE'
     });
     await seedSession(prisma, {
       year: 2026,
-      trimester: 'ETE',
+      trimester: 'ETE'
     });
 
     const softwareProgram = await seedProgram(prisma, {
       id: 7084,
       code: '7084',
-      title: 'Baccalaureat en genie logiciel',
+      title: 'Baccalaureat en genie logiciel'
     });
     const constructionProgram = await seedProgram(prisma, {
       id: 1822,
       code: '1822',
-      title: 'Baccalaureat en genie de la construction',
+      title: 'Baccalaureat en genie de la construction'
     });
 
     const prerequisiteCourse = await seedCourse(prisma, {
@@ -56,19 +56,19 @@ describe('CourseController (e2e)', () => {
       title: 'Calcul differentiel',
       description: 'Prerequisite course',
       credits: 4,
-      cycle: 1,
+      cycle: 1
     });
     const firstCourse = await seedCourse(prisma, {
       id: 121001,
       code: 'LOG100',
       title: 'Analyse de programmes',
-      description: 'Introduction aux programmes',
+      description: 'Introduction aux programmes'
     });
     const secondCourse = await seedCourse(prisma, {
       id: 121002,
       code: 'LOG121',
       title: 'Conception orientee objet',
-      description: 'Cours avance de conception',
+      description: 'Cours avance de conception'
     });
     const filteredOutCourse = await seedCourse(prisma, {
       id: 121003,
@@ -76,57 +76,57 @@ describe('CourseController (e2e)', () => {
       title: 'Architecture logicielle',
       description: 'Cours axe architecture',
       credits: null,
-      cycle: null,
+      cycle: null
     });
 
     await seedProgramCourse(prisma, {
       courseId: prerequisiteCourse.id,
       programId: softwareProgram.id,
       type: 'TRONC',
-      typicalSessionIndex: 1,
+      typicalSessionIndex: 1
     });
     await seedProgramCourse(prisma, {
       courseId: firstCourse.id,
       programId: softwareProgram.id,
       type: 'TRONC',
-      typicalSessionIndex: 1,
+      typicalSessionIndex: 1
     });
     await seedProgramCourse(prisma, {
       courseId: secondCourse.id,
       programId: softwareProgram.id,
       type: 'TRONC',
       typicalSessionIndex: 2,
-      unstructuredPrerequisite: 'MAT145 or equivalent',
+      unstructuredPrerequisite: 'MAT145 or equivalent'
     });
     await seedProgramCourse(prisma, {
       courseId: filteredOutCourse.id,
       programId: constructionProgram.id,
       type: 'CONCE',
-      typicalSessionIndex: 3,
+      typicalSessionIndex: 3
     });
 
     await seedProgramCoursePrerequisite(prisma, {
       courseId: secondCourse.id,
       prerequisiteId: prerequisiteCourse.id,
-      programId: softwareProgram.id,
+      programId: softwareProgram.id
     });
 
     await seedCourseInstance(prisma, {
       courseId: firstCourse.id,
       sessionYear: 2026,
       sessionTrimester: 'AUTOMNE',
-      availability: [Availability.JOUR],
+      availability: [Availability.JOUR]
     });
     await seedCourseInstance(prisma, {
       courseId: filteredOutCourse.id,
       sessionYear: 2026,
       sessionTrimester: 'ETE',
-      availability: [Availability.SOIR],
+      availability: [Availability.SOIR]
     });
 
     return {
       firstCourse,
-      secondCourse,
+      secondCourse
     };
   }
 
@@ -140,15 +140,15 @@ describe('CourseController (e2e)', () => {
         credits: 3,
         cycle: 1,
         createdAt: new Date('2026-01-15T00:00:00.000Z'),
-        updatedAt: new Date('2026-01-16T00:00:00.000Z'),
+        updatedAt: new Date('2026-01-16T00:00:00.000Z')
       });
 
-      const { status, body } = await request(app.getHttpServer()).get('/courses');
+      const { status, body } = await request(app.getHttpServer()).get(
+        '/courses'
+      );
 
       expect(status).toBe(200);
-      expect(body).toStrictEqual([
-        serializeCourseEntityContract(course),
-      ]);
+      expect(body).toStrictEqual([serializeCourseEntityContract(course)]);
     });
   });
 
@@ -162,11 +162,11 @@ describe('CourseController (e2e)', () => {
         credits: 3,
         cycle: 1,
         createdAt: new Date('2026-01-15T00:00:00.000Z'),
-        updatedAt: new Date('2026-01-16T00:00:00.000Z'),
+        updatedAt: new Date('2026-01-16T00:00:00.000Z')
       });
 
       const { status, body } = await request(app.getHttpServer()).get(
-        `/courses/${course.id}`,
+        `/courses/${course.id}`
       );
 
       expect(status).toBe(200);
@@ -183,7 +183,7 @@ describe('CourseController (e2e)', () => {
         .query({
           query: 'LOG',
           limit: '1',
-          offset: '1',
+          offset: '1'
         });
 
       expect(status).toBe(200);
@@ -196,17 +196,19 @@ describe('CourseController (e2e)', () => {
             credits: 3,
             cycle: 1,
             sessionAvailability: [],
-            prerequisites: [{
-              id: 145001,
-              code: 'MAT145',
-              title: 'Calcul differentiel',
-              credits: 4,
-              cycle: 1,
-            }],
-          }),
+            prerequisites: [
+              {
+                id: 145001,
+                code: 'MAT145',
+                title: 'Calcul differentiel',
+                credits: 4,
+                cycle: 1
+              }
+            ]
+          })
         ],
         total: 3,
-        hasMore: true,
+        hasMore: true
       });
     });
 
@@ -219,7 +221,7 @@ describe('CourseController (e2e)', () => {
           query: 'LOG',
           programCodes: '7084',
           limit: '10',
-          offset: '0',
+          offset: '0'
         });
 
       expect(status).toBe(200);
@@ -234,13 +236,13 @@ describe('CourseController (e2e)', () => {
             sessionAvailability: [
               {
                 sessionCode: 'A2026',
-                availability: ['JOUR'],
-              },
+                availability: ['JOUR']
+              }
             ],
             prerequisites: [],
             typicalSessionIndex: 1,
             type: 'TRONC',
-            unstructuredPrerequisite: null,
+            unstructuredPrerequisite: null
           }),
           buildSearchCourseContract({
             id: secondCourse.id,
@@ -249,20 +251,22 @@ describe('CourseController (e2e)', () => {
             credits: 3,
             cycle: 1,
             sessionAvailability: [],
-            prerequisites: [{
-              id: 145001,
-              code: 'MAT145',
-              title: 'Calcul differentiel',
-              credits: 4,
-              cycle: 1,
-            }],
+            prerequisites: [
+              {
+                id: 145001,
+                code: 'MAT145',
+                title: 'Calcul differentiel',
+                credits: 4,
+                cycle: 1
+              }
+            ],
             typicalSessionIndex: 2,
             type: 'TRONC',
-            unstructuredPrerequisite: 'MAT145 or equivalent',
-          }),
+            unstructuredPrerequisite: 'MAT145 or equivalent'
+          })
         ],
         total: 2,
-        hasMore: false,
+        hasMore: false
       });
     });
 
@@ -274,7 +278,7 @@ describe('CourseController (e2e)', () => {
         .query({
           query: 'LOG',
           programCodes: '9999',
-          limit: '1',
+          limit: '1'
         });
 
       expect(status).toBe(200);
@@ -289,14 +293,14 @@ describe('CourseController (e2e)', () => {
             sessionAvailability: [
               {
                 sessionCode: 'A2026',
-                availability: ['JOUR'],
-              },
+                availability: ['JOUR']
+              }
             ],
-            prerequisites: [],
-          }),
+            prerequisites: []
+          })
         ],
         total: 3,
-        hasMore: true,
+        hasMore: true
       });
     });
 
@@ -311,7 +315,7 @@ describe('CourseController (e2e)', () => {
       expect(body).toStrictEqual({
         courses: [],
         total: 0,
-        hasMore: false,
+        hasMore: false
       });
     });
   });
@@ -326,7 +330,7 @@ describe('CourseController (e2e)', () => {
         credits: 3,
         cycle: 1,
         createdAt: new Date('2026-02-10T00:00:00.000Z'),
-        updatedAt: new Date('2026-02-11T00:00:00.000Z'),
+        updatedAt: new Date('2026-02-11T00:00:00.000Z')
       });
 
       const { status, body } = await request(app.getHttpServer())
@@ -346,7 +350,7 @@ describe('CourseController (e2e)', () => {
         credits: 3,
         cycle: 1,
         createdAt: new Date('2026-02-12T00:00:00.000Z'),
-        updatedAt: new Date('2026-02-13T00:00:00.000Z'),
+        updatedAt: new Date('2026-02-13T00:00:00.000Z')
       });
 
       const { status, body } = await request(app.getHttpServer())
@@ -359,7 +363,7 @@ describe('CourseController (e2e)', () => {
 
     it('returns an empty array when the codes query param is missing', async () => {
       const { status, body } = await request(app.getHttpServer()).get(
-        '/courses/codes',
+        '/courses/codes'
       );
 
       expect(status).toBe(200);

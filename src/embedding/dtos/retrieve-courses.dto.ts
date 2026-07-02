@@ -1,6 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested
+} from 'class-validator';
 
 class UserSessionContextDto {
   @IsOptional()
@@ -18,7 +25,7 @@ class UserSessionContextDto {
 export class RetrieveCoursesDto {
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({ example: 'je veux apprendre l\'intelligence artificielle' })
+  @ApiProperty({ example: "je veux apprendre l'intelligence artificielle" })
   public query!: string;
 
   @IsOptional()

@@ -17,13 +17,13 @@ import { RetrievalController } from './retrieval.controller';
     CourseEmbeddingIndexerService,
     EmbeddingWorkerClient,
     QdrantCourseIndexService,
-    CourseRetrieverService,
+    CourseRetrieverService
   ],
   exports: [
     EmbeddingService,
     CourseEmbeddingIndexerService,
     QdrantCourseIndexService,
-    CourseRetrieverService,
-  ],
+    CourseRetrieverService
+  ]
 })
 export class EmbeddingModule {}

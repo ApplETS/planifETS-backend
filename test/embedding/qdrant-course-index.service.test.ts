@@ -5,15 +5,15 @@ import type { CourseQdrantPoint } from '../../src/embedding/qdrant-course-index.
 import { QdrantCourseIndexService } from '../../src/embedding/qdrant-course-index.service';
 
 jest.mock('@qdrant/js-client-rest', () => ({
-  QdrantClient: jest.fn(),
+  QdrantClient: jest.fn()
 }));
 
 const makeValidCollectionInfo = () => ({
   config: {
     params: {
-      vectors: { size: BGE_M3_VECTOR_SIZE, distance: 'Cosine' },
-    },
-  },
+      vectors: { size: BGE_M3_VECTOR_SIZE, distance: 'Cosine' }
+    }
+  }
 });
 
 const makePoint = (id = 'uuid-1'): CourseQdrantPoint => ({
@@ -34,8 +34,8 @@ const makePoint = (id = 'uuid-1'): CourseQdrantPoint => ({
     text: 'some text',
     text_hash: 'abc123',
     embedding_model: 'Xenova/bge-m3',
-    indexed_at: '2025-01-01T00:00:00.000Z',
-  },
+    indexed_at: '2025-01-01T00:00:00.000Z'
+  }
 });
 
 describe('QdrantCourseIndexService', () => {
@@ -54,7 +54,7 @@ describe('QdrantCourseIndexService', () => {
       getCollection: jest.fn(),
       createCollection: jest.fn(),
       scroll: jest.fn(),
-      upsert: jest.fn(),
+      upsert: jest.fn()
     };
 
     (QdrantClient as jest.Mock).mockImplementation(() => mockClient);
@@ -82,7 +82,7 @@ describe('QdrantCourseIndexService', () => {
 
       expect(mockClient.createCollection).toHaveBeenCalledWith(
         expect.any(String),
-        { vectors: { size: BGE_M3_VECTOR_SIZE, distance: 'Cosine' } },
+        { vectors: { size: BGE_M3_VECTOR_SIZE, distance: 'Cosine' } }
       );
     });
 
@@ -96,24 +96,32 @@ describe('QdrantCourseIndexService', () => {
 
     it('throws when the existing collection has the wrong vector size', async () => {
       mockClient.getCollection.mockResolvedValue({
-        config: { params: { vectors: { size: 512, distance: 'Cosine' } } },
+        config: { params: { vectors: { size: 512, distance: 'Cosine' } } }
       });
 
-      await expect(service.ensureCollection()).rejects.toThrow('Invalid Qdrant vector size');
+      await expect(service.ensureCollection()).rejects.toThrow(
+        'Invalid Qdrant vector size'
+      );
     });
 
     it('throws when the existing collection has the wrong distance metric', async () => {
       mockClient.getCollection.mockResolvedValue({
-        config: { params: { vectors: { size: BGE_M3_VECTOR_SIZE, distance: 'Dot' } } },
+        config: {
+          params: { vectors: { size: BGE_M3_VECTOR_SIZE, distance: 'Dot' } }
+        }
       });
 
-      await expect(service.ensureCollection()).rejects.toThrow('Invalid Qdrant distance');
+      await expect(service.ensureCollection()).rejects.toThrow(
+        'Invalid Qdrant distance'
+      );
     });
 
     it('throws when the vector configuration cannot be read', async () => {
       mockClient.getCollection.mockResolvedValue({ config: {} });
 
-      await expect(service.ensureCollection()).rejects.toThrow('Cannot read vector configuration');
+      await expect(service.ensureCollection()).rejects.toThrow(
+        'Cannot read vector configuration'
+      );
     });
 
     it('also reads vector config from the result.config path', async () => {
@@ -121,10 +129,10 @@ describe('QdrantCourseIndexService', () => {
         result: {
           config: {
             params: {
-              vectors: { size: BGE_M3_VECTOR_SIZE, distance: 'Cosine' },
-            },
-          },
-        },
+              vectors: { size: BGE_M3_VECTOR_SIZE, distance: 'Cosine' }
+            }
+          }
+        }
       });
 
       await expect(service.ensureCollection()).resolves.toBeUndefined();
@@ -133,7 +141,10 @@ describe('QdrantCourseIndexService', () => {
 
   describe('getExistingTextHashes', () => {
     it('returns an empty map when there are no points', async () => {
-      mockClient.scroll.mockResolvedValue({ points: [], next_page_offset: null });
+      mockClient.scroll.mockResolvedValue({
+        points: [],
+        next_page_offset: null
+      });
 
       const result = await service.getExistingTextHashes();
 
@@ -144,7 +155,7 @@ describe('QdrantCourseIndexService', () => {
     it('maps point id to its text_hash payload', async () => {
       mockClient.scroll.mockResolvedValue({
         points: [{ id: 'uuid-1', payload: { text_hash: 'hash1' } }],
-        next_page_offset: null,
+        next_page_offset: null
       });
 
       const result = await service.getExistingTextHashes();
@@ -156,11 +167,11 @@ describe('QdrantCourseIndexService', () => {
       mockClient.scroll
         .mockResolvedValueOnce({
           points: [{ id: 'uuid-1', payload: { text_hash: 'hash1' } }],
-          next_page_offset: 250,
+          next_page_offset: 250
         })
         .mockResolvedValueOnce({
           points: [{ id: 'uuid-2', payload: { text_hash: 'hash2' } }],
-          next_page_offset: null,
+          next_page_offset: null
         });
 
       const result = await service.getExistingTextHashes();
@@ -173,7 +184,7 @@ describe('QdrantCourseIndexService', () => {
     it('stops pagination when next_page_offset is undefined', async () => {
       mockClient.scroll.mockResolvedValue({
         points: [],
-        next_page_offset: undefined,
+        next_page_offset: undefined
       });
 
       await service.getExistingTextHashes();
@@ -185,9 +196,9 @@ describe('QdrantCourseIndexService', () => {
       mockClient.scroll.mockResolvedValue({
         points: [
           { id: 1, payload: { text_hash: 'hash1' } },
-          { id: 'uuid-2', payload: { text_hash: 42 } },
+          { id: 'uuid-2', payload: { text_hash: 42 } }
         ],
-        next_page_offset: null,
+        next_page_offset: null
       });
 
       const result = await service.getExistingTextHashes();
@@ -212,15 +223,19 @@ describe('QdrantCourseIndexService', () => {
         expect.any(String),
         expect.objectContaining({
           wait: true,
-          points: [expect.objectContaining({ id: point.id, vector: point.vector })],
-        }),
+          points: [
+            expect.objectContaining({ id: point.id, vector: point.vector })
+          ]
+        })
       );
     });
 
     it('throws immediately when upsert fails with a non-transient error', async () => {
       mockClient.upsert.mockRejectedValue(new Error('bad request'));
 
-      await expect(service.upsertPoints([makePoint()])).rejects.toThrow('bad request');
+      await expect(service.upsertPoints([makePoint()])).rejects.toThrow(
+        'bad request'
+      );
     });
   });
 });

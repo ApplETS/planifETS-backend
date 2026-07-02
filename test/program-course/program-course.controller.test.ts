@@ -10,7 +10,7 @@ describe('ProgramCourseController', () => {
   const programCourseService = {
     getProgramsCoursesByCourseIds: jest.fn(),
     getProgramCoursesById: jest.fn(),
-    getProgramCourse: jest.fn(),
+    getProgramCourse: jest.fn()
   };
 
   beforeEach(async () => {
@@ -19,9 +19,9 @@ describe('ProgramCourseController', () => {
       providers: [
         {
           provide: ProgramCourseService,
-          useValue: programCourseService,
-        },
-      ],
+          useValue: programCourseService
+        }
+      ]
     }).compile();
 
     app = module.createNestApplication();
@@ -41,9 +41,9 @@ describe('ProgramCourseController', () => {
         data: courseIds.map((courseId: number) => ({
           programCode: `COURSE-${courseId}`,
           programTitle: 'Normalized course ids',
-          courses: [],
-        })),
-      }),
+          courses: []
+        }))
+      })
     );
 
     const { status, body } = await request(app.getHttpServer())
@@ -56,14 +56,14 @@ describe('ProgramCourseController', () => {
         {
           programCode: 'COURSE-352377',
           programTitle: 'Normalized course ids',
-          courses: [],
+          courses: []
         },
         {
           programCode: 'COURSE-182848',
           programTitle: 'Normalized course ids',
-          courses: [],
-        },
-      ],
+          courses: []
+        }
+      ]
     });
   });
 
@@ -75,20 +75,22 @@ describe('ProgramCourseController', () => {
     expect(status).toBe(400);
     expect(body).toStrictEqual({
       statusCode: 400,
-      message: 'Course IDs must be valid numbers',
+      message: 'Course IDs must be valid numbers'
     });
   });
 
   it('parses semicolon-delimited programIds before calling the service', async () => {
-    programCourseService.getProgramCoursesById.mockImplementation(async (ids) => ({
-      data: [
-        {
-          programCode: ids.join(','),
-          programTitle: 'Normalized program ids',
-          courses: [],
-        },
-      ],
-    }));
+    programCourseService.getProgramCoursesById.mockImplementation(
+      async (ids) => ({
+        data: [
+          {
+            programCode: ids.join(','),
+            programTitle: 'Normalized program ids',
+            courses: []
+          }
+        ]
+      })
+    );
 
     const { status, body } = await request(app.getHttpServer())
       .get('/program-courses/programs')
@@ -100,22 +102,24 @@ describe('ProgramCourseController', () => {
         {
           programCode: '182848,183562',
           programTitle: 'Normalized program ids',
-          courses: [],
-        },
-      ],
+          courses: []
+        }
+      ]
     });
   });
 
   it('parses repeated programIds query params into numbers', async () => {
-    programCourseService.getProgramCoursesById.mockImplementation(async (ids) => ({
-      data: [
-        {
-          programCode: ids.join(','),
-          programTitle: 'Normalized program ids',
-          courses: [],
-        },
-      ],
-    }));
+    programCourseService.getProgramCoursesById.mockImplementation(
+      async (ids) => ({
+        data: [
+          {
+            programCode: ids.join(','),
+            programTitle: 'Normalized program ids',
+            courses: []
+          }
+        ]
+      })
+    );
 
     const { status, body } = await request(app.getHttpServer())
       .get('/program-courses/programs')
@@ -127,21 +131,21 @@ describe('ProgramCourseController', () => {
         {
           programCode: '182848,183562',
           programTitle: 'Normalized program ids',
-          courses: [],
-        },
-      ],
+          courses: []
+        }
+      ]
     });
   });
 
   it('returns a bad request when programIds are missing', async () => {
     const { status, body } = await request(app.getHttpServer()).get(
-      '/program-courses/programs',
+      '/program-courses/programs'
     );
 
     expect(status).toBe(400);
     expect(body).toStrictEqual({
       statusCode: 400,
-      message: 'Program IDs are required to get program courses',
+      message: 'Program IDs are required to get program courses'
     });
   });
 
@@ -153,7 +157,7 @@ describe('ProgramCourseController', () => {
     expect(status).toBe(400);
     expect(body).toStrictEqual({
       statusCode: 400,
-      message: 'Program IDs must be valid numbers',
+      message: 'Program IDs must be valid numbers'
     });
   });
 
@@ -161,8 +165,8 @@ describe('ProgramCourseController', () => {
     programCourseService.getProgramCoursesById.mockResolvedValue({
       data: [],
       errors: {
-        invalidProgramIds: [999999],
-      },
+        invalidProgramIds: [999999]
+      }
     });
 
     const { status, body } = await request(app.getHttpServer())
@@ -171,7 +175,7 @@ describe('ProgramCourseController', () => {
 
     expect(status).toBe(404);
     expect(body).toStrictEqual({
-      invalidProgramIds: [999999],
+      invalidProgramIds: [999999]
     });
   });
 
@@ -182,7 +186,7 @@ describe('ProgramCourseController', () => {
       .get('/program-courses/details')
       .query({
         courseId: '352377',
-        programId: '182848',
+        programId: '182848'
       });
 
     expect(status).toBe(404);
@@ -190,7 +194,7 @@ describe('ProgramCourseController', () => {
       message:
         'No program-course found for courseId=352377 in programId=182848',
       error: 'Not Found',
-      statusCode: 404,
+      statusCode: 404
     });
   });
 
@@ -199,26 +203,26 @@ describe('ProgramCourseController', () => {
       .get('/program-courses/details')
       .query({
         courseId: 'abc',
-        programId: '182848',
+        programId: '182848'
       });
 
     expect(status).toBe(400);
     expect(body).toStrictEqual({
       message: 'Validation failed (numeric string is expected)',
       error: 'Bad Request',
-      statusCode: 400,
+      statusCode: 400
     });
   });
 
   it.each([
     {
       name: 'courseId is missing',
-      query: { programId: '182848' },
+      query: { programId: '182848' }
     },
     {
       name: 'programId is missing',
-      query: { courseId: '352377' },
-    },
+      query: { courseId: '352377' }
+    }
   ])('returns a parse error when $name', async ({ query }) => {
     const { status, body } = await request(app.getHttpServer())
       .get('/program-courses/details')
@@ -228,7 +232,7 @@ describe('ProgramCourseController', () => {
     expect(body).toStrictEqual({
       message: 'Validation failed (numeric string is expected)',
       error: 'Bad Request',
-      statusCode: 400,
+      statusCode: 400
     });
   });
 });

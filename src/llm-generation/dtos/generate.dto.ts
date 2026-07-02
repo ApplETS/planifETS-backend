@@ -1,5 +1,5 @@
-import {ApiProperty} from '@nestjs/swagger';
-import {IsNotEmpty, IsString} from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class GenerateDto {
   @IsString()
@@ -12,7 +12,7 @@ export class GenerateDto {
 }
 
 class LlmCourseDto {
-  @ApiProperty({example: 'LOG635'})
+  @ApiProperty({ example: 'LOG635' })
   public code!: string;
 
   @ApiProperty({
@@ -24,28 +24,30 @@ class LlmCourseDto {
 }
 
 export class GenerateResponseDto {
-  @ApiProperty({type: [LlmCourseDto]})
+  @ApiProperty({ type: [LlmCourseDto] })
   public courses!: LlmCourseDto[];
 
-  @ApiProperty({example: 'These courses cover the fundamentals of AI and ML.'})
+  @ApiProperty({
+    example: 'These courses cover the fundamentals of AI and ML.'
+  })
   public explanation!: string;
 }
 
 export class ProviderStatusDto {
-  @ApiProperty({example: 'Groq (llama-3.3-70b-versatile)'})
+  @ApiProperty({ example: 'Groq (llama-3.3-70b-versatile)' })
   public name!: string;
 
-  @ApiProperty({enum: ['ok', 'error']})
+  @ApiProperty({ enum: ['ok', 'error'] })
   public status!: 'ok' | 'error';
 
-  @ApiProperty({example: 342, description: 'Response time in milliseconds'})
+  @ApiProperty({ example: 342, description: 'Response time in milliseconds' })
   public latencyMs!: number;
 
-  @ApiProperty({required: false, example: 'API error: 429'})
+  @ApiProperty({ required: false, example: 'API error: 429' })
   public error?: string;
 }
 
 export class StatusResponseDto {
-  @ApiProperty({type: [ProviderStatusDto]})
+  @ApiProperty({ type: [ProviderStatusDto] })
   public providers!: ProviderStatusDto[];
 }

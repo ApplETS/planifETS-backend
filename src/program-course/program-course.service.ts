@@ -4,17 +4,20 @@ import { Prisma, ProgramCourse } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   DetailedProgramCourseDto,
-  ProgramCoursesDto,
+  ProgramCoursesDto
 } from './dtos/program-course.dto';
 import { ProgramCourseMapper } from './mappers/program-course.mapper';
-import { ProgramCoursesQueryResult, ProgramCourseWithPrerequisites } from './types/program-course.types';
+import {
+  ProgramCoursesQueryResult,
+  ProgramCourseWithPrerequisites
+} from './types/program-course.types';
 
 const COURSE_BASIC_SELECT = {
   id: true,
   code: true,
   title: true,
   credits: true,
-  cycle: true,
+  cycle: true
 };
 
 const COURSE_DETAILS_SELECT = {
@@ -24,25 +27,25 @@ const COURSE_DETAILS_SELECT = {
       availability: true,
       sessionYear: true,
       sessionTrimester: true,
-      session: true,
-    },
-  },
+      session: true
+    }
+  }
 };
 
 @Injectable()
 export class ProgramCourseService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   private readonly logger = new Logger(ProgramCourseService.name);
 
   public async getProgramCourse(
     courseId: number,
-    programId: number,
+    programId: number
   ): Promise<DetailedProgramCourseDto | null> {
     return this.prisma.programCourse.findFirst({
       where: {
         courseId,
-        programId,
+        programId
       },
       select: {
         courseId: true,
@@ -65,12 +68,12 @@ export class ProgramCourseService {
                 session: {
                   select: {
                     trimester: true,
-                    year: true,
-                  },
-                },
-              },
-            },
-          },
+                    year: true
+                  }
+                }
+              }
+            }
+          }
         },
         prerequisites: {
           select: {
@@ -80,22 +83,22 @@ export class ProgramCourseService {
                   select: {
                     id: true,
                     code: true,
-                    title: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
+                    title: true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     });
   }
 
   public async getProgramCourseWithPrerequisites(
-    programCourseWhereUniqueInput: Prisma.ProgramCourseWhereUniqueInput,
+    programCourseWhereUniqueInput: Prisma.ProgramCourseWhereUniqueInput
   ): Promise<ProgramCourseWithPrerequisites | null> {
     this.logger.verbose('get ProgramCourse WithPrerequisites', {
-      programCourseWhereUniqueInput,
+      programCourseWhereUniqueInput
     });
 
     return this.prisma.programCourse.findUnique({
@@ -105,24 +108,24 @@ export class ProgramCourseService {
           include: {
             prerequisite: {
               include: {
-                course: true,
-              },
-            },
-          },
-        },
-      },
+                course: true
+              }
+            }
+          }
+        }
+      }
     });
   }
 
   public async getProgramCoursesByProgram(
-    programId: number,
+    programId: number
   ): Promise<ProgramCourse[]> {
     this.logger.verbose('getProgramCoursesByProgram', programId);
 
     return this.prisma.programCourse.findMany({
       where: {
-        programId,
-      },
+        programId
+      }
     });
   }
 
@@ -133,24 +136,27 @@ export class ProgramCourseService {
   }
 
   public async createProgramCourse(
-    data: Prisma.ProgramCourseCreateInput,
+    data: Prisma.ProgramCourseCreateInput
   ): Promise<ProgramCourse | undefined> {
     const existingProgramCourse = await this.prisma.programCourse.findFirst({
       where: {
         programId: data.program.connect?.id,
-        courseId: data.course.connect?.id,
-      },
+        courseId: data.course.connect?.id
+      }
     });
 
     if (existingProgramCourse) {
-      this.logger.verbose('ProgramCourse already exists', existingProgramCourse);
+      this.logger.verbose(
+        'ProgramCourse already exists',
+        existingProgramCourse
+      );
       return undefined;
     }
 
     this.logger.verbose('createProgramCourse', data);
 
     return this.prisma.programCourse.create({
-      data,
+      data
     });
   }
 
@@ -160,7 +166,7 @@ export class ProgramCourseService {
   }): Promise<ProgramCourse | undefined> {
     const { data, where } = params;
     const existingProgramCourse = await this.prisma.programCourse.findUnique({
-      where,
+      where
     });
 
     if (!existingProgramCourse) {
@@ -169,7 +175,7 @@ export class ProgramCourseService {
         'Where: ',
         where,
         'Data: ',
-        data,
+        data
       );
       return undefined;
     }
@@ -178,16 +184,16 @@ export class ProgramCourseService {
 
     return this.prisma.programCourse.update({
       data,
-      where,
+      where
     });
   }
 
   public async deleteProgramCourse(
-    where: Prisma.ProgramCourseWhereUniqueInput,
+    where: Prisma.ProgramCourseWhereUniqueInput
   ): Promise<ProgramCourse> {
     this.logger.verbose('deleteProgramCourse', JSON.stringify(where));
     return this.prisma.programCourse.delete({
-      where,
+      where
     });
   }
 
@@ -201,7 +207,7 @@ export class ProgramCourseService {
       type: string | null;
     },
     programId: number,
-    courseId: number,
+    courseId: number
   ): boolean {
     const hasTypicalSessionIndexChanged =
       newCourseData.typicalSessionIndex !==
@@ -219,35 +225,31 @@ export class ProgramCourseService {
           typicalSessionIndex: hasTypicalSessionIndexChanged
             ? 'has changed'
             : 'no changes',
-          type: hasTypeChanged ? 'has changed' : 'no changes',
+          type: hasTypeChanged ? 'has changed' : 'no changes'
         },
         programId,
-        courseId,
+        courseId
       });
     }
 
     return hasChanged;
   }
 
-  public async getProgramCoursesById(
-    programIds: number | number[],
-  ): Promise<{
+  public async getProgramCoursesById(programIds: number | number[]): Promise<{
     data: ProgramCoursesDto[];
     errors?: { invalidProgramIds: number[] };
   }> {
     const ids = Array.isArray(programIds) ? programIds : [programIds];
 
     if (!ids.length) {
-      this.logger.error(
-        'No program IDs provided to getProgramCoursesById',
-      );
+      this.logger.error('No program IDs provided to getProgramCoursesById');
     }
 
     const programs = await this.fetchProgramsWithCoursesById(ids);
 
     if (!programs.length) {
       this.logger.error('No programs found for the provided program IDs', {
-        programIds: ids,
+        programIds: ids
       });
     }
 
@@ -262,7 +264,7 @@ export class ProgramCourseService {
 
     if (invalidProgramIds.length) {
       this.logger.error('Some program IDs are invalid', {
-        invalidProgramIds,
+        invalidProgramIds
       });
       response.errors = { invalidProgramIds };
     }
@@ -270,9 +272,7 @@ export class ProgramCourseService {
     return response;
   }
 
-  public async getProgramsCoursesByCourseIds(
-    courseIds: number[],
-  ): Promise<{
+  public async getProgramsCoursesByCourseIds(courseIds: number[]): Promise<{
     data: ProgramCoursesDto[];
     errors?: { invalidCourseIds: number[] };
   }> {
@@ -296,7 +296,7 @@ export class ProgramCourseService {
 
     if (invalidCourseIds.length) {
       this.logger.error('Some course IDs are invalid', {
-        invalidCourseIds,
+        invalidCourseIds
       });
       response.errors = { invalidCourseIds };
     }
@@ -305,11 +305,11 @@ export class ProgramCourseService {
   }
 
   private async fetchProgramsWithCoursesById(
-    programIds: number[],
+    programIds: number[]
   ): Promise<ProgramCoursesQueryResult[]> {
     return this.prisma.program.findMany({
       where: {
-        id: { in: programIds },
+        id: { in: programIds }
       },
       select: {
         id: true,
@@ -317,7 +317,7 @@ export class ProgramCourseService {
         title: true,
         courses: {
           orderBy: {
-            typicalSessionIndex: 'asc',
+            typicalSessionIndex: 'asc'
           },
           select: {
             courseId: true,
@@ -325,35 +325,35 @@ export class ProgramCourseService {
             typicalSessionIndex: true,
             unstructuredPrerequisite: true,
             course: {
-              select: COURSE_DETAILS_SELECT,
+              select: COURSE_DETAILS_SELECT
             },
             prerequisites: {
               select: {
                 prerequisite: {
                   select: {
                     course: {
-                      select: COURSE_BASIC_SELECT,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
+                      select: COURSE_BASIC_SELECT
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }) as Promise<ProgramCoursesQueryResult[]>;
   }
 
   private async fetchProgramsWithCoursesByCourseIds(
-    courseIds: number[],
+    courseIds: number[]
   ): Promise<ProgramCoursesQueryResult[]> {
     return this.prisma.program.findMany({
       where: {
         courses: {
           some: {
-            courseId: { in: courseIds },
-          },
-        },
+            courseId: { in: courseIds }
+          }
+        }
       },
       select: {
         id: true,
@@ -361,10 +361,10 @@ export class ProgramCourseService {
         title: true,
         courses: {
           where: {
-            courseId: { in: courseIds },
+            courseId: { in: courseIds }
           },
           orderBy: {
-            typicalSessionIndex: 'asc',
+            typicalSessionIndex: 'asc'
           },
           select: {
             courseId: true,
@@ -372,22 +372,22 @@ export class ProgramCourseService {
             typicalSessionIndex: true,
             unstructuredPrerequisite: true,
             course: {
-              select: COURSE_DETAILS_SELECT,
+              select: COURSE_DETAILS_SELECT
             },
             prerequisites: {
               select: {
                 prerequisite: {
                   select: {
                     course: {
-                      select: COURSE_BASIC_SELECT,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
+                      select: COURSE_BASIC_SELECT
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }) as Promise<ProgramCoursesQueryResult[]>;
   }
 }

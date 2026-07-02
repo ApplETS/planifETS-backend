@@ -8,6 +8,6 @@ import { ProgramService } from './program.service';
   imports: [PrismaModule],
   controllers: [ProgramController],
   providers: [ProgramService],
-  exports: [ProgramService],
+  exports: [ProgramService]
 })
 export class ProgramModule {}

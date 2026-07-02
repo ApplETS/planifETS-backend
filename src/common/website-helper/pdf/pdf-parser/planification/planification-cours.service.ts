@@ -18,31 +18,31 @@ export class PlanificationCoursService {
 
   private readonly courseCodeValidationPipe = new CourseCodeValidationPipe();
 
-  constructor(private readonly httpService: HttpService) { }
+  constructor(private readonly httpService: HttpService) {}
 
   public async parseProgramPlanification(
-    programCode: string,
+    programCode: string
   ): Promise<ICoursePlanification[]> {
     try {
       const pdfUrl = getPlanificationPdfUrl(programCode);
       return await this.parsePdfFromUrl(pdfUrl);
     } catch (error) {
       throw new Error(
-        `Error parsing Planification-PDF for program: ${programCode}\n` + error,
+        `Error parsing Planification-PDF for program: ${programCode}\n` + error
       );
     }
   }
 
   public async parsePdfFromUrl(
-    pdfUrl: string,
+    pdfUrl: string
   ): Promise<ICoursePlanification[]> {
     try {
       const response = await firstValueFrom(
-        this.httpService.get(pdfUrl, { responseType: 'arraybuffer' }),
+        this.httpService.get(pdfUrl, { responseType: 'arraybuffer' })
       );
       return await this.parsePlanificationCoursPdf(
         Buffer.from(response.data),
-        pdfUrl,
+        pdfUrl
       );
     } catch (error) {
       if (isAxiosError(error) && error.response?.status) {
@@ -54,16 +54,16 @@ export class PlanificationCoursService {
 
   public parsePlanificationCoursPdf(
     pdfBuffer: Buffer,
-    pdfUrl: string,
+    pdfUrl: string
   ): Promise<ICoursePlanification[]> {
     return PdfParserUtil.parsePdfBuffer(pdfBuffer, (pdfData) =>
-      this.processPdfData(pdfData, pdfUrl),
+      this.processPdfData(pdfData, pdfUrl)
     );
   }
 
   public processPdfData(
     pdfData: Output,
-    pdfUrl: string,
+    pdfUrl: string
   ): ICoursePlanification[] {
     try {
       const headerCells: Row[] = this.parseHeaderCells(pdfData);
@@ -125,7 +125,7 @@ export class PlanificationCoursService {
   private initializeCourse(): ICoursePlanification {
     return {
       code: '',
-      available: {},
+      available: {}
     };
   }
 
@@ -133,7 +133,7 @@ export class PlanificationCoursService {
   public parseHeaderCells(pdfData: { Pages: Page[] }): Row[] {
     const columns: Row[] = [];
     const headerFills = pdfData.Pages[0].Fills.filter(
-      (fill: Fill) => fill.clr === 5,
+      (fill: Fill) => fill.clr === 5
     );
 
     headerFills.forEach((fill: Fill, index: number) => {
@@ -156,7 +156,7 @@ export class PlanificationCoursService {
 
   private isTextInCell(
     text: Text,
-    column: { startX: number; endX: number; startY: number; endY: number },
+    column: { startX: number; endX: number; startY: number; endY: number }
   ): boolean {
     return (
       text.x >= column.startX &&

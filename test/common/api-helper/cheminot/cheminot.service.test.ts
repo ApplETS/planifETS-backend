@@ -24,10 +24,10 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
           useValue: {
             extractCheminementsFile: jest
               .fn()
-              .mockResolvedValue(cheminementsData),
-          },
-        },
-      ],
+              .mockResolvedValue(cheminementsData)
+          }
+        }
+      ]
     }).compile();
 
     service = module.get<CheminotService>(CheminotService);
@@ -44,7 +44,7 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     expect(firstProgram.courses.length).toBeGreaterThan(0);
 
     const firstCourse = firstProgram.courses.find(
-      (course) => course.code === 'GOL111',
+      (course) => course.code === 'GOL111'
     );
     expect(firstCourse).toBeDefined();
     expect(firstCourse?.code).toBe('GOL111');
@@ -69,13 +69,13 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     const firstProgram = programs[0];
 
     const courseWithPrereq = firstProgram.courses.find(
-      (course) => course.code === 'GOL451',
+      (course) => course.code === 'GOL451'
     );
     expect(courseWithPrereq).toBeDefined();
 
     // Now we need to search for 'GOL301' within the prerequisites array
     const prerequisites = courseWithPrereq?.prerequisites.flatMap(
-      (p) => p.prerequisites,
+      (p) => p.prerequisites
     );
     expect(prerequisites).toContain('GOL301');
   });
@@ -98,7 +98,7 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
       'PHY144',
       'ATE075',
       'ATE085',
-      'LRC105',
+      'LRC105'
     ]);
   });
 
@@ -110,7 +110,7 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
 
     // Assuming the 'CHOIX' courses are stored in the 'choix' array
     const choixCourse = firstProgram.choix?.find(
-      (course) => course.code === 'ENT201', // Find the main course from CHOIX
+      (course) => course.code === 'ENT201' // Find the main course from CHOIX
     );
 
     expect(choixCourse).toBeDefined();
@@ -145,7 +145,7 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
       'GES824',
       'GES830',
       'GES892',
-      'GES895',
+      'GES895'
     ];
     const parsedCourses = lastProgram.courses.map((course) => course.code);
     // ATE800, GES815, GES816, GES817, GES818, GES823, GES824, GES830, GES892, GES895
@@ -169,12 +169,12 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     const firstProgram = programs[0]; // GOL program 7095
 
     const courseWithPrerequisite = firstProgram.courses.find(
-      (course) => course.code === 'MAT472',
+      (course) => course.code === 'MAT472'
     );
     expect(courseWithPrerequisite).toBeDefined();
 
     const prerequisites = courseWithPrerequisite?.prerequisites.flatMap(
-      (p) => p.prerequisites,
+      (p) => p.prerequisites
     );
     expect(prerequisites).toContain('MAT145');
   });
@@ -186,13 +186,13 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     const firstProgram = programs[0]; // GOL program 7095
 
     const courseWithUnstructuredPrereq = firstProgram.courses.find(
-      (course) => course.code === 'GOL491',
+      (course) => course.code === 'GOL491'
     ); //CONCE,6,17,GOL491,T,SE,C,B,O,INF130 - I,
     const courseWithConditionalPrereq = firstProgram.courses.find(
-      (course) => course.code === 'TIN503',
+      (course) => course.code === 'TIN503'
     ); //TRONC,7,1,TIN503,T,TC,C,B,B,>=70,
     const courseWithLowercasePrereq = firstProgram.courses.find(
-      (course) => course.code === 'GOL676',
+      (course) => course.code === 'GOL676'
     ); //CONCE,8,12,GOL676,T,PR,C,B,O,mAT350,
 
     expect(courseWithConditionalPrereq).toBeDefined();
@@ -202,14 +202,14 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     // Flatten the prerequisites array from profiles and check for the specific values
     const unstructuredPrereqs =
       courseWithUnstructuredPrereq?.prerequisites.flatMap(
-        (p) => p.prerequisites,
+        (p) => p.prerequisites
       );
     const conditionalPrereqs =
       courseWithConditionalPrereq?.prerequisites.flatMap(
-        (p) => p.prerequisites,
+        (p) => p.prerequisites
       );
     const lowercasePrereqs = courseWithLowercasePrereq?.prerequisites.flatMap(
-      (p) => p.prerequisites,
+      (p) => p.prerequisites
     );
 
     expect(unstructuredPrereqs).toEqual(['INF130 - I']);
@@ -224,7 +224,7 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     const firstProgram = programs[0]; // GOL Program 7095
 
     const courseWithoutPrerequisites = firstProgram.courses.find(
-      (course) => course.code === 'PRE011',
+      (course) => course.code === 'PRE011'
     );
     expect(courseWithoutPrerequisites).toBeDefined();
     expect(courseWithoutPrerequisites?.prerequisites.length).toBe(0);
@@ -236,7 +236,7 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     const programs = service.getPrograms();
     const firstProgram: Program = programs[0]; // GOL program 7095
     const mergedCourse = firstProgram.courses.find(
-      (course) => course.code === 'MAT215',
+      (course) => course.code === 'MAT215'
     );
 
     expect(mergedCourse).toBeDefined();
@@ -247,24 +247,24 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     const expectedPrerequisites = [
       {
         profile: 'AD',
-        prerequisites: ['MAT145', '(@ INF130)'],
+        prerequisites: ['MAT145', '(@ INF130)']
       },
       {
         profile: 'I',
-        prerequisites: ['MAT145'],
+        prerequisites: ['MAT145']
       },
       {
         profile: 'P',
-        prerequisites: ['MAT145', '(@ INF130)'],
+        prerequisites: ['MAT145', '(@ INF130)']
       },
       {
         profile: 'R',
-        prerequisites: ['MAT145', '(@ INF130)'],
-      },
+        prerequisites: ['MAT145', '(@ INF130)']
+      }
     ];
 
     expect(mergedCourse?.prerequisites).toEqual(
-      expect.arrayContaining(expectedPrerequisites),
+      expect.arrayContaining(expectedPrerequisites)
     );
     expect(mergedCourse?.concentration).toBe('TC');
     expect(mergedCourse?.category).toBe('C');
@@ -280,7 +280,7 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     const firstProgram = programs[0]; // GOL program 7095
 
     const mergedCourse = firstProgram.courses.find(
-      (course) => course.code === 'GOL301',
+      (course) => course.code === 'GOL301'
     );
 
     // Ensure the course exists
@@ -296,24 +296,24 @@ describe('CheminotService with data from a copy of Cheminements.txt (Cheminot fi
     const expectedPrerequisites = [
       {
         profile: 'AD',
-        prerequisites: ['GOL201'],
+        prerequisites: ['GOL201']
       },
       {
         profile: 'I',
-        prerequisites: ['GOL201'],
+        prerequisites: ['GOL201']
       },
       {
         profile: 'R',
-        prerequisites: ['GOL201'],
+        prerequisites: ['GOL201']
       },
       {
         profile: 'P',
-        prerequisites: ['GOL201'],
-      },
+        prerequisites: ['GOL201']
+      }
     ];
 
     expect(mergedCourse?.prerequisites).toEqual(
-      expect.arrayContaining(expectedPrerequisites),
+      expect.arrayContaining(expectedPrerequisites)
     );
   });
 });

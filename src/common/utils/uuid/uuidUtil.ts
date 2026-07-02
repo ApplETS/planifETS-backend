@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-// produces stable reproducible identifier (name, namespace) 
+// produces stable reproducible identifier (name, namespace)
 export function uuidV5(name: string, namespace: string): string {
   const namespaceBytes = Buffer.from(namespace.replaceAll('-', ''), 'hex');
   const nameBytes = Buffer.from(name, 'utf8');
@@ -18,6 +18,6 @@ export function uuidV5(name: string, namespace: string): string {
     hash.subarray(4, 6).toString('hex'),
     hash.subarray(6, 8).toString('hex'),
     hash.subarray(8, 10).toString('hex'),
-    hash.subarray(10, 16).toString('hex'),
+    hash.subarray(10, 16).toString('hex')
   ].join('-');
 }

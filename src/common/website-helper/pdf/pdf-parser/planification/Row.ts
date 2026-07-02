@@ -3,7 +3,7 @@ export class Row {
     public id: number,
     public headerName: string,
     public startX: number,
-    public endX: number,
+    public endX: number
   ) {
     this.id = id;
     this.headerName = this.determineHeaderName(id, headerName);
@@ -28,7 +28,7 @@ export class Row {
 
   public static getColumnHeaderName(
     columns: Row[],
-    x: number,
+    x: number
   ): Row | undefined {
     return columns.find((column) => x >= column.startX && x <= column.endX);
   }

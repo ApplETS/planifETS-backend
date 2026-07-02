@@ -31,7 +31,7 @@ export class SessionsJobService {
     private readonly courseService: CourseService,
     private readonly programCourseService: ProgramCourseService,
     private readonly prerequisiteService: PrerequisiteService,
-    private readonly courseCodeValidationPipe: CourseCodeValidationPipe,
+    private readonly courseCodeValidationPipe: CourseCodeValidationPipe
   ) {}
 
   /**
@@ -47,13 +47,13 @@ export class SessionsJobService {
       const currentSession =
         await this.sessionService.getOrCreateCurrentSession();
       this.logger.log(
-        `Current session: Year ${currentSession.year}, Trimester ${currentSession.trimester}`,
+        `Current session: Year ${currentSession.year}, Trimester ${currentSession.trimester}`
       );
 
       const eligiblePrograms =
         await this.programService.getProgramsByHoraireParsablePDF();
       this.logger.log(
-        `Found ${eligiblePrograms.length} programs with horaireParsablePdf = true.`,
+        `Found ${eligiblePrograms.length} programs with horaireParsablePdf = true.`
       );
 
       for (const program of eligiblePrograms) {
@@ -62,11 +62,11 @@ export class SessionsJobService {
 
       // Log total counts
       this.logger.log(
-        `Total unstructured prerequisites updated: ${this.unstructuredPrerequisitesUpdated}`,
+        `Total unstructured prerequisites updated: ${this.unstructuredPrerequisitesUpdated}`
       );
       this.logger.log(`Total prerequisites added: ${this.prerequisitesAdded}`);
       this.logger.log(
-        `Total prerequisites deleted: ${this.prerequisitesDeleted}`,
+        `Total prerequisites deleted: ${this.prerequisitesDeleted}`
       );
     } catch (error) {
       this.logger.error('Error in processSessions job:', error);
@@ -75,7 +75,7 @@ export class SessionsJobService {
 
   private async processProgram(
     session: Session,
-    program: Program,
+    program: Program
   ): Promise<void> {
     const { code: programCode } = program;
     const missingProgramCourseIds = new Set<number>();
@@ -83,7 +83,7 @@ export class SessionsJobService {
 
     if (!programCode) {
       throw new Error(
-        `Program code is null for program: ${JSON.stringify(program)}`,
+        `Program code is null for program: ${JSON.stringify(program)}`
       );
     }
 
@@ -91,21 +91,21 @@ export class SessionsJobService {
       // a. Generate Horaire PDF URL
       const horairePdfUrl = getHorairePdfUrl(
         `${session.year}${getTrimesterIndexBySession(session.trimester)}`,
-        programCode,
+        programCode
       );
 
       // b. Fetch and parse Horaire PDF
       const parsedCourses =
         await this.horaireCoursService.parsePdfFromUrl(horairePdfUrl);
       this.logger.log(
-        `Parsed ${parsedCourses.length} courses for program ${programCode}.`,
+        `Parsed ${parsedCourses.length} courses for program ${programCode}.`
       );
 
       // c. Handle parsed data
       await this.handleParsedCourses(
         program,
         parsedCourses,
-        missingProgramCourseIds,
+        missingProgramCourseIds
       );
       this.logMissingProgramCourses(program, missingProgramCourseIds);
       this.logger.log(`Saved parsed courses for program ${programCode}.`);
@@ -113,11 +113,11 @@ export class SessionsJobService {
       if (error instanceof Error) {
         this.logger.warn(
           `Error processing program code "${programCode}"`,
-          error,
+          error
         );
       } else {
         this.logger.warn(
-          `Error processing program code "${programCode}": ${String(error)}`,
+          `Error processing program code "${programCode}": ${String(error)}`
         );
       }
     }
@@ -126,7 +126,7 @@ export class SessionsJobService {
   private async handleParsedCourses(
     program: Program,
     courses: IHoraireCours[],
-    missingProgramCourseIds: Set<number>,
+    missingProgramCourseIds: Set<number>
   ): Promise<void> {
     for (const course of courses) {
       await this.processPrerequisites(course, program, missingProgramCourseIds);
@@ -136,7 +136,7 @@ export class SessionsJobService {
   private async processPrerequisites(
     coursePdf: IHoraireCours,
     program: Program,
-    missingProgramCourseIds: Set<number>,
+    missingProgramCourseIds: Set<number>
   ): Promise<void> {
     const existingCourse = await this.getExistingCourse(coursePdf.code);
     if (!existingCourse) {
@@ -146,7 +146,7 @@ export class SessionsJobService {
     const programCourse = await this.getProgramCourseWithPrerequisites(
       existingCourse.id,
       program.id,
-      missingProgramCourseIds,
+      missingProgramCourseIds
     );
     if (!programCourse) {
       return;
@@ -157,7 +157,7 @@ export class SessionsJobService {
     // a. Update unstructured prerequisite if changed
     await this.updateUnstructuredPrerequisiteIfChanged(
       programCourse,
-      coursePdf.prerequisites,
+      coursePdf.prerequisites
     );
 
     // If no valid parsed prerequisites exist, delete all existing prerequisites and return.
@@ -171,7 +171,7 @@ export class SessionsJobService {
       program,
       existingCourse,
       programCourse,
-      parsedPrerequisites,
+      parsedPrerequisites
     );
 
     // c. Add new prerequisites if they don’t already exist
@@ -189,14 +189,14 @@ export class SessionsJobService {
   private async getProgramCourseWithPrerequisites(
     courseId: number,
     programId: number,
-    missingProgramCourseIds: Set<number>,
+    missingProgramCourseIds: Set<number>
   ): Promise<ProgramCourseWithPrerequisites | null> {
     const programCourse =
       await this.programCourseService.getProgramCourseWithPrerequisites({
         courseId_programId: {
           courseId,
-          programId,
-        },
+          programId
+        }
       });
     if (!programCourse) {
       missingProgramCourseIds.add(courseId);
@@ -206,7 +206,7 @@ export class SessionsJobService {
 
   private logMissingProgramCourses(
     program: Program,
-    missingProgramCourseIds: Set<number>,
+    missingProgramCourseIds: Set<number>
   ): void {
     if (missingProgramCourseIds.size === 0) {
       return;
@@ -214,18 +214,18 @@ export class SessionsJobService {
 
     const missingCourseIds = [...missingProgramCourseIds].join(', ');
     this.logger.warn(
-      `For program ${program.code} (id: ${program.id}), ProgramCourse not found for courseIds: [${missingCourseIds}]`,
+      `For program ${program.code} (id: ${program.id}), ProgramCourse not found for courseIds: [${missingCourseIds}]`
     );
   }
 
   private parsePrerequisites(coursePdf: IHoraireCours): string[] | null {
     const parsedPrerequisites = parsePrerequisiteString(
       coursePdf.prerequisites,
-      this.courseCodeValidationPipe,
+      this.courseCodeValidationPipe
     );
 
     this.logger.debug(
-      `Unstructured prerequisites for course ${coursePdf.code}: "${coursePdf.prerequisites}"`,
+      `Unstructured prerequisites for course ${coursePdf.code}: "${coursePdf.prerequisites}"`
     );
 
     return parsedPrerequisites;
@@ -233,12 +233,12 @@ export class SessionsJobService {
 
   private async updateUnstructuredPrerequisiteIfChanged(
     programCourse: ProgramCourseWithPrerequisites,
-    newUnstructuredPrerequisite: string | null,
+    newUnstructuredPrerequisite: string | null
   ) {
     const updatedUnstructPrereqCount =
       await this.prerequisiteService.updateUnstructuredPrerequisite(
         programCourse,
-        newUnstructuredPrerequisite,
+        newUnstructuredPrerequisite
       );
     this.unstructuredPrerequisitesUpdated += updatedUnstructPrereqCount;
   }
@@ -247,7 +247,7 @@ export class SessionsJobService {
     const wasDeletedCount =
       await this.prerequisiteService.deletePrerequisitesForProgramCourse(
         programId,
-        courseId,
+        courseId
       );
 
     if (wasDeletedCount) {
@@ -259,12 +259,12 @@ export class SessionsJobService {
     program: Program,
     existingCourse: Course,
     programCourse: ProgramCourseWithPrerequisites,
-    parsedPrerequisites: string[],
+    parsedPrerequisites: string[]
   ) {
     const existingPrerequisites =
       programCourse.prerequisites?.map((p) => p.prerequisite.course.code) ?? [];
     const prerequisitesToDelete = existingPrerequisites.filter(
-      (code) => !parsedPrerequisites.includes(code),
+      (code) => !parsedPrerequisites.includes(code)
     );
 
     for (const prerequisiteCode of prerequisitesToDelete) {
@@ -279,7 +279,7 @@ export class SessionsJobService {
         await this.prerequisiteService.deletePrerequisiteForProgramCourse(
           program.id,
           existingCourse.id,
-          prerequisiteCourse.id,
+          prerequisiteCourse.id
         );
 
       if (wasDeletedCount) {
@@ -291,14 +291,14 @@ export class SessionsJobService {
   private async addNewPrerequisites(
     program: Program,
     programCourse: ProgramCourseWithPrerequisites,
-    parsedPrerequisites: string[],
+    parsedPrerequisites: string[]
   ) {
     for (const prerequisiteCode of parsedPrerequisites) {
       const wasAdded =
         await this.prerequisiteService.addPrerequisiteIfNotExists(
           programCourse,
           prerequisiteCode,
-          program,
+          program
         );
       if (wasAdded) {
         this.prerequisitesAdded += 1;

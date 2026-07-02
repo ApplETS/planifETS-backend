@@ -3,13 +3,13 @@ import { CourseSearchResult } from './course.types';
 import {
   PrerequisiteResult,
   SearchCourseResult,
-  SessionAvailabilityDto,
+  SessionAvailabilityDto
 } from './dtos/search-course.dto';
 
 export class CourseMapper {
   public static toSearchDto(
     raw: CourseSearchResult,
-    programCodes?: string[],
+    programCodes?: string[]
   ): SearchCourseResult {
     const { id, code, title, credits, cycle } = raw;
 
@@ -23,16 +23,18 @@ export class CourseMapper {
       prerequisites: this.mapPrerequisites(raw.programs),
       ...(programCodes && programCodes.length > 0
         ? {
-          typicalSessionIndex: this.getTypicalSessionIndex(raw.programs),
-          type: this.getCourseType(raw.programs),
-          unstructuredPrerequisite: this.getUnstructuredPrerequisite(raw.programs),
-        }
-        : {}),
+            typicalSessionIndex: this.getTypicalSessionIndex(raw.programs),
+            type: this.getCourseType(raw.programs),
+            unstructuredPrerequisite: this.getUnstructuredPrerequisite(
+              raw.programs
+            )
+          }
+        : {})
     };
   }
 
   private static mapSessionAvailabilities(
-    instances: CourseSearchResult['courseInstances'],
+    instances: CourseSearchResult['courseInstances']
   ): SessionAvailabilityDto[] {
     const bySession: Record<string, SessionAvailabilityDto> = {};
 
@@ -42,7 +44,7 @@ export class CourseMapper {
         const prefix = getTrimesterPrefix(inst.sessionTrimester);
         bySession[key] = {
           sessionCode: `${prefix}${inst.sessionYear}`,
-          availability: inst.availability,
+          availability: inst.availability
         };
       }
     });
@@ -51,25 +53,25 @@ export class CourseMapper {
   }
 
   private static getTypicalSessionIndex(
-    programs: CourseSearchResult['programs'],
+    programs: CourseSearchResult['programs']
   ): number | null {
     return programs[0]?.typicalSessionIndex ?? null;
   }
 
   private static getCourseType(
-    programs: CourseSearchResult['programs'],
+    programs: CourseSearchResult['programs']
   ): string | null {
     return programs[0]?.type ?? null;
   }
 
   private static getUnstructuredPrerequisite(
-    programs: CourseSearchResult['programs'],
+    programs: CourseSearchResult['programs']
   ): string | null {
     return programs[0]?.unstructuredPrerequisite ?? null;
   }
 
   private static mapPrerequisites(
-    programs: CourseSearchResult['programs'],
+    programs: CourseSearchResult['programs']
   ): PrerequisiteResult[] {
     // Get prerequisites from the first program if available
     const prereqs = programs[0]?.prerequisites ?? [];
@@ -80,7 +82,7 @@ export class CourseMapper {
         code: c.code,
         title: c.title,
         credits: c.credits,
-        cycle: c.cycle,
+        cycle: c.cycle
       };
     });
   }

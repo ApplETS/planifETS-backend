@@ -29,10 +29,16 @@ export class SearchCourseResult {
   @ApiProperty({ example: 352405 })
   public id!: number;
 
-  @ApiProperty({ example: 'LOG121', description: 'Course code. Search matches this field.' })
+  @ApiProperty({
+    example: 'LOG121',
+    description: 'Course code. Search matches this field.'
+  })
   public code!: string;
 
-  @ApiProperty({ example: 'Conception orientée objet', description: 'Course title. Search matches this field.' })
+  @ApiProperty({
+    example: 'Conception orientée objet',
+    description: 'Course title. Search matches this field.'
+  })
   public title!: string;
 
   @ApiProperty({ example: 3, nullable: true })
@@ -47,18 +53,30 @@ export class SearchCourseResult {
   @ApiProperty({ type: [PrerequisiteResult] })
   public prerequisites!: PrerequisiteResult[];
 
-  @ApiProperty({ example: 2, nullable: true, required: false, description: 'Typical session index when this course is usually taken in the program' })
+  @ApiProperty({
+    example: 2,
+    nullable: true,
+    required: false,
+    description:
+      'Typical session index when this course is usually taken in the program'
+  })
   public typicalSessionIndex?: number | null;
 
   @ApiProperty({
     nullable: true,
     required: false,
-    enum: ['TRONC', 'CONCE', 'CONDI', 'PROFI'],
-    description: 'Course type within the program (TRONC: tronc commun, CONCE: Concentration)'
+    enum: ['TRONC', 'CONCE', 'CONDI', 'PROFI', 'STAGE'],
+    description:
+      'Course type within the program (TRONC: tronc commun, CONCE: Concentration, STAGE: Stage)'
   })
   public type?: string | null;
 
-  @ApiProperty({ type: String, nullable: true, required: false, description: 'Unstructured prerequisite text' })
+  @ApiProperty({
+    type: String,
+    nullable: true,
+    required: false,
+    description: 'Unstructured prerequisite text'
+  })
   public unstructuredPrerequisite?: string | null;
 }
 
@@ -66,9 +84,15 @@ export class SearchCoursesDto {
   @ApiProperty({ type: [SearchCourseResult] })
   public courses!: SearchCourseResult[];
 
-  @ApiProperty({ example: 42, description: 'Total number of courses matching the search' })
+  @ApiProperty({
+    example: 42,
+    description: 'Total number of courses matching the search'
+  })
   public total!: number;
 
-  @ApiProperty({ example: true, description: 'Whether there are more results available' })
+  @ApiProperty({
+    example: true,
+    description: 'Whether there are more results available'
+  })
   public hasMore!: boolean;
 }

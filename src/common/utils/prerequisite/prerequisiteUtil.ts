@@ -2,7 +2,7 @@ import { CourseCodeValidationPipe } from '../../pipes/models/course/course-code-
 
 export function parsePrerequisiteString(
   prerequisiteString: string,
-  courseCodeValidationPipe: CourseCodeValidationPipe,
+  courseCodeValidationPipe: CourseCodeValidationPipe
 ): string[] | null {
   const trimmedPrerequisite = prerequisiteString.trim();
 

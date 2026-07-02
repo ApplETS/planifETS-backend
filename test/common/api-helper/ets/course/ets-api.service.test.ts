@@ -3,31 +3,31 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosHeaders, AxiosResponse } from 'axios';
 import { of } from 'rxjs';
 
-import { EtsCourseService } from '@/common/api-helper/ets/course/ets-course.service';
+import { EtsApiService } from '@/common/api-helper/ets/course/ets-api.service';
 import { extractNumberFromString } from '@/common/utils/stringUtil';
 import {
   ETS_API_GET_ALL_COURSES,
-  ETS_API_GET_COURSES_BY_IDS,
+  ETS_API_GET_COURSES_BY_IDS
 } from '@/common/utils/url/url-constants';
 
-describe('EtsCourseService', () => {
-  let service: EtsCourseService;
+describe('EtsApiService', () => {
+  let service: EtsApiService;
   let httpService: HttpService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        EtsCourseService,
+        EtsApiService,
         {
           provide: HttpService,
           useValue: {
-            get: jest.fn(),
-          },
-        },
-      ],
+            get: jest.fn()
+          }
+        }
+      ]
     }).compile();
 
-    service = module.get<EtsCourseService>(EtsCourseService);
+    service = module.get<EtsApiService>(EtsApiService);
     httpService = module.get<HttpService>(HttpService);
   });
 
@@ -40,16 +40,16 @@ describe('EtsCourseService', () => {
             title: 'Petit chaton',
             description: 'Description 1',
             code: 'Miaow321',
-            cycle: null,
-          },
-        ],
+            cycle: null
+          }
+        ]
       },
       status: 200,
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(mockResponse));
@@ -62,8 +62,8 @@ describe('EtsCourseService', () => {
         title: 'Petit chaton',
         description: 'Description 1',
         code: 'Miaow321',
-        cycle: null,
-      },
+        cycle: null
+      }
     ]);
   });
 
@@ -74,15 +74,15 @@ describe('EtsCourseService', () => {
           id: 1,
           title: 'Prrrrrrrrrr',
           code: 'LOG100',
-          credits: 4,
-        },
+          credits: 4
+        }
       ],
       status: 200,
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(mockResponse));
@@ -94,8 +94,8 @@ describe('EtsCourseService', () => {
         id: 1,
         title: 'Prrrrrrrrrr',
         code: 'LOG100',
-        credits: 4,
-      },
+        credits: 4
+      }
     ]);
   });
 
@@ -108,16 +108,16 @@ describe('EtsCourseService', () => {
             title: 'League of Legends 123',
             description: 'Description 1',
             code: 'LOL123',
-            cycle: '2e cycle',
-          },
-        ],
+            cycle: '2e cycle'
+          }
+        ]
       },
       status: 200,
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     const mockCoursesByIdResponse: AxiosResponse = {
@@ -126,15 +126,15 @@ describe('EtsCourseService', () => {
           id: 1,
           title: 'League of Legends 123',
           code: 'LOL123',
-          credits: 3,
-        },
+          credits: 3
+        }
       ],
       status: 200,
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     jest.spyOn(httpService, 'get').mockImplementation((url) => {
@@ -157,8 +157,8 @@ describe('EtsCourseService', () => {
         description: 'Description 1',
         code: 'LOL123',
         cycle: extractNumberFromString('2e cycle'),
-        credits: 3,
-      },
+        credits: 3
+      }
     ]);
   });
 
@@ -169,12 +169,14 @@ describe('EtsCourseService', () => {
       statusText: 'OK',
       headers: {},
       config: {
-        headers: new AxiosHeaders(),
-      },
+        headers: new AxiosHeaders()
+      }
     };
 
     jest.spyOn(httpService, 'get').mockReturnValueOnce(of(mockResponse));
 
-    await expect(service.fetchCoursesById('1,2')).rejects.toThrow('No courses fetched.');
+    await expect(service.fetchCoursesById('1,2')).rejects.toThrow(
+      'No courses fetched.'
+    );
   });
 });

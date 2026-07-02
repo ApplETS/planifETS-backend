@@ -6,9 +6,12 @@ import { CourseEmbeddingIndexerService } from '../../src/embedding/embedding-cou
 import { EmbeddingWorkerClient } from '../../src/embedding/embedding-worker.client';
 import { QdrantCourseIndexService } from '../../src/embedding/qdrant-course-index.service';
 
-const makeVector = (): number[] => Array.from({ length: BGE_M3_VECTOR_SIZE }, () => 0.1);
+const makeVector = (): number[] =>
+  Array.from({ length: BGE_M3_VECTOR_SIZE }, () => 0.1);
 
-const buildRow = (overrides: Partial<EmbeddingViewDto> = {}): EmbeddingViewDto => ({
+const buildRow = (
+  overrides: Partial<EmbeddingViewDto> = {}
+): EmbeddingViewDto => ({
   embedding_id: '352507_182848',
   course_id: 352507,
   program_id: 182848,
@@ -24,7 +27,7 @@ const buildRow = (overrides: Partial<EmbeddingViewDto> = {}): EmbeddingViewDto =
   has_prerequisites: false,
   availability: ['JOUR'],
   sessions: ['Automne 2026'],
-  ...overrides,
+  ...overrides
 });
 
 describe('CourseEmbeddingIndexerService', () => {
@@ -45,13 +48,13 @@ describe('CourseEmbeddingIndexerService', () => {
     qdrantMock = {
       ensureCollection: jest.fn().mockResolvedValue(undefined),
       getExistingTextHashes: jest.fn().mockResolvedValue(new Map()),
-      upsertPoints: jest.fn().mockResolvedValue(undefined),
+      upsertPoints: jest.fn().mockResolvedValue(undefined)
     };
 
     service = new CourseEmbeddingIndexerService(
       embeddingServiceMock as unknown as EmbeddingService,
       workerClientMock as unknown as EmbeddingWorkerClient,
-      qdrantMock as unknown as QdrantCourseIndexService,
+      qdrantMock as unknown as QdrantCourseIndexService
     );
 
     jest.spyOn(service['logger'], 'log').mockImplementation(() => {});
@@ -89,7 +92,9 @@ describe('CourseEmbeddingIndexerService', () => {
       await service.run();
 
       expect(qdrantMock.upsertPoints).toHaveBeenCalledTimes(1);
-      const [points] = qdrantMock.upsertPoints.mock.calls[0] as [{ vector: number[] }[]];
+      const [points] = qdrantMock.upsertPoints.mock.calls[0] as [
+        { vector: number[] }[]
+      ];
       expect(points).toHaveLength(1);
       expect(points[0].vector).toHaveLength(BGE_M3_VECTOR_SIZE);
     });
@@ -112,7 +117,9 @@ describe('CourseEmbeddingIndexerService', () => {
       const row = buildRow();
       const { id } = computeCourseChangeKey(row);
       embeddingServiceMock.findAll.mockResolvedValue([row]);
-      qdrantMock.getExistingTextHashes.mockResolvedValue(new Map([[id, 'old-hash']]));
+      qdrantMock.getExistingTextHashes.mockResolvedValue(
+        new Map([[id, 'old-hash']])
+      );
       workerClientMock.embed.mockResolvedValue([makeVector()]);
 
       await service.run();
@@ -126,7 +133,7 @@ describe('CourseEmbeddingIndexerService', () => {
       const rows = [
         buildRow({ embedding_id: '1_1', course_id: 1, code: 'LOG001' }),
         buildRow({ embedding_id: '2_1', course_id: 2, code: 'LOG002' }),
-        buildRow({ embedding_id: '3_1', course_id: 3, code: 'LOG003' }),
+        buildRow({ embedding_id: '3_1', course_id: 3, code: 'LOG003' })
       ];
       embeddingServiceMock.findAll.mockResolvedValue(rows);
       process.env.EMBEDDING_BATCH_SIZE = '2';
@@ -143,7 +150,7 @@ describe('CourseEmbeddingIndexerService', () => {
     it('uses the default batch size of 50 when EMBEDDING_BATCH_SIZE is unset', async () => {
       delete process.env.EMBEDDING_BATCH_SIZE;
       const rows = Array.from({ length: 3 }, (_, i) =>
-        buildRow({ embedding_id: `${i}_1`, course_id: i, code: `LOG00${i}` }),
+        buildRow({ embedding_id: `${i}_1`, course_id: i, code: `LOG00${i}` })
       );
       embeddingServiceMock.findAll.mockResolvedValue(rows);
       workerClientMock.embed.mockResolvedValue(rows.map(makeVector));
@@ -183,7 +190,7 @@ describe('CourseEmbeddingIndexerService', () => {
     it('skips an item and continues when its individual embed fails', async () => {
       const rows = [
         buildRow({ embedding_id: '1_1', course_id: 1, code: 'LOG001' }),
-        buildRow({ embedding_id: '2_1', course_id: 2, code: 'LOG002' }),
+        buildRow({ embedding_id: '2_1', course_id: 2, code: 'LOG002' })
       ];
       embeddingServiceMock.findAll.mockResolvedValue(rows);
       workerClientMock.embed
@@ -236,7 +243,9 @@ describe('CourseEmbeddingIndexerService', () => {
       const row = buildRow();
       embeddingServiceMock.findAll.mockResolvedValue([row]);
       // Returns a 512-dim vector instead of the required 1024
-      workerClientMock.embed.mockResolvedValue([Array.from({ length: 512 }, () => 0.1)]);
+      workerClientMock.embed.mockResolvedValue([
+        Array.from({ length: 512 }, () => 0.1)
+      ]);
 
       await expect(service.run()).resolves.toBeUndefined();
       expect(qdrantMock.upsertPoints).not.toHaveBeenCalled();

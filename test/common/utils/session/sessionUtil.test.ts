@@ -6,7 +6,7 @@ import {
   getCurrentTrimester,
   getTrimesterByIndex,
   getTrimesterIndexBySession,
-  isDateInRange,
+  isDateInRange
 } from '@/common/utils/session/sessionUtil';
 
 describe('SessionUtil', () => {
@@ -16,7 +16,7 @@ describe('SessionUtil', () => {
     // Spy on the Logger.prototype.error method
     loggerErrorSpy = jest
       .spyOn(Logger.prototype, 'error')
-      .mockImplementation(() => { });
+      .mockImplementation(() => {});
   });
 
   afterAll(() => {
@@ -168,13 +168,13 @@ describe('SessionUtil', () => {
 
     it('should throw an error for unknown trimester', () => {
       expect(() => getTrimesterIndexBySession('PRINTEMPS')).toThrow(
-        'Unknown trimester: PRINTEMPS',
+        'Unknown trimester: PRINTEMPS'
       );
       expect(() => getTrimesterIndexBySession('')).toThrow(
-        'Unknown trimester: ',
+        'Unknown trimester: '
       );
       expect(() => getTrimesterIndexBySession('hiver')).toThrow(
-        'Unknown trimester: hiver',
+        'Unknown trimester: hiver'
       ); // Case-sensitive
     });
   });

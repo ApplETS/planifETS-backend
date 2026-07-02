@@ -5,7 +5,9 @@ describe('isValidUrl', () => {
     expect(isValidUrl('https://example.com')).toBe(true);
     expect(isValidUrl('http://localhost:3000')).toBe(true);
     expect(isValidUrl('https://sub.domain.com/path?query=1')).toBe(true);
-    expect(isValidUrl('https://CheminotJWS.etsmtl.ca/ChemiNotC.jar')).toBe(true);
+    expect(isValidUrl('https://CheminotJWS.etsmtl.ca/ChemiNotC.jar')).toBe(
+      true
+    );
     expect(isValidUrl('http://www.etsmtl.ca/letsgoetssurlamap')).toBe(true);
   });
 

@@ -10,7 +10,7 @@ const QDRANT_ID_NAMESPACE =
 const TYPE_LABELS: Record<string, string> = {
   CONCE: 'cours optionnel',
   TRONC: 'tronc commun',
-  PROFI: 'cours de profil',
+  PROFI: 'cours de profil'
 };
 
 export interface CourseEmbeddingPayload {
@@ -50,7 +50,9 @@ export function hashEmbeddingText(text: string): string {
   return createHash('sha256').update(text).digest('hex');
 }
 
-export function getCourseTypeLabel(type: string | null | undefined): string | undefined {
+export function getCourseTypeLabel(
+  type: string | null | undefined
+): string | undefined {
   if (!type) return undefined;
   return TYPE_LABELS[type] ?? type;
 }
@@ -87,7 +89,7 @@ export function buildCourseEmbeddingPayload(
   row: EmbeddingViewDto,
   text: string,
   embeddingModel: string,
-  indexedAt = new Date().toISOString(),
+  indexedAt = new Date().toISOString()
 ): CourseEmbeddingPayload {
   const prerequisiteCodes = cleanStringArray(row.prerequisite_codes);
   const availability = cleanStringArray(row.availability);
@@ -109,7 +111,7 @@ export function buildCourseEmbeddingPayload(
     text,
     text_hash: hashEmbeddingText(text),
     embedding_model: embeddingModel,
-    indexed_at: indexedAt,
+    indexed_at: indexedAt
   };
 
   if (row.cycle !== null && row.cycle !== undefined) {
@@ -124,7 +126,10 @@ export function buildCourseEmbeddingPayload(
     payload.type_label = typeLabel;
   }
 
-  if (row.typical_session_index !== null && row.typical_session_index !== undefined) {
+  if (
+    row.typical_session_index !== null &&
+    row.typical_session_index !== undefined
+  ) {
     payload.typical_session_index = row.typical_session_index;
   }
 
@@ -138,20 +143,26 @@ export function buildCourseEmbeddingPayload(
 
 export function prepareCourseEmbedding(
   row: EmbeddingViewDto,
-  embeddingModel: string,
+  embeddingModel: string
 ): PreparedCourseEmbedding {
   const text = buildCourseEmbeddingText(row);
 
   return {
     id: toQdrantPointId(row.embedding_id),
     text,
-    payload: buildCourseEmbeddingPayload(row, text, embeddingModel),
+    payload: buildCourseEmbeddingPayload(row, text, embeddingModel)
   };
 }
 
-export function computeCourseChangeKey(row: EmbeddingViewDto): { id: string; hash: string } {
+export function computeCourseChangeKey(row: EmbeddingViewDto): {
+  id: string;
+  hash: string;
+} {
   const text = buildCourseEmbeddingText(row);
-  return { id: toQdrantPointId(row.embedding_id), hash: hashEmbeddingText(text) };
+  return {
+    id: toQdrantPointId(row.embedding_id),
+    hash: hashEmbeddingText(text)
+  };
 }
 
 export function sanitizeEmbeddingRow(row: EmbeddingViewDto): EmbeddingViewDto {
@@ -161,7 +172,7 @@ export function sanitizeEmbeddingRow(row: EmbeddingViewDto): EmbeddingViewDto {
     description: sanitizeText(row.description ?? ''),
     unstructured_prerequisite: row.unstructured_prerequisite
       ? sanitizeText(row.unstructured_prerequisite)
-      : row.unstructured_prerequisite,
+      : row.unstructured_prerequisite
   };
 }
 
@@ -184,7 +195,7 @@ function truncateAtSentence(text: string, maxChars = 800): string {
   const lastEnd = Math.max(
     candidate.lastIndexOf('.'),
     candidate.lastIndexOf('!'),
-    candidate.lastIndexOf('?'),
+    candidate.lastIndexOf('?')
   );
   return lastEnd > 0 ? candidate.slice(0, lastEnd + 1) : candidate;
 }
@@ -211,7 +222,7 @@ function cleanStringArray(values: unknown): string[] {
       values
         .filter((value): value is string => typeof value === 'string')
         .map((value) => clean(value))
-        .filter(Boolean),
-    ),
+        .filter(Boolean)
+    )
   ).sort((a, b) => a.localeCompare(b, 'fr-CA'));
 }

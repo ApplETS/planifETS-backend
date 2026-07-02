@@ -48,7 +48,7 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
     this.logger.log(`Starting embedding worker from: ${workerPath}`);
 
     const child = fork(workerPath, [], {
-      env: process.env as NodeJS.ProcessEnv,
+      env: process.env as NodeJS.ProcessEnv
     });
 
     child.on('message', (message: unknown) => {
@@ -56,7 +56,10 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
     });
 
     child.on('error', (error: Error) => {
-      this.logger.error(`Embedding worker error: ${error.message}`, error.stack);
+      this.logger.error(
+        `Embedding worker error: ${error.message}`,
+        error.stack
+      );
       this.rejectAll(error);
       this.worker = null;
     });
@@ -90,7 +93,10 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
     const id = this.nextRequestId++;
     const model = process.env.EMBEDDING_MODEL ?? 'Xenova/bge-m3';
     const dtype = process.env.EMBEDDING_DTYPE ?? 'q4';
-    const timeoutMs = Number.parseInt(process.env.EMBEDDING_WORKER_TIMEOUT_MS ?? '300000', 10);
+    const timeoutMs = Number.parseInt(
+      process.env.EMBEDDING_WORKER_TIMEOUT_MS ?? '300000',
+      10
+    );
 
     return new Promise((resolve, reject) => {
       const timer = setTimeout(() => {
@@ -99,7 +105,9 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
         }
         this.pending.delete(id);
 
-        const error = new Error(`Embedding worker timed out after ${timeoutMs}ms (request ${id}).`);
+        const error = new Error(
+          `Embedding worker timed out after ${timeoutMs}ms (request ${id}).`
+        );
         this.logger.error(error.message + ' Terminating worker.');
         this.worker?.kill();
         this.worker = null;
@@ -109,7 +117,9 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
 
       this.pending.set(id, { resolve, reject, timer });
 
-      this.logger.debug(`Posting embed request ${id}: ${texts.length} texts, model=${model}, dtype=${dtype}, timeout=${timeoutMs}ms`);
+      this.logger.debug(
+        `Posting embed request ${id}: ${texts.length} texts, model=${model}, dtype=${dtype}, timeout=${timeoutMs}ms`
+      );
       this.getWorker().send({ id, texts, model, dtype });
     });
   }
@@ -136,7 +146,7 @@ export class EmbeddingWorkerClient implements OnModuleDestroy {
 
     if (!pendingRequest) {
       this.logger.warn(
-        `Received embedding worker response for unknown request id: ${parsedMessage.id}`,
+        `Received embedding worker response for unknown request id: ${parsedMessage.id}`
       );
       return;
     }
@@ -184,7 +194,7 @@ function parseEmbedWorkerMessage(message: unknown): EmbedWorkerMessage | null {
     return {
       id,
       ok: true,
-      vectors,
+      vectors
     };
   }
 
@@ -198,7 +208,7 @@ function parseEmbedWorkerMessage(message: unknown): EmbedWorkerMessage | null {
     return {
       id,
       ok: false,
-      error,
+      error
     };
   }
 

@@ -13,13 +13,15 @@ describe('EmbeddingService', () => {
 
   describe('findAll', () => {
     it('returns all rows from the embedding view', async () => {
-      const rows: EmbeddingViewDto[] = [{
-        embedding_id: '1_2',
-        course_id: 1,
-        title: 'Introduction to Software Engineering',
-        description: 'Fundamentals of software development.',
-        unstructured_prerequisite: null,
-      } as EmbeddingViewDto];
+      const rows: EmbeddingViewDto[] = [
+        {
+          embedding_id: '1_2',
+          course_id: 1,
+          title: 'Introduction to Software Engineering',
+          description: 'Fundamentals of software development.',
+          unstructured_prerequisite: null
+        } as EmbeddingViewDto
+      ];
       prismaMock.$queryRaw.mockResolvedValue(rows);
       await expect(service.findAll()).resolves.toStrictEqual(rows);
     });
@@ -32,13 +34,16 @@ describe('EmbeddingService', () => {
 
   describe('findByCourseId', () => {
     it('returns rows for the given course ID', async () => {
-      const rows: EmbeddingViewDto[] = [{
-        embedding_id: '352507_182848',
-        course_id: 352507,
-        title: 'Systèmes intelligents et algorithmes',
-        description: 'Ce cours vise la compréhension des systèmes intelligents.',
-        unstructured_prerequisite: null,
-      } as EmbeddingViewDto];
+      const rows: EmbeddingViewDto[] = [
+        {
+          embedding_id: '352507_182848',
+          course_id: 352507,
+          title: 'Systèmes intelligents et algorithmes',
+          description:
+            'Ce cours vise la compréhension des systèmes intelligents.',
+          unstructured_prerequisite: null
+        } as EmbeddingViewDto
+      ];
       prismaMock.$queryRaw.mockResolvedValue(rows);
       await expect(service.findByCourseId(352507)).resolves.toStrictEqual(rows);
     });
@@ -52,7 +57,9 @@ describe('EmbeddingService', () => {
   describe('countCourses', () => {
     it('converts bigint result to a plain number', async () => {
       prismaMock.$queryRaw.mockResolvedValue([{ count: BigInt(42) }]);
-      await expect(service.countCourses()).resolves.toStrictEqual({ count: 42 });
+      await expect(service.countCourses()).resolves.toStrictEqual({
+        count: 42
+      });
     });
 
     it('returns zero when there are no courses', async () => {

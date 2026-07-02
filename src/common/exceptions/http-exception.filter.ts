@@ -3,7 +3,7 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
-  Logger,
+  Logger
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
@@ -25,10 +25,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
     if (status >= 500) {
       this.logger.error(
         `${request.method} ${request.url} → ${status} ${exception.message}`,
-        cause?.stack ?? exception.stack,
+        cause?.stack ?? exception.stack
       );
     } else {
-      this.logger.warn(`${request.method} ${request.url} → ${status} ${exception.message}`);
+      this.logger.warn(
+        `${request.method} ${request.url} → ${status} ${exception.message}`
+      );
     }
 
     // PostHogInterceptor captures status >= 500; only capture 4xx here to avoid duplication
@@ -39,7 +41,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
           'http.status_code': String(status),
           path: request.url,
           method: request.method,
-          ...(request.body && { body: request.body }),
+          ...(request.body && { body: request.body })
         });
       } catch (err) {
         this.logger.error('Monitoring capture failed for HttpException:', err);
@@ -50,7 +52,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       statusCode: status,
       timestamp: new Date().toISOString(),
       path: request.url,
-      message: exception.message || 'Internal Server Error',
+      message: exception.message || 'Internal Server Error'
     });
   }
 }

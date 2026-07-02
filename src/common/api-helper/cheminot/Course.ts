@@ -11,8 +11,8 @@ export class Course {
     public level: string,
     public mandatory: boolean,
     public prerequisites: { profile: string; prerequisites: string[] }[] = [],
-    public alternatives?: string[], // For CHOIX courses
-  ) { }
+    public alternatives?: string[] // For CHOIX courses
+  ) {}
 
   public static isCourseLine(line: string): boolean {
     return (
@@ -41,7 +41,7 @@ export class Course {
         parts[7].trim(),
         parts[8] === 'B',
         [], // CHOIX courses have no prerequisites
-        [mainCourseCode, ...alternatives],
+        [mainCourseCode, ...alternatives]
       );
     }
 
@@ -72,7 +72,7 @@ export class Course {
       category,
       level,
       mandatory,
-      prerequisites,
+      prerequisites
     );
   }
 

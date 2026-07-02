@@ -4,7 +4,7 @@ export abstract class OpenAiCompatibleProvider extends LlmProvider {
   protected getHeaders(): Record<string, string> {
     return {
       Authorization: `Bearer ${this.apiKey}`,
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     };
   }
 
@@ -14,7 +14,7 @@ export abstract class OpenAiCompatibleProvider extends LlmProvider {
     const body: Record<string, unknown> = {
       model: this.modelName,
       max_tokens: this.maxTokens,
-      messages: [{ role: 'user', content: prompt }],
+      messages: [{ role: 'user', content: prompt }]
     };
 
     if (this.useJsonMode) {

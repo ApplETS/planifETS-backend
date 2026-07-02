@@ -12,11 +12,11 @@ export class PrerequisiteController {
 
   @Get()
   @ApiOperation({
-    summary: 'Get all prerequisites',
+    summary: 'Get all prerequisites'
   })
   @ApiResponse({
     status: 200,
-    description: 'List of all prerequisites.',
+    description: 'List of all prerequisites.'
   })
   public async getAllPrerequisites(): Promise<ProgramCoursePrerequisite[]> {
     return this.prerequisiteService.getAllCoursePrerequisites();
@@ -24,33 +24,33 @@ export class PrerequisiteController {
 
   @Get('by-program-course')
   @ApiOperation({
-    summary: 'Get prerequisites by course code and program ID',
+    summary: 'Get prerequisites by course code and program ID'
   })
   @ApiQuery({
     name: 'programId',
     type: Number,
     required: true,
     description: 'ID of the program',
-    example: 182848,
+    example: 182848
   })
   @ApiQuery({
     name: 'courseCode',
     type: String,
     required: true,
     description: 'Code of the course',
-    example: 'LOG430',
+    example: 'LOG430'
   })
   @ApiResponse({
     status: 200,
-    description: 'List of prerequisite course codes.',
+    description: 'List of prerequisite course codes.'
   })
   public async getPrerequisitesByCode(
     @Query('programId', ParseIntPipe) programId: number,
-    @Query('courseCode') courseCode: string,
+    @Query('courseCode') courseCode: string
   ): Promise<PrerequisiteCodeDto[]> {
     return this.prerequisiteService.getPrerequisitesByCode(
       courseCode.toUpperCase(),
-      programId,
+      programId
     );
   }
 }

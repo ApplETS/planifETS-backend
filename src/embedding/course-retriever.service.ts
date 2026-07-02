@@ -31,10 +31,13 @@ const SCORE_THRESHOLD = 0.4;
 export class CourseRetrieverService {
   constructor(
     private readonly worker: EmbeddingWorkerClient,
-    private readonly qdrant: QdrantCourseIndexService,
+    private readonly qdrant: QdrantCourseIndexService
   ) {}
 
-  public async retrieveCourses(query: string, context?: UserSessionContext): Promise<CourseResult[]> {
+  public async retrieveCourses(
+    query: string,
+    context?: UserSessionContext
+  ): Promise<CourseResult[]> {
     const vectors = await this.worker.embed([QUERY_INSTRUCTION + query]);
     const vector = vectors[0];
     const filter = context ? buildPayloadFilter(context) : undefined;
@@ -42,7 +45,7 @@ export class CourseRetrieverService {
     const hits = await this.qdrant.search(vector, {
       limit: LIMIT * OVERSAMPLE_FACTOR,
       scoreThreshold: SCORE_THRESHOLD,
-      filter,
+      filter
     });
 
     const best = new Map<string, CourseResult>();
@@ -54,14 +57,12 @@ export class CourseRetrieverService {
           title: payload.title,
           description: payload.description,
           score,
-          prerequisite_codes: payload.prerequisite_codes,
+          prerequisite_codes: payload.prerequisite_codes
         });
       }
     }
 
-    return [...best.values()]
-      .sort((a, b) => b.score - a.score)
-      .slice(0, LIMIT);
+    return [...best.values()].sort((a, b) => b.score - a.score).slice(0, LIMIT);
   }
 }
 

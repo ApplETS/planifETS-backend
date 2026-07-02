@@ -33,7 +33,9 @@ async function bootstrap() {
   app.useLogger(createAppLoggerFactory(monitoring));
 
   //Swagger
-  const version = process.env.APP_GIT_SHORT_SHA ? `1.0.0 (${process.env.APP_GIT_SHORT_SHA})` : '1.0.0';
+  const version = process.env.APP_GIT_SHORT_SHA
+    ? `1.0.0 (${process.env.APP_GIT_SHORT_SHA})`
+    : '1.0.0';
   const swaggerConfig = new DocumentBuilder()
     .setTitle('PlanifETS API')
     .setExternalDoc('JSON API Documentation', 'docs-json')
@@ -42,7 +44,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   const swaggerOptions = {
     swaggerOptions: { displayRequestDuration: true },
-    useGlobalPrefix: true,
+    useGlobalPrefix: true
   };
   SwaggerModule.setup('docs', app, document, swaggerOptions);
 

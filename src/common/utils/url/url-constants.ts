@@ -15,7 +15,7 @@ export const ETS_API_GET_ALL_PROGRAMS = `${ETS_API_BASE_URL}search/programme-ind
 export const ETS_API_GET_COURSES_BY_IDS = `${ETS_API_BASE_URL}courses/get?ids=`;
 export const ETS_API_GET_ALL_COURSES = `${ETS_API_BASE_URL}search/cours-index`;
 
-export const getEtsCoursePageUrl = (courseCode: string): string => {
+export const getEtsWebsitePageUrl = (courseCode: string): string => {
   return `${ETS_BASE_URL}etudes/cours/${courseCode.toLowerCase()}`;
 };
 
@@ -28,7 +28,7 @@ export const getPlanificationPdfUrl = (programCode: string): string => {
 
 export const getHorairePdfUrl = (
   sessionCode: string,
-  programCode: string,
+  programCode: string
 ): string => {
   return `https://horaire.etsmtl.ca/HorairePublication/HorairePublication_${sessionCode}_${programCode}.pdf`;
 };
@@ -38,3 +38,31 @@ export const getHorairePdfUrl = (
  */
 export const CHEMINOT_JAR_URL = 'https://CheminotJWS.etsmtl.ca/ChemiNotC.jar';
 export const CHEMINEMENTS_TXT_PATH = 'ressources/Cheminements.txt';
+
+/*
+ * PlanETS
+ */
+const PLANETS_BASE_URL = 'https://planets.etsmtl.ca/public/';
+
+// ÉTS sessions: 1 = hiver (winter), 2 = été (summer), 3 = automne (fall)
+const getCurrentEtsSessionCode = (date: Date = new Date()): number => {
+  const month = date.getMonth(); // 0-11
+  let session: number;
+
+  if (month <= 3) {
+    session = 1;
+  } else if (month <= 7) {
+    session = 2;
+  } else {
+    session = 3;
+  }
+
+  return date.getFullYear() * 10 + session;
+};
+
+export const getPlanETSCourseUrl = (
+  courseCode: string,
+  sessionCode: number = getCurrentEtsSessionCode()
+): string => {
+  return `${PLANETS_BASE_URL}Versionpdf.aspx?session=${sessionCode}&sigle=${courseCode}`;
+};

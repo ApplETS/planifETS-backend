@@ -2,7 +2,10 @@ import { HttpModule } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ProgramTypeEtsApiDto } from '@/common/api-helper/ets/program/dtos/program-type-ets-api.dto';
-import { EtsProgramService, Program } from '@/common/api-helper/ets/program/ets-program.service';
+import {
+  EtsProgramService,
+  Program
+} from '@/common/api-helper/ets/program/ets-program.service';
 
 describe('EtsProgramService (live integration)', () => {
   let service: EtsProgramService;
@@ -13,7 +16,7 @@ describe('EtsProgramService (live integration)', () => {
   beforeAll(async () => {
     moduleRef = await Test.createTestingModule({
       imports: [HttpModule],
-      providers: [EtsProgramService],
+      providers: [EtsProgramService]
     }).compile();
     service = moduleRef.get(EtsProgramService);
     const result = await service.fetchAllProgramsFromEtsAPI();
@@ -52,8 +55,8 @@ describe('EtsProgramService (live integration)', () => {
     programs.forEach((program: Program) => {
       expect(
         typeof program.code === 'string' ||
-        program.code === null ||
-        typeof program.code === 'object'
+          program.code === null ||
+          typeof program.code === 'object'
       ).toBe(true);
     });
   });
@@ -64,8 +67,7 @@ describe('EtsProgramService (live integration)', () => {
         console.log('Program with object credits:', program);
       }
       expect(
-        typeof program.credits === 'string' ||
-        program.credits === null
+        typeof program.credits === 'string' || program.credits === null
       ).toBe(true);
     });
   });

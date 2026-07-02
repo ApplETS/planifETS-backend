@@ -10,13 +10,13 @@ describe('LlmController', () => {
   let app: INestApplication;
   const llmService = {
     checkStatus: jest.fn(),
-    recommend: jest.fn(),
+    recommend: jest.fn()
   };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [LlmController],
-      providers: [{ provide: LlmService, useValue: llmService }],
+      providers: [{ provide: LlmService, useValue: llmService }]
     }).compile();
 
     app = module.createNestApplication();
@@ -33,11 +33,18 @@ describe('LlmController', () => {
     it('returns the list of provider statuses', async () => {
       const statuses = [
         { name: 'Groq (llama-3.3)', status: 'ok', latencyMs: 123 },
-        { name: 'Nvidia (nvidia-llama)', status: 'error', latencyMs: 45, error: 'timeout' },
+        {
+          name: 'Nvidia (nvidia-llama)',
+          status: 'error',
+          latencyMs: 45,
+          error: 'timeout'
+        }
       ];
       llmService.checkStatus.mockResolvedValue(statuses);
 
-      const { status, body } = await request(app.getHttpServer()).get('/chatbot/status');
+      const { status, body } = await request(app.getHttpServer()).get(
+        '/chatbot/status'
+      );
 
       expect(status).toBe(200);
       expect(body).toEqual({ providers: statuses });
@@ -54,7 +61,10 @@ describe('LlmController', () => {
 
   describe('POST /chatbot/recommend', () => {
     it('returns 200 with the LLM generation result', async () => {
-      const response = { courses: [{ code: 'LOG121' }], explanation: 'Great choice.' };
+      const response = {
+        courses: [{ code: 'LOG121' }],
+        explanation: 'Great choice.'
+      };
       llmService.recommend.mockResolvedValue(response);
 
       const { status, body } = await request(app.getHttpServer())

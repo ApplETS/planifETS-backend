@@ -1,4 +1,4 @@
-import {LlmGenerationResponse} from './llm-generation-response.interface';
+import { LlmGenerationResponse } from './llm-generation-response.interface';
 
 const JSON_FORMAT_INSTRUCTION = `
 Respond ONLY with valid JSON matching this exact structure, no markdown code blocks.

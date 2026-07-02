@@ -18,12 +18,12 @@ export class Period implements IPeriod {
     public teacher: string = '',
     public local: string = '',
     public mode: string = '',
-    public dateRange: string = '',
+    public dateRange: string = ''
   ) {}
 
   public static isPeriodEmpty(period: Period): boolean {
     return !Object.values(period).some(
-      (value) => value !== '' && value != null,
+      (value) => value !== '' && value != null
     );
   }
 
@@ -48,7 +48,7 @@ export class Period implements IPeriod {
       return 'local';
     } else if (
       /(Labo A|Labo B|Labo C|Labo D|Labo(?: A\+B)?|Labo\/2|\bC\b|Atelier|TP\/Labo|TP\/2|TP(?: A\+B| A| B| C| D)?|TP-Labo\/2|TP-Labo (?:A|B|C|D)|Projet)/.test(
-        text,
+        text
       )
     ) {
       return 'activity';
@@ -56,7 +56,7 @@ export class Period implements IPeriod {
       return 'mode';
     } else if (
       /\b(?:1er|0?[1-9]|[12][0-9]|3[01])\s(?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\s\d{4}\b/.test(
-        text,
+        text
       )
     ) {
       return 'dateRange';
@@ -75,7 +75,7 @@ export class Period implements IPeriod {
       teacher: this.teacher,
       local: this.local,
       mode: this.mode,
-      dateRange: this.dateRange,
+      dateRange: this.dateRange
     };
   }
 }

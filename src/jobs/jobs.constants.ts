@@ -12,7 +12,7 @@ export const jobWorkerServiceMap = {
   CoursesJobService,
   CourseInstancesJobService,
   SessionsJobService,
-  CourseEmbeddingIndexerService,
+  CourseEmbeddingIndexerService
 } as const;
 
 export const jobWorkerProviders: Provider[] = [
@@ -20,7 +20,7 @@ export const jobWorkerProviders: Provider[] = [
   CoursesJobService,
   CourseInstancesJobService,
   SessionsJobService,
-  CourseCodeValidationPipe,
+  CourseCodeValidationPipe
 ];
 
 export type JobWorkerServiceName = keyof typeof jobWorkerServiceMap;
