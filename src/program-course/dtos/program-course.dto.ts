@@ -50,9 +50,9 @@ export class ProgramCourseDto {
 
   @ApiProperty({
     nullable: true,
-    enum: ['TRONC', 'CONCE', 'CONDI', 'PROFI'],
+    enum: ['TRONC', 'CONCE', 'CONDI', 'PROFI', 'STAGE'],
     description:
-      'Course type within the program (TRONC: tron commun, CONCE: Concentration)'
+      'Course type within the program (TRONC: Tronc commun, CONCE: Concentration, STAGE: Stage)'
   })
   public type!: string | null;
 

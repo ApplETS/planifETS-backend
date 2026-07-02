@@ -80,7 +80,7 @@ type ExtractorState = {
 let extractorState: ExtractorState | null = null;
 
 if (typeof process.send !== 'function') {
-  throw new Error(
+  throw new TypeError(
     'bge-m3.worker.ts must be executed as a forked child process.'
   );
 }

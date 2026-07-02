@@ -48,7 +48,7 @@ export class ProgramCourseController {
   }> {
     // Convert to array and parse to numbers
     const idsArray = Array.isArray(courseIds)
-      ? courseIds.map((id) => Number(id))
+      ? courseIds.map(Number)
       : [Number(courseIds)];
 
     // Validate that all IDs are valid numbers
