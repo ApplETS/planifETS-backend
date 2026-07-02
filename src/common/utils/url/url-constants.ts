@@ -15,7 +15,7 @@ export const ETS_API_GET_ALL_PROGRAMS = `${ETS_API_BASE_URL}search/programme-ind
 export const ETS_API_GET_COURSES_BY_IDS = `${ETS_API_BASE_URL}courses/get?ids=`;
 export const ETS_API_GET_ALL_COURSES = `${ETS_API_BASE_URL}search/cours-index`;
 
-export const getEtsCoursePageUrl = (courseCode: string): string => {
+export const getEtsWebsitePageUrl = (courseCode: string): string => {
   return `${ETS_BASE_URL}etudes/cours/${courseCode.toLowerCase()}`;
 };
 
@@ -47,12 +47,20 @@ const PLANETS_BASE_URL = 'https://planets.etsmtl.ca/public/';
 // ÉTS sessions: 1 = hiver (winter), 2 = été (summer), 3 = automne (fall)
 const getCurrentEtsSessionCode = (date: Date = new Date()): number => {
   const month = date.getMonth(); // 0-11
-  const session = month <= 3 ? 1 : month <= 7 ? 2 : 3;
+  let session: number;
+
+  if (month <= 3) {
+    session = 1;
+  } else if (month <= 7) {
+    session = 2;
+  } else {
+    session = 3;
+  }
 
   return date.getFullYear() * 10 + session;
 };
 
-export const getPlanetsCourseUrl = (
+export const getPlanETSCourseUrl = (
   courseCode: string,
   sessionCode: number = getCurrentEtsSessionCode(),
 ): string => {

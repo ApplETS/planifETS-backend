@@ -1,25 +1,30 @@
 import { Cheerio, load } from 'cheerio';
 import { Element } from 'domhandler';
 
+// Marker for structural line breaks (br/li/block tags), distinct from
+// incidental whitespace in how the HTML source happens to be wrapped —
+// browsers collapse that whitespace, so it carries no line-break meaning
+// and must not be confused with a real one.
+const LINE_BREAK = '';
+
 export function htmlFragmentToPlainText(fragment: Cheerio<Element>): string {
   const $html = load(fragment.clone().toString());
   const rootNode = $html.root();
 
   rootNode.find('script, style, noscript').remove();
-  rootNode.find('br').replaceWith('\n');
+  rootNode.find('br').replaceWith(LINE_BREAK);
   rootNode.find('li').each((_, element) => {
     const item = $html(element);
     item.prepend('- ');
-    item.append('\n');
+    item.append(LINE_BREAK);
   });
-  rootNode.find('p, div, section, article, blockquote').append('\n\n');
-  rootNode.find('ul, ol').prepend('\n').append('\n\n');
+  rootNode.find('p, div, section, article, blockquote').append(LINE_BREAK + LINE_BREAK);
+  rootNode.find('ul, ol').prepend(LINE_BREAK).append(LINE_BREAK + LINE_BREAK);
 
   const normalizedLines = rootNode.text()
-    .replaceAll('\r\n', '\n')
     .replaceAll(' ', ' ')
-    .split('\n')
-    .map((line) => line.replaceAll(/[ \t]+/g, ' ').trim());
+    .split(LINE_BREAK)
+    .map((line) => line.replaceAll(/\s+/g, ' ').trim());
 
   const result: string[] = [];
   for (const line of normalizedLines) {

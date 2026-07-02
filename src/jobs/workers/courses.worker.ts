@@ -4,8 +4,9 @@ import { Course } from '@prisma/client';
 import { CheminotService } from '../../common/api-helper/cheminot/cheminot.service';
 import { Course as CourseCheminot } from '../../common/api-helper/cheminot/Course';
 import { Program as ProgramCheminot } from '../../common/api-helper/cheminot/Program';
-import { EtsCourseService } from '../../common/api-helper/ets/course/ets-course.service';
-import { EtsPlanetsService } from '../../common/api-helper/ets/course/ets-planets.service';
+import { EtsApiService } from '../../common/api-helper/ets/course/ets-api.service';
+import { EtsPlanETSService } from '../../common/api-helper/ets/course/ets-planets.service';
+import { EtsWebsiteService } from '../../common/api-helper/ets/course/ets-website.service';
 import { CourseService } from '../../course/course.service';
 import { ProgramService } from '../../program/program.service';
 import { ProgramIncludeCourseIdsAndPrerequisitesDto } from '../../program/program.types';
@@ -19,8 +20,9 @@ export class CoursesJobService {
   private readonly logger = new Logger(CoursesJobService.name);
 
   constructor(
-    private readonly etsCourseService: EtsCourseService,
-    private readonly etsPlanetsService: EtsPlanetsService,
+    private readonly etsApiService: EtsApiService,
+    private readonly etsWebsiteService: EtsWebsiteService,
+    private readonly etsPlanetsService: EtsPlanETSService,
     private readonly courseService: CourseService,
     private readonly programCourseService: ProgramCourseService,
     private readonly programService: ProgramService,
@@ -29,7 +31,7 @@ export class CoursesJobService {
 
   public async processCourses(): Promise<void> {
     this.logger.log('Processing courses...');
-    const courses = await this.etsCourseService.fetchAllCoursesWithCredits();
+    const courses = await this.etsApiService.fetchAllCoursesWithCredits();
     if (!courses.length) {
       this.logger.error('No courses fetched.');
       throw new Error('No courses fetched.');
@@ -57,7 +59,7 @@ export class CoursesJobService {
     }
 
     const firstPass = await this.processCourseBatches(coursesWithCodes, (code) =>
-      this.etsCourseService.fetchCourseDescriptionFromEtsWebsite(code),
+      this.etsWebsiteService.fetchCourseDescriptionFromEtsWebsite(code),
     );
     let updatedCount = firstPass.updatedCount;
     let failedCourseCodes = firstPass.failedCourseCodes;
@@ -74,7 +76,7 @@ export class CoursesJobService {
         `Retrying description sync for ${coursesToRetry.length} failed courses via PlanETS...`,
       );
       const retryPass = await this.processCourseBatches(coursesToRetry, (code) =>
-        this.etsPlanetsService.fetchCourseDescriptionFromPlanets(code),
+        this.etsPlanetsService.fetchCourseDescriptionFromPlanETS(code),
       );
 
       updatedCount += retryPass.updatedCount;

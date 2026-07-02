@@ -1,16 +1,14 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 
 import {
   ETS_API_GET_ALL_COURSES,
   ETS_API_GET_COURSES_BY_IDS,
   ETS_USER_AGENT,
-  getEtsCoursePageUrl,
 } from '@/common/utils/url/url-constants';
 import { extractNumberFromString } from '@/utils/stringUtil';
 
-import { fetchCourseDescription } from './course-description-fetcher';
 import { CourseByIdEtsApiDto } from './dtos/course-by-id-ets-api.dto';
 import { CourseIndexResponseDto } from './dtos/course-index-response.dto';
 
@@ -27,9 +25,7 @@ export interface ICourseWithCredits extends ICourses {
 }
 
 @Injectable()
-export class EtsCourseService {
-  private readonly logger = new Logger(EtsCourseService.name);
-
+export class EtsApiService {
   constructor(private readonly httpService: HttpService) {}
 
   public async fetchAllCoursesWithCredits(): Promise<ICourseWithCredits[]> {
@@ -105,19 +101,5 @@ export class EtsCourseService {
       code: course.code,
       credits: course.credits,
     }));
-  }
-
-  public async fetchCourseDescriptionFromEtsWebsite(
-    courseCode: string,
-  ): Promise<string> {
-    return fetchCourseDescription(this.httpService, this.logger, courseCode, {
-      source: 'ETS website',
-      url: getEtsCoursePageUrl(courseCode),
-      requestHeaders: { 'User-Agent': ETS_USER_AGENT },
-      descriptionSelectors: [
-        '#page-content .c-fold__text.o-text',
-        '.c-fold__text.o-text',
-      ],
-    });
   }
 }

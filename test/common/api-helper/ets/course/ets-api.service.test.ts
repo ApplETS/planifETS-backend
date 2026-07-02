@@ -3,21 +3,21 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosHeaders, AxiosResponse } from 'axios';
 import { of } from 'rxjs';
 
-import { EtsCourseService } from '@/common/api-helper/ets/course/ets-course.service';
+import { EtsApiService } from '@/common/api-helper/ets/course/ets-api.service';
 import { extractNumberFromString } from '@/common/utils/stringUtil';
 import {
   ETS_API_GET_ALL_COURSES,
   ETS_API_GET_COURSES_BY_IDS,
 } from '@/common/utils/url/url-constants';
 
-describe('EtsCourseService', () => {
-  let service: EtsCourseService;
+describe('EtsApiService', () => {
+  let service: EtsApiService;
   let httpService: HttpService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        EtsCourseService,
+        EtsApiService,
         {
           provide: HttpService,
           useValue: {
@@ -27,7 +27,7 @@ describe('EtsCourseService', () => {
       ],
     }).compile();
 
-    service = module.get<EtsCourseService>(EtsCourseService);
+    service = module.get<EtsApiService>(EtsApiService);
     httpService = module.get<HttpService>(HttpService);
   });
 

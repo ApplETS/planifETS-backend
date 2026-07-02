@@ -6,7 +6,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosHeaders, AxiosResponse } from 'axios';
 import { of } from 'rxjs';
 
-import { EtsCourseService } from '../../../../../src/common/api-helper/ets/course/ets-course.service';
+import { EtsWebsiteService } from '../../../../../src/common/api-helper/ets/course/ets-website.service';
 
 const HTML_ASSETS_DIR = join(__dirname, '../../../../assets/html');
 
@@ -14,14 +14,14 @@ const readHtmlAsset = (filename: string): string => {
   return readFileSync(join(HTML_ASSETS_DIR, filename), 'utf8');
 };
 
-describe('EtsCourseService course description parsing', () => {
-  let service: EtsCourseService;
+describe('EtsWebsiteService course description parsing', () => {
+  let service: EtsWebsiteService;
   let httpService: HttpService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        EtsCourseService,
+        EtsWebsiteService,
         {
           provide: HttpService,
           useValue: {
@@ -31,12 +31,12 @@ describe('EtsCourseService course description parsing', () => {
       ],
     }).compile();
 
-    service = module.get<EtsCourseService>(EtsCourseService);
+    service = module.get<EtsWebsiteService>(EtsWebsiteService);
     httpService = module.get<HttpService>(HttpService);
   });
 
   it('extracts UI-friendly normalized plain text from a real GTI350 course page', async () => {
-    const html = readHtmlAsset('ets-course-gti350.html');
+    const html = readHtmlAsset('ets-website-gti350.html');
 
     const response: AxiosResponse<string> = {
       data: html,

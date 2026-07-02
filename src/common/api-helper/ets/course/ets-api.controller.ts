@@ -2,16 +2,16 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { CourseByIdEtsApiDto } from './dtos/course-by-id-ets-api.dto';
-import { EtsCourseService, ICourseWithCredits } from './ets-course.service';
+import { EtsApiService, ICourseWithCredits } from './ets-api.service';
 
 @ApiTags('ÉTS API')
 @Controller('ets/courses')
-export class EtsCourseController {
-  constructor(private readonly etsCourseService: EtsCourseService) {}
+export class EtsApiController {
+  constructor(private readonly etsApiService: EtsApiService) {}
 
   @Get()
   public fetchAllCourses(): Promise<ICourseWithCredits[]> {
-    return this.etsCourseService.fetchAllCoursesWithCredits();
+    return this.etsApiService.fetchAllCoursesWithCredits();
   }
 
   @Get(':id')
@@ -20,6 +20,6 @@ export class EtsCourseController {
       throw new Error('The id parameter is required');
     }
 
-    return this.etsCourseService.fetchCoursesById(id);
+    return this.etsApiService.fetchCoursesById(id);
   }
 }
