@@ -49,6 +49,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     openssl \
     ca-certificates \
     tzdata \
+    git \
   && rm -rf /var/lib/apt/lists/*
 
 RUN yarn prisma:generate
@@ -58,7 +59,7 @@ ENV APP_ENV=development
 ENV TZ=America/Toronto
 
 EXPOSE 3001
-CMD ["sh", "-c", "yarn prisma:generate && yarn prisma migrate deploy && yarn start:dev"]
+CMD ["sh", "-c", "export APP_GIT_SHORT_SHA=$(git rev-parse --short=7 HEAD 2>/dev/null || echo localdev) && yarn prisma:generate && yarn prisma migrate deploy && yarn start:dev"]
 
 FROM node:22.22.3-bullseye-slim AS production
 

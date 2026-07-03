@@ -48,14 +48,17 @@ docker compose --profile production up --build
 
 Once running:
 
-- Swagger UI: `http://localhost:3001/api/docs`
-- Health check: `http://localhost:3001/api/health`
+- Swagger UI: `http://localhost:3501/api/docs`
+- Liveness probe: `http://localhost:3501/api/health/live`
+- Readiness probe: `http://localhost:3501/api/health/ready`
+- Diagnostic health view: `http://localhost:3501/api/health`
+- In Kubernetes, use the liveness probe for process checks and the readiness probe for Postgres and Qdrant availability
 
 ### 4. Populate the database
 
 Use Swagger to trigger the development-only jobs endpoint:
 
-1. Open `http://localhost:3001/api/docs`
+1. Open `http://localhost:3501/api/docs`
 2. Find `POST /api/jobs/run-workers`
 3. Run it with the default request body to execute the full pipeline
 
@@ -111,6 +114,8 @@ For a default local PostgreSQL setup:
 APP_ENV=development
 PORT=3001
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/planifetsDB?schema=public"
+FRONTEND_URL="http://localhost:3000"
+QDRANT_URL="http://localhost:6333"
 ```
 
 If you use a custom PostgreSQL username, password, or Docker on port `5433`, adjust the connection string accordingly.
@@ -151,7 +156,9 @@ yarn dev
 Once the server is running:
 
 - Swagger UI is available at `http://localhost:3001/api/docs`
-- Health check is available at `http://localhost:3001/api/health`
+- Liveness probe is available at `http://localhost:3001/api/health/live`
+- Readiness probe is available at `http://localhost:3001/api/health/ready`
+- Diagnostic health view is available at `http://localhost:3001/api/health`
 
 ### 6. Populate the database
 
