@@ -26,7 +26,9 @@ export async function runCommandWithRetry(
 ): Promise<void> {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      console.log(`Attempt ${attempt} of ${retries}: Running command: ${command} ${args.join(' ')}`);
+      console.log(
+        `Attempt ${attempt} of ${retries}: Running command: ${command} ${args.join(' ')}`
+      );
       await runCommand(command, args, env);
 
       return;

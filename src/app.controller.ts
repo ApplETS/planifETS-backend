@@ -66,11 +66,15 @@ export class AppController {
       (service) => service.status !== 'ok'
     );
     const hasNonCriticalFailure = frontend.status === 'down';
-    const healthStatus = hasCriticalFailure
-      ? 'error'
-      : hasNonCriticalFailure
-        ? 'degraded'
-        : 'ok';
+
+    let healthStatus: 'error' | 'degraded' | 'ok';
+    if (hasCriticalFailure) {
+      healthStatus = 'error';
+    } else if (hasNonCriticalFailure) {
+      healthStatus = 'degraded';
+    } else {
+      healthStatus = 'ok';
+    }
 
     return {
       status: healthStatus,
