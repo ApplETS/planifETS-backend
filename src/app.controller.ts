@@ -131,7 +131,7 @@ export class AppController {
   @Get('/health/monitoring')
   @ApiOperation({
     summary: 'Health check endpoint for monitoring testing',
-    description: 'Throws an error to test monitoring integration'
+    description: 'Throws an error to test monitoring integration with PostHog'
   })
   public getError() {
     throw new Error('Monitoring test error from /health/monitoring endpoint');
