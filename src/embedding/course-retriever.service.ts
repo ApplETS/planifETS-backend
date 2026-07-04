@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { EmbeddingWorkerClient } from './embedding-worker.client';
+import { buildQueryEmbeddingText } from './helpers/embedding-text.helper';
 import { QdrantCourseIndexService } from './qdrant-course-index.service';
 
 interface UserSessionContext {
@@ -18,8 +19,8 @@ interface CourseResult {
 
 // BGE-M3 is trained asymmetrically: queries use an instruction prefix, indexed documents do not.
 // This closes the semantic gap between query phrasing and document vocabulary.
-const QUERY_INSTRUCTION =
-  'Represent this query for searching relevant educational course information: ';
+// const QUERY_INSTRUCTION =
+//   'Represent this query for searching relevant educational course information: ';
 
 // Qdrant stores one point per (course, program) pair. Oversampling before deduplication
 // ensures we return up to LIMIT unique course codes even when duplicates consume slots.
@@ -38,7 +39,7 @@ export class CourseRetrieverService {
     query: string,
     context?: UserSessionContext
   ): Promise<CourseResult[]> {
-    const vectors = await this.worker.embed([QUERY_INSTRUCTION + query]);
+    const vectors = await this.worker.embed([buildQueryEmbeddingText(query)]);
     const vector = vectors[0];
     const filter = context ? buildPayloadFilter(context) : undefined;
 
