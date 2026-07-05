@@ -14,7 +14,7 @@ export function sanitizeEmbeddingText(
   );
 }
 
-export function normalizeWhitespace(value: string): string {
+function normalizeWhitespace(value: string): string {
   return value.replace(/\s+/g, ' ').trim();
 }
 
@@ -32,7 +32,7 @@ export function appendEmbeddingKeywords(text: string): string {
   return normalizeWhitespace([cleaned, keywords].filter(Boolean).join(' '));
 }
 
-export function extractFrenchKeywords(value: string): string {
+function extractFrenchKeywords(value: string): string {
   const stopWords = new Set([
     'je',
     'j',
