@@ -65,35 +65,32 @@ export function buildCourseEmbeddingText(row: EmbeddingViewDto): string {
   const parts: string[] = [];
 
   const code = clean(row.code);
+  if (code) {
+    parts.push(code);
+  }
   const title = clean(row.title);
-  // const programTitle = clean(row.program_title);
-  // const programId = row.program_id;
-
-  parts.push(`${code}`);
-  parts.push(`${title}.`);
+  if (title) {
+    parts.push(toSentence(title));
+  }
 
   const typeLabel = getCourseTypeLabel(row.type);
   if (typeLabel) {
-    parts.push(`${typeLabel}.`);
+    parts.push(toSentence(typeLabel));
   }
-
-  // if (row.program_id) {
-  //   parts.push(`${row.program_id}.`);
-  // }
 
   const description = truncateAtSentence(clean(row.description));
   if (description) {
-    parts.push(`${toSentence(description)}`);
+    parts.push(toSentence(description));
   }
 
   const prerequisiteCodes = cleanStringArray(row.prerequisite_codes);
   if (prerequisiteCodes.length > 0) {
-    parts.push(`${prerequisiteCodes.join(', ')}`);
+    parts.push(prerequisiteCodes.join(', '));
   }
 
   const unstructuredPrerequisite = clean(row.unstructured_prerequisite);
   if (unstructuredPrerequisite) {
-    parts.push(`${toSentence(unstructuredPrerequisite)}`);
+    parts.push(toSentence(unstructuredPrerequisite));
   }
 
   return appendEmbeddingKeywords(parts.join(' '));
@@ -204,7 +201,7 @@ function truncateAtSentence(text: string, maxChars = 800): string {
 }
 
 function clean(value: string | null | undefined): string {
-  return appendEmbeddingKeywords(value ?? '').trim();
+  return sanitizeEmbeddingText(value ?? '').trim();
 }
 
 function toSentence(value: string): string {
