@@ -1,4 +1,6 @@
-export function sanitizeEmbeddingText(value: string | null | undefined): string {
+export function sanitizeEmbeddingText(
+  value: string | null | undefined
+): string {
   return normalizeWhitespace(
     (value ?? '')
       .replace(/<[^>]*>/g, ' ')

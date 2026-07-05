@@ -2,11 +2,11 @@ import { createHash } from 'node:crypto';
 
 import { uuidV5 } from '@/common/utils/uuid/uuidUtil';
 
-import { EmbeddingViewDto } from './dtos/embedding-view.dto';
 import {
   appendEmbeddingKeywords,
   sanitizeEmbeddingText
-} from './helpers/embedding-text.helper';
+} from '../common/api-helper/embedding/embedding-text';
+import { EmbeddingViewDto } from './dtos/embedding-view.dto';
 
 const QDRANT_ID_NAMESPACE =
   process.env.QDRANT_ID_NAMESPACE ?? '5e7f1c4d-3d8a-45f1-87a4-9cf4de6f6b29';

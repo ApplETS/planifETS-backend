@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
+import { buildQueryEmbeddingText } from '../common/api-helper/embedding/embedding-text';
 import { EmbeddingWorkerClient } from './embedding-worker.client';
-import { buildQueryEmbeddingText } from './helpers/embedding-text.helper';
 import { QdrantCourseIndexService } from './qdrant-course-index.service';
 
 interface UserSessionContext {
