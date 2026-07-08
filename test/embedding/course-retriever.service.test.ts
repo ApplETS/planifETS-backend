@@ -1,11 +1,10 @@
+import { buildQueryEmbeddingText } from '@/common/api-helper/embedding/embedding-text';
+
 import { CourseRetrieverService } from '../../src/embedding/course-retriever.service';
 import { EmbeddingWorkerClient } from '../../src/embedding/embedding-worker.client';
 import { QdrantCourseIndexService } from '../../src/embedding/qdrant-course-index.service';
 
 const MOCK_VECTOR = Array.from({ length: 1024 }, () => 0.1);
-
-const QUERY_INSTRUCTION =
-  'Represent this query for searching relevant educational course information: ';
 
 const makeQdrantHit = (
   code: string,
@@ -58,7 +57,7 @@ describe('CourseRetrieverService', () => {
       await service.retrieveCourses('bases de données');
 
       expect(workerMock.embed).toHaveBeenCalledWith([
-        QUERY_INSTRUCTION + 'bases de données'
+        buildQueryEmbeddingText('bases de données')
       ]);
     });
 

@@ -2,6 +2,10 @@ import { createHash } from 'node:crypto';
 
 import { uuidV5 } from '@/common/utils/uuid/uuidUtil';
 
+import {
+  appendEmbeddingKeywords,
+  sanitizeEmbeddingText
+} from '../common/api-helper/embedding/embedding-text';
 import { EmbeddingViewDto } from './dtos/embedding-view.dto';
 
 const QDRANT_ID_NAMESPACE =
@@ -60,29 +64,36 @@ export function getCourseTypeLabel(
 export function buildCourseEmbeddingText(row: EmbeddingViewDto): string {
   const parts: string[] = [];
 
-  parts.push(toSentence(`${row.code} — ${row.title}`));
+  const code = clean(row.code);
+  if (code) {
+    parts.push(code);
+  }
+  const title = clean(row.title);
+  if (title) {
+    parts.push(toSentence(title));
+  }
 
-  // Truncated to first ~800 chars so the high-level concept dominates over
-  // dense technical jargon that would dilute the embedding vector.
+  const typeLabel = getCourseTypeLabel(row.type);
+  if (typeLabel) {
+    parts.push(toSentence(typeLabel));
+  }
+
   const description = truncateAtSentence(clean(row.description));
-  if (description) parts.push(toSentence(description));
+  if (description) {
+    parts.push(toSentence(description));
+  }
 
   const prerequisiteCodes = cleanStringArray(row.prerequisite_codes);
   if (prerequisiteCodes.length > 0) {
-    parts.push(`Préalables : ${prerequisiteCodes.join(', ')}.`);
+    parts.push(prerequisiteCodes.join(', '));
   }
 
   const unstructuredPrerequisite = clean(row.unstructured_prerequisite);
   if (unstructuredPrerequisite) {
-    parts.push(`Préalables non structurés : ${unstructuredPrerequisite}.`);
+    parts.push(toSentence(unstructuredPrerequisite));
   }
 
-  // Programme, cycle, sessions, disponibilité are omitted from the embedded text.
-  // They are identical across all courses in the same program/cycle, which creates
-  // a high baseline cosine similarity that masks discriminative course content.
-  // These fields are available as Qdrant payload filters instead.
-
-  return normalizeWhitespace(parts.join(' '));
+  return appendEmbeddingKeywords(parts.join(' '));
 }
 
 export function buildCourseEmbeddingPayload(
@@ -168,23 +179,12 @@ export function computeCourseChangeKey(row: EmbeddingViewDto): {
 export function sanitizeEmbeddingRow(row: EmbeddingViewDto): EmbeddingViewDto {
   return {
     ...row,
-    title: sanitizeText(row.title),
-    description: sanitizeText(row.description ?? ''),
+    title: sanitizeEmbeddingText(row.title),
+    description: sanitizeEmbeddingText(row.description ?? ''),
     unstructured_prerequisite: row.unstructured_prerequisite
-      ? sanitizeText(row.unstructured_prerequisite)
+      ? sanitizeEmbeddingText(row.unstructured_prerequisite)
       : row.unstructured_prerequisite
   };
-}
-
-function sanitizeText(value: string): string {
-  return value
-    .replaceAll('&amp;', '&')
-    .replaceAll('&nbsp;', ' ')
-    .replaceAll('&lt;', '<')
-    .replaceAll('&gt;', '>')
-    .replaceAll('&quot;', '"')
-    .replaceAll(String.raw`\"`, '"')
-    .replaceAll('\\', '');
 }
 
 // Long descriptions dilute the embedding vector. Keep the first ~800 chars
@@ -201,11 +201,7 @@ function truncateAtSentence(text: string, maxChars = 800): string {
 }
 
 function clean(value: string | null | undefined): string {
-  return normalizeWhitespace(value ?? '').trim();
-}
-
-function normalizeWhitespace(value: string): string {
-  return value.replace(/\s+/g, ' ').trim();
+  return sanitizeEmbeddingText(value ?? '').trim();
 }
 
 function toSentence(value: string): string {

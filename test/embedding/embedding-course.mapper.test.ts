@@ -133,7 +133,7 @@ describe('buildCourseEmbeddingText', () => {
     const text = buildCourseEmbeddingText(
       buildRow({ prerequisite_codes: ['MAT350', 'LOG320'] })
     );
-    expect(text).toContain('Préalables : LOG320, MAT350.');
+    expect(text).toContain('LOG320, MAT350');
   });
 
   it('deduplicates prerequisite codes', () => {
@@ -146,22 +146,25 @@ describe('buildCourseEmbeddingText', () => {
 
   it('omits prerequisite section when array is empty', () => {
     const text = buildCourseEmbeddingText(buildRow({ prerequisite_codes: [] }));
-    expect(text).not.toContain('Préalables :');
+    expect(text).not.toContain('LOG320');
+    expect(text).not.toContain('MAT350');
   });
 
   it('includes unstructured prerequisite when present', () => {
     const text = buildCourseEmbeddingText(
       buildRow({ unstructured_prerequisite: 'Approbation du directeur.' })
     );
-    expect(text).toContain(
-      'Préalables non structurés : Approbation du directeur.'
-    );
+
+    expect(text).toContain('Approbation du directeur.');
+    expect(text).not.toContain('Préalables non structurés');
   });
 
   it('omits unstructured prerequisite when null', () => {
     const text = buildCourseEmbeddingText(
       buildRow({ unstructured_prerequisite: null })
     );
+
+    expect(text).not.toContain('Approbation du directeur');
     expect(text).not.toContain('Préalables non structurés');
   });
 
