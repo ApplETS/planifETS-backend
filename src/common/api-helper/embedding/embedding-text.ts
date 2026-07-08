@@ -2,8 +2,7 @@ export function sanitizeEmbeddingText(
   value: string | null | undefined
 ): string {
   return normalizeWhitespace(
-    (value ?? '')
-      .replace(/<[^>]*>/g, ' ')
+    stripHtmlTags(value ?? '')
       .replaceAll('&amp;', '&')
       .replaceAll('&nbsp;', ' ')
       .replaceAll('&lt;', '<')
@@ -12,6 +11,31 @@ export function sanitizeEmbeddingText(
       .replaceAll(String.raw`\"`, '"')
       .replaceAll('\\', ' ')
   );
+}
+
+function stripHtmlTags(value: string): string {
+  let result = '';
+  let insideTag = false;
+
+  for (const char of value) {
+    if (char === '<') {
+      insideTag = true;
+      result += ' ';
+      continue;
+    }
+
+    if (char === '>') {
+      insideTag = false;
+      result += ' ';
+      continue;
+    }
+
+    if (!insideTag) {
+      result += char;
+    }
+  }
+
+  return result;
 }
 
 function normalizeWhitespace(value: string): string {
