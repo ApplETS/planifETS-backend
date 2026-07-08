@@ -51,8 +51,12 @@ export class JobsController {
       });
     if (processSessions)
       jobs.push({ service: 'SessionsJobService', method: 'processSessions' });
-    if (processCourseEmbeddings)
-      jobs.push({ service: 'CourseEmbeddingIndexerService', method: 'run' });
+    if (processCourseEmbeddings) {
+      jobs.push({
+        service: 'CourseEmbeddingIndexerService',
+        method: 'run'
+      });
+    }
 
     if (jobs.length === 0) {
       return { status: 'No jobs triggered (no flags set)' };
@@ -60,6 +64,15 @@ export class JobsController {
 
     const results = [];
     for (const job of jobs) {
+      if (!this.jobsService.canRunJob(job.service, job.method)) {
+        results.push({
+          job,
+          status: 'skipped',
+          reason: 'CHATBOT_ENABLED=false'
+        });
+        continue;
+      }
+
       try {
         await this.jobsService.runWorker(job.service, job.method);
         results.push({ job, status: 'success' });

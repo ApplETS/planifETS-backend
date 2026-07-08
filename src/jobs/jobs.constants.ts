@@ -20,6 +20,7 @@ export const jobWorkerProviders: Provider[] = [
   CoursesJobService,
   CourseInstancesJobService,
   SessionsJobService,
+  CourseEmbeddingIndexerService,
   CourseCodeValidationPipe
 ];
 
