@@ -39,9 +39,12 @@ describe('jobs.constants', () => {
         CoursesJobService,
         CourseInstancesJobService,
         SessionsJobService,
-        CourseEmbeddingIndexerService,
         CourseCodeValidationPipe
       ])
     );
+  });
+
+  it('should not directly register CourseEmbeddingIndexerService in jobWorkerProviders', () => {
+    expect(jobWorkerProviders).not.toContain(CourseEmbeddingIndexerService);
   });
 });
