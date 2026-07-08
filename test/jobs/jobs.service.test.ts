@@ -233,15 +233,15 @@ describe('JobsService', () => {
   });
 
   it('should identify the chatbot embedding job', () => {
-    expect(
-      service.isChatbotJob('CourseEmbeddingIndexerService', 'run')
-    ).toBe(true);
+    expect(service.isChatbotJob('CourseEmbeddingIndexerService', 'run')).toBe(
+      true
+    );
   });
 
   it('should not identify other jobs as chatbot jobs', () => {
-    expect(
-      service.isChatbotJob('ProgramsJobService', 'processPrograms')
-    ).toBe(false);
+    expect(service.isChatbotJob('ProgramsJobService', 'processPrograms')).toBe(
+      false
+    );
     expect(
       service.isChatbotJob('CourseEmbeddingIndexerService', 'otherMethod')
     ).toBe(false);
@@ -250,33 +250,33 @@ describe('JobsService', () => {
   it('should allow non-chatbot jobs when CHATBOT_ENABLED=false', async () => {
     await createService('false');
 
-    expect(
-      service.canRunJob('ProgramsJobService', 'processPrograms')
-    ).toBe(true);
+    expect(service.canRunJob('ProgramsJobService', 'processPrograms')).toBe(
+      true
+    );
   });
 
   it('should block the course embedding job when CHATBOT_ENABLED=false', async () => {
     await createService('false');
 
-    expect(
-      service.canRunJob('CourseEmbeddingIndexerService', 'run')
-    ).toBe(false);
+    expect(service.canRunJob('CourseEmbeddingIndexerService', 'run')).toBe(
+      false
+    );
   });
 
   it('should allow the course embedding job when CHATBOT_ENABLED=true', async () => {
     await createService('true');
 
-    expect(
-      service.canRunJob('CourseEmbeddingIndexerService', 'run')
-    ).toBe(true);
+    expect(service.canRunJob('CourseEmbeddingIndexerService', 'run')).toBe(
+      true
+    );
   });
 
   it('should allow the course embedding job when CHATBOT_ENABLED has uppercase TRUE', async () => {
     await createService('TRUE');
 
-    expect(
-      service.canRunJob('CourseEmbeddingIndexerService', 'run')
-    ).toBe(true);
+    expect(service.canRunJob('CourseEmbeddingIndexerService', 'run')).toBe(
+      true
+    );
   });
 
   it('should skip CourseEmbeddingIndexerService.run during processJobs when CHATBOT_ENABLED=false', async () => {
