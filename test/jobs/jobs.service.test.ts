@@ -39,7 +39,7 @@ describe('JobsService', () => {
 
   const WorkerMock = Worker as unknown as jest.Mock;
 
-  async function createService(chatbotEnabled = 'true'): Promise<void> {
+  async function createService(chatbotEnabled = true): Promise<void> {
     fakeWorkers = [];
 
     WorkerMock.mockImplementation((script: string, options: unknown) => {
@@ -54,7 +54,13 @@ describe('JobsService', () => {
         {
           provide: ConfigService,
           useValue: {
-            get: jest.fn().mockReturnValue(chatbotEnabled)
+            get: jest.fn((key: string, defaultValue?: unknown) => {
+              if (key === 'chatbot.enabled') {
+                return chatbotEnabled;
+              }
+
+              return defaultValue;
+            })
           }
         }
       ]
@@ -87,7 +93,7 @@ describe('JobsService', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
     WorkerMock.mockReset();
-    await createService('true');
+    await createService(true);
   });
 
   afterEach(() => {
@@ -248,7 +254,7 @@ describe('JobsService', () => {
   });
 
   it('should allow non-chatbot jobs when CHATBOT_ENABLED=false', async () => {
-    await createService('false');
+    await createService(false);
 
     expect(service.canRunJob('ProgramsJobService', 'processPrograms')).toBe(
       true
@@ -256,7 +262,7 @@ describe('JobsService', () => {
   });
 
   it('should block the course embedding job when CHATBOT_ENABLED=false', async () => {
-    await createService('false');
+    await createService(false);
 
     expect(service.canRunJob('CourseEmbeddingIndexerService', 'run')).toBe(
       false
@@ -264,7 +270,7 @@ describe('JobsService', () => {
   });
 
   it('should allow the course embedding job when CHATBOT_ENABLED=true', async () => {
-    await createService('true');
+    await createService(true);
 
     expect(service.canRunJob('CourseEmbeddingIndexerService', 'run')).toBe(
       true
@@ -272,7 +278,7 @@ describe('JobsService', () => {
   });
 
   it('should allow the course embedding job when CHATBOT_ENABLED has uppercase TRUE', async () => {
-    await createService('TRUE');
+    await createService(true);
 
     expect(service.canRunJob('CourseEmbeddingIndexerService', 'run')).toBe(
       true
@@ -280,7 +286,7 @@ describe('JobsService', () => {
   });
 
   it('should skip CourseEmbeddingIndexerService.run during processJobs when CHATBOT_ENABLED=false', async () => {
-    await createService('false');
+    await createService(false);
 
     runWorkerSpy.mockResolvedValue({ status: 'ok' });
 

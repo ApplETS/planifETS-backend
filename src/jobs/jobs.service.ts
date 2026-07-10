@@ -11,10 +11,10 @@ export class JobsService {
   private readonly chatbotEnabled: boolean;
 
   constructor(private readonly configService: ConfigService) {
-    this.chatbotEnabled =
-      this.configService
-        .get<string>('CHATBOT_ENABLED', 'false')
-        .toLowerCase() === 'true';
+    this.chatbotEnabled = this.configService.get<boolean>(
+      'chatbot.enabled',
+      false
+    );
   }
 
   public isChatbotJob(serviceName: string, methodName: string): boolean {
