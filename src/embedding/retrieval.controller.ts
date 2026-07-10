@@ -1,6 +1,7 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+import { ChatbotEnabledGuard } from '../common/guards/chatbot-enabled.guard';
 import { CourseRetrieverService } from './course-retriever.service';
 import {
   RetrieveCoursesDto,
@@ -8,6 +9,7 @@ import {
 } from './dtos/retrieve-courses.dto';
 
 @ApiTags('Chatbot')
+@UseGuards(ChatbotEnabledGuard)
 @Controller('retrieval')
 export class RetrievalController {
   constructor(private readonly retrieverService: CourseRetrieverService) {}

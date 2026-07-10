@@ -1,4 +1,10 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  UseGuards
+} from '@nestjs/common';
 import {
   ApiOkResponse,
   ApiOperation,
@@ -6,11 +12,13 @@ import {
   ApiTags
 } from '@nestjs/swagger';
 
+import { ChatbotEnabledGuard } from '../common/guards/chatbot-enabled.guard';
 import { EmbeddingCountDto } from './dtos/embedding-count.dto';
 import { EmbeddingViewDto } from './dtos/embedding-view.dto';
 import { EmbeddingService } from './embedding.service';
 
 @ApiTags('Chatbot')
+@UseGuards(ChatbotEnabledGuard)
 @Controller('embedding-view')
 export class EmbeddingController {
   constructor(private readonly embeddingService: EmbeddingService) {}

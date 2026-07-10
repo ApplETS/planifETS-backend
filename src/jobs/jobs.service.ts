@@ -2,11 +2,34 @@ import { join } from 'node:path';
 import { isMainThread, Worker } from 'node:worker_threads';
 
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Cron, CronExpression, Timeout } from '@nestjs/schedule';
 
 @Injectable()
 export class JobsService {
   private readonly logger = new Logger(JobsService.name);
+  private readonly chatbotEnabled: boolean;
+
+  constructor(private readonly configService: ConfigService) {
+    this.chatbotEnabled = this.configService.get<boolean>(
+      'chatbot.enabled',
+      false
+    );
+  }
+
+  public isChatbotJob(serviceName: string, methodName: string): boolean {
+    return (
+      serviceName === 'CourseEmbeddingIndexerService' && methodName === 'run'
+    );
+  }
+
+  public canRunJob(serviceName: string, methodName: string): boolean {
+    if (!this.isChatbotJob(serviceName, methodName)) {
+      return true;
+    }
+
+    return this.chatbotEnabled;
+  }
 
   public runWorker<T>(serviceName: string, methodName: string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
@@ -98,6 +121,13 @@ export class JobsService {
 
     for (const [index, job] of jobs.entries()) {
       const { service, method } = job;
+
+      if (!this.canRunJob(service, method)) {
+        this.logger.log(
+          `Skipping job ${index + 1}: ${service}.${method} because CHATBOT_ENABLED=false`
+        );
+        continue;
+      }
 
       try {
         this.logger.log(`Starting job ${index + 1}: ${service}.${method}`);
