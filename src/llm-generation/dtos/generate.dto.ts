@@ -16,7 +16,7 @@ class PromptDto {
   @Matches(/\S/, { message: CHATBOT_ERROR_PROMPT_BLANK })
   @ApiProperty({
     example:
-      'Je veux apprendre sur l’intelligence artificielle et l’apprentissage automatique',
+      'Je veux apprendre sur l’intelligence artificielle et l’apprentissage automatique'
   })
   public prompt!: string;
 }

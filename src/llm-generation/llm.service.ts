@@ -7,7 +7,10 @@ import {
   LlmCourse,
   LlmGenerationResponse
 } from './interfaces/llm-generation-response.interface';
-import { LlmProvider, STREAM_COURSES_DELIMITER } from './interfaces/llm-provider';
+import {
+  LlmProvider,
+  STREAM_COURSES_DELIMITER
+} from './interfaces/llm-provider';
 import { GeminiProvider } from './providers/gemini.provider';
 import { GroqProvider } from './providers/groq.provider';
 import { NvidiaProvider } from './providers/nvidia.provider';
@@ -199,7 +202,9 @@ export class LlmService {
       let sawDelimiter = false;
 
       try {
-        this.logger.debug(`Attempting streaming generation with ${provider.name}`);
+        this.logger.debug(
+          `Attempting streaming generation with ${provider.name}`
+        );
         for await (const chunk of provider.completeStream(
           enrichedPrompt,
           controller.signal
@@ -233,7 +238,9 @@ export class LlmService {
             yieldedAny = true;
             yield { type: 'reason', data: reasonPart };
           }
-          buffer = buffer.slice(delimiterIndex + STREAM_COURSES_DELIMITER.length);
+          buffer = buffer.slice(
+            delimiterIndex + STREAM_COURSES_DELIMITER.length
+          );
           sawDelimiter = true;
         }
 
@@ -244,7 +251,10 @@ export class LlmService {
           buffer = '';
         }
 
-        yield { type: 'courses', data: this.parseCourses(buffer, provider.name) };
+        yield {
+          type: 'courses',
+          data: this.parseCourses(buffer, provider.name)
+        };
         return;
       } catch (error) {
         lastError = error instanceof Error ? error : new Error(String(error));

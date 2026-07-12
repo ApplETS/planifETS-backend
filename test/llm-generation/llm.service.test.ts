@@ -3,8 +3,34 @@ import { Logger } from '@nestjs/common';
 import { CourseRetrieverService } from '../../src/embedding/course-retriever.service';
 import { LlmExhaustedException } from '../../src/llm-generation/exceptions/llm-exhausted.exception';
 import { LlmGenerationResponse } from '../../src/llm-generation/interfaces/llm-generation-response.interface';
-import { LlmProvider } from '../../src/llm-generation/interfaces/llm-provider';
-import { LlmService } from '../../src/llm-generation/llm.service';
+import {
+  LlmProvider,
+  STREAM_COURSES_DELIMITER
+} from '../../src/llm-generation/interfaces/llm-provider';
+import {
+  LlmService,
+  LlmStreamEvent
+} from '../../src/llm-generation/llm.service';
+
+async function collect(
+  gen: AsyncGenerator<LlmStreamEvent>
+): Promise<LlmStreamEvent[]> {
+  const events: LlmStreamEvent[] = [];
+  for await (const event of gen) {
+    events.push(event);
+  }
+  return events;
+}
+
+function reasonText(events: LlmStreamEvent[]): string {
+  return events
+    .filter(
+      (e): e is Extract<LlmStreamEvent, { type: 'reason' }> =>
+        e.type === 'reason'
+    )
+    .map((e) => e.data)
+    .join('');
+}
 
 const mockCourseRetriever = {
   retrieveCourses: jest.fn().mockResolvedValue([])
@@ -350,6 +376,183 @@ describe('LlmService', () => {
       );
       expect(capturedSignal?.aborted).toBe(true);
     }, 2000);
+  });
+
+  describe('recommendStream', () => {
+    it('reassembles reason text and yields the parsed courses after the delimiter', async () => {
+      process.env.GROQ_API_KEY = 'groq-key';
+      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+
+      const service = new LlmService(mockCourseRetriever);
+      const [groqProvider] = (
+        service as unknown as { providers: LlmProvider[] }
+      ).providers;
+
+      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async function* () {
+          yield 'These courses are great for AI.';
+          yield STREAM_COURSES_DELIMITER;
+          yield JSON.stringify([{ code: 'LOG121' }]);
+        }
+      );
+
+      const events = await collect(
+        service.recommendStream('Suggest AI courses')
+      );
+
+      expect(reasonText(events)).toBe('These courses are great for AI.');
+      expect(events.at(-1)).toEqual({
+        type: 'courses',
+        data: [{ code: 'LOG121' }]
+      });
+    });
+
+    it('never leaks a delimiter split across chunk boundaries into the reason text', async () => {
+      process.env.GROQ_API_KEY = 'groq-key';
+      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+
+      const service = new LlmService(mockCourseRetriever);
+      const [groqProvider] = (
+        service as unknown as { providers: LlmProvider[] }
+      ).providers;
+
+      const half = STREAM_COURSES_DELIMITER.slice(0, 5);
+      const rest = STREAM_COURSES_DELIMITER.slice(5);
+
+      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async function* () {
+          yield 'Explanation text';
+          yield half;
+          yield rest;
+          yield '[]';
+        }
+      );
+
+      const events = await collect(
+        service.recommendStream('Suggest AI courses')
+      );
+
+      expect(reasonText(events)).toBe('Explanation text');
+      expect(events.at(-1)).toEqual({ type: 'courses', data: [] });
+    });
+
+    it('falls back to the next provider when the first fails before yielding anything', async () => {
+      process.env.GROQ_API_KEY = 'groq-key';
+      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+      process.env.NVIDIA_API_KEY = 'nvidia-key';
+      process.env.NVIDIA_MODEL = 'nvidia-llama';
+
+      const service = new LlmService(mockCourseRetriever);
+      const [groqProvider, nvidiaProvider] = (
+        service as unknown as { providers: LlmProvider[] }
+      ).providers;
+
+      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async function* () {
+          throw new Error('Groq down');
+        }
+      );
+      jest.spyOn(nvidiaProvider, 'completeStream').mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async function* () {
+          yield 'ok';
+          yield STREAM_COURSES_DELIMITER;
+          yield JSON.stringify([{ code: 'LOG121' }]);
+        }
+      );
+
+      const events = await collect(
+        service.recommendStream('Suggest AI courses')
+      );
+
+      expect(reasonText(events)).toBe('ok');
+      expect(events.at(-1)).toEqual({
+        type: 'courses',
+        data: [{ code: 'LOG121' }]
+      });
+    });
+
+    it('rethrows and does not fall back once the first provider has already streamed reason text', async () => {
+      process.env.GROQ_API_KEY = 'groq-key';
+      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+      process.env.NVIDIA_API_KEY = 'nvidia-key';
+      process.env.NVIDIA_MODEL = 'nvidia-llama';
+
+      const service = new LlmService(mockCourseRetriever);
+      const [groqProvider, nvidiaProvider] = (
+        service as unknown as { providers: LlmProvider[] }
+      ).providers;
+
+      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async function* () {
+          yield 'partial reason';
+          throw new Error('stream broke');
+        }
+      );
+      const nvidiaSpy = jest.spyOn(nvidiaProvider, 'completeStream');
+
+      await expect(
+        collect(service.recommendStream('Suggest AI courses'))
+      ).rejects.toThrow('stream broke');
+      expect(nvidiaSpy).not.toHaveBeenCalled();
+    });
+
+    it('throws LlmExhaustedException when every provider fails before yielding', async () => {
+      process.env.GROQ_API_KEY = 'groq-key';
+      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+
+      const service = new LlmService(mockCourseRetriever);
+      const [groqProvider] = (
+        service as unknown as { providers: LlmProvider[] }
+      ).providers;
+
+      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async function* () {
+          throw new Error('Groq down');
+        }
+      );
+
+      await expect(
+        collect(service.recommendStream('Suggest AI courses'))
+      ).rejects.toThrow(LlmExhaustedException);
+    });
+
+    it('yields an empty course list and logs a warning when the trailing JSON is malformed', async () => {
+      process.env.GROQ_API_KEY = 'groq-key';
+      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+
+      const service = new LlmService(mockCourseRetriever);
+      const [groqProvider] = (
+        service as unknown as { providers: LlmProvider[] }
+      ).providers;
+
+      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async function* () {
+          yield 'reason';
+          yield STREAM_COURSES_DELIMITER;
+          yield 'not json';
+        }
+      );
+
+      const warnSpy = jest
+        .spyOn(Logger.prototype, 'warn')
+        .mockImplementation(() => {});
+
+      const events = await collect(
+        service.recommendStream('Suggest AI courses')
+      );
+
+      expect(events.at(-1)).toEqual({ type: 'courses', data: [] });
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Failed to parse streamed course list')
+      );
+    });
   });
 
   describe('checkStatus', () => {

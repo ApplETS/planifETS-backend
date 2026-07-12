@@ -11,7 +11,10 @@ export function isAxiosError(error: unknown): error is AxiosError {
 }
 
 export function extractHttpExceptionMessage(exception: HttpException): string {
-  const body = exception.getResponse();
+  const body =
+    typeof exception.getResponse === 'function'
+      ? exception.getResponse()
+      : undefined;
 
   if (typeof body === 'string') {
     return body;
