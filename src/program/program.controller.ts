@@ -51,7 +51,7 @@ export class ProgramController {
   }
 
   @Get('list/course/:courseId')
-  @ApiOperation({ summary: 'Get programs list containing the course' })
+  @ApiOperation({ summary: '🟢 Get programs list containing the course' })
   @ApiParam({
     name: 'courseId',
     type: Number,

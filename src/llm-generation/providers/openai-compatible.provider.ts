@@ -17,7 +17,10 @@ export abstract class OpenAiCompatibleProvider extends LlmProvider {
       messages: [{ role: 'user', content: prompt }]
     };
 
-    if (this.useJsonMode) {
+    // JSON mode forces the model to emit a single raw JSON value, which
+    // conflicts with the streaming prompt's "prose, then delimiter, then
+    // JSON" structure, only apply it to the non-streaming path.
+    if (this.useJsonMode && !stream) {
       body['response_format'] = { type: 'json_object' };
     }
 

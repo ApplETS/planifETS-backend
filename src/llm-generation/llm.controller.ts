@@ -3,10 +3,9 @@ import {
   Controller,
   Get,
   HttpCode,
-  MessageEvent,
   Post,
   Query,
-  Sse,
+  Res,
   UseGuards
 } from '@nestjs/common';
 import {
@@ -15,7 +14,7 @@ import {
   ApiProduces,
   ApiTags
 } from '@nestjs/swagger';
-import { Observable } from 'rxjs';
+import type { Response } from 'express';
 
 import { ChatbotEnabledGuard } from '../common/guards/chatbot-enabled.guard';
 import {
@@ -42,7 +41,7 @@ export class LlmController {
   @Post('recommend')
   @HttpCode(200)
   @ApiOperation({
-    summary: 'Generate course recommendations from a natural language prompt'
+    summary: '🟢 Generate course recommendations from a natural language prompt'
   })
   @ApiOkResponse({ type: GenerateResponseDto })
   public async recommend(
@@ -51,34 +50,57 @@ export class LlmController {
     return this.llmService.recommend(body.prompt);
   }
 
-  @Sse('recommend/stream')
+  @Get('recommend/stream')
   @ApiProduces('text/event-stream')
   @ApiOperation({
     summary:
-      'Stream course recommendations from a natural language prompt via Server-Sent Events. ' +
+      '🟢 Stream course recommendations from a natural language prompt via Server-Sent Events. ' +
       'Emits "reason" events with incremental explanation text, followed by a single ' +
-      '"courses" event carrying the final course code list.'
+      '"courses" event carrying the final course code list.',
+    description:
+      'Note: Swagger UI does not natively support Server-Sent Events, so the "Try it out" ' +
+      'button here may not display the streamed response correctly (it may hang or show ' +
+      'nothing). Test this endpoint with a real EventSource client or curl instead.'
   })
-  public recommendStream(@Query() query: GenerateDto): Observable<MessageEvent> {
-    return new Observable<MessageEvent>((subscriber) => {
-      const generator = this.llmService.recommendStream(query.prompt);
+  public async recommendStream(
+    @Query() query: GenerateDto,
+    @Res() response: Response
+  ): Promise<void> {
+    // Nest's built-in @Sse() decorator hardcodes 'Content-Type: text/event-stream'
+    // with no charset, which makes browsers guess (and mangle non-ASCII text).
+    // Streaming manually lets us declare UTF-8 explicitly.
+    response.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+    response.setHeader('Cache-Control', 'no-cache');
+    response.setHeader('Connection', 'keep-alive');
+    response.setHeader('X-Accel-Buffering', 'no');
+    response.flushHeaders();
 
-      (async () => {
-        try {
-          for await (const event of generator) {
-            subscriber.next({ type: event.type, data: event.data });
-          }
-          subscriber.complete();
-        } catch (error) {
-          const message = error instanceof Error ? error.message : String(error);
-          subscriber.next({ type: 'error', data: message });
-          subscriber.complete();
-        }
-      })();
+    const generator = this.llmService.recommendStream(query.prompt);
+    let eventId = 0;
 
-      return () => {
-        void generator.return?.(undefined);
-      };
+    const writeEvent = (type: string, data: unknown) => {
+      eventId += 1;
+      const payload = typeof data === 'string' ? data : JSON.stringify(data);
+      const dataLines = payload
+        .split(/\r\n|\r|\n/)
+        .map((line) => `data: ${line}`)
+        .join('\n');
+      response.write(`event: ${type}\nid: ${eventId}\n${dataLines}\n\n`);
+    };
+
+    response.req.on('close', () => {
+      void generator.return?.(undefined);
     });
+
+    try {
+      for await (const event of generator) {
+        writeEvent(event.type, event.data);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      writeEvent('error', message);
+    } finally {
+      response.end();
+    }
   }
 }

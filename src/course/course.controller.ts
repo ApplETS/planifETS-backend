@@ -111,6 +111,7 @@ export class CourseController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: '🟢 Get course by ID' })
   @ApiOkResponse({ type: CourseDto })
   public getCourse(@Param('id', ParseIntPipe) id: number) {
     return this.courseService.getCourse({ id });
