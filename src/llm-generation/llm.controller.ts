@@ -20,9 +20,23 @@ import { ChatbotEnabledGuard } from '../common/guards/chatbot-enabled.guard';
 import {
   GenerateDto,
   GenerateResponseDto,
+  GenerateStreamDto,
   StatusResponseDto
 } from './dtos/generate.dto';
 import { LlmService } from './llm.service';
+
+function parseProgramIds(raw?: string): number[] | undefined {
+  if (!raw) {
+    return undefined;
+  }
+
+  const ids = raw
+    .split(';')
+    .map((id) => Number(id.trim()))
+    .filter((id) => Number.isFinite(id));
+
+  return ids.length > 0 ? ids : undefined;
+}
 
 @ApiTags('Chatbot')
 @Controller('chatbot')
@@ -47,7 +61,7 @@ export class LlmController {
   public async recommend(
     @Body() body: GenerateDto
   ): Promise<GenerateResponseDto> {
-    return this.llmService.recommend(body.prompt);
+    return this.llmService.recommend(body.prompt, body.programIds);
   }
 
   @Get('recommend/stream')
@@ -63,7 +77,7 @@ export class LlmController {
       'nothing). Test this endpoint with a real EventSource client or curl instead.'
   })
   public async recommendStream(
-    @Query() query: GenerateDto,
+    @Query() query: GenerateStreamDto,
     @Res() response: Response
   ): Promise<void> {
     // Nest's built-in @Sse() decorator hardcodes 'Content-Type: text/event-stream'
@@ -75,7 +89,10 @@ export class LlmController {
     response.setHeader('X-Accel-Buffering', 'no');
     response.flushHeaders();
 
-    const generator = this.llmService.recommendStream(query.prompt);
+    const generator = this.llmService.recommendStream(
+      query.prompt,
+      parseProgramIds(query.programIds)
+    );
     let eventId = 0;
 
     const writeEvent = (type: string, data: unknown) => {

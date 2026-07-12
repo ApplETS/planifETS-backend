@@ -22,6 +22,14 @@ export class LlmService {
   private readonly providers: LlmProvider[];
   private readonly timeoutMs: number;
 
+  private throwExhausted(lastError: Error | undefined): never {
+    this.logger.error(
+      'All LLM providers have been exhausted.',
+      lastError?.message
+    );
+    throw new LlmExhaustedException(lastError);
+  }
+
   private tryProvider(
     model: string | undefined,
     apiKey: string | undefined,
@@ -101,9 +109,18 @@ export class LlmService {
     );
   }
 
-  private async buildEnrichedPrompt(prompt: string): Promise<string> {
-    this.logger.debug(`Retrieving courses for prompt: "${prompt}"`);
-    const courses = await this.courseRetriever.retrieveCourses(prompt);
+  private async buildEnrichedPrompt(
+    prompt: string,
+    programIds?: number[]
+  ): Promise<string> {
+    this.logger.debug(
+      `Retrieving courses for prompt: "${prompt}"` +
+        (programIds?.length ? ` (programIds: ${programIds.join(', ')})` : '')
+    );
+    const courses = await this.courseRetriever.retrieveCourses(
+      prompt,
+      programIds?.length ? { programIds } : undefined
+    );
     this.logger.log(
       `Retrieved ${courses.length} courses:\n` +
         courses
@@ -128,8 +145,11 @@ export class LlmService {
       `;
   }
 
-  public async recommend(prompt: string): Promise<LlmGenerationResponse> {
-    const enrichedPrompt = await this.buildEnrichedPrompt(prompt);
+  public async recommend(
+    prompt: string,
+    programIds?: number[]
+  ): Promise<LlmGenerationResponse> {
+    const enrichedPrompt = await this.buildEnrichedPrompt(prompt, programIds);
 
     let lastError: Error | undefined;
 
@@ -155,15 +175,14 @@ export class LlmService {
       }
     }
 
-    this.logger.error(
-      'All LLM providers have been exhausted.',
-      lastError?.message
-    );
-    throw new LlmExhaustedException(lastError);
+    this.throwExhausted(lastError);
   }
 
-  public async *recommendStream(prompt: string): AsyncGenerator<LlmStreamEvent> {
-    const enrichedPrompt = await this.buildEnrichedPrompt(prompt);
+  public async *recommendStream(
+    prompt: string,
+    programIds?: number[]
+  ): AsyncGenerator<LlmStreamEvent> {
+    const enrichedPrompt = await this.buildEnrichedPrompt(prompt, programIds);
 
     let lastError: Error | undefined;
 
@@ -242,11 +261,7 @@ export class LlmService {
       }
     }
 
-    this.logger.error(
-      'All LLM providers have been exhausted.',
-      lastError?.message
-    );
-    throw new LlmExhaustedException(lastError);
+    this.throwExhausted(lastError);
   }
 
   private parseCourses(text: string, providerName: string): LlmCourse[] {
