@@ -1,14 +1,49 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Matches
+} from 'class-validator';
 
-export class GenerateDto {
+import { CHATBOT_ERROR_PROMPT_BLANK } from '@/common/utils/error/error-constants';
+
+class PromptDto {
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: CHATBOT_ERROR_PROMPT_BLANK })
+  @Matches(/\S/, { message: CHATBOT_ERROR_PROMPT_BLANK })
   @ApiProperty({
     example:
-      'I want to learn about artificial intelligence and machine learning'
+      'Je veux apprendre sur l’intelligence artificielle et l’apprentissage automatique'
   })
   public prompt!: string;
+}
+
+export class GenerateDto extends PromptDto {
+  @IsOptional()
+  @IsArray()
+  @IsNumber({}, { each: true })
+  @ApiPropertyOptional({
+    type: [Number],
+    example: [182848],
+    description:
+      'Restrict recommendations to courses belonging to these program IDs'
+  })
+  public programIds?: number[];
+}
+
+export class GenerateStreamDto extends PromptDto {
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional({
+    example: '182848',
+    description:
+      'Semicolon-separated program IDs to restrict recommendations to (ex: `182848;183920`) ' +
+      'Sent as a string because EventSource requests carry no JSON body.'
+  })
+  public programIds?: string;
 }
 
 class LlmCourseDto {

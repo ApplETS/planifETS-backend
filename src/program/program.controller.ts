@@ -15,8 +15,7 @@ import {
 } from '@nestjs/swagger';
 import { Program } from '@prisma/client';
 
-import { IdDto } from '@/common/exceptions/dtos/id.dto';
-
+import { IdDto } from './dtos/id.dto';
 import { ProgramDto, ProgramListDto } from './dtos/program.dto';
 import { ProgramService } from './program.service';
 
@@ -51,7 +50,7 @@ export class ProgramController {
   }
 
   @Get('list/course/:courseId')
-  @ApiOperation({ summary: 'Get programs list containing the course' })
+  @ApiOperation({ summary: '🟢 Get programs list containing the course' })
   @ApiParam({
     name: 'courseId',
     type: Number,

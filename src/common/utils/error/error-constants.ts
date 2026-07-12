@@ -26,3 +26,10 @@ export class FileExtractionError extends Error {
     this.name = 'FileExtractionError';
   }
 }
+
+/*
+ * Errors related to the chatbot
+ */
+
+export const CHATBOT_ERROR_PROMPT_BLANK =
+  'PROMPT_EMPTY_OR_CONTAINS_ONLY_WHITESPACES';

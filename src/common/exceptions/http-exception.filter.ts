@@ -9,6 +9,8 @@ import { Request, Response } from 'express';
 
 import { PosthogMonitoringService } from '@/monitoring/posthog-monitoring.service';
 
+import { extractHttpExceptionMessage } from '../utils/error/errorUtil';
+
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger(HttpExceptionFilter.name);
@@ -52,7 +54,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       statusCode: status,
       timestamp: new Date().toISOString(),
       path: request.url,
-      message: exception.message || 'Internal Server Error'
+      message: extractHttpExceptionMessage(exception)
     });
   }
 }

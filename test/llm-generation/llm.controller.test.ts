@@ -12,7 +12,8 @@ describe('LlmController', () => {
 
   const llmService = {
     checkStatus: jest.fn(),
-    recommend: jest.fn()
+    recommend: jest.fn(),
+    recommendStream: jest.fn()
   };
 
   async function createApp(chatbotEnabled = true): Promise<void> {
@@ -103,7 +104,10 @@ describe('LlmController', () => {
 
       expect(status).toBe(200);
       expect(body).toEqual(response);
-      expect(llmService.recommend).toHaveBeenCalledWith('I want to learn AI');
+      expect(llmService.recommend).toHaveBeenCalledWith(
+        'I want to learn AI',
+        undefined
+      );
     });
 
     it('returns 400 when the prompt field is missing', async () => {
@@ -160,6 +164,85 @@ describe('LlmController', () => {
 
       expect(status).toBe(404);
       expect(llmService.recommend).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('GET /chatbot/recommend/stream', () => {
+    it('streams reason and courses events as SSE', async () => {
+      await createApp(true);
+
+      // eslint-disable-next-line @typescript-eslint/require-await
+      llmService.recommendStream.mockImplementation(async function* () {
+        yield { type: 'reason', data: 'Hello' };
+        yield { type: 'courses', data: [{ code: 'LOG121' }] };
+      });
+
+      const response = await request(app.getHttpServer())
+        .get('/chatbot/recommend/stream')
+        .query({ prompt: 'I want to learn AI' });
+
+      expect(response.status).toBe(200);
+      expect(response.headers['content-type']).toContain('text/event-stream');
+      expect(response.text).toContain('event: reason');
+      expect(response.text).toContain('data: Hello');
+      expect(response.text).toContain('event: courses');
+      expect(response.text).toContain('data: [{"code":"LOG121"}]');
+    });
+
+    it('parses the semicolon-separated programIds query param before calling the service', async () => {
+      await createApp(true);
+
+      // eslint-disable-next-line @typescript-eslint/require-await
+      llmService.recommendStream.mockImplementation(async function* () {});
+
+      await request(app.getHttpServer())
+        .get('/chatbot/recommend/stream')
+        .query({ prompt: 'AI', programIds: '182848;183920' });
+
+      expect(llmService.recommendStream).toHaveBeenCalledWith(
+        'AI',
+        [182848, 183920]
+      );
+    });
+
+    it('emits an error event when the stream fails mid-flight', async () => {
+      await createApp(true);
+
+      // eslint-disable-next-line @typescript-eslint/require-await
+      llmService.recommendStream.mockImplementation(async function* () {
+        yield { type: 'reason', data: 'partial' };
+        throw new Error('provider exploded');
+      });
+
+      const response = await request(app.getHttpServer())
+        .get('/chatbot/recommend/stream')
+        .query({ prompt: 'I want to learn AI' });
+
+      expect(response.status).toBe(200);
+      expect(response.text).toContain('event: error');
+      expect(response.text).toContain('data: provider exploded');
+    });
+
+    it('returns 400 when the prompt query param is missing', async () => {
+      await createApp(true);
+
+      const { status } = await request(app.getHttpServer()).get(
+        '/chatbot/recommend/stream'
+      );
+
+      expect(status).toBe(400);
+      expect(llmService.recommendStream).not.toHaveBeenCalled();
+    });
+
+    it('returns 404 when CHATBOT_ENABLED=false', async () => {
+      await createApp(false);
+
+      const { status } = await request(app.getHttpServer())
+        .get('/chatbot/recommend/stream')
+        .query({ prompt: 'I want to learn AI' });
+
+      expect(status).toBe(404);
+      expect(llmService.recommendStream).not.toHaveBeenCalled();
     });
   });
 });

@@ -1,3 +1,4 @@
+import { STREAM_COURSES_DELIMITER } from '../../../src/llm-generation/interfaces/llm-provider';
 import { GeminiProvider } from '../../../src/llm-generation/providers/gemini.provider';
 import { GroqProvider } from '../../../src/llm-generation/providers/groq.provider';
 import { NvidiaProvider } from '../../../src/llm-generation/providers/nvidia.provider';
@@ -17,6 +18,27 @@ const okFetch = (content: string) =>
     ok: true,
     json: async () => ({ choices: [{ message: { content } }] })
   } as Response);
+
+const sseFetch = (lines: string[]) => {
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      for (const line of lines) {
+        controller.enqueue(encoder.encode(line));
+      }
+      controller.close();
+    }
+  });
+  return Promise.resolve({ ok: true, body: stream } as unknown as Response);
+};
+
+async function drain(gen: AsyncGenerator<string>): Promise<string[]> {
+  const chunks: string[] = [];
+  for await (const chunk of gen) {
+    chunks.push(chunk);
+  }
+  return chunks;
+}
 
 describe('LLM providers', () => {
   let fetchMock: jest.Mock;
@@ -247,6 +269,106 @@ describe('LLM providers', () => {
       await expect(generatePromise).rejects.toMatchObject({
         name: 'AbortError'
       });
+    });
+  });
+
+  describe('completeStream', () => {
+    it('yields delta content from SSE chunks and stops at [DONE]', async () => {
+      fetchMock.mockReturnValue(
+        sseFetch([
+          `data: ${JSON.stringify({ choices: [{ delta: { content: 'Hello ' } }] })}\n`,
+          `data: ${JSON.stringify({ choices: [{ delta: { content: 'world' } }] })}\n`,
+          `data: [DONE]\n`
+        ])
+      );
+
+      const chunks = await drain(
+        new GroqProvider('llama-3.3', 'key').completeStream(
+          'test',
+          new AbortController().signal
+        )
+      );
+
+      expect(chunks).toEqual(['Hello ', 'world']);
+    });
+
+    it('skips malformed SSE data lines without throwing', async () => {
+      fetchMock.mockReturnValue(
+        sseFetch([
+          `data: not json\n`,
+          `data: ${JSON.stringify({ choices: [{ delta: { content: 'ok' } }] })}\n`,
+          `data: [DONE]\n`
+        ])
+      );
+
+      const chunks = await drain(
+        new GroqProvider('llama-3.3', 'key').completeStream(
+          'test',
+          new AbortController().signal
+        )
+      );
+
+      expect(chunks).toEqual(['ok']);
+    });
+
+    it('throws with status and body when the streaming API returns a non-ok response', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 500,
+        text: async () => 'server error'
+      } as Response);
+
+      await expect(
+        drain(
+          new GroqProvider('llama-3.3', 'key').completeStream(
+            'test',
+            new AbortController().signal
+          )
+        )
+      ).rejects.toThrow(/500.*server error/);
+    });
+
+    it('throws when the response has no body', async () => {
+      fetchMock.mockResolvedValue({ ok: true, body: null } as Response);
+
+      await expect(
+        drain(
+          new GroqProvider('llama-3.3', 'key').completeStream(
+            'test',
+            new AbortController().signal
+          )
+        )
+      ).rejects.toThrow(/no response body for streaming/);
+    });
+
+    it('sets stream:true and omits response_format in the request body, even for JSON-mode providers', async () => {
+      fetchMock.mockReturnValue(sseFetch([`data: [DONE]\n`]));
+
+      await drain(
+        new GroqProvider('llama-3.3', 'key').completeStream(
+          'test',
+          new AbortController().signal
+        )
+      );
+
+      const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+      expect(body.stream).toBe(true);
+      expect(body.response_format).toBeUndefined();
+    });
+
+    it('appends the streaming format instructions and delimiter to the prompt', async () => {
+      fetchMock.mockReturnValue(sseFetch([`data: [DONE]\n`]));
+
+      await drain(
+        new GroqProvider('llama-3.3', 'key').completeStream(
+          'my prompt',
+          new AbortController().signal
+        )
+      );
+
+      const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+      expect(body.messages[0].content).toContain('my prompt');
+      expect(body.messages[0].content).toContain(STREAM_COURSES_DELIMITER);
     });
   });
 

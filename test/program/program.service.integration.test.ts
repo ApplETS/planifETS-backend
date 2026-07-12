@@ -29,7 +29,7 @@ describe('ProgramService (integration)', () => {
 
     // Seed baseline data once with the non-transaction client.
     await programsJobService.processPrograms();
-  });
+  }, 60000);
 
   afterAll(async () => {
     if (seedModule) {

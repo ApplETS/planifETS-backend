@@ -38,6 +38,9 @@ async function bootstrap() {
     : '1.0.0';
   const swaggerConfig = new DocumentBuilder()
     .setTitle('PlanifETS API')
+    .setDescription(
+      'Built with NestJS. Endpoints marked with 🟢 in their summary are actively consumed by the frontend.'
+    )
     .setExternalDoc('JSON API Documentation', 'docs-json')
     .setVersion(version)
     .build();
