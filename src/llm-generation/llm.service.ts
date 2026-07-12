@@ -220,13 +220,7 @@ export class LlmService {
         );
         return;
       } catch (error) {
-        const streamError =
-          error instanceof ProviderStreamError
-            ? error
-            : new ProviderStreamError(
-                error instanceof Error ? error : new Error(String(error)),
-                false
-              );
+        const streamError = this.toProviderStreamError(error);
         lastError = streamError.cause;
         this.logger.warn(
           `Provider ${provider.name} failed: ${lastError.message}`
@@ -281,11 +275,19 @@ export class LlmService {
         data: this.parseCourses(buffer, provider.name)
       };
     } catch (error) {
-      throw new ProviderStreamError(
-        error instanceof Error ? error : new Error(String(error)),
-        yieldedAny
-      );
+      throw this.toProviderStreamError(error, yieldedAny);
     }
+  }
+
+  private toProviderStreamError(
+    error: unknown,
+    yieldedAny = false
+  ): ProviderStreamError {
+    if (error instanceof ProviderStreamError) {
+      return error;
+    }
+    const cause = error instanceof Error ? error : new Error(String(error));
+    return new ProviderStreamError(cause, yieldedAny);
   }
 
   /**

@@ -129,9 +129,12 @@ export abstract class LlmProvider {
 
     try {
       const delta = this.extractDelta(JSON.parse(data));
-      return delta ? {
-        done: false, delta
-      } : null;
+      return delta
+        ? {
+            done: false,
+            delta
+          }
+        : null;
     } catch {
       // Malformed or partial SSE chunk; skip it.
       return null;
