@@ -3,11 +3,18 @@ import { Injectable, Logger } from '@nestjs/common';
 import { CourseRetrieverService } from '../embedding/course-retriever.service';
 import { ProviderStatusDto } from './dtos/generate.dto';
 import { LlmExhaustedException } from './exceptions/llm-exhausted.exception';
-import { LlmGenerationResponse } from './interfaces/llm-generation-response.interface';
-import { LlmProvider } from './interfaces/llm-provider';
+import {
+  LlmCourse,
+  LlmGenerationResponse
+} from './interfaces/llm-generation-response.interface';
+import { LlmProvider, STREAM_COURSES_DELIMITER } from './interfaces/llm-provider';
 import { GeminiProvider } from './providers/gemini.provider';
 import { GroqProvider } from './providers/groq.provider';
 import { NvidiaProvider } from './providers/nvidia.provider';
+
+export type LlmStreamEvent =
+  | { type: 'reason'; data: string }
+  | { type: 'courses'; data: LlmCourse[] };
 
 @Injectable()
 export class LlmService {
@@ -94,7 +101,7 @@ export class LlmService {
     );
   }
 
-  public async recommend(prompt: string): Promise<LlmGenerationResponse> {
+  private async buildEnrichedPrompt(prompt: string): Promise<string> {
     this.logger.debug(`Retrieving courses for prompt: "${prompt}"`);
     const courses = await this.courseRetriever.retrieveCourses(prompt);
     this.logger.log(
@@ -108,7 +115,7 @@ export class LlmService {
       .map((c) => `- [${c.code}] ${c.title}: ${c.description}`)
       .join('\n');
 
-    const enrichedPrompt = `You are a course recommendation assistant at ÉTS university.
+    return `You are a course recommendation assistant at ÉTS university.
       Match the language of the user's request.
       If the user's question mentions a specific course code, first check whether that course appears in the available courses list. If it does not, say so briefly in the same language as the user's request and return an empty courses array.
       Otherwise, recommend the most relevant courses for the user's request.
@@ -119,6 +126,10 @@ export class LlmService {
       USER REQUEST:
       ${prompt}
       `;
+  }
+
+  public async recommend(prompt: string): Promise<LlmGenerationResponse> {
+    const enrichedPrompt = await this.buildEnrichedPrompt(prompt);
 
     let lastError: Error | undefined;
 
@@ -149,5 +160,114 @@ export class LlmService {
       lastError?.message
     );
     throw new LlmExhaustedException(lastError);
+  }
+
+  public async *recommendStream(prompt: string): AsyncGenerator<LlmStreamEvent> {
+    const enrichedPrompt = await this.buildEnrichedPrompt(prompt);
+
+    let lastError: Error | undefined;
+
+    for (const provider of this.providers) {
+      const controller = new AbortController();
+      const timeout = setTimeout(
+        () => controller.abort(),
+        provider.timeoutMs ?? this.timeoutMs
+      );
+      let yieldedAny = false;
+      // Buffer holds text not yet emitted; once past the delimiter it
+      // accumulates the raw (unstreamed) course-list JSON instead.
+      let buffer = '';
+      let sawDelimiter = false;
+
+      try {
+        this.logger.debug(`Attempting streaming generation with ${provider.name}`);
+        for await (const chunk of provider.completeStream(
+          enrichedPrompt,
+          controller.signal
+        )) {
+          if (sawDelimiter) {
+            buffer += chunk;
+            continue;
+          }
+
+          buffer += chunk;
+          const delimiterIndex = buffer.indexOf(STREAM_COURSES_DELIMITER);
+
+          if (delimiterIndex === -1) {
+            // Hold back enough trailing text that a delimiter split across
+            // chunk boundaries is never emitted as part of the reason.
+            const safeLength = Math.max(
+              0,
+              buffer.length - STREAM_COURSES_DELIMITER.length
+            );
+            if (safeLength > 0) {
+              const toEmit = buffer.slice(0, safeLength);
+              buffer = buffer.slice(safeLength);
+              yieldedAny = true;
+              yield { type: 'reason', data: toEmit };
+            }
+            continue;
+          }
+
+          const reasonPart = buffer.slice(0, delimiterIndex);
+          if (reasonPart) {
+            yieldedAny = true;
+            yield { type: 'reason', data: reasonPart };
+          }
+          buffer = buffer.slice(delimiterIndex + STREAM_COURSES_DELIMITER.length);
+          sawDelimiter = true;
+        }
+
+        if (!sawDelimiter && buffer) {
+          // Model never emitted the delimiter; treat the rest as reason text.
+          yieldedAny = true;
+          yield { type: 'reason', data: buffer };
+          buffer = '';
+        }
+
+        yield { type: 'courses', data: this.parseCourses(buffer, provider.name) };
+        return;
+      } catch (error) {
+        lastError = error instanceof Error ? error : new Error(String(error));
+        this.logger.warn(
+          `Provider ${provider.name} failed: ${lastError.message}`
+        );
+        // Once a provider has started streaming to the client, we can no
+        // longer silently fall back to another provider mid-response.
+        if (yieldedAny) {
+          throw lastError;
+        }
+      } finally {
+        clearTimeout(timeout);
+      }
+    }
+
+    this.logger.error(
+      'All LLM providers have been exhausted.',
+      lastError?.message
+    );
+    throw new LlmExhaustedException(lastError);
+  }
+
+  private parseCourses(text: string, providerName: string): LlmCourse[] {
+    const cleaned = text
+      .replace(/^```json\n?/i, '')
+      .replace(/\n?```$/i, '')
+      .trim();
+
+    if (!cleaned) {
+      return [];
+    }
+
+    try {
+      const parsed: unknown = JSON.parse(cleaned);
+      return Array.isArray(parsed) ? (parsed as LlmCourse[]) : [];
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : String(error);
+      this.logger.warn(
+        `Failed to parse streamed course list from ${providerName}: ${msg}\nText: ${cleaned}`
+      );
+      return [];
+    }
   }
 }

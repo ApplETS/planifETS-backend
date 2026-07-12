@@ -10,7 +10,7 @@ export abstract class OpenAiCompatibleProvider extends LlmProvider {
 
   protected readonly useJsonMode: boolean = false;
 
-  protected getBody(prompt: string): object {
+  protected getBody(prompt: string, stream = false): object {
     const body: Record<string, unknown> = {
       model: this.modelName,
       max_tokens: this.maxTokens,
@@ -21,11 +21,20 @@ export abstract class OpenAiCompatibleProvider extends LlmProvider {
       body['response_format'] = { type: 'json_object' };
     }
 
+    if (stream) {
+      body['stream'] = true;
+    }
+
     return body;
   }
 
   protected extractText(data: unknown): string {
     const d = data as { choices?: { message?: { content?: string } }[] };
     return d.choices?.[0]?.message?.content ?? '';
+  }
+
+  protected extractDelta(data: unknown): string {
+    const d = data as { choices?: { delta?: { content?: string } }[] };
+    return d.choices?.[0]?.delta?.content ?? '';
   }
 }
