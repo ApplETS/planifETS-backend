@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { buildQueryEmbeddingText } from '../common/api-helper/embedding/embedding-text';
 import { EmbeddingWorkerClient } from './embedding-worker.client';
 import { QdrantCourseIndexService } from './qdrant-course-index.service';
+import { isTransientError } from './qdrant-error.util';
 
 interface UserSessionContext {
   programIds?: number[];
@@ -34,31 +35,41 @@ export class CourseRetrieverService {
     query: string,
     context?: UserSessionContext
   ): Promise<CourseResult[]> {
-    const vectors = await this.worker.embed([buildQueryEmbeddingText(query)]);
-    const vector = vectors[0];
-    const filter = context ? buildPayloadFilter(context) : undefined;
+    try {
+      const vectors = await this.worker.embed([buildQueryEmbeddingText(query)]);
+      const vector = vectors[0];
+      const filter = context ? buildPayloadFilter(context) : undefined;
 
-    const hits = await this.qdrant.search(vector, {
-      limit: LIMIT * OVERSAMPLE_FACTOR,
-      scoreThreshold: SCORE_THRESHOLD,
-      filter
-    });
+      const hits = await this.qdrant.search(vector, {
+        limit: LIMIT * OVERSAMPLE_FACTOR,
+        scoreThreshold: SCORE_THRESHOLD,
+        filter
+      });
 
-    const best = new Map<string, CourseResult>();
-    for (const { payload, score } of hits) {
-      const existing = best.get(payload.code);
-      if (!existing || score > existing.score) {
-        best.set(payload.code, {
-          code: payload.code,
-          title: payload.title,
-          description: payload.description,
-          score,
-          prerequisite_codes: payload.prerequisite_codes
-        });
+      const best = new Map<string, CourseResult>();
+      for (const { payload, score } of hits) {
+        const existing = best.get(payload.code);
+        if (!existing || score > existing.score) {
+          best.set(payload.code, {
+            code: payload.code,
+            title: payload.title,
+            description: payload.description,
+            score,
+            prerequisite_codes: payload.prerequisite_codes
+          });
+        }
       }
-    }
 
-    return [...best.values()].sort((a, b) => b.score - a.score).slice(0, LIMIT);
+      return [...best.values()]
+        .sort((a, b) => b.score - a.score)
+        .slice(0, LIMIT);
+    } catch (error) {
+      if (isTransientError(error)) {
+        return [];
+      }
+
+      throw error;
+    }
   }
 }
 
