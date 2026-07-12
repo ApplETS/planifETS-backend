@@ -79,7 +79,21 @@ export abstract class LlmProvider {
       throw new Error(`${this.name} returned no response body for streaming`);
     }
 
-    const reader = response.body.getReader();
+    for await (const line of this.readSSELines(response.body.getReader())) {
+      const result = this.parseSSELine(line);
+      if (!result) {
+        continue;
+      }
+      if (result.done) {
+        return;
+      }
+      yield result.delta;
+    }
+  }
+
+  private async *readSSELines(
+    reader: ReadableStreamDefaultReader<Uint8Array>
+  ): AsyncGenerator<string> {
     const decoder = new TextDecoder();
     let buffer = '';
 
@@ -93,30 +107,34 @@ export abstract class LlmProvider {
         buffer += decoder.decode(value, { stream: true });
         const lines = buffer.split('\n');
         buffer = lines.pop() ?? '';
-
-        for (const line of lines) {
-          const trimmed = line.trim();
-          if (!trimmed.startsWith('data:')) {
-            continue;
-          }
-
-          const data = trimmed.slice('data:'.length).trim();
-          if (data === '[DONE]') {
-            return;
-          }
-
-          try {
-            const delta = this.extractDelta(JSON.parse(data));
-            if (delta) {
-              yield delta;
-            }
-          } catch {
-            // Malformed or partial SSE chunk; skip it.
-          }
-        }
+        yield* lines;
       }
     } finally {
       reader.releaseLock();
+    }
+  }
+
+  private parseSSELine(
+    line: string
+  ): { done: true; delta?: never } | { done: false; delta: string } | null {
+    const trimmed = line.trim();
+    if (!trimmed.startsWith('data:')) {
+      return null;
+    }
+
+    const data = trimmed.slice('data:'.length).trim();
+    if (data === '[DONE]') {
+      return { done: true };
+    }
+
+    try {
+      const delta = this.extractDelta(JSON.parse(data));
+      return delta ? {
+        done: false, delta
+      } : null;
+    } catch {
+      // Malformed or partial SSE chunk; skip it.
+      return null;
     }
   }
 

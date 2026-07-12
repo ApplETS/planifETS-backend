@@ -19,6 +19,19 @@ export type LlmStreamEvent =
   | { type: 'reason'; data: string }
   | { type: 'courses'; data: LlmCourse[] };
 
+/**
+ * Thrown when a provider fails mid-stream. `yieldedAny` tells the caller
+ * whether it's still safe to silently fall back to the next provider.
+ */
+class ProviderStreamError extends Error {
+  constructor(
+    public readonly cause: Error,
+    public readonly yieldedAny: boolean
+  ) {
+    super(cause.message);
+  }
+}
+
 @Injectable()
 export class LlmService {
   private readonly logger = new Logger(LlmService.name);
@@ -195,75 +208,32 @@ export class LlmService {
         () => controller.abort(),
         provider.timeoutMs ?? this.timeoutMs
       );
-      let yieldedAny = false;
-      // Buffer holds text not yet emitted; once past the delimiter it
-      // accumulates the raw (unstreamed) course-list JSON instead.
-      let buffer = '';
-      let sawDelimiter = false;
 
       try {
         this.logger.debug(
           `Attempting streaming generation with ${provider.name}`
         );
-        for await (const chunk of provider.completeStream(
+        yield* this.streamFromProvider(
+          provider,
           enrichedPrompt,
           controller.signal
-        )) {
-          if (sawDelimiter) {
-            buffer += chunk;
-            continue;
-          }
-
-          buffer += chunk;
-          const delimiterIndex = buffer.indexOf(STREAM_COURSES_DELIMITER);
-
-          if (delimiterIndex === -1) {
-            // Hold back enough trailing text that a delimiter split across
-            // chunk boundaries is never emitted as part of the reason.
-            const safeLength = Math.max(
-              0,
-              buffer.length - STREAM_COURSES_DELIMITER.length
-            );
-            if (safeLength > 0) {
-              const toEmit = buffer.slice(0, safeLength);
-              buffer = buffer.slice(safeLength);
-              yieldedAny = true;
-              yield { type: 'reason', data: toEmit };
-            }
-            continue;
-          }
-
-          const reasonPart = buffer.slice(0, delimiterIndex);
-          if (reasonPart) {
-            yieldedAny = true;
-            yield { type: 'reason', data: reasonPart };
-          }
-          buffer = buffer.slice(
-            delimiterIndex + STREAM_COURSES_DELIMITER.length
-          );
-          sawDelimiter = true;
-        }
-
-        if (!sawDelimiter && buffer) {
-          // Model never emitted the delimiter; treat the rest as reason text.
-          yieldedAny = true;
-          yield { type: 'reason', data: buffer };
-          buffer = '';
-        }
-
-        yield {
-          type: 'courses',
-          data: this.parseCourses(buffer, provider.name)
-        };
+        );
         return;
       } catch (error) {
-        lastError = error instanceof Error ? error : new Error(String(error));
+        const streamError =
+          error instanceof ProviderStreamError
+            ? error
+            : new ProviderStreamError(
+                error instanceof Error ? error : new Error(String(error)),
+                false
+              );
+        lastError = streamError.cause;
         this.logger.warn(
           `Provider ${provider.name} failed: ${lastError.message}`
         );
         // Once a provider has started streaming to the client, we can no
         // longer silently fall back to another provider mid-response.
-        if (yieldedAny) {
+        if (streamError.yieldedAny) {
           throw lastError;
         }
       } finally {
@@ -272,6 +242,90 @@ export class LlmService {
     }
 
     this.throwExhausted(lastError);
+  }
+
+  private async *streamFromProvider(
+    provider: LlmProvider,
+    enrichedPrompt: string,
+    signal: AbortSignal
+  ): AsyncGenerator<LlmStreamEvent> {
+    let yieldedAny = false;
+    // Buffer holds text not yet emitted; once past the delimiter it
+    // accumulates the raw (unstreamed) course-list JSON instead.
+    let buffer = '';
+    let sawDelimiter = false;
+
+    try {
+      for await (const chunk of provider.completeStream(
+        enrichedPrompt,
+        signal
+      )) {
+        const result = this.consumeStreamChunk(chunk, buffer, sawDelimiter);
+        buffer = result.buffer;
+        sawDelimiter = result.sawDelimiter;
+        if (result.reason !== undefined) {
+          yieldedAny = true;
+          yield { type: 'reason', data: result.reason };
+        }
+      }
+
+      if (!sawDelimiter && buffer) {
+        // Model never emitted the delimiter; treat the rest as reason text.
+        yieldedAny = true;
+        yield { type: 'reason', data: buffer };
+        buffer = '';
+      }
+
+      yield {
+        type: 'courses',
+        data: this.parseCourses(buffer, provider.name)
+      };
+    } catch (error) {
+      throw new ProviderStreamError(
+        error instanceof Error ? error : new Error(String(error)),
+        yieldedAny
+      );
+    }
+  }
+
+  /**
+   * Folds one streamed chunk into the reason/course-list buffer, holding
+   * back enough trailing text that a delimiter split across chunk
+   * boundaries is never emitted as part of the reason.
+   */
+  private consumeStreamChunk(
+    chunk: string,
+    buffer: string,
+    sawDelimiter: boolean
+  ): { buffer: string; sawDelimiter: boolean; reason?: string } {
+    if (sawDelimiter) {
+      return { buffer: buffer + chunk, sawDelimiter: true };
+    }
+
+    const combined = buffer + chunk;
+    const delimiterIndex = combined.indexOf(STREAM_COURSES_DELIMITER);
+
+    if (delimiterIndex === -1) {
+      const safeLength = Math.max(
+        0,
+        combined.length - STREAM_COURSES_DELIMITER.length
+      );
+      if (safeLength === 0) {
+        return { buffer: combined, sawDelimiter: false };
+      }
+      return {
+        buffer: combined.slice(safeLength),
+        sawDelimiter: false,
+        reason: combined.slice(0, safeLength)
+      };
+    }
+
+    const reasonPart = combined.slice(0, delimiterIndex);
+    return {
+      buffer: combined.slice(delimiterIndex + STREAM_COURSES_DELIMITER.length),
+      sawDelimiter: true,
+      reason: reasonPart || undefined
+    };
   }
 
   private parseCourses(text: string, providerName: string): LlmCourse[] {
