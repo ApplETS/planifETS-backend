@@ -24,8 +24,8 @@ export abstract class LlmProvider {
   protected readonly maxTokens = 512;
 
   constructor(
-    providerName: string,
-    protected readonly modelName: string,
+    public readonly providerName: string,
+    public readonly modelName: string,
     protected readonly apiKey: string
   ) {
     this.name = `${providerName} (${modelName})`;
@@ -131,9 +131,9 @@ export abstract class LlmProvider {
       const delta = this.extractDelta(JSON.parse(data));
       return delta
         ? {
-            done: false,
-            delta
-          }
+          done: false,
+          delta
+        }
         : null;
     } catch {
       // Malformed or partial SSE chunk; skip it.
