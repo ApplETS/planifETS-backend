@@ -185,6 +185,26 @@ describe('CourseService', () => {
     expect(prismaMock.course.findMany).toHaveBeenCalledWith();
   });
 
+  it('returns truncated descriptions first, keeping the complete ones after', async () => {
+    jest.spyOn(serviceLogger, 'verbose').mockImplementation(() => {});
+    const complete = {
+      id: 1,
+      code: 'LOG121',
+      description: 'A full scraped description that runs well past the cap.'
+    };
+    const truncated = {
+      id: 2,
+      code: 'ELE664',
+      description: 'Communication numerique. Ce cours vise a...'
+    };
+    prismaMock.course.findMany.mockResolvedValue([complete, truncated]);
+
+    const result = await service.getCoursesForDescriptionSync();
+
+    expect(result.map((c) => c.code)).toStrictEqual(['ELE664', 'LOG121']);
+    expect(result).toHaveLength(2);
+  });
+
   it('gets only the fields needed for course description sync', async () => {
     const courses = [
       {
@@ -204,12 +224,18 @@ describe('CourseService', () => {
     expect(loggerVerboseSpy).toHaveBeenCalledWith(
       'getCoursesForDescriptionSync'
     );
+
     expect(prismaMock.course.findMany).toHaveBeenCalledWith({
       where: {
         cycle: 1,
         code: {
           not: {
             contains: '-'
+          }
+        },
+        programs: {
+          some: {
+            OR: [{ type: null }, { type: { not: 'STAGE' } }]
           }
         }
       },
@@ -525,15 +551,56 @@ describe('CourseService', () => {
         })
       ]
     );
+    const { description: firstDescription, ...firstUpdatable } = first;
+    const { description: secondDescription, ...secondUpdatable } = second;
+
     expect(prismaMock.course.upsert).toHaveBeenNthCalledWith(1, {
       where: { code: 'LOG121' },
-      update: first,
+      update: firstUpdatable,
       create: first
     });
     expect(prismaMock.course.upsert).toHaveBeenNthCalledWith(2, {
       where: { code: 'LOG122' },
-      update: second,
+      update: secondUpdatable,
       create: second
+    });
+    expect(firstDescription).toBeDefined();
+    expect(secondDescription).toBeDefined();
+  });
+
+  it('never overwrites an existing scraped description with the truncated API one', async () => {
+    const scraped = 'Full scraped description, well over the API cap.';
+    const apiCourse = buildCourse({
+      description: 'Truncated by the ETS API...'
+    }) as unknown as Prisma.CourseCreateInput;
+
+    prismaMock.course.upsert.mockResolvedValue(
+      buildCourse({ description: scraped })
+    );
+
+    await service.upsertCourses([apiCourse]);
+
+    const call = prismaMock.course.upsert.mock.calls[0][0];
+    expect(call.update).not.toHaveProperty('description');
+    expect(call.create).toHaveProperty('description');
+    expect(prismaMock.course.update).not.toHaveBeenCalled();
+  });
+
+  it('backfills the API description when the stored one is empty', async () => {
+    const apiCourse = buildCourse({
+      description: 'Truncated by the ETS API...'
+    }) as unknown as Prisma.CourseCreateInput;
+
+    prismaMock.course.upsert.mockResolvedValue(buildCourse({ description: '' }));
+    prismaMock.course.update.mockResolvedValue(
+      buildCourse({ description: 'Truncated by the ETS API...' })
+    );
+
+    await service.upsertCourses([apiCourse]);
+
+    expect(prismaMock.course.update).toHaveBeenCalledWith({
+      where: { code: 'LOG121' },
+      data: { description: 'Truncated by the ETS API...' }
     });
   });
 });

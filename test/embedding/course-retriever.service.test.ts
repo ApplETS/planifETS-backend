@@ -1,4 +1,4 @@
-import { buildQueryEmbeddingText } from '@/common/api-helper/embedding/embedding-text';
+import { sanitizeEmbeddingText } from '@/common/api-helper/embedding/embedding-text';
 
 import { CourseRetrieverService } from '../../src/embedding/course-retriever.service';
 import { EmbeddingWorkerClient } from '../../src/embedding/embedding-worker.client';
@@ -53,12 +53,18 @@ describe('CourseRetrieverService', () => {
   });
 
   describe('retrieveCourses', () => {
-    it('prepends the BGE-M3 query instruction before embedding', async () => {
+    it('embeds the sanitized query verbatim', async () => {
       await service.retrieveCourses('bases de données');
 
       expect(workerMock.embed).toHaveBeenCalledWith([
-        buildQueryEmbeddingText('bases de données')
+        sanitizeEmbeddingText('bases de données')
       ]);
+    });
+
+    it('does not append de-accented keyword copies to the query', async () => {
+      await service.retrieveCourses('jaime devops');
+
+      expect(workerMock.embed).toHaveBeenCalledWith(['jaime devops']);
     });
 
     it('calls qdrant.search with the embedded vector', async () => {
@@ -66,8 +72,17 @@ describe('CourseRetrieverService', () => {
 
       expect(qdrantMock.search).toHaveBeenCalledWith(
         MOCK_VECTOR,
-        expect.objectContaining({ limit: 50, scoreThreshold: 0.4 })
+        expect.objectContaining({ limit: 50, scoreThreshold: 0 })
       );
+    });
+
+    // "jaime devops" regression: LOG680 ranks 1st at 0.385, which 0.4 dropped.
+    it('does not filter out low-scoring hits by default', async () => {
+      qdrantMock.search.mockResolvedValue([makeQdrantHit('LOG680', 0.385)]);
+
+      const result = await service.retrieveCourses('jaime devops');
+
+      expect(result.map((r) => r.code)).toEqual(['LOG680']);
     });
 
     it('passes no filter when context is absent', async () => {
@@ -79,7 +94,7 @@ describe('CourseRetrieverService', () => {
       );
     });
 
-    it('passes no filter when context has no programIds and no cycle', async () => {
+    it('passes no filter when context has no programIds', async () => {
       await service.retrieveCourses('IA', {});
 
       expect(qdrantMock.search).toHaveBeenCalledWith(
@@ -95,33 +110,6 @@ describe('CourseRetrieverService', () => {
         MOCK_VECTOR,
         expect.objectContaining({
           filter: { must: [{ key: 'program_id', match: { any: [182848] } }] }
-        })
-      );
-    });
-
-    it('filters by cycle when context.cycle is provided', async () => {
-      await service.retrieveCourses('IA', { cycle: 1 });
-
-      expect(qdrantMock.search).toHaveBeenCalledWith(
-        MOCK_VECTOR,
-        expect.objectContaining({
-          filter: { must: [{ key: 'cycle', match: { value: 1 } }] }
-        })
-      );
-    });
-
-    it('filters by both program_id and cycle when full context is provided', async () => {
-      await service.retrieveCourses('IA', { programIds: [182848], cycle: 1 });
-
-      expect(qdrantMock.search).toHaveBeenCalledWith(
-        MOCK_VECTOR,
-        expect.objectContaining({
-          filter: {
-            must: [
-              { key: 'program_id', match: { any: [182848] } },
-              { key: 'cycle', match: { value: 1 } }
-            ]
-          }
         })
       );
     });

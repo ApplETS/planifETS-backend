@@ -1,5 +1,6 @@
 import { EmbeddingViewDto } from '../../src/embedding/dtos/embedding-view.dto';
 import { EmbeddingService } from '../../src/embedding/embedding.service';
+import { buildCourseEmbeddingText } from '../../src/embedding/embedding-course.mapper';
 import { PrismaService } from '../../src/prisma/prisma.service';
 
 describe('EmbeddingService', () => {
@@ -29,6 +30,33 @@ describe('EmbeddingService', () => {
     it('returns empty array when view is empty', async () => {
       prismaMock.$queryRaw.mockResolvedValue([]);
       await expect(service.findAll()).resolves.toStrictEqual([]);
+    });
+  });
+
+  describe('findAllTexts', () => {
+    const row = {
+      embedding_id: '352539_182848',
+      course_id: 352539,
+      code: 'LOG680',
+      title: "Introduction à l'approche DevOps",
+      description: 'L’approche DevOps vise à intégrer le développement.',
+      type: 'TRONC',
+      prerequisite_codes: ['STA204'],
+      unstructured_prerequisite: null
+    } as unknown as EmbeddingViewDto;
+
+    it('returns exactly the text the indexer embeds', async () => {
+      prismaMock.$queryRaw.mockResolvedValue([row]);
+
+      const [result] = await service.findAllTexts();
+
+      expect(result.embedding_id).toBe('352539_182848');
+      expect(result.text).toBe(buildCourseEmbeddingText(row));
+    });
+
+    it('returns empty array when view is empty', async () => {
+      prismaMock.$queryRaw.mockResolvedValue([]);
+      await expect(service.findAllTexts()).resolves.toStrictEqual([]);
     });
   });
 
