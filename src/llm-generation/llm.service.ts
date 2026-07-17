@@ -138,7 +138,7 @@ export class LlmService {
   ): Promise<string> {
     this.logger.debug(
       `Retrieving courses for prompt: "${prompt}"` +
-      (programIds?.length ? ` (programIds: ${programIds.join(', ')})` : '')
+        (programIds?.length ? ` (programIds: ${programIds.join(', ')})` : '')
     );
     const courses = await this.courseRetriever.retrieveCourses(
       prompt,
@@ -146,9 +146,9 @@ export class LlmService {
     );
     this.logger.log(
       `Retrieved ${courses.length} courses:\n` +
-      courses
-        .map((c) => `  [${c.score.toFixed(3)}] ${c.code} – ${c.title}`)
-        .join('\n')
+        courses
+          .map((c) => `  [${c.score.toFixed(3)}] ${c.code} – ${c.title}`)
+          .join('\n')
     );
     this.posthogMonitoring.captureAiSpan({
       traceId,
