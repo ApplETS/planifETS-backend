@@ -86,7 +86,8 @@ export class CourseService {
     // Truncated first: the website may rate-limit us mid-run.
     // The complete ones still follow, to catch new course descriptions updates.
     return courses.sort(
-      (a, b) => Number(isTruncated(b.description)) - Number(isTruncated(a.description))
+      (a, b) =>
+        Number(isTruncated(b.description)) - Number(isTruncated(a.description))
     );
   }
 

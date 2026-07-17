@@ -591,7 +591,9 @@ describe('CourseService', () => {
       description: 'Truncated by the ETS API...'
     }) as unknown as Prisma.CourseCreateInput;
 
-    prismaMock.course.upsert.mockResolvedValue(buildCourse({ description: '' }));
+    prismaMock.course.upsert.mockResolvedValue(
+      buildCourse({ description: '' })
+    );
     prismaMock.course.update.mockResolvedValue(
       buildCourse({ description: 'Truncated by the ETS API...' })
     );

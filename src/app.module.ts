@@ -39,7 +39,7 @@ import { SessionModule } from './session/session.module';
     rootConfigModule,
     HttpModule,
     PrismaModule,
-    MonitoringModule,
+    MonitoringModule
   ],
   controllers: [AppController],
   exports: [HttpModule]

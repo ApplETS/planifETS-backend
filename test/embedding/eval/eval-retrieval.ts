@@ -103,11 +103,11 @@ async function suite(): Promise<void> {
   console.log(`api: ${API}   cases: ${cases.length}   k: ${K}\n`);
   console.log(
     `Recall@${K}: % of the courses you marked "relevant" that came back in the\n` +
-    `             top ${K} results. 100% = nothing relevant was missed.`
+      `             top ${K} results. 100% = nothing relevant was missed.`
   );
   console.log(
     'MRR:       how early the first relevant course showed up, averaged.\n' +
-    '           1.0 = always rank 1, 0.5 = usually rank 2, 0 = never found.\n'
+      '           1.0 = always rank 1, 0.5 = usually rank 2, 0 = never found.\n'
   );
 
   const runs: CaseResult[] = [];
@@ -166,9 +166,9 @@ async function suite(): Promise<void> {
 const [query, ...programArgs] = process.argv.slice(2);
 const run = query
   ? adHoc(
-    query,
-    programArgs.map(Number).filter((n) => Number.isInteger(n))
-  )
+      query,
+      programArgs.map(Number).filter((n) => Number.isInteger(n))
+    )
   : suite();
 
 run.catch((error: unknown) => {

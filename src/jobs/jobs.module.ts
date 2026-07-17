@@ -33,7 +33,7 @@ import { JobsService } from './jobs.service';
 
     // Config
     rootConfigModule,
-    MonitoringModule,
+    MonitoringModule
   ],
   providers: [JobsService, ...jobWorkerProviders],
   controllers: process.env.APP_ENV === 'development' ? [JobsController] : [], // Only expose in dev mode for running jobs manually
