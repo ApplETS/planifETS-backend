@@ -14,6 +14,7 @@ import {
 
 import { ChatbotEnabledGuard } from '../common/guards/chatbot-enabled.guard';
 import { EmbeddingCountDto } from './dtos/embedding-count.dto';
+import { EmbeddingTextDto } from './dtos/embedding-text.dto';
 import { EmbeddingViewDto } from './dtos/embedding-view.dto';
 import { EmbeddingService } from './embedding.service';
 
@@ -40,6 +41,17 @@ export class EmbeddingController {
   @ApiOkResponse({ type: EmbeddingCountDto })
   public countCourses(): Promise<EmbeddingCountDto> {
     return this.embeddingService.countCourses();
+  }
+
+  // Must stay declared before `:courseId`, which would otherwise swallow /text.
+  @Get('text')
+  @ApiOperation({
+    summary:
+      'Return the exact text embedded for each row — what BGE-M3 actually sees'
+  })
+  @ApiOkResponse({ type: [EmbeddingTextDto] })
+  public findAllTexts(): Promise<EmbeddingTextDto[]> {
+    return this.embeddingService.findAllTexts();
   }
 
   @Get(':courseId')

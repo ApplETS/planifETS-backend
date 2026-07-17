@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 
-import { buildQueryEmbeddingText } from '../common/api-helper/embedding/embedding-text';
+import { sanitizeEmbeddingText } from '../common/api-helper/embedding/embedding-text';
 import { EmbeddingWorkerClient } from './embedding-worker.client';
 import { QdrantCourseIndexService } from './qdrant-course-index.service';
 import { isTransientError } from './qdrant-error.util';
 
 interface UserSessionContext {
   programIds?: number[];
-  cycle?: number;
 }
 
 interface CourseResult {
@@ -22,7 +21,11 @@ interface CourseResult {
 // ensures we return up to LIMIT unique course codes even when duplicates consume slots.
 const LIMIT = 10;
 const OVERSAMPLE_FACTOR = 5;
-const SCORE_THRESHOLD = 0.4;
+// No reliable cutoff: relevant and off-topic scores overlap, and 0.4 dropped
+// correct rank-1 hits. We keep the top 10 and let the LLM judge relevance.
+const SCORE_THRESHOLD = Number.parseFloat(
+  process.env.RETRIEVAL_SCORE_THRESHOLD ?? '0'
+);
 
 @Injectable()
 export class CourseRetrieverService {
@@ -36,7 +39,7 @@ export class CourseRetrieverService {
     context?: UserSessionContext
   ): Promise<CourseResult[]> {
     try {
-      const vectors = await this.worker.embed([buildQueryEmbeddingText(query)]);
+      const vectors = await this.worker.embed([sanitizeEmbeddingText(query)]);
       const vector = vectors[0];
       const filter = context ? buildPayloadFilter(context) : undefined;
 
@@ -78,10 +81,6 @@ function buildPayloadFilter(context: UserSessionContext): object | undefined {
 
   if (context.programIds?.length) {
     must.push({ key: 'program_id', match: { any: context.programIds } });
-  }
-
-  if (context.cycle !== undefined) {
-    must.push({ key: 'cycle', match: { value: context.cycle } });
   }
 
   return must.length > 0 ? { must } : undefined;

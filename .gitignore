@@ -36,3 +36,5 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Embedding evaluation local helper
+embedding_view_text.json

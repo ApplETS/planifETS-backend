@@ -15,8 +15,9 @@ import { ProgramCourseService } from '../../program-course/program-course.servic
 
 @Injectable()
 export class CoursesJobService {
-  private static readonly DESCRIPTION_SYNC_BATCH_SIZE = 10;
-  private static readonly COURSE_DESCRIPTION_SYNC_BATCH_DELAY_MS = 100;
+  // 5 concurrent courses per 600ms stayed below the ETS site's 403 threshold in practice.
+  private static readonly DESCRIPTION_SYNC_BATCH_SIZE = 5;
+  private static readonly COURSE_DESCRIPTION_SYNC_BATCH_DELAY_MS = 600;
 
   private readonly logger = new Logger(CoursesJobService.name);
 

@@ -162,7 +162,7 @@ export class LlmService {
       .join('\n');
 
     return `You are a course recommendation assistant at ÉTS university.
-      Match the language of the user's request.
+      Match the language of the user's request. In French, address the student with "tu", not "vous".
       If the user's question mentions a specific course code, first check whether that course appears in the available courses list. If it does not, say so briefly in the same language as the user's request and return an empty courses array.
       Otherwise, recommend the most relevant courses for the user's request.
 

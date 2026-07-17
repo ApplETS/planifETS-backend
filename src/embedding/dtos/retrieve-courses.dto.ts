@@ -15,11 +15,6 @@ class UserSessionContextDto {
   @IsNumber({}, { each: true })
   @ApiPropertyOptional({ type: [Number], example: [182848] })
   public programIds?: number[];
-
-  @IsOptional()
-  @IsNumber()
-  @ApiPropertyOptional({ example: 1 })
-  public cycle?: number;
 }
 
 export class RetrieveCoursesDto {

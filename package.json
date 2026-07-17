@@ -22,6 +22,7 @@
     "prisma:seed": "prisma db seed",
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate-prod": "prisma migrate deploy",
+    "eval:retrieval": "ts-node -T test/embedding/eval/eval-retrieval.ts",
     "test": "jest --config ./jest/unit.config.mjs",
     "test:unit": "jest --config ./jest/unit.config.mjs",
     "test:cov": "jest --config ./jest/unit.config.mjs --coverage",

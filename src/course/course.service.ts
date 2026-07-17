@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Course, Prisma } from '@prisma/client';
 
+import { isTruncated } from '../common/utils/stringUtil';
 import { PrismaService } from '../prisma/prisma.service';
 import { CourseMapper } from './course.mapper';
 import { CourseRepository } from './course.repository';
@@ -59,13 +60,19 @@ export class CourseService {
   > {
     this.logger.verbose('getCoursesForDescriptionSync');
 
-    // Fetch courses that are in cycle 1 and do not have a hyphen in their code (ex: SYS123-É25)
-    return this.prisma.course.findMany({
+    const courses = await this.prisma.course.findMany({
       where: {
         cycle: 1,
+        // Session-suffixed codes (ex: SYS123-É25) have no page.
         code: {
           not: {
             contains: '-'
+          }
+        },
+        // Exclude internships
+        programs: {
+          some: {
+            OR: [{ type: null }, { type: { not: 'STAGE' } }]
           }
         }
       },
@@ -75,6 +82,12 @@ export class CourseService {
         description: true
       }
     });
+
+    // Truncated first: the website may rate-limit us mid-run.
+    // The complete ones still follow, to catch new course descriptions updates.
+    return courses.sort(
+      (a, b) => Number(isTruncated(b.description)) - Number(isTruncated(a.description))
+    );
   }
 
   public async getCoursesByProgram(programId: number): Promise<Course[]> {
@@ -208,11 +221,28 @@ export class CourseService {
   ): Promise<Course[]> {
     const results: Course[] = [];
     for (const courseData of data) {
+      // Keep `description` out of `update`: the API truncates it and would
+      // clobber the website scrape on every run. It seeds new rows via `create`,
+      // and backfills empty ones below.
+      const { description, ...updatable } = courseData;
+
       const result = await this.prisma.course.upsert({
         where: { code: courseData.code },
-        update: courseData,
+        update: updatable,
         create: courseData
       });
+
+      // Truncated beats empty when the scrape never succeeded.
+      if (!result.description.trim() && description.trim()) {
+        results.push(
+          await this.prisma.course.update({
+            where: { code: courseData.code },
+            data: { description }
+          })
+        );
+        continue;
+      }
+
       results.push(result);
     }
     return results;

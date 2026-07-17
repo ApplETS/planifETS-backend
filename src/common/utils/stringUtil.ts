@@ -4,6 +4,10 @@ export function extractNumberFromString(cycle: string): number {
   return match ? Number.parseInt(match[0], 10) : 0;
 }
 
+export function isTruncated(text: string): boolean {
+  return text.trimEnd().endsWith('...');
+}
+
 export function stripHtmlTags(text: string): string {
   if (!text) {
     return text;
