@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger, OnApplicationShutdown } from '@nestjs/common';
+import { Inject, Injectable, OnApplicationShutdown } from '@nestjs/common';
 import { PostHog } from 'posthog-node';
 
 export const POSTHOG_CLIENT = 'POSTHOG_CLIENT';
@@ -13,8 +13,6 @@ const OTLP_SEVERITY: Record<LogLevel, { text: string; number: number }> = {
 
 @Injectable()
 export class PosthogMonitoringService implements OnApplicationShutdown {
-  private readonly logger = new Logger(PosthogMonitoringService.name);
-
   constructor(@Inject(POSTHOG_CLIENT) private readonly posthog: PostHog) {}
 
   public captureException(
@@ -53,10 +51,6 @@ export class PosthogMonitoringService implements OnApplicationShutdown {
         $ai_output_state: params.output
       }
     });
-    this.logger.debug(
-      `Queued $ai_span "${params.name}" for trace ${params.traceId}`
-    );
-    void this.flushAndLog(`$ai_span "${params.name}"`, params.traceId);
   }
 
   public captureAiGeneration(params: {
@@ -82,23 +76,6 @@ export class PosthogMonitoringService implements OnApplicationShutdown {
         $ai_error: params.error
       }
     });
-    this.logger.debug(
-      `Queued $ai_generation (${params.provider}/${params.model}) for trace ${params.traceId}`
-    );
-    void this.flushAndLog(
-      `$ai_generation (${params.provider}/${params.model})`,
-      params.traceId
-    );
-  }
-
-  private async flushAndLog(label: string, traceId: string): Promise<void> {
-    try {
-      await this.posthog.flush();
-      this.logger.debug(`Flushed ${label} for trace ${traceId} to PostHog`);
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      this.logger.error(`Failed to flush ${label} for trace ${traceId}: ${msg}`);
-    }
   }
 
   private async sendOtlpLog(
