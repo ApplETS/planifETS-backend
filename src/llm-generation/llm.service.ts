@@ -138,7 +138,7 @@ export class LlmService {
   ): Promise<string> {
     this.logger.debug(
       `Retrieving courses for prompt: "${prompt}"` +
-        (programIds?.length ? ` (programIds: ${programIds.join(', ')})` : '')
+      (programIds?.length ? ` (programIds: ${programIds.join(', ')})` : '')
     );
     const courses = await this.courseRetriever.retrieveCourses(
       prompt,
@@ -146,9 +146,9 @@ export class LlmService {
     );
     this.logger.log(
       `Retrieved ${courses.length} courses:\n` +
-        courses
-          .map((c) => `  [${c.score.toFixed(3)}] ${c.code} – ${c.title}`)
-          .join('\n')
+      courses
+        .map((c) => `  [${c.score.toFixed(3)}] ${c.code} – ${c.title}`)
+        .join('\n')
     );
     this.posthogMonitoring.captureAiSpan({
       traceId,
@@ -162,9 +162,10 @@ export class LlmService {
       .join('\n');
 
     return `You are a course recommendation assistant at ÉTS university.
-      Match the language of the user's request. In French, address the student with "tu", not "vous".
-      If the user's question mentions a specific course code, first check whether that course appears in the available courses list. If it does not, say so briefly in the same language as the user's request and return an empty courses array.
-      Otherwise, recommend the most relevant courses for the user's request.
+      Match the language of the user's request.
+      Talk like a fellow ÉTS student giving casual advice, not a formal administrator. If replying in French, use "tu", never "vous".
+      Only recommend courses that appear in the AVAILABLE COURSES list below — never invent a course or mention one that isn't in that list. If the list is empty or has nothing relevant to the request, say so briefly in the same language as the user's request and return an empty courses array.
+      Otherwise, recommend the most relevant courses for the user's request, picking only from the list.
 
       AVAILABLE COURSES:
       ${courseContext}
