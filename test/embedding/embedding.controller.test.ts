@@ -6,6 +6,7 @@ describe('EmbeddingController', () => {
   let controller: EmbeddingController;
   let serviceMock: {
     findAll: jest.Mock;
+    findAllTexts: jest.Mock;
     findByCourseId: jest.Mock;
     countCourses: jest.Mock;
   };
@@ -13,6 +14,7 @@ describe('EmbeddingController', () => {
   beforeEach(() => {
     serviceMock = {
       findAll: jest.fn(),
+      findAllTexts: jest.fn(),
       findByCourseId: jest.fn(),
       countCourses: jest.fn()
     };
@@ -37,6 +39,23 @@ describe('EmbeddingController', () => {
         count: 10
       });
       expect(serviceMock.countCourses).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('findAllTexts', () => {
+    it('delegates to EmbeddingService.findAllTexts and returns the result', async () => {
+      const texts = [{ embedding_id: '352539_182848', text: 'LOG680 …' }];
+      serviceMock.findAllTexts.mockResolvedValue(texts);
+      await expect(controller.findAllTexts()).resolves.toBe(texts);
+      expect(serviceMock.findAllTexts).toHaveBeenCalledTimes(1);
+    });
+
+    // Otherwise Nest routes "text" into :courseId and ParseIntPipe 400s.
+    it('is declared before the :courseId route', () => {
+      const routes = Object.getOwnPropertyNames(EmbeddingController.prototype);
+      expect(routes.indexOf('findAllTexts')).toBeLessThan(
+        routes.indexOf('findByCourseId')
+      );
     });
   });
 

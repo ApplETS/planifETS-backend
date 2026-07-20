@@ -2,10 +2,7 @@ import { createHash } from 'node:crypto';
 
 import { uuidV5 } from '@/common/utils/uuid/uuidUtil';
 
-import {
-  appendEmbeddingKeywords,
-  sanitizeEmbeddingText
-} from '../common/api-helper/embedding/embedding-text';
+import { sanitizeEmbeddingText } from '../common/api-helper/embedding/embedding-text';
 import { EmbeddingViewDto } from './dtos/embedding-view.dto';
 
 const QDRANT_ID_NAMESPACE =
@@ -93,7 +90,7 @@ export function buildCourseEmbeddingText(row: EmbeddingViewDto): string {
     parts.push(toSentence(unstructuredPrerequisite));
   }
 
-  return appendEmbeddingKeywords(parts.join(' '));
+  return sanitizeEmbeddingText(parts.join(' '));
 }
 
 export function buildCourseEmbeddingPayload(

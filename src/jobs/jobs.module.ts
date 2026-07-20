@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { CheminotModule } from '../common/api-helper/cheminot/cheminot.module';
 import { EtsModule } from '../common/api-helper/ets/ets.module';
 import { PdfModule } from '../common/website-helper/pdf/pdf.module';
+import { rootConfigModule } from '../config/chatbot.config';
 import { CourseModule } from '../course/course.module';
 import { CourseInstanceModule } from '../course-instance/course-instance.module';
 import { EmbeddingModule } from '../embedding/embedding.module';
@@ -17,7 +18,11 @@ import { JobsService } from './jobs.service';
 
 @Module({
   imports: [
-    MonitoringModule,
+    CheminotModule,
+    EtsModule,
+    PdfModule,
+
+    // CRUD modules
     CourseModule,
     CourseInstanceModule,
     PrerequisiteModule,
@@ -26,9 +31,9 @@ import { JobsService } from './jobs.service';
     SessionModule,
     EmbeddingModule,
 
-    CheminotModule,
-    EtsModule,
-    PdfModule
+    // Config
+    rootConfigModule,
+    MonitoringModule
   ],
   providers: [JobsService, ...jobWorkerProviders],
   controllers: process.env.APP_ENV === 'development' ? [JobsController] : [], // Only expose in dev mode for running jobs manually

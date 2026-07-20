@@ -1,12 +1,11 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { CheminotModule } from './common/api-helper/cheminot/cheminot.module';
 import { EtsModule } from './common/api-helper/ets/ets.module';
 import { PdfModule } from './common/website-helper/pdf/pdf.module';
-import chatbotConfig from './config/chatbot.config';
+import { rootConfigModule } from './config/chatbot.config';
 import { CourseModule } from './course/course.module';
 import { CourseInstanceModule } from './course-instance/course-instance.module';
 import { EmbeddingModule } from './embedding/embedding.module';
@@ -21,13 +20,10 @@ import { SessionModule } from './session/session.module';
 
 @Module({
   imports: [
-    HttpModule,
-    PrismaModule,
     CheminotModule,
     EtsModule,
     PdfModule,
     JobsSchedulerModule,
-    MonitoringModule,
 
     // CRUD modules
     CourseModule,
@@ -40,10 +36,10 @@ import { SessionModule } from './session/session.module';
     LlmGenerationModule,
 
     // Config
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [chatbotConfig]
-    })
+    rootConfigModule,
+    HttpModule,
+    PrismaModule,
+    MonitoringModule
   ],
   controllers: [AppController],
   exports: [HttpModule]

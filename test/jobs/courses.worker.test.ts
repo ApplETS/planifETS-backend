@@ -65,6 +65,9 @@ describe('CoursesJobService', () => {
       cheminotServiceMock as unknown as CheminotService
     );
     logger = (service as unknown as { logger: Logger }).logger;
+    jest
+      .spyOn(service as unknown as { delay: () => Promise<void> }, 'delay')
+      .mockResolvedValue(undefined);
   });
 
   afterEach(() => {
@@ -289,16 +292,22 @@ describe('CoursesJobService', () => {
     expect(
       planetsServiceMock.fetchCourseDescriptionFromPlanETS
     ).toHaveBeenCalledTimes(2);
+    // Batch size 5: [1,2,3,4,5] [6,7,8,9,10] [11,12]. LOG002/LOG010 fail on
+    // both ETS and PlanETS, so their batches only carry the successful codes.
     expect(
       courseServiceMock.updateCourseDescriptionsBatch
-    ).toHaveBeenCalledTimes(2);
+    ).toHaveBeenCalledTimes(3);
     expect(
       courseServiceMock.updateCourseDescriptionsBatch
     ).toHaveBeenNthCalledWith(1, [
       { id: 1, code: 'LOG001', description: 'New 1' },
       { id: 3, code: 'LOG003', description: 'New 3' },
       { id: 4, code: 'LOG004', description: 'New 4' },
-      { id: 5, code: 'LOG005', description: 'New 5' },
+      { id: 5, code: 'LOG005', description: 'New 5' }
+    ]);
+    expect(
+      courseServiceMock.updateCourseDescriptionsBatch
+    ).toHaveBeenNthCalledWith(2, [
       { id: 6, code: 'LOG006', description: 'New 6' },
       { id: 7, code: 'LOG007', description: 'New 7' },
       { id: 8, code: 'LOG008', description: 'New 8' },
@@ -306,7 +315,7 @@ describe('CoursesJobService', () => {
     ]);
     expect(
       courseServiceMock.updateCourseDescriptionsBatch
-    ).toHaveBeenNthCalledWith(2, [
+    ).toHaveBeenNthCalledWith(3, [
       { id: 11, code: 'LOG011', description: 'New 11' },
       { id: 12, code: 'LOG012', description: 'New 12' }
     ]);
