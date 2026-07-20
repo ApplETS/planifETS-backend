@@ -6,8 +6,8 @@
 # Start the full dev stack (NestJS + PostgreSQL + Qdrant) with hot reload
 docker compose --profile dev up --build
 
-# Start the production stack
-docker compose --profile production up --build
+# Recreate the backend container after changing .env (no rebuild needed)
+docker compose --profile dev up -d --force-recreate --no-deps nestjs-app-dev
 
 # Rebuild a single service without restarting everything (ex: only the backend container)
 docker compose --profile dev up --build nestjs-app-dev
@@ -20,6 +20,9 @@ docker compose --profile dev logs -f
 
 # Stop all running containers
 docker ps -q | xargs -r docker stop
+
+# Start the production stack
+docker compose --profile production up --build
 
 # Full cleanup — removes containers, images, volumes, and networks
 # ⚠️ WARNING: this affects ALL Docker resources on your machine, not just this project.

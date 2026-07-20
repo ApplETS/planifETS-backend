@@ -24,8 +24,8 @@ export abstract class LlmProvider {
   protected readonly maxTokens = 512;
 
   constructor(
-    providerName: string,
-    protected readonly modelName: string,
+    public readonly providerName: string,
+    public readonly modelName: string,
     protected readonly apiKey: string
   ) {
     this.name = `${providerName} (${modelName})`;

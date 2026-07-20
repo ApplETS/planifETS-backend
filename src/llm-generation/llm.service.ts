@@ -1,6 +1,9 @@
+import { randomUUID } from 'node:crypto';
+
 import { Injectable, Logger } from '@nestjs/common';
 
 import { CourseRetrieverService } from '../embedding/course-retriever.service';
+import { PosthogMonitoringService } from '../monitoring/posthog-monitoring.service';
 import { ProviderStatusDto } from './dtos/generate.dto';
 import { LlmExhaustedException } from './exceptions/llm-exhausted.exception';
 import {
@@ -58,7 +61,10 @@ export class LlmService {
     return new Provider(model, apiKey);
   }
 
-  constructor(private readonly courseRetriever: CourseRetrieverService) {
+  constructor(
+    private readonly courseRetriever: CourseRetrieverService,
+    private readonly posthogMonitoring: PosthogMonitoringService
+  ) {
     this.timeoutMs = Number.parseInt(process.env.LLM_TIMEOUT_MS || '10000', 10);
 
     this.providers = [
@@ -126,6 +132,7 @@ export class LlmService {
   }
 
   private async buildEnrichedPrompt(
+    traceId: string,
     prompt: string,
     programIds?: number[]
   ): Promise<string> {
@@ -143,6 +150,12 @@ export class LlmService {
           .map((c) => `  [${c.score.toFixed(3)}] ${c.code} – ${c.title}`)
           .join('\n')
     );
+    this.posthogMonitoring.captureAiSpan({
+      traceId,
+      name: 'course-retrieval',
+      input: { prompt, programIds },
+      output: courses.map((c) => ({ code: c.code, score: c.score }))
+    });
 
     const courseContext = courses
       .map((c) => `- [${c.code}] ${c.title}: ${c.description}`)
@@ -166,11 +179,17 @@ export class LlmService {
     prompt: string,
     programIds?: number[]
   ): Promise<LlmGenerationResponse> {
-    const enrichedPrompt = await this.buildEnrichedPrompt(prompt, programIds);
+    const traceId = randomUUID();
+    const enrichedPrompt = await this.buildEnrichedPrompt(
+      traceId,
+      prompt,
+      programIds
+    );
 
     let lastError: Error | undefined;
 
     for (const provider of this.providers) {
+      const start = Date.now();
       try {
         const controller = new AbortController();
         const timeout = setTimeout(
@@ -180,12 +199,33 @@ export class LlmService {
 
         this.logger.debug(`Attempting generation with ${provider.name}`);
         try {
-          return await provider.complete(enrichedPrompt, controller.signal);
+          const result = await provider.complete(
+            enrichedPrompt,
+            controller.signal
+          );
+          this.captureGeneration(
+            traceId,
+            provider.providerName,
+            provider.modelName,
+            enrichedPrompt,
+            result,
+            Date.now() - start
+          );
+          return result;
         } finally {
           clearTimeout(timeout);
         }
       } catch (error) {
         lastError = error instanceof Error ? error : new Error(String(error));
+        this.captureGeneration(
+          traceId,
+          provider.providerName,
+          provider.modelName,
+          enrichedPrompt,
+          undefined,
+          Date.now() - start,
+          lastError.message
+        );
         this.logger.warn(
           `Provider ${provider.name} failed: ${lastError.message}`
         );
@@ -195,11 +235,36 @@ export class LlmService {
     this.throwExhausted(lastError);
   }
 
+  private captureGeneration(
+    traceId: string,
+    providerName: string,
+    modelName: string,
+    input: string,
+    output: unknown,
+    latencyMs: number,
+    error?: string
+  ): void {
+    this.posthogMonitoring.captureAiGeneration({
+      traceId,
+      provider: providerName,
+      model: modelName,
+      input,
+      output,
+      latencyMs,
+      error
+    });
+  }
+
   public async *recommendStream(
     prompt: string,
     programIds?: number[]
   ): AsyncGenerator<LlmStreamEvent> {
-    const enrichedPrompt = await this.buildEnrichedPrompt(prompt, programIds);
+    const traceId = randomUUID();
+    const enrichedPrompt = await this.buildEnrichedPrompt(
+      traceId,
+      prompt,
+      programIds
+    );
 
     let lastError: Error | undefined;
 
@@ -209,20 +274,32 @@ export class LlmService {
         () => controller.abort(),
         provider.timeoutMs ?? this.timeoutMs
       );
+      const start = Date.now();
 
       try {
         this.logger.debug(
           `Attempting streaming generation with ${provider.name}`
         );
         yield* this.streamFromProvider(
+          traceId,
           provider,
           enrichedPrompt,
-          controller.signal
+          controller.signal,
+          start
         );
         return;
       } catch (error) {
         const streamError = this.toProviderStreamError(error);
         lastError = streamError.cause;
+        this.captureGeneration(
+          traceId,
+          provider.providerName,
+          provider.modelName,
+          enrichedPrompt,
+          undefined,
+          Date.now() - start,
+          lastError.message
+        );
         this.logger.warn(
           `Provider ${provider.name} failed: ${lastError.message}`
         );
@@ -240,15 +317,18 @@ export class LlmService {
   }
 
   private async *streamFromProvider(
+    traceId: string,
     provider: LlmProvider,
     enrichedPrompt: string,
-    signal: AbortSignal
+    signal: AbortSignal,
+    start: number
   ): AsyncGenerator<LlmStreamEvent> {
     let yieldedAny = false;
     // Buffer holds text not yet emitted; once past the delimiter it
     // accumulates the raw (unstreamed) course-list JSON instead.
     let buffer = '';
     let sawDelimiter = false;
+    let reasonText = '';
 
     try {
       for await (const chunk of provider.completeStream(
@@ -260,6 +340,7 @@ export class LlmService {
         sawDelimiter = result.sawDelimiter;
         if (result.reason !== undefined) {
           yieldedAny = true;
+          reasonText += result.reason;
           yield { type: 'reason', data: result.reason };
         }
       }
@@ -267,14 +348,21 @@ export class LlmService {
       if (!sawDelimiter && buffer) {
         // Model never emitted the delimiter; treat the rest as reason text.
         yieldedAny = true;
+        reasonText += buffer;
         yield { type: 'reason', data: buffer };
         buffer = '';
       }
 
-      yield {
-        type: 'courses',
-        data: this.parseCourses(buffer, provider.name)
-      };
+      const courses = this.parseCourses(buffer, provider.name);
+      this.captureGeneration(
+        traceId,
+        provider.providerName,
+        provider.modelName,
+        enrichedPrompt,
+        { explanation: reasonText, courses },
+        Date.now() - start
+      );
+      yield { type: 'courses', data: courses };
     } catch (error) {
       throw this.toProviderStreamError(error, yieldedAny);
     }

@@ -35,6 +35,49 @@ export class PosthogMonitoringService implements OnApplicationShutdown {
     void this.sendOtlpLog(level, message, attributes);
   }
 
+  public captureAiSpan(params: {
+    traceId: string;
+    name: string;
+    input?: unknown;
+    output?: unknown;
+  }): void {
+    this.posthog.capture({
+      distinctId: 'server',
+      event: '$ai_span',
+      properties: {
+        $ai_trace_id: params.traceId,
+        $ai_span_name: params.name,
+        $ai_input_state: params.input,
+        $ai_output_state: params.output
+      }
+    });
+  }
+
+  public captureAiGeneration(params: {
+    traceId: string;
+    model: string;
+    provider: string;
+    input: unknown;
+    output: unknown;
+    latencyMs: number;
+    error?: string;
+  }): void {
+    this.posthog.capture({
+      distinctId: 'server',
+      event: '$ai_generation',
+      properties: {
+        $ai_trace_id: params.traceId,
+        $ai_model: params.model,
+        $ai_provider: params.provider,
+        $ai_input: params.input,
+        $ai_output_choices: params.output,
+        $ai_latency: params.latencyMs / 1000,
+        $ai_is_error: Boolean(params.error),
+        $ai_error: params.error
+      }
+    });
+  }
+
   private async sendOtlpLog(
     level: LogLevel,
     message: string,
