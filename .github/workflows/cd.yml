@@ -19,6 +19,10 @@ on:
           - staging
           - dev
           - prod
+      source_tag:
+        description: Immutable GHCR tag to promote (for example main-a1b2c3d)
+        required: true
+        type: string
 
 env:
   REGISTRY: ghcr.io
@@ -27,7 +31,10 @@ env:
 
 jobs:
   build:
+    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -46,9 +53,12 @@ jobs:
         run: yarn run build
 
   docker:
+    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     needs: [build]
-    environment: ${{ inputs.environment }}
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -63,11 +73,6 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=sha,prefix=main-,format=short,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-            type=sha,prefix=staging-,format=short,enable=${{ inputs.environment == 'staging' }}
-            type=sha,prefix=dev-,format=short,enable=${{ inputs.environment == 'dev' }}
-            type=raw,value=latest,enable=${{ inputs.environment == 'prod' }}
-            type=raw,value=staging,enable=${{ inputs.environment == 'staging' }}
-            type=raw,value=dev,enable=${{ inputs.environment == 'dev' }}
 
       - name: Login to Registry
         uses: docker/login-action@v3
@@ -91,3 +96,42 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             APP_GIT_SHORT_SHA=${{ env.SHORT_SHA }}
+
+  promote:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    permissions:
+      packages: write
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Promote immutable image
+        shell: bash
+        env:
+          SOURCE_TAG: ${{ inputs.source_tag }}
+          TARGET_ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          set -euo pipefail
+
+          image="${REGISTRY}/${GITHUB_REPOSITORY,,}"
+          case "${TARGET_ENVIRONMENT}" in
+            dev) target_tag=dev ;;
+            staging) target_tag=staging ;;
+            prod) target_tag=latest ;;
+            *) echo "Unsupported environment: ${TARGET_ENVIRONMENT}" >&2; exit 1 ;;
+          esac
+
+          docker buildx imagetools inspect "${image}:${SOURCE_TAG}"
+          docker buildx imagetools create \
+            --tag "${image}:${target_tag}" \
+            "${image}:${SOURCE_TAG}"
+          docker buildx imagetools inspect "${image}:${target_tag}"
