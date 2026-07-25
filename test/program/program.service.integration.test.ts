@@ -20,16 +20,16 @@ describe('ProgramService (integration)', () => {
         EtsProgramService,
         {
           provide: PrismaService,
-          useValue: jestPrisma.originalClient,
-        },
-      ],
+          useValue: jestPrisma.originalClient
+        }
+      ]
     }).compile();
     const programsJobService = seedModule.get(ProgramsJobService);
     programService = seedModule.get(ProgramService);
 
     // Seed baseline data once with the non-transaction client.
     await programsJobService.processPrograms();
-  });
+  }, 60000);
 
   afterAll(async () => {
     if (seedModule) {
@@ -59,7 +59,8 @@ describe('ProgramService (integration)', () => {
   it('should get programs by isHorairePdfParsable', async () => {
     // ensure all programs flags are false
     const allPrograms = (await programService.getAllPrograms()).filter(
-      (prg): prg is typeof prg & { code: string } => typeof prg.code === 'string',
+      (prg): prg is typeof prg & { code: string } =>
+        typeof prg.code === 'string'
     );
     const [targetProgram] = allPrograms;
 
@@ -67,23 +68,26 @@ describe('ProgramService (integration)', () => {
 
     for (const prog of allPrograms) {
       await programService.updateProgramsByCodes([prog.code], {
-        isHorairePdfParsable: false,
+        isHorairePdfParsable: false
       });
     }
     // set specific program flag to true
     await programService.updateProgramsByCodes([targetProgram.code], {
-      isHorairePdfParsable: true,
+      isHorairePdfParsable: true
     });
 
     const programs = await programService.getProgramsByHoraireParsablePDF();
-    expect(programs.some(p => p.code === targetProgram.code)).toBe(true);
-    expect(programs.some(p => p.code === 'miaow cacawette fouette')).toBe(false);
+    expect(programs.some((p) => p.code === targetProgram.code)).toBe(true);
+    expect(programs.some((p) => p.code === 'miaow cacawette fouette')).toBe(
+      false
+    );
   });
 
   it('should get programs by isPlanificationPdfParsable', async () => {
     // ensure all programs flags are false
     const allPrograms = (await programService.getAllPrograms()).filter(
-      (prg): prg is typeof prg & { code: string } => typeof prg.code === 'string',
+      (prg): prg is typeof prg & { code: string } =>
+        typeof prg.code === 'string'
     );
     const [targetProgram] = allPrograms;
 
@@ -91,20 +95,23 @@ describe('ProgramService (integration)', () => {
 
     for (const prog of allPrograms) {
       await programService.updateProgramsByCodes([prog.code], {
-        isPlanificationPdfParsable: false,
+        isPlanificationPdfParsable: false
       });
     }
     // set specific program flag to true
     await programService.updateProgramsByCodes([targetProgram.code], {
-      isPlanificationPdfParsable: true,
+      isPlanificationPdfParsable: true
     });
 
-    const programs = await programService.getProgramsByPlanificationParsablePDF();
+    const programs =
+      await programService.getProgramsByPlanificationParsablePDF();
     // does it exist?
     expect(programs).toBeDefined();
     expect(programs.length).toBeGreaterThan(0);
-    expect(programs.some(p => p.code === targetProgram.code)).toBe(true);
-    expect(programs.some(p => p.code === 'miaow cacawette fouette')).toBe(false);
+    expect(programs.some((p) => p.code === targetProgram.code)).toBe(true);
+    expect(programs.some((p) => p.code === 'miaow cacawette fouette')).toBe(
+      false
+    );
   });
 
   it('should upsert a program', async () => {
@@ -117,7 +124,7 @@ describe('ProgramService (integration)', () => {
       url: 'http://example.com/upsert',
       programTypes: { connect: [] },
       isHorairePdfParsable: false,
-      isPlanificationPdfParsable: false,
+      isPlanificationPdfParsable: false
     });
     expect(upserted.code).toBe('UPSERT1');
     const found = await programService.getProgramByCode('UPSERT1');
@@ -134,7 +141,7 @@ describe('ProgramService (integration)', () => {
       url: 'http://example.com/upsert',
       programTypes: { connect: [] },
       isHorairePdfParsable: true,
-      isPlanificationPdfParsable: false,
+      isPlanificationPdfParsable: false
     });
 
     expect(initial.credits).toBe('60');
@@ -147,7 +154,7 @@ describe('ProgramService (integration)', () => {
       url: 'http://example.com/upsert',
       programTypes: { connect: [] },
       isHorairePdfParsable: false,
-      isPlanificationPdfParsable: true,
+      isPlanificationPdfParsable: true
     });
 
     expect(upserted.credits).toBe('90');
@@ -166,7 +173,7 @@ describe('ProgramService (integration)', () => {
       url: 'http://example.com/upsert2',
       programTypes: { connect: [] },
       isHorairePdfParsable: false,
-      isPlanificationPdfParsable: false,
+      isPlanificationPdfParsable: false
     });
     let found = await programService.getProgramByCode(code);
     expect(found).toBeDefined();
@@ -181,7 +188,7 @@ describe('ProgramService (integration)', () => {
       url: 'http://example.com/upsert2',
       programTypes: { connect: [] },
       isHorairePdfParsable: true,
-      isPlanificationPdfParsable: true,
+      isPlanificationPdfParsable: true
     });
     found = await programService.getProgramByCode(code);
     expect(found).toBeDefined();

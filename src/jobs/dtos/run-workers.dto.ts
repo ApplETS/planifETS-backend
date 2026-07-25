@@ -21,4 +21,7 @@ export class RunWorkersDto {
 
   @ApiProperty({ default: false })
   public processSessions: boolean = false;
+
+  @ApiProperty({ default: false })
+  public processCourseEmbeddings: boolean = false;
 }

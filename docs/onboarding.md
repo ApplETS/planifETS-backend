@@ -2,10 +2,11 @@
 
 ## Requirements
 
-- Node.js 22
+- Node.js 22.22.0
 - Yarn
 - PostgreSQL 16+
 - VS Code
+- nvm (recommended for Node.js version management)
 
 ## Optional
 
@@ -29,7 +30,7 @@ cp .env.example .env
 
 The default values work out of the box for Docker. The compose file connects the app to the `db` service automatically, so you do not need to change `DATABASE_URL` for container-based development.
 
-> **Note:** On Windows, ports `3001` and `5432` may be reserved by Hyper-V. The compose file maps the app to host port `3501` and PostgreSQL to `5433` to avoid conflicts.
+> **Note:** On Windows, ports `3001` and `5432` may be reserved by Hyper-V. The compose file maps the app to host port `3001` and PostgreSQL to `5433` to avoid conflicts.
 
 ### 3. Start the stack
 
@@ -48,7 +49,10 @@ docker compose --profile production up --build
 Once running:
 
 - Swagger UI: `http://localhost:3501/api/docs`
-- Health check: `http://localhost:3501/api/health`
+- Liveness probe: `http://localhost:3501/api/health/live`
+- Readiness probe: `http://localhost:3501/api/health/ready`
+- Diagnostic health view: `http://localhost:3501/api/health`
+- In Kubernetes, use the liveness probe for process checks and the readiness probe for Postgres and Qdrant availability
 
 ### 4. Populate the database
 
@@ -75,16 +79,24 @@ Default body:
 
 ## Option B - Local setup
 
+### 0. Set up Node.js with nvm
+
+```bash
+nvm install 22.22.0
+nvm use 22.22.0
+node --version  # Verify: should show v22.22.0+
+```
+
 ### 1. Clone the project
 
 ```bash
 git clone git@github.com:ApplETS/planifETS-backend.git
 cd planifETS-backend
+# If you use `nvm`, run `nvm use` first.
 yarn install
 yarn build
 ```
 
-If you use `nvm`, run `nvm use` first.
 
 ### 2. Set up PostgreSQL
 
@@ -102,6 +114,8 @@ For a default local PostgreSQL setup:
 APP_ENV=development
 PORT=3001
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/planifetsDB?schema=public"
+FRONTEND_URL="http://localhost:3000"
+QDRANT_URL="http://localhost:6333"
 ```
 
 If you use a custom PostgreSQL username, password, or Docker on port `5433`, adjust the connection string accordingly.
@@ -142,7 +156,9 @@ yarn dev
 Once the server is running:
 
 - Swagger UI is available at `http://localhost:3001/api/docs`
-- Health check is available at `http://localhost:3001/api/health`
+- Liveness probe is available at `http://localhost:3001/api/health/live`
+- Readiness probe is available at `http://localhost:3001/api/health/ready`
+- Diagnostic health view is available at `http://localhost:3001/api/health`
 
 ### 6. Populate the database
 

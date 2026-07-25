@@ -5,10 +5,12 @@ import { AppController } from './app.controller';
 import { CheminotModule } from './common/api-helper/cheminot/cheminot.module';
 import { EtsModule } from './common/api-helper/ets/ets.module';
 import { PdfModule } from './common/website-helper/pdf/pdf.module';
+import { rootConfigModule } from './config/chatbot.config';
 import { CourseModule } from './course/course.module';
 import { CourseInstanceModule } from './course-instance/course-instance.module';
 import { EmbeddingModule } from './embedding/embedding.module';
 import { JobsSchedulerModule } from './jobs/jobs-scheduler.module';
+import { LlmGenerationModule } from './llm-generation/llm-generation.module';
 import { MonitoringModule } from './monitoring/monitoring.module';
 import { PrerequisiteModule } from './prerequisite/prerequisite.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -18,13 +20,10 @@ import { SessionModule } from './session/session.module';
 
 @Module({
   imports: [
-    HttpModule,
-    PrismaModule,
     CheminotModule,
     EtsModule,
     PdfModule,
     JobsSchedulerModule,
-    MonitoringModule,
 
     // CRUD modules
     CourseModule,
@@ -34,8 +33,15 @@ import { SessionModule } from './session/session.module';
     ProgramModule,
     ProgramCourseModule,
     EmbeddingModule,
+    LlmGenerationModule,
+
+    // Config
+    rootConfigModule,
+    HttpModule,
+    PrismaModule,
+    MonitoringModule
   ],
   controllers: [AppController],
-  exports: [HttpModule],
+  exports: [HttpModule]
 })
 export class AppModule {}

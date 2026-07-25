@@ -64,16 +64,16 @@ export async function seedSession(
     year,
     trimester,
     createdAt = DEFAULT_TIMESTAMP,
-    updatedAt = createdAt,
-  }: SessionSeed,
+    updatedAt = createdAt
+  }: SessionSeed
 ) {
   return prisma.session.create({
     data: {
       year,
       trimester,
       createdAt,
-      updatedAt,
-    },
+      updatedAt
+    }
   });
 }
 
@@ -87,8 +87,8 @@ export async function seedCourse(
     credits = 3,
     cycle = 1,
     createdAt = DEFAULT_TIMESTAMP,
-    updatedAt = createdAt,
-  }: CourseSeed,
+    updatedAt = createdAt
+  }: CourseSeed
 ) {
   return prisma.course.create({
     data: {
@@ -99,8 +99,8 @@ export async function seedCourse(
       credits,
       cycle,
       createdAt,
-      updatedAt,
-    },
+      updatedAt
+    }
   });
 }
 
@@ -118,8 +118,8 @@ export async function seedProgram(
     horaireCoursPdfJson = Prisma.JsonNull,
     planificationPdfJson = Prisma.JsonNull,
     createdAt = DEFAULT_TIMESTAMP,
-    updatedAt = createdAt,
-  }: ProgramSeed,
+    updatedAt = createdAt
+  }: ProgramSeed
 ) {
   return prisma.program.create({
     data: {
@@ -134,8 +134,8 @@ export async function seedProgram(
       horaireCoursPdfJson,
       planificationPdfJson,
       createdAt,
-      updatedAt,
-    },
+      updatedAt
+    }
   });
 }
 
@@ -146,8 +146,8 @@ export async function seedProgramCourse(
     programId,
     type = 'TRONC',
     typicalSessionIndex = 1,
-    unstructuredPrerequisite = null,
-  }: ProgramCourseSeed,
+    unstructuredPrerequisite = null
+  }: ProgramCourseSeed
 ) {
   return prisma.programCourse.create({
     data: {
@@ -155,8 +155,8 @@ export async function seedProgramCourse(
       programId,
       type,
       typicalSessionIndex,
-      unstructuredPrerequisite,
-    },
+      unstructuredPrerequisite
+    }
   });
 }
 
@@ -166,28 +166,28 @@ export async function seedCourseInstance(
     courseId,
     sessionYear,
     sessionTrimester,
-    availability = [Availability.JOUR],
-  }: CourseInstanceSeed,
+    availability = [Availability.JOUR]
+  }: CourseInstanceSeed
 ) {
   return prisma.courseInstance.create({
     data: {
       courseId,
       sessionYear,
       sessionTrimester,
-      availability,
-    },
+      availability
+    }
   });
 }
 
 export async function seedProgramCoursePrerequisite(
   prisma: PrismaService,
-  { courseId, prerequisiteId, programId }: ProgramCoursePrerequisiteSeed,
+  { courseId, prerequisiteId, programId }: ProgramCoursePrerequisiteSeed
 ) {
   return prisma.programCoursePrerequisite.create({
     data: {
       courseId,
       prerequisiteId,
-      programId,
-    },
+      programId
+    }
   });
 }

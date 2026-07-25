@@ -10,7 +10,7 @@ export async function createE2eTestApp(): Promise<{
   prisma: PrismaService;
 }> {
   const moduleFixture: TestingModule = await Test.createTestingModule({
-    imports: [AppModule],
+    imports: [AppModule]
   }).compile();
 
   const app = moduleFixture.createNestApplication();
@@ -22,13 +22,11 @@ export async function createE2eTestApp(): Promise<{
 
   return {
     app,
-    prisma: app.get(PrismaService),
+    prisma: app.get(PrismaService)
   };
 }
 
-export async function closeE2eTestApp(
-  app?: INestApplication,
-): Promise<void> {
+export async function closeE2eTestApp(app?: INestApplication): Promise<void> {
   if (app) {
     await app.close();
   }

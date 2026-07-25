@@ -4,30 +4,30 @@ import {
   CoursePrerequisiteDto,
   ProgramCourseDto,
   ProgramCoursesDto,
-  SessionAvailabilityDto,
+  SessionAvailabilityDto
 } from '../dtos/program-course.dto';
 import {
   CourseInstanceQueryResult,
   CoursePrerequisiteQueryResult,
   ProgramCourseQueryResult,
-  ProgramCoursesQueryResult,
+  ProgramCoursesQueryResult
 } from '../types/program-course.types';
 
 export class ProgramCourseMapper {
   public static toDto(
-    programs: ProgramCoursesQueryResult[],
+    programs: ProgramCoursesQueryResult[]
   ): ProgramCoursesDto[] {
     return programs.map((program) => ({
       programCode: program.code || '',
       programTitle: program.title,
       courses: program.courses.map((pCourse: ProgramCourseQueryResult) =>
-        this.toCourseDto(pCourse),
-      ),
+        this.toCourseDto(pCourse)
+      )
     }));
   }
 
   private static toCourseDto(
-    pCourse: ProgramCourseQueryResult,
+    pCourse: ProgramCourseQueryResult
   ): ProgramCourseDto {
     return {
       id: pCourse.courseId,
@@ -36,29 +36,29 @@ export class ProgramCourseMapper {
       credits: pCourse.course.credits || 0,
       cycle: pCourse.course.cycle,
       sessionAvailability: Object.values(
-        this.mapSessionAvailabilities(pCourse.course.courseInstances),
+        this.mapSessionAvailabilities(pCourse.course.courseInstances)
       ),
       prerequisites: this.mapPrerequisites(pCourse.prerequisites),
       type: pCourse.type,
       typicalSessionIndex: pCourse.typicalSessionIndex,
-      unstructuredPrerequisite: pCourse.unstructuredPrerequisite,
+      unstructuredPrerequisite: pCourse.unstructuredPrerequisite
     };
   }
 
   private static mapPrerequisites(
-    prerequisites: CoursePrerequisiteQueryResult[],
+    prerequisites: CoursePrerequisiteQueryResult[]
   ): CoursePrerequisiteDto[] {
     return prerequisites.map((prereq) => ({
       id: prereq.prerequisite.course.id,
       code: prereq.prerequisite.course.code,
       title: prereq.prerequisite.course.title,
       credits: prereq.prerequisite.course.credits,
-      cycle: prereq.prerequisite.course.cycle,
+      cycle: prereq.prerequisite.course.cycle
     }));
   }
 
   private static mapSessionAvailabilities(
-    courseInstances: CourseInstanceQueryResult[],
+    courseInstances: CourseInstanceQueryResult[]
   ): Record<string, SessionAvailabilityDto> {
     return courseInstances.reduce<Record<string, SessionAvailabilityDto>>(
       (acc, courseI) => {
@@ -71,13 +71,13 @@ export class ProgramCourseMapper {
             sessionCode: `${trimesterPrefix}${courseI.sessionYear}`,
             availability: Array.isArray(courseI.availability)
               ? courseI.availability
-              : [courseI.availability],
+              : [courseI.availability]
           };
         }
 
         return acc;
       },
-      {},
+      {}
     );
   }
 }

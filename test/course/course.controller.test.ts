@@ -11,7 +11,7 @@ describe('CourseController', () => {
     getAllCourses: jest.fn(),
     searchCourses: jest.fn(),
     getCoursesByCodes: jest.fn(),
-    getCourse: jest.fn(),
+    getCourse: jest.fn()
   };
 
   beforeEach(async () => {
@@ -20,9 +20,9 @@ describe('CourseController', () => {
       providers: [
         {
           provide: CourseService,
-          useValue: courseService,
-        },
-      ],
+          useValue: courseService
+        }
+      ]
     }).compile();
 
     app = module.createNestApplication();
@@ -42,8 +42,8 @@ describe('CourseController', () => {
         normalizedQuery: query,
         normalizedProgramCodes: programCodes ?? null,
         normalizedLimit: limit ?? null,
-        normalizedOffset: offset ?? null,
-      }),
+        normalizedOffset: offset ?? null
+      })
     );
 
     const { status, body } = await request(app.getHttpServer())
@@ -52,7 +52,7 @@ describe('CourseController', () => {
         query: 'LOG',
         programCodes: '7084;1822;',
         limit: '10',
-        offset: '20',
+        offset: '20'
       });
 
     expect(status).toBe(200);
@@ -60,7 +60,7 @@ describe('CourseController', () => {
       normalizedQuery: 'LOG',
       normalizedProgramCodes: ['7084', '1822'],
       normalizedLimit: 10,
-      normalizedOffset: 20,
+      normalizedOffset: 20
     });
   });
 
@@ -70,25 +70,26 @@ describe('CourseController', () => {
         normalizedQuery: query,
         normalizedProgramCodes: programCodes ?? null,
         normalizedLimit: limit ?? null,
-        normalizedOffset: offset ?? null,
-      }),
+        normalizedOffset: offset ?? null
+      })
     );
 
-    const { status, body } = await request(app.getHttpServer())
-      .get('/courses/search');
+    const { status, body } = await request(app.getHttpServer()).get(
+      '/courses/search'
+    );
 
     expect(status).toBe(200);
     expect(body).toStrictEqual({
       normalizedQuery: '',
       normalizedProgramCodes: null,
       normalizedLimit: null,
-      normalizedOffset: null,
+      normalizedOffset: null
     });
   });
 
   it('parses semicolon-delimited codes and drops blank values', async () => {
     courseService.getCoursesByCodes.mockImplementation(async (codes) =>
-      codes.map((code: string) => ({ code })),
+      codes.map((code: string) => ({ code }))
     );
 
     const { status, body } = await request(app.getHttpServer())
@@ -96,15 +97,12 @@ describe('CourseController', () => {
       .query({ codes: 'LOG121;;MAT145' });
 
     expect(status).toBe(200);
-    expect(body).toStrictEqual([
-      { code: 'LOG121' },
-      { code: 'MAT145' },
-    ]);
+    expect(body).toStrictEqual([{ code: 'LOG121' }, { code: 'MAT145' }]);
   });
 
   it('parses repeated codes query params and drops blank values', async () => {
     courseService.getCoursesByCodes.mockImplementation(async (codes) =>
-      codes.map((code: string) => ({ code })),
+      codes.map((code: string) => ({ code }))
     );
 
     const { status, body } = await request(app.getHttpServer())
@@ -112,17 +110,15 @@ describe('CourseController', () => {
       .query({ codes: ['LOG121', '', 'MAT145'] });
 
     expect(status).toBe(200);
-    expect(body).toStrictEqual([
-      { code: 'LOG121' },
-      { code: 'MAT145' },
-    ]);
+    expect(body).toStrictEqual([{ code: 'LOG121' }, { code: 'MAT145' }]);
   });
 
   it('defaults codes to an empty array when the query param is missing', async () => {
     courseService.getCoursesByCodes.mockResolvedValue([]);
 
-    const { status, body } = await request(app.getHttpServer())
-      .get('/courses/codes');
+    const { status, body } = await request(app.getHttpServer()).get(
+      '/courses/codes'
+    );
 
     expect(status).toBe(200);
     expect(body).toStrictEqual([]);

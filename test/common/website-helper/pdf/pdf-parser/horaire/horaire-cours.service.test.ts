@@ -16,10 +16,10 @@ describe('HoraireCoursService', () => {
         {
           provide: HttpService,
           useValue: {
-            get: jest.fn(),
-          },
-        },
-      ],
+            get: jest.fn()
+          }
+        }
+      ]
     }).compile();
 
     service = module.get<HoraireCoursService>(HoraireCoursService);
@@ -31,7 +31,7 @@ describe('HoraireCoursService', () => {
       'test',
       'assets',
       'pdf',
-      'HorairePublication_20243_7084-v1.pdf',
+      'HorairePublication_20243_7084-v1.pdf'
     );
 
     it('(v1) (v1) should confirm that the PDF file exists', () => {
@@ -64,7 +64,7 @@ describe('HoraireCoursService', () => {
         'test',
         'assets',
         'pdf',
-        'HorairePublication_20243_7084-v1.pdf',
+        'HorairePublication_20243_7084-v1.pdf'
       );
       pdfBuffer = readFileSync(pdfFilePath);
 
@@ -223,10 +223,10 @@ describe('HoraireCoursService', () => {
         const gti510 = courses.find((course) => course.code === 'GTI510');
         expect(gti510).toBeDefined();
         expect(gti510.title).toBe(
-          'GESTION DE PROJETS ET ASSURANCE DE LA QUALITÉ',
+          'GESTION DE PROJETS ET ASSURANCE DE LA QUALITÉ'
         );
         expect(gti510.prerequisites).toBe(
-          'GTI210 et STA204 / TI: STA204, LOG: STA204 ou STA206',
+          'GTI210 et STA204 / TI: STA204, LOG: STA204 ou STA206'
         );
       });
 
@@ -234,7 +234,7 @@ describe('HoraireCoursService', () => {
         const course = courses.find((PRE011) => PRE011.code === 'PRE011');
         expect(course).toBeDefined();
         expect(course.title).toBe(
-          'DÉVELOPPEMENT PROFESSIONNEL ET INITIATION À LA SANTÉ ET SÉCURITÉ',
+          'DÉVELOPPEMENT PROFESSIONNEL ET INITIATION À LA SANTÉ ET SÉCURITÉ'
         );
         expect(course.prerequisites).toBe('');
         expect(Object.keys(course.groups)).toHaveLength(23);
@@ -249,14 +249,16 @@ describe('HoraireCoursService', () => {
       const axiosError = {
         response: { status: 404 },
         message: 'Request failed with status code 404',
-        isAxiosError: true,
+        isAxiosError: true
       };
       // Correctly mock httpService.get to return an Observable that errors
-      service['httpService'].get = jest.fn().mockReturnValueOnce(
-        throwError(() => axiosError)
-      );
-      await expect(service.parsePdfFromUrl('https://dummy-not-found')).rejects.toMatchObject({
-        response: { status: 404 },
+      service['httpService'].get = jest
+        .fn()
+        .mockReturnValueOnce(throwError(() => axiosError));
+      await expect(
+        service.parsePdfFromUrl('https://dummy-not-found')
+      ).rejects.toMatchObject({
+        response: { status: 404 }
       });
     });
   });

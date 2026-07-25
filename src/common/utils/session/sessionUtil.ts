@@ -16,24 +16,23 @@ const SESSION_DATE_RANGES: SessionDateRange[] = [
     trimester: Trimester.HIVER,
     index: 1,
     start: { month: 12, day: 20 }, // 20 décembre (previous year)
-    end: { month: 4, day: 28 }, // 28 avril
+    end: { month: 4, day: 28 } // 28 avril
   },
   // ETE: Apr 29 – Aug 17
   {
     trimester: Trimester.ETE,
     index: 2,
     start: { month: 4, day: 29 }, // 29 avril
-    end: { month: 8, day: 17 }, // 17 août
+    end: { month: 8, day: 17 } // 17 août
   },
   // AUTOMNE: Aug 18 – Dec 19
   {
     trimester: Trimester.AUTOMNE,
     index: 3,
     start: { month: 8, day: 18 }, // 18 août
-    end: { month: 12, day: 19 }, // 19 décembre
-  },
+    end: { month: 12, day: 19 } // 19 décembre
+  }
 ];
-
 
 function dateToComparable(month: number, day: number): number {
   // e.g. Jan 1 => 101, Dec 31 => 1231
@@ -43,7 +42,7 @@ function dateToComparable(month: number, day: number): number {
 export function isDateInRange(
   date: { month: number; day: number },
   start: { month: number; day: number },
-  end: { month: number; day: number },
+  end: { month: number; day: number }
 ): boolean {
   const d = dateToComparable(date.month, date.day);
   const s = dateToComparable(start.month, start.day);
@@ -72,7 +71,7 @@ export function getCurrentSessionIndex(date: Date = new Date()): string | null {
   }
 
   logger.error(
-    `Unable to determine the current trimester for date: ${date.toISOString()}`,
+    `Unable to determine the current trimester for date: ${date.toISOString()}`
   );
   return null;
 }

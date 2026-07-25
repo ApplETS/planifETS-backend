@@ -1,6 +1,4 @@
-
-
-import { ICoursePlanification } from "@/common/website-helper/pdf/pdf-parser/planification/planification-cours.types";
+import { ICoursePlanification } from '@/common/website-helper/pdf/pdf-parser/planification/planification-cours.types';
 
 // Extract only code and available fields from a course
 function mapCoursePlanification(c: ICoursePlanification) {
@@ -13,7 +11,5 @@ function sortByCode(a: { code: string }, b: { code: string }) {
 }
 
 export function normalizeCourseArray(arr: Array<ICoursePlanification>) {
-  return arr
-    .map(mapCoursePlanification)
-    .sort(sortByCode);
+  return arr.map(mapCoursePlanification).sort(sortByCode);
 }

@@ -9,7 +9,7 @@ describe('PrerequisiteController', () => {
   let app: INestApplication;
   const prerequisiteService = {
     getAllCoursePrerequisites: jest.fn(),
-    getPrerequisitesByCode: jest.fn(),
+    getPrerequisitesByCode: jest.fn()
   };
 
   beforeEach(async () => {
@@ -18,9 +18,9 @@ describe('PrerequisiteController', () => {
       providers: [
         {
           provide: PrerequisiteService,
-          useValue: prerequisiteService,
-        },
-      ],
+          useValue: prerequisiteService
+        }
+      ]
     }).compile();
 
     app = module.createNestApplication();
@@ -39,12 +39,12 @@ describe('PrerequisiteController', () => {
       {
         courseId: 352405,
         prerequisiteId: 145001,
-        programId: 7084,
-      },
+        programId: 7084
+      }
     ]);
 
     const { status, body } = await request(app.getHttpServer()).get(
-      '/prerequisites',
+      '/prerequisites'
     );
 
     expect(status).toBe(200);
@@ -52,8 +52,8 @@ describe('PrerequisiteController', () => {
       {
         courseId: 352405,
         prerequisiteId: 145001,
-        programId: 7084,
-      },
+        programId: 7084
+      }
     ]);
   });
 
@@ -63,18 +63,18 @@ describe('PrerequisiteController', () => {
         {
           prerequisite: {
             course: {
-              code: courseCode,
-            },
-          },
-        },
-      ],
+              code: courseCode
+            }
+          }
+        }
+      ]
     );
 
     const { status, body } = await request(app.getHttpServer())
       .get('/prerequisites/by-program-course')
       .query({
         programId: '182848',
-        courseCode: 'log430',
+        courseCode: 'log430'
       });
 
     expect(status).toBe(200);
@@ -82,10 +82,10 @@ describe('PrerequisiteController', () => {
       {
         prerequisite: {
           course: {
-            code: 'LOG430',
-          },
-        },
-      },
+            code: 'LOG430'
+          }
+        }
+      }
     ]);
   });
 
@@ -94,14 +94,14 @@ describe('PrerequisiteController', () => {
       .get('/prerequisites/by-program-course')
       .query({
         programId: 'abc',
-        courseCode: 'log430',
+        courseCode: 'log430'
       });
 
     expect(status).toBe(400);
     expect(body).toStrictEqual({
       message: 'Validation failed (numeric string is expected)',
       error: 'Bad Request',
-      statusCode: 400,
+      statusCode: 400
     });
   });
 });

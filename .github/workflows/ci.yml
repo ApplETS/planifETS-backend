@@ -26,10 +26,13 @@ jobs:
           cache-dependency-path: yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --ignore-scripts
 
-      - name: Lint code
-        run: yarn run lint
+      - name: Generate Prisma Client
+        run: yarn prisma:generate
+
+      - name: Check formatting and lint
+        run: yarn run format:check
 
       - name: Type check
         run: yarn typecheck
@@ -55,7 +58,7 @@ jobs:
           cache-dependency-path: yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --ignore-scripts
 
       - name: Run Dependency Audit
         run: |
@@ -96,7 +99,10 @@ jobs:
           cache-dependency-path: yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --ignore-scripts
+
+      - name: Generate Prisma Client
+        run: yarn prisma:generate
 
       - name: Create .env.test
         run: echo "DATABASE_URL=${{ env.DATABASE_URL }}" > .env.test
@@ -133,7 +139,10 @@ jobs:
           cache-dependency-path: yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --ignore-scripts
+
+      - name: Generate Prisma Client
+        run: yarn prisma:generate
 
       - name: Create .env.test
         run: |
@@ -171,7 +180,10 @@ jobs:
           cache-dependency-path: yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --ignore-scripts
+
+      - name: Generate Prisma Client
+        run: yarn prisma:generate
 
       - name: Create .env.test
         run: echo "DATABASE_URL=${{ env.DATABASE_URL }}" > .env.test
@@ -208,7 +220,10 @@ jobs:
           cache-dependency-path: yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --ignore-scripts
+
+      - name: Generate Prisma Client
+        run: yarn prisma:generate
 
       - name: Create .env.test
         run: echo "DATABASE_URL=${{ env.DATABASE_URL }}" > .env.test

@@ -7,6 +7,6 @@ import { FileExtractionService } from './file-extraction.service';
 @Module({
   controllers: [CheminotController],
   providers: [CheminotService, FileExtractionService],
-  exports: [CheminotService],
+  exports: [CheminotService]
 })
 export class CheminotModule {}

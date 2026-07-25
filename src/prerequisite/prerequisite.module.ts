@@ -10,6 +10,6 @@ import { PrerequisiteService } from './prerequisite.service';
   imports: [PrismaModule, CourseModule],
   controllers: [PrerequisiteController],
   providers: [PrerequisiteService, ProgramCourseService],
-  exports: [PrerequisiteService],
+  exports: [PrerequisiteService]
 })
 export class PrerequisiteModule {}

@@ -1,0 +1,1051 @@
+[
+  {
+    "query": "je veux un cours de DevOps",
+    "relevant": [
+      "LOG680"
+    ],
+    "acceptable": [
+      "ELE796",
+      "GTI778",
+      "IND250",
+      "LOG530"
+    ],
+    "note": "LOG680 est LE cours DevOps. ELE796 mentionne DevOps mais porte sur l'infonuagique — acceptable, pas requis."
+  },
+  {
+    "query": "jaime devops",
+    "relevant": [
+      "LOG680"
+    ],
+    "acceptable": [
+      "ELE796",
+      "GTI778",
+      "IND250",
+      "LOG530"
+    ],
+    "programIds": [
+      182848
+    ],
+    "note": "RÉGRESSION (cas réel signalé). Rang 1 à 0.385, sous l'ancien seuil de 0.4 → 0 résultat, LLM sans contexte."
+  },
+  {
+    "query": "jveux faire des avions",
+    "relevant": [
+      "AER400"
+    ],
+    "acceptable": [
+      "AER300",
+      "AER600",
+      "AER671",
+      "AER610",
+      "MEC757"
+    ],
+    "note": "Registre familier, comme un vrai étudiant écrit."
+  },
+  {
+    "query": "cours sur l'infonuagique et le cloud",
+    "relevant": [
+      "GTI778",
+      "ELE796",
+      "MTI840",
+      "IND250"
+    ],
+    "acceptable": [
+      "LOG680",
+      "IND300",
+      "IND500"
+    ]
+  },
+  {
+    "query": "apprentissage profond et réseaux de neurones",
+    "relevant": [
+      "GPA710",
+      "MTI865",
+      "SYS843"
+    ],
+    "acceptable": [
+      "GTI771",
+      "GPA671",
+      "ELE767",
+      "LOG635",
+      "SYS818",
+      "GTS860",
+      "IND560",
+      "SYS879",
+      "ELE758",
+      "GOL717",
+      "GTI755"
+    ]
+  },
+  {
+    "query": "bases de données",
+    "relevant": [
+      "GPA685",
+      "LOG660",
+      "GTI660",
+      "IND500"
+    ],
+    "acceptable": [
+      "MTI820",
+      "GOL491",
+      "IND540",
+      "MTI850",
+      "LOG736"
+    ]
+  },
+  {
+    "query": "sécurité informatique et cryptographie",
+    "relevant": [
+      "ELE692",
+      "GTI619",
+      "LOG460",
+      "MGR850",
+      "GTI719"
+    ],
+    "acceptable": [
+      "IND300",
+      "GOL661"
+    ],
+    "note": "PIÈGE polysémie: SST801/SST820/SST803/PRE011/GIA602 (santé-sécurité au travail) ne doivent PAS remonter. ÉCHEC MESURÉ: PRE013 sort en rang 1 (0.538), devant GTI619 — son titre contient littéralement 'sécurité' ET 'informatique' ('santé et sécurité du travail en secteur informatique'). Volontairement laissé hors de acceptable: c'est une vraie erreur pour un étudiant. Voir le contre-piège 'santé et sécurité au travail'."
+  },
+  {
+    "query": "structures de béton armé",
+    "relevant": [
+      "CTN508",
+      "CTN785"
+    ],
+    "acceptable": [
+      "CTN784",
+      "MGC826",
+      "GCI105",
+      "CTN318",
+      "CTN408"
+    ],
+    "note": "PIÈGE polysémie: LOG200/LOG320/GPA675 'Structures de données' ne doivent PAS remonter."
+  },
+  {
+    "query": "charpentes d'acier et structures en bois",
+    "relevant": [
+      "CTN783",
+      "CTN781"
+    ],
+    "acceptable": [
+      "CTN408",
+      "CTN785",
+      "MGC830",
+      "MEC111",
+      "CTN248"
+    ]
+  },
+  {
+    "query": "fondations et géotechnique",
+    "relevant": [
+      "CTN741",
+      "CTN504",
+      "MGC843",
+      "MGC844"
+    ],
+    "acceptable": [
+      "CTN744",
+      "CTN752",
+      "CTN771"
+    ],
+    "note": "CTN504 (Mécanique des sols) et MGC843 trouvés via description — invisibles à une recherche sur les titres."
+  },
+  {
+    "query": "BIM et maquette numérique du bâtiment",
+    "relevant": [
+      "CTN737",
+      "BIM870",
+      "GCI800",
+      "BIM921"
+    ],
+    "acceptable": [
+      "CTN736",
+      "BIM895",
+      "BIM880",
+      "MGC818",
+      "BIM810",
+      "BIM860"
+    ]
+  },
+  {
+    "query": "hydraulique urbaine et distribution d'eau potable",
+    "relevant": [
+      "CTN761",
+      "CTN456",
+      "MGC866"
+    ],
+    "acceptable": [
+      "MGC867",
+      "MGC856",
+      "GIU810",
+      "CTN769",
+      "MGC859"
+    ]
+  },
+  {
+    "query": "gestion de projets de construction",
+    "relevant": [
+      "CTN100",
+      "MGC821",
+      "GCI800"
+    ],
+    "acceptable": [
+      "CTN701",
+      "EEC550",
+      "GCI350",
+      "MGC818",
+      "MGC852",
+      "TCH020",
+      "GCI312",
+      "GCI500",
+      "GCI420",
+      "CTN320",
+      "CTN702",
+      "CTN705",
+      "GES800",
+      "MGC820",
+      "GES821",
+      "GES885",
+      "MGC824"
+    ],
+    "note": "CTN320 et GCI420 portent le MÊME intitulé (cours jumeaux inter-programmes): textes identiques, donc vecteurs identiques. Étiqueter l'un sans l'autre rend le recall arbitraire."
+  },
+  {
+    "query": "thermodynamique",
+    "relevant": [
+      "MEC240",
+      "ING160",
+      "AER450"
+    ],
+    "acceptable": [
+      "MEC532",
+      "CTN603",
+      "MEC556",
+      "CHM130",
+      "MEC758",
+      "MEC732"
+    ]
+  },
+  {
+    "query": "mécanique des fluides",
+    "relevant": [
+      "MEC335",
+      "CTN346",
+      "SYS807",
+      "MEC558"
+    ],
+    "acceptable": [
+      "ING160",
+      "MEC556",
+      "MEC628",
+      "GPA782",
+      "MEC757"
+    ]
+  },
+  {
+    "query": "mecanique des fluides sans accents",
+    "relevant": [
+      "MEC335",
+      "CTN346",
+      "SYS807",
+      "MEC558"
+    ],
+    "acceptable": [
+      "ING160",
+      "MEC556",
+      "MEC628",
+      "GPA782",
+      "MEC757"
+    ],
+    "note": "Test direct: les étudiants tapent souvent sans accents. Doit égaler la version accentuée."
+  },
+  {
+    "query": "transfert de chaleur",
+    "relevant": [
+      "MEC532"
+    ],
+    "acceptable": [
+      "CTN603",
+      "MEC240",
+      "AER450",
+      "MEC758",
+      "MEC630",
+      "MEC733",
+      "MEC732"
+    ],
+    "note": "CTN603 calcule conduction/convection/rayonnement — vrai transfert de chaleur. MEC423/SST803 mentionnent le terme sans porter dessus."
+  },
+  {
+    "query": "résistance des matériaux",
+    "relevant": [
+      "MEC329",
+      "CTN318",
+      "GPA305",
+      "SYS805"
+    ],
+    "acceptable": [
+      "MEC555",
+      "MEC111",
+      "CTN408",
+      "MEC423",
+      "MEC200"
+    ]
+  },
+  {
+    "query": "robotique industrielle et manipulateurs",
+    "relevant": [
+      "GPA546",
+      "ELE773",
+      "MEC744",
+      "SYS824"
+    ],
+    "acceptable": [
+      "MEC745",
+      "GPA755",
+      "SYS827",
+      "GPA778",
+      "MEC788",
+      "GPA771",
+      "MEC729"
+    ]
+  },
+  {
+    "query": "aérodynamique",
+    "relevant": [
+      "AER300",
+      "AER610",
+      "MEC757"
+    ],
+    "acceptable": [
+      "MEC556",
+      "AER785",
+      "MEC335",
+      "AER671",
+      "AER400"
+    ]
+  },
+  {
+    "query": "propulsion et moteurs d'avion",
+    "relevant": [
+      "AER450",
+      "AER725",
+      "MEC758"
+    ],
+    "acceptable": [
+      "AER600",
+      "ELE452",
+      "AER770",
+      "MEC737"
+    ]
+  },
+  {
+    "query": "essais en vol",
+    "relevant": [
+      "AER710",
+      "AER730",
+      "AER720",
+      "MGA856"
+    ],
+    "acceptable": [
+      "AER732",
+      "AER670",
+      "MGA804"
+    ]
+  },
+  {
+    "query": "mécanique du vol et stabilité de l'avion",
+    "relevant": [
+      "AER400",
+      "MGA804",
+      "AER730"
+    ],
+    "acceptable": [
+      "ELE704",
+      "GPA741",
+      "AER780",
+      "AER670",
+      "AER785"
+    ]
+  },
+  {
+    "query": "matériaux composites en aérospatiale",
+    "relevant": [
+      "AER735",
+      "SYS857",
+      "MEC619",
+      "SYS815"
+    ],
+    "acceptable": [
+      "AER627",
+      "AER660",
+      "MGC826",
+      "SYS848",
+      "MEC786"
+    ]
+  },
+  {
+    "query": "y'a-tu un cours où on code en Python?",
+    "relevant": [
+      "INF136"
+    ],
+    "acceptable": [
+      "INF155",
+      "INF147",
+      "INF130",
+      "GPA678",
+      "LOG675"
+    ],
+    "note": "Registre québécois ('y'a-tu') + nom d'outil. Aucun mot commun avec le titre sauf Python."
+  },
+  {
+    "query": "je veux faire des jeux vidéo",
+    "relevant": [
+      "LOG725",
+      "MTI855",
+      "DSN470"
+    ],
+    "acceptable": [
+      "SYS840"
+    ]
+  },
+  {
+    "query": "coder des apps mobiles pis des sites web",
+    "relevant": [
+      "LOG450",
+      "GTI525",
+      "INF270"
+    ],
+    "acceptable": [
+      "IND280",
+      "GTI785",
+      "GTI710",
+      "DSN171",
+      "DSN270",
+      "IND220",
+      "LOG100",
+      "GTI100"
+    ],
+    "note": "'pis' + anglicismes ('apps', 'web'). INF270 (Programmation Web) trouvé par le retriever, pas par mon regex sur les titres."
+  },
+  {
+    "query": "machine learning",
+    "relevant": [
+      "ELE767",
+      "GTI771",
+      "GPA710"
+    ],
+    "acceptable": [
+      "MTI865",
+      "SYS843",
+      "GPA671",
+      "GTI755",
+      "LOG635",
+      "IND560"
+    ],
+    "note": "Anglicisme pur, zéro français. Les titres disent 'apprentissage machine' — teste le pont cross-lingue de BGE-M3."
+  },
+  {
+    "query": "cybersecurity",
+    "relevant": [
+      "GTI619",
+      "ELE692",
+      "MGR850"
+    ],
+    "acceptable": [
+      "LOG460",
+      "GTI719",
+      "IND300",
+      "GTI723"
+    ],
+    "note": "Anglicisme. Doit rejoindre 'Sécurité des systèmes'. Piège SST toujours actif. GTI723 (Test d'intrusion) oublié par mon regex, trouvé par le retriever."
+  },
+  {
+    "query": "de l'IA mais dans le domaine de la santé",
+    "relevant": [
+      "GTS860",
+      "SYS818"
+    ],
+    "acceptable": [
+      "GTS601",
+      "GTS610",
+      "SYS809",
+      "ELE747",
+      "GTS640"
+    ],
+    "note": "Croisement de domaines. Ni 'IA santé' ni 'intelligence artificielle santé' n'est un titre complet."
+  },
+  {
+    "query": "vision par ordinateur et traitement d'images",
+    "relevant": [
+      "SYS809",
+      "MTI865",
+      "ELE747",
+      "GPA659"
+    ],
+    "acceptable": [
+      "SYS818",
+      "SYS840",
+      "GTS601",
+      "GTI411",
+      "MTI870",
+      "MTI836"
+    ]
+  },
+  {
+    "query": "je veux travailler dans les énergies renouvelables",
+    "relevant": [
+      "ELE889",
+      "MGC868"
+    ],
+    "acceptable": [
+      "SYS878",
+      "MEC733",
+      "ELE653",
+      "CTN735",
+      "ELE758",
+      "CTN736"
+    ],
+    "note": "Ground truth volontairement mince: seuls ELE889 (solaire) et MGC868 (hydro) portent sur des sources renouvelables. Le DESS du même nom contient surtout des cours génériques."
+  },
+  {
+    "query": "des cours de shop, soudage pis usinage",
+    "relevant": [
+      "MEC625",
+      "MEC781"
+    ],
+    "acceptable": [
+      "GPA210",
+      "GOL509",
+      "MEC723",
+      "AER729",
+      "TCH043",
+      "MEC029",
+      "SYS856"
+    ],
+    "note": "'shop' = argot québécois pour atelier/fabrication. Aucun cours ne contient ce mot."
+  },
+  {
+    "query": "faire des prothèses pis du génie biomédical",
+    "relevant": [
+      "GTS602",
+      "GTS620"
+    ],
+    "acceptable": [
+      "GTS615",
+      "GTS601",
+      "GTS610",
+      "SYS818",
+      "GTS860",
+      "GTS504",
+      "GTS501"
+    ]
+  },
+  {
+    "query": "probabilités pis statistiques",
+    "relevant": [
+      "MAT350"
+    ],
+    "acceptable": [
+      "QUA121",
+      "GOL676",
+      "QUA165",
+      "GSY400"
+    ]
+  },
+  {
+    "query": "des circuits électriques de base",
+    "relevant": [
+      "ELE105",
+      "ELE104",
+      "GPA220"
+    ],
+    "acceptable": [
+      "MEC546",
+      "ELE200",
+      "GPA325",
+      "TEL136"
+    ]
+  },
+  {
+    "query": "lean pis amélioration continue en usine",
+    "relevant": [
+      "QUA142",
+      "QUA202"
+    ],
+    "acceptable": [
+      "GOL616",
+      "QUA134",
+      "GPO232",
+      "QUA121",
+      "MEC402",
+      "GPO241"
+    ],
+    "note": "'lean' n'apparaît dans aucun titre — teste la sémantique, pas le lexique."
+  },
+  {
+    "query": "supply chain pis logistique",
+    "relevant": [
+      "GOL460",
+      "ENM850"
+    ],
+    "acceptable": [
+      "SYS872",
+      "GOL740",
+      "GES823",
+      "GOL500",
+      "GOL720"
+    ],
+    "note": "GES823 est un cours de FINANCE d'investissement malgré 'chaîne logistique' dans son titre — acceptable, jamais requis."
+  },
+  {
+    "query": "partir ma propre business",
+    "relevant": [
+      "ENT800",
+      "GES836",
+      "ENT202"
+    ],
+    "acceptable": [
+      "ENT805",
+      "GES864",
+      "GES835",
+      "GES860",
+      "GES846",
+      "GES802",
+      "GOL401",
+      "GES840"
+    ],
+    "note": "'business' + registre familier. Mon ground truth initial ne listait qu'ENT202: le retriever a trouvé ENT800 (Création d'une entreprise) et GES836 (Entreprendre sans idée préalable), meilleurs, que mon regex /entrepreneur/ ne matchait pas."
+  },
+  {
+    "query": "je veux travailler sur des ponts",
+    "relevant": [
+      "CTN784"
+    ],
+    "acceptable": [
+      "CTN785",
+      "CTN408",
+      "CTN508",
+      "MGC826",
+      "CTN783",
+      "MGC842",
+      "MGC825"
+    ]
+  },
+  {
+    "query": "faire des barrages hydroélectriques",
+    "relevant": [
+      "MGC868"
+    ],
+    "acceptable": [
+      "CTN456",
+      "MGC859",
+      "CTN761",
+      "ELE653"
+    ]
+  },
+  {
+    "query": "fibre optique, antennes pis télécoms",
+    "relevant": [
+      "TEL148",
+      "ELE772",
+      "ELE788"
+    ],
+    "acceptable": [
+      "ELE785",
+      "MGR860",
+      "ELE798",
+      "TEL145",
+      "TEL115",
+      "ELE793"
+    ]
+  },
+  {
+    "query": "un cours de CAO genre SolidWorks ou CATIA",
+    "relevant": [
+      "GPA445"
+    ],
+    "acceptable": [
+      "AER140",
+      "GPA725",
+      "MEC129",
+      "TCH007",
+      "MEC029",
+      "MEC592"
+    ],
+    "note": "Noms d'outils absents des titres. Teste le saut outil → concept ('conception assistée par ordinateur')."
+  },
+
+  {
+    "query": "je veux faire du design UX",
+    "relevant": [
+      "DSN120"
+    ],
+    "acceptable": [
+      "DSN110",
+      "DSN171",
+      "DSN230",
+      "DSN140",
+      "DSN250",
+      "DSN630",
+      "DSN220",
+      "DSN330",
+      "DSN450"
+    ]
+  },
+  {
+    "query": "recherche utilisateur pis tests avec des vrais users",
+    "relevant": [
+      "DSN110",
+      "DSN210"
+    ],
+    "acceptable": [
+      "DSN510",
+      "DSN260",
+      "DSN460",
+      "DSN120"
+    ],
+    "note": "'users' anglicisme."
+  },
+  {
+    "query": "prototypage pis design d'interfaces",
+    "relevant": [
+      "DSN230",
+      "DSN170",
+      "DSN270",
+      "DSN171"
+    ],
+    "acceptable": [
+      "DSN580",
+      "DSN360",
+      "DSN120"
+    ]
+  },
+  {
+    "query": "réalité virtuelle et augmentée",
+    "relevant": [
+      "DSN680"
+    ],
+    "acceptable": [
+      "DSN580",
+      "SYS840",
+      "MTI870",
+      "LOG725"
+    ]
+  },
+  {
+    "query": "visualisation de données",
+    "relevant": [
+      "DSN420"
+    ],
+    "acceptable": [
+      "MTI850",
+      "DSN360",
+      "DSN510",
+      "IND540"
+    ]
+  },
+  {
+    "query": "design inclusif et accessibilité",
+    "relevant": [
+      "DSN370"
+    ],
+    "acceptable": [
+      "DSN240",
+      "DSN260",
+      "DSN660",
+      "DSN530"
+    ]
+  },
+  {
+    "query": "systèmes embarqués et microcontrôleurs",
+    "relevant": [
+      "ELE543",
+      "ELE674"
+    ],
+    "acceptable": [
+      "ELE641",
+      "GPA778",
+      "ELE344",
+      "TEL136",
+      "ELE749"
+    ]
+  },
+  {
+    "query": "traitement de signal",
+    "relevant": [
+      "ELE265",
+      "ELE666"
+    ],
+    "acceptable": [
+      "SYS833",
+      "SYS835",
+      "TEL115",
+      "GTI311",
+      "ELE462"
+    ]
+  },
+  {
+    "query": "asservissement et automatique",
+    "relevant": [
+      "ELE275",
+      "GPA535",
+      "ELE474"
+    ],
+    "acceptable": [
+      "ELE656",
+      "ELE672",
+      "SYS802",
+      "ELE777",
+      "SYS801"
+    ]
+  },
+  {
+    "query": "machines électriques pis électronique de puissance",
+    "relevant": [
+      "ELE550",
+      "ELE355",
+      "ELE654"
+    ],
+    "acceptable": [
+      "ELE656",
+      "ELE652",
+      "ELE752",
+      "SYS839",
+      "ELE653"
+    ]
+  },
+  {
+    "query": "électromagnétisme et ondes",
+    "relevant": [
+      "ELE312",
+      "ELE413"
+    ],
+    "acceptable": [
+      "ELE667",
+      "ELE788",
+      "ELE793",
+      "PHY332",
+      "ELE771"
+    ]
+  },
+  {
+    "query": "FPGA pis conception de circuits numériques",
+    "relevant": [
+      "ELE739",
+      "ELE140"
+    ],
+    "acceptable": [
+      "ELE682",
+      "ELE344",
+      "ELE749",
+      "TEL136"
+    ]
+  },
+  {
+    "query": "calcul différentiel et intégral",
+    "relevant": [
+      "MAT145"
+    ],
+    "acceptable": [
+      "MAT265",
+      "MAT165",
+      "MAT805",
+      "MAT802"
+    ]
+  },
+  {
+    "query": "algèbre linéaire",
+    "relevant": [
+      "MAT380",
+      "MAT165",
+      "MAT472"
+    ]
+  },
+  {
+    "query": "équations différentielles",
+    "relevant": [
+      "MAT265"
+    ],
+    "acceptable": [
+      "MAT145",
+      "ELE735",
+      "GPA678",
+      "MAT805"
+    ]
+  },
+  {
+    "query": "santé et sécurité au travail",
+    "relevant": [
+      "SST801",
+      "SST820"
+    ],
+    "acceptable": [
+      "SST803",
+      "SST805",
+      "SST880",
+      "GIA602",
+      "PRE011",
+      "PRE013",
+      "GCI312",
+      "TCH020",
+      "SST825"
+    ],
+    "note": "CONTRE-PIÈGE: symétrique de 'sécurité informatique et cryptographie'. Ici les SST DOIVENT remonter et GTI619/ELE692/LOG460 ne le doivent pas. Teste la polysémie de 'sécurité' dans l'autre sens."
+  },
+  {
+    "query": "bruit et vibrations en usine",
+    "relevant": [
+      "SST815",
+      "MEC636"
+    ],
+    "acceptable": [
+      "MEC525",
+      "SST805"
+    ]
+  },
+  {
+    "query": "droit et aspects juridiques pour ingénieur",
+    "relevant": [
+      "GES825",
+      "GES826"
+    ],
+    "acceptable": [
+      "GES828",
+      "GES884",
+      "GES827",
+      "CTN609",
+      "ETH310",
+      "PEP110",
+      "GES870",
+      "GES840"
+    ],
+    "note": "ETH310 et PEP110 sont jumeaux (même intitulé): étiquetés ensemble."
+  },
+  {
+    "query": "ingénierie financière et produits dérivés",
+    "relevant": [
+      "GES817",
+      "GES830"
+    ],
+    "acceptable": [
+      "GES816",
+      "GES818",
+      "GES815",
+      "GES824",
+      "GES823"
+    ]
+  },
+  {
+    "query": "créativité et innovation, méthode TRIZ",
+    "relevant": [
+      "GES837",
+      "GES835"
+    ],
+    "acceptable": [
+      "GES838",
+      "GES839",
+      "GES868",
+      "GES862",
+      "GES867"
+    ]
+  },
+  {
+    "query": "simulation par éléments finis",
+    "relevant": [
+      "SYS806",
+      "MEC423"
+    ],
+    "acceptable": [
+      "SYS810",
+      "SYS815",
+      "MEC558"
+    ]
+  },
+  {
+    "query": "fabrication additive pis impression 3D",
+    "relevant": [
+      "SYS816",
+      "AER627"
+    ],
+    "acceptable": [
+      "BIM880",
+      "GOL509"
+    ]
+  },
+  {
+    "query": "objets connectés pis IoT",
+    "relevant": [
+      "GTI700",
+      "SYS873",
+      "ENM820",
+      "IND520"
+    ],
+    "acceptable": [
+      "GPA788"
+    ]
+  },
+  {
+    "query": "informatique quantique",
+    "relevant": [
+      "GTI750",
+      "GTI755"
+    ]
+  },
+  {
+    "query": "tests pis qualité du logiciel",
+    "relevant": [
+      "LOG240"
+    ],
+    "acceptable": [
+      "GTI510",
+      "LOG530",
+      "GOL616"
+    ]
+  },
+  {
+    "query": "architecture logicielle",
+    "relevant": [
+      "LOG430"
+    ],
+    "acceptable": [
+      "LOG121",
+      "LOG410",
+      "LOG736",
+      "GES822",
+      "ELE716"
+    ]
+  },
+  {
+    "query": "systèmes d'exploitation",
+    "relevant": [
+      "LOG710"
+    ],
+    "acceptable": [
+      "IND220",
+      "ELE784",
+      "LOG550",
+      "ELE732"
+    ]
+  },
+  {
+    "query": "LOG680",
+    "relevant": [
+      "LOG680"
+    ],
+    "note": "Code exact. Échoue actuellement (rang 9): le dense capte la famille du préfixe, pas le numéro."
+  },
+  {
+    "query": "AER300",
+    "relevant": [
+      "AER300"
+    ],
+    "note": "Code exact. Passe, mais par chance: le top-10 est le cluster AER et AER300 s'est trouvé en tête."
+  },
+  {
+    "query": "recette de pâtes à ravioli",
+    "relevant": [],
+    "note": "Contrôle négatif. Le seuil étant désactivé (aucune valeur ne sépare le bruit du signal), 10 cours remontent et c'est VOULU: le rejet appartient au LLM. Ne se juge plus au niveau du retrieval."
+  }
+]

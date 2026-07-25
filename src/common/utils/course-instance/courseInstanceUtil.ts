@@ -2,12 +2,12 @@ import { Availability } from '@prisma/client';
 
 export class AvailabilityUtil {
   public static parseAvailability(
-    availabilityCode: string,
+    availabilityCode: string
   ): Availability[] | null {
     const availabilityMap: Record<string, Availability> = {
       J: Availability.JOUR,
       S: Availability.SOIR,
-      I: Availability.INTENSIF,
+      I: Availability.INTENSIF
     };
 
     const availabilities: Availability[] = [];
@@ -31,7 +31,7 @@ export class AvailabilityUtil {
   // Compares two arrays of Availability enums for equality, ignoring order.
   public static areAvailabilitiesEqual(
     a: Availability[],
-    b: Availability[],
+    b: Availability[]
   ): boolean {
     if (a.length !== b.length) return false;
 
@@ -49,7 +49,7 @@ export class AvailabilityUtil {
 
   // Builds a frequency map of the Availability enums
   private static buildFrequencyMap(
-    availabilities: Availability[],
+    availabilities: Availability[]
   ): Map<Availability, number> {
     const frequencyMap = new Map<Availability, number>();
     for (const availability of availabilities) {

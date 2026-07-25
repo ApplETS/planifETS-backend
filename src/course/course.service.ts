@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Course, Prisma } from '@prisma/client';
 
+import { isTruncated } from '../common/utils/stringUtil';
 import { PrismaService } from '../prisma/prisma.service';
 import { CourseMapper } from './course.mapper';
 import { CourseRepository } from './course.repository';
@@ -10,16 +11,16 @@ import { SearchCourseResult, SearchCoursesDto } from './dtos/search-course.dto';
 export class CourseService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly courseRepository: CourseRepository,
-  ) { }
+    private readonly courseRepository: CourseRepository
+  ) {}
 
   private readonly logger = new Logger(CourseService.name);
 
   public async getCourse(
-    courseWhereUniqueInput: Prisma.CourseWhereUniqueInput,
+    courseWhereUniqueInput: Prisma.CourseWhereUniqueInput
   ): Promise<Course | null> {
     const course = await this.prisma.course.findUnique({
-      where: courseWhereUniqueInput,
+      where: courseWhereUniqueInput
     });
 
     return course;
@@ -27,7 +28,7 @@ export class CourseService {
 
   public async getCourseByCode(code: string): Promise<Course | null> {
     const course = await this.prisma.course.findFirst({
-      where: { code },
+      where: { code }
     });
 
     return course;
@@ -39,9 +40,9 @@ export class CourseService {
     return this.prisma.course.findMany({
       where: {
         code: {
-          in: codes,
-        },
-      },
+          in: codes
+        }
+      }
     });
   }
   public async getAllCourses(): Promise<Course[]> {
@@ -50,18 +51,44 @@ export class CourseService {
     return this.prisma.course.findMany();
   }
 
+  public async countCourses(): Promise<number> {
+    return this.prisma.course.count();
+  }
+
   public async getCoursesForDescriptionSync(): Promise<
     Pick<Course, 'id' | 'code' | 'description'>[]
   > {
     this.logger.verbose('getCoursesForDescriptionSync');
 
-    return this.prisma.course.findMany({
+    const courses = await this.prisma.course.findMany({
+      where: {
+        cycle: 1,
+        // Session-suffixed codes (ex: SYS123-É25) have no page.
+        code: {
+          not: {
+            contains: '-'
+          }
+        },
+        // Exclude internships
+        programs: {
+          some: {
+            OR: [{ type: null }, { type: { not: 'STAGE' } }]
+          }
+        }
+      },
       select: {
         id: true,
         code: true,
-        description: true,
-      },
+        description: true
+      }
     });
+
+    // Truncated first: the website may rate-limit us mid-run.
+    // The complete ones still follow, to catch new course descriptions updates.
+    return courses.sort(
+      (a, b) =>
+        Number(isTruncated(b.description)) - Number(isTruncated(a.description))
+    );
   }
 
   public async getCoursesByProgram(programId: number): Promise<Course[]> {
@@ -71,10 +98,10 @@ export class CourseService {
       where: {
         programs: {
           some: {
-            programId,
-          },
-        },
-      },
+            programId
+          }
+        }
+      }
     });
   }
 
@@ -82,7 +109,7 @@ export class CourseService {
     query: string,
     programCodes?: string[],
     limit = 20,
-    offset = 0,
+    offset = 0
   ): Promise<SearchCoursesDto> {
     // Validate program codes if they exist
     let validProgramCodes: string[] | undefined = undefined;
@@ -91,7 +118,7 @@ export class CourseService {
       // Filter out invalid program codes
       const existingPrograms = await this.prisma.program.findMany({
         where: { code: { in: programCodes } },
-        select: { code: true },
+        select: { code: true }
       });
 
       validProgramCodes = existingPrograms
@@ -99,15 +126,15 @@ export class CourseService {
         .filter((code): code is string => code !== null);
 
       const invalidProgramCodes = programCodes.filter(
-        (code) => !validProgramCodes?.includes(code),
+        (code) => !validProgramCodes?.includes(code)
       );
 
       if (invalidProgramCodes.length > 0) {
         this.logger.error(
           `Invalid program codes provided for course search: ${invalidProgramCodes.join(
-            ', ',
+            ', '
           )}`,
-          { invalidProgramCodes, query },
+          { invalidProgramCodes, query }
         );
       }
 
@@ -116,7 +143,7 @@ export class CourseService {
         validProgramCodes = undefined;
         this.logger.warn(
           'All provided program codes were invalid. Performing search without program filtering.',
-          { query, providedProgramCodes: programCodes },
+          { query, providedProgramCodes: programCodes }
         );
       }
     }
@@ -125,17 +152,17 @@ export class CourseService {
       query,
       validProgramCodes,
       limit,
-      offset,
+      offset
     );
 
     const courses: SearchCourseResult[] = raw.map((c) =>
-      CourseMapper.toSearchDto(c, validProgramCodes),
+      CourseMapper.toSearchDto(c, validProgramCodes)
     );
 
     return {
       courses,
       total,
-      hasMore: offset + courses.length < total,
+      hasMore: offset + courses.length < total
     };
   }
 
@@ -145,8 +172,8 @@ export class CourseService {
     return this.prisma.course.create({
       data: {
         ...data,
-        createdAt: new Date(),
-      },
+        createdAt: new Date()
+      }
     });
   }
 
@@ -160,18 +187,18 @@ export class CourseService {
     return this.prisma.course.update({
       data: {
         ...data,
-        updatedAt: new Date(),
+        updatedAt: new Date()
       },
-      where,
+      where
     });
   }
 
   public async updateCourseDescriptionsBatch(
-    courses: Array<Pick<Course, 'id' | 'code' | 'description'>>,
+    courses: Array<Pick<Course, 'id' | 'code' | 'description'>>
   ): Promise<Course[]> {
     this.logger.verbose(
       'updateCourseDescriptionsBatch',
-      courses.map((course) => course.code),
+      courses.map((course) => course.code)
     );
 
     const updatedAt = new Date();
@@ -183,23 +210,40 @@ export class CourseService {
           data: {
             code: course.code,
             description: course.description,
-            updatedAt,
-          },
-        }),
-      ),
+            updatedAt
+          }
+        })
+      )
     );
   }
 
   public async upsertCourses(
-    data: Prisma.CourseCreateInput[],
+    data: Prisma.CourseCreateInput[]
   ): Promise<Course[]> {
     const results: Course[] = [];
     for (const courseData of data) {
+      // Keep `description` out of `update`: the API truncates it and would
+      // clobber the website scrape on every run. It seeds new rows via `create`,
+      // and backfills empty ones below.
+      const { description, ...updatable } = courseData;
+
       const result = await this.prisma.course.upsert({
         where: { code: courseData.code },
-        update: courseData,
-        create: courseData,
+        update: updatable,
+        create: courseData
       });
+
+      // Truncated beats empty when the scrape never succeeded.
+      if (!result.description.trim() && description.trim()) {
+        results.push(
+          await this.prisma.course.update({
+            where: { code: courseData.code },
+            data: { description }
+          })
+        );
+        continue;
+      }
+
       results.push(result);
     }
     return results;

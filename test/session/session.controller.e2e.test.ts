@@ -24,17 +24,17 @@ describe('SessionController (e2e)', () => {
         year: 2025,
         trimester: 'ETE',
         createdAt: new Date('2026-02-01T00:00:00.000Z'),
-        updatedAt: new Date('2026-02-01T00:00:00.000Z'),
+        updatedAt: new Date('2026-02-01T00:00:00.000Z')
       });
       const latestSession = await seedSession(prisma, {
         year: 2026,
         trimester: 'AUTOMNE',
         createdAt: new Date('2026-03-01T00:00:00.000Z'),
-        updatedAt: new Date('2026-03-02T00:00:00.000Z'),
+        updatedAt: new Date('2026-03-02T00:00:00.000Z')
       });
 
       const { status, body } = await request(app.getHttpServer()).get(
-        '/sessions/latest-available',
+        '/sessions/latest-available'
       );
 
       expect(status).toBe(200);
@@ -43,7 +43,7 @@ describe('SessionController (e2e)', () => {
 
     it('returns an empty 200 response when no session exists', async () => {
       const response = await request(app.getHttpServer()).get(
-        '/sessions/latest-available',
+        '/sessions/latest-available'
       );
 
       expect(response.status).toBe(200);

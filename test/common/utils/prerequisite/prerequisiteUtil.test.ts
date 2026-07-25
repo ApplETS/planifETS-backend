@@ -7,7 +7,7 @@ describe('parsePrerequisiteString', () => {
   it('should return null for blank prerequisite strings', () => {
     const transform = jest.fn();
     const mockPipe = {
-      transform,
+      transform
     } as unknown as CourseCodeValidationPipe;
 
     expect(parsePrerequisiteString('', mockPipe)).toBeNull();
@@ -17,7 +17,7 @@ describe('parsePrerequisiteString', () => {
 
   it('should return a single validated course code when the whole string is valid', () => {
     expect(
-      parsePrerequisiteString('  LOG100  ', courseCodeValidationPipe),
+      parsePrerequisiteString('  LOG100  ', courseCodeValidationPipe)
     ).toEqual(['LOG100']);
   });
 
@@ -30,11 +30,11 @@ describe('parsePrerequisiteString', () => {
       return value;
     });
     const mockPipe = {
-      transform,
+      transform
     } as unknown as CourseCodeValidationPipe;
 
     expect(
-      parsePrerequisiteString('  LOG100 , MAT145 , PHY332  ', mockPipe),
+      parsePrerequisiteString('  LOG100 , MAT145 , PHY332  ', mockPipe)
     ).toEqual(['LOG100', 'MAT145', 'PHY332']);
 
     expect(transform).toHaveBeenNthCalledWith(1, 'LOG100 , MAT145 , PHY332');
@@ -47,21 +47,21 @@ describe('parsePrerequisiteString', () => {
     expect(
       parsePrerequisiteString(
         'LOG100, invalid prerequisite, MAT145',
-        courseCodeValidationPipe,
-      ),
+        courseCodeValidationPipe
+      )
     ).toBeNull();
   });
 
   it('should return null for unstructured prerequisite strings', () => {
     expect(
-      parsePrerequisiteString('LOG100 or MAT145', courseCodeValidationPipe),
+      parsePrerequisiteString('LOG100 or MAT145', courseCodeValidationPipe)
     ).toBeNull();
   });
 
   it('should return null when the validation pipe returns a non-string truthy value', () => {
     const transform = jest.fn().mockReturnValue(true);
     const mockPipe = {
-      transform,
+      transform
     } as unknown as CourseCodeValidationPipe;
 
     expect(parsePrerequisiteString('LOG100', mockPipe)).toBeNull();

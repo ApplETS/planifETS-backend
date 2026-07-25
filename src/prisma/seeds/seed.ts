@@ -1,9 +1,10 @@
 import { Logger } from '@nestjs/common';
 
 import { PrismaService } from '../prisma.service';
-import { seedProgramHorairePdfParserFlags, seedProgramPlanificationPdfParserFlags } from '../programs.seeder';
-
-
+import {
+  seedProgramHorairePdfParserFlags,
+  seedProgramPlanificationPdfParserFlags
+} from '../programs.seeder';
 
 const prismaService = new PrismaService();
 

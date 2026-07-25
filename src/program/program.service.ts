@@ -6,17 +6,17 @@ import { ProgramIncludeCourseIdsAndPrerequisitesDto } from './program.types';
 
 @Injectable()
 export class ProgramService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   private readonly logger = new Logger(ProgramService.name);
 
   public async getProgram(
-    programWhereUniqueInput: Prisma.ProgramWhereUniqueInput,
+    programWhereUniqueInput: Prisma.ProgramWhereUniqueInput
   ): Promise<Program | null> {
     this.logger.verbose('getProgram', programWhereUniqueInput);
 
     return this.prisma.program.findUnique({
-      where: programWhereUniqueInput,
+      where: programWhereUniqueInput
     });
   }
 
@@ -32,9 +32,9 @@ export class ProgramService {
     return this.prisma.program.findMany({
       where: {
         courses: {
-          some: {},
-        },
-      },
+          some: {}
+        }
+      }
     });
   }
 
@@ -50,8 +50,8 @@ export class ProgramService {
             course: {
               select: {
                 id: true,
-                code: true,
-              },
+                code: true
+              }
             },
             typicalSessionIndex: true,
             type: true,
@@ -62,16 +62,16 @@ export class ProgramService {
                     course: {
                       select: {
                         id: true,
-                        code: true,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
+                        code: true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     });
 
     return data;
@@ -82,8 +82,8 @@ export class ProgramService {
 
     return this.prisma.program.findFirst({
       where: {
-        code,
-      },
+        code
+      }
     });
   }
 
@@ -91,15 +91,15 @@ export class ProgramService {
     this.logger.verbose('Fetching programs with isHorairePdfParsable = true');
     const programs = await this.prisma.program.findMany({
       where: {
-        isHorairePdfParsable: true,
-      },
+        isHorairePdfParsable: true
+      }
     });
 
     if (programs.length === 0 || programs == null) {
       this.logger.error('No programs found with isHorairePdfParsable = true');
     } else {
       this.logger.verbose(
-        `Found ${programs.length} programs with isHorairePdfParsable = true.`,
+        `Found ${programs.length} programs with isHorairePdfParsable = true.`
       );
     }
     return programs;
@@ -107,21 +107,21 @@ export class ProgramService {
 
   public async getProgramsByPlanificationParsablePDF(): Promise<Program[]> {
     this.logger.verbose(
-      'Fetching programs with isPlanificationPdfParsable = true',
+      'Fetching programs with isPlanificationPdfParsable = true'
     );
     const programs = await this.prisma.program.findMany({
       where: {
-        isPlanificationPdfParsable: true,
-      },
+        isPlanificationPdfParsable: true
+      }
     });
 
     if (programs.length === 0 || programs == null) {
       this.logger.error(
-        'No programs found with isPlanificationPdfParsable = true',
+        'No programs found with isPlanificationPdfParsable = true'
       );
     } else {
       this.logger.verbose(
-        `Found ${programs.length} programs with isPlanificationPdfParsable = true.`,
+        `Found ${programs.length} programs with isPlanificationPdfParsable = true.`
       );
     }
     return programs;
@@ -132,35 +132,35 @@ export class ProgramService {
       where: {
         courses: {
           some: {
-            courseId: courseId,
-          },
-        },
+            courseId: courseId
+          }
+        }
       },
       select: {
         id: true,
         code: true,
-        title: true,
-      },
+        title: true
+      }
     });
-    return programs.map(p => ({
+    return programs.map((p) => ({
       programId: p.id,
       programCode: p.code ?? '',
-      programTitle: p.title,
+      programTitle: p.title
     }));
   }
 
   public async createProgram(
-    data: Prisma.ProgramCreateInput,
+    data: Prisma.ProgramCreateInput
   ): Promise<Program> {
     this.logger.verbose('createProgram', data);
 
     return this.prisma.program.create({
-      data,
+      data
     });
   }
 
   public async upsertProgram(
-    data: Prisma.ProgramCreateInput,
+    data: Prisma.ProgramCreateInput
   ): Promise<Program> {
     this.logger.verbose('upsertProgram: ' + data.code);
 
@@ -170,25 +170,25 @@ export class ProgramService {
         ...data,
         updatedAt: new Date(),
         programTypes: {
-          set: data.programTypes?.connect || [], //clears all relations and set new ones
-        },
+          set: data.programTypes?.connect || [] //clears all relations and set new ones
+        }
       },
       create: {
         ...data,
         createdAt: new Date(),
         updatedAt: new Date(),
         programTypes: {
-          connect: data.programTypes?.connect || [],
-        },
-      },
+          connect: data.programTypes?.connect || []
+        }
+      }
     });
   }
 
   public async upsertPrograms(
-    data: Prisma.ProgramCreateInput[],
+    data: Prisma.ProgramCreateInput[]
   ): Promise<Program[]> {
     return Promise.all(
-      data.map((programData) => this.upsertProgram(programData)),
+      data.map((programData) => this.upsertProgram(programData))
     );
   }
 
@@ -197,9 +197,9 @@ export class ProgramService {
       // Fetch existing program types by their IDs
       const existingProgramTypes = await this.prisma.programType.findMany({
         where: {
-          id: { in: types.map((type) => type.id) },
+          id: { in: types.map((type) => type.id) }
         },
-        select: { id: true },
+        select: { id: true }
       });
 
       // Create a Set of existing IDs for efficient lookup
@@ -213,8 +213,8 @@ export class ProgramService {
         await this.prisma.programType.createMany({
           data: newTypes.map((type) => ({
             id: type.id,
-            title: type.title,
-          })),
+            title: type.title
+          }))
         });
         this.logger.log(`Created ${newTypes.length} new program types.`);
         this.logger.verbose('New program types:', newTypes);
@@ -228,13 +228,13 @@ export class ProgramService {
 
   public async updateProgramsByCodes(
     codes: string[],
-    data: Prisma.ProgramUpdateInput,
+    data: Prisma.ProgramUpdateInput
   ): Promise<number> {
     this.logger.verbose('Starting updateProgramsByCodes', { codes, data });
 
     const result = await this.prisma.program.updateMany({
       where: { code: { in: codes } },
-      data,
+      data
     });
 
     if (result.count === 0) {
@@ -243,15 +243,15 @@ export class ProgramService {
       // Identify which codes were not found
       const existingPrograms = await this.prisma.program.findMany({
         where: { code: { in: codes } },
-        select: { code: true },
+        select: { code: true }
       });
       const existingCodes = existingPrograms.map((p) => p.code);
       const missingCodes = codes.filter(
-        (code) => !existingCodes.includes(code),
+        (code) => !existingCodes.includes(code)
       );
 
       this.logger.warn(
-        `Some programs were not found in the database during updateProgramsByCodes and therefore were not updated: "${missingCodes.join(', ')}"`,
+        `Some programs were not found in the database during updateProgramsByCodes and therefore were not updated: "${missingCodes.join(', ')}"`
       );
     }
 

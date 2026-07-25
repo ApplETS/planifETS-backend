@@ -1,4 +1,4 @@
-import { ArgumentsHost, HttpException } from '@nestjs/common';
+import { ArgumentsHost, HttpException, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
 
 import { HttpExceptionFilter } from '@/common/exceptions/http-exception.filter';
@@ -6,22 +6,26 @@ import { PosthogMonitoringService } from '@/monitoring/posthog-monitoring.servic
 
 describe('HttpExceptionFilter', () => {
   let filter: HttpExceptionFilter;
-  let mockMonitoring: jest.Mocked<Pick<PosthogMonitoringService, 'captureException'>>;
+  let mockMonitoring: jest.Mocked<
+    Pick<PosthogMonitoringService, 'captureException'>
+  >;
   let mockResponse: Partial<Response>;
   let mockRequest: Partial<Request>;
   let mockHost: ArgumentsHost;
 
   beforeEach(() => {
     mockMonitoring = { captureException: jest.fn() };
-    filter = new HttpExceptionFilter(mockMonitoring as unknown as PosthogMonitoringService);
+    filter = new HttpExceptionFilter(
+      mockMonitoring as unknown as PosthogMonitoringService
+    );
 
     mockResponse = { status: jest.fn().mockReturnThis(), json: jest.fn() };
     mockRequest = { url: '/test', method: 'GET', body: { foo: 'bar' } };
     mockHost = {
       switchToHttp: () => ({
         getResponse: () => mockResponse,
-        getRequest: () => mockRequest,
-      }),
+        getRequest: () => mockRequest
+      })
     } as unknown as ArgumentsHost;
   });
 
@@ -39,7 +43,7 @@ describe('HttpExceptionFilter', () => {
       expect.objectContaining({
         statusCode: 404,
         path: '/test',
-        message: 'Internal Server Error',
+        message: 'Internal Server Error'
       })
     );
   });
@@ -53,7 +57,7 @@ describe('HttpExceptionFilter', () => {
       expect.objectContaining({
         statusCode: 403,
         path: '/test',
-        message: 'No body',
+        message: 'No body'
       })
     );
   });
@@ -65,13 +69,15 @@ describe('HttpExceptionFilter', () => {
       message: 'I am a teapot'
     };
 
-    expect(() => filter.catch(badException as unknown as HttpException, mockHost)).not.toThrow();
+    expect(() =>
+      filter.catch(badException as unknown as HttpException, mockHost)
+    ).not.toThrow();
     expect(mockResponse.status).toHaveBeenCalledWith(418);
     expect(mockResponse.json).toHaveBeenCalledWith(
       expect.objectContaining({
         statusCode: 418,
         path: '/test',
-        message: 'I am a teapot',
+        message: 'I am a teapot'
       })
     );
   });
@@ -85,7 +91,7 @@ describe('HttpExceptionFilter', () => {
       expect.objectContaining({
         'http.status_code': '400',
         path: '/test',
-        method: 'GET',
+        method: 'GET'
       })
     );
     expect(mockResponse.status).toHaveBeenCalledWith(400);
@@ -93,7 +99,7 @@ describe('HttpExceptionFilter', () => {
       expect.objectContaining({
         statusCode: 400,
         path: '/test',
-        message: 'Test error',
+        message: 'Test error'
       })
     );
   });
@@ -107,12 +113,16 @@ describe('HttpExceptionFilter', () => {
   });
 
   it('should handle monitoring capture failure gracefully', () => {
-    mockMonitoring.captureException.mockImplementationOnce(() => { throw new Error('fail'); });
+    mockMonitoring.captureException.mockImplementationOnce(() => {
+      throw new Error('fail');
+    });
     const exception = new HttpException('Test error', 400);
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+    const loggerSpy = jest
+      .spyOn(Logger.prototype, 'error')
+      .mockImplementation(() => {});
     filter.catch(exception, mockHost);
 
-    expect(consoleSpy).toHaveBeenCalledWith(
+    expect(loggerSpy).toHaveBeenCalledWith(
       'Monitoring capture failed for HttpException:',
       expect.any(Error)
     );

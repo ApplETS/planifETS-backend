@@ -5,7 +5,11 @@ export function isValidUrl(url: string): boolean {
   }
   try {
     const parsed = new URL(url);
-    return ['http:', 'https:'].includes(parsed.protocol) && !!parsed.hostname && /^[a-zA-Z0-9.-]+$/.test(parsed.hostname);
+    return (
+      ['http:', 'https:'].includes(parsed.protocol) &&
+      !!parsed.hostname &&
+      /^[a-zA-Z0-9.-]+$/.test(parsed.hostname)
+    );
   } catch {
     return false;
   }

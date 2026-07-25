@@ -18,12 +18,12 @@ export class HoraireCours implements IHoraireCours {
     public code: string = '',
     public title: string = '',
     public prerequisites: string = '',
-    public groups: Map<string, Group> = new Map<string, Group>(),
-  ) { }
+    public groups: Map<string, Group> = new Map<string, Group>()
+  ) {}
 
   public addOrUpdateCourse(courses: HoraireCours[]): void {
     const existingCourseIndex = courses.findIndex(
-      (course) => course.code === this.code,
+      (course) => course.code === this.code
     );
     if (existingCourseIndex !== -1) {
       const existingCourse = courses[existingCourseIndex];
@@ -47,7 +47,7 @@ export class HoraireCours implements IHoraireCours {
       this.groups.get(groupNumber)!.addPeriods(periods);
     } else {
       this.logger.warn(
-        `Periods are empty for course: ${this.code}, group number: ${groupNumber}`,
+        `Periods are empty for course: ${this.code}, group number: ${groupNumber}`
       );
     }
   }
@@ -77,8 +77,8 @@ export class HoraireCours implements IHoraireCours {
           acc[key] = value.serialize();
           return acc;
         },
-        {},
-      ),
+        {}
+      )
     };
   }
 }

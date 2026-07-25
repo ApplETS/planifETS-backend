@@ -17,18 +17,18 @@ describe('CourseRepository', () => {
           useValue: {
             course: {
               findMany: jest.fn(),
-              count: jest.fn(),
-            },
-          },
-        },
-      ],
+              count: jest.fn()
+            }
+          }
+        }
+      ]
     }).compile();
     repository = module.get<CourseRepository>(CourseRepository);
     prisma = module.get(PrismaService);
     // Cast to jest.Mock to allow mockResolvedValueOnce
     (prisma.course.findMany as jest.Mock).mockClear();
     (prisma.course.count as jest.Mock).mockClear();
-    jest.spyOn(Logger.prototype, 'verbose').mockImplementation(() => { });
+    jest.spyOn(Logger.prototype, 'verbose').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -37,7 +37,9 @@ describe('CourseRepository', () => {
 
   describe('searchCourses', () => {
     it('should return codeStartsMatches only if enough results', async () => {
-      (prisma.course.findMany as jest.Mock).mockResolvedValueOnce([{ id: 1 } as { id: number }]);
+      (prisma.course.findMany as jest.Mock).mockResolvedValueOnce([
+        { id: 1 } as { id: number }
+      ]);
       (prisma.course.count as jest.Mock).mockResolvedValueOnce(1);
       const result = await repository.searchCourses('ABC', ['P1'], 1, 0);
       expect(prisma.course.findMany).toHaveBeenCalledTimes(1);
@@ -67,7 +69,10 @@ describe('CourseRepository', () => {
       await repository.searchCourses('ABC', ['P1', 'P2'], 1, 0);
       const callArgs = (prisma.course.findMany as jest.Mock).mock.calls[0][0];
       expect(callArgs.where.programs).toBeDefined();
-      expect(callArgs.where.programs.some.program.code.in).toEqual(['P1', 'P2']);
+      expect(callArgs.where.programs.some.program.code.in).toEqual([
+        'P1',
+        'P2'
+      ]);
     });
 
     it('should call codeContainsMatches if codeStartsMatches is not enough', async () => {
@@ -145,7 +150,9 @@ describe('CourseRepository', () => {
         .mockResolvedValueOnce([{ id: 3 } as { id: number }]); // titleContainsMatches
       (prisma.course.count as jest.Mock).mockResolvedValueOnce(3);
       const result = await repository.searchCourses('XYZ', ['P4'], 5, 0);
-      expect(result.courses.map((c: { id: number }) => c.id)).toEqual([1, 2, 3]);
+      expect(result.courses.map((c: { id: number }) => c.id)).toEqual([
+        1, 2, 3
+      ]);
       expect(result.total).toBe(3);
     });
 

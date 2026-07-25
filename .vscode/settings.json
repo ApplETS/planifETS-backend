@@ -1,7 +1,6 @@
 {
-  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
     "source.fixAll.eslint": "explicit"
   },
   "eslint.nodePath": "./node_modules/eslint",
@@ -22,6 +21,7 @@
   "[typescript]": {
     "editor.tabSize": 2,
     "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "files.eol": "\n",
   "files.insertFinalNewline": true,

@@ -2,8 +2,14 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 
-import { extractNumberFromString, stripHtmlTags } from '@/common/utils/stringUtil';
-import { ETS_API_GET_ALL_PROGRAMS } from '@/common/utils/url/url-constants';
+import {
+  extractNumberFromString,
+  stripHtmlTags
+} from '@/common/utils/stringUtil';
+import {
+  ETS_API_GET_ALL_PROGRAMS,
+  ETS_USER_AGENT
+} from '@/common/utils/url/url-constants';
 
 import { ProgramEtsApiDto } from './dtos/program-ets-api.dto';
 import { ProgramIndexResponseDto } from './dtos/program-index-response.dto';
@@ -23,14 +29,16 @@ export type Program = {
 
 @Injectable()
 export class EtsProgramService {
-  constructor(private readonly httpService: HttpService) { }
+  constructor(private readonly httpService: HttpService) {}
 
   public async fetchAllProgramsFromEtsAPI(): Promise<{
     types: ProgramTypeEtsApiDto[];
     programs: Program[];
   }> {
     const response = await firstValueFrom(
-      this.httpService.get(ETS_API_GET_ALL_PROGRAMS),
+      this.httpService.get(ETS_API_GET_ALL_PROGRAMS, {
+        headers: { 'User-Agent': ETS_USER_AGENT }
+      })
     );
 
     const raw = response.data as ProgramIndexResponseDto;
@@ -43,10 +51,10 @@ export class EtsProgramService {
         code: program.code ? program.code.split(',')[0].trim() : null,
         credits: typeof program.credits === 'string' ? program.credits : null,
         programTypes: {
-          connect: program.types.map((typeId) => ({ id: typeId })),
+          connect: program.types.map((typeId) => ({ id: typeId }))
         },
-        url: program.url,
-      }),
+        url: program.url
+      })
     );
 
     return { types, programs };

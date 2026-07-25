@@ -7,7 +7,7 @@ export class SessionAvailabilityDto {
   @ApiProperty({
     type: [String],
     enum: ['JOUR', 'SOIR', 'INTENSIF'],
-    isArray: true,
+    isArray: true
   })
   public availability!: string[];
 }
@@ -51,20 +51,26 @@ export class ProgramCourseDto {
   @ApiProperty({
     nullable: true,
     enum: ['TRONC', 'CONCE', 'CONDI', 'PROFI', 'STAGE'],
-    description: 'Course type within the program (TRONC: Tronc commun, CONCE: Concentration, STAGE: Stage)',
+    description:
+      'Course type within the program (TRONC: Tronc commun, CONCE: Concentration, STAGE: Stage)'
   })
   public type!: string | null;
 
   @ApiProperty({
     nullable: true,
-    description: 'Typical session index when this course is usually taken in the program',
+    description:
+      'Typical session index when this course is usually taken in the program'
   })
   public typicalSessionIndex!: number | null;
 
   @ApiProperty({ type: String, nullable: true })
   public unstructuredPrerequisite!: string | null;
 
-  @ApiProperty({ type: Number, nullable: true, description: 'Current cycle level of the course' })
+  @ApiProperty({
+    type: Number,
+    nullable: true,
+    description: 'Current cycle level of the course'
+  })
   public cycle!: number | null;
 }
 
@@ -171,9 +177,16 @@ class ProgramCoursesErrorDto {
 }
 
 export class ProgramCoursesResponseDto {
-  @ApiProperty({ type: () => [ProgramCoursesDto], description: 'Array of program courses grouped by program code' })
+  @ApiProperty({
+    type: () => [ProgramCoursesDto],
+    description: 'Array of program courses grouped by program code'
+  })
   public data!: ProgramCoursesDto[];
 
-  @ApiProperty({ type: () => ProgramCoursesErrorDto, required: false, description: 'Error information if any program codes were invalid' })
+  @ApiProperty({
+    type: () => ProgramCoursesErrorDto,
+    required: false,
+    description: 'Error information if any program codes were invalid'
+  })
   public errors?: ProgramCoursesErrorDto;
 }

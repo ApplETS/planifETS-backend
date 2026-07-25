@@ -16,10 +16,10 @@ describe('SessionController', () => {
           provide: SessionService,
           useValue: {
             getAllSessions: jest.fn(),
-            getLatestAvailableSession: jest.fn(),
-          },
-        },
-      ],
+            getLatestAvailableSession: jest.fn()
+          }
+        }
+      ]
     }).compile();
 
     controller = module.get<SessionController>(SessionController);
@@ -33,8 +33,8 @@ describe('SessionController', () => {
           year: 2023,
           trimester: Trimester.HIVER,
           createdAt: new Date(),
-          updatedAt: new Date(),
-        },
+          updatedAt: new Date()
+        }
       ];
       (service.getAllSessions as jest.Mock).mockResolvedValue(sessions);
       const result = await controller.getAllSessions();
@@ -55,9 +55,11 @@ describe('SessionController', () => {
         year: 2024,
         trimester: Trimester.AUTOMNE,
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       };
-      (service.getLatestAvailableSession as jest.Mock).mockResolvedValue(session);
+      (service.getLatestAvailableSession as jest.Mock).mockResolvedValue(
+        session
+      );
       const result = await controller.getLatestAvailableSession();
       expect(result).toEqual(session);
       expect(service.getLatestAvailableSession).toHaveBeenCalled();

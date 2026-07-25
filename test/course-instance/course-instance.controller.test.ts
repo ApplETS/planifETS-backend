@@ -8,7 +8,7 @@ import { CourseInstanceService } from '../../src/course-instance/course-instance
 describe('CourseInstanceController', () => {
   let app: INestApplication;
   const courseInstanceService = {
-    getAllCourseInstances: jest.fn(),
+    getAllCourseInstances: jest.fn()
   };
 
   beforeEach(async () => {
@@ -17,9 +17,9 @@ describe('CourseInstanceController', () => {
       providers: [
         {
           provide: CourseInstanceService,
-          useValue: courseInstanceService,
-        },
-      ],
+          useValue: courseInstanceService
+        }
+      ]
     }).compile();
 
     app = module.createNestApplication();
@@ -41,12 +41,12 @@ describe('CourseInstanceController', () => {
         sessionTrimester: 'AUTOMNE',
         availability: ['JOUR'],
         createdAt: new Date('2026-01-10T00:00:00.000Z'),
-        updatedAt: new Date('2026-01-11T00:00:00.000Z'),
-      },
+        updatedAt: new Date('2026-01-11T00:00:00.000Z')
+      }
     ]);
 
     const { status, body } = await request(app.getHttpServer()).get(
-      '/course-instances',
+      '/course-instances'
     );
 
     expect(status).toBe(200);
@@ -57,8 +57,8 @@ describe('CourseInstanceController', () => {
         sessionTrimester: 'AUTOMNE',
         availability: ['JOUR'],
         createdAt: '2026-01-10T00:00:00.000Z',
-        updatedAt: '2026-01-11T00:00:00.000Z',
-      },
+        updatedAt: '2026-01-11T00:00:00.000Z'
+      }
     ]);
   });
 });

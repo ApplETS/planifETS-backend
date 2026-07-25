@@ -17,13 +17,13 @@ export async function seedProgramHorairePdfParserFlags() {
   const updatedCountHorairePdf = await programService.updateProgramsByCodes(
     horairePdfPrograms,
     {
-      isHorairePdfParsable: true,
-    },
+      isHorairePdfParsable: true
+    }
   );
 
   if (updatedCountHorairePdf > 0) {
     logger.log(
-      `Updated ${updatedCountHorairePdf} programs with codes "${horairePdfPrograms.join(', ')}" to have isHorairePdfParsable = true.`,
+      `Updated ${updatedCountHorairePdf} programs with codes "${horairePdfPrograms.join(', ')}" to have isHorairePdfParsable = true.`
     );
   }
 
@@ -40,12 +40,12 @@ export async function seedProgramPlanificationPdfParserFlags() {
 
   const updatedCountPlanificationPdf =
     await programService.updateProgramsByCodes(planificationPdfPrograms, {
-      isPlanificationPdfParsable: true,
+      isPlanificationPdfParsable: true
     });
 
   if (updatedCountPlanificationPdf > 0) {
     logger.log(
-      `Updated ${updatedCountPlanificationPdf} programs with codes "${planificationPdfPrograms.join(', ')}" to have isPlanificationPdfParsable = true.`,
+      `Updated ${updatedCountPlanificationPdf} programs with codes "${planificationPdfPrograms.join(', ')}" to have isPlanificationPdfParsable = true.`
     );
   }
 
