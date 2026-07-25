@@ -75,6 +75,7 @@ COPY package.json ./
 COPY --from=build /app/dist ./dist
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=build /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=build /app/node_modules/@prisma/engines ./node_modules/@prisma/engines
 COPY prisma ./prisma
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
