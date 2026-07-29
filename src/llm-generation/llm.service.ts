@@ -135,7 +135,7 @@ export class LlmService {
     traceId: string,
     prompt: string,
     programIds?: number[]
-  ): Promise<string> {
+  ): Promise<{ prompt: string; allowedCourseCodes: Set<string> }> {
     this.logger.debug(
       `Retrieving courses for prompt: "${prompt}"` +
         (programIds?.length ? ` (programIds: ${programIds.join(', ')})` : '')
@@ -161,18 +161,56 @@ export class LlmService {
       .map((c) => `- [${c.code}] ${c.title}: ${c.description}`)
       .join('\n');
 
-    return `You are a course recommendation assistant at ÉTS university.
-      Match the language of the user's request.
-      Talk like a fellow ÉTS student giving casual advice, not a formal administrator. If replying in French, use "tu", never "vous".
-      Only recommend courses that appear in the AVAILABLE COURSES list below — never invent a course or mention one that isn't in that list. If the list is empty or has nothing relevant to the request, say so briefly in the same language as the user's request and return an empty courses array.
-      Otherwise, recommend the most relevant courses for the user's request, picking only from the list.
+    return {
+      prompt: `You are a course recommendation assistant at ÉTS university.
+        Match the language of the user's request.
+        Talk like a fellow ÉTS student giving casual advice, not a formal administrator. If replying in French, use "tu", never "vous".
+        Only recommend courses that appear in the AVAILABLE COURSES list below — never invent a course or mention one that isn't in that list. If the list is empty or has nothing relevant to the request, say so briefly in the same language as the user's request and return an empty courses array.
+        Otherwise, recommend the most relevant courses for the user's request, picking only from the list.
 
-      AVAILABLE COURSES:
-      ${courseContext}
+        AVAILABLE COURSES:
+        ${courseContext}
 
-      USER REQUEST:
-      ${prompt}
-      `;
+        USER REQUEST:
+        ${prompt}
+        `,
+      allowedCourseCodes: new Set(courses.map((course) => course.code))
+    };
+  }
+
+  private sanitizeCourses(
+    courses: LlmCourse[],
+    allowedCourseCodes: Set<string>,
+    providerName: string,
+    modelName: string
+  ): LlmCourse[] {
+    if (courses.length === 0) {
+      return courses;
+    }
+
+    const validCourses = courses.filter((course) =>
+      allowedCourseCodes.has(course.code)
+    );
+
+    if (validCourses.length === courses.length) {
+      return courses;
+    }
+
+    const invalidCourseCodes = courses
+      .filter((course) => !allowedCourseCodes.has(course.code))
+      .map((course) => course.code);
+    const message =
+      `Filtered hallucinated course recommendations from ${providerName} (${modelName}): ` +
+      invalidCourseCodes.join(', ');
+
+    this.logger.error({
+      message,
+      aiProvider: providerName,
+      aiModel: modelName,
+      invalidCourseCodes: invalidCourseCodes.join(',')
+    });
+
+    return validCourses;
   }
 
   public async recommend(
@@ -180,11 +218,8 @@ export class LlmService {
     programIds?: number[]
   ): Promise<LlmGenerationResponse> {
     const traceId = randomUUID();
-    const enrichedPrompt = await this.buildEnrichedPrompt(
-      traceId,
-      prompt,
-      programIds
-    );
+    const { prompt: enrichedPrompt, allowedCourseCodes } =
+      await this.buildEnrichedPrompt(traceId, prompt, programIds);
 
     let lastError: Error | undefined;
 
@@ -203,15 +238,24 @@ export class LlmService {
             enrichedPrompt,
             controller.signal
           );
+          const sanitizedResult = {
+            ...result,
+            courses: this.sanitizeCourses(
+              result.courses,
+              allowedCourseCodes,
+              provider.providerName,
+              provider.modelName
+            )
+          };
           this.captureGeneration(
             traceId,
             provider.providerName,
             provider.modelName,
             enrichedPrompt,
-            result,
+            sanitizedResult,
             Date.now() - start
           );
-          return result;
+          return sanitizedResult;
         } finally {
           clearTimeout(timeout);
         }
@@ -260,11 +304,8 @@ export class LlmService {
     programIds?: number[]
   ): AsyncGenerator<LlmStreamEvent> {
     const traceId = randomUUID();
-    const enrichedPrompt = await this.buildEnrichedPrompt(
-      traceId,
-      prompt,
-      programIds
-    );
+    const { prompt: enrichedPrompt, allowedCourseCodes } =
+      await this.buildEnrichedPrompt(traceId, prompt, programIds);
 
     let lastError: Error | undefined;
 
@@ -284,6 +325,7 @@ export class LlmService {
           traceId,
           provider,
           enrichedPrompt,
+          allowedCourseCodes,
           controller.signal,
           start
         );
@@ -320,6 +362,7 @@ export class LlmService {
     traceId: string,
     provider: LlmProvider,
     enrichedPrompt: string,
+    allowedCourseCodes: Set<string>,
     signal: AbortSignal,
     start: number
   ): AsyncGenerator<LlmStreamEvent> {
@@ -353,7 +396,12 @@ export class LlmService {
         buffer = '';
       }
 
-      const courses = this.parseCourses(buffer, provider.name);
+      const courses = this.sanitizeCourses(
+        this.parseCourses(buffer, provider.name),
+        allowedCourseCodes,
+        provider.providerName,
+        provider.modelName
+      );
       this.captureGeneration(
         traceId,
         provider.providerName,
