@@ -1,4 +1,4 @@
-@startuml
+@startuml Figure 6.2 - Diagramme de séquence : indexation des données de cours
 title Figure 6.2 - Diagramme de séquence : indexation des données de cours
 
 participant "Jobs Service" as Jobs

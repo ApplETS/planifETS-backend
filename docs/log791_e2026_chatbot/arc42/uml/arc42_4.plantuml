@@ -1,4 +1,4 @@
-@startuml
+@startuml Figure 7.1 - Diagramme UML de déploiement du système
 title Figure 7.1 - Diagramme UML de déploiement du système
 
 skinparam componentStyle rectangle

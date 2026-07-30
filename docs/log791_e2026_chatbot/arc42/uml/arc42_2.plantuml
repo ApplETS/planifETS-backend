@@ -1,4 +1,4 @@
-@startuml
+@startuml Figure 6.1 - Diagramme de séquence : génération d'une réponse conversationnelle
 title Figure 6.1 - Diagramme de séquence : génération d'une réponse conversationnelle
 
 actor "Étudiant" as Student

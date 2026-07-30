@@ -1,4 +1,4 @@
-@startuml
+@startuml Figure 5.1 - Vue d'ensemble des blocs de construction
 title Figure 5.1 - Vue d'ensemble des blocs de construction
 skinparam componentStyle rectangle
 
