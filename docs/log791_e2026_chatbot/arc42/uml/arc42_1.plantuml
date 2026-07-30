@@ -1,0 +1,38 @@
+@startuml Figure 5.1 - Vue d'ensemble des blocs de construction
+title Figure 5.1 - Vue d'ensemble des blocs de construction
+skinparam componentStyle rectangle
+
+actor "Étudiant" as Student
+
+component "Frontend\nPlanifETS" as Frontend
+
+package "Backend PlanifETS" {
+
+    component "Chatbot API\n(/api/chatbot/*)" as ChatbotAPI
+    component "Embedding Module" as Embedding
+    component "LLM Generation Module" as LLM
+
+}
+
+database "Qdrant\n(Base vectorielle)" as Qdrant
+
+cloud "Fournisseur LLM\n(Groq / NVIDIA / Gemini)" as Provider
+
+Student --> Frontend : Pose une question
+
+Frontend --> ChatbotAPI : Requête HTTP
+
+ChatbotAPI --> LLM : recommend / recommend/stream
+
+LLM --> Embedding : Récupération du contexte
+
+Embedding --> Qdrant : Recherche\nsémantique
+
+LLM --> Provider : Prompt enrichi
+
+Provider --> LLM : Réponse générée
+
+ChatbotAPI --> Frontend : Réponse JSON (POST /recommend)
+ChatbotAPI --> Frontend : Flux SSE (GET /recommend/stream)
+
+@enduml

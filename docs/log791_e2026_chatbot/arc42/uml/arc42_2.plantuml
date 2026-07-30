@@ -1,0 +1,49 @@
+@startuml Figure 6.1 - Diagramme de séquence : génération d'une réponse conversationnelle
+title Figure 6.1 - Diagramme de séquence : génération d'une réponse conversationnelle
+
+actor "Étudiant" as Student
+participant "Frontend\nPlanifETS" as Frontend
+participant "Backend\nPlanifETS" as Backend
+participant "ChatbotEnabledGuard" as Guard
+participant "Embedding Module" as Embedding
+database "Qdrant" as Qdrant
+participant "LLM Generation Module" as LLM
+participant "Fournisseur LLM" as Provider
+
+Student -> Frontend : Saisit une question
+
+alt Mode JSON
+    Frontend -> Backend : POST /api/chatbot/recommend
+else Mode Streaming
+    Frontend -> Backend : GET /api/chatbot/recommend/stream
+end
+
+Backend -> Guard : Vérifier que le chatbot est activé
+
+Guard --> Backend : Autorisé
+
+Backend -> Embedding : Recherche sémantique
+
+Embedding -> Qdrant : Recherche des cours pertinents
+
+Qdrant --> Embedding : Résultats de la recherche
+
+Embedding --> Backend : Contexte
+
+Backend -> LLM : Générer une réponse
+
+LLM -> Provider : Prompt enrichi
+
+Provider --> LLM : Réponse générée
+
+LLM --> Backend : Réponse
+
+alt Mode JSON
+    Backend --> Frontend : Réponse JSON
+else Mode Streaming
+    Backend --> Frontend : Flux SSE
+end
+
+Frontend --> Student : Affichage de la réponse
+
+@enduml

@@ -1,0 +1,43 @@
+@startuml Figure 7.1 - Diagramme UML de déploiement du système
+title Figure 7.1 - Diagramme UML de déploiement du système
+
+skinparam componentStyle rectangle
+
+node "Poste utilisateur" {
+    artifact "Navigateur Web"
+}
+
+node "Frontend PlanifETS" {
+    artifact "Application Next.js"
+}
+
+node "Docker Engine" {
+
+    node "Conteneur : nestjs-app" {
+        artifact "Application NestJS"
+
+        component "Embedding Module"
+        component "LLM Generation Module"
+        component "Jobs"
+    }
+
+    database "Conteneur : db\nPostgreSQL" as DB {
+        artifact "v_courses_for_embedding"
+    }
+
+    database "Conteneur : qdrant" as Qdrant
+}
+
+cloud "Fournisseurs LLM\n(Groq / NVIDIA / Gemini)" as LLM
+
+"Navigateur Web" --> "Application Next.js"
+
+"Application Next.js" --> "Application NestJS" : HTTP\n(JSON / SSE)
+
+"Application NestJS" --> DB : Prisma
+
+"Application NestJS" --> Qdrant : Recherche vectorielle
+
+"Application NestJS" --> LLM : API HTTPS
+
+@enduml
