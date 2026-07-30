@@ -493,6 +493,10 @@ describe('LlmService', () => {
         service.recommendStream('Suggest AI courses')
       );
 
+      expect(events.slice(0, 2)).toEqual([
+        { type: 'status', data: 'SEARCHING_EMBEDDINGS' },
+        { type: 'status', data: 'THINKING_AI' }
+      ]);
       expect(reasonText(events)).toBe('These courses are great for AI.');
       expect(events.at(-1)).toEqual({
         type: 'courses',

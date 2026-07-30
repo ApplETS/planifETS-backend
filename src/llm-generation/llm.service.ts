@@ -19,8 +19,11 @@ import { GroqProvider } from './providers/groq.provider';
 import { NvidiaProvider } from './providers/nvidia.provider';
 
 export type LlmStreamEvent =
+  | { type: 'status'; data: LlmStreamStatus }
   | { type: 'reason'; data: string }
   | { type: 'courses'; data: LlmCourse[] };
+
+export type LlmStreamStatus = 'SEARCHING_EMBEDDINGS' | 'THINKING_AI';
 
 /**
  * Thrown when a provider fails mid-stream. `yieldedAny` tells the caller
@@ -304,8 +307,10 @@ export class LlmService {
     programIds?: number[]
   ): AsyncGenerator<LlmStreamEvent> {
     const traceId = randomUUID();
+    yield { type: 'status', data: 'SEARCHING_EMBEDDINGS' };
     const { prompt: enrichedPrompt, allowedCourseCodes } =
       await this.buildEnrichedPrompt(traceId, prompt, programIds);
+    yield { type: 'status', data: 'THINKING_AI' };
 
     let lastError: Error | undefined;
 

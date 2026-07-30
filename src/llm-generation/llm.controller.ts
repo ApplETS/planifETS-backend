@@ -69,7 +69,8 @@ export class LlmController {
   @ApiOperation({
     summary:
       '🟢 Stream course recommendations from a natural language prompt via Server-Sent Events. ' +
-      'Emits "reason" events with incremental explanation text, followed by a single ' +
+      'Emits "status" events for course retrieval and AI generation, "reason" events ' +
+      'with incremental explanation text, followed by a single ' +
       '"courses" event carrying the final course code list.',
     description:
       'Note: Swagger UI does not natively support Server-Sent Events, so the "Try it out" ' +

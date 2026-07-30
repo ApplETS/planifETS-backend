@@ -168,11 +168,12 @@ describe('LlmController', () => {
   });
 
   describe('GET /chatbot/recommend/stream', () => {
-    it('streams reason and courses events as SSE', async () => {
+    it('streams status, reason and courses events as SSE', async () => {
       await createApp(true);
 
       // eslint-disable-next-line @typescript-eslint/require-await
       llmService.recommendStream.mockImplementation(async function* () {
+        yield { type: 'status', data: 'SEARCHING_EMBEDDINGS' };
         yield { type: 'reason', data: 'Hello' };
         yield { type: 'courses', data: [{ code: 'LOG121' }] };
       });
@@ -183,6 +184,8 @@ describe('LlmController', () => {
 
       expect(response.status).toBe(200);
       expect(response.headers['content-type']).toContain('text/event-stream');
+      expect(response.text).toContain('event: status');
+      expect(response.text).toContain('data: SEARCHING_EMBEDDINGS');
       expect(response.text).toContain('event: reason');
       expect(response.text).toContain('data: Hello');
       expect(response.text).toContain('event: courses');
