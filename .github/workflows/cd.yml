@@ -107,19 +107,31 @@ jobs:
     permissions:
       packages: write
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: main
-
       - name: Resolve source tag
         id: resolve-tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
           if [[ -n "${{ inputs.source_tag }}" ]]; then
             echo "SOURCE_TAG=${{ inputs.source_tag }}" >> "$GITHUB_OUTPUT"
           else
-            echo "SOURCE_TAG=main-$(git rev-parse --short=7 HEAD)" >> "$GITHUB_OUTPUT"
+            package="${GITHUB_REPOSITORY,,}"
+            package="${package#*/}"
+            owner="${GITHUB_REPOSITORY_OWNER}"
+
+            if gh api "/orgs/${owner}/packages/container/${package}/versions" > /dev/null 2>&1; then
+              endpoint="/orgs/${owner}/packages/container/${package}/versions"
+            else
+              endpoint="/users/${owner}/packages/container/${package}/versions"
+            fi
+
+            latest=$(gh api --paginate \
+              -H "Accept: application/vnd.github+json" \
+              "${endpoint}" \
+              | jq -r '[.[] | select(.metadata.container.tags | map(startswith("main-")) | any)] | sort_by(.updated_at) | last | .metadata.container.tags[] | select(startswith("main-"))')
+
+            echo "SOURCE_TAG=${latest}" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Set up Docker Buildx
