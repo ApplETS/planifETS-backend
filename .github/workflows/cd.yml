@@ -5,7 +5,7 @@ on:
     branches:
       - main
     tags:
-      - 'v*'
+      - "v*"
   pull_request:
     branches:
       - main
@@ -20,8 +20,8 @@ on:
           - dev
           - prod
       source_tag:
-        description: Immutable GHCR tag to promote (for example main-a1b2c3d)
-        required: true
+        description: Immutable GHCR tag to promote (for example main-a1b2c3d). Defaults to the latest main commit.
+        required: false
         type: string
 
 env:
@@ -43,8 +43,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
-          cache: 'yarn'
-          cache-dependency-path: 'yarn.lock'
+          cache: "yarn"
+          cache-dependency-path: "yarn.lock"
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --ignore-scripts
@@ -107,6 +107,21 @@ jobs:
     permissions:
       packages: write
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Resolve source tag
+        id: resolve-tag
+        shell: bash
+        run: |
+          if [[ -n "${{ inputs.source_tag }}" ]]; then
+            echo "SOURCE_TAG=${{ inputs.source_tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "SOURCE_TAG=main-$(git rev-parse --short=7 HEAD)" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -120,7 +135,7 @@ jobs:
       - name: Promote immutable image
         shell: bash
         env:
-          SOURCE_TAG: ${{ inputs.source_tag }}
+          SOURCE_TAG: ${{ steps.resolve-tag.outputs.SOURCE_TAG }}
           TARGET_ENVIRONMENT: ${{ inputs.environment }}
         run: |
           set -euo pipefail
