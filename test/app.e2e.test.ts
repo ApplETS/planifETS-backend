@@ -6,8 +6,13 @@ import { AppModule } from './../src/app.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
+  const originalFrontendUrl = process.env.FRONTEND_URL;
+  const originalQdrantUrl = process.env.QDRANT_URL;
 
   beforeEach(async () => {
+    delete process.env.FRONTEND_URL;
+    delete process.env.QDRANT_URL;
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule]
     }).compile();
@@ -19,6 +24,15 @@ describe('AppController (e2e)', () => {
   afterEach(async () => {
     if (app) {
       await app.close();
+    }
+  });
+
+  afterAll(() => {
+    if (originalFrontendUrl !== undefined) {
+      process.env.FRONTEND_URL = originalFrontendUrl;
+    }
+    if (originalQdrantUrl !== undefined) {
+      process.env.QDRANT_URL = originalQdrantUrl;
     }
   });
 

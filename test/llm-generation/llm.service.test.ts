@@ -34,7 +34,7 @@ function reasonText(events: LlmStreamEvent[]): string {
 }
 
 const mockCourseRetriever = {
-  retrieveCourses: jest.fn().mockResolvedValue([])
+  retrieveCourses: jest.fn()
 } as unknown as CourseRetrieverService;
 
 const mockPosthogMonitoring = {
@@ -82,6 +82,16 @@ describe('LlmService', () => {
 
     fetchMock = jest.fn();
     global.fetch = fetchMock;
+    (mockCourseRetriever.retrieveCourses as jest.Mock).mockResolvedValue([
+      {
+        code: 'LOG121',
+        title: 'Logiciels',
+        description: 'Intro course',
+        score: 0.9
+      }
+    ]);
+    (mockPosthogMonitoring.captureAiSpan as jest.Mock).mockClear();
+    (mockPosthogMonitoring.captureAiGeneration as jest.Mock).mockClear();
   });
 
   afterEach(() => {
@@ -207,6 +217,44 @@ describe('LlmService', () => {
       });
       expect(fetchMock).toHaveBeenCalledTimes(1);
       expect(fetchMock).toHaveBeenCalledWith(GROQ_URL, expect.any(Object));
+    });
+
+    it('filters hallucinated courses and logs the model that produced them', async () => {
+      process.env.GROQ_API_KEY = 'groq-key';
+      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+
+      fetchMock.mockReturnValue(
+        okFetch(
+          JSON.stringify({
+            courses: [{ code: 'LOG121' }, { code: 'FAK999' }],
+            explanation: 'These courses cover the fundamentals.'
+          })
+        )
+      );
+
+      const errorSpy = jest
+        .spyOn(Logger.prototype, 'error')
+        .mockImplementation(() => {});
+
+      const result = await new LlmService(
+        mockCourseRetriever,
+        mockPosthogMonitoring
+      ).recommend('Suggest AI courses');
+
+      expect(result).toEqual({
+        courses: [{ code: 'LOG121' }],
+        explanation: 'These courses cover the fundamentals.'
+      });
+      expect(errorSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          message: expect.stringContaining(
+            'Filtered hallucinated course recommendations'
+          ),
+          aiProvider: 'Groq',
+          aiModel: 'llama-3.3',
+          invalidCourseCodes: 'FAK999'
+        })
+      );
     });
 
     it('falls back to the second provider when the first returns an HTTP error', async () => {
@@ -445,6 +493,10 @@ describe('LlmService', () => {
         service.recommendStream('Suggest AI courses')
       );
 
+      expect(events.slice(0, 2)).toEqual([
+        { type: 'status', data: 'SEARCHING_EMBEDDINGS' },
+        { type: 'status', data: 'THINKING_AI' }
+      ]);
       expect(reasonText(events)).toBe('These courses are great for AI.');
       expect(events.at(-1)).toEqual({
         type: 'courses',
@@ -610,6 +662,47 @@ describe('LlmService', () => {
       expect(events.at(-1)).toEqual({ type: 'courses', data: [] });
       expect(warnSpy).toHaveBeenCalledWith(
         expect.stringContaining('Failed to parse streamed course list')
+      );
+    });
+
+    it('filters hallucinated streamed courses before emitting them', async () => {
+      process.env.GROQ_API_KEY = 'groq-key';
+      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+
+      const service = new LlmService(
+        mockCourseRetriever,
+        mockPosthogMonitoring
+      );
+      const errorSpy = jest
+        .spyOn(Logger.prototype, 'error')
+        .mockImplementation(() => {});
+      const [groqProvider] = (
+        service as unknown as { providers: LlmProvider[] }
+      ).providers;
+
+      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async function* () {
+          yield 'reason';
+          yield STREAM_COURSES_DELIMITER;
+          yield JSON.stringify([{ code: 'LOG121' }, { code: 'FAK999' }]);
+        }
+      );
+
+      const events = await collect(
+        service.recommendStream('Suggest AI courses')
+      );
+
+      expect(events.at(-1)).toEqual({
+        type: 'courses',
+        data: [{ code: 'LOG121' }]
+      });
+      expect(errorSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          message: expect.stringContaining('FAK999'),
+          aiProvider: 'Groq',
+          aiModel: 'llama-3.3'
+        })
       );
     });
   });
