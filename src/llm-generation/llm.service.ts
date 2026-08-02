@@ -18,6 +18,11 @@ import { GeminiProvider } from './providers/gemini.provider';
 import { GroqProvider } from './providers/groq.provider';
 import { NvidiaProvider } from './providers/nvidia.provider';
 
+const DEFAULT_GROQ_PRIMARY_MODEL = 'llama-3.3-70b-versatile';
+const DEFAULT_GROQ_FALLBACK_MODEL = 'llama-3.1-8b-instant';
+const DEFAULT_NVIDIA_MODEL = 'meta/llama-3.3-70b-instruct';
+const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash-lite';
+
 export type LlmStreamEvent =
   | { type: 'status'; data: LlmStreamStatus }
   | { type: 'reason'; data: string }
@@ -72,22 +77,22 @@ export class LlmService {
 
     this.providers = [
       this.tryProvider(
-        process.env.GROQ_PRIMARY_MODEL,
+        process.env.GROQ_PRIMARY_MODEL ?? DEFAULT_GROQ_PRIMARY_MODEL,
         process.env.GROQ_API_KEY,
         GroqProvider
       ),
       this.tryProvider(
-        process.env.GROQ_FALLBACK_MODEL,
+        process.env.GROQ_FALLBACK_MODEL ?? DEFAULT_GROQ_FALLBACK_MODEL,
         process.env.GROQ_API_KEY,
         GroqProvider
       ),
       this.tryProvider(
-        process.env.NVIDIA_MODEL,
+        process.env.NVIDIA_MODEL ?? DEFAULT_NVIDIA_MODEL,
         process.env.NVIDIA_API_KEY,
         NvidiaProvider
       ),
       this.tryProvider(
-        process.env.GEMINI_MODEL,
+        process.env.GEMINI_MODEL ?? DEFAULT_GEMINI_MODEL,
         process.env.GEMINI_API_KEY,
         GeminiProvider
       )

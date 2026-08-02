@@ -100,9 +100,9 @@ describe('LlmService', () => {
   });
 
   describe('provider configuration', () => {
-    it('includes a provider only when both model name and API key are present', () => {
+    it('uses an environment model override when configured', () => {
       process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3-70b-versatile';
+      process.env.GROQ_PRIMARY_MODEL = 'custom-groq-model';
 
       const service = new LlmService(
         mockCourseRetriever,
@@ -111,8 +111,8 @@ describe('LlmService', () => {
 
       const providers = (service as unknown as { providers: LlmProvider[] })
         .providers;
-      expect(providers).toHaveLength(1);
-      expect(providers[0].name).toContain('Groq');
+      expect(providers).toHaveLength(2);
+      expect(providers[0].modelName).toBe('custom-groq-model');
     });
 
     it('excludes a provider when the API key is missing', () => {
@@ -128,17 +128,24 @@ describe('LlmService', () => {
       ).toHaveLength(0);
     });
 
-    it('excludes a provider when the model name is missing', () => {
+    it('uses built-in model defaults when model variables are missing', () => {
       process.env.GROQ_API_KEY = 'groq-key';
+      process.env.NVIDIA_API_KEY = 'nvidia-key';
+      process.env.GEMINI_API_KEY = 'gemini-key';
 
       const service = new LlmService(
         mockCourseRetriever,
         mockPosthogMonitoring
       );
 
-      expect(
-        (service as unknown as { providers: LlmProvider[] }).providers
-      ).toHaveLength(0);
+      const providers = (service as unknown as { providers: LlmProvider[] })
+        .providers;
+      expect(providers.map((provider) => provider.modelName)).toEqual([
+        'llama-3.3-70b-versatile',
+        'llama-3.1-8b-instant',
+        'meta/llama-3.3-70b-instruct',
+        'gemini-2.5-flash-lite'
+      ]);
     });
 
     it('logs a warning when no providers are configured', () => {
@@ -260,8 +267,6 @@ describe('LlmService', () => {
     it('falls back to the second provider when the first returns an HTTP error', async () => {
       process.env.GROQ_API_KEY = 'groq-key';
       process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-      process.env.NVIDIA_API_KEY = 'nvidia-key';
-      process.env.NVIDIA_MODEL = 'nvidia-llama';
 
       fetchMock
         .mockReturnValueOnce(errorFetch(429, 'rate limited'))
@@ -284,7 +289,7 @@ describe('LlmService', () => {
       );
       expect(fetchMock).toHaveBeenNthCalledWith(
         2,
-        NVIDIA_URL,
+        GROQ_URL,
         expect.any(Object)
       );
     });
@@ -292,8 +297,6 @@ describe('LlmService', () => {
     it('falls back to the next provider when the first throws a network error', async () => {
       process.env.GROQ_API_KEY = 'groq-key';
       process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-      process.env.NVIDIA_API_KEY = 'nvidia-key';
-      process.env.NVIDIA_MODEL = 'nvidia-llama';
 
       fetchMock
         .mockRejectedValueOnce(new Error('ECONNREFUSED'))
@@ -353,7 +356,7 @@ describe('LlmService', () => {
           'Suggest AI courses'
         )
       ).rejects.toThrow(LlmExhaustedException);
-      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(fetchMock).toHaveBeenCalledTimes(3);
     });
 
     it('throws LlmExhaustedException immediately when no providers are configured', async () => {
@@ -719,7 +722,7 @@ describe('LlmService', () => {
         mockPosthogMonitoring
       ).checkStatus();
 
-      expect(statuses).toHaveLength(1);
+      expect(statuses).toHaveLength(2);
       expect(statuses[0]).toMatchObject({
         name: expect.stringContaining('Groq'),
         status: 'ok',
@@ -753,6 +756,7 @@ describe('LlmService', () => {
 
       fetchMock
         .mockReturnValueOnce(okFetch(VALID_LLM_JSON))
+        .mockReturnValueOnce(okFetch(VALID_LLM_JSON))
         .mockRejectedValueOnce(new Error('NVIDIA unavailable'));
 
       const statuses = await new LlmService(
@@ -760,7 +764,7 @@ describe('LlmService', () => {
         mockPosthogMonitoring
       ).checkStatus();
 
-      expect(statuses).toHaveLength(2);
+      expect(statuses).toHaveLength(3);
       expect(statuses.find((s) => s.name.includes('Groq'))?.status).toBe('ok');
       expect(statuses.find((s) => s.name.includes('Nvidia'))?.status).toBe(
         'error'
