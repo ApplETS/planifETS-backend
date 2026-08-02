@@ -53,6 +53,7 @@ async function bootstrap() {
 
   //Start the app
   await app.listen(port);
+  console.log(`Backend commit: ${process.env.APP_GIT_SHORT_SHA || 'unknown'}`);
   console.log(`Swagger UI available at http://localhost:${port}/api/docs`);
 }
 bootstrap();
