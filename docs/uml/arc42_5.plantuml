@@ -1,0 +1,60 @@
+@startuml
+title Déploiement de PlanifETS en production
+left to right direction
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam linetype polyline
+skinparam nodesep 30
+skinparam ranksep 35
+actor "Utilisateur" as user
+cloud "Fournisseurs LLM\nGroq / NVIDIA / Gemini" as llm
+rectangle "Chaîne de livraison" as delivery {
+  component "GitHub Actions\nBuild prod" as actions
+  artifact "GHCR\nfrontend + backend\nimage :latest" as registry
+  artifact "Dépôt GitOps\noverlay prod" as gitops
+  component "Argo CD\nsynchronisation automatique" as argocd
+  actions --> registry : publication et retag
+  gitops --> argocd : état désiré
+}
+node "Cluster Kubernetes k8s-cedille-production-v2" as cluster {
+  component "Contrôleur Ingress\nContour" as contour
+  node "Namespace planifets" as prod #EAF8EE {
+    component "Ingress\nplanifets.prodv2.cedille.club\nplanifets.clubapplets.ca" as ingress
+    node "Deployment frontend\nNext.js" as frontend
+    node "Deployment backend\nNestJS" as backend
+    database "Cluster CNPG\nPostgreSQL + PVC" as postgres
+    database "StatefulSet Qdrant\nService + PVC CephFS" as qdrant
+    artifact "Secrets Kubernetes\nplanifets-secret\nplanifets-chatbot-secret" as secrets
+    ingress --> frontend : /
+    ingress --> backend : /api
+    frontend --> backend : JSON / SSE
+    backend --> postgres : Prisma / SQL
+    backend --> qdrant : recherche vectorielle
+    secrets --> backend : DATABASE_URL + clés API
+    secrets --> qdrant : clé Qdrant
+  }
+  node "Vault du cluster\nvault.vault.svc" as vault
+  component "Sortie HTTPS" as egress
+  contour --> ingress
+  vault --> secrets : VaultSecret - synchronisation 1h
+  backend --> egress
+}
+user --> contour : HTTPS
+egress --> llm : API HTTPS
+registry --> cluster : images promues
+argocd --> cluster : applique l'overlay prod
+note bottom of frontend
+  NEXT_PUBLIC_CHATBOT_ENABLED
+  intégré pendant le build frontend
+end note
+note bottom of backend
+  CHATBOT_ENABLED
+  défini dans l'overlay Kustomize prod
+end note
+legend bottom
+  La même topologie est reproduite dans les namespaces
+  planifets-dev et planifets-staging avec leurs images,
+  données, configurations et secrets respectifs.
+endlegend
+@enduml
