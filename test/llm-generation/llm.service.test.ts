@@ -51,6 +51,8 @@ const VALID_LLM_JSON = JSON.stringify({
   courses: [{ code: 'LOG121' }],
   explanation: 'These courses cover the fundamentals.'
 });
+const FALLBACK_EXPLANATION =
+  "I'm currently unable to generate a conversational response. Here are the 10 most relevant courses matching your request.";
 
 const okFetch = (content: string) =>
   Promise.resolve({
@@ -343,7 +345,7 @@ describe('LlmService', () => {
       );
     });
 
-    it('throws LlmExhaustedException when all configured providers fail', async () => {
+    it('returns CourseRetriever fallback when all configured providers fail', async () => {
       process.env.GROQ_API_KEY = 'groq-key';
       process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
       process.env.NVIDIA_API_KEY = 'nvidia-key';
@@ -351,22 +353,34 @@ describe('LlmService', () => {
 
       fetchMock.mockRejectedValue(new Error('all down'));
 
-      await expect(
-        new LlmService(mockCourseRetriever, mockPosthogMonitoring).recommend(
-          'Suggest AI courses'
-        )
-      ).rejects.toThrow(LlmExhaustedException);
+      const result = await new LlmService(
+        mockCourseRetriever,
+        mockPosthogMonitoring
+      ).recommend('Suggest AI courses');
+
+      expect(result).toEqual({
+        courses: [{ code: 'LOG121' }],
+        explanation: FALLBACK_EXPLANATION
+      });
       expect(fetchMock).toHaveBeenCalledTimes(3);
+      expect(mockCourseRetriever.retrieveCourses).toHaveBeenCalledWith(
+        'Suggest AI courses',
+        undefined
+      );
     });
 
-    it('throws LlmExhaustedException immediately when no providers are configured', async () => {
+    it('returns CourseRetriever fallback when no providers are configured', async () => {
       jest.spyOn(Logger.prototype, 'warn').mockImplementation(() => {});
 
-      await expect(
-        new LlmService(mockCourseRetriever, mockPosthogMonitoring).recommend(
-          'Suggest AI courses'
-        )
-      ).rejects.toThrow(LlmExhaustedException);
+      const result = await new LlmService(
+        mockCourseRetriever,
+        mockPosthogMonitoring
+      ).recommend('Suggest AI courses');
+
+      expect(result).toEqual({
+        courses: [{ code: 'LOG121' }],
+        explanation: FALLBACK_EXPLANATION
+      });
       expect(fetchMock).not.toHaveBeenCalled();
     });
 
@@ -434,7 +448,7 @@ describe('LlmService', () => {
       expect(nvidiaProvider.complete).toHaveBeenCalledTimes(1);
     }, 2000);
 
-    it('throws LlmExhaustedException and the AbortSignal is marked aborted when every provider times out', async () => {
+    it('returns CourseRetriever fallback and aborts timed-out providers', async () => {
       process.env.GROQ_API_KEY = 'groq-key';
       process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
 
@@ -463,11 +477,37 @@ describe('LlmService', () => {
           });
         });
 
-      await expect(service.recommend('Suggest AI courses')).rejects.toThrow(
-        LlmExhaustedException
-      );
+      const result = await service.recommend('Suggest AI courses');
+
+      expect(result).toEqual({
+        courses: [{ code: 'LOG121' }],
+        explanation: FALLBACK_EXPLANATION
+      });
       expect(capturedSignal?.aborted).toBe(true);
     }, 2000);
+
+    it('throws LlmExhaustedException when providers and retriever fallback both fail', async () => {
+      process.env.GROQ_API_KEY = 'groq-key';
+      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+
+      fetchMock.mockRejectedValue(new Error('all down'));
+      (mockCourseRetriever.retrieveCourses as jest.Mock)
+        .mockResolvedValueOnce([
+          {
+            code: 'LOG121',
+            title: 'Logiciels',
+            description: 'Intro course',
+            score: 0.9
+          }
+        ])
+        .mockRejectedValueOnce(new Error('retriever down'));
+
+      await expect(
+        new LlmService(mockCourseRetriever, mockPosthogMonitoring).recommend(
+          'Suggest AI courses'
+        )
+      ).rejects.toThrow(LlmExhaustedException);
+    });
   });
 
   describe('recommendStream', () => {
@@ -609,7 +649,7 @@ describe('LlmService', () => {
       expect(nvidiaSpy).not.toHaveBeenCalled();
     });
 
-    it('throws LlmExhaustedException when every provider fails before yielding', async () => {
+    it('emits CourseRetriever fallback payload when every provider fails before yielding', async () => {
       process.env.GROQ_API_KEY = 'groq-key';
       process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
 
@@ -627,6 +667,48 @@ describe('LlmService', () => {
           throw new Error('Groq down');
         }
       );
+
+      const events = await collect(
+        service.recommendStream('Suggest AI courses')
+      );
+
+      expect(events.at(-1)).toEqual({
+        type: 'courses',
+        data: {
+          courses: [{ code: 'LOG121' }],
+          explanation: FALLBACK_EXPLANATION
+        }
+      });
+    });
+
+    it('throws LlmExhaustedException when stream providers and retriever fallback both fail', async () => {
+      process.env.GROQ_API_KEY = 'groq-key';
+      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+
+      const service = new LlmService(
+        mockCourseRetriever,
+        mockPosthogMonitoring
+      );
+      const [groqProvider] = (
+        service as unknown as { providers: LlmProvider[] }
+      ).providers;
+
+      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async function* () {
+          throw new Error('Groq down');
+        }
+      );
+      (mockCourseRetriever.retrieveCourses as jest.Mock)
+        .mockResolvedValueOnce([
+          {
+            code: 'LOG121',
+            title: 'Logiciels',
+            description: 'Intro course',
+            score: 0.9
+          }
+        ])
+        .mockRejectedValueOnce(new Error('retriever down'));
 
       await expect(
         collect(service.recommendStream('Suggest AI courses'))

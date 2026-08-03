@@ -26,7 +26,7 @@ const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash-lite';
 export type LlmStreamEvent =
   | { type: 'status'; data: LlmStreamStatus }
   | { type: 'reason'; data: string }
-  | { type: 'courses'; data: LlmCourse[] };
+  | { type: 'courses'; data: LlmCourse[] | LlmGenerationResponse };
 
 export type LlmStreamStatus = 'SEARCHING_EMBEDDINGS' | 'THINKING_AI';
 
@@ -48,6 +48,8 @@ export class LlmService {
   private readonly logger = new Logger(LlmService.name);
   private readonly providers: LlmProvider[];
   private readonly timeoutMs: number;
+  private readonly fallbackExplanation =
+    "I'm currently unable to generate a conversational response. Here are the 10 most relevant courses matching your request.";
 
   private throwExhausted(lastError: Error | undefined): never {
     this.logger.error(
@@ -55,6 +57,45 @@ export class LlmService {
       lastError?.message
     );
     throw new LlmExhaustedException(lastError);
+  }
+
+  private buildRetrieverContext(
+    programIds?: number[]
+  ): { programIds: number[] } | undefined {
+    return programIds?.length ? { programIds } : undefined;
+  }
+
+  private async buildRetrieverFallback(
+    prompt: string,
+    programIds: number[] | undefined
+  ): Promise<LlmGenerationResponse | null> {
+    this.logger.warn(
+      'All LLM providers failed. Attempting CourseRetrieverService fallback.'
+    );
+
+    try {
+      const courses = await this.courseRetriever.retrieveCourses(
+        prompt,
+        this.buildRetrieverContext(programIds)
+      );
+
+      this.logger.warn(
+        `CourseRetrieverService fallback succeeded with ${courses.length} courses.`
+      );
+
+      return {
+        explanation: this.fallbackExplanation,
+        courses: courses.slice(0, 10).map((course) => ({ code: course.code }))
+      };
+    } catch (error) {
+      const fallbackError =
+        error instanceof Error ? error : new Error(String(error));
+      this.logger.error(
+        'CourseRetrieverService fallback failed after all LLM providers were exhausted.',
+        fallbackError.message
+      );
+      return null;
+    }
   }
 
   private tryProvider(
@@ -150,7 +191,7 @@ export class LlmService {
     );
     const courses = await this.courseRetriever.retrieveCourses(
       prompt,
-      programIds?.length ? { programIds } : undefined
+      this.buildRetrieverContext(programIds)
     );
     this.logger.log(
       `Retrieved ${courses.length} courses:\n` +
@@ -284,6 +325,11 @@ export class LlmService {
       }
     }
 
+    const fallback = await this.buildRetrieverFallback(prompt, programIds);
+    if (fallback) {
+      return fallback;
+    }
+
     this.throwExhausted(lastError);
   }
 
@@ -363,6 +409,12 @@ export class LlmService {
       } finally {
         clearTimeout(timeout);
       }
+    }
+
+    const fallback = await this.buildRetrieverFallback(prompt, programIds);
+    if (fallback) {
+      yield { type: 'courses', data: fallback };
+      return;
     }
 
     this.throwExhausted(lastError);
