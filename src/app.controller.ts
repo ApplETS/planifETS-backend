@@ -33,6 +33,11 @@ type ReadinessHealthResponse = {
   };
 };
 
+type AppInfoResponse = {
+  gitSha: string | null;
+  environment: string;
+};
+
 @ApiTags('Health')
 @Controller()
 export class AppController {
@@ -44,6 +49,15 @@ export class AppController {
   })
   public getHello(): string {
     return 'Hello World!';
+  }
+
+  @Get('info')
+  @ApiOperation({ summary: 'Get deployed application information' })
+  public getInfo(): AppInfoResponse {
+    return {
+      gitSha: process.env.APP_GIT_SHORT_SHA || null,
+      environment: process.env.APP_ENV || 'development'
+    };
   }
 
   @Get('health')

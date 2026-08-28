@@ -13,6 +13,8 @@ describe('AppController', () => {
   };
 
   const originalEnv = {
+    APP_ENV: process.env.APP_ENV,
+    APP_GIT_SHORT_SHA: process.env.APP_GIT_SHORT_SHA,
     FRONTEND_URL: process.env.FRONTEND_URL,
     QDRANT_URL: process.env.QDRANT_URL
   };
@@ -35,6 +37,18 @@ describe('AppController', () => {
   });
 
   afterEach(() => {
+    if (originalEnv.APP_ENV === undefined) {
+      delete process.env.APP_ENV;
+    } else {
+      process.env.APP_ENV = originalEnv.APP_ENV;
+    }
+
+    if (originalEnv.APP_GIT_SHORT_SHA === undefined) {
+      delete process.env.APP_GIT_SHORT_SHA;
+    } else {
+      process.env.APP_GIT_SHORT_SHA = originalEnv.APP_GIT_SHORT_SHA;
+    }
+
     if (originalEnv.FRONTEND_URL === undefined) {
       delete process.env.FRONTEND_URL;
     } else {
@@ -50,6 +64,16 @@ describe('AppController', () => {
 
   it('should return hello world', () => {
     expect(controller.getHello()).toBe('Hello World!');
+  });
+
+  it('should return deployed application information', () => {
+    process.env.APP_ENV = 'staging';
+    process.env.APP_GIT_SHORT_SHA = 'a1b2c3d';
+
+    expect(controller.getInfo()).toEqual({
+      gitSha: 'a1b2c3d',
+      environment: 'staging'
+    });
   });
 
   it('should return liveness status', () => {

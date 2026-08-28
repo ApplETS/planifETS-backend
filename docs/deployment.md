@@ -3,13 +3,13 @@
 The application is deployed with two repositories:
 
 - This repository builds and publishes the backend image through [the CD workflow](../.github/workflows/cd.yml).
-- [`k8s-cedille-production-v2`](https://github.com/ClubCedille/k8s-cedille-production-v2/tree/main/apps/applets) is the GitOps source used by ArgoCD. `planifets` contains the frontend, backend and CloudNativePG resources; `planifets-chatbot` contains Qdrant.
+- [`k8s-shared`](https://github.com/ClubCedille/k8s-shared/tree/main/apps/clubs/applets/) is the GitOps source used by ArgoCD. `planifets` contains the frontend, backend and CloudNativePG resources; `planifets-chatbot` contains Qdrant.
 
 | Environment | URL | Namespace | Backend image tag | GitOps overlays |
 | --- | --- | --- | --- | --- |
-| Development | `https://planifets.dev.cedille.club` | `planifets-dev` | `dev` | `planifets/dev`, `planifets-chatbot/dev` |
-| Staging | `https://planifets.staging.cedille.club` | `planifets-staging` | `staging` | `planifets/staging`, `planifets-chatbot/staging` |
-| Production | `https://planifets.clubapplets.ca` | `planifets` | `latest` | `planifets/prod`, `planifets-chatbot/prod` |
+| Development | <https://planifets.dev.cedille.club/> | `planifets-dev` | `dev` | `planifets/dev`, `planifets-chatbot/dev` |
+| Staging | <https://planifets.staging.cedille.club/> | `planifets-staging` | `staging` | `planifets/staging`, `planifets-chatbot/staging` |
+| Production | <https://planifets.clubapplets.ca/> | `planifets` | `latest` | `planifets/prod`, `planifets-chatbot/prod` |
 
 ## Build and deploy
 
