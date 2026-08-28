@@ -1,4 +1,4 @@
-@startuml Figure 6.2 - Diagramme de séquence : indexation des données de cours
+@startuml
 title Figure 6.2 - Diagramme de séquence : indexation des données de cours
 
 participant "Jobs Service" as Jobs
@@ -6,7 +6,7 @@ participant "Worker Runner" as Runner
 participant "Course Embedding\nIndexer" as Indexer
 participant "Embedding Service" as EmbeddingService
 participant "Embedding Worker Client" as WorkerClient
-database "v_courses_for_embedding\n(PostgreSQL / Prisma)" as Database
+database "Vue v_courses_for_embedding\n(PostgreSQL)" as Database
 database "Qdrant" as Qdrant
 
 Jobs -> Runner : Démarrer le travail d'indexation
@@ -25,15 +25,10 @@ loop Pour chaque lot de cours
         WorkerClient --> Indexer : Vecteurs générés
         Indexer -> Qdrant : Upsert des vecteurs\net des métadonnées
         Qdrant --> Indexer : Confirmation
-    else Échec du traitement du lot
-        loop Pour chaque cours du lot
-            Indexer -> WorkerClient : Générer l'embedding du cours
-            WorkerClient --> Indexer : Vecteur généré
-            Indexer -> Qdrant : Upsert du vecteur\net des métadonnées
-            Qdrant --> Indexer : Confirmation
-        end
-    end
 
+    else Échec du traitement du lot
+        Indexer -> Indexer : Signaler l'échec du lot
+    end
 end
 
 Indexer --> Runner : Travail terminé
