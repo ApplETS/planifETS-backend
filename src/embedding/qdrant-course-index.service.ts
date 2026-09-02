@@ -30,23 +30,28 @@ type VectorConfig = {
 @Injectable()
 export class QdrantCourseIndexService {
   private readonly logger = new Logger(QdrantCourseIndexService.name);
-  private readonly client: QdrantClient;
+  private client?: QdrantClient;
   private readonly collectionName: string;
 
   constructor() {
     this.collectionName = process.env.QDRANT_COLLECTION ?? 'courses_bge_m3';
+  }
 
-    const url = process.env.QDRANT_URL ?? 'http://localhost:6333';
-    const apiKey = process.env.QDRANT_API_KEY;
+  private getClient(): QdrantClient {
+    if (!this.client) {
+      const url = process.env.QDRANT_URL ?? 'http://localhost:6333';
+      const apiKey = process.env.QDRANT_API_KEY;
 
-    this.client = apiKey
-      ? new QdrantClient({ url, apiKey })
-      : new QdrantClient({ url });
+      this.client = apiKey
+        ? new QdrantClient({ url, apiKey })
+        : new QdrantClient({ url });
+    }
+    return this.client;
   }
 
   public async ensureCollection(): Promise<void> {
     try {
-      const info = await this.client.getCollection(this.collectionName);
+      const info = await this.getClient().getCollection(this.collectionName);
 
       this.validateCollection(info);
 
@@ -60,7 +65,7 @@ export class QdrantCourseIndexService {
 
       this.logger.log(`Creating Qdrant collection: ${this.collectionName}`);
 
-      await this.client.createCollection(this.collectionName, {
+      await this.getClient().createCollection(this.collectionName, {
         vectors: {
           size: BGE_M3_VECTOR_SIZE,
           distance: 'Cosine'
@@ -74,7 +79,7 @@ export class QdrantCourseIndexService {
     let nextOffset: string | number | undefined = undefined;
 
     do {
-      const response = await this.client.scroll(this.collectionName, {
+      const response = await this.getClient().scroll(this.collectionName, {
         offset: nextOffset,
         limit: 250,
         with_payload: ['text_hash'],
@@ -100,17 +105,15 @@ export class QdrantCourseIndexService {
     vector: number[],
     options: { limit: number; scoreThreshold: number; filter?: object }
   ): Promise<Array<{ payload: CourseEmbeddingPayload; score: number }>> {
-    const results = await this.client.search(this.collectionName, {
-      vector,
+    const { points } = await this.getClient().query(this.collectionName, {
+      query: vector,
       limit: options.limit,
       score_threshold: options.scoreThreshold,
-      filter: options.filter as Parameters<
-        typeof this.client.search
-      >[1]['filter'],
+      filter: options.filter as Parameters<QdrantClient['query']>[1]['filter'],
       with_payload: true
     });
 
-    return results.map((result) => ({
+    return points.map((result) => ({
       payload: result.payload as unknown as CourseEmbeddingPayload,
       score: result.score
     }));
@@ -130,7 +133,7 @@ export class QdrantCourseIndexService {
     try {
       await retryTransient(
         () =>
-          this.client.upsert(this.collectionName, {
+          this.getClient().upsert(this.collectionName, {
             wait: true,
             points: qdrantPoints
           }),
