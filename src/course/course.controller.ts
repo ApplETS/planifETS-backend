@@ -114,6 +114,6 @@ export class CourseController {
   @ApiOperation({ summary: '🟢 Get course by ID' })
   @ApiOkResponse({ type: CourseDto })
   public getCourse(@Param('id', ParseIntPipe) id: number) {
-    return this.courseService.getCourse({ id });
+    return this.courseService.getCourseWithAvailability({ id });
   }
 }
