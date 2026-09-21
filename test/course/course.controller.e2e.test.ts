@@ -164,13 +164,31 @@ describe('CourseController (e2e)', () => {
         createdAt: new Date('2026-01-15T00:00:00.000Z'),
         updatedAt: new Date('2026-01-16T00:00:00.000Z')
       });
+      await seedSession(prisma, {
+        year: 2026,
+        trimester: 'AUTOMNE'
+      });
+      await seedCourseInstance(prisma, {
+        courseId: course.id,
+        sessionYear: 2026,
+        sessionTrimester: 'AUTOMNE',
+        availability: [Availability.JOUR, Availability.SOIR]
+      });
 
       const { status, body } = await request(app.getHttpServer()).get(
         `/courses/${course.id}`
       );
 
       expect(status).toBe(200);
-      expect(body).toStrictEqual(serializeCourseEntityContract(course));
+      expect(body).toStrictEqual({
+        ...serializeCourseEntityContract(course),
+        sessionAvailability: [
+          {
+            sessionCode: 'A2026',
+            availability: ['JOUR', 'SOIR']
+          }
+        ]
+      });
     });
   });
 

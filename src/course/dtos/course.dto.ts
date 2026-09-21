@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Course } from '@prisma/client';
 
+import { SessionAvailabilityDto } from './search-course.dto';
+
 export class CourseDto implements Course {
   @ApiProperty({ example: 352405, description: 'Course ID' })
   public id!: number;
@@ -35,4 +37,7 @@ export class CourseDto implements Course {
 
   @ApiProperty()
   public updatedAt!: Date;
+
+  @ApiProperty({ type: () => [SessionAvailabilityDto], required: false })
+  public sessionAvailability?: SessionAvailabilityDto[];
 }

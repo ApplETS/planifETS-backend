@@ -23,10 +23,10 @@ The application is deployed with two repositories:
      -t planifets-backend:local .
    ```
 
-2. Merge the tested commit into `main`. The `CD` workflow builds it once and publishes an immutable `main-<sha>` tag.
-3. Run the `CD` workflow with `workflow_dispatch`, select `dev`, `staging` or `prod`, and enter that immutable tag as `source_tag`. The workflow retags the existing manifest without rebuilding it, so every environment receives the exact same image digest.
+2. Merge the tested commit into `main`. The `CD` workflow builds it once and publishes an immutable `main-<sha>` tag alongside the mutable `dev` tag, so dev deploys automatically.
+3. For `staging` or `prod`, run the `CD` workflow with `workflow_dispatch`, select the environment, and enter that immutable tag as `source_tag`. The workflow retags the existing manifest without rebuilding it, so every environment receives the exact same image digest.
 4. ArgoCD Image Updater detects the environment tag and updates the workload digest. ArgoCD then synchronizes the corresponding overlays. Do not deploy by editing a running Deployment: ArgoCD self-healing will revert that change.
-5. Follow the rollout and perform the health checks below. Promote the same `source_tag` from dev to staging and then production by rerunning the workflow for each environment.
+5. Follow the rollout and perform the health checks below. Promote the same `source_tag` to staging and then production by rerunning the workflow for each environment.
 
 The GitHub repository must allow the workflow to write packages to GHCR. Deployment manifests, environment URLs, resource sizing and probes must be changed in the GitOps repository, not in this application repository.
 

@@ -11,7 +11,8 @@ describe('CourseController', () => {
     getAllCourses: jest.fn(),
     searchCourses: jest.fn(),
     getCoursesByCodes: jest.fn(),
-    getCourse: jest.fn()
+    getCourse: jest.fn(),
+    getCourseWithAvailability: jest.fn()
   };
 
   beforeEach(async () => {
@@ -84,6 +85,29 @@ describe('CourseController', () => {
       normalizedProgramCodes: null,
       normalizedLimit: null,
       normalizedOffset: null
+    });
+  });
+
+  it('returns a course with session availability by ID', async () => {
+    courseService.getCourseWithAvailability.mockResolvedValue({
+      id: 351827,
+      code: 'GPE450',
+      sessionAvailability: [
+        { sessionCode: 'A2026', availability: ['JOUR', 'SOIR'] }
+      ]
+    });
+
+    const { status, body } = await request(app.getHttpServer()).get(
+      '/courses/351827'
+    );
+
+    expect(status).toBe(200);
+    expect(body).toStrictEqual({
+      id: 351827,
+      code: 'GPE450',
+      sessionAvailability: [
+        { sessionCode: 'A2026', availability: ['JOUR', 'SOIR'] }
+      ]
     });
   });
 

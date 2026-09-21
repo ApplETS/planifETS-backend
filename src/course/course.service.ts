@@ -1,10 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Course, Prisma } from '@prisma/client';
 
+import { getTrimesterPrefix } from '../common/utils/session/sessionUtil';
 import { isTruncated } from '../common/utils/stringUtil';
 import { PrismaService } from '../prisma/prisma.service';
 import { CourseMapper } from './course.mapper';
 import { CourseRepository } from './course.repository';
+import { CourseDto } from './dtos/course.dto';
 import { SearchCourseResult, SearchCoursesDto } from './dtos/search-course.dto';
 
 @Injectable()
@@ -24,6 +26,36 @@ export class CourseService {
     });
 
     return course;
+  }
+
+  public async getCourseWithAvailability(
+    courseWhereUniqueInput: Prisma.CourseWhereUniqueInput
+  ): Promise<CourseDto | null> {
+    const course = await this.prisma.course.findUnique({
+      where: courseWhereUniqueInput,
+      include: {
+        courseInstances: {
+          select: {
+            availability: true,
+            sessionYear: true,
+            sessionTrimester: true
+          }
+        }
+      }
+    });
+
+    if (!course) {
+      return null;
+    }
+
+    const { courseInstances, ...courseData } = course;
+    return {
+      ...courseData,
+      sessionAvailability: courseInstances.map((instance) => ({
+        sessionCode: `${getTrimesterPrefix(instance.sessionTrimester)}${instance.sessionYear}`,
+        availability: instance.availability
+      }))
+    };
   }
 
   public async getCourseByCode(code: string): Promise<Course | null> {
