@@ -9,8 +9,7 @@ This page describes how the jobs pipeline aggregates academic data from the diff
 | ETS API | `ProgramsJobService.processPrograms` | Program list and program types | `ProgramType`, `Program` |
 | ETS API | `CoursesJobService.processCourses` | Course catalog and course credits | `Course` |
 | ETS website | `CoursesJobService.syncCourseDescriptionsFromEtsWebsite` | Course page description content | `Course.description` |
-| Cheminot | `CoursesJobService.syncCourseDetailsWithCheminotData` | Program-course sequencing metadata | `ProgramCourse.typicalSessionIndex`, `ProgramCourse.type`, missing `ProgramCourse` links |
-| Planification PDFs | `CourseInstancesJobService.processCourseInstances` | Course availability by session | `Session`, `CourseInstance` |
+| Planification forecast PDFs | `CourseInstancesJobService.processCourseInstances` | Listed courses per program and availability by session | Missing `ProgramCourse` links, `Session`, `CourseInstance` |
 | Horaire PDFs | `SessionsJobService.processSessions` | Current-session prerequisite text and course prerequisite relationships | `ProgramCourse.unstructuredPrerequisite`, `ProgramCoursePrerequisite` |
 
 ## 1. ETS API
@@ -68,36 +67,17 @@ Notes:
   paragraphs stay separated by blank lines and list items are stored as `- ` bullet lines.
 - Unsafe HTML such as scripts is never stored in the database.
 
-## 2. Cheminot
-
-Source job: `CoursesJobService.syncCourseDetailsWithCheminotData`
-
-Cheminot is used to enrich the relationship between programs and courses.
-
-It currently drives:
-
-- creation of missing `ProgramCourse` rows
-- `ProgramCourse.typicalSessionIndex`
-- `ProgramCourse.type`
-
-Notes:
-
-- The Cheminot file format can express prerequisites, but the current job does not use it as the source of truth for prerequisite synchronization.
-- Structured prerequisites are synchronized later from Horaire PDFs.
-
-Related reference:
-
-- [Cheminot note](./Cheminot/note.md)
-
-## 3. Planification PDFs
+## 2. Planification forecast PDFs
 
 Source job: `CourseInstancesJobService.processCourseInstances`
 
-Planification PDFs are used to derive course availability across sessions.
+ÉTS publishes the five-session forecast at `https://horaire.etsmtl.ca/Horairepublication/Planification-${programCode}.pdf`. The existing Planification parser reads this source; no separate HorairePrevision URL is needed.
 
 This step currently:
 
 - parses eligible program PDFs
+- creates missing `ProgramCourse` links for existing catalog courses before aggregating programs, including rows with no availability
+- removes program links absent from that program's forecast only when it lists more than 20 distinct valid courses, with no invalid rows or missing catalog courses
 - creates missing `Session` rows from the session codes found in the PDFs
 - creates missing `CourseInstance` rows
 - updates `CourseInstance.availability`
@@ -107,8 +87,13 @@ Notes:
 
 - This job is not limited to the current session. It creates sessions based on the session codes present in the planification data.
 - Eligibility is controlled by `Program.isPlanificationPdfParsable`.
+- Course codes are deduplicated per program; missing catalog courses are skipped with a warning.
+- Retained links keep their metadata and prerequisites. Removal atomically deletes incoming/outgoing prerequisite relationships within the same program, then the absent links; other programs and catalog courses are untouched.
+- Download/parse failures and forecasts with 20 or fewer distinct courses skip program-link pruning and warn, allowing the next scheduled run to try again. The parser rejects tables without recognizable session headers. Duplicate rows do not count toward the threshold, and availability is never used to decide membership.
+- This count guard cannot detect an incomplete forecast that still lists more than 20 valid catalog courses; under the chosen policy, such a forecast can remove links.
+- New links leave `type` and `typicalSessionIndex` unset: forecast availability is not authoritative curriculum sequencing metadata.
 
-## 4. Horaire PDFs
+## 3. Horaire PDFs
 
 Source job: `SessionsJobService.processSessions`
 
@@ -126,3 +111,4 @@ Notes:
 
 - Eligibility is controlled by `Program.isHorairePdfParsable`.
 - This is the current source of truth for structured prerequisite relationships in the jobs pipeline.
+- Both the target course and its prerequisites must have program links. A prerequisite absent from the forecast (and without an existing link) is reported and skipped; the job does not fabricate membership.

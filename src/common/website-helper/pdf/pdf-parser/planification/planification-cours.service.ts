@@ -67,6 +67,16 @@ export class PlanificationCoursService {
   ): ICoursePlanification[] {
     try {
       const headerCells: Row[] = this.parseHeaderCells(pdfData);
+      // Reject a changed/broken table layout before its rows can drive pruning.
+      // This checks session columns, not whether any course has availability.
+      if (
+        headerCells.length < 3 ||
+        !headerCells.some((cell) => this.isSession(cell.headerName))
+      ) {
+        throw new Error(
+          `Invalid forecast table headers in PDF located at ${pdfUrl}.`
+        );
+      }
       const courses: ICoursePlanification[] = [];
       let currentCourse: ICoursePlanification = this.initializeCourse();
 

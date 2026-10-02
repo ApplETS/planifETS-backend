@@ -1,5 +1,5 @@
 /*
- * Errors related to file extraction
+ * Errors related to PDF parsing
  */
 
 export const ERROR_MESSAGES = {
@@ -12,20 +12,6 @@ export const ERROR_MESSAGES = {
   HORAIRE_PDF_NOT_FOUND: 'PDF not found for the given session/program.',
   PLANIFICATION_PDF_NOT_FOUND: 'PDF not found for the given program.'
 };
-
-export class FileNotFoundError extends Error {
-  constructor(filePath: string) {
-    super(`File not found in the JAR archive at path: ${filePath}`);
-    this.name = 'FileNotFoundError';
-  }
-}
-
-export class FileExtractionError extends Error {
-  constructor(message: string) {
-    super(`File extraction failed: ${message}`);
-    this.name = 'FileExtractionError';
-  }
-}
 
 /*
  * Errors related to the chatbot

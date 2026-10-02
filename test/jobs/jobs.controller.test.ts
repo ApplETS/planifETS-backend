@@ -21,7 +21,6 @@ describe('JobsController', () => {
     processCourses: false,
     processCourseDescriptions: false,
     processCourseInstances: false,
-    processProgramCourses: false,
     processSessions: false,
     processCourseEmbeddings: false,
     ...overrides
@@ -77,13 +76,12 @@ describe('JobsController', () => {
         processCourses: true,
         processCourseDescriptions: true,
         processCourseInstances: true,
-        processProgramCourses: true,
         processSessions: true,
         processCourseEmbeddings: true
       })
     );
 
-    expect(jobsService.runWorker).toHaveBeenCalledTimes(7);
+    expect(jobsService.runWorker).toHaveBeenCalledTimes(6);
     expect(jobsService.runWorker).toHaveBeenNthCalledWith(
       1,
       'ProgramsJobService',
@@ -106,16 +104,11 @@ describe('JobsController', () => {
     );
     expect(jobsService.runWorker).toHaveBeenNthCalledWith(
       5,
-      'CoursesJobService',
-      'syncCourseDetailsWithCheminotData'
-    );
-    expect(jobsService.runWorker).toHaveBeenNthCalledWith(
-      6,
       'SessionsJobService',
       'processSessions'
     );
     expect(jobsService.runWorker).toHaveBeenNthCalledWith(
-      7,
+      6,
       'CourseEmbeddingIndexerService',
       'run'
     );
@@ -142,13 +135,6 @@ describe('JobsController', () => {
           job: {
             service: 'CourseInstancesJobService',
             method: 'processCourseInstances'
-          },
-          status: 'success'
-        },
-        {
-          job: {
-            service: 'CoursesJobService',
-            method: 'syncCourseDetailsWithCheminotData'
           },
           status: 'success'
         },

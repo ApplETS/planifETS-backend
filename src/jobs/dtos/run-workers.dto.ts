@@ -17,9 +17,6 @@ export class RunWorkersDto {
   public processCourseInstances: boolean = false;
 
   @ApiProperty({ default: false })
-  public processProgramCourses: boolean = false;
-
-  @ApiProperty({ default: false })
   public processSessions: boolean = false;
 
   @ApiProperty({ default: false })

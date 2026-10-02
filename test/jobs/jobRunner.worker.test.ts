@@ -130,7 +130,10 @@ describe('jobRunner.worker', () => {
       'Error in JobRunnerWorker: bootstrap failed',
       bootstrapError.stack
     );
-    expect(postMessage).toHaveBeenCalledWith('Error: bootstrap failed');
+    expect(postMessage).toHaveBeenCalledWith({
+      status: 'error',
+      error: 'bootstrap failed'
+    });
     expect(exitSpy).toHaveBeenCalledWith(1);
   });
 
@@ -156,7 +159,10 @@ describe('jobRunner.worker', () => {
     expect(get).toHaveBeenCalledTimes(2);
     expect(run).toHaveBeenCalledTimes(1);
     expect(close).toHaveBeenCalledTimes(1);
-    expect(postMessage).toHaveBeenCalledWith('run completed.');
+    expect(postMessage).toHaveBeenCalledWith({
+      status: 'success',
+      result: 'run completed.'
+    });
     expect(exitSpy).toHaveBeenCalledWith(0);
   });
 
@@ -198,7 +204,10 @@ describe('jobRunner.worker', () => {
       'Error in JobRunnerWorker: job failed',
       jobError.stack
     );
-    expect(postMessage).toHaveBeenCalledWith('Error: job failed');
+    expect(postMessage).toHaveBeenCalledWith({
+      status: 'error',
+      error: 'job failed'
+    });
     expect(exitSpy).toHaveBeenCalledWith(1);
   });
 
@@ -218,7 +227,10 @@ describe('jobRunner.worker', () => {
       'Error in JobRunnerWorker: close failed',
       closeError.stack
     );
-    expect(postMessage).toHaveBeenCalledWith('Error: close failed');
+    expect(postMessage).toHaveBeenCalledWith({
+      status: 'error',
+      error: 'close failed'
+    });
     expect(exitSpy).toHaveBeenCalledWith(1);
   });
 });

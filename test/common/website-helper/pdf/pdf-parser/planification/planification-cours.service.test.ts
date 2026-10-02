@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AxiosHeaders, AxiosResponse } from 'axios';
 import * as fs from 'fs';
+import { Output } from 'pdf2json';
 import { of, throwError } from 'rxjs';
 import {
   PLANIFICATION_DATA_V2_PATH,
@@ -12,6 +13,7 @@ import { normalizeCourseArray } from 'test/test-utils/planification/planificatio
 
 import { PlanificationCoursService } from '@/common/website-helper/pdf/pdf-parser/planification/planification-cours.service';
 import { ICoursePlanification } from '@/common/website-helper/pdf/pdf-parser/planification/planification-cours.types';
+import { Row } from '@/common/website-helper/pdf/pdf-parser/planification/Row';
 import { PdfParserUtil } from '@/utils/pdf/parser/pdfParserUtil';
 
 describe('PlanificationCoursService', () => {
@@ -51,6 +53,52 @@ describe('PlanificationCoursService', () => {
   });
 
   describe('Error handling', () => {
+    const listedCourses = {
+      Pages: [
+        {
+          Texts: Array.from({ length: 21 }, (_, index) => ({
+            x: 0.5,
+            y: index + 1,
+            R: [{ T: `LOG${index + 300}`, TS: [0, 10, 0] }]
+          }))
+        }
+      ]
+    } as unknown as Output;
+
+    it('rejects broken table headers even when more than 20 valid codes are readable', () => {
+      jest
+        .spyOn(service, 'parseHeaderCells')
+        .mockReturnValue([
+          new Row(0, 'Code', 0, 1),
+          new Row(1, 'Title', 1, 2),
+          new Row(2, 'Unrecognized', 2, 3)
+        ]);
+      expect(() => service.processPdfData(listedCourses, 'broken.pdf')).toThrow(
+        'Invalid forecast table headers'
+      );
+    });
+
+    it('accepts well-formed headers and preserves listed courses with no availability', () => {
+      jest
+        .spyOn(service, 'parseHeaderCells')
+        .mockReturnValue([
+          new Row(0, 'Code', 0, 1),
+          new Row(1, 'Title', 1, 2),
+          new Row(2, 'H27', 2, 3)
+        ]);
+      const rows = service.processPdfData(listedCourses, 'forecast.pdf');
+      expect(rows).toHaveLength(21);
+      expect(rows.every((row) => Object.keys(row.available).length === 0)).toBe(
+        true
+      );
+    });
+
+    it('rejects an empty or unreadable PDF', () => {
+      expect(() =>
+        service.processPdfData({ Pages: [] } as unknown as Output, 'empty.pdf')
+      ).toThrow('Error processing PDF data');
+    });
+
     it('parsePdfFromUrl should throw a descriptive error when httpService.get errors', async () => {
       jest
         .spyOn(httpService, 'get')

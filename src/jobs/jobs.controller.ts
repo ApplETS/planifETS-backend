@@ -14,7 +14,6 @@ type JobFlag =
   | 'processCourses'
   | 'processCourseDescriptions'
   | 'processCourseInstances'
-  | 'processProgramCourses'
   | 'processSessions'
   | 'processCourseEmbeddings';
 
@@ -63,13 +62,6 @@ export class JobsController {
       job: {
         service: 'CourseInstancesJobService',
         method: 'processCourseInstances'
-      }
-    },
-    {
-      flag: 'processProgramCourses',
-      job: {
-        service: 'CoursesJobService',
-        method: 'syncCourseDetailsWithCheminotData'
       }
     },
     {

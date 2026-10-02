@@ -34,12 +34,6 @@ export const getHorairePdfUrl = (
 };
 
 /*
- * Cheminot
- */
-export const CHEMINOT_JAR_URL = 'https://CheminotJWS.etsmtl.ca/ChemiNotC.jar';
-export const CHEMINEMENTS_TXT_PATH = 'ressources/Cheminements.txt';
-
-/*
  * PlanETS
  */
 const PLANETS_BASE_URL = 'https://planets.etsmtl.ca/public/';
