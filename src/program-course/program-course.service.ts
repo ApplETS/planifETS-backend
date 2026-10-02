@@ -205,7 +205,7 @@ export class ProgramCourseService {
 
     // Both sides reference ProgramCourse; remove these edges before the links.
     // A failed link deletion must roll back prerequisite deletion as well.
-    return this.prisma.$transaction(async (tx) => {
+    return await this.prisma.$transaction(async (tx) => {
       await tx.programCoursePrerequisite.deleteMany({
         where: {
           programId,

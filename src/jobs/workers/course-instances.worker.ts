@@ -65,7 +65,7 @@ export class CourseInstancesJobService {
           await this.planificationCourseService.parseProgramPlanification(
             program.code
           );
-        await this.syncProgramCourseLinks(program.id, program.code, parsedData);
+        await this.syncProgramCourseLinks(program.id, program.code, parsedData); // NOSONAR: Intentionally process one program at a time to bound database load and preserve ordering.
         allParsedData.push(...parsedData);
       } catch (error) {
         if (error instanceof Error) {
@@ -107,10 +107,11 @@ export class CourseInstancesJobService {
         continue;
       }
       // The existing create method skips existing links without changing metadata.
-      await this.programCourseService.createProgramCourse({
+      const programCourseData = {
         program: { connect: { id: programId } },
         course: { connect: { id: course.id } }
-      });
+      };
+      await this.programCourseService.createProgramCourse(programCourseData); // NOSONAR: Keep existence-check/create operations sequential instead of issuing unbounded database writes.
     }
 
     if (
