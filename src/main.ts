@@ -16,7 +16,7 @@ async function bootstrap() {
     AppModule,
     { bufferLogs: true } // Buffer logs until logger is set up
   );
-  const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
+  const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 3001;
 
   app.setGlobalPrefix('api');
   app.enableCors({ methods: 'GET' });

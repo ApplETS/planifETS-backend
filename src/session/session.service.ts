@@ -20,7 +20,7 @@ export class SessionService {
     year: number,
     trimester: Trimester
   ): Promise<Session> {
-    return this.prisma.session.upsert({
+    return await this.prisma.session.upsert({
       where: {
         year_trimester: {
           year,
@@ -56,7 +56,7 @@ export class SessionService {
 
     const year = date.getFullYear();
 
-    return this.prisma.session.upsert({
+    return await this.prisma.session.upsert({
       where: {
         year_trimester: {
           year,
@@ -96,7 +96,7 @@ export class SessionService {
     sessionCode: string
   ): Promise<Session> {
     const { year, trimester } = this.parseSessionCode(sessionCode);
-    return this.prisma.session.upsert({
+    return await this.prisma.session.upsert({
       where: { year_trimester: { year, trimester } },
       update: {},
       create: { year, trimester }

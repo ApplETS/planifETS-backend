@@ -75,7 +75,7 @@ export class PrerequisiteService {
   ) {
     this.logger.verbose('Fetching course prerequisites', data);
 
-    return this.prisma.programCoursePrerequisite.findMany({
+    return await this.prisma.programCoursePrerequisite.findMany({
       where: data,
       include: {
         programCourse: true,
@@ -87,7 +87,7 @@ export class PrerequisiteService {
   public async getAllCoursePrerequisites() {
     this.logger.verbose('Fetching all course prerequisites');
 
-    return this.prisma.programCoursePrerequisite.findMany({
+    return await this.prisma.programCoursePrerequisite.findMany({
       include: {
         programCourse: true,
         prerequisite: true

@@ -26,6 +26,14 @@ describe('extractNumberFromString', () => {
 });
 
 describe('stripHtmlTags', () => {
+  it('decodes every occurrence of each supported entity', () => {
+    expect(
+      stripHtmlTags(
+        '&nbsp;&nbsp;&amp;&amp;&lt;&lt;&gt;&gt;&quot;&quot;&#39;&#39;&apos;&apos;'
+      )
+    ).toBe(`&&<<>>""''''`);
+  });
+
   it('should remove HTML tags and decode entities', () => {
     expect(stripHtmlTags('<b>Hello</b>')).toBe('Hello');
     expect(stripHtmlTags('Hello &amp; welcome')).toBe('Hello & welcome');

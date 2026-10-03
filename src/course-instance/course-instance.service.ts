@@ -21,7 +21,7 @@ export class CourseInstanceService {
   ): Promise<CourseInstance | null> {
     this.logger.verbose('Fetching CourseInstance by unique input.');
 
-    return this.prisma.courseInstance.findUnique({
+    return await this.prisma.courseInstance.findUnique({
       where: courseInstanceWhereUniqueInput
     });
   }
@@ -36,7 +36,7 @@ export class CourseInstanceService {
 
     this.logger.verbose('getCourseInstancesBySessions', sessionIdentifiers);
 
-    return this.prisma.courseInstance.findMany({
+    return await this.prisma.courseInstance.findMany({
       where: {
         OR: sessionIdentifiers.map(({ sessionYear, sessionTrimester }) => ({
           sessionYear,

@@ -42,7 +42,7 @@ export class ProgramCourseService {
     courseId: number,
     programId: number
   ): Promise<DetailedProgramCourseDto | null> {
-    return this.prisma.programCourse.findFirst({
+    return await this.prisma.programCourse.findFirst({
       where: {
         courseId,
         programId
@@ -101,7 +101,7 @@ export class ProgramCourseService {
       programCourseWhereUniqueInput
     });
 
-    return this.prisma.programCourse.findUnique({
+    return await this.prisma.programCourse.findUnique({
       where: programCourseWhereUniqueInput,
       include: {
         prerequisites: {
@@ -279,8 +279,8 @@ export class ProgramCourseService {
     }
 
     const mappedData = ProgramCourseMapper.toDto(programs);
-    const foundIds = programs.map((program) => program.id);
-    const invalidProgramIds = ids.filter((id) => !foundIds.includes(id));
+    const foundIds = new Set(programs.map((program) => program.id));
+    const invalidProgramIds = ids.filter((id) => !foundIds.has(id));
 
     const response: {
       data: ProgramCoursesDto[];

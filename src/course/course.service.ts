@@ -69,7 +69,7 @@ export class CourseService {
   public async getCoursesByCodes(codes: string[]): Promise<Course[]> {
     this.logger.verbose('getCoursesByCodes', codes);
 
-    return this.prisma.course.findMany({
+    return await this.prisma.course.findMany({
       where: {
         code: {
           in: codes
@@ -80,11 +80,11 @@ export class CourseService {
   public async getAllCourses(): Promise<Course[]> {
     this.logger.verbose('getAllCourses');
 
-    return this.prisma.course.findMany();
+    return await this.prisma.course.findMany();
   }
 
   public async countCourses(): Promise<number> {
-    return this.prisma.course.count();
+    return await this.prisma.course.count();
   }
 
   public async getCoursesForDescriptionSync(): Promise<
@@ -235,7 +235,7 @@ export class CourseService {
 
     const updatedAt = new Date();
 
-    return this.prisma.$transaction(
+    return await this.prisma.$transaction(
       courses.map((course) =>
         this.prisma.course.update({
           where: { id: course.id },
@@ -259,6 +259,7 @@ export class CourseService {
       // and backfills empty ones below.
       const { description, ...updatable } = courseData;
 
+      // Sequential writes bound database load and preserve duplicate-code ordering.
       const result = await this.prisma.course.upsert({
         where: { code: courseData.code },
         update: updatable,
@@ -267,6 +268,7 @@ export class CourseService {
 
       // Truncated beats empty when the scrape never succeeded.
       if (!result.description.trim() && description.trim()) {
+        // Backfill must finish before the next upsert of the same code.
         results.push(
           await this.prisma.course.update({
             where: { code: courseData.code },

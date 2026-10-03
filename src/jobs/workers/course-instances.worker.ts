@@ -61,6 +61,7 @@ export class CourseInstancesJobService {
       this.logger.log(`Processing program: ${program.code}`);
 
       try {
+        // Parse one PDF at a time to bound memory and remote requests.
         const parsedData =
           await this.planificationCourseService.parseProgramPlanification(
             program.code
@@ -198,6 +199,7 @@ export class CourseInstancesJobService {
   ): Promise<Map<string, Session>> {
     const sessionCodeToSessionMap = new Map<string, Session>();
     for (const sessionCode of sessionCodesSet) {
+      // Sequential upserts bound database load.
       const session =
         await this.sessionService.getOrCreateSessionFromCode(sessionCode);
       sessionCodeToSessionMap.set(sessionCode, session);
@@ -346,6 +348,7 @@ export class CourseInstancesJobService {
           requiredInstance.availability
         );
         if (!isSame) {
+          // Sequential writes bound database load and stop synchronization on failure.
           await this.courseInstanceService.updateCourseInstanceAvailability(
             existingInstance,
             requiredInstance.availability
@@ -355,7 +358,7 @@ export class CourseInstancesJobService {
         // Remove from existingInstancesMap to mark as processed
         existingInstancesMap.delete(key);
       } else {
-        // Create new CourseInstance
+        // Sequential writes bound database load and stop synchronization on failure.
         await this.courseInstanceService.createCourseInstance(
           course,
           session,
@@ -372,6 +375,7 @@ export class CourseInstancesJobService {
   ): Promise<number> {
     let deletedCount = 0;
     for (const instance of existingInstancesMap.values()) {
+      // Sequential deletes bound database load and stop on failure.
       await this.courseInstanceService.deleteCourseInstance(
         instance.courseId,
         instance.sessionYear,

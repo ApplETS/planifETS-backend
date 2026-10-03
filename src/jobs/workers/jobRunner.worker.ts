@@ -1,5 +1,6 @@
+import { isMainThread, parentPort, workerData } from 'node:worker_threads';
+
 import { NestFactory } from '@nestjs/core';
-import { isMainThread, parentPort, workerData } from 'worker_threads';
 
 import { createAppLoggerFactory } from '@/common/logger/app-logger-factory';
 import { PosthogMonitoringService } from '@/monitoring/posthog-monitoring.service';
@@ -48,7 +49,7 @@ async function runJobWorker(
 }
 
 // Worker logic
-(async () => {
+void (async () => {
   const logger = createAppLoggerFactory(undefined, 'JobRunnerWorker');
   logger.debug('Are we on the main thread?', isMainThread ? 'Yes' : 'No');
 

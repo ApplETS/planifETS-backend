@@ -107,6 +107,7 @@ export class JobsController {
     const results: JobResult[] = [];
 
     for (const job of jobs) {
+      // Selected jobs follow dependency order: programs, courses, instances, sessions, embeddings.
       results.push(await this.runSelectedJob(job));
     }
 

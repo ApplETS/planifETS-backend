@@ -144,6 +144,7 @@ export class JobsService {
 
       try {
         this.logger.log(`Starting job ${index + 1}: ${service}.${method}`);
+        // Later jobs depend on data produced by earlier jobs.
         const result = await this.runWorker(service, method);
         this.logger.log(
           `Job ${index + 1} (${service}.${method}) completed : ${JSON.stringify(result)}`

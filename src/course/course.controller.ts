@@ -69,8 +69,8 @@ export class CourseController {
       ? programCodesRaw.split(';').filter((code) => code.trim())
       : undefined;
 
-    const parsedLimit = limit ? parseInt(limit, 10) : undefined;
-    const parsedOffset = offset ? parseInt(offset, 10) : undefined;
+    const parsedLimit = limit ? Number.parseInt(limit, 10) : undefined;
+    const parsedOffset = offset ? Number.parseInt(offset, 10) : undefined;
 
     return this.courseService.searchCourses(
       query || '', // Pass empty string if query is undefined/null

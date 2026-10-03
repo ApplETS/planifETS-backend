@@ -79,6 +79,7 @@ export class QdrantCourseIndexService {
     let nextOffset: string | number | undefined = undefined;
 
     do {
+      // Each page needs the previous page's offset.
       const response = await this.getClient().scroll(this.collectionName, {
         offset: nextOffset,
         limit: 250,

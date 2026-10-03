@@ -29,7 +29,7 @@ export class ProgramService {
   public async getAllActivePrograms(): Promise<Program[]> {
     this.logger.verbose('getAllActivePrograms');
 
-    return this.prisma.program.findMany({
+    return await this.prisma.program.findMany({
       where: {
         courses: {
           some: {}
@@ -80,7 +80,7 @@ export class ProgramService {
   public async getProgramByCode(code: string): Promise<Program | null> {
     this.logger.verbose('getProgramByCode', code);
 
-    return this.prisma.program.findFirst({
+    return await this.prisma.program.findFirst({
       where: {
         code
       }
@@ -245,10 +245,8 @@ export class ProgramService {
         where: { code: { in: codes } },
         select: { code: true }
       });
-      const existingCodes = existingPrograms.map((p) => p.code);
-      const missingCodes = codes.filter(
-        (code) => !existingCodes.includes(code)
-      );
+      const existingCodes = new Set(existingPrograms.map((p) => p.code));
+      const missingCodes = codes.filter((code) => !existingCodes.has(code));
 
       this.logger.warn(
         `Some programs were not found in the database during updateProgramsByCodes and therefore were not updated: "${missingCodes.join(', ')}"`
