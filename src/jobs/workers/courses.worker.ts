@@ -20,7 +20,7 @@ export class CoursesJobService {
     private readonly etsWebsiteService: EtsWebsiteService,
     private readonly etsPlanetsService: EtsPlanETSService,
     private readonly courseService: CourseService
-  ) {}
+  ) { }
 
   public async processCourses(): Promise<void> {
     this.logger.log('Processing courses...');
@@ -106,7 +106,8 @@ export class CoursesJobService {
         index,
         index + CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE
       );
-      const results = await Promise.allSettled( // NOSONAR: batches run sequentially to bound website load; fetches within a batch are parallel
+      const results = await Promise.allSettled(
+        // NOSONAR: batches run sequentially to bound website load; fetches within a batch are parallel
         batch.map((course) => fetchDescription(course.code))
       );
       const coursesToUpdate: Array<
@@ -159,7 +160,8 @@ export class CoursesJobService {
         index + CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE <
         courses.length
       ) {
-        await this.delay( // NOSONAR: intentional rate-limit delay between batches
+        await this.delay(
+          // NOSONAR: intentional rate-limit delay between batches
           CoursesJobService.COURSE_DESCRIPTION_SYNC_BATCH_DELAY_MS
         );
       }

@@ -32,7 +32,7 @@ export class SessionsJobService {
     private readonly programCourseService: ProgramCourseService,
     private readonly prerequisiteService: PrerequisiteService,
     private readonly courseCodeValidationPipe: CourseCodeValidationPipe
-  ) {}
+  ) { }
 
   /**
    * Main method to process prerequisites, using the current session data in Horaire-cours PDF.
@@ -276,7 +276,8 @@ export class SessionsJobService {
       }
 
       const wasDeletedCount =
-        await this.prerequisiteService.deletePrerequisiteForProgramCourse( // NOSONAR: sequential deletes bound database load
+        await this.prerequisiteService.deletePrerequisiteForProgramCourse(
+          // NOSONAR: sequential deletes bound database load
           program.id,
           existingCourse.id,
           prerequisiteCourse.id
@@ -295,7 +296,8 @@ export class SessionsJobService {
   ) {
     for (const prerequisiteCode of parsedPrerequisites) {
       const wasAdded =
-        await this.prerequisiteService.addPrerequisiteIfNotExists( // NOSONAR: check-then-add must stay sequential per prerequisite
+        await this.prerequisiteService.addPrerequisiteIfNotExists(
+          // NOSONAR: check-then-add must stay sequential per prerequisite
           programCourse,
           prerequisiteCode,
           program

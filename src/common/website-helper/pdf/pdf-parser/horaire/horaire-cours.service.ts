@@ -16,7 +16,7 @@ export class HoraireCoursService {
   private readonly END_PAGE_CONTENT_Y_AXIS = 59;
   private readonly PREALABLE_X_AXIS = 29.86;
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) { }
 
   private readonly logger = new Logger(HoraireCoursService.name);
 
@@ -190,10 +190,7 @@ export class HoraireCoursService {
     if (!currentGroupNumber) return periods;
 
     if (xPos === Period.JOUR_X_AXIS && Period.isDay(text)) {
-      if (
-        periods.length === 0 ||
-        !Period.isPeriodEmpty(periods.at(-1)!)
-      ) {
+      if (periods.length === 0 || !Period.isPeriodEmpty(periods.at(-1)!)) {
         periods.push(new Period());
       }
     } else if (periods.length === 0) {

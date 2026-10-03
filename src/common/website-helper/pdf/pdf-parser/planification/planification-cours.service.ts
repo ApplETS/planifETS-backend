@@ -18,7 +18,7 @@ export class PlanificationCoursService {
 
   private readonly courseCodeValidationPipe = new CourseCodeValidationPipe();
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) { }
 
   public async parseProgramPlanification(
     programCode: string
@@ -181,7 +181,9 @@ export class PlanificationCoursService {
 
   private isAvailability(textContent: string): boolean {
     const allowedCombinations = 'JSI';
-    const regex = new RegExp(String.raw`^(?!.*(.).*\1)[${allowedCombinations}]+$`);
+    const regex = new RegExp(
+      String.raw`^(?!.*(.).*\1)[${allowedCombinations}]+$`
+    );
     return regex.test(textContent);
   }
 

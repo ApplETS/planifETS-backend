@@ -6,7 +6,7 @@ import { ProgramIncludeCourseIdsAndPrerequisitesDto } from './program.types';
 
 @Injectable()
 export class ProgramService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private readonly logger = new Logger(ProgramService.name);
 
@@ -149,9 +149,7 @@ export class ProgramService {
     }));
   }
 
-  public createProgram(
-    data: Prisma.ProgramCreateInput
-  ): Promise<Program> {
+  public createProgram(data: Prisma.ProgramCreateInput): Promise<Program> {
     this.logger.verbose('createProgram', data);
 
     return this.prisma.program.create({
@@ -159,9 +157,7 @@ export class ProgramService {
     });
   }
 
-  public upsertProgram(
-    data: Prisma.ProgramCreateInput
-  ): Promise<Program> {
+  public upsertProgram(data: Prisma.ProgramCreateInput): Promise<Program> {
     this.logger.verbose('upsertProgram: ' + data.code);
 
     return this.prisma.program.upsert({

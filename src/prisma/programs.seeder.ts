@@ -1,53 +1,59 @@
 import { Logger } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 
-import { ProgramService } from '../program/program.service';
 import { PrismaService } from './prisma.service';
-
-const logger = new Logger('SeedPrograms');
 import * as programData from './seeds/data/programs-to-seed.json';
 
+const logger = new Logger('SeedPrograms');
+
 export async function seedProgramHorairePdfParserFlags() {
-  const horairePdfPrograms = programData.horairePdfPrograms;
-
-  const prismaService = new PrismaService();
-  const programService = new ProgramService(prismaService);
-
-  await prismaService.$connect();
-
-  const updatedCountHorairePdf = await programService.updateProgramsByCodes(
-    horairePdfPrograms,
-    {
-      isHorairePdfParsable: true
-    }
-  );
-
-  if (updatedCountHorairePdf > 0) {
-    logger.log(
-      `Updated ${updatedCountHorairePdf} programs with codes "${horairePdfPrograms.join(', ')}" to have isHorairePdfParsable = true.`
-    );
-  }
-
-  await prismaService.$disconnect();
+  await seedParserFlags(programData.horairePdfPrograms, {
+    isHorairePdfParsable: true
+  });
 }
 
 export async function seedProgramPlanificationPdfParserFlags() {
-  const planificationPdfPrograms = programData.planificationPdfPrograms;
+  await seedParserFlags(programData.planificationPdfPrograms, {
+    isPlanificationPdfParsable: true
+  });
+}
 
+// Standalone seed script: writes via PrismaService directly so the prisma
+// folder never depends on feature modules (program -> prisma only, no cycle).
+async function seedParserFlags(
+  codes: string[],
+  data: Prisma.ProgramUpdateInput
+) {
   const prismaService = new PrismaService();
-  const programService = new ProgramService(prismaService);
-
   await prismaService.$connect();
 
-  const updatedCountPlanificationPdf =
-    await programService.updateProgramsByCodes(planificationPdfPrograms, {
-      isPlanificationPdfParsable: true
+  try {
+    const { count } = await prismaService.program.updateMany({
+      where: { code: { in: codes } },
+      data
     });
 
-  if (updatedCountPlanificationPdf > 0) {
-    logger.log(
-      `Updated ${updatedCountPlanificationPdf} programs with codes "${planificationPdfPrograms.join(', ')}" to have isPlanificationPdfParsable = true.`
-    );
-  }
+    if (count === 0) {
+      logger.error(`No programs found with codes: "${codes.join(', ')}"`);
+      return;
+    }
 
-  await prismaService.$disconnect();
+    logger.log(
+      `Updated ${count} programs with codes "${codes.join(', ')}" to have ${Object.keys(data).join(', ')} = true.`
+    );
+
+    if (count < codes.length) {
+      const existing = await prismaService.program.findMany({
+        where: { code: { in: codes } },
+        select: { code: true }
+      });
+      const existingCodes = new Set(existing.map((p) => p.code));
+      const missing = codes.filter((code) => !existingCodes.has(code));
+      logger.warn(
+        `Some programs were not found in the database and were not updated: "${missing.join(', ')}"`
+      );
+    }
+  } finally {
+    await prismaService.$disconnect();
+  }
 }

@@ -19,7 +19,7 @@ export class HoraireCours implements IHoraireCours {
     public title: string = '',
     public prerequisites: string = '',
     public groups: Map<string, Group> = new Map<string, Group>()
-  ) {}
+  ) { }
 
   public addOrUpdateCourse(courses: HoraireCours[]): void {
     const existingCourseIndex = courses.findIndex(
@@ -30,9 +30,8 @@ export class HoraireCours implements IHoraireCours {
       this.groups.forEach((group, groupNumber) => {
         if (!existingCourse.groups.get(groupNumber)) {
           existingCourse.groups.set(groupNumber, new Group());
-        } else {
-          existingCourse.groups.get(groupNumber)!.addPeriods(group.periods);
         }
+        existingCourse.groups.get(groupNumber)!.addPeriods(group.periods);
       });
     } else {
       courses.push(this);
