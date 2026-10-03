@@ -260,8 +260,7 @@ export class CourseService {
       const { description, ...updatable } = courseData;
 
       // Sequential writes bound database load and preserve duplicate-code ordering.
-      const result = await this.prisma.course.upsert({
-        // NOSONAR: sequential writes preserve duplicate-code ordering
+      const result = await this.prisma.course.upsert({ // NOSONAR: sequential writes preserve duplicate-code ordering
         where: { code: courseData.code },
         update: updatable,
         create: courseData
@@ -271,8 +270,7 @@ export class CourseService {
       if (!result.description.trim() && description.trim()) {
         // Backfill must finish before the next upsert of the same code.
         results.push(
-          await this.prisma.course.update({
-            // NOSONAR: backfill must finish before the next upsert of the same code
+          await this.prisma.course.update({ // NOSONAR: backfill must finish before the next upsert of the same code
             where: { code: courseData.code },
             data: { description }
           })

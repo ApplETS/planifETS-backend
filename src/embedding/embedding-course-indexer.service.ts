@@ -80,8 +80,7 @@ export class CourseEmbeddingIndexerService {
       );
 
       // Sequential batches bound embedding memory and stop on Qdrant failure.
-      await this.processRowsBatch(
-        // NOSONAR: sequential batches bound embedding memory and stop on Qdrant failure
+      await this.processRowsBatch( // NOSONAR: sequential batches bound embedding memory and stop on Qdrant failure
         rowsBatch,
         embeddingModel,
         counters,
