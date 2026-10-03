@@ -31,21 +31,37 @@ export class JobsService {
     return this.chatbotEnabled;
   }
 
-  public runWorker<T>(serviceName: string, methodName: string): Promise<T> {
-    return new Promise<T>((resolve, reject) => {
+  public runWorker(serviceName: string, methodName: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
       const workerScript = join(__dirname, 'workers', 'jobRunner.worker.js');
       const workerData = { serviceName, methodName };
 
       this.logger.log(`Spawning worker for ${serviceName}.${methodName}`);
 
       const worker = new Worker(workerScript, { workerData });
+      let settled = false;
 
       worker.on('message', (message) => {
+        if (settled) return;
         this.logger.verbose('Worker message:', message);
-        resolve(message);
+        if (
+          message?.status === 'success' &&
+          typeof message.result === 'string'
+        ) {
+          settled = true;
+          resolve(message.result);
+        } else if (
+          message?.status === 'error' &&
+          typeof message.error === 'string'
+        ) {
+          settled = true;
+          reject(new Error(message.error));
+        }
       });
 
       worker.on('error', (error) => {
+        if (settled) return;
+        settled = true;
         this.logger.error('Worker error:', error);
 
         const rejectionError =
@@ -54,10 +70,14 @@ export class JobsService {
       });
 
       worker.on('exit', (code) => {
-        if (code !== 0) {
-          this.logger.error(`Worker stopped with exit code ${code}`);
-          reject(new Error(`Worker stopped with exit code ${code}`));
-        }
+        if (settled) return;
+        settled = true;
+        const message =
+          code !== 0
+            ? `Worker stopped with exit code ${code}`
+            : 'Worker exited without a valid result';
+        this.logger.error(message);
+        reject(new Error(message));
       });
     });
   }
@@ -96,18 +116,11 @@ export class JobsService {
         method: 'syncCourseDescriptionsFromEtsWebsite'
       },
 
-      //Creates and updates Course instance entities.
+      // Creates missing ProgramCourse links and synchronizes CourseInstances.
       // Data source: Planification PDF
       {
         service: 'CourseInstancesJobService',
         method: 'processCourseInstances'
-      },
-
-      // Creates and updates ProgramCourse entities.
-      // Data source: Cheminot (Cheminements.txt)
-      {
-        service: 'CoursesJobService',
-        method: 'syncCourseDetailsWithCheminotData'
       },
 
       // Create current Session and Prerequisite entities.

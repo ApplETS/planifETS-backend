@@ -1,14 +1,11 @@
 import { Logger } from '@nestjs/common';
 import { Course } from '@prisma/client';
 
-import { CheminotService } from '../../src/common/api-helper/cheminot/cheminot.service';
 import { EtsApiService } from '../../src/common/api-helper/ets/course/ets-api.service';
 import { EtsPlanETSService } from '../../src/common/api-helper/ets/course/ets-planets.service';
 import { EtsWebsiteService } from '../../src/common/api-helper/ets/course/ets-website.service';
 import { CourseService } from '../../src/course/course.service';
 import { CoursesJobService } from '../../src/jobs/workers/courses.worker';
-import { ProgramService } from '../../src/program/program.service';
-import { ProgramCourseService } from '../../src/program-course/program-course.service';
 
 describe('CoursesJobService', () => {
   let service: CoursesJobService;
@@ -24,13 +21,6 @@ describe('CoursesJobService', () => {
     updateCourseDescriptionsBatch: jest.Mock;
     getCourse: jest.Mock;
   };
-  let programServiceMock: { getAllProgramsWithCourses: jest.Mock };
-  let programCourseServiceMock: {
-    hasProgramCourseChanged: jest.Mock;
-    createProgramCourse: jest.Mock;
-    updateProgramCourse: jest.Mock;
-  };
-  let cheminotServiceMock: { parseProgramsAndCoursesCheminot: jest.Mock };
 
   beforeEach(() => {
     etsWebsiteServiceMock = {
@@ -47,22 +37,11 @@ describe('CoursesJobService', () => {
       getCourse: jest.fn()
     };
 
-    programServiceMock = { getAllProgramsWithCourses: jest.fn() };
-    programCourseServiceMock = {
-      hasProgramCourseChanged: jest.fn(),
-      createProgramCourse: jest.fn(),
-      updateProgramCourse: jest.fn()
-    };
-    cheminotServiceMock = { parseProgramsAndCoursesCheminot: jest.fn() };
-
     service = new CoursesJobService(
       {} as EtsApiService,
       etsWebsiteServiceMock as unknown as EtsWebsiteService,
       planetsServiceMock as unknown as EtsPlanETSService,
-      courseServiceMock as unknown as CourseService,
-      programCourseServiceMock as unknown as ProgramCourseService,
-      programServiceMock as unknown as ProgramService,
-      cheminotServiceMock as unknown as CheminotService
+      courseServiceMock as unknown as CourseService
     );
     logger = (service as unknown as { logger: Logger }).logger;
     jest
@@ -198,48 +177,6 @@ describe('CoursesJobService', () => {
     expect(logSpy).toHaveBeenCalledWith(
       'Course description sync completed. Processed 2 courses, updated 1, skipped 0, failed 1.'
     );
-  });
-
-  describe('syncCourseDetailsWithCheminotData', () => {
-    it('creates program courses when a program code matches Cheminot', async () => {
-      programServiceMock.getAllProgramsWithCourses.mockResolvedValue([
-        { id: 1, code: '7625', courses: [] }
-      ]);
-      cheminotServiceMock.parseProgramsAndCoursesCheminot.mockResolvedValue([
-        {
-          code: '7625',
-          courses: [{ code: 'CON410', session: 1, type: 'TRONC' }]
-        }
-      ]);
-      courseServiceMock.getCourse.mockResolvedValue({ id: 99, code: 'CON410' });
-      programCourseServiceMock.createProgramCourse.mockResolvedValue(undefined);
-
-      await service.syncCourseDetailsWithCheminotData();
-
-      expect(programCourseServiceMock.createProgramCourse).toHaveBeenCalledWith(
-        {
-          program: { connect: { id: 1 } },
-          course: { connect: { id: 99 } },
-          typicalSessionIndex: 1,
-          type: 'TRONC'
-        }
-      );
-    });
-
-    it('logs a warning when the program code is missing from Cheminot', async () => {
-      const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => {});
-      programServiceMock.getAllProgramsWithCourses.mockResolvedValue([
-        { id: 2, code: '9999', courses: [] }
-      ]);
-      cheminotServiceMock.parseProgramsAndCoursesCheminot.mockResolvedValue([]);
-
-      await service.syncCourseDetailsWithCheminotData();
-
-      expect(
-        programCourseServiceMock.createProgramCourse
-      ).not.toHaveBeenCalled();
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('9999'));
-    });
   });
 
   it('batches updates and logs failed course codes once at the end', async () => {

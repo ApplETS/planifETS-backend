@@ -107,7 +107,7 @@ describe('JobsService', () => {
 
     await service.processJobs();
 
-    expect(runWorkerSpy).toHaveBeenCalledTimes(7);
+    expect(runWorkerSpy).toHaveBeenCalledTimes(6);
     expect(runWorkerSpy).toHaveBeenNthCalledWith(
       1,
       'ProgramsJobService',
@@ -130,16 +130,11 @@ describe('JobsService', () => {
     );
     expect(runWorkerSpy).toHaveBeenNthCalledWith(
       5,
-      'CoursesJobService',
-      'syncCourseDetailsWithCheminotData'
-    );
-    expect(runWorkerSpy).toHaveBeenNthCalledWith(
-      6,
       'SessionsJobService',
       'processSessions'
     );
     expect(runWorkerSpy).toHaveBeenNthCalledWith(
-      7,
+      6,
       'CourseEmbeddingIndexerService',
       'run'
     );
@@ -157,7 +152,7 @@ describe('JobsService', () => {
 
     await service.processJobs();
 
-    expect(runWorkerSpy).toHaveBeenCalledTimes(7);
+    expect(runWorkerSpy).toHaveBeenCalledTimes(6);
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       expect.stringContaining(
         'Job 2 (CoursesJobService.processCourses) failed: fail2'
@@ -178,7 +173,7 @@ describe('JobsService', () => {
 
     await service.processJobs();
 
-    expect(runWorkerSpy).toHaveBeenCalledTimes(7);
+    expect(runWorkerSpy).toHaveBeenCalledTimes(6);
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       'Job 2 (CoursesJobService.processCourses) failed: fail2'
     );
@@ -216,13 +211,10 @@ describe('JobsService', () => {
       'Starting job 4: CourseInstancesJobService.processCourseInstances'
     );
     expect(loggerLogSpy).toHaveBeenCalledWith(
-      'Starting job 5: CoursesJobService.syncCourseDetailsWithCheminotData'
+      'Starting job 5: SessionsJobService.processSessions'
     );
     expect(loggerLogSpy).toHaveBeenCalledWith(
-      'Starting job 6: SessionsJobService.processSessions'
-    );
-    expect(loggerLogSpy).toHaveBeenCalledWith(
-      'Starting job 7: CourseEmbeddingIndexerService.run'
+      'Starting job 6: CourseEmbeddingIndexerService.run'
     );
     expect(loggerLogSpy).toHaveBeenCalledWith('Job processing completed.');
     expect(loggerLogSpy).toHaveBeenCalledWith(
@@ -292,7 +284,7 @@ describe('JobsService', () => {
 
     await service.processJobs();
 
-    expect(runWorkerSpy).toHaveBeenCalledTimes(6);
+    expect(runWorkerSpy).toHaveBeenCalledTimes(5);
     expect(runWorkerSpy).not.toHaveBeenCalledWith(
       'CourseEmbeddingIndexerService',
       'run'
@@ -308,7 +300,7 @@ describe('JobsService', () => {
     );
 
     expect(loggerLogSpy).toHaveBeenCalledWith(
-      'Skipping job 7: CourseEmbeddingIndexerService.run because CHATBOT_ENABLED=false'
+      'Skipping job 6: CourseEmbeddingIndexerService.run because CHATBOT_ENABLED=false'
     );
   });
 
@@ -352,12 +344,13 @@ describe('JobsService', () => {
       }
     });
 
-    fakeWorkers[0].emit('message', { status: 'ok' });
+    fakeWorkers[0].emit('message', { status: 'success', result: 'completed' });
     fakeWorkers[0].emit('exit', 0);
 
-    await expect(promise).resolves.toEqual({ status: 'ok' });
+    await expect(promise).resolves.toEqual('completed');
     expect(loggerVerboseSpy).toHaveBeenCalledWith('Worker message:', {
-      status: 'ok'
+      status: 'success',
+      result: 'completed'
     });
   });
 
@@ -399,6 +392,78 @@ describe('JobsService', () => {
     await expect(promise).rejects.toThrow('Worker stopped with exit code 1');
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       'Worker stopped with exit code 1'
+    );
+  });
+
+  it('rejects a worker-reported error and ignores later events', async () => {
+    runWorkerSpy.mockRestore();
+    const promise = service.runWorker('CoursesJobService', 'processCourses');
+    fakeWorkers[0].emit('message', {
+      status: 'error',
+      error: 'download failed'
+    });
+    fakeWorkers[0].emit('message', { status: 'success', result: 'completed' });
+    fakeWorkers[0].emit('exit', 1);
+    await expect(promise).rejects.toThrow('download failed');
+    expect(loggerErrorSpy).not.toHaveBeenCalled();
+  });
+
+  it.each([undefined, 'old string result', { status: 'success' }])(
+    'rejects an exit without a valid result (%p)',
+    async (message) => {
+      runWorkerSpy.mockRestore();
+      const promise = service.runWorker('CoursesJobService', 'processCourses');
+      if (message !== undefined) fakeWorkers[0].emit('message', message);
+      fakeWorkers[0].emit('exit', 0);
+      await expect(promise).rejects.toThrow(
+        'Worker exited without a valid result'
+      );
+    }
+  );
+
+  it('ignores errors and exits after a valid success result', async () => {
+    runWorkerSpy.mockRestore();
+    const promise = service.runWorker('CoursesJobService', 'processCourses');
+    fakeWorkers[0].emit('message', { status: 'success', result: 'completed' });
+    fakeWorkers[0].emit('error', new Error('late error'));
+    fakeWorkers[0].emit('exit', 1);
+    await expect(promise).resolves.toBe('completed');
+    expect(loggerErrorSpy).not.toHaveBeenCalled();
+  });
+
+  it('logs a worker-reported failure, never completion, and continues the real sequential runner', async () => {
+    runWorkerSpy.mockRestore();
+    WorkerMock.mockImplementation((script: string, options: unknown) => {
+      const worker = new FakeWorker(script, options);
+      const index = fakeWorkers.push(worker);
+      queueMicrotask(() => {
+        worker.emit(
+          'message',
+          index === 2
+            ? { status: 'error', error: 'download failed' }
+            : { status: 'success', result: 'completed' }
+        );
+        worker.emit('exit', index === 2 ? 1 : 0);
+      });
+      return worker;
+    });
+
+    await service.processJobs();
+
+    expect(fakeWorkers).toHaveLength(6);
+    expect(loggerErrorSpy).toHaveBeenCalledWith(
+      'Job 2 (CoursesJobService.processCourses) failed: download failed',
+      expect.any(String)
+    );
+    expect(loggerLogSpy).not.toHaveBeenCalledWith(
+      expect.stringContaining(
+        'Job 2 (CoursesJobService.processCourses) completed'
+      )
+    );
+    expect(loggerLogSpy).toHaveBeenCalledWith(
+      expect.stringContaining(
+        'Job 5 (SessionsJobService.processSessions) completed'
+      )
     );
   });
 });

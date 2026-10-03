@@ -2,7 +2,6 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
-import { CheminotModule } from './common/api-helper/cheminot/cheminot.module';
 import { EtsModule } from './common/api-helper/ets/ets.module';
 import { PdfModule } from './common/website-helper/pdf/pdf.module';
 import { rootConfigModule } from './config/chatbot.config';
@@ -20,7 +19,6 @@ import { SessionModule } from './session/session.module';
 
 @Module({
   imports: [
-    CheminotModule,
     EtsModule,
     PdfModule,
     JobsSchedulerModule,

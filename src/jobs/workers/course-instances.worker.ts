@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Availability, Course, CourseInstance, Session } from '@prisma/client';
 
+import { CourseCodeValidationPipe } from '@/common/pipes/models/course/course-code-validation-pipe';
 import { AvailabilityUtil } from '@/common/utils/course-instance/courseInstanceUtil';
 import { PlanificationCoursService } from '@/common/website-helper/pdf/pdf-parser/planification/planification-cours.service';
 import { ICoursePlanification } from '@/common/website-helper/pdf/pdf-parser/planification/planification-cours.types';
@@ -9,18 +10,23 @@ import { CourseService } from '../../course/course.service';
 import { CourseInstanceService } from '../../course-instance/course-instance.service';
 import { seedProgramPlanificationPdfParserFlags } from '../../prisma/programs.seeder';
 import { ProgramService } from '../../program/program.service';
+import { ProgramCourseService } from '../../program-course/program-course.service';
 import { SessionService } from '../../session/session.service';
 
 @Injectable()
 export class CourseInstancesJobService {
+  private static readonly MIN_COURSES_FOR_PRUNING = 20;
+
   private readonly logger = new Logger(CourseInstancesJobService.name);
+  private readonly courseCodeValidationPipe = new CourseCodeValidationPipe();
 
   constructor(
     private readonly planificationCourseService: PlanificationCoursService,
     private readonly programService: ProgramService,
     private readonly courseService: CourseService,
     private readonly courseInstanceService: CourseInstanceService,
-    private readonly sessionService: SessionService
+    private readonly sessionService: SessionService,
+    private readonly programCourseService: ProgramCourseService
   ) {}
 
   /**
@@ -59,6 +65,7 @@ export class CourseInstancesJobService {
           await this.planificationCourseService.parseProgramPlanification(
             program.code
           );
+        await this.syncProgramCourseLinks(program.id, program.code, parsedData); // NOSONAR: Intentionally process one program at a time to bound database load and preserve ordering.
         allParsedData.push(...parsedData);
       } catch (error) {
         if (error instanceof Error) {
@@ -78,6 +85,62 @@ export class CourseInstancesJobService {
     await this.processAllParsedData(allParsedData);
 
     this.logger.log('Completed processCourseInstances job.');
+  }
+
+  private async syncProgramCourseLinks(
+    programId: number,
+    programCode: string,
+    parsedData: ICoursePlanification[]
+  ): Promise<void> {
+    // Membership comes from every listed course, not just scheduled offerings.
+    const validRows = parsedData.filter((row) =>
+      this.courseCodeValidationPipe.transform(row.code)
+    );
+    const courseCodes = new Set(validRows.map((row) => row.code.trim()));
+    const courses = await this.fetchCourses(courseCodes);
+    for (const code of courseCodes) {
+      const course = courses.get(code);
+      if (!course) {
+        this.logger.warn(
+          `Course ${code} from forecast PDF for program ${programCode} not found in database. Skipping program link.`
+        );
+        continue;
+      }
+      // The existing create method skips existing links without changing metadata.
+      const programCourseData = {
+        program: { connect: { id: programId } },
+        course: { connect: { id: course.id } }
+      };
+      await this.programCourseService.createProgramCourse(programCourseData); // NOSONAR: Keep existence-check/create operations sequential instead of issuing unbounded database writes.
+    }
+
+    if (
+      validRows.length !== parsedData.length ||
+      courses.size !== courseCodes.size ||
+      courseCodes.size <= CourseInstancesJobService.MIN_COURSES_FOR_PRUNING
+    ) {
+      this.logger.warn(
+        `Skipping program-course pruning for program ${programCode}: forecast must contain more than ${CourseInstancesJobService.MIN_COURSES_FOR_PRUNING} distinct valid courses, no invalid rows and no missing catalog courses (listed: ${courseCodes.size}, found: ${courses.size}).`
+      );
+      return;
+    }
+
+    const listedCourseIds = new Set(
+      [...courses.values()].map((course) => course.id)
+    );
+    const existingLinks =
+      await this.programCourseService.getProgramCoursesByProgram(programId);
+    const removedCourseIds = existingLinks
+      .filter((link) => !listedCourseIds.has(link.courseId))
+      .map((link) => link.courseId);
+    const deletedCount =
+      await this.programCourseService.deleteProgramCoursesWithPrerequisites(
+        programId,
+        removedCourseIds
+      );
+    this.logger.log(
+      `Removed ${deletedCount} program-course links absent from forecast for program ${programCode} (courseIds: [${removedCourseIds.join(', ')}]).`
+    );
   }
 
   private async processAllParsedData(

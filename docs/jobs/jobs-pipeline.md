@@ -24,9 +24,9 @@ This pipeline keeps PlanifETS academic data in sync with external ETS sources. T
 | 1 | `ProgramsJobService.processPrograms` | ETS API | Upserts program types and programs |
 | 2 | `CoursesJobService.processCourses` | ETS API | Upserts courses |
 | 3 | `CoursesJobService.syncCourseDescriptionsFromEtsWebsite` | ETS website | Overwrites course descriptions with normalized plain text |
-| 4 | `CourseInstancesJobService.processCourseInstances` | Planification PDFs | Syncs course instances |
-| 5 | `CoursesJobService.syncCourseDetailsWithCheminotData` | Cheminot | Syncs program-course metadata |
-| 6 | `SessionsJobService.processSessions` | Horaire PDFs | Syncs the current session and prerequisites |
+| 4 | `CourseInstancesJobService.processCourseInstances` | Planification forecast PDFs | Syncs program-course membership (guarded removals) and course instances |
+| 5 | `SessionsJobService.processSessions` | Horaire PDFs | Syncs the current session and prerequisites |
+| 6 | `CourseEmbeddingIndexerService.run` | Course data | Indexes embeddings when chatbot is enabled |
 
 ## Pipeline flow
 
@@ -37,13 +37,12 @@ flowchart TD
     P["<b>Programs · ETS API</b><br/><span style='color:#6B7280'>Upsert Programs and ProgramTypes</span>"]
     C["<b>Courses · ETS API</b><br/><span style='color:#6B7280'>Upsert Courses</span>"]
     D["<b>Course descriptions · ETS website</b><br/><span style='color:#6B7280'>Overwrite Course.description with normalized plain text</span>"]
-    I["<b>Course instances · Planification PDFs</b><br/><span style='color:#6B7280'>Sync CourseInstances</span>"]
-    M["<b>Program-course sync · Cheminot</b><br/><span style='color:#6B7280'>Sync ProgramCourse metadata</span>"]
+    I["<b>Forecast · Planification PDFs</b><br/><span style='color:#6B7280'>Sync ProgramCourse membership with guarded removals and sync CourseInstances</span>"]
     S["<b>Sessions · Horaire PDFs</b><br/><span style='color:#6B7280'>Sync current Session and prerequisites</span>"]
 
     N["<b>Runtime behavior</b><br/><span style='color:#6B7280'>Each job spawns its own short-lived worker thread.<br/>Errors are logged and processing continues.</span>"]
 
-    T --> P --> C --> D --> I --> M --> S
+    T --> P --> C --> D --> I --> S
     S -.-> N
 
     classDef trigger fill:#E8F0FE,stroke:#1A73E8,color:#111827,stroke-width:1.5px;
@@ -51,7 +50,7 @@ flowchart TD
     classDef note fill:#FFF8E1,stroke:#B07D00,color:#111827,stroke-width:1px;
 
     class T trigger;
-    class P,C,D,I,M,S step;
+    class P,C,D,I,S step;
     class N note;
 ```
 
@@ -88,3 +87,5 @@ sequenceDiagram
 ```
 
 Note that the current implementation uses one short-lived worker per job.
+
+Workers send explicit `{ status: 'success', result }` or `{ status: 'error', error }` messages. Reported errors, nonzero exits and exits without a valid result reject the worker promise. Only the first terminal event settles it; failures are logged as failures and the next job still runs.

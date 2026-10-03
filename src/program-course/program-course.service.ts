@@ -197,6 +197,31 @@ export class ProgramCourseService {
     });
   }
 
+  public async deleteProgramCoursesWithPrerequisites(
+    programId: number,
+    courseIds: number[]
+  ): Promise<number> {
+    if (courseIds.length === 0) return 0;
+
+    // Both sides reference ProgramCourse; remove these edges before the links.
+    // A failed link deletion must roll back prerequisite deletion as well.
+    return await this.prisma.$transaction(async (tx) => {
+      await tx.programCoursePrerequisite.deleteMany({
+        where: {
+          programId,
+          OR: [
+            { courseId: { in: courseIds } },
+            { prerequisiteId: { in: courseIds } }
+          ]
+        }
+      });
+      const deleted = await tx.programCourse.deleteMany({
+        where: { programId, courseId: { in: courseIds } }
+      });
+      return deleted.count;
+    });
+  }
+
   public hasProgramCourseChanged(
     newCourseData: {
       typicalSessionIndex: number | null;

@@ -6,6 +6,7 @@ import { PosthogMonitoringService } from '@/monitoring/posthog-monitoring.servic
 
 import { JobWorkerData, jobWorkerServiceMap } from '../jobs.constants';
 import { JobsModule } from '../jobs.module';
+import { JobWorkerResult } from './job-result.types';
 
 interface ServiceInstance {
   [key: string]: () => Promise<void>;
@@ -57,17 +58,24 @@ async function runJobWorker(
   try {
     await runJobWorker(serviceName, methodName);
 
-    parentPort?.postMessage(`${methodName} completed.`);
+    const result: JobWorkerResult = {
+      status: 'success',
+      result: `${methodName} completed.`
+    };
+    parentPort?.postMessage(result);
   } catch (error) {
     exitCode = 1;
 
     if (error instanceof Error) {
       logger.error(`Error in JobRunnerWorker: ${error.message}`, error.stack);
-      parentPort?.postMessage(`Error: ${error.message}`);
     } else {
       logger.error(`Error in JobRunnerWorker: ${error}`);
-      parentPort?.postMessage(`Error: ${error}`);
     }
+    const result: JobWorkerResult = {
+      status: 'error',
+      error: error instanceof Error ? error.message : String(error)
+    };
+    parentPort?.postMessage(result);
   }
 
   process.exit(exitCode);

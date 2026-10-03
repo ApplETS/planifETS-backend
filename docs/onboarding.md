@@ -70,7 +70,6 @@ Default body:
   "processPrograms": false,
   "processCourses": false,
   "processCourseInstances": false,
-  "processProgramCourses": false,
   "processSessions": false
 }
 ```
@@ -176,7 +175,6 @@ Default body:
   "processPrograms": false,
   "processCourses": false,
   "processCourseInstances": false,
-  "processProgramCourses": false,
   "processSessions": false
 }
 ```

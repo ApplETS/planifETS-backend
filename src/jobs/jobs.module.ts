@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 
-import { CheminotModule } from '../common/api-helper/cheminot/cheminot.module';
 import { EtsModule } from '../common/api-helper/ets/ets.module';
 import { PdfModule } from '../common/website-helper/pdf/pdf.module';
 import { rootConfigModule } from '../config/chatbot.config';
@@ -18,7 +17,6 @@ import { JobsService } from './jobs.service';
 
 @Module({
   imports: [
-    CheminotModule,
     EtsModule,
     PdfModule,
 
