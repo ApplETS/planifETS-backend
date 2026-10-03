@@ -106,7 +106,7 @@ export class CoursesJobService {
         index,
         index + CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE
       );
-      const results = await Promise.allSettled(
+      const results = await Promise.allSettled( // NOSONAR: batches run sequentially to bound website load; fetches within a batch are parallel
         batch.map((course) => fetchDescription(course.code))
       );
       const coursesToUpdate: Array<
@@ -139,7 +139,7 @@ export class CoursesJobService {
       });
 
       if (coursesToUpdate.length > 0) {
-        await this.courseService.updateCourseDescriptionsBatch(coursesToUpdate);
+        await this.courseService.updateCourseDescriptionsBatch(coursesToUpdate); // NOSONAR: batches run sequentially to bound database load
         updatedCount += coursesToUpdate.length;
       }
 
@@ -159,7 +159,7 @@ export class CoursesJobService {
         index + CoursesJobService.DESCRIPTION_SYNC_BATCH_SIZE <
         courses.length
       ) {
-        await this.delay(
+        await this.delay( // NOSONAR: intentional rate-limit delay between batches
           CoursesJobService.COURSE_DESCRIPTION_SYNC_BATCH_DELAY_MS
         );
       }

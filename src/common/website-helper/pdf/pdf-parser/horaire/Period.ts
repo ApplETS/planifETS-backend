@@ -47,15 +47,15 @@ export class Period implements IPeriod {
     } else if (/[A-Z]-\d{4}/.test(text)) {
       return 'local';
     } else if (
-      /(Labo A|Labo B|Labo C|Labo D|Labo(?: A\+B)?|Labo\/2|\bC\b|Atelier|TP\/Labo|TP\/2|TP(?: A\+B| A| B| C| D)?|TP-Labo\/2|TP-Labo (?:A|B|C|D)|Projet)/.test(
+      /(Labo [A-D]|Labo(?: A\+B)?|Labo\/2|\bC\b|Atelier|TP\/Labo|TP\/2|TP(?: A\+B| [A-D])?|TP-Labo\/2|TP-Labo [A-D]|Projet)/.test(
         text
       )
     ) {
       return 'activity';
-    } else if (/^(P|D|C|H)$/.test(text)) {
+    } else if (/^[PDCH]$/.test(text)) {
       return 'mode';
     } else if (
-      /\b(?:1er|0?[1-9]|[12][0-9]|3[01])\s(?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\s\d{4}\b/.test(
+      /\b(?:1er|0?[1-9]|[12]\d|3[01])\s(?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\s\d{4}\b/.test(
         text
       )
     ) {

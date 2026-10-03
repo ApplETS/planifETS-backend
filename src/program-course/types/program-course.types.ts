@@ -1,5 +1,4 @@
-import { Course, ProgramCourse } from '@prisma/client';
-import { Session } from '@prisma/client';
+import { Course, ProgramCourse, Session } from '@prisma/client';
 
 export interface ProgramCourseWithPrerequisites extends ProgramCourse {
   prerequisites?: {

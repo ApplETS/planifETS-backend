@@ -57,7 +57,7 @@ export class SessionsJobService {
       );
 
       for (const program of eligiblePrograms) {
-        await this.processProgram(currentSession, program);
+        await this.processProgram(currentSession, program); // NOSONAR: process programs sequentially to bound memory and remote requests
       }
 
       // Log total counts
@@ -129,7 +129,7 @@ export class SessionsJobService {
     missingProgramCourseIds: Set<number>
   ): Promise<void> {
     for (const course of courses) {
-      await this.processPrerequisites(course, program, missingProgramCourseIds);
+      await this.processPrerequisites(course, program, missingProgramCourseIds); // NOSONAR: sequential writes bound database load
     }
   }
 
@@ -269,14 +269,14 @@ export class SessionsJobService {
 
     for (const prerequisiteCode of prerequisitesToDelete) {
       const prerequisiteCourse =
-        await this.courseService.getCourseByCode(prerequisiteCode);
+        await this.courseService.getCourseByCode(prerequisiteCode); // NOSONAR: sequential reads bound database load
       if (!prerequisiteCourse) {
         this.logger.error(`Prerequisite course not found: ${prerequisiteCode}`);
         continue;
       }
 
       const wasDeletedCount =
-        await this.prerequisiteService.deletePrerequisiteForProgramCourse(
+        await this.prerequisiteService.deletePrerequisiteForProgramCourse( // NOSONAR: sequential deletes bound database load
           program.id,
           existingCourse.id,
           prerequisiteCourse.id
@@ -295,7 +295,7 @@ export class SessionsJobService {
   ) {
     for (const prerequisiteCode of parsedPrerequisites) {
       const wasAdded =
-        await this.prerequisiteService.addPrerequisiteIfNotExists(
+        await this.prerequisiteService.addPrerequisiteIfNotExists( // NOSONAR: check-then-add must stay sequential per prerequisite
           programCourse,
           prerequisiteCode,
           program

@@ -56,4 +56,8 @@ async function bootstrap() {
   console.log(`Backend commit: ${process.env.APP_GIT_SHORT_SHA || 'unknown'}`);
   console.log(`Swagger UI available at http://localhost:${port}/api/docs`);
 }
-bootstrap();
+
+bootstrap().catch((err) => {
+  console.error('Failed to bootstrap application', err);
+  process.exit(1);
+});

@@ -123,7 +123,7 @@ export class CourseService {
     );
   }
 
-  public async getCoursesByProgram(programId: number): Promise<Course[]> {
+  public getCoursesByProgram(programId: number): Promise<Course[]> {
     this.logger.verbose('getCoursesByProgram', programId);
 
     return this.prisma.course.findMany({
@@ -198,7 +198,7 @@ export class CourseService {
     };
   }
 
-  public async createCourse(data: Prisma.CourseCreateInput): Promise<Course> {
+  public createCourse(data: Prisma.CourseCreateInput): Promise<Course> {
     this.logger.verbose('Creating new course', data.code);
 
     return this.prisma.course.create({
@@ -209,7 +209,7 @@ export class CourseService {
     });
   }
 
-  public async updateCourse(params: {
+  public updateCourse(params: {
     where: Prisma.CourseWhereUniqueInput;
     data: Prisma.CourseUpdateInput;
   }): Promise<Course> {
@@ -260,7 +260,7 @@ export class CourseService {
       const { description, ...updatable } = courseData;
 
       // Sequential writes bound database load and preserve duplicate-code ordering.
-      const result = await this.prisma.course.upsert({
+      const result = await this.prisma.course.upsert({ // NOSONAR: sequential writes preserve duplicate-code ordering
         where: { code: courseData.code },
         update: updatable,
         create: courseData
@@ -270,7 +270,7 @@ export class CourseService {
       if (!result.description.trim() && description.trim()) {
         // Backfill must finish before the next upsert of the same code.
         results.push(
-          await this.prisma.course.update({
+          await this.prisma.course.update({ // NOSONAR: backfill must finish before the next upsert of the same code
             where: { code: courseData.code },
             data: { description }
           })

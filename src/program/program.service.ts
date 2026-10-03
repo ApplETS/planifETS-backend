@@ -10,7 +10,7 @@ export class ProgramService {
 
   private readonly logger = new Logger(ProgramService.name);
 
-  public async getProgram(
+  public getProgram(
     programWhereUniqueInput: Prisma.ProgramWhereUniqueInput
   ): Promise<Program | null> {
     this.logger.verbose('getProgram', programWhereUniqueInput);
@@ -20,7 +20,7 @@ export class ProgramService {
     });
   }
 
-  public async getAllPrograms(): Promise<Program[]> {
+  public getAllPrograms(): Promise<Program[]> {
     this.logger.verbose('getAllPrograms');
 
     return this.prisma.program.findMany();
@@ -149,7 +149,7 @@ export class ProgramService {
     }));
   }
 
-  public async createProgram(
+  public createProgram(
     data: Prisma.ProgramCreateInput
   ): Promise<Program> {
     this.logger.verbose('createProgram', data);
@@ -159,7 +159,7 @@ export class ProgramService {
     });
   }
 
-  public async upsertProgram(
+  public upsertProgram(
     data: Prisma.ProgramCreateInput
   ): Promise<Program> {
     this.logger.verbose('upsertProgram: ' + data.code);

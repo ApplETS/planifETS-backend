@@ -108,7 +108,7 @@ export class JobsController {
 
     for (const job of jobs) {
       // Selected jobs follow dependency order: programs, courses, instances, sessions, embeddings.
-      results.push(await this.runSelectedJob(job));
+      results.push(await this.runSelectedJob(job)); // NOSONAR: selected jobs follow dependency order
     }
 
     return results;

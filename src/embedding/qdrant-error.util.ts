@@ -8,7 +8,7 @@ export async function retryTransient<T>(
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
       // Retry only after the preceding attempt fails.
-      return await operation();
+      return await operation(); // NOSONAR: retry only after the preceding attempt fails
     } catch (error) {
       lastError = error;
 
@@ -17,7 +17,7 @@ export async function retryTransient<T>(
       }
 
       // Backoff must finish before the next retry.
-      await sleep(delayMs * attempt);
+      await sleep(delayMs * attempt); // NOSONAR: backoff must finish before the next retry
     }
   }
 

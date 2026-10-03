@@ -88,8 +88,7 @@ export class PlanificationCoursService {
           const currentColumn = Row.getColumnHeaderName(headerCells, xPos);
           // Process course code
           if (
-            currentColumn &&
-            currentColumn.headerName === 'code' &&
+            currentColumn?.headerName === 'code' &&
             this.isCourseCode(textContent)
           ) {
             if (currentCourse.code) {
@@ -99,7 +98,7 @@ export class PlanificationCoursService {
             currentCourse.code = textContent;
             // Process other columns
           } else if (
-            currentColumn &&
+            currentColumn?.headerName &&
             this.isSession(currentColumn.headerName)
           ) {
             // Check and add availability
@@ -182,7 +181,7 @@ export class PlanificationCoursService {
 
   private isAvailability(textContent: string): boolean {
     const allowedCombinations = 'JSI';
-    const regex = new RegExp(`^(?!.*(.).*\\1)[${allowedCombinations}]+$`);
+    const regex = new RegExp(String.raw`^(?!.*(.).*\1)[${allowedCombinations}]+$`);
     return regex.test(textContent);
   }
 

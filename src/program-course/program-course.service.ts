@@ -117,7 +117,7 @@ export class ProgramCourseService {
     });
   }
 
-  public async getProgramCoursesByProgram(
+  public getProgramCoursesByProgram(
     programId: number
   ): Promise<ProgramCourse[]> {
     this.logger.verbose('getProgramCoursesByProgram', programId);
@@ -129,7 +129,7 @@ export class ProgramCourseService {
     });
   }
 
-  public async getAllProgramCourses(): Promise<ProgramCourse[]> {
+  public getAllProgramCourses(): Promise<ProgramCourse[]> {
     this.logger.verbose('getAllProgramCourses');
 
     return this.prisma.programCourse.findMany();
@@ -188,7 +188,7 @@ export class ProgramCourseService {
     });
   }
 
-  public async deleteProgramCourse(
+  public deleteProgramCourse(
     where: Prisma.ProgramCourseWhereUniqueInput
   ): Promise<ProgramCourse> {
     this.logger.verbose('deleteProgramCourse', JSON.stringify(where));

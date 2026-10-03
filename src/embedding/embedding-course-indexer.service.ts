@@ -80,7 +80,7 @@ export class CourseEmbeddingIndexerService {
       );
 
       // Sequential batches bound embedding memory and stop on Qdrant failure.
-      await this.processRowsBatch(
+      await this.processRowsBatch( // NOSONAR: sequential batches bound embedding memory and stop on Qdrant failure
         rowsBatch,
         embeddingModel,
         counters,
@@ -172,7 +172,7 @@ export class CourseEmbeddingIndexerService {
 
       try {
         // Single-item fallback bounds memory after a batch embedding failure.
-        const points = await this.embedPreparedBatch([prepared]);
+        const points = await this.embedPreparedBatch([prepared]); // NOSONAR: single-item fallback bounds memory after batch failure
         const firstPoint = points.at(0);
 
         if (!firstPoint) {
@@ -194,7 +194,7 @@ export class CourseEmbeddingIndexerService {
 
       try {
         // Stop on write failure before processing the next item.
-        await this.qdrantCourseIndexService.upsertPoints([point]);
+        await this.qdrantCourseIndexService.upsertPoints([point]); // NOSONAR: stop on write failure before processing the next item
         counters.indexedCount += 1;
       } catch (error) {
         this.logger.error(

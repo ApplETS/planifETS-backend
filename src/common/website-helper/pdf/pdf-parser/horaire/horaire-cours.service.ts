@@ -158,7 +158,7 @@ export class HoraireCoursService {
       currentCourse.code &&
       currentGroupNumber &&
       periods.length > 0 &&
-      !Period.isPeriodEmpty(periods[periods.length - 1])
+      !Period.isPeriodEmpty(periods.at(-1)!)
     ) {
       currentCourse.finalizeGroup(currentGroupNumber, periods);
     }
@@ -175,7 +175,7 @@ export class HoraireCoursService {
     if (
       currentGroupNumber &&
       periods.length > 0 &&
-      !Period.isPeriodEmpty(periods[periods.length - 1])
+      !Period.isPeriodEmpty(periods.at(-1)!)
     ) {
       currentCourse.finalizeGroup(currentGroupNumber, periods);
     }
@@ -192,7 +192,7 @@ export class HoraireCoursService {
     if (xPos === Period.JOUR_X_AXIS && Period.isDay(text)) {
       if (
         periods.length === 0 ||
-        !Period.isPeriodEmpty(periods[periods.length - 1])
+        !Period.isPeriodEmpty(periods.at(-1)!)
       ) {
         periods.push(new Period());
       }
@@ -200,7 +200,7 @@ export class HoraireCoursService {
       periods.push(new Period());
     }
 
-    periods[periods.length - 1].handlePeriodDetailTypes(text);
+    periods.at(-1)!.handlePeriodDetailTypes(text);
     return periods;
   }
 }

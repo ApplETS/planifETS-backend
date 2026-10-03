@@ -63,7 +63,7 @@ export class CourseInstancesJobService {
       try {
         // Parse one PDF at a time to bound memory and remote requests.
         const parsedData =
-          await this.planificationCourseService.parseProgramPlanification(
+          await this.planificationCourseService.parseProgramPlanification( // NOSONAR: parse one PDF at a time to bound memory and remote requests
             program.code
           );
         await this.syncProgramCourseLinks(program.id, program.code, parsedData); // NOSONAR: Intentionally process one program at a time to bound database load and preserve ordering.
@@ -201,7 +201,7 @@ export class CourseInstancesJobService {
     for (const sessionCode of sessionCodesSet) {
       // Sequential upserts bound database load.
       const session =
-        await this.sessionService.getOrCreateSessionFromCode(sessionCode);
+        await this.sessionService.getOrCreateSessionFromCode(sessionCode); // NOSONAR: sequential upserts bound database load
       sessionCodeToSessionMap.set(sessionCode, session);
     }
     return sessionCodeToSessionMap;
@@ -349,7 +349,7 @@ export class CourseInstancesJobService {
         );
         if (!isSame) {
           // Sequential writes bound database load and stop synchronization on failure.
-          await this.courseInstanceService.updateCourseInstanceAvailability(
+          await this.courseInstanceService.updateCourseInstanceAvailability( // NOSONAR: sequential writes bound database load and stop synchronization on failure
             existingInstance,
             requiredInstance.availability
           );
@@ -359,7 +359,7 @@ export class CourseInstancesJobService {
         existingInstancesMap.delete(key);
       } else {
         // Sequential writes bound database load and stop synchronization on failure.
-        await this.courseInstanceService.createCourseInstance(
+        await this.courseInstanceService.createCourseInstance( // NOSONAR: sequential writes bound database load and stop synchronization on failure
           course,
           session,
           requiredInstance.availability
@@ -376,7 +376,7 @@ export class CourseInstancesJobService {
     let deletedCount = 0;
     for (const instance of existingInstancesMap.values()) {
       // Sequential deletes bound database load and stop on failure.
-      await this.courseInstanceService.deleteCourseInstance(
+      await this.courseInstanceService.deleteCourseInstance( // NOSONAR: sequential deletes bound database load and stop on failure
         instance.courseId,
         instance.sessionYear,
         instance.sessionTrimester

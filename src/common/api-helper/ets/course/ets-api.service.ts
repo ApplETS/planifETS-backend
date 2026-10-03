@@ -39,7 +39,7 @@ export class EtsApiService {
       const batch = courses.slice(i, i + batchSize);
       const courseIds = batch.map((course) => course.id).join(',');
       // Requests stay sequential for the inter-batch rate-limit delay to work.
-      const coursesFetchedById = await this.fetchCoursesById(courseIds);
+      const coursesFetchedById = await this.fetchCoursesById(courseIds); // NOSONAR: batches stay sequential to respect the API rate limit
 
       // Add credits to the courses in this batch
       const batchWithCredits = batch.map((course) => {
@@ -55,7 +55,7 @@ export class EtsApiService {
       coursesWithCredits.push(...batchWithCredits);
 
       // Add delay between batches to prevent rate limiting
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100)); // NOSONAR: intentional inter-batch rate-limit delay
     }
 
     return coursesWithCredits;

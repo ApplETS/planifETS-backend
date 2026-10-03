@@ -71,7 +71,7 @@ export class CourseInstanceService {
     }));
   }
 
-  public async getCourseInstancesByCourse(
+  public getCourseInstancesByCourse(
     courseId: number
   ): Promise<CourseInstance[]> {
     this.logger.verbose('Fetching CourseInstances by Course ID', courseId);
@@ -84,7 +84,7 @@ export class CourseInstanceService {
     });
   }
 
-  public async createCourseInstance(
+  public createCourseInstance(
     course: Course,
     session: Session,
     availability: Availability[]
@@ -135,7 +135,7 @@ export class CourseInstanceService {
     });
   }
 
-  public async deleteCourseInstance(
+  public deleteCourseInstance(
     courseId: number,
     sessionYear: number,
     sessionTrimester: Trimester
