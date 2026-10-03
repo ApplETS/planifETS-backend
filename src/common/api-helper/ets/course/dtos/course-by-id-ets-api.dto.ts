@@ -1,9 +1,9 @@
 import {
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsPositive,
-  IsString
+  IsString,
+  ValidateIf
 } from 'class-validator';
 
 export class CourseByIdEtsApiDto {
@@ -19,7 +19,7 @@ export class CourseByIdEtsApiDto {
   @IsNotEmpty()
   public code!: string;
 
-  @IsOptional()
+  @ValidateIf((_object, value) => value !== null)
   @IsNumber()
   public credits!: number | null;
 }

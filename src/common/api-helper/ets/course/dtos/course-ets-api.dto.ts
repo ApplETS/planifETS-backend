@@ -1,11 +1,11 @@
 import {
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsPositive,
   IsString,
   IsUrl,
-  Length
+  Length,
+  ValidateIf
 } from 'class-validator';
 
 export class CourseEtsApiDto {
@@ -32,7 +32,7 @@ export class CourseEtsApiDto {
   @IsNotEmpty()
   public code!: string;
 
-  @IsOptional()
+  @ValidateIf((_object, value) => value !== null)
   @IsString()
   public cycle!: string | null; // "1er cycle" | "2e cycle" | "3e cycle"
 }

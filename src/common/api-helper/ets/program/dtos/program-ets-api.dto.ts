@@ -2,10 +2,10 @@ import {
   IsArray,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsPositive,
   IsString,
-  IsUrl
+  IsUrl,
+  ValidateIf
 } from 'class-validator';
 
 export class ProgramEtsApiDto {
@@ -21,11 +21,11 @@ export class ProgramEtsApiDto {
   @IsNotEmpty()
   public cycle!: string;
 
-  @IsOptional()
+  @ValidateIf((_object, value) => value !== null)
   @IsString()
   public code!: string | null;
 
-  @IsOptional()
+  @ValidateIf((_object, value) => value !== null)
   @IsString()
   public credits!: string | null;
 

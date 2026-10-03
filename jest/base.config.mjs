@@ -1,6 +1,7 @@
 export default {
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '..',
+  setupFiles: ['reflect-metadata'],
   transform: {
     '^.+\\.(t|j)s$': ['@swc/jest'],
   },
