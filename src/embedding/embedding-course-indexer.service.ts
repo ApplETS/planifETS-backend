@@ -28,7 +28,7 @@ export class CourseEmbeddingIndexerService {
     private readonly embeddingService: EmbeddingService,
     private readonly embeddingWorkerClient: EmbeddingWorkerClient,
     private readonly qdrantCourseIndexService: QdrantCourseIndexService
-  ) { }
+  ) {}
 
   public async run(): Promise<void> {
     const startedAt = Date.now();
@@ -80,7 +80,7 @@ export class CourseEmbeddingIndexerService {
       );
 
       // Sequential batches bound embedding memory and stop on Qdrant failure.
-      await this.processRowsBatch( // NOSONAR: sequential batches bound embedding memory and stop on Qdrant failure
+      await this.processRowsBatch(
         rowsBatch,
         embeddingModel,
         counters,

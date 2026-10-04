@@ -19,7 +19,7 @@ export class HoraireCours implements IHoraireCours {
     public title: string = '',
     public prerequisites: string = '',
     public groups: Map<string, Group> = new Map<string, Group>()
-  ) { }
+  ) {}
 
   public addOrUpdateCourse(courses: HoraireCours[]): void {
     const existingCourseIndex = courses.findIndex(

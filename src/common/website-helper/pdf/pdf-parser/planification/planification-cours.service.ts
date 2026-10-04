@@ -18,7 +18,7 @@ export class PlanificationCoursService {
 
   private readonly courseCodeValidationPipe = new CourseCodeValidationPipe();
 
-  constructor(private readonly httpService: HttpService) { }
+  constructor(private readonly httpService: HttpService) {}
 
   public async parseProgramPlanification(
     programCode: string
