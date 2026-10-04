@@ -268,7 +268,7 @@ export class CourseInstancesJobService {
 
         if (!parsedAvailabilities) {
           this.logger.warn(
-            `Invalid availability code "${availabilityCode}" for course "${courseData.code}" 
+            `Invalid availability code "${availabilityCode}" for course "${courseData.code}"
               in session "${sessionCode}". Skipping.`
           );
           continue;
