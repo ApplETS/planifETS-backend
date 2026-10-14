@@ -1,9 +1,13 @@
+import { HttpService } from '@nestjs/axios';
 import { Logger } from '@nestjs/common';
 import {
   Prisma,
   ProgramCourse,
-  ProgramCoursePrerequisite
+  ProgramCoursePrerequisite,
+  Trimester
 } from '@prisma/client';
+import * as fs from 'fs';
+import { PLANIFICATION_PDF_V2_PATH } from 'test/test-utils/constants';
 
 import { CourseCodeValidationPipe } from '../../src/common/pipes/models/course/course-code-validation-pipe';
 import { HoraireCoursService } from '../../src/common/website-helper/pdf/pdf-parser/horaire/horaire-cours.service';
@@ -40,7 +44,7 @@ describe('Forecast program links and current-session prerequisites', () => {
   let courses: typeof coreCourses;
   const session = {
     year: 2026,
-    trimester: 'AUTOMNE',
+    trimester: Trimester.AUTOMNE,
     createdAt: date,
     updatedAt: date
   };
@@ -56,6 +60,7 @@ describe('Forecast program links and current-session prerequisites', () => {
   let deleteLinks: jest.Mock;
   let deleteEdges: jest.Mock;
   let transaction: jest.Mock;
+  let sessionService: SessionService;
   let instances: {
     getAllCourseInstances: jest.Mock;
     createCourseInstance: jest.Mock;
@@ -208,7 +213,7 @@ describe('Forecast program links and current-session prerequisites', () => {
         .fn()
         .mockResolvedValue([programs[0]])
     } as unknown as ProgramService;
-    const sessionService = {
+    sessionService = {
       getOrCreateCurrentSession: jest.fn().mockResolvedValue(session),
       getOrCreateSessionFromCode: jest.fn().mockResolvedValue(session)
     } as unknown as SessionService;
@@ -370,7 +375,225 @@ describe('Forecast program links and current-session prerequisites', () => {
     );
   });
 
+  it('imports GPE450 as day and evening in H27 from the actual forecast PDF fixture', async () => {
+    const parser = new PlanificationCoursService({} as HttpService);
+    const rows = await parser.parsePlanificationCoursPdf(
+      fs.readFileSync(PLANIFICATION_PDF_V2_PATH),
+      PLANIFICATION_PDF_V2_PATH
+    );
+    expect(rows.find((row) => row.code === 'GPE450')?.available.H27).toBe('JS');
+    const course = { id: 4, code: 'GPE450' };
+    courses.push(course);
+    parseForecast.mockResolvedValue(rows);
+    const winterSession = {
+      ...session,
+      year: 2027,
+      trimester: Trimester.HIVER
+    };
+    jest
+      .spyOn(sessionService, 'getOrCreateSessionFromCode')
+      .mockImplementation(async (code: string) =>
+        code === 'H27' ? winterSession : session
+      );
+
+    await forecast.processCourseInstances();
+
+    expect(instances.createCourseInstance).toHaveBeenCalledWith(
+      course,
+      winterSession,
+      ['JOUR', 'SOIR']
+    );
+  });
+
+  it('combines availability for the same course and session across program forecasts', async () => {
+    parseForecast.mockImplementation(async (code: string) => [
+      { code: 'LOG200', available: { H27: code === '7086' ? 'J' : 'S' } }
+    ]);
+    const winterSession = {
+      ...session,
+      year: 2027,
+      trimester: Trimester.HIVER
+    };
+    jest
+      .spyOn(sessionService, 'getOrCreateSessionFromCode')
+      .mockResolvedValue(winterSession);
+
+    await forecast.processCourseInstances();
+
+    expect(instances.createCourseInstance).toHaveBeenCalledWith(
+      courses[0],
+      winterSession,
+      ['JOUR', 'SOIR']
+    );
+  });
+
   describe('Destructive membership synchronization', () => {
+    const existingOffering = {
+      courseId: 2,
+      sessionYear: 2027,
+      sessionTrimester: 'HIVER',
+      availability: ['JOUR'],
+      createdAt: date,
+      updatedAt: date
+    };
+
+    it.each(['download failure', 'empty forecast'])(
+      'syncs successful forecasts without deleting offerings after a %s',
+      async (problem) => {
+        parseForecast.mockImplementation(async (code: string) => {
+          if (code === '7084') {
+            if (problem === 'download failure') throw new Error('HTTP 404');
+            return [];
+          }
+          return [{ code: 'LOG200', available: { A26: 'J' } }];
+        });
+        instances.getAllCourseInstances.mockResolvedValue([existingOffering]);
+
+        await forecast.processCourseInstances();
+
+        expect(instances.createCourseInstance).toHaveBeenCalledWith(
+          courses[0],
+          session,
+          ['JOUR']
+        );
+        expect(instances.deleteCourseInstance).not.toHaveBeenCalled();
+        expect(warnSpy).toHaveBeenCalledWith(
+          'Skipping obsolete course-instance deletion and availability reductions: 0/2 program forecasts passed checks; incomplete programs: [7086, 7084]. See per-program warnings for reasons.'
+        );
+      }
+    );
+
+    it('still deletes obsolete offerings after all forecasts succeed', async () => {
+      parseForecast.mockResolvedValue(largeForecast());
+      instances.getAllCourseInstances.mockResolvedValue([existingOffering]);
+
+      await forecast.processCourseInstances();
+
+      expect(instances.deleteCourseInstance).toHaveBeenCalledWith(
+        2,
+        2027,
+        'HIVER'
+      );
+    });
+
+    it('does not delete offerings when every forecast is suspiciously small', async () => {
+      parseForecast.mockResolvedValue([
+        { code: 'LOG200', available: { A26: 'J' } }
+      ]);
+      instances.getAllCourseInstances.mockResolvedValue([existingOffering]);
+
+      await forecast.processCourseInstances();
+
+      expect(instances.deleteCourseInstance).not.toHaveBeenCalled();
+    });
+
+    it.each(['invalid row', 'missing catalog course'])(
+      'does not delete offerings when a large forecast has a %s',
+      async (problem) => {
+        const rows = largeForecast();
+        rows.push({
+          code: problem === 'invalid row' ? 'NOT-A-COURSE' : 'LOG999',
+          available: {}
+        });
+        parseForecast.mockImplementation(async (code: string) =>
+          code === '7086' ? rows : largeForecast()
+        );
+        instances.getAllCourseInstances.mockResolvedValue([existingOffering]);
+
+        await forecast.processCourseInstances();
+
+        expect(instances.deleteCourseInstance).not.toHaveBeenCalled();
+        expect(warnSpy).toHaveBeenCalledWith(
+          'Skipping obsolete course-instance deletion and availability reductions: 1/2 program forecasts passed checks; incomplete programs: [7086]. See per-program warnings for reasons.'
+        );
+      }
+    );
+
+    it('does not remove an evening offering when its program forecast fails', async () => {
+      const rows = largeForecast().map((row) =>
+        row.code === 'LOG200' ? { ...row, available: { A26: 'J' } } : row
+      );
+      parseForecast.mockImplementation(async (code: string) => {
+        if (code === '7084') throw new Error('HTTP 404');
+        return rows;
+      });
+      instances.getAllCourseInstances.mockResolvedValue([
+        {
+          ...existingOffering,
+          courseId: 1,
+          sessionYear: 2026,
+          sessionTrimester: Trimester.AUTOMNE,
+          availability: ['JOUR', 'SOIR']
+        }
+      ]);
+
+      await forecast.processCourseInstances();
+
+      expect(instances.updateCourseInstanceAvailability).not.toHaveBeenCalled();
+    });
+
+    it('adds availability from a partial forecast without removing existing availability', async () => {
+      parseForecast.mockImplementation(async (code: string) => {
+        if (code === '7084') throw new Error('HTTP 404');
+        return [{ code: 'LOG200', available: { A26: 'J' } }];
+      });
+      const existing = {
+        ...existingOffering,
+        courseId: 1,
+        sessionYear: 2026,
+        sessionTrimester: Trimester.AUTOMNE,
+        availability: ['SOIR']
+      };
+      instances.getAllCourseInstances.mockResolvedValue([existing]);
+
+      await forecast.processCourseInstances();
+
+      expect(instances.updateCourseInstanceAvailability).toHaveBeenCalledWith(
+        existing,
+        ['SOIR', 'JOUR']
+      );
+    });
+
+    it('removes obsolete availability when all forecasts are complete', async () => {
+      const rows = largeForecast().map((row) =>
+        row.code === 'LOG200' ? { ...row, available: { A26: 'J' } } : row
+      );
+      parseForecast.mockResolvedValue(rows);
+      const existing = {
+        ...existingOffering,
+        courseId: 1,
+        sessionYear: 2026,
+        sessionTrimester: Trimester.AUTOMNE,
+        availability: ['JOUR', 'SOIR']
+      };
+      instances.getAllCourseInstances.mockResolvedValue([existing]);
+
+      await forecast.processCourseInstances();
+
+      expect(instances.updateCourseInstanceAvailability).toHaveBeenCalledWith(
+        existing,
+        ['JOUR']
+      );
+    });
+
+    it('preserves existing offerings when every forecast download fails', async () => {
+      parseForecast.mockRejectedValue(new Error('HTTP 404'));
+      instances.getAllCourseInstances.mockResolvedValue([
+        {
+          courseId: 1,
+          sessionYear: 2026,
+          sessionTrimester: 'AUTOMNE',
+          availability: ['JOUR'],
+          createdAt: date,
+          updatedAt: date
+        }
+      ]);
+
+      await forecast.processCourseInstances();
+
+      expect(instances.deleteCourseInstance).not.toHaveBeenCalled();
+    });
+
     function largeForecast(): ICoursePlanification[] {
       const extraCourses = Array.from({ length: 18 }, (_, index) => ({
         id: index + 4,

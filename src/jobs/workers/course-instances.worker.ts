@@ -47,15 +47,19 @@ export class CourseInstancesJobService {
 
     // Collect parsed data from all programs
     const allParsedData: ICoursePlanification[] = [];
+    let successfulForecasts = 0;
+    const incompletePrograms: string[] = [];
     for (const program of programs) {
       if (!program.code) {
         this.logger.warn(`Program ${program.id} has no code. Skipping.`);
+        incompletePrograms.push(`id=${program.id}`);
         continue;
       }
       if (program.code.includes(',')) {
         this.logger.warn(
           `Program ${program.code} has multiple codes (comma-separated). Skipping PDF parsing.`
         );
+        incompletePrograms.push(program.code);
         continue;
       }
       this.logger.log(`Processing program: ${program.code}`);
@@ -66,9 +70,19 @@ export class CourseInstancesJobService {
           await this.planificationCourseService.parseProgramPlanification(
             program.code
           );
-        await this.syncProgramCourseLinks(program.id, program.code, parsedData); // NOSONAR: Intentionally process one program at a time to bound database load and preserve ordering.
+        const complete = await this.syncProgramCourseLinks(
+          program.id,
+          program.code,
+          parsedData
+        ); // NOSONAR: Intentionally process one program at a time to bound database load and preserve ordering.
         allParsedData.push(...parsedData);
+        if (complete) {
+          successfulForecasts++;
+        } else {
+          incompletePrograms.push(program.code);
+        }
       } catch (error) {
+        incompletePrograms.push(program.code);
         if (error instanceof Error) {
           this.logger.warn(
             `Error parsing planification PDF for program ${program.code}`,
@@ -83,7 +97,15 @@ export class CourseInstancesJobService {
     }
 
     // Process all parsed data together
-    await this.processAllParsedData(allParsedData);
+    if (incompletePrograms.length) {
+      this.logger.warn(
+        `Skipping obsolete course-instance deletion and availability reductions: ${successfulForecasts}/${programs.length} program forecasts passed checks; incomplete programs: [${incompletePrograms.join(', ')}]. See per-program warnings for reasons.`
+      );
+    }
+    await this.processAllParsedData(
+      allParsedData,
+      successfulForecasts === programs.length
+    );
 
     this.logger.log('Completed processCourseInstances job.');
   }
@@ -92,7 +114,7 @@ export class CourseInstancesJobService {
     programId: number,
     programCode: string,
     parsedData: ICoursePlanification[]
-  ): Promise<void> {
+  ): Promise<boolean> {
     // Membership comes from every listed course, not just scheduled offerings.
     const validRows = parsedData.filter((row) =>
       this.courseCodeValidationPipe.transform(row.code)
@@ -121,9 +143,9 @@ export class CourseInstancesJobService {
       courseCodes.size <= CourseInstancesJobService.MIN_COURSES_FOR_PRUNING
     ) {
       this.logger.warn(
-        `Skipping program-course pruning for program ${programCode}: forecast must contain more than ${CourseInstancesJobService.MIN_COURSES_FOR_PRUNING} distinct valid courses, no invalid rows and no missing catalog courses (listed: ${courseCodes.size}, found: ${courses.size}).`
+        `Skipping program-course pruning for program ${programCode}: ${courseCodes.size} distinct courses (required: >${CourseInstancesJobService.MIN_COURSES_FOR_PRUNING}), ${validRows.length}/${parsedData.length} valid rows, ${courses.size}/${courseCodes.size} catalog matches.`
       );
-      return;
+      return false;
     }
 
     const listedCourseIds = new Set(
@@ -142,10 +164,12 @@ export class CourseInstancesJobService {
     this.logger.log(
       `Removed ${deletedCount} program-course links absent from forecast for program ${programCode} (courseIds: [${removedCourseIds.join(', ')}]).`
     );
+    return true;
   }
 
   private async processAllParsedData(
-    allParsedData: ICoursePlanification[]
+    allParsedData: ICoursePlanification[],
+    canDeleteObsoleteInstances: boolean
   ): Promise<void> {
     const { sessionCodesSet, courseCodesSet } =
       this.extractUniqueCodes(allParsedData);
@@ -165,11 +189,14 @@ export class CourseInstancesJobService {
       requiredInstancesMap,
       existingInstancesMap,
       courseCodeToCourseMap,
-      sessionCodeToSessionMap
+      sessionCodeToSessionMap,
+      canDeleteObsoleteInstances
     );
 
-    const deletedCount =
-      await this.deleteObsoleteInstances(existingInstancesMap);
+    // Offerings are shared across programs, so partial forecasts cannot prove absence.
+    const deletedCount = canDeleteObsoleteInstances
+      ? await this.deleteObsoleteInstances(existingInstancesMap)
+      : 0;
 
     this.logger.log(
       `Total Added ${addedCount} instances. Updated ${updatedCount} instances. Deleted ${deletedCount} instances.`
@@ -279,13 +306,16 @@ export class CourseInstancesJobService {
           session.year,
           session.trimester
         );
+        const existing = requiredInstancesMap.get(key);
         requiredInstancesMap.set(key, {
           courseId: course.id,
           courseCode: course.code,
           sessionYear: session.year,
           sessionTrimester: session.trimester,
-          sessionCode: sessionCode,
-          availability: parsedAvailabilities
+          sessionCode,
+          availability: existing
+            ? [...new Set([...existing.availability, ...parsedAvailabilities])]
+            : parsedAvailabilities
         });
       }
     }
@@ -323,7 +353,8 @@ export class CourseInstancesJobService {
     >,
     existingInstancesMap: Map<string, CourseInstance>,
     courseCodeToCourseMap: Map<string, Course>,
-    sessionCodeToSessionMap: Map<string, Session>
+    sessionCodeToSessionMap: Map<string, Session>,
+    canRemoveAvailability: boolean
   ): Promise<{ addedCount: number; updatedCount: number }> {
     let addedCount = 0;
     let updatedCount = 0;
@@ -342,16 +373,24 @@ export class CourseInstancesJobService {
       }
 
       if (existingInstance) {
+        const availability = canRemoveAvailability
+          ? requiredInstance.availability
+          : [
+              ...new Set([
+                ...existingInstance.availability,
+                ...requiredInstance.availability
+              ])
+            ];
         // Compare and update availability if different
         const isSame = AvailabilityUtil.areAvailabilitiesEqual(
           existingInstance.availability,
-          requiredInstance.availability
+          availability
         );
         if (!isSame) {
           // Sequential writes bound database load and stop synchronization on failure.
           await this.courseInstanceService.updateCourseInstanceAvailability(
             existingInstance,
-            requiredInstance.availability
+            availability
           );
           updatedCount++;
         }
