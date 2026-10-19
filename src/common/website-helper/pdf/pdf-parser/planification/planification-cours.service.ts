@@ -20,6 +20,26 @@ export class PlanificationCoursService {
 
   constructor(private readonly httpService: HttpService) {}
 
+  public async parseProgramForecast(programCode: string): Promise<{
+    courses: ICoursePlanification[];
+    sessionCodes: string[];
+  }> {
+    const url = getPlanificationPdfUrl(programCode);
+    const response = await firstValueFrom(
+      this.httpService.get(url, { responseType: 'arraybuffer' })
+    );
+    return PdfParserUtil.parsePdfBuffer(Buffer.from(response.data), (data) => ({
+      courses: this.processPdfData(data, url),
+      sessionCodes: [
+        ...new Set(
+          this.parseHeaderCells(data)
+            .map((cell) => cell.headerName)
+            .filter((name) => this.isSession(name))
+        )
+      ]
+    }));
+  }
+
   public async parseProgramPlanification(
     programCode: string
   ): Promise<ICoursePlanification[]> {

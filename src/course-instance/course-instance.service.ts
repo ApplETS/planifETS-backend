@@ -10,11 +10,42 @@ import {
 
 import { PrismaService } from '../prisma/prisma.service';
 
+export interface CourseInstanceUpdateInput {
+  session: Session;
+  offerings: { courseId: number; availability: Availability[] }[];
+}
+
 @Injectable()
 export class CourseInstanceService {
   constructor(private readonly prisma: PrismaService) {}
 
   private readonly logger = new Logger(CourseInstanceService.name);
+
+  public async updateCourseInstances(
+    inputs: CourseInstanceUpdateInput[]
+  ): Promise<void> {
+    if (!inputs.length) return;
+    await this.prisma.$transaction(async (tx) => {
+      for (const { session, offerings } of inputs) {
+        for (const { courseId, availability } of offerings) {
+          const key = {
+            courseId,
+            sessionYear: session.year,
+            sessionTrimester: session.trimester
+          };
+          if (!availability.length) {
+            await tx.courseInstance.deleteMany({ where: key });
+            continue;
+          }
+          await tx.courseInstance.upsert({
+            where: { courseId_sessionYear_sessionTrimester: key },
+            create: { ...key, availability },
+            update: { availability }
+          });
+        }
+      }
+    });
+  }
 
   public async getCourseInstance(
     courseInstanceWhereUniqueInput: Prisma.CourseInstanceWhereUniqueInput

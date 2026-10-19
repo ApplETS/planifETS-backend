@@ -58,6 +58,7 @@ export class HoraireCoursService {
   // Processes the raw PDF data to extract course information
   private processPdfData(pdfData: Output, pdfUrl: string): HoraireCours[] {
     try {
+      const expectedCodes = this.validateHorairePdfData(pdfData, pdfUrl);
       const courses: HoraireCours[] = [];
       let currentCourse: HoraireCours = new HoraireCours();
       let currentGroupNumber = '';
@@ -81,15 +82,91 @@ export class HoraireCoursService {
       if (courses.length === 0)
         throw new Error(`No courses found in the PDF located at ${pdfUrl}.`);
 
+      const parsedCodes = new Set(courses.map((course) => course.code));
+      const missing = [...expectedCodes].filter(
+        (code) => !parsedCodes.has(code)
+      );
+      if (missing.length) {
+        throw new Error(`Course rows not parsed: [${missing.join(', ')}].`);
+      }
+
       const serializedCourses: HoraireCours[] = courses.map((course) =>
         course.serialize()
       ) as unknown as HoraireCours[];
 
       return serializedCourses;
     } catch (err) {
-      this.logger.error('Error parsing pdf data: ' + err);
+      this.logger.error(
+        `Invalid schedule PDF ${pdfUrl}: ${String(err)}. Synchronization skipped; existing data preserved.`
+      );
       throw new Error('Error processing PDF data: ' + err);
     }
+  }
+
+  private validateHorairePdfData(pdfData: Output, pdfUrl: string): Set<string> {
+    if (!pdfData.Pages?.length)
+      throw new Error('Document has no readable pages.');
+    const codes = new Set<string>();
+    const session = /HorairePublication_(\d{4})([123])_/.exec(pdfUrl);
+    const season = session
+      ? ['', 'HIVER', 'ÉTÉ', 'AUTOMNE'][Number(session[2])]
+      : null;
+    let documentSession: string | undefined;
+    pdfData.Pages.forEach((page, index) => {
+      const texts = page.Texts.map((item) => ({
+        item,
+        text: decodeURIComponent(item.R.map((run) => run.T).join('')).trim()
+      }));
+      const fail = (reason: string): never => {
+        throw new Error(`Page ${index + 1}/${pdfData.Pages.length}: ${reason}`);
+      };
+      const heading = texts.find(({ text }) =>
+        /^HORAIRE (HIVER|ÉTÉ|AUTOMNE) \d{4}$/.test(text)
+      );
+      if (!heading) fail('missing session heading (empty or unreadable page).');
+      if (session && heading!.text !== `HORAIRE ${season} ${session[1]}`)
+        fail('session heading does not match requested URL.');
+      if (documentSession && heading!.text !== documentSession)
+        fail('session differs from preceding pages.');
+      documentSession = heading!.text;
+      const column = texts.find(({ text }) => text === 'COURS');
+      if (
+        !column ||
+        !['GR', 'HEURE'].every((label) =>
+          texts.some(({ text }) => text === label)
+        )
+      )
+        fail('missing course table headers.');
+      const footer = texts.find(({ text }) =>
+        /^Page\s*:\s*\d+\s*\/\s*\d+$/.test(text)
+      );
+      const numbers = footer?.text.match(/\d+/g)?.map(Number);
+      if (
+        !numbers ||
+        numbers[0] !== index + 1 ||
+        numbers[1] !== pdfData.Pages.length
+      )
+        fail('missing or inconsistent page numbering.');
+      // Scan the whole code column, independently of parser font and exact-x filters.
+      const codeColumn = texts.filter(
+        ({ item }) =>
+          item.y > column!.item.y &&
+          item.y <= this.END_PAGE_CONTENT_Y_AXIS &&
+          item.x < 2
+      );
+      for (const { text } of codeColumn) {
+        if (/^[A-Z]{3}\d/.test(text)) {
+          if (!/^[A-Z]{3}\d{3,4}$/.test(text))
+            fail(`unrecognized course row "${text}".`);
+          codes.add(text);
+        }
+      }
+    });
+    if (!codes.size)
+      throw new Error(
+        'No course rows detected; empty schedule is not evidence of no offerings.'
+      );
+    return codes;
   }
 
   private processPageData(

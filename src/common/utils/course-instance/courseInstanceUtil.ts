@@ -28,6 +28,20 @@ export class AvailabilityUtil {
     return availabilities;
   }
 
+  // Infers availability from a schedule time range ("09:00 - 12:30").
+  // Evening classes at ETS start at 18:00; anything earlier counts as day.
+  public static parseAvailabilityFromTime(time: string): Availability | null {
+    const match = /^(\d{2}):\d{2} - \d{2}:\d{2}$/.exec(time.trim());
+    if (!match) {
+      return null;
+    }
+    const hour = Number.parseInt(match[1], 10);
+    if (hour < 0 || hour > 23) {
+      return null;
+    }
+    return hour < 18 ? Availability.JOUR : Availability.SOIR;
+  }
+
   // Compares two arrays of Availability enums for equality, ignoring order.
   public static areAvailabilitiesEqual(
     a: Availability[],
