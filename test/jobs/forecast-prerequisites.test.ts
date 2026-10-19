@@ -66,7 +66,7 @@ describe('Forecast program links and current-session prerequisites', () => {
   let sessionService: SessionService;
   let programService: ProgramService;
   let instances: {
-    reconcileCourseInstancesFromSources: jest.Mock;
+    updateCourseInstances: jest.Mock;
     getAllCourseInstances: jest.Mock;
     createCourseInstance: jest.Mock;
     updateCourseInstanceAvailability: jest.Mock;
@@ -226,7 +226,7 @@ describe('Forecast program links and current-session prerequisites', () => {
       getOrCreateSessionFromCode: jest.fn().mockResolvedValue(session)
     } as unknown as SessionService;
     instances = {
-      reconcileCourseInstancesFromSources: jest.fn(),
+      updateCourseInstances: jest.fn(),
       getAllCourseInstances: jest.fn().mockResolvedValue([]),
       createCourseInstance: jest.fn(),
       updateCourseInstanceAvailability: jest.fn(),
@@ -315,19 +315,17 @@ describe('Forecast program links and current-session prerequisites', () => {
       expect.stringContaining('LOG999 from forecast PDF for program 7086')
     );
     expect(parseForecast).toHaveBeenCalledTimes(2);
-    expect(instances.reconcileCourseInstancesFromSources).toHaveBeenCalledWith(
+    expect(instances.updateCourseInstances).toHaveBeenCalledWith(
       expect.arrayContaining([
         expect.objectContaining({
-          source: 'planification:7086',
           offerings: expect.arrayContaining([
             { courseId: 1, availability: ['JOUR'] }
           ])
         })
-      ]),
-      false
+      ])
     );
     expect(createLink.mock.invocationCallOrder[3]).toBeLessThan(
-      instances.reconcileCourseInstancesFromSources.mock.invocationCallOrder[0]
+      instances.updateCourseInstances.mock.invocationCallOrder[0]
     );
   });
 
@@ -421,7 +419,7 @@ describe('Forecast program links and current-session prerequisites', () => {
 
     await forecast.processCourseInstances();
 
-    expect(instances.reconcileCourseInstancesFromSources).toHaveBeenCalledWith(
+    expect(instances.updateCourseInstances).toHaveBeenCalledWith(
       expect.arrayContaining([
         expect.objectContaining({
           session: winterSession,
@@ -429,8 +427,7 @@ describe('Forecast program links and current-session prerequisites', () => {
             { courseId: course.id, availability: ['JOUR', 'SOIR'] }
           ])
         })
-      ]),
-      false
+      ])
     );
   });
 
@@ -449,18 +446,15 @@ describe('Forecast program links and current-session prerequisites', () => {
 
     await forecast.processCourseInstances();
 
-    expect(instances.reconcileCourseInstancesFromSources).toHaveBeenCalledWith(
+    expect(instances.updateCourseInstances).toHaveBeenCalledWith(
       expect.arrayContaining([
         expect.objectContaining({
-          source: 'planification:7086',
           offerings: [{ courseId: 1, availability: ['JOUR'] }]
         }),
         expect.objectContaining({
-          source: 'planification:7084',
           offerings: [{ courseId: 1, availability: ['SOIR'] }]
         })
-      ]),
-      false
+      ])
     );
   });
 
@@ -488,21 +482,14 @@ describe('Forecast program links and current-session prerequisites', () => {
 
         await forecast.processCourseInstances();
 
-        expect(
-          instances.reconcileCourseInstancesFromSources
-        ).toHaveBeenCalledWith(
+        expect(instances.updateCourseInstances).toHaveBeenCalledWith(
           expect.arrayContaining([
             expect.objectContaining({
-              source: 'planification:7086',
               offerings: [{ courseId: 1, availability: ['JOUR'] }]
             })
-          ]),
-          false
+          ])
         );
         expect(instances.deleteCourseInstance).not.toHaveBeenCalled();
-        expect(warnSpy).toHaveBeenCalledWith(
-          'Skipping obsolete course-instance deletion and availability reductions: 0/2 program forecasts passed checks; incomplete programs: [7086, 7084]. See per-program warnings for reasons.'
-        );
       }
     );
 
@@ -535,9 +522,7 @@ describe('Forecast program links and current-session prerequisites', () => {
       expect(sessionService.getOrCreateSessionFromCode).toHaveBeenCalledWith(
         'H27'
       );
-      const [inputs, allowRemovals] =
-        instances.reconcileCourseInstancesFromSources.mock.calls[0];
-      expect(allowRemovals).toBe(true);
+      const [inputs] = instances.updateCourseInstances.mock.calls[0];
       expect(inputs).toHaveLength(2);
       expect(
         inputs.every(
@@ -557,9 +542,9 @@ describe('Forecast program links and current-session prerequisites', () => {
 
       await forecast.processCourseInstances();
 
-      expect(
-        instances.reconcileCourseInstancesFromSources
-      ).toHaveBeenCalledWith(expect.any(Array), true);
+      expect(instances.updateCourseInstances).toHaveBeenCalledWith(
+        expect.any(Array)
+      );
     });
 
     it('preserves schedule-owned instances during complete forecast deletion', async () => {
@@ -632,18 +617,14 @@ describe('Forecast program links and current-session prerequisites', () => {
         expect.anything(),
         expect.anything()
       );
-      expect(
-        instances.reconcileCourseInstancesFromSources
-      ).toHaveBeenCalledWith(
+      expect(instances.updateCourseInstances).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
-            source: 'planification:7086',
             offerings: expect.arrayContaining([
               { courseId: 1, availability: ['JOUR'] }
             ])
           })
-        ]),
-        true
+        ])
       );
     });
 
@@ -675,7 +656,9 @@ describe('Forecast program links and current-session prerequisites', () => {
 
         expect(instances.deleteCourseInstance).not.toHaveBeenCalled();
         expect(warnSpy).toHaveBeenCalledWith(
-          'Skipping obsolete course-instance deletion and availability reductions: 1/2 program forecasts passed checks; incomplete programs: [7086]. See per-program warnings for reasons.'
+          expect.stringContaining(
+            'Skipping program-course pruning for program 7086'
+          )
         );
       }
     );
@@ -719,9 +702,9 @@ describe('Forecast program links and current-session prerequisites', () => {
 
       await forecast.processCourseInstances();
 
-      expect(
-        instances.reconcileCourseInstancesFromSources
-      ).toHaveBeenCalledWith(expect.any(Array), false);
+      expect(instances.updateCourseInstances).toHaveBeenCalledWith(
+        expect.any(Array)
+      );
     });
 
     it('removes obsolete availability when all forecasts are complete', async () => {
@@ -740,9 +723,9 @@ describe('Forecast program links and current-session prerequisites', () => {
 
       await forecast.processCourseInstances();
 
-      expect(
-        instances.reconcileCourseInstancesFromSources
-      ).toHaveBeenCalledWith(expect.any(Array), true);
+      expect(instances.updateCourseInstances).toHaveBeenCalledWith(
+        expect.any(Array)
+      );
     });
 
     it('preserves existing offerings when every forecast download fails', async () => {

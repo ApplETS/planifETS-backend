@@ -40,11 +40,13 @@ export async function seedUmbrellaPrograms() {
 
   try {
     for (const program of UMBRELLA_PROGRAMS) {
-      await prismaService.program.upsert({
-        where: { id: program.id },
-        update: { ...program, updatedAt: new Date() },
-        create: { ...program, createdAt: new Date(), updatedAt: new Date() }
-      });
+      await prismaService.program.upsert(
+        {
+          where: { id: program.id },
+          update: { ...program, updatedAt: new Date() },
+          create: { ...program, createdAt: new Date(), updatedAt: new Date() }
+        }
+      );
     }
   } finally {
     await prismaService.$disconnect();

@@ -43,10 +43,11 @@ export class CourseInstancesJobService {
       return;
     }
     const inputs: CourseInstanceUpdateInput[] = [];
-    const incompletePrograms: string[] = [];
     for (const program of programs) {
       if (!program.code || program.code.includes(',')) {
-        incompletePrograms.push(program.code ?? `id=${program.id}`);
+        this.logger.warn(
+          `Skipping forecast for program ${program.id}: missing or multiple program codes (${program.code ?? 'null'}).`
+        );
         continue;
       }
       try {
@@ -56,15 +57,9 @@ export class CourseInstancesJobService {
           );
         if (!sessionCodes.length)
           throw new Error('No forecast session headers.');
-        const complete = await this.syncProgramCourseLinks(
-          program.id,
-          program.code,
-          rows
-        );
-        if (!complete) incompletePrograms.push(program.code);
+        await this.syncProgramCourseLinks(program.id, program.code, rows);
         inputs.push(...(await this.prepareSources(rows, sessionCodes)));
       } catch (error) {
-        incompletePrograms.push(program.code);
         this.logger.warn(
           `Error parsing planification PDF for program ${program.code}`,
           error
