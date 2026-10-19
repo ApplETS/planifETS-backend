@@ -62,7 +62,9 @@ jobs:
 
       - name: Run Dependency Audit
         run: |
-          yarn audit --groups dependencies | tee audit.log
+          if ! yarn audit --groups dependencies | tee audit.log; then
+            grep -q 'vulnerabilities found' audit.log || exit 1
+          fi
           if grep -E 'critical' audit.log; then
             echo 'Critical vulnerabilities found!';
             exit 1;

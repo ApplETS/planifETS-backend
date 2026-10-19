@@ -30,7 +30,8 @@ export class CourseCodeValidationPipe implements PipeTransform {
 
     // Validate each part of the course code
     const isPrefixValid = /^[A-Z]{3}$/.test(letters);
-    const isSuffixValid = /^(?:\d{3}|EST?|TEST|\d{3})$/.test(numbersOrSuffix);
+    // Doctoral codes use four digits (e.g. DGA1005).
+    const isSuffixValid = /^(?:\d{3,4}|EST?|TEST)$/.test(numbersOrSuffix);
 
     return isPrefixValid && isSuffixValid;
   }

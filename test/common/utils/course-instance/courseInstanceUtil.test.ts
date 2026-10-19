@@ -51,6 +51,37 @@ describe('AvailabilityUtil', () => {
     });
   });
 
+  describe('parseAvailabilityFromTime', () => {
+    it('should infer day availability from morning and afternoon times', () => {
+      expect(AvailabilityUtil.parseAvailabilityFromTime('09:00 - 12:30')).toBe(
+        Availability.JOUR
+      );
+      expect(AvailabilityUtil.parseAvailabilityFromTime('13:30 - 15:30')).toBe(
+        Availability.JOUR
+      );
+      expect(AvailabilityUtil.parseAvailabilityFromTime('17:59 - 20:00')).toBe(
+        Availability.JOUR
+      );
+    });
+
+    it('should infer evening availability from late times', () => {
+      expect(AvailabilityUtil.parseAvailabilityFromTime('18:00 - 21:00')).toBe(
+        Availability.SOIR
+      );
+      expect(AvailabilityUtil.parseAvailabilityFromTime('19:00 - 22:00')).toBe(
+        Availability.SOIR
+      );
+    });
+
+    it('should return null for missing or malformed times', () => {
+      expect(AvailabilityUtil.parseAvailabilityFromTime('')).toBeNull();
+      expect(AvailabilityUtil.parseAvailabilityFromTime('TBD')).toBeNull();
+      expect(
+        AvailabilityUtil.parseAvailabilityFromTime('9:00 - 12:30')
+      ).toBeNull();
+    });
+  });
+
   describe('areAvailabilitiesEqual', () => {
     it('should return true for equal arrays (same order)', () => {
       expect(

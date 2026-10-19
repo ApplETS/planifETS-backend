@@ -1,7 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Course, Program, Session } from '@prisma/client';
+import { Availability, Course, Program, Session } from '@prisma/client';
 
 import { CourseCodeValidationPipe } from '@/common/pipes/models/course/course-code-validation-pipe';
+import { AvailabilityUtil } from '@/common/utils/course-instance/courseInstanceUtil';
 import { parsePrerequisiteString } from '@/common/utils/prerequisite/prerequisiteUtil';
 import { getTrimesterIndexBySession } from '@/common/utils/session/sessionUtil';
 import { getHorairePdfUrl } from '@/common/utils/url/url-constants';
@@ -9,8 +10,13 @@ import { HoraireCoursService } from '@/common/website-helper/pdf/pdf-parser/hora
 import { IHoraireCours } from '@/common/website-helper/pdf/pdf-parser/horaire/horaire-cours.types';
 
 import { CourseService } from '../../course/course.service';
+import { CourseInstanceService } from '../../course-instance/course-instance.service';
 import { PrerequisiteService } from '../../prerequisite/prerequisite.service';
-import { seedProgramHorairePdfParserFlags } from '../../prisma/programs.seeder';
+import {
+  seedProgramHorairePdfParserFlags,
+  seedUmbrellaPrograms,
+  UQAM_PROGRAM_CODE
+} from '../../prisma/programs.seeder';
 import { ProgramService } from '../../program/program.service';
 import { ProgramCourseService } from '../../program-course/program-course.service';
 import { ProgramCourseWithPrerequisites } from '../../program-course/types/program-course.types';
@@ -31,7 +37,8 @@ export class SessionsJobService {
     private readonly courseService: CourseService,
     private readonly programCourseService: ProgramCourseService,
     private readonly prerequisiteService: PrerequisiteService,
-    private readonly courseCodeValidationPipe: CourseCodeValidationPipe
+    private readonly courseCodeValidationPipe: CourseCodeValidationPipe,
+    private readonly courseInstanceService: CourseInstanceService
   ) {}
 
   /**
@@ -43,6 +50,7 @@ export class SessionsJobService {
     try {
       // Seed programs with horaireParsablePdf = true
       await seedProgramHorairePdfParserFlags();
+      await seedUmbrellaPrograms();
 
       const currentSession =
         await this.sessionService.getOrCreateCurrentSession();
@@ -107,6 +115,10 @@ export class SessionsJobService {
         parsedCourses,
         missingProgramCourseIds
       );
+      // Only this PDF's contribution is replaced. Other sources remain intact.
+      if (program.code === UQAM_PROGRAM_CODE) {
+        await this.reconcileUqamSchedule(session, program, parsedCourses);
+      }
       this.logMissingProgramCourses(program, missingProgramCourseIds);
       this.logger.log(`Saved parsed courses for program ${programCode}.`);
     } catch (error) {
@@ -145,7 +157,7 @@ export class SessionsJobService {
 
     const programCourse = await this.getProgramCourseWithPrerequisites(
       existingCourse.id,
-      program.id,
+      program,
       missingProgramCourseIds
     );
     if (!programCourse) {
@@ -188,20 +200,95 @@ export class SessionsJobService {
 
   private async getProgramCourseWithPrerequisites(
     courseId: number,
-    programId: number,
+    program: Program,
     missingProgramCourseIds: Set<number>
   ): Promise<ProgramCourseWithPrerequisites | null> {
     const programCourse =
       await this.programCourseService.getProgramCourseWithPrerequisites({
         courseId_programId: {
           courseId,
-          programId
+          programId: program.id
         }
       });
-    if (!programCourse) {
-      missingProgramCourseIds.add(courseId);
+    if (programCourse) {
+      return programCourse;
     }
-    return programCourse;
+    // Agreement schedules list every course of the umbrella program, so a
+    // missing link means a new offering rather than a data error.
+    if (program.code === UQAM_PROGRAM_CODE) {
+      await this.programCourseService.createProgramCourse({
+        program: { connect: { id: program.id } },
+        course: { connect: { id: courseId } }
+      });
+      return this.programCourseService.getProgramCourseWithPrerequisites({
+        courseId_programId: {
+          courseId,
+          programId: program.id
+        }
+      });
+    }
+    missingProgramCourseIds.add(courseId);
+    return null;
+  }
+
+  private async reconcileUqamSchedule(
+    session: Session,
+    program: Program,
+    parsedCourses: IHoraireCours[]
+  ): Promise<void> {
+    const courses = await this.courseService.getCoursesByCodes(
+      parsedCourses.map((course) => course.code)
+    );
+    const offerings = parsedCourses.flatMap((row) => {
+      const course = courses.find((entry) => entry.code === row.code);
+      const availability = this.availabilityFromSchedule(row.groups);
+      if (!course) {
+        this.logger.warn(
+          `Cannot reconcile UQAM course ${row.code}: missing catalog entry. Existing availability preserved.`
+        );
+        return [];
+      }
+      if (!availability.length) {
+        this.logger.warn(
+          `Cannot infer availability for UQAM course ${row.code}: no parseable meeting times. Existing availability preserved.`
+        );
+        return [];
+      }
+      return [{ courseId: course.id, availability }];
+    });
+    if (offerings.length) {
+      await this.courseInstanceService.updateCourseInstances([
+        { session, offerings }
+      ]);
+    }
+  }
+
+  private availabilityFromSchedule(
+    groups: IHoraireCours['groups']
+  ): Availability[] {
+    // parsePdfFromUrl returns serialized courses, so groups arrive as plain
+    // objects even though the interface declares a Map.
+    const groupList =
+      groups instanceof Map
+        ? [...groups.values()]
+        : Object.values(
+            (groups ?? {}) as Record<
+              string,
+              { periods?: Array<{ time?: string }> }
+            >
+          );
+    const availability = new Set<Availability>();
+    for (const group of groupList) {
+      for (const period of group?.periods ?? []) {
+        const parsed = period?.time
+          ? AvailabilityUtil.parseAvailabilityFromTime(period.time)
+          : null;
+        if (parsed) {
+          availability.add(parsed);
+        }
+      }
+    }
+    return [...availability];
   }
 
   private logMissingProgramCourses(

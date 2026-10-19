@@ -27,7 +27,9 @@ import { SessionService } from '../../src/session/session.service';
 // Keep seeding, PDF downloads and database I/O outside these regressions.
 jest.mock('../../src/prisma/programs.seeder', () => ({
   seedProgramPlanificationPdfParserFlags: jest.fn(),
-  seedProgramHorairePdfParserFlags: jest.fn()
+  seedProgramHorairePdfParserFlags: jest.fn(),
+  seedUmbrellaPrograms: jest.fn(),
+  UQAM_PROGRAM_CODE: 'UQAM'
 }));
 
 describe('Forecast program links and current-session prerequisites', () => {
@@ -53,6 +55,7 @@ describe('Forecast program links and current-session prerequisites', () => {
   let forecast: CourseInstancesJobService;
   let sessions: SessionsJobService;
   let parseForecast: jest.Mock;
+  let forecastSessionCodes: string[];
   let parseHoraire: jest.Mock;
   let warnSpy: jest.SpyInstance;
   let createLink: jest.Mock;
@@ -61,7 +64,9 @@ describe('Forecast program links and current-session prerequisites', () => {
   let deleteEdges: jest.Mock;
   let transaction: jest.Mock;
   let sessionService: SessionService;
+  let programService: ProgramService;
   let instances: {
+    reconcileCourseInstancesFromSources: jest.Mock;
     getAllCourseInstances: jest.Mock;
     createCourseInstance: jest.Mock;
     updateCourseInstanceAvailability: jest.Mock;
@@ -69,6 +74,7 @@ describe('Forecast program links and current-session prerequisites', () => {
   };
 
   beforeEach(() => {
+    forecastSessionCodes = ['A26', 'H27'];
     courses = [...coreCourses];
     links = [];
     prerequisites = [];
@@ -205,7 +211,8 @@ describe('Forecast program links and current-session prerequisites', () => {
         (code: string) => courses.find((c) => c.code === code) ?? null
       )
     } as unknown as CourseService;
-    const programService = {
+    const programServiceMock = {
+      getProgramByCode: jest.fn().mockResolvedValue(null),
       getProgramsByPlanificationParsablePDF: jest
         .fn()
         .mockResolvedValue(programs),
@@ -213,11 +220,13 @@ describe('Forecast program links and current-session prerequisites', () => {
         .fn()
         .mockResolvedValue([programs[0]])
     } as unknown as ProgramService;
+    programService = programServiceMock;
     sessionService = {
       getOrCreateCurrentSession: jest.fn().mockResolvedValue(session),
       getOrCreateSessionFromCode: jest.fn().mockResolvedValue(session)
     } as unknown as SessionService;
     instances = {
+      reconcileCourseInstancesFromSources: jest.fn(),
       getAllCourseInstances: jest.fn().mockResolvedValue([]),
       createCourseInstance: jest.fn(),
       updateCourseInstanceAvailability: jest.fn(),
@@ -252,7 +261,10 @@ describe('Forecast program links and current-session prerequisites', () => {
     );
     forecast = new CourseInstancesJobService(
       {
-        parseProgramPlanification: parseForecast
+        parseProgramForecast: async (code: string) => ({
+          courses: await parseForecast(code),
+          sessionCodes: forecastSessionCodes
+        })
       } as unknown as PlanificationCoursService,
       programService,
       courseService,
@@ -267,7 +279,8 @@ describe('Forecast program links and current-session prerequisites', () => {
       courseService,
       programCourseService,
       prerequisiteService,
-      new CourseCodeValidationPipe()
+      new CourseCodeValidationPipe(),
+      {} as unknown as CourseInstanceService
     );
   });
 
@@ -275,6 +288,10 @@ describe('Forecast program links and current-session prerequisites', () => {
 
   it('includes 7086 in forecast parser flags', () => {
     expect(programFlags.planificationPdfPrograms).toContain('7086');
+  });
+
+  it('selects the graduate umbrella forecast for parsing', () => {
+    expect(programFlags.planificationPdfPrograms).toContain('CyclesSuperieurs');
   });
 
   it('links all listed existing courses, deduplicates per program, and preserves availability sync', async () => {
@@ -298,13 +315,19 @@ describe('Forecast program links and current-session prerequisites', () => {
       expect.stringContaining('LOG999 from forecast PDF for program 7086')
     );
     expect(parseForecast).toHaveBeenCalledTimes(2);
-    expect(instances.createCourseInstance).toHaveBeenCalledWith(
-      courses[0],
-      session,
-      ['JOUR']
+    expect(instances.reconcileCourseInstancesFromSources).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        expect.objectContaining({
+          source: 'planification:7086',
+          offerings: expect.arrayContaining([
+            { courseId: 1, availability: ['JOUR'] }
+          ])
+        })
+      ]),
+      false
     );
     expect(createLink.mock.invocationCallOrder[3]).toBeLessThan(
-      instances.createCourseInstance.mock.invocationCallOrder[0]
+      instances.reconcileCourseInstancesFromSources.mock.invocationCallOrder[0]
     );
   });
 
@@ -398,10 +421,16 @@ describe('Forecast program links and current-session prerequisites', () => {
 
     await forecast.processCourseInstances();
 
-    expect(instances.createCourseInstance).toHaveBeenCalledWith(
-      course,
-      winterSession,
-      ['JOUR', 'SOIR']
+    expect(instances.reconcileCourseInstancesFromSources).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        expect.objectContaining({
+          session: winterSession,
+          offerings: expect.arrayContaining([
+            { courseId: course.id, availability: ['JOUR', 'SOIR'] }
+          ])
+        })
+      ]),
+      false
     );
   });
 
@@ -420,10 +449,18 @@ describe('Forecast program links and current-session prerequisites', () => {
 
     await forecast.processCourseInstances();
 
-    expect(instances.createCourseInstance).toHaveBeenCalledWith(
-      courses[0],
-      winterSession,
-      ['JOUR', 'SOIR']
+    expect(instances.reconcileCourseInstancesFromSources).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        expect.objectContaining({
+          source: 'planification:7086',
+          offerings: [{ courseId: 1, availability: ['JOUR'] }]
+        }),
+        expect.objectContaining({
+          source: 'planification:7084',
+          offerings: [{ courseId: 1, availability: ['SOIR'] }]
+        })
+      ]),
+      false
     );
   });
 
@@ -451,10 +488,16 @@ describe('Forecast program links and current-session prerequisites', () => {
 
         await forecast.processCourseInstances();
 
-        expect(instances.createCourseInstance).toHaveBeenCalledWith(
-          courses[0],
-          session,
-          ['JOUR']
+        expect(
+          instances.reconcileCourseInstancesFromSources
+        ).toHaveBeenCalledWith(
+          expect.arrayContaining([
+            expect.objectContaining({
+              source: 'planification:7086',
+              offerings: [{ courseId: 1, availability: ['JOUR'] }]
+            })
+          ]),
+          false
         );
         expect(instances.deleteCourseInstance).not.toHaveBeenCalled();
         expect(warnSpy).toHaveBeenCalledWith(
@@ -463,16 +506,144 @@ describe('Forecast program links and current-session prerequisites', () => {
       }
     );
 
+    it('seeds umbrella programs before selecting forecasts', async () => {
+      const { seedUmbrellaPrograms } = jest.requireMock(
+        '../../src/prisma/programs.seeder'
+      ) as { seedUmbrellaPrograms: jest.Mock };
+
+      await forecast.processCourseInstances();
+
+      expect(seedUmbrellaPrograms).toHaveBeenCalled();
+      expect(seedUmbrellaPrograms.mock.invocationCallOrder.at(-1)).toBeLessThan(
+        (
+          programService.getProgramsByPlanificationParsablePDF as jest.Mock
+        ).mock.invocationCallOrder.at(-1)!
+      );
+    });
+
+    it('passes blank header sessions to reconciliation without inventing coverage', async () => {
+      forecastSessionCodes = ['H27'];
+      parseForecast.mockResolvedValue(largeForecast());
+      const winter = { ...session, year: 2027, trimester: Trimester.HIVER };
+      jest
+        .spyOn(sessionService, 'getOrCreateSessionFromCode')
+        .mockResolvedValue(winter);
+      await forecast.processCourseInstances();
+      expect(sessionService.getOrCreateSessionFromCode).toHaveBeenCalledTimes(
+        2
+      );
+      expect(sessionService.getOrCreateSessionFromCode).toHaveBeenCalledWith(
+        'H27'
+      );
+      const [inputs, allowRemovals] =
+        instances.reconcileCourseInstancesFromSources.mock.calls[0];
+      expect(allowRemovals).toBe(true);
+      expect(inputs).toHaveLength(2);
+      expect(
+        inputs.every(
+          (input: {
+            session: typeof winter;
+            offerings: { availability: unknown[] }[];
+          }) =>
+            input.session === winter &&
+            input.offerings.every((row) => row.availability.length === 0)
+        )
+      ).toBe(true);
+    });
+
     it('still deletes obsolete offerings after all forecasts succeed', async () => {
       parseForecast.mockResolvedValue(largeForecast());
       instances.getAllCourseInstances.mockResolvedValue([existingOffering]);
 
       await forecast.processCourseInstances();
 
-      expect(instances.deleteCourseInstance).toHaveBeenCalledWith(
+      expect(
+        instances.reconcileCourseInstancesFromSources
+      ).toHaveBeenCalledWith(expect.any(Array), true);
+    });
+
+    it('preserves schedule-owned instances during complete forecast deletion', async () => {
+      (programService.getProgramByCode as jest.Mock).mockResolvedValue({
+        id: -1
+      });
+      links.push(
+        {
+          courseId: 1,
+          programId: -1,
+          type: null,
+          typicalSessionIndex: null,
+          unstructuredPrerequisite: null,
+          createdAt: date,
+          updatedAt: date
+        },
+        {
+          courseId: 2,
+          programId: -1,
+          type: null,
+          typicalSessionIndex: null,
+          unstructuredPrerequisite: null,
+          createdAt: date,
+          updatedAt: date
+        }
+      );
+      const rows = largeForecast();
+      rows.find((row) => row.code === 'LOG200')!.available = { A26: 'J' };
+      parseForecast.mockResolvedValue(rows);
+      const uqamInstance = {
+        courseId: 1,
+        sessionYear: 2026,
+        sessionTrimester: Trimester.AUTOMNE,
+        availability: ['JOUR', 'SOIR'],
+        createdAt: date,
+        updatedAt: date
+      };
+      instances.getAllCourseInstances.mockResolvedValue([
+        uqamInstance,
+        {
+          courseId: 2,
+          sessionYear: 2027,
+          sessionTrimester: 'HIVER',
+          availability: ['SOIR'],
+          createdAt: date,
+          updatedAt: date
+        },
+        {
+          courseId: 3,
+          sessionYear: 2027,
+          sessionTrimester: 'HIVER',
+          availability: ['JOUR'],
+          createdAt: date,
+          updatedAt: date
+        }
+      ]);
+
+      await forecast.processCourseInstances();
+
+      // LOG200 keeps schedule-derived availability instead of shrinking to J.
+      expect(instances.updateCourseInstanceAvailability).not.toHaveBeenCalled();
+      // MAT210 is schedule-owned: kept. LOG121 is not: deleted.
+      expect(instances.deleteCourseInstance).not.toHaveBeenCalledWith(
+        1,
+        expect.anything(),
+        expect.anything()
+      );
+      expect(instances.deleteCourseInstance).not.toHaveBeenCalledWith(
         2,
-        2027,
-        'HIVER'
+        expect.anything(),
+        expect.anything()
+      );
+      expect(
+        instances.reconcileCourseInstancesFromSources
+      ).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            source: 'planification:7086',
+            offerings: expect.arrayContaining([
+              { courseId: 1, availability: ['JOUR'] }
+            ])
+          })
+        ]),
+        true
       );
     });
 
@@ -548,10 +719,9 @@ describe('Forecast program links and current-session prerequisites', () => {
 
       await forecast.processCourseInstances();
 
-      expect(instances.updateCourseInstanceAvailability).toHaveBeenCalledWith(
-        existing,
-        ['SOIR', 'JOUR']
-      );
+      expect(
+        instances.reconcileCourseInstancesFromSources
+      ).toHaveBeenCalledWith(expect.any(Array), false);
     });
 
     it('removes obsolete availability when all forecasts are complete', async () => {
@@ -570,10 +740,9 @@ describe('Forecast program links and current-session prerequisites', () => {
 
       await forecast.processCourseInstances();
 
-      expect(instances.updateCourseInstanceAvailability).toHaveBeenCalledWith(
-        existing,
-        ['JOUR']
-      );
+      expect(
+        instances.reconcileCourseInstancesFromSources
+      ).toHaveBeenCalledWith(expect.any(Array), true);
     });
 
     it('preserves existing offerings when every forecast download fails', async () => {
