@@ -45,6 +45,8 @@ export class LlmService {
   private readonly logger = new Logger(LlmService.name);
   private readonly providers: LlmProvider[];
   private readonly timeoutMs: number;
+  private readonly instanceId = randomUUID();
+  private activeRequests = 0;
   private throwExhausted(lastError: Error | undefined): never {
     this.logger.error(
       'All LLM providers have been exhausted.',
@@ -232,6 +234,65 @@ export class LlmService {
   ): AsyncGenerator<LlmStreamEvent> {
     signal?.throwIfAborted();
     const traceId = randomUUID();
+    const startedAt = performance.now();
+    const concurrentRequestsAtStart = ++this.activeRequests;
+    const properties = {
+      request_id: traceId,
+      instance_id: this.instanceId,
+      concurrent_requests_at_start: concurrentRequestsAtStart
+    };
+    let outcome: 'success' | 'error' | 'cancelled' = 'cancelled';
+    let firstTokenMs: number | undefined;
+    let model: string | undefined;
+    let courseCount = 0;
+    this.posthogMonitoring.captureChatbotRequest('chatbot_request_started', {
+      ...properties,
+      active_requests: this.activeRequests
+    });
+    try {
+      for await (const event of this.generateRecommendationStream(
+        traceId,
+        prompt,
+        programIds,
+        signal
+      )) {
+        if (
+          event.type === 'reason' &&
+          event.data &&
+          firstTokenMs === undefined
+        ) {
+          firstTokenMs = performance.now() - startedAt;
+        }
+        if (event.type === 'model') model = event.data;
+        if (event.type === 'courses') {
+          outcome = 'success';
+          courseCount = event.data.length;
+        }
+        yield event;
+      }
+    } catch (error) {
+      outcome = signal?.aborted ? 'cancelled' : 'error';
+      throw error;
+    } finally {
+      this.activeRequests -= 1;
+      this.posthogMonitoring.captureChatbotRequest('chatbot_request_finished', {
+        ...properties,
+        active_requests: this.activeRequests,
+        outcome,
+        duration_ms: performance.now() - startedAt,
+        time_to_first_token_ms: firstTokenMs,
+        model,
+        course_count: courseCount
+      });
+    }
+  }
+
+  private async *generateRecommendationStream(
+    traceId: string,
+    prompt: string,
+    programIds?: number[],
+    signal?: AbortSignal
+  ): AsyncGenerator<LlmStreamEvent> {
     yield { type: 'status', data: 'SEARCHING_EMBEDDINGS' };
     const { prompt: enrichedPrompt, allowedCourseCodes } =
       await this.buildEnrichedPrompt(traceId, prompt, programIds);

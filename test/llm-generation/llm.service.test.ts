@@ -37,6 +37,7 @@ const mockCourseRetriever = {
 } as unknown as CourseRetrieverService;
 
 const mockPosthogMonitoring = {
+  captureChatbotRequest: jest.fn(),
   captureAiSpan: jest.fn(),
   captureAiGeneration: jest.fn()
 } as unknown as PosthogMonitoringService;
@@ -90,6 +91,7 @@ describe('LlmService', () => {
       }
     ]);
     (mockPosthogMonitoring.captureAiSpan as jest.Mock).mockClear();
+    (mockPosthogMonitoring.captureChatbotRequest as jest.Mock).mockClear();
     (mockPosthogMonitoring.captureAiGeneration as jest.Mock).mockClear();
   });
 
@@ -167,6 +169,98 @@ describe('LlmService', () => {
   });
 
   describe('generation', () => {
+    it('tracks overlapping requests and latency without including chat content', async () => {
+      const service = serviceWithLocalProvider();
+      fetchMock.mockImplementation(okStream);
+      const first = service.recommendStream('Private prompt', [123]);
+      const second = service.recommendStream('Another private prompt');
+      await first.next();
+      await second.next();
+      await collect(first);
+      await collect(second);
+
+      const calls = (mockPosthogMonitoring.captureChatbotRequest as jest.Mock)
+        .mock.calls;
+      expect(
+        calls.map(([event, properties]) => [event, properties.active_requests])
+      ).toEqual([
+        ['chatbot_request_started', 1],
+        ['chatbot_request_started', 2],
+        ['chatbot_request_finished', 1],
+        ['chatbot_request_finished', 0]
+      ]);
+      expect(calls[2][1]).toMatchObject({
+        request_id: calls[0][1].request_id,
+        instance_id: calls[0][1].instance_id,
+        concurrent_requests_at_start: 1,
+        outcome: 'success',
+        duration_ms: expect.any(Number),
+        time_to_first_token_ms: expect.any(Number),
+        model: 'gemma-4-e2b-it-qat',
+        course_count: 1
+      });
+      expect(calls[1][1].request_id).not.toBe(calls[0][1].request_id);
+      expect(calls[3][1].concurrent_requests_at_start).toBe(2);
+      expect(JSON.stringify(calls)).not.toMatch(
+        /Private prompt|Another private prompt|Programming|LOG121/
+      );
+      expect(calls[2][1].duration_ms).toBeGreaterThanOrEqual(
+        calls[2][1].time_to_first_token_ms
+      );
+    });
+
+    it('records retrieval errors and releases the concurrency count', async () => {
+      const service = serviceWithLocalProvider();
+      (mockCourseRetriever.retrieveCourses as jest.Mock).mockRejectedValueOnce(
+        new Error('private failure')
+      );
+      await expect(collect(service.recommendStream('AI'))).rejects.toThrow(
+        'private failure'
+      );
+      expect(
+        mockPosthogMonitoring.captureChatbotRequest
+      ).toHaveBeenLastCalledWith(
+        'chatbot_request_finished',
+        expect.objectContaining({ active_requests: 0, outcome: 'error' })
+      );
+      fetchMock.mockImplementation(okStream);
+      await collect(service.recommendStream('AI'));
+      expect(
+        (mockPosthogMonitoring.captureChatbotRequest as jest.Mock).mock
+          .calls[2][1].active_requests
+      ).toBe(1);
+    });
+
+    it.each(['return', 'abort'] as const)(
+      'records cancellation on %s exactly once',
+      async (method) => {
+        const service = serviceWithLocalProvider();
+        const controller = new AbortController();
+        const stream = service.recommendStream(
+          'AI',
+          undefined,
+          controller.signal
+        );
+        await stream.next();
+        if (method === 'return') {
+          await stream.return(undefined);
+        } else {
+          controller.abort();
+          await expect(collect(stream)).rejects.toThrow();
+        }
+        await stream.return(undefined);
+        expect(
+          mockPosthogMonitoring.captureChatbotRequest
+        ).toHaveBeenCalledTimes(2);
+        expect(
+          mockPosthogMonitoring.captureChatbotRequest
+        ).toHaveBeenLastCalledWith(
+          'chatbot_request_finished',
+          expect.objectContaining({ active_requests: 0, outcome: 'cancelled' })
+        );
+      }
+    );
+
     it('allows overlapping streams to reach the provider without a backend admission limit', async () => {
       const service = serviceWithLocalProvider();
       const first = service.recommendStream('AI');
@@ -342,13 +436,18 @@ describe('LlmService', () => {
         retrievalStarted = resolve;
       });
       (mockCourseRetriever.retrieveCourses as jest.Mock).mockImplementation(
-        () => new Promise<never[]>((resolve) => {
-          finishRetrieval = resolve;
-          retrievalStarted();
-        })
+        () =>
+          new Promise<never[]>((resolve) => {
+            finishRetrieval = resolve;
+            retrievalStarted();
+          })
       );
       const controller = new AbortController();
-      const generator = service.recommendStream('AI', undefined, controller.signal);
+      const generator = service.recommendStream(
+        'AI',
+        undefined,
+        controller.signal
+      );
 
       await generator.next();
       const pending = generator.next();
@@ -503,7 +602,10 @@ describe('LlmService', () => {
         { type: 'status', data: 'THINKING_AI' }
       ]);
       expect(reasonText(events)).toBe('These courses are great for AI.');
-      expect(events.at(-2)).toEqual({ type: 'model', data: provider.modelName });
+      expect(events.at(-2)).toEqual({
+        type: 'model',
+        data: provider.modelName
+      });
       expect(events.at(-1)).toEqual({
         type: 'courses',
         data: [{ code: 'LOG121' }]
