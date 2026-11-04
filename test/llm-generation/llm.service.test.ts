@@ -2,7 +2,6 @@ import { Logger } from '@nestjs/common';
 
 import { CourseRetrieverService } from '../../src/embedding/course-retriever.service';
 import { LlmExhaustedException } from '../../src/llm-generation/exceptions/llm-exhausted.exception';
-import { LlmGenerationResponse } from '../../src/llm-generation/interfaces/llm-generation-response.interface';
 import {
   LlmProvider,
   STREAM_COURSES_DELIMITER
@@ -42,28 +41,32 @@ const mockPosthogMonitoring = {
   captureAiGeneration: jest.fn()
 } as unknown as PosthogMonitoringService;
 
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const NVIDIA_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
-const GEMINI_URL =
-  'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions';
-
-const VALID_LLM_JSON = JSON.stringify({
-  courses: [{ code: 'LOG121' }],
-  explanation: 'These courses cover the fundamentals.'
-});
-
-const okFetch = (content: string) =>
+const LLAMA_BASE = 'http://llama-server:8080/v1';
+const okStream = () =>
   Promise.resolve({
     ok: true,
-    json: async () => ({ choices: [{ message: { content } }] })
+    body: new ReadableStream({
+      start(controller) {
+        const text = `data: ${JSON.stringify({ choices: [{ delta: { content: `Programming.\n${STREAM_COURSES_DELIMITER}\n[{"code":"LOG121"}]` } }] })}\n\ndata: [DONE]\n\n`;
+        controller.enqueue(new TextEncoder().encode(text));
+        controller.close();
+      }
+    })
   } as Response);
 
-const errorFetch = (status: number, body = 'error') =>
-  Promise.resolve({
-    ok: false,
-    status,
-    text: async () => body
-  } as Response);
+function serviceWithLocalProvider(
+  env: Record<string, string> = {}
+): LlmService {
+  process.env.LLAMA_BASE_URL = env.baseUrl ?? LLAMA_BASE;
+  for (const [key, value] of Object.entries(env)) {
+    process.env[key] = value;
+  }
+  return new LlmService(mockCourseRetriever, mockPosthogMonitoring);
+}
+
+function firstProvider(service: LlmService): LlmProvider {
+  return (service as unknown as { providers: LlmProvider[] }).providers[0];
+}
 
 describe('LlmService', () => {
   let fetchMock: jest.Mock;
@@ -71,13 +74,9 @@ describe('LlmService', () => {
 
   beforeEach(() => {
     savedEnv = { ...process.env };
-    delete process.env.GROQ_API_KEY;
-    delete process.env.GROQ_PRIMARY_MODEL;
-    delete process.env.GROQ_FALLBACK_MODEL;
-    delete process.env.NVIDIA_API_KEY;
-    delete process.env.NVIDIA_MODEL;
-    delete process.env.GEMINI_API_KEY;
-    delete process.env.GEMINI_MODEL;
+    delete process.env.LLAMA_BASE_URL;
+    delete process.env.LLAMA_MODEL;
+    delete process.env.LLAMA_TIMEOUT_MS;
     delete process.env.LLM_TIMEOUT_MS;
 
     fetchMock = jest.fn();
@@ -100,55 +99,31 @@ describe('LlmService', () => {
   });
 
   describe('provider configuration', () => {
-    it('uses an environment model override when configured', () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'custom-groq-model';
+    it('configures the single local Gemma provider for llama-server', () => {
+      const providers = (
+        serviceWithLocalProvider() as unknown as { providers: LlmProvider[] }
+      ).providers;
 
-      const service = new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      );
-
-      const providers = (service as unknown as { providers: LlmProvider[] })
-        .providers;
-      expect(providers).toHaveLength(2);
-      expect(providers[0].modelName).toBe('custom-groq-model');
+      expect(providers).toHaveLength(1);
+      expect(providers[0]).toMatchObject({
+        providerName: 'llama.cpp',
+        modelName: 'gemma-4-e2b-it-qat'
+      });
     });
 
-    it('excludes a provider when the API key is missing', () => {
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3-70b-versatile';
+    it('honours LLAMA_MODEL', () => {
+      const [provider] = (
+        serviceWithLocalProvider({
+          LLAMA_MODEL: 'qwen3.5-2b'
+        }) as unknown as {
+          providers: LlmProvider[];
+        }
+      ).providers;
 
-      const service = new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      );
-
-      expect(
-        (service as unknown as { providers: LlmProvider[] }).providers
-      ).toHaveLength(0);
+      expect(provider.modelName).toBe('qwen3.5-2b');
     });
 
-    it('uses built-in model defaults when model variables are missing', () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.NVIDIA_API_KEY = 'nvidia-key';
-      process.env.GEMINI_API_KEY = 'gemini-key';
-
-      const service = new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      );
-
-      const providers = (service as unknown as { providers: LlmProvider[] })
-        .providers;
-      expect(providers.map((provider) => provider.modelName)).toEqual([
-        'llama-3.3-70b-versatile',
-        'llama-3.1-8b-instant',
-        'meta/llama-3.3-70b-instruct',
-        'gemini-2.5-flash-lite'
-      ]);
-    });
-
-    it('logs a warning when no providers are configured', () => {
+    it('logs a warning when LLAMA_BASE_URL is missing', () => {
       const warnSpy = jest
         .spyOn(Logger.prototype, 'warn')
         .mockImplementation(() => {});
@@ -158,25 +133,6 @@ describe('LlmService', () => {
       expect(warnSpy).toHaveBeenCalledWith(
         expect.stringContaining('No LLM providers configured')
       );
-    });
-
-    it('configures up to four providers when all env vars are set', () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-      process.env.GROQ_FALLBACK_MODEL = 'llama-3.1';
-      process.env.NVIDIA_API_KEY = 'nvidia-key';
-      process.env.NVIDIA_MODEL = 'nvidia-llama';
-      process.env.GEMINI_API_KEY = 'gemini-key';
-      process.env.GEMINI_MODEL = 'gemini-2.0-flash';
-
-      const service = new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      );
-
-      expect(
-        (service as unknown as { providers: LlmProvider[] }).providers
-      ).toHaveLength(4);
     });
 
     it('reads LLM_TIMEOUT_MS from the environment', () => {
@@ -192,7 +148,7 @@ describe('LlmService', () => {
       );
     });
 
-    it('defaults the timeout to 10000 ms when LLM_TIMEOUT_MS is not set', () => {
+    it('defaults the fallback timeout to 10000 ms when LLM_TIMEOUT_MS is not set', () => {
       const service = new LlmService(
         mockCourseRetriever,
         mockPosthogMonitoring
@@ -202,259 +158,166 @@ describe('LlmService', () => {
         10000
       );
     });
+
+    it('keeps the 180 s local generation cap regardless of the global fallback timeout', () => {
+      const provider = firstProvider(serviceWithLocalProvider());
+
+      expect(provider.timeoutMs).toBe(180000);
+    });
   });
 
-  describe('generate', () => {
-    it('returns the result from the first provider when it succeeds', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-      process.env.NVIDIA_API_KEY = 'nvidia-key';
-      process.env.NVIDIA_MODEL = 'nvidia-llama';
+  describe('generation', () => {
+    it('allows overlapping streams to reach the provider without a backend admission limit', async () => {
+      const service = serviceWithLocalProvider();
+      const first = service.recommendStream('AI');
+      const second = service.recommendStream('Programming');
+      await first.next();
+      await second.next();
+      fetchMock.mockImplementation(okStream);
+      const results = await Promise.all([collect(first), collect(second)]);
+      for (const events of results) {
+        expect(events).toContainEqual({
+          type: 'courses',
+          data: [{ code: 'LOG121' }]
+        });
+      }
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
 
-      fetchMock.mockReturnValue(okFetch(VALID_LLM_JSON));
-
-      const result = await new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      ).recommend('Suggest AI courses');
-
-      expect(result).toEqual({
-        courses: [{ code: 'LOG121' }],
-        explanation: 'These courses cover the fundamentals.'
+    it('allows a subsequent generation after a provider failure', async () => {
+      const service = serviceWithLocalProvider();
+      fetchMock.mockRejectedValueOnce(new Error('down'));
+      await expect(collect(service.recommendStream('AI'))).rejects.toThrow(
+        LlmExhaustedException
+      );
+      fetchMock.mockImplementation(okStream);
+      await expect(
+        collect(service.recommendStream('AI'))
+      ).resolves.toContainEqual({
+        type: 'courses',
+        data: [{ code: 'LOG121' }]
       });
+    });
+
+    it.each([
+      'listes-moi 5 cours en devops stp',
+      'Propose-moi sept cours en IA',
+      'Show me 10 AI courses',
+      'Recommend only one AI course'
+    ])('preserves explicit recommendation counts: %s', async (prompt) => {
+      const courses = Array.from({ length: 10 }, (_, i) => ({
+        code: `INF${100 + i}`,
+        title: `Programming ${i}`,
+        description: 'Programming',
+        score: 0.8
+      }));
+      (mockCourseRetriever.retrieveCourses as jest.Mock).mockResolvedValueOnce(
+        courses
+      );
+      fetchMock.mockImplementation(okStream);
+
+      await collect(serviceWithLocalProvider().recommendStream(prompt));
+      const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+      expect(body.messages[0].content).toContain(prompt);
+      expect(body.messages[0].content).toContain('USER REQUEST:');
+      expect(body.messages[0].content).toContain(
+        'If the user explicitly requests a number of recommendations (in digits or words), use that number instead'
+      );
+      expect(body.messages[0].content).toContain(
+        'Never pad with adjacent topics or general-interest courses'
+      );
       expect(fetchMock).toHaveBeenCalledTimes(1);
-      expect(fetchMock).toHaveBeenCalledWith(GROQ_URL, expect.any(Object));
     });
 
-    it('filters hallucinated courses and logs the model that produced them', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+    it.each([
+      'Je veux un cours en IA, s’il te plaît.',
+      'I want a course in AI',
+      'Suggest AI courses'
+    ])('defaults to five choices for a learning goal: %s', async (prompt) => {
+      fetchMock.mockImplementation(okStream);
 
-      fetchMock.mockReturnValue(
-        okFetch(
-          JSON.stringify({
-            courses: [{ code: 'LOG121' }, { code: 'FAK999' }],
-            explanation: 'These courses cover the fundamentals.'
-          })
-        )
+      await collect(serviceWithLocalProvider().recommendStream(prompt));
+
+      const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+      expect(body.messages[0].content).toContain(
+        'recommend 5 courses by default'
       );
-
-      const errorSpy = jest
-        .spyOn(Logger.prototype, 'error')
-        .mockImplementation(() => {});
-
-      const result = await new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      ).recommend('Suggest AI courses');
-
-      expect(result).toEqual({
-        courses: [{ code: 'LOG121' }],
-        explanation: 'These courses cover the fundamentals.'
-      });
-      expect(errorSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          message: expect.stringContaining(
-            'Filtered hallucinated course recommendations'
-          ),
-          aiProvider: 'Groq',
-          aiModel: 'llama-3.3',
-          invalidCourseCodes: 'FAK999'
-        })
+      expect(body.messages[0].content).toContain(
+        'is not an explicit result count: offer 5 options to choose from'
       );
+      expect(body.messages[0].content).toContain(
+        'If fewer courses clearly match, return fewer and explain why'
+      );
+      expect(body.messages[0].content).toContain(prompt);
     });
 
-    it('falls back to the second provider when the first returns an HTTP error', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+    it('disables thinking and pins temperature 0 on every request', async () => {
+      fetchMock.mockImplementation(okStream);
 
-      fetchMock
-        .mockReturnValueOnce(errorFetch(429, 'rate limited'))
-        .mockReturnValueOnce(okFetch(VALID_LLM_JSON));
-
-      const result = await new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      ).recommend('Suggest AI courses');
-
-      expect(result).toEqual({
-        courses: [{ code: 'LOG121' }],
-        explanation: 'These courses cover the fundamentals.'
-      });
-      expect(fetchMock).toHaveBeenCalledTimes(2);
-      expect(fetchMock).toHaveBeenNthCalledWith(
-        1,
-        GROQ_URL,
-        expect.any(Object)
+      await collect(
+        serviceWithLocalProvider().recommendStream('Suggest AI courses')
       );
-      expect(fetchMock).toHaveBeenNthCalledWith(
-        2,
-        GROQ_URL,
-        expect.any(Object)
+
+      const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+      expect(body.temperature).toBe(0);
+      expect(body.chat_template_kwargs).toEqual({ enable_thinking: false });
+    });
+
+    it('treats casual topic mentions as course requests and clarifies only when no topic is given', async () => {
+      fetchMock.mockImplementation(okStream);
+      await collect(
+        serviceWithLocalProvider().recommendStream('how we doing broski')
+      );
+      const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+      expect(body.messages[0].content).toContain(
+        'For greetings with no course topic, respond briefly and ask what topics or goals the user wants to explore'
+      );
+      expect(body.messages[0].content).toContain(
+        'When the user expresses an interest, names a subject, or asks about courses casually, treat that as a course request'
+      );
+      expect(body.messages[0].content).toContain(
+        'Ask one short clarifying question and return no courses only when the message gives no usable topic or goal'
+      );
+      expect(body.messages[0].content).toContain(
+        "Never infer the user's interests from the AVAILABLE COURSES list"
       );
     });
 
-    it('falls back to the next provider when the first throws a network error', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-
-      fetchMock
-        .mockRejectedValueOnce(new Error('ECONNREFUSED'))
-        .mockReturnValueOnce(okFetch(VALID_LLM_JSON));
-
-      const result = await new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      ).recommend('Suggest AI courses');
-
-      expect(result).toEqual({
-        courses: [{ code: 'LOG121' }],
-        explanation: 'These courses cover the fundamentals.'
-      });
-      expect(fetchMock).toHaveBeenCalledTimes(2);
-    });
-
-    it('tries all providers in sequence and uses the last working one', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-      process.env.GROQ_FALLBACK_MODEL = 'llama-3.1';
-      process.env.GEMINI_API_KEY = 'gemini-key';
-      process.env.GEMINI_MODEL = 'gemini-2.0-flash';
-
-      fetchMock
-        .mockRejectedValueOnce(new Error('primary Groq down'))
-        .mockRejectedValueOnce(new Error('fallback Groq down'))
-        .mockReturnValueOnce(okFetch(VALID_LLM_JSON));
-
-      const result = await new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      ).recommend('Suggest AI courses');
-
-      expect(result).toEqual({
-        courses: [{ code: 'LOG121' }],
-        explanation: 'These courses cover the fundamentals.'
-      });
-      expect(fetchMock).toHaveBeenCalledTimes(3);
-      expect(fetchMock).toHaveBeenNthCalledWith(
-        3,
-        GEMINI_URL,
-        expect.any(Object)
-      );
-    });
-
-    it('throws LlmExhaustedException when all configured providers fail', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-      process.env.NVIDIA_API_KEY = 'nvidia-key';
-      process.env.NVIDIA_MODEL = 'nvidia-llama';
-
+    it('throws LlmExhaustedException when the local server fails', async () => {
       fetchMock.mockRejectedValue(new Error('all down'));
 
       await expect(
-        new LlmService(mockCourseRetriever, mockPosthogMonitoring).recommend(
-          'Suggest AI courses'
+        collect(
+          serviceWithLocalProvider().recommendStream('Suggest AI courses')
         )
       ).rejects.toThrow(LlmExhaustedException);
-      expect(fetchMock).toHaveBeenCalledTimes(3);
+      expect(fetchMock).toHaveBeenCalledTimes(1);
     });
 
     it('throws LlmExhaustedException immediately when no providers are configured', async () => {
       jest.spyOn(Logger.prototype, 'warn').mockImplementation(() => {});
 
       await expect(
-        new LlmService(mockCourseRetriever, mockPosthogMonitoring).recommend(
-          'Suggest AI courses'
+        collect(
+          new LlmService(
+            mockCourseRetriever,
+            mockPosthogMonitoring
+          ).recommendStream('Suggest AI courses')
         )
       ).rejects.toThrow(LlmExhaustedException);
       expect(fetchMock).not.toHaveBeenCalled();
     });
 
-    it('logs a warning for each provider that fails', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-      process.env.NVIDIA_API_KEY = 'nvidia-key';
-      process.env.NVIDIA_MODEL = 'nvidia-llama';
-
-      fetchMock
-        .mockRejectedValueOnce(new Error('Groq unavailable'))
-        .mockReturnValueOnce(okFetch(VALID_LLM_JSON));
-
-      const warnSpy = jest
-        .spyOn(Logger.prototype, 'warn')
-        .mockImplementation(() => {});
-      await new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      ).recommend('Suggest AI courses');
-
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Groq'));
-    });
-
-    it('falls back to the next provider when the first one times out via AbortSignal', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-      process.env.NVIDIA_API_KEY = 'nvidia-key';
-      process.env.NVIDIA_MODEL = 'nvidia-llama';
-
-      const service = new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      );
-      const [groqProvider, nvidiaProvider] = (
-        service as unknown as { providers: LlmProvider[] }
-      ).providers;
-
-      // Force a short per-provider timeout (provider.timeoutMs takes precedence over LLM_TIMEOUT_MS)
-      (groqProvider as unknown as { timeoutMs: number }).timeoutMs = 50;
-
-      // Groq hangs until its AbortSignal fires — simulates a slow provider
-      jest.spyOn(groqProvider, 'complete').mockImplementation(
-        (...args: unknown[]) =>
-          new Promise<LlmGenerationResponse>((_, reject) => {
-            (args[1] as AbortSignal).addEventListener('abort', () =>
-              reject(
-                new DOMException('The operation was aborted.', 'AbortError')
-              )
-            );
-          })
-      );
-      jest.spyOn(nvidiaProvider, 'complete').mockResolvedValue({
-        courses: [{ code: 'LOG121' }],
-        explanation: 'These courses cover the fundamentals.'
-      });
-
-      const result = await service.recommend('Suggest AI courses');
-
-      expect(result).toEqual({
-        courses: [{ code: 'LOG121' }],
-        explanation: 'These courses cover the fundamentals.'
-      });
-      expect(groqProvider.complete).toHaveBeenCalledTimes(1);
-      expect(nvidiaProvider.complete).toHaveBeenCalledTimes(1);
-    }, 2000);
-
-    it('throws LlmExhaustedException and the AbortSignal is marked aborted when every provider times out', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-
-      const service = new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      );
-      const [groqProvider] = (
-        service as unknown as { providers: LlmProvider[] }
-      ).providers;
-
-      (groqProvider as unknown as { timeoutMs: number }).timeoutMs = 50;
-
+    it('aborts and throws LlmExhaustedException when generation exceeds the 180 s cap', async () => {
+      const service = serviceWithLocalProvider({ LLAMA_TIMEOUT_MS: '50' });
+      const provider = firstProvider(service);
       let capturedSignal: AbortSignal | undefined;
+
       jest
-        .spyOn(groqProvider, 'complete')
-        .mockImplementation((...args: unknown[]) => {
-          const signal = args[1] as AbortSignal;
+        .spyOn(provider, 'completeStream')
+        .mockImplementation(async function* (_prompt, signal) {
           capturedSignal = signal;
-          return new Promise<LlmGenerationResponse>((_, reject) => {
+          await new Promise<never>((_, reject) => {
             signal.addEventListener('abort', () =>
               reject(
                 new DOMException('The operation was aborted.', 'AbortError')
@@ -463,27 +326,166 @@ describe('LlmService', () => {
           });
         });
 
-      await expect(service.recommend('Suggest AI courses')).rejects.toThrow(
-        LlmExhaustedException
-      );
+      await expect(
+        collect(service.recommendStream('Suggest AI courses'))
+      ).rejects.toThrow(LlmExhaustedException);
       expect(capturedSignal?.aborted).toBe(true);
     }, 2000);
   });
 
   describe('recommendStream', () => {
-    it('reassembles reason text and yields the parsed courses after the delimiter', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-
-      const service = new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
+    it('does not start inference when cancelled during course retrieval', async () => {
+      const service = serviceWithLocalProvider();
+      let finishRetrieval!: (courses: never[]) => void;
+      let retrievalStarted!: () => void;
+      const started = new Promise<void>((resolve) => {
+        retrievalStarted = resolve;
+      });
+      (mockCourseRetriever.retrieveCourses as jest.Mock).mockImplementation(
+        () => new Promise<never[]>((resolve) => {
+          finishRetrieval = resolve;
+          retrievalStarted();
+        })
       );
-      const [groqProvider] = (
-        service as unknown as { providers: LlmProvider[] }
-      ).providers;
+      const controller = new AbortController();
+      const generator = service.recommendStream('AI', undefined, controller.signal);
 
-      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
+      await generator.next();
+      const pending = generator.next();
+      await started;
+      controller.abort();
+      finishRetrieval([]);
+
+      await expect(pending).rejects.toMatchObject({ name: 'AbortError' });
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it.each([
+      null,
+      {},
+      [null],
+      [{}],
+      [{ code: 42 }],
+      [{ code: 'LOG121', reason: 42 }]
+    ])('does not admit invalid streamed course shapes: %j', async (value) => {
+      const service = serviceWithLocalProvider();
+      jest.spyOn(firstProvider(service), 'completeStream').mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async function* () {
+          yield `No valid courses.\n${STREAM_COURSES_DELIMITER}\n${JSON.stringify(value)}`;
+        }
+      );
+      expect((await collect(service.recommendStream('AI'))).at(-1)).toEqual({
+        type: 'courses',
+        data: []
+      });
+    });
+
+    it('falls back to the next provider only before reason text is emitted', async () => {
+      const service = serviceWithLocalProvider();
+      const provider = firstProvider(service);
+      const fallback = {
+        ...provider,
+        completeStream: jest.fn().mockImplementation(
+          // eslint-disable-next-line @typescript-eslint/require-await
+          async function* () {
+            yield `Fallback.\n${STREAM_COURSES_DELIMITER}\n[{"code":"LOG121"}]`;
+          }
+        )
+      } as unknown as LlmProvider;
+      (service as unknown as { providers: LlmProvider[] }).providers.push(
+        fallback
+      );
+      jest.spyOn(provider, 'completeStream').mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async function* () {
+          throw new Error('first down');
+        }
+      );
+      expect((await collect(service.recommendStream('AI'))).at(-1)).toEqual({
+        type: 'courses',
+        data: [{ code: 'LOG121' }]
+      });
+      expect(fallback.completeStream).toHaveBeenCalledTimes(1);
+    });
+
+    it('aborts pending inference on disconnect without blocking subsequent requests', async () => {
+      const service = serviceWithLocalProvider();
+      let started!: () => void;
+      const ready = new Promise<void>((resolve) => {
+        started = resolve;
+      });
+      let inferenceSignal: AbortSignal | undefined;
+      fetchMock.mockImplementation((_url: string, options: RequestInit) => {
+        inferenceSignal = options.signal as AbortSignal;
+        started();
+        return new Promise((_, reject) => {
+          inferenceSignal!.addEventListener(
+            'abort',
+            () => reject(inferenceSignal!.reason),
+            { once: true }
+          );
+        });
+      });
+      const controller = new AbortController();
+      const pending = collect(
+        service.recommendStream('AI', undefined, controller.signal)
+      );
+      const rejected = expect(pending).rejects.toMatchObject({
+        name: 'AbortError'
+      });
+      await ready;
+      controller.abort();
+      await rejected;
+      expect(inferenceSignal?.aborted).toBe(true);
+      fetchMock.mockImplementation(okStream);
+      await expect(
+        collect(service.recommendStream('AI'))
+      ).resolves.toContainEqual({
+        type: 'courses',
+        data: [{ code: 'LOG121' }]
+      });
+    });
+
+    it('preserves all ten streamed course cards when the model wraps codes in brackets', async () => {
+      const service = serviceWithLocalProvider();
+      const courses = Array.from({ length: 10 }, (_, i) => ({
+        code: `INF${100 + i}`,
+        title: 'Programming',
+        description: 'Programming',
+        score: 0.8
+      }));
+      (mockCourseRetriever.retrieveCourses as jest.Mock).mockResolvedValueOnce(
+        courses
+      );
+      jest.spyOn(firstProvider(service), 'completeStream').mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async function* () {
+          yield 'Ten courses.';
+          yield STREAM_COURSES_DELIMITER;
+          yield JSON.stringify(
+            courses.map(({ code }) => ({ code: `[${code}]` }))
+          );
+        }
+      );
+
+      const events = await collect(
+        service.recommendStream('liste moi 10 cours de prog')
+      );
+
+      expect(events.at(-1)).toEqual({
+        type: 'courses',
+        data: courses.map(({ code }) => ({ code }))
+      });
+      expect(reasonText(events)).toBe('Ten courses.');
+      expect(firstProvider(service).completeStream).toHaveBeenCalledTimes(1);
+    });
+
+    it('reassembles reason text and yields the parsed courses after the delimiter', async () => {
+      const service = serviceWithLocalProvider();
+      const provider = firstProvider(service);
+
+      jest.spyOn(provider, 'completeStream').mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
         async function* () {
           yield 'These courses are great for AI.';
@@ -501,6 +503,7 @@ describe('LlmService', () => {
         { type: 'status', data: 'THINKING_AI' }
       ]);
       expect(reasonText(events)).toBe('These courses are great for AI.');
+      expect(events.at(-2)).toEqual({ type: 'model', data: provider.modelName });
       expect(events.at(-1)).toEqual({
         type: 'courses',
         data: [{ code: 'LOG121' }]
@@ -508,21 +511,13 @@ describe('LlmService', () => {
     });
 
     it('never leaks a delimiter split across chunk boundaries into the reason text', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-
-      const service = new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      );
-      const [groqProvider] = (
-        service as unknown as { providers: LlmProvider[] }
-      ).providers;
+      const service = serviceWithLocalProvider();
+      const provider = firstProvider(service);
 
       const half = STREAM_COURSES_DELIMITER.slice(0, 5);
       const rest = STREAM_COURSES_DELIMITER.slice(5);
 
-      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
+      jest.spyOn(provider, 'completeStream').mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
         async function* () {
           yield 'Explanation text';
@@ -540,91 +535,31 @@ describe('LlmService', () => {
       expect(events.at(-1)).toEqual({ type: 'courses', data: [] });
     });
 
-    it('falls back to the next provider when the first fails before yielding anything', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-      process.env.NVIDIA_API_KEY = 'nvidia-key';
-      process.env.NVIDIA_MODEL = 'nvidia-llama';
+    it('rethrows once the provider has already streamed reason text', async () => {
+      const service = serviceWithLocalProvider();
+      const provider = firstProvider(service);
 
-      const service = new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      );
-      const [groqProvider, nvidiaProvider] = (
-        service as unknown as { providers: LlmProvider[] }
-      ).providers;
-
-      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
-        // eslint-disable-next-line @typescript-eslint/require-await
-        async function* () {
-          throw new Error('Groq down');
-        }
-      );
-      jest.spyOn(nvidiaProvider, 'completeStream').mockImplementation(
-        // eslint-disable-next-line @typescript-eslint/require-await
-        async function* () {
-          yield 'ok';
-          yield STREAM_COURSES_DELIMITER;
-          yield JSON.stringify([{ code: 'LOG121' }]);
-        }
-      );
-
-      const events = await collect(
-        service.recommendStream('Suggest AI courses')
-      );
-
-      expect(reasonText(events)).toBe('ok');
-      expect(events.at(-1)).toEqual({
-        type: 'courses',
-        data: [{ code: 'LOG121' }]
-      });
-    });
-
-    it('rethrows and does not fall back once the first provider has already streamed reason text', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-      process.env.NVIDIA_API_KEY = 'nvidia-key';
-      process.env.NVIDIA_MODEL = 'nvidia-llama';
-
-      const service = new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      );
-      const [groqProvider, nvidiaProvider] = (
-        service as unknown as { providers: LlmProvider[] }
-      ).providers;
-
-      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
+      jest.spyOn(provider, 'completeStream').mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
         async function* () {
           yield 'partial reason';
           throw new Error('stream broke');
         }
       );
-      const nvidiaSpy = jest.spyOn(nvidiaProvider, 'completeStream');
 
       await expect(
         collect(service.recommendStream('Suggest AI courses'))
       ).rejects.toThrow('stream broke');
-      expect(nvidiaSpy).not.toHaveBeenCalled();
     });
 
-    it('throws LlmExhaustedException when every provider fails before yielding', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+    it('throws LlmExhaustedException when the provider fails before yielding', async () => {
+      const service = serviceWithLocalProvider();
+      const provider = firstProvider(service);
 
-      const service = new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      );
-      const [groqProvider] = (
-        service as unknown as { providers: LlmProvider[] }
-      ).providers;
-
-      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
+      jest.spyOn(provider, 'completeStream').mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
         async function* () {
-          throw new Error('Groq down');
+          throw new Error('llama-server down');
         }
       );
 
@@ -634,18 +569,10 @@ describe('LlmService', () => {
     });
 
     it('yields an empty course list and logs a warning when the trailing JSON is malformed', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+      const service = serviceWithLocalProvider();
+      const provider = firstProvider(service);
 
-      const service = new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      );
-      const [groqProvider] = (
-        service as unknown as { providers: LlmProvider[] }
-      ).providers;
-
-      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
+      jest.spyOn(provider, 'completeStream').mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
         async function* () {
           yield 'reason';
@@ -669,21 +596,13 @@ describe('LlmService', () => {
     });
 
     it('filters hallucinated streamed courses before emitting them', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-
-      const service = new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      );
+      const service = serviceWithLocalProvider();
       const errorSpy = jest
         .spyOn(Logger.prototype, 'error')
         .mockImplementation(() => {});
-      const [groqProvider] = (
-        service as unknown as { providers: LlmProvider[] }
-      ).providers;
+      const provider = firstProvider(service);
 
-      jest.spyOn(groqProvider, 'completeStream').mockImplementation(
+      jest.spyOn(provider, 'completeStream').mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
         async function* () {
           yield 'reason';
@@ -703,72 +622,65 @@ describe('LlmService', () => {
       expect(errorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           message: expect.stringContaining('FAK999'),
-          aiProvider: 'Groq',
-          aiModel: 'llama-3.3'
+          aiProvider: 'llama.cpp',
+          aiModel: 'gemma-4-e2b-it-qat'
         })
       );
+    });
+
+    it('skips malformed streamed course entries without failing the response', async () => {
+      const service = serviceWithLocalProvider();
+      const provider = firstProvider(service);
+
+      jest.spyOn(provider, 'completeStream').mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async function* () {
+          yield 'DevOps recommendation.';
+          yield STREAM_COURSES_DELIMITER;
+          yield JSON.stringify([{ title: 'Missing code' }, { code: 'LOG121' }]);
+        }
+      );
+
+      const events = await collect(
+        service.recommendStream('Suggest AI courses')
+      );
+
+      expect(events.at(-1)).toEqual({
+        type: 'courses',
+        data: [{ code: 'LOG121' }]
+      });
     });
   });
 
   describe('checkStatus', () => {
     it('reports ok with latency for a responsive provider', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
+      fetchMock.mockResolvedValue({ ok: true } as Response);
 
-      fetchMock.mockReturnValue(okFetch(VALID_LLM_JSON));
+      const statuses = await serviceWithLocalProvider().checkStatus();
 
-      const statuses = await new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      ).checkStatus();
-
-      expect(statuses).toHaveLength(2);
+      expect(statuses).toHaveLength(1);
       expect(statuses[0]).toMatchObject({
-        name: expect.stringContaining('Groq'),
+        name: expect.stringContaining('llama.cpp'),
         status: 'ok',
         latencyMs: expect.any(Number)
       });
       expect(statuses[0].error).toBeUndefined();
+      expect(fetchMock).toHaveBeenCalledWith(
+        'http://llama-server:8080/health',
+        { signal: expect.any(AbortSignal) }
+      );
+      expect(fetchMock).toHaveBeenCalledTimes(1);
     });
 
-    it('reports error with message when a provider fails', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-
+    it('reports error with message when the provider fails', async () => {
       fetchMock.mockRejectedValue(new Error('Connection refused'));
 
-      const statuses = await new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      ).checkStatus();
+      const statuses = await serviceWithLocalProvider().checkStatus();
 
       expect(statuses[0]).toMatchObject({
         status: 'error',
         error: expect.stringContaining('Connection refused')
       });
-    });
-
-    it('checks all configured providers and returns mixed statuses', async () => {
-      process.env.GROQ_API_KEY = 'groq-key';
-      process.env.GROQ_PRIMARY_MODEL = 'llama-3.3';
-      process.env.NVIDIA_API_KEY = 'nvidia-key';
-      process.env.NVIDIA_MODEL = 'nvidia-llama';
-
-      fetchMock
-        .mockReturnValueOnce(okFetch(VALID_LLM_JSON))
-        .mockReturnValueOnce(okFetch(VALID_LLM_JSON))
-        .mockRejectedValueOnce(new Error('NVIDIA unavailable'));
-
-      const statuses = await new LlmService(
-        mockCourseRetriever,
-        mockPosthogMonitoring
-      ).checkStatus();
-
-      expect(statuses).toHaveLength(3);
-      expect(statuses.find((s) => s.name.includes('Groq'))?.status).toBe('ok');
-      expect(statuses.find((s) => s.name.includes('Nvidia'))?.status).toBe(
-        'error'
-      );
     });
 
     it('returns an empty array when no providers are configured', async () => {

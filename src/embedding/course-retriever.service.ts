@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { sanitizeEmbeddingText } from '../common/api-helper/embedding/embedding-text';
+import { stripRequestedCourseCount } from '../common/utils/course-query.util';
 import { EmbeddingWorkerClient } from './embedding-worker.client';
 import { QdrantCourseIndexService } from './qdrant-course-index.service';
 import { isTransientError } from './qdrant-error.util';
@@ -21,6 +22,7 @@ interface CourseResult {
 // ensures we return up to LIMIT unique course codes even when duplicates consume slots.
 const LIMIT = 10;
 const OVERSAMPLE_FACTOR = 5;
+const MAX_SCORE_GAP = 0.12;
 // No reliable cutoff: relevant and off-topic scores overlap, and 0.4 dropped
 // correct rank-1 hits. We keep the top 10 and let the LLM judge relevance.
 const SCORE_THRESHOLD = Number.parseFloat(
@@ -39,7 +41,11 @@ export class CourseRetrieverService {
     context?: UserSessionContext
   ): Promise<CourseResult[]> {
     try {
-      const vectors = await this.worker.embed([sanitizeEmbeddingText(query)]);
+      // Keep quantity instructions in the LLM request, not the topic embedding.
+      const searchQuery = stripRequestedCourseCount(
+        sanitizeEmbeddingText(query)
+      );
+      const vectors = await this.worker.embed([searchQuery]);
       const vector = vectors[0];
       const filter = context ? buildPayloadFilter(context) : undefined;
 
@@ -63,8 +69,11 @@ export class CourseRetrieverService {
         }
       }
 
-      return [...best.values()]
-        .sort((a, b) => b.score - a.score)
+      const ranked = [...best.values()].sort((a, b) => b.score - a.score);
+      const minimumScore = (ranked[0]?.score ?? 0) - MAX_SCORE_GAP;
+
+      return ranked
+        .filter((course) => course.score >= minimumScore)
         .slice(0, LIMIT);
     } catch (error) {
       if (isTransientError(error)) {

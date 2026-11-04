@@ -37,14 +37,21 @@ The default values work out of the box for Docker. The compose file connects the
 **Development** (hot reload, source mounted as volume):
 
 ```bash
-docker compose --profile dev up --build
+yarn docker:dev
 ```
 
 **Production** (full optimized build):
 
 ```bash
-docker compose --profile production up --build
+yarn docker:prod
 ```
+
+AI is optional in both modes. Set `CHATBOT_ENABLED=true` in `.env` and rerun
+the command to start Qdrant and llama-server and enable chatbot endpoints/jobs. The default
+`false` starts neither AI service; rerunning the command also stops existing
+AI services without deleting their data volumes. Health checks skip Qdrant when
+the chatbot is disabled. See [llama-server.md](llama-server.md)
+for `LLAMA_BASE_URL` and host-run setup.
 
 Once running:
 

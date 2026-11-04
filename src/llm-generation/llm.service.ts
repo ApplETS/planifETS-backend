@@ -7,25 +7,22 @@ import { PosthogMonitoringService } from '../monitoring/posthog-monitoring.servi
 import { ProviderStatusDto } from './dtos/generate.dto';
 import { LlmExhaustedException } from './exceptions/llm-exhausted.exception';
 import {
-  LlmCourse,
-  LlmGenerationResponse
+  isLlmCourse,
+  LlmCourse
 } from './interfaces/llm-generation-response.interface';
 import {
   LlmProvider,
   STREAM_COURSES_DELIMITER
 } from './interfaces/llm-provider';
-import { GeminiProvider } from './providers/gemini.provider';
-import { GroqProvider } from './providers/groq.provider';
-import { NvidiaProvider } from './providers/nvidia.provider';
+import { LlamaCppProvider } from './providers/llama-cpp.provider';
 
-const DEFAULT_GROQ_PRIMARY_MODEL = 'llama-3.3-70b-versatile';
-const DEFAULT_GROQ_FALLBACK_MODEL = 'llama-3.1-8b-instant';
-const DEFAULT_NVIDIA_MODEL = 'meta/llama-3.3-70b-instruct';
-const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash-lite';
+const DEFAULT_LLAMA_MODEL = 'gemma-4-e2b-it-qat';
+const DEFAULT_RECOMMENDATION_COUNT = 5;
 
 export type LlmStreamEvent =
   | { type: 'status'; data: LlmStreamStatus }
   | { type: 'reason'; data: string }
+  | { type: 'model'; data: string }
   | { type: 'courses'; data: LlmCourse[] };
 
 export type LlmStreamStatus = 'SEARCHING_EMBEDDINGS' | 'THINKING_AI';
@@ -48,7 +45,6 @@ export class LlmService {
   private readonly logger = new Logger(LlmService.name);
   private readonly providers: LlmProvider[];
   private readonly timeoutMs: number;
-
   private throwExhausted(lastError: Error | undefined): never {
     this.logger.error(
       'All LLM providers have been exhausted.',
@@ -59,14 +55,10 @@ export class LlmService {
 
   private tryProvider(
     model: string | undefined,
-    apiKey: string | undefined,
-    Provider: new (m: string, k: string) => LlmProvider
+    baseUrl: string | undefined,
+    Provider: new (model: string, baseUrl: string) => LlmProvider
   ): LlmProvider | null {
-    if (!model || !apiKey) {
-      return null;
-    }
-
-    return new Provider(model, apiKey);
+    return model && baseUrl ? new Provider(model, baseUrl) : null;
   }
 
   constructor(
@@ -77,26 +69,11 @@ export class LlmService {
 
     this.providers = [
       this.tryProvider(
-        process.env.GROQ_PRIMARY_MODEL ?? DEFAULT_GROQ_PRIMARY_MODEL,
-        process.env.GROQ_API_KEY,
-        GroqProvider
-      ),
-      this.tryProvider(
-        process.env.GROQ_FALLBACK_MODEL ?? DEFAULT_GROQ_FALLBACK_MODEL,
-        process.env.GROQ_API_KEY,
-        GroqProvider
-      ),
-      this.tryProvider(
-        process.env.NVIDIA_MODEL ?? DEFAULT_NVIDIA_MODEL,
-        process.env.NVIDIA_API_KEY,
-        NvidiaProvider
-      ),
-      this.tryProvider(
-        process.env.GEMINI_MODEL ?? DEFAULT_GEMINI_MODEL,
-        process.env.GEMINI_API_KEY,
-        GeminiProvider
+        process.env.LLAMA_MODEL ?? DEFAULT_LLAMA_MODEL,
+        process.env.LLAMA_BASE_URL,
+        LlamaCppProvider
       )
-    ].filter(Boolean) as LlmProvider[];
+    ].filter((provider): provider is LlmProvider => provider !== null);
 
     if (this.providers.length === 0) {
       this.logger.warn('No LLM providers configured. Generation will fail.');
@@ -104,20 +81,14 @@ export class LlmService {
   }
 
   public async checkStatus(): Promise<ProviderStatusDto[]> {
-    const testPrompt =
-      'Reply with valid JSON: {"courses":[],"explanation":"ok"}';
-
     return Promise.all(
       this.providers.map(async (provider) => {
         const start = Date.now();
         try {
           const controller = new AbortController();
-          const timeout = setTimeout(
-            () => controller.abort(),
-            provider.timeoutMs ?? this.timeoutMs
-          );
+          const timeout = setTimeout(() => controller.abort(), 5000);
           try {
-            await provider.complete(testPrompt, controller.signal);
+            await provider.checkHealth(controller.signal);
           } finally {
             clearTimeout(timeout);
           }
@@ -166,15 +137,18 @@ export class LlmService {
     });
 
     const courseContext = courses
-      .map((c) => `- [${c.code}] ${c.title}: ${c.description}`)
+      .map((c) => `- ${c.code} ${c.title}: ${c.description}`)
       .join('\n');
 
     return {
       prompt: `You are a course recommendation assistant at ÉTS university.
         Match the language of the user's request.
         Talk like a fellow ÉTS student giving casual advice, not a formal administrator. If replying in French, use "tu", never "vous".
+        For greetings with no course topic, respond briefly and ask what topics or goals the user wants to explore, then return an empty courses array. When the user expresses an interest, names a subject, or asks about courses casually, treat that as a course request even without an explicit question. Recommend the closest relevant available courses; do not ask for clarification just because the request is broad or informal. Ask one short clarifying question and return no courses only when the message gives no usable topic or goal. Never infer the user's interests from the AVAILABLE COURSES list; retrieved courses are candidates, not evidence of what the user wants.
         Only recommend courses that appear in the AVAILABLE COURSES list below — never invent a course or mention one that isn't in that list. If the list is empty or has nothing relevant to the request, say so briefly in the same language as the user's request and return an empty courses array.
-        Otherwise, recommend the most relevant courses for the user's request, picking only from the list.
+        Otherwise, recommend ${DEFAULT_RECOMMENDATION_COUNT} courses by default, picking the most relevant courses only from the list. If the user explicitly requests a number of recommendations (in digits or words), use that number instead, including requests for only one option. A general learning goal such as "Je veux un cours en IA" or "I want a course in AI" is not an explicit result count: offer ${DEFAULT_RECOMMENDATION_COUNT} options to choose from.
+        Recommend only courses directly relevant to the user's topic. Return the requested number, or the default number, when enough relevant courses are available. If fewer courses clearly match, return fewer and explain why. Never pad with adjacent topics or general-interest courses.
+        Keep the explanation short, not the course list. Return bare course codes without brackets, spaces, or markdown.
 
         AVAILABLE COURSES:
         ${courseContext}
@@ -196,15 +170,25 @@ export class LlmService {
       return courses;
     }
 
-    const validCourses = courses.filter((course) =>
+    // Models sometimes copy brackets from course context. Normalize presentation
+    // before checking membership; this never admits a code outside the candidates.
+    const candidates = courses.filter(
+      (course): course is LlmCourse =>
+        !!course && typeof course.code === 'string'
+    );
+    const normalizedCourses = candidates.map((course) => ({
+      ...course,
+      code: course.code.trim().replace(/^\[([A-Z]{3}[0-9]{3})\]$/, '$1')
+    }));
+    const validCourses = normalizedCourses.filter((course) =>
       allowedCourseCodes.has(course.code)
     );
 
-    if (validCourses.length === courses.length) {
-      return courses;
+    if (validCourses.length === candidates.length) {
+      return validCourses;
     }
 
-    const invalidCourseCodes = courses
+    const invalidCourseCodes = normalizedCourses
       .filter((course) => !allowedCourseCodes.has(course.code))
       .map((course) => course.code);
     const message =
@@ -219,72 +203,6 @@ export class LlmService {
     });
 
     return validCourses;
-  }
-
-  public async recommend(
-    prompt: string,
-    programIds?: number[]
-  ): Promise<LlmGenerationResponse> {
-    const traceId = randomUUID();
-    const { prompt: enrichedPrompt, allowedCourseCodes } =
-      await this.buildEnrichedPrompt(traceId, prompt, programIds);
-
-    let lastError: Error | undefined;
-
-    for (const provider of this.providers) {
-      const start = Date.now();
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(
-          () => controller.abort(),
-          provider.timeoutMs ?? this.timeoutMs
-        );
-
-        this.logger.debug(`Attempting generation with ${provider.name}`);
-        try {
-          const result = await provider.complete(
-            enrichedPrompt,
-            controller.signal
-          );
-          const sanitizedResult = {
-            ...result,
-            courses: this.sanitizeCourses(
-              result.courses,
-              allowedCourseCodes,
-              provider.providerName,
-              provider.modelName
-            )
-          };
-          this.captureGeneration(
-            traceId,
-            provider.providerName,
-            provider.modelName,
-            enrichedPrompt,
-            sanitizedResult,
-            Date.now() - start
-          );
-          return sanitizedResult;
-        } finally {
-          clearTimeout(timeout);
-        }
-      } catch (error) {
-        lastError = error instanceof Error ? error : new Error(String(error));
-        this.captureGeneration(
-          traceId,
-          provider.providerName,
-          provider.modelName,
-          enrichedPrompt,
-          undefined,
-          Date.now() - start,
-          lastError.message
-        );
-        this.logger.warn(
-          `Provider ${provider.name} failed: ${lastError.message}`
-        );
-      }
-    }
-
-    this.throwExhausted(lastError);
   }
 
   private captureGeneration(
@@ -309,12 +227,15 @@ export class LlmService {
 
   public async *recommendStream(
     prompt: string,
-    programIds?: number[]
+    programIds?: number[],
+    signal?: AbortSignal
   ): AsyncGenerator<LlmStreamEvent> {
+    signal?.throwIfAborted();
     const traceId = randomUUID();
     yield { type: 'status', data: 'SEARCHING_EMBEDDINGS' };
     const { prompt: enrichedPrompt, allowedCourseCodes } =
       await this.buildEnrichedPrompt(traceId, prompt, programIds);
+    signal?.throwIfAborted();
     yield { type: 'status', data: 'THINKING_AI' };
 
     let lastError: Error | undefined;
@@ -336,11 +257,14 @@ export class LlmService {
           provider,
           enrichedPrompt,
           allowedCourseCodes,
-          controller.signal,
+          signal
+            ? AbortSignal.any([signal, controller.signal])
+            : controller.signal,
           start
         );
         return;
       } catch (error) {
+        signal?.throwIfAborted();
         const streamError = this.toProviderStreamError(error);
         lastError = streamError.cause;
         this.captureGeneration(
@@ -420,6 +344,7 @@ export class LlmService {
         { explanation: reasonText, courses },
         Date.now() - start
       );
+      yield { type: 'model', data: provider.modelName };
       yield { type: 'courses', data: courses };
     } catch (error) {
       throw this.toProviderStreamError(error, yieldedAny);
@@ -489,7 +414,7 @@ export class LlmService {
 
     try {
       const parsed: unknown = JSON.parse(cleaned);
-      return Array.isArray(parsed) ? (parsed as LlmCourse[]) : [];
+      return Array.isArray(parsed) ? parsed.filter(isLlmCourse) : [];
     } catch (error) {
       const msg = error instanceof Error ? error.message : String(error);
       this.logger.warn(

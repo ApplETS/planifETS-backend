@@ -1,9 +1,15 @@
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { EventEmitter } from 'node:events';
+
+import {
+  INestApplication,
+  ServiceUnavailableException,
+  ValidationPipe
+} from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import type { Response } from 'express';
 import request from 'supertest';
 
 import chatbotConfig from '../../src/config/chatbot.config';
-import { LlmExhaustedException } from '../../src/llm-generation/exceptions/llm-exhausted.exception';
 import { LlmController } from '../../src/llm-generation/llm.controller';
 import { LlmService } from '../../src/llm-generation/llm.service';
 
@@ -12,7 +18,6 @@ describe('LlmController', () => {
 
   const llmService = {
     checkStatus: jest.fn(),
-    recommend: jest.fn(),
     recommendStream: jest.fn()
   };
 
@@ -87,87 +92,85 @@ describe('LlmController', () => {
     });
   });
 
-  describe('POST /chatbot/recommend', () => {
-    it('returns 200 with the LLM generation result', async () => {
-      await createApp(true);
-
-      const response = {
-        courses: [{ code: 'LOG121' }],
-        explanation: 'Great choice.'
-      };
-
-      llmService.recommend.mockResolvedValue(response);
-
-      const { status, body } = await request(app.getHttpServer())
-        .post('/chatbot/recommend')
-        .send({ prompt: 'I want to learn AI' });
-
-      expect(status).toBe(200);
-      expect(body).toEqual(response);
-      expect(llmService.recommend).toHaveBeenCalledWith(
-        'I want to learn AI',
-        undefined
-      );
-    });
-
-    it('returns 400 when the prompt field is missing', async () => {
-      await createApp(true);
-
-      const { status } = await request(app.getHttpServer())
-        .post('/chatbot/recommend')
-        .send({});
-
-      expect(status).toBe(400);
-      expect(llmService.recommend).not.toHaveBeenCalled();
-    });
-
-    it('returns 400 when the prompt is an empty string', async () => {
-      await createApp(true);
-
-      const { status } = await request(app.getHttpServer())
-        .post('/chatbot/recommend')
-        .send({ prompt: '' });
-
-      expect(status).toBe(400);
-      expect(llmService.recommend).not.toHaveBeenCalled();
-    });
-
-    it('returns 400 when the prompt is not a string', async () => {
-      await createApp(true);
-
-      const { status } = await request(app.getHttpServer())
-        .post('/chatbot/recommend')
-        .send({ prompt: 42 });
-
-      expect(status).toBe(400);
-      expect(llmService.recommend).not.toHaveBeenCalled();
-    });
-
-    it('returns 500 when all LLM providers are exhausted', async () => {
-      await createApp(true);
-
-      llmService.recommend.mockRejectedValue(new LlmExhaustedException());
-
-      const { status } = await request(app.getHttpServer())
-        .post('/chatbot/recommend')
-        .send({ prompt: 'I want to learn AI' });
-
-      expect(status).toBe(500);
-    });
-
-    it('returns 404 when CHATBOT_ENABLED=false', async () => {
-      await createApp(false);
-
-      const { status } = await request(app.getHttpServer())
-        .post('/chatbot/recommend')
-        .send({ prompt: 'I want to learn AI' });
-
-      expect(status).toBe(404);
-      expect(llmService.recommend).not.toHaveBeenCalled();
-    });
+  it('does not expose the removed non-streaming endpoint', async () => {
+    await createApp(true);
+    const response = await request(app.getHttpServer())
+      .post('/chatbot/recommend')
+      .send({ prompt: 'AI' });
+    expect(response.status).toBe(404);
+    expect(llmService.recommendStream).not.toHaveBeenCalled();
   });
 
   describe('GET /chatbot/recommend/stream', () => {
+    it.each(['', '   '])('rejects a blank prompt: %j', async (prompt) => {
+      await createApp(true);
+      const response = await request(app.getHttpServer())
+        .get('/chatbot/recommend/stream')
+        .query({ prompt });
+      expect(response.status).toBe(400);
+      expect(llmService.recommendStream).not.toHaveBeenCalled();
+    });
+    it('aborts the service signal when the response connection closes', async () => {
+      const response = Object.assign(new EventEmitter(), {
+        setHeader: jest.fn(),
+        flushHeaders: jest.fn(),
+        write: jest.fn(),
+        end: jest.fn(),
+        headersSent: true,
+        destroyed: false
+      });
+      let started!: () => void;
+      const ready = new Promise<void>((resolve) => {
+        started = resolve;
+      });
+      let signal: AbortSignal | undefined;
+      llmService.recommendStream.mockImplementation(async function* (
+        _prompt: string,
+        _programIds: number[] | undefined,
+        abortSignal: AbortSignal
+      ) {
+        signal = abortSignal;
+        yield { type: 'status', data: 'THINKING_AI' };
+        started();
+        await new Promise<void>((_, reject) => {
+          abortSignal.addEventListener(
+            'abort',
+            () => reject(abortSignal.reason),
+            { once: true }
+          );
+        });
+      });
+      const controller = new LlmController(llmService as unknown as LlmService);
+      const pending = controller.recommendStream(
+        { prompt: 'AI' },
+        response as unknown as Response
+      );
+      await ready;
+      response.destroyed = true;
+      response.emit('close');
+      await pending;
+      expect(signal?.aborted).toBe(true);
+      expect(response.write).toHaveBeenCalledTimes(1);
+      expect(response.listenerCount('close')).toBe(0);
+    });
+
+    it('preserves an early HTTP 503 before SSE headers are sent', async () => {
+      await createApp(true);
+      // eslint-disable-next-line @typescript-eslint/require-await
+      llmService.recommendStream.mockImplementation(async function* () {
+        throw new ServiceUnavailableException(
+          'Chatbot is busy. Try again shortly.'
+        );
+      });
+      const response = await request(app.getHttpServer())
+        .get('/chatbot/recommend/stream')
+        .query({ prompt: 'AI' });
+      expect(response.status).toBe(503);
+      expect(response.headers['content-type']).not.toContain(
+        'text/event-stream'
+      );
+    });
+
     it('streams status, reason and courses events as SSE', async () => {
       await createApp(true);
 
@@ -187,9 +190,35 @@ describe('LlmController', () => {
       expect(response.text).toContain('event: status');
       expect(response.text).toContain('data: SEARCHING_EMBEDDINGS');
       expect(response.text).toContain('event: reason');
-      expect(response.text).toContain('data: Hello');
+      expect(response.text).toContain('data: "Hello"');
       expect(response.text).toContain('event: courses');
       expect(response.text).toContain('data: [{"code":"LOG121"}]');
+    });
+
+    it('JSON-encodes reason strings so numeric tokens, quotes, and newlines round-trip exactly', async () => {
+      await createApp(true);
+      const chunks = ['LOG', '680', '\n', '"DevOps"', ' à l’ÉTS'];
+      // eslint-disable-next-line @typescript-eslint/require-await
+      llmService.recommendStream.mockImplementation(async function* () {
+        for (const chunk of chunks) yield { type: 'reason', data: chunk };
+        yield { type: 'courses', data: [{ code: 'LOG680' }] };
+      });
+      const response = await request(app.getHttpServer())
+        .get('/chatbot/recommend/stream')
+        .query({ prompt: 'DevOps' });
+      const reasons = response.text
+        .split('\n\n')
+        .filter((frame) => frame.startsWith('event: reason\n'))
+        .map((frame) =>
+          JSON.parse(
+            frame
+              .split('\n')
+              .find((line) => line.startsWith('data: '))!
+              .slice(6)
+          )
+        );
+
+      expect(reasons).toEqual(chunks);
     });
 
     it('parses the semicolon-separated programIds query param before calling the service', async () => {
@@ -204,7 +233,8 @@ describe('LlmController', () => {
 
       expect(llmService.recommendStream).toHaveBeenCalledWith(
         'AI',
-        [182848, 183920]
+        [182848, 183920],
+        expect.any(AbortSignal)
       );
     });
 

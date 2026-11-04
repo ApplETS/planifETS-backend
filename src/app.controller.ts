@@ -1,10 +1,12 @@
-import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Inject, Res } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
 
+import chatbotConfig from './config/chatbot.config';
 import { PrismaService } from './prisma/prisma.service';
 
-type DependencyStatus = 'ok' | 'down' | 'unconfigured';
+type DependencyStatus = 'ok' | 'down' | 'unconfigured' | 'disabled';
 
 type DependencyHealth = {
   status: DependencyStatus;
@@ -41,7 +43,11 @@ type AppInfoResponse = {
 @ApiTags('Health')
 @Controller()
 export class AppController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    @Inject(chatbotConfig.KEY)
+    private readonly chatbotConfiguration: ConfigType<typeof chatbotConfig>
+  ) {}
 
   @Get()
   @ApiOperation({
@@ -70,14 +76,11 @@ export class AppController {
     const [postgres, frontend, qdrant] = await Promise.all([
       this.checkPostgresHealth(),
       this.checkHttpHealth(process.env.FRONTEND_URL, '/'),
-      this.checkHttpHealth(process.env.QDRANT_URL, '/healthz')
+      this.checkQdrantHealth()
     ]);
 
-    const criticalStatuses = [postgres, qdrant].filter(
-      (service) => service.status !== 'unconfigured'
-    );
-    const hasCriticalFailure = criticalStatuses.some(
-      (service) => service.status !== 'ok'
+    const hasCriticalFailure = [postgres, qdrant].some(
+      (service) => service.status === 'down'
     );
     const hasNonCriticalFailure = frontend.status === 'down';
 
@@ -125,7 +128,7 @@ export class AppController {
   ): Promise<ReadinessHealthResponse> {
     const [postgres, qdrant] = await Promise.all([
       this.checkPostgresHealth(),
-      this.checkHttpHealth(process.env.QDRANT_URL, '/healthz')
+      this.checkQdrantHealth()
     ]);
 
     const isReady = postgres.status !== 'down' && qdrant.status !== 'down';
@@ -149,6 +152,13 @@ export class AppController {
   })
   public getError() {
     throw new Error('Monitoring test error from /health/monitoring endpoint');
+  }
+
+  private async checkQdrantHealth(): Promise<DependencyHealth> {
+    if (!this.chatbotConfiguration.enabled) {
+      return { status: 'disabled' };
+    }
+    return this.checkHttpHealth(process.env.QDRANT_URL, '/healthz');
   }
 
   private async checkPostgresHealth(): Promise<DependencyHealth> {
