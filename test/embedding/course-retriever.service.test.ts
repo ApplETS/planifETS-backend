@@ -67,6 +67,36 @@ describe('CourseRetrieverService', () => {
       expect(workerMock.embed).toHaveBeenCalledWith(['jaime devops']);
     });
 
+    it.each([
+      ['liste moi 10 cours de prog', 'prog'],
+      ['Liste-moi 3 cours de PROG', 'PROG'],
+      ['listes-moi 5 cours en devops stp', 'devops stp'],
+      ['donne moi 5 cours de Python', 'Python'],
+      ['liste-moi 2 cours d’informatique', 'informatique'],
+      ['liste moi 10 cours', 'liste moi 10 cours'],
+      ['recommend 10 programming courses', 'recommend 10 programming courses'],
+      ['please list 10 courses about programming', 'programming'],
+      ['cours de programmation', 'cours de programmation'],
+      ['LOG210', 'LOG210'],
+      [
+        'j’ai déjà suivi 3 cours de Python',
+        'j’ai déjà suivi 3 cours de Python'
+      ],
+      [
+        'cours de prog après LOG121, pas de projets',
+        'cours de prog après LOG121, pas de projets'
+      ]
+    ])(
+      'embeds the topic without numbered-list noise (%s)',
+      async (query, expected) => {
+        await service.retrieveCourses(query);
+
+        expect(workerMock.embed).toHaveBeenCalledTimes(1);
+        expect(workerMock.embed).toHaveBeenCalledWith([expected]);
+        expect(qdrantMock.search).toHaveBeenCalledTimes(1);
+      }
+    );
+
     it('calls qdrant.search with the embedded vector', async () => {
       await service.retrieveCourses('IA');
 
@@ -158,7 +188,21 @@ describe('CourseRetrieverService', () => {
 
       const result = await service.retrieveCourses('IA');
 
-      expect(result.map((r) => r.code)).toEqual(['LOG635', 'LOG660', 'LOG200']);
+      expect(result.map((r) => r.code)).toEqual(['LOG635', 'LOG660']);
+    });
+
+    it('drops distant low-score candidates that encourage off-topic padding', async () => {
+      qdrantMock.search.mockResolvedValue([
+        makeQdrantHit('LOG680', 0.521),
+        makeQdrantHit('PRE013', 0.398),
+        makeQdrantHit('GTI510', 0.334)
+      ]);
+
+      const result = await service.retrieveCourses('devops stp', {
+        programIds: [182848]
+      });
+
+      expect(result.map((course) => course.code)).toEqual(['LOG680']);
     });
 
     it('maps hits to CourseResult with correct fields', async () => {

@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  Post,
-  Query,
-  Res,
-  UseGuards
-} from '@nestjs/common';
+import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
 import {
   ApiOkResponse,
   ApiOperation,
@@ -17,12 +8,7 @@ import {
 import type { Response } from 'express';
 
 import { ChatbotEnabledGuard } from '../common/guards/chatbot-enabled.guard';
-import {
-  GenerateDto,
-  GenerateResponseDto,
-  GenerateStreamDto,
-  StatusResponseDto
-} from './dtos/generate.dto';
+import { GenerateStreamDto, StatusResponseDto } from './dtos/generate.dto';
 import { LlmService } from './llm.service';
 
 function parseProgramIds(raw?: string): number[] | undefined {
@@ -52,25 +38,13 @@ export class LlmController {
     return { providers };
   }
 
-  @Post('recommend')
-  @HttpCode(200)
-  @ApiOperation({
-    summary: '🟢 Generate course recommendations from a natural language prompt'
-  })
-  @ApiOkResponse({ type: GenerateResponseDto })
-  public async recommend(
-    @Body() body: GenerateDto
-  ): Promise<GenerateResponseDto> {
-    return this.llmService.recommend(body.prompt, body.programIds);
-  }
-
   @Get('recommend/stream')
   @ApiProduces('text/event-stream')
   @ApiOperation({
     summary:
       '🟢 Stream course recommendations from a natural language prompt via Server-Sent Events. ' +
       'Emits "status" events for course retrieval and AI generation, "reason" events ' +
-      'with incremental explanation text, followed by a single ' +
+      'with JSON-encoded incremental explanation strings, followed by a single ' +
       '"courses" event carrying the final course code list.',
     description:
       'Note: Swagger UI does not natively support Server-Sent Events, so the "Try it out" ' +
@@ -81,24 +55,23 @@ export class LlmController {
     @Query() query: GenerateStreamDto,
     @Res() response: Response
   ): Promise<void> {
-    // Nest's built-in @Sse() decorator hardcodes 'Content-Type: text/event-stream'
-    // with no charset, which makes browsers guess (and mangle non-ASCII text).
-    // Streaming manually lets us declare UTF-8 explicitly.
-    response.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
-    response.setHeader('Cache-Control', 'no-cache');
-    response.setHeader('Connection', 'keep-alive');
-    response.setHeader('X-Accel-Buffering', 'no');
-    response.flushHeaders();
-
+    const controller = new AbortController();
+    const onClose = () => controller.abort();
+    response.once('close', onClose);
     const generator = this.llmService.recommendStream(
       query.prompt,
-      parseProgramIds(query.programIds)
+      parseProgramIds(query.programIds),
+      controller.signal
     );
     let eventId = 0;
 
     const writeEvent = (type: string, data: unknown) => {
       eventId += 1;
-      const payload = typeof data === 'string' ? data : JSON.stringify(data);
+      // Encode reason tokens, including numbers, quotes, and newlines, as strings.
+      const payload =
+        type === 'reason' || typeof data !== 'string'
+          ? JSON.stringify(data)
+          : data;
       const dataLines = payload
         .split(/\r\n|\r|\n/)
         .map((line) => `data: ${line}`)
@@ -106,19 +79,31 @@ export class LlmController {
       response.write(`event: ${type}\nid: ${eventId}\n${dataLines}\n\n`);
     };
 
-    response.req.on('close', () => {
-      void generator.return?.(undefined);
-    });
-
     try {
+      // Start the generator before committing SSE headers to preserve early HTTP errors.
+      const first = await generator.next();
+      if (controller.signal.aborted) return;
+      // Declare UTF-8 explicitly so browsers preserve non-ASCII text.
+      response.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+      response.setHeader('Cache-Control', 'no-cache');
+      response.setHeader('Connection', 'keep-alive');
+      response.setHeader('X-Accel-Buffering', 'no');
+      response.flushHeaders();
+      if (!first.done) writeEvent(first.value.type, first.value.data);
       for await (const event of generator) {
+        if (controller.signal.aborted) break;
         writeEvent(event.type, event.data);
       }
     } catch (error) {
+      if (controller.signal.aborted) return;
+      if (!response.headersSent) throw error;
       const message = error instanceof Error ? error.message : String(error);
       writeEvent('error', message);
     } finally {
-      response.end();
+      controller.abort();
+      response.off('close', onClose);
+      await generator.return(undefined);
+      if (response.headersSent && !response.destroyed) response.end();
     }
   }
 }

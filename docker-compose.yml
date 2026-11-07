@@ -1,30 +1,37 @@
 services:
   nestjs-app:
+    cpus: 2
+    mem_limit: 2147483648 # Kubernetes backend limit: 2Gi
+    mem_reservation: 734003200 # Soft reservation; not a Kubernetes scheduling guarantee.
     build:
       context: .
       target: production
     ports:
-      - "${PORT:-3501}:${PORT:-3001}"
+      - "${PORT:-3001}:${PORT:-3001}"
     volumes:
       - transformers-cache:/transformers-cache
     environment:
       DATABASE_URL: ${DATABASE_URL}
       FRONTEND_URL: ${FRONTEND_URL:-}
-      QDRANT_URL: ${QDRANT_URL:-}
+      QDRANT_URL: ${QDRANT_URL:-http://qdrant:6333}
       APP_ENV: production
       PORT: ${PORT:-3001}
       LOG_LEVELS: ${LOG_LEVELS:-log,error,warn}
       TZ: America/Toronto
       LLM_TIMEOUT_MS: ${LLM_TIMEOUT_MS:-10000}
-      GROQ_API_KEY: ${GROQ_API_KEY}
-      GROQ_PRIMARY_MODEL: ${GROQ_PRIMARY_MODEL:-llama-3.3-70b-versatile}
-      GROQ_FALLBACK_MODEL: ${GROQ_FALLBACK_MODEL:-llama-3.1-8b-instant}
-      NVIDIA_API_KEY: ${NVIDIA_API_KEY}
-      NVIDIA_MODEL: ${NVIDIA_MODEL:-meta/llama-3.3-70b-instruct}
-      GEMINI_API_KEY: ${GEMINI_API_KEY}
-      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash-lite}
+      CHATBOT_ENABLED: ${CHATBOT_ENABLED:-false}
+      LLAMA_BASE_URL: ${LLAMA_BASE_URL:-http://llama-server:8080/v1}
+      LLAMA_MODEL: gemma-4-e2b-it-qat
+      LLAMA_TIMEOUT_MS: ${LLAMA_TIMEOUT_MS:-180000}
       TRANSFORMERS_CACHE_DIR: /transformers-cache
+      EMBEDDING_ORT_THREADS: "2"
     depends_on:
+      llama-server:
+        condition: service_healthy
+        required: false
+      qdrant:
+        condition: service_started
+        required: false
       db:
         condition: service_healthy
     networks:
@@ -44,11 +51,14 @@ services:
       start_period: 40s
 
   nestjs-app-dev:
+    cpus: 2
+    mem_limit: 2147483648
+    mem_reservation: 734003200
     build:
       context: .
       target: dev
     ports:
-      - "${PORT:-3501}:${PORT:-3001}"
+      - "${PORT:-3001}:${PORT:-3001}"
     volumes:
       - .:/app
       - /app/node_modules
@@ -57,20 +67,89 @@ services:
       - .env
     environment:
       APP_ENV: ${APP_ENV:-development}
-      APP_GIT_SHORT_SHA: ${APP_GIT_SHORT_SHA:-}
+      APP_GIT_SHORT_SHA: ${APP_GIT_SHORT_SHA:-localdev}
       TRANSFORMERS_CACHE_DIR: /transformers-cache
       CHOKIDAR_USEPOLLING: "true"
       CHOKIDAR_INTERVAL: "100"
       FORCE_POLLING: "true"
+      CHATBOT_ENABLED: ${CHATBOT_ENABLED:-false}
+      QDRANT_URL: ${QDRANT_URL:-http://qdrant:6333}
+      LLAMA_BASE_URL: ${LLAMA_BASE_URL:-http://llama-server:8080/v1}
+      LLAMA_MODEL: gemma-4-e2b-it-qat
+      LLAMA_TIMEOUT_MS: ${LLAMA_TIMEOUT_MS:-180000}
+      EMBEDDING_ORT_THREADS: "2"
     depends_on:
+      llama-server:
+        condition: service_healthy
+        required: false
       db:
         condition: service_healthy
       qdrant:
         condition: service_started
+        required: false
     networks:
       - app-network
     profiles:
       - dev
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'node -e "require(''http'').get(''http://localhost:${PORT:-3001}/api/health/live'', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 3m
+
+  llama-server:
+    cpus: 6 # Local CPU comparison; Kubernetes remains at 4 CPUs.
+    mem_limit: 6442450944 # Kubernetes inference limit: 6Gi
+    mem_reservation: 4294967296
+    image: ghcr.io/ggml-org/llama.cpp:server@sha256:e67d88af487390098c76d7982b1761484339fa147b7e41d3c64ae1318759f78b
+    command:
+      - --hf-repo
+      - google/gemma-4-E2B-it-qat-q4_0-gguf
+      - --hf-file
+      - gemma-4-E2B_q4_0-it.gguf
+      - --no-mmproj
+      - --alias
+      - gemma-4-e2b-it-qat
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8080"
+      - --ctx-size
+      - "8192"
+      - --parallel
+      - "1"
+      - --n-gpu-layers
+      - "0"
+      - --threads
+      - "6"
+      - --threads-batch
+      - "6"
+      - --jinja
+      - --reasoning-budget
+      - "0"
+    environment:
+      LLAMA_CACHE: /models
+    volumes:
+      - llama-models:/models
+    ports:
+      - "127.0.0.1:8080:8080"
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30m
+    profiles:
+      - chatbot
 
   db:
     image: postgres:16
@@ -101,9 +180,10 @@ services:
     networks:
       - app-network
     profiles:
-      - dev
+      - chatbot
 
 volumes:
+  llama-models:
   db-data:
     driver: local
   qdrant-data:

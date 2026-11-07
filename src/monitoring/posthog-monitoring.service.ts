@@ -35,6 +35,21 @@ export class PosthogMonitoringService implements OnApplicationShutdown {
     void this.sendOtlpLog(level, message, attributes);
   }
 
+  public captureChatbotRequest(
+    event: 'chatbot_request_started' | 'chatbot_request_finished',
+    properties: Record<string, unknown>
+  ): void {
+    try {
+      this.posthog.capture({
+        distinctId: 'server',
+        event,
+        properties: { ...properties, source: 'backend' }
+      });
+    } catch {
+      // Analytics must never interrupt a recommendation or its cleanup.
+    }
+  }
+
   public captureAiSpan(params: {
     traceId: string;
     name: string;

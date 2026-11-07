@@ -3,10 +3,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import type { Response } from 'express';
 
 import { AppController } from '../src/app.controller';
+import chatbotConfig from '../src/config/chatbot.config';
 import { PrismaService } from '../src/prisma/prisma.service';
 
 describe('AppController', () => {
   let controller: AppController;
+  const chatbotConfiguration = { enabled: true };
 
   const prisma = {
     $queryRaw: jest.fn()
@@ -21,6 +23,7 @@ describe('AppController', () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
+    chatbotConfiguration.enabled = true;
 
     prisma.$queryRaw.mockResolvedValue([{ '?column?': 1 }]);
 
@@ -30,7 +33,10 @@ describe('AppController', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [{ provide: PrismaService, useValue: prisma }]
+      providers: [
+        { provide: PrismaService, useValue: prisma },
+        { provide: chatbotConfig.KEY, useValue: chatbotConfiguration }
+      ]
     }).compile();
 
     controller = module.get<AppController>(AppController);
@@ -92,6 +98,18 @@ describe('AppController', () => {
   });
 
   describe('healthCheck', () => {
+    it('skips Qdrant when the chatbot is disabled even if its URL is configured', async () => {
+      chatbotConfiguration.enabled = false;
+      delete process.env.FRONTEND_URL;
+      process.env.QDRANT_URL = 'https://qdrant.example.com';
+
+      const result = await controller.healthCheck();
+
+      expect(result.status).toBe('ok');
+      expect(result.services.qdrant).toEqual({ status: 'disabled' });
+      expect(global.fetch).not.toHaveBeenCalled();
+    });
+
     it('should return ok when postgres, frontend, and qdrant are healthy', async () => {
       process.env.FRONTEND_URL = 'https://frontend.example.com';
       process.env.QDRANT_URL = 'https://qdrant.example.com';
@@ -281,6 +299,18 @@ describe('AppController', () => {
   });
 
   describe('readinessCheck', () => {
+    it('stays ready without Qdrant when the chatbot is disabled', async () => {
+      chatbotConfiguration.enabled = false;
+      process.env.QDRANT_URL = 'https://qdrant.example.com';
+      const response = createResponseMock();
+
+      const result = await controller.readinessCheck(response);
+
+      expect(response.status).toHaveBeenCalledWith(HttpStatus.OK);
+      expect(result.services.qdrant).toEqual({ status: 'disabled' });
+      expect(global.fetch).not.toHaveBeenCalled();
+    });
+
     function createResponseMock(): Response {
       return {
         status: jest.fn().mockReturnThis()
