@@ -180,7 +180,7 @@ export class LlmService {
     );
     const normalizedCourses = candidates.map((course) => ({
       ...course,
-      code: course.code.trim().replace(/^\[([A-Z]{3}[0-9]{3})\]$/, '$1')
+      code: course.code.trim().replace(/^\[([A-Z]{3}\d{3})\]$/, '$1')
     }));
     const validCourses = normalizedCourses.filter((course) =>
       allowedCourseCodes.has(course.code)

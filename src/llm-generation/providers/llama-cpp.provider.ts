@@ -17,7 +17,11 @@ export class LlamaCppProvider extends OpenAiCompatibleProvider {
     baseUrl = process.env.LLAMA_BASE_URL ?? 'http://localhost:8080/v1'
   ) {
     super('llama.cpp', modelName, '');
-    this.baseUrl = baseUrl.replace(/\/+$/, '');
+    let normalizedBaseUrl = baseUrl;
+    while (normalizedBaseUrl.endsWith('/')) {
+      normalizedBaseUrl = normalizedBaseUrl.slice(0, -1);
+    }
+    this.baseUrl = normalizedBaseUrl;
     this.timeoutMs =
       Number(process.env.LLAMA_TIMEOUT_MS) || DEFAULT_LLAMA_TIMEOUT_MS;
   }
